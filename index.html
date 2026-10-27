@@ -7,9 +7,9 @@
   <title>Startsida | Designstudie</title>
   <link rel="preload" href="assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css?v=a6d2e4564f">
-  <link rel="stylesheet" href="assets/css/home.css?v=a6d2e4564f">
-  <link rel="stylesheet" href="assets/css/pages.css?v=a6d2e4564f">
+  <link rel="stylesheet" href="assets/css/style.css?v=bf40bd6e5f">
+  <link rel="stylesheet" href="assets/css/home.css?v=bf40bd6e5f">
+  <link rel="stylesheet" href="assets/css/pages.css?v=bf40bd6e5f">
 </head>
 <body class="home">
 
@@ -165,51 +165,49 @@
       </div>
     </section>
 
-    <!-- Client logos (fictional) -->
-    <section class="block container clients" aria-label="Exempel på kunder (påhittade)">
-      <ul class="clients__list">
-        <li><img src="assets/img/home/client-1.svg" alt="Nordhamn" width="217" height="70"></li>
-        <li><img src="assets/img/home/client-2.svg" alt="Kvarnsten" width="191" height="70"></li>
-        <li><img src="assets/img/home/client-3.svg" alt="Stiftelsen Lindgårdens Hem" width="219" height="60"></li>
-        <li><img src="assets/img/home/client-4.svg" alt="Stadsbrons Hjälpfond" width="219" height="54"></li>
-        <li><img src="assets/img/home/client-5.svg" alt="Kapitel" width="219" height="36"></li>
-        <li><img src="assets/img/home/client-6.svg" alt="Insjöns Insamlingsfond" width="219" height="47"></li>
-        <li><img src="assets/img/home/client-7.svg" alt="Vågö" width="219" height="47"></li>
-        <li><img src="assets/img/home/client-8.svg" alt="Bergsalen" width="219" height="60"></li>
-        <li><img src="assets/img/home/client-9.svg" alt="Mellan" width="219" height="44"></li>
-      </ul>
+    <!-- Client logos: two rows drifting slowly in opposite directions (fictional companies) -->
+    <section class="block clients-marquee" aria-label="Företag vi har jobbat med (påhittade exempel)">
+      <h2 class="block__header container clients-marquee__title">Företag vi har <span>jobbat med</span></h2>
+      <div class="marquee">
+        <ul class="marquee__track"><li><img src="assets/img/home/client-1.svg" alt="Nordhamn" width="217" height="70"></li><li><img src="assets/img/home/client-2.svg" alt="Kvarnsten" width="191" height="70"></li><li><img src="assets/img/home/client-3.svg" alt="Stiftelsen Lindgårdens Hem" width="219" height="60"></li><li><img src="assets/img/home/client-4.svg" alt="Stadsbrons Hjälpfond" width="219" height="54"></li><li><img src="assets/img/home/client-5.svg" alt="Kapitel" width="219" height="36"></li><li><img src="assets/img/home/client-6.svg" alt="Insjöns Insamlingsfond" width="219" height="47"></li><li><img src="assets/img/home/client-7.svg" alt="Vågö" width="219" height="47"></li><li aria-hidden="true"><img src="assets/img/home/client-1.svg" alt="" width="217" height="70"></li><li aria-hidden="true"><img src="assets/img/home/client-2.svg" alt="" width="191" height="70"></li><li aria-hidden="true"><img src="assets/img/home/client-3.svg" alt="" width="219" height="60"></li><li aria-hidden="true"><img src="assets/img/home/client-4.svg" alt="" width="219" height="54"></li><li aria-hidden="true"><img src="assets/img/home/client-5.svg" alt="" width="219" height="36"></li><li aria-hidden="true"><img src="assets/img/home/client-6.svg" alt="" width="219" height="47"></li><li aria-hidden="true"><img src="assets/img/home/client-7.svg" alt="" width="219" height="47"></li></ul>
+      </div>
+      <div class="marquee marquee--reverse">
+        <ul class="marquee__track"><li><img src="assets/img/home/client-6.svg" alt="Insjöns Insamlingsfond" width="219" height="47"></li><li><img src="assets/img/home/client-7.svg" alt="Vågö" width="219" height="47"></li><li><img src="assets/img/home/client-8.svg" alt="Bergsalen" width="219" height="60"></li><li><img src="assets/img/home/client-9.svg" alt="Mellan" width="219" height="44"></li><li><img src="assets/img/home/client-1.svg" alt="Nordhamn" width="217" height="70"></li><li><img src="assets/img/home/client-2.svg" alt="Kvarnsten" width="191" height="70"></li><li><img src="assets/img/home/client-3.svg" alt="Stiftelsen Lindgårdens Hem" width="219" height="60"></li><li aria-hidden="true"><img src="assets/img/home/client-6.svg" alt="" width="219" height="47"></li><li aria-hidden="true"><img src="assets/img/home/client-7.svg" alt="" width="219" height="47"></li><li aria-hidden="true"><img src="assets/img/home/client-8.svg" alt="" width="219" height="60"></li><li aria-hidden="true"><img src="assets/img/home/client-9.svg" alt="" width="219" height="44"></li><li aria-hidden="true"><img src="assets/img/home/client-1.svg" alt="" width="217" height="70"></li><li aria-hidden="true"><img src="assets/img/home/client-2.svg" alt="" width="191" height="70"></li><li aria-hidden="true"><img src="assets/img/home/client-3.svg" alt="" width="219" height="60"></li></ul>
+      </div>
     </section>
 
-    <!-- Insights -->
-    <section class="block posts" id="insikter">
+    <!-- Insights: one featured article and two smaller -->
+    <section class="block insights" id="insikter">
       <div class="container">
         <div class="block__header-row">
           <h2 class="block__header">Insikter</h2>
-          <a href="insikter/index.html" class="arrow-link">Till alla artiklar</a>
+          <a href="insikter/index.html" class="arrow-link">Alla artiklar</a>
         </div>
-        <div class="posts__grid"><!-- build:posts --><a href="insikter/ai-sok-i-marknadsplanen.html" class="post-card">
-            <img src="assets/img/home/post-1.jpg" alt="" width="420" height="297" loading="lazy">
-            <div class="post-card__content">
+        <!-- build:posts --><div class="insights__grid">
+          <a class="insights__big" href="insikter/ai-sok-i-marknadsplanen.html">
+            <img src="assets/img/home/post-1.jpg" alt="" width="840" height="594" loading="lazy">
+            <div>
               <p class="post-card__terms"><span>AI</span><span>Marknad</span></p>
-              <h3 class="post-card__title">Därför bör AI-sök finnas med i marknadsplanen för nästa år</h3>
+              <h3 class="insights__big-title">Därför bör AI-sök finnas med i marknadsplanen för nästa år</h3>
               <p class="post-card__time">14 oktober 2026</p>
             </div>
-          </a><a href="insikter/hosttraffen-2026.html" class="post-card">
+          </a>
+          <div class="insights__side"><a class="insights__small" href="insikter/hosttraffen-2026.html">
             <img src="assets/img/home/post-2.jpg" alt="" width="420" height="297" loading="lazy">
-            <div class="post-card__content">
+            <div>
               <p class="post-card__terms"><span>Event</span></p>
-              <h3 class="post-card__title">Höstträffen 2026</h3>
+              <h3 class="insights__small-title">Höstträffen 2026</h3>
               <p class="post-card__time">2 oktober 2026</p>
             </div>
-          </a><a href="insikter/tillganglighet-i-praktiken.html" class="post-card">
+          </a><a class="insights__small" href="insikter/tillganglighet-i-praktiken.html">
             <img src="assets/img/home/post-3.svg" alt="" width="420" height="297" loading="lazy">
-            <div class="post-card__content">
+            <div>
               <p class="post-card__terms"><span>Event</span><span>Inkludering</span></p>
-              <h3 class="post-card__title">Tillgänglighet i praktiken – så kommer du igång</h3>
+              <h3 class="insights__small-title">Tillgänglighet i praktiken – så kommer du igång</h3>
               <p class="post-card__time">18 september 2026</p>
             </div>
-          </a><!-- /build:posts -->
-        </div>
+          </a></div>
+        </div><!-- /build:posts -->
       </div>
     </section>
 
@@ -461,7 +459,7 @@
     <p class="cookie-dialog__links"><a href="cookies.html">Om cookies</a> <a href="integritet.html">Integritet</a></p>
   </div>
 
-  <script src="assets/js/main.js?v=a6d2e4564f"></script>
-  <script src="assets/js/home.js?v=a6d2e4564f"></script>
+  <script src="assets/js/main.js?v=bf40bd6e5f"></script>
+  <script src="assets/js/home.js?v=bf40bd6e5f"></script>
 </body>
 </html>

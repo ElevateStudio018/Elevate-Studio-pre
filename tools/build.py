@@ -291,6 +291,32 @@ def service_card(p, s):
         </a>'''
 
 
+def featured_posts(p, articles):
+    """Homepage insights: the newest article large, the next two stacked beside it."""
+    def terms(a):
+        return "".join(f"<span>{esc(x)}</span>" for x in a["terms"])
+    big, *rest = articles[:3]
+    side = "".join(f'''<a class="insights__small" href="{p}insikter/{a["slug"]}.html">
+            <img src="{p}assets/img/{a["image"]}" alt="" width="420" height="297" loading="lazy">
+            <div>
+              <p class="post-card__terms">{terms(a)}</p>
+              <h3 class="insights__small-title">{esc(a["title"])}</h3>
+              <p class="post-card__time">{a["date"]}</p>
+            </div>
+          </a>''' for a in rest)
+    return f'''<div class="insights__grid">
+          <a class="insights__big" href="{p}insikter/{big["slug"]}.html">
+            <img src="{p}assets/img/{big["image"]}" alt="" width="840" height="594" loading="lazy">
+            <div>
+              <p class="post-card__terms">{terms(big)}</p>
+              <h3 class="insights__big-title">{esc(big["title"])}</h3>
+              <p class="post-card__time">{big["date"]}</p>
+            </div>
+          </a>
+          <div class="insights__side">{side}</div>
+        </div>'''
+
+
 def contact_form(p):
     return f'''<form class="standout__form js-demo-form" id="formular">
           <h3 class="standout__header">Hej! Jag vill gärna bli kontaktad.</h3>
@@ -604,8 +630,7 @@ def main():
     src = index.read_text(encoding="utf-8")
     pattern = [True, False, False, True]
     regions = {
-        "cases": "".join(case_card("", c, pattern[i % 4]) for i, c in enumerate(CASES)),
-        "posts": "".join(post_card("", a) for a in ARTICLES),
+        "posts": featured_posts("", ARTICLES),
         "platforms": platforms_section(),
     }
     for name, markup in regions.items():
