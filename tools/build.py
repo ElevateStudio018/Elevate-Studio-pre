@@ -495,7 +495,7 @@ def build_articles():
     p = "../"
     cards = "".join(post_card(p, a) for a in ARTICLES)
     main = f'''<main>
-    {page_hero("Senaste <em>nytt</em>", "Tankar, guider och nyheter om design, utveckling och digital tillväxt.")}
+    {page_hero("Senaste <em>nytt</em>", "Guider och tips om hemsidor, synlighet och fler förfrågningar.")}
     <section class="section section--cream">
       <div class="container"><div class="posts__grid">{cards}</div></div>
     </section>
