@@ -19,6 +19,7 @@
   --grey: #f4f4f4;
   --banner-h: 28px;
   --header-h: 158px;
+  --burger-top: calc(var(--banner-h) + 240px);
   --sans: "Hanken Grotesk", system-ui, sans-serif;
   --serif: "Fraunces", Georgia, serif;
 }
@@ -356,7 +357,7 @@ body.hamburger-open .not-found::after {
 }
 @media (min-width: 993px) {
   body.main-overlay .not-found::after,
-  body.hamburger-open .not-found::after { top: calc(var(--banner-h) + 240px); }
+  body.hamburger-open .not-found::after { top: var(--burger-top); }
 }
 
 /* ---------- Hamburger menu ---------- */
@@ -433,7 +434,7 @@ body.hamburger-open .not-found::after {
 /* Desktop: slim side panel with only the secondary links */
 @media (min-width: 993px) {
   .hamburgermenu {
-    top: calc(var(--banner-h) + 240px);
+    top: var(--burger-top);
     left: auto;
     right: 0;
     width: 491px;
