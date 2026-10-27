@@ -58,7 +58,34 @@
   var form = root.querySelector('.chat__form'), input = root.querySelector('#chat-input');
   var waitingForEmail = null, greeted = false;
 
+  var LOGO = '<svg viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>';
+  var queue = Promise.resolve();
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function row(who) {
+    var r = document.createElement('div');
+    r.className = 'chat__row chat__row--' + who;
+    if (who === 'bot') { var av = document.createElement('span'); av.className = 'chat__avatar'; av.innerHTML = LOGO; r.appendChild(av); }
+    log.appendChild(r);
+    return r;
+  }
+  // Bot messages wait their turn and show "skriver …" first, a little longer for longer answers
   function say(text, who, link) {
+    if (who !== 'bot') return show(text, who, link);
+    queue = queue.then(function () {
+      var r = row('bot');
+      var dots = document.createElement('div');
+      dots.className = 'chat__msg chat__msg--bot chat__typing';
+      dots.setAttribute('aria-label', 'Skriver');
+      dots.innerHTML = '<i></i><i></i><i></i>';
+      r.appendChild(dots);
+      log.scrollTop = log.scrollHeight;
+      var wait = reduced ? 0 : Math.min(1800, 550 + text.length * 6);
+      return new Promise(function (ok) { setTimeout(ok, wait); }).then(function () { r.remove(); show(text, 'bot', link); });
+    });
+    return queue;
+  }
+  function show(text, who, link) {
+    var r = row(who);
     var m = document.createElement('div');
     m.className = 'chat__msg chat__msg--' + who;
     m.textContent = text;
@@ -69,7 +96,7 @@
       m.appendChild(document.createElement('br'));
       m.appendChild(a);
     }
-    log.appendChild(m);
+    r.appendChild(m);
     log.scrollTop = log.scrollHeight;
   }
   function open(state) {
