@@ -575,6 +575,18 @@ def build_simple():
                     f'<div class="info-card"{" id=\"folj-oss\"" if t == "Följ oss" else ""}><h2 class="info-card__title">{esc(t)}</h2><p>{d}</p></div>'
                     for t, d in value)
                 parts.append(f'<section class="section container"><div class="card-grid">{cards}</div></section>')
+            elif kind == "team":
+                people = "".join(
+                    f'''<article class="person">
+          <span class="person__mark" aria-hidden="true">{esc(name[0])}</span>
+          <h2 class="person__name">{esc(name)}</h2>
+          <p class="person__role">{esc(role)} · Elevate Studio</p>
+          <ul class="person__links">
+            <li><a href="tel:{phone.replace(" ", "")}">{esc(phone)}</a></li>
+            <li><a href="mailto:{email}">{esc(email)}</a></li>
+          </ul>
+        </article>''' for name, role, phone, email in value)
+                parts.append(f'<section class="section container"><div class="people">{people}</div></section>')
             elif kind == "links":
                 links = "".join(f'<li><a href="{href}" class="arrow-link">{esc(label)}</a></li>' for label, href in value)
                 parts.append(f'<section class="section container"><ul class="link-list">{links}</ul></section>')

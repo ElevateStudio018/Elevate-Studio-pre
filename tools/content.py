@@ -252,18 +252,23 @@ PLATFORMS = [
 
 SIMPLE_PAGES = {
     "kontakt": {
-        "title": "Kontakt", "lead": "Funderar du på ett nytt projekt eller behöver du hjälp med något som redan finns? Hör av dig så återkommer vi snart.",
+        "title": "Kontakt", "lead": "Funderar du på ett nytt projekt eller behöver du hjälp med något som redan finns? Hör av dig direkt till någon av oss eller mejla info@elevatestudio.nu.",
         "sections": [
-            ("cols", [("Besök oss", "Studion ligger i Uppsala, men vi arbetar med kunder i hela landet. Adressen är påhittad eftersom det här är en designstudie."),
-                      ("Ring eller mejla", "Telefon: 000-000 00 00<br>E-post: hej@exempel.se"),
-                      ("Följ oss", "Vi har inga riktiga sociala konton – det här är en designstudie. Länkarna i sidfoten leder därför hit.")]),
+            ("team", [
+                ("Carl", "Försäljning & kundkontakt", "+46 76 022 83 61", "carl@elevatestudio.nu"),
+                ("Isak Mattsson", "Försäljning & AI-utveckling", "+46 70 289 58 75", "isak@elevatestudio.nu"),
+                ("Oscar Svanerud", "Försäljning & affärsutveckling", "+46 76 849 86 68", "svanerudo@gmail.com"),
+            ]),
+            ("cols", [("Mejla oss", '<a href="mailto:info@elevatestudio.nu">info@elevatestudio.nu</a><br>Vi svarar normalt inom en arbetsdag.'),
+                      ("Besök oss", "Vi finns i Uppsala och arbetar med kunder i hela landet."),
+                      ("Följ oss", '<a href="https://elevatestudio.nu">elevatestudio.nu</a><br>Det snabbaste sättet att nå oss är via mejl eller telefon.')]),
             ("form", None),
         ],
     },
     "om": {
         "title": "Om studion", "lead": "Vi tror på små, erfarna team som följer kunden hela vägen – från första idé till tjänsten som utvecklas år efter år.",
         "sections": [
-            ("text", "Elevate är en påhittad digital studio som finns för att visa en design. Men arbetssättet vi beskriver är verkligt: korta beslutsvägar, öppenhet om vad saker kostar och ett starkt fokus på det som faktiskt ger effekt."),
+            ("text", "Elevate Studio är en digital studio i Uppsala. Vi arbetar med korta beslutsvägar, öppenhet om vad saker kostar och ett starkt fokus på det som faktiskt ger effekt för våra kunder."),
             ("cols", [("Långa samarbeten", "Vi lär känna era mål, era användare och er organisation, och kan därför ge råd som håller."),
                       ("Kvalitet", "Kodgranskning, automatiska tester och tillgänglighet finns med från början."),
                       ("Ansvar", "Vi väljer leverantörer och arbetssätt som minskar miljöpåverkan.")]),
@@ -301,9 +306,9 @@ SIMPLE_PAGES = {
         ],
     },
     "english": {
-        "title": "In English", "lead": "Elevate is a fictional digital studio created for an unofficial design study.",
+        "title": "In English", "lead": "Elevate Studio is a digital studio in Uppsala, Sweden.",
         "sections": [
-            ("text", "This site is a private layout study. All copy is original, the clients and projects are made up, and photos are replacement images used under the Unsplash licence. It is not affiliated with Awave or any other agency."),
+            ("text", "We help companies with strategy, design, development and digital growth. Get in touch at info@elevatestudio.nu. The layout of this site is an unofficial design recreation and is not affiliated with Awave; the projects shown are examples."),
             ("links", [("Back to the start page", "index.html")]),
         ],
     },
