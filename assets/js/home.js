@@ -25,6 +25,15 @@
     update();
   }
 
+  // FAQ: opening one question closes the others (fallback for browsers without exclusive <details name>)
+  var faqItems = document.querySelectorAll('.faq__item');
+  Array.prototype.forEach.call(faqItems, function (item) {
+    item.addEventListener('toggle', function () {
+      if (!item.open) return;
+      Array.prototype.forEach.call(faqItems, function (other) { if (other !== item) other.open = false; });
+    });
+  });
+
   // Fade-up reveal for cards
   if (reduced || !('IntersectionObserver' in window)) return;
   var revealTargets = document.querySelectorAll('.case, .post-card, .platform-card, .pair');
