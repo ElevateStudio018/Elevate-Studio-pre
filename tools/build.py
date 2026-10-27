@@ -777,6 +777,7 @@ def build_prices():
             "Fast pris i en offert innan vi börjar",
         ], "Berätta om projektet", False),
     ]
+    mk = '<svg viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>'
     cards = "".join(f'''
           <article class="plan{" plan--featured" if feat else ""}">
             <h2 class="plan__name">{name}</h2>
@@ -784,13 +785,21 @@ def build_prices():
             <p class="plan__unit">{unit}</p>
             <p class="plan__text">{esc(text)}</p>
             <ul class="plan__list">{"".join(f"<li>{esc(x)}</li>" for x in items)}</ul>
-            <a class="btn {"btn--light" if feat else "btn--primary"}" href="{p}kontakt.html"><span>{cta_label}</span></a>
+            <a class="btn {"btn--primary" if feat else "plan__btn"}" href="{p}kontakt.html"><span>{cta_label}</span></a>
           </article>''' for name, price, unit, text, items, cta_label, feat in plans)
     main = f'''<main>
-    {page_hero("Priser", "Fast pris, inga överraskningar. Alla priser anges exklusive moms.")}
-    <section class="section container">
-      <div class="plans">{cards}
+    <section class="pricing">
+      <div class="pricing__mark">{mk}</div>
+      <div class="container pricing__inner">
+        <div class="pricing__head">
+          <h1 class="pricing__title">Enkla, <em>fasta priser</em></h1>
+          <p class="pricing__lead">Ni vet kostnaden innan vi börjar. Alla priser anges exklusive moms.</p>
+        </div>
+        <div class="plans">{cards}
+        </div>
       </div>
+    </section>
+    <section class="section container">
       <div class="plans-note">
         <div>
           <h2 class="plans-note__title">Så ser avtalet ut</h2>
