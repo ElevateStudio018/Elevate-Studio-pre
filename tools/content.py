@@ -15,6 +15,11 @@ FORM_ENDPOINT = "https://formsubmit.co/ajax/info@elevatestudio.nu"
 # Contact-form leads are also saved in the admin panel (Leads), with status and comments.
 LEADS_ENDPOINT = "https://project--774478fd-e67a-4123-8e99-30428a5279d4.lovable.app/api/public/hooks/submit-quote"
 
+# The admin panel (Lovable app). elevatestudio.nu/admin forwards here, so the admin app needs
+# its own address once this site takes over elevatestudio.nu: connect admin.elevatestudio.nu
+# as a custom domain in Lovable (Project settings → Domains).
+ADMIN_URL = "https://admin.elevatestudio.nu/admin"
+
 SERVICES = [
     {
         "slug": "hemsidor", "faq": [('Vad kostar en hemsida hos er?', 'Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert.'), ('Hur lång tid tar det att bygga en hemsida?', 'Räkna med ungefär en månad från beställning, förutsatt att vi har fått texter, bilder och åtkomst. Själva bygget tar oftast 1–2 veckor.'), ('Kan ni göra om vår gamla hemsida?', 'Ja. Vi kan bygga en ny sida från grunden och flytta över det innehåll som fungerar från den gamla.')],

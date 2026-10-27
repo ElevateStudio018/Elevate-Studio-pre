@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, CASES, FORM_ENDPOINT, LEADS_ENDPOINT, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
+from content import ADMIN_URL, ARTICLES, CASES, FORM_ENDPOINT, LEADS_ENDPOINT, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -1203,8 +1203,17 @@ def site_files(built):
     urls = "".join(f"\n  <url><loc>{page_url(x)}</loc><lastmod>{today}</lastmod></url>" for x in pages)
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}\n</urlset>\n', encoding="utf-8")
     bots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Google-Extended", "Applebot-Extended", "Bingbot"]
-    ai = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in bots)
-    (ROOT / "robots.txt").write_text(f"# Vi välkomnar sökmotorer och AI-assistenter.\n{ai}User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
+    ai = "".join(f"User-agent: {b}\nAllow: /\nDisallow: /admin\n\n" for b in bots)
+    (ROOT / "robots.txt").write_text(f"# Vi välkomnar sökmotorer och AI-assistenter.\n{ai}User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
+    # elevatestudio.nu/admin → the admin panel's login
+    (ROOT / "admin").mkdir(exist_ok=True)
+    (ROOT / "admin" / "index.html").write_text(f'''<!DOCTYPE html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow">
+<title>Admin – Elevate Studio</title><meta http-equiv="refresh" content="0; url={ADMIN_URL}">
+<script>location.replace({json.dumps(ADMIN_URL)})</script></head>
+<body style="font-family:sans-serif;background:#1d3b2a;color:#fdfbf5;display:grid;place-items:center;min-height:100vh;margin:0">
+<p>Skickar dig till admin … <a href="{ADMIN_URL}" style="color:#fdfbf5">Klicka här</a> om inget händer.</p></body></html>
+''', encoding="utf-8")
     services = "\n".join(f"- [{x['name']}]({SITE_URL}/tjanster/{x['slug']}.html): {x['lead']}" for x in SERVICES)
     team = "\n".join(f"- {n}, {r}: {t}, {e}" for n, r, t, e in TEAM)
     articles = "\n".join(f"- [{a['title']}]({SITE_URL}/insikter/{a['slug']}.html)" for a in ARTICLES)
