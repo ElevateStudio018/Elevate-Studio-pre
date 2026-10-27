@@ -7,9 +7,9 @@
   <title>Startsida | Designstudie</title>
   <link rel="preload" href="assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/home.css">
-  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=f1cfb04919">
+  <link rel="stylesheet" href="assets/css/home.css?v=f1cfb04919">
+  <link rel="stylesheet" href="assets/css/pages.css?v=f1cfb04919">
 </head>
 <body class="home">
 
@@ -251,50 +251,58 @@
     </section>
 
     <!-- Process -->
-    <section class="process">
+    <section class="process" id="process">
       <h2 class="block__header container">Så <span>jobbar vi</span></h2>
-      <div class="container process__container">
-        <ol class="process__nav" role="tablist">
-          <li class="is-active"><button type="button" role="tab" aria-selected="true" data-step="0">Kartläggning</button></li>
-          <li><button type="button" role="tab" aria-selected="false" data-step="1">Design</button></li>
-          <li><button type="button" role="tab" aria-selected="false" data-step="2">Bygge</button></li>
-          <li><button type="button" role="tab" aria-selected="false" data-step="3">Test</button></li>
-          <li><button type="button" role="tab" aria-selected="false" data-step="4">Lansering</button></li>
-        </ol>
-        <div class="process__panels">
-          <div class="process__panel is-active" role="tabpanel">
-            <h3 class="process__mobile-title">Kartläggning</h3>
-            <img class="rounded" src="assets/img/home/step-1.jpg" alt="Arbetsbord med skisser och material" width="620" height="413" loading="lazy">
-            <p>Vi börjar med att förstå er verksamhet, era användare och marknaden runt omkring. Intervjuer, besöksdata och en genomgång av nuläget ger oss en gemensam bild av var ni står i dag och vart ni vill. Vi tittar också på hur andra i branschen löser liknande utmaningar och vilka möjligheter som ännu inte är tagna.</p>
-            <p>Utifrån det formulerar vi mål, prioriterar behov och skissar på första idéer kring struktur, innehåll och funktioner. Allt samlas i ett konkret underlag som blir kompassen för resten av projektet.</p>
-            <p class="process__link"><a href="tjanster/strategi.html" class="arrow-link">Läs mer</a></p>
-          </div>
-          <div class="process__panel" role="tabpanel">
-            <h3 class="process__mobile-title">Design</h3>
-            <img class="rounded" src="assets/img/home/step-2.jpg" alt="Arbetsplats med stol och skrivbord" width="620" height="413" loading="lazy">
-            <p>Skisserna blir till ett visuellt koncept med typografi, färger och komponenter som går att återanvända och bygga vidare på. Konceptet förankras i ert varumärke och prövas mot de mål vi satte i kartläggningen.</p>
-            <p>Vi testar klickbara prototyper med riktiga användare tidigt, så att vi hittar det som skaver innan en enda rad produktionskod skrivs. Det sparar både tid och pengar längre fram.</p>
-            <p class="process__link"><a href="tjanster/design.html" class="arrow-link">Läs mer</a></p>
-          </div>
-          <div class="process__panel" role="tabpanel">
-            <h3 class="process__mobile-title">Bygge</h3>
-            <img class="rounded" src="assets/img/home/step-3.jpg" alt="Laptop och anteckningsbok på ett bord" width="620" height="413" loading="lazy">
-            <p>Utvecklarna bygger i korta etapper med löpande demo, så att ni alltid ser hur arbetet går framåt och kan påverka riktningen längs vägen.</p>
-            <p>Integrationer, innehållsflytt och prestanda planeras från start, och koden granskas av fler än den som skrev den.</p>
-            <p class="process__link"><a href="tjanster/utveckling.html" class="arrow-link">Läs mer</a></p>
-          </div>
-          <div class="process__panel" role="tabpanel">
-            <h3 class="process__mobile-title">Test</h3>
-            <img class="rounded" src="assets/img/home/step-4.jpg" alt="Laptop på ett träbord" width="620" height="413" loading="lazy">
-            <p>Vi testar funktion, tillgänglighet och säkerhet på de enheter och webbläsare som era besökare faktiskt använder. Automatiska tester körs vid varje ändring.</p>
-            <p>Sist går vi igenom allt tillsammans med er innan något släpps.</p>
-          </div>
-          <div class="process__panel" role="tabpanel">
-            <h3 class="process__mobile-title">Lansering</h3>
-            <img class="rounded" src="assets/img/home/step-5.jpg" alt="Laptop, mobil och anteckningar uppifrån" width="620" height="413" loading="lazy">
-            <p>Lanseringen planeras in i detalj och görs när det passar er verksamhet. Vi följer upp trafik, fel och prestanda noga de första veckorna.</p>
-            <p>Därefter fortsätter vi förbättra i den takt ni vill, med data och användarnas beteende som grund.</p>
-          </div>
+      <div class="container">
+        <div class="thermo" data-thermo>
+          <div class="thermo__track" aria-hidden="true"><div class="thermo__fill"></div><div class="thermo__bulb"></div></div>
+          <ol class="thermo__steps">
+          <li class="thermo__step">
+            <span class="thermo__dot" aria-hidden="true"></span>
+            <div class="thermo__card">
+              <span class="thermo__no">01</span>
+              <h3>Kartläggning</h3>
+              <p>Vi lär känna er verksamhet, era användare och era mål. Intervjuer, data och en genomgång av nuläget ger oss en gemensam bild av vart vi ska.</p>
+              <a href="tjanster/strategi.html" class="arrow-link">Läs mer</a>
+            </div>
+          </li>
+          <li class="thermo__step">
+            <span class="thermo__dot" aria-hidden="true"></span>
+            <div class="thermo__card">
+              <span class="thermo__no">02</span>
+              <h3>Design</h3>
+              <p>Koncept, prototyper och tester med riktiga användare – så att vi hittar det som skaver innan en enda rad produktionskod skrivs.</p>
+              <a href="tjanster/design.html" class="arrow-link">Läs mer</a>
+            </div>
+          </li>
+          <li class="thermo__step">
+            <span class="thermo__dot" aria-hidden="true"></span>
+            <div class="thermo__card">
+              <span class="thermo__no">03</span>
+              <h3>Bygge</h3>
+              <p>Utveckling i korta etapper med löpande demo, så att ni alltid ser hur arbetet går framåt och kan påverka riktningen.</p>
+              <a href="tjanster/utveckling.html" class="arrow-link">Läs mer</a>
+            </div>
+          </li>
+          <li class="thermo__step">
+            <span class="thermo__dot" aria-hidden="true"></span>
+            <div class="thermo__card">
+              <span class="thermo__no">04</span>
+              <h3>Test</h3>
+              <p>Funktion, tillgänglighet och säkerhet testas på de enheter och webbläsare som era besökare faktiskt använder.</p>
+              <a href="tjanster/inkludering.html" class="arrow-link">Läs mer</a>
+            </div>
+          </li>
+          <li class="thermo__step">
+            <span class="thermo__dot" aria-hidden="true"></span>
+            <div class="thermo__card">
+              <span class="thermo__no">05</span>
+              <h3>Lansering</h3>
+              <p>Vi lanserar när det passar er verksamhet och följer sedan upp noga, med löpande förbättringar baserade på riktig data.</p>
+              <a href="tjanster/drift-och-support.html" class="arrow-link">Läs mer</a>
+            </div>
+          </li>
+          </ol>
         </div>
       </div>
     </section>
@@ -311,27 +319,21 @@
           <div class="platforms__cards"><a class="platform-card" href="plattformar/html-css.html">
               <img src="assets/img/home/tech-1.svg" alt="" width="60" height="60">
               <h3>HTML &amp; CSS</h3><span class="arrow-link">Läs mer</span>
-              <span class="platform-card__hover">Grunden i allt vi bygger. Semantisk HTML och modern CSS ger snabba, tillgängliga sidor.</span>
             </a><a class="platform-card" href="plattformar/javascript.html">
               <img src="assets/img/home/tech-2.svg" alt="" width="60" height="60">
               <h3>JavaScript</h3><span class="arrow-link">Läs mer</span>
-              <span class="platform-card__hover">Interaktivitet i webbläsaren – från menyer och flikar till animationer som startar vid scroll.</span>
             </a><a class="platform-card" href="plattformar/react.html">
               <img src="assets/img/home/tech-3.svg" alt="" width="60" height="60">
               <h3>React</h3><span class="arrow-link">Läs mer</span>
-              <span class="platform-card__hover">Vårt förstahandsval för appar och avancerade gränssnitt med mycket tillstånd.</span>
             </a><a class="platform-card" href="plattformar/node-js.html">
               <img src="assets/img/home/tech-4.svg" alt="" width="60" height="60">
               <h3>Node.js</h3><span class="arrow-link">Läs mer</span>
-              <span class="platform-card__hover">JavaScript på servern – för API:er, byggverktyg och automatiserade tester.</span>
             </a><a class="platform-card" href="plattformar/python.html">
               <img src="assets/img/home/tech-5.svg" alt="" width="60" height="60">
               <h3>Python</h3><span class="arrow-link">Läs mer</span>
-              <span class="platform-card__hover">För automatisering, dataanalys och verktyg som genererar innehåll och bilder.</span>
             </a><a class="platform-card" href="plattformar/playwright.html">
               <img src="assets/img/home/tech-6.svg" alt="" width="60" height="60">
               <h3>Playwright</h3><span class="arrow-link">Läs mer</span>
-              <span class="platform-card__hover">Automatiserade tester i riktiga webbläsare, inklusive visuella jämförelser.</span>
             </a></div>
         </div>
       </div>
@@ -364,15 +366,6 @@
       </figure>
     </section>
 
-    <!-- Numbers -->
-    <section class="block container numbers">
-      <h2 class="numbers__header">Vi har levererat fler än <span>400 projekt</span> under de senaste <span>12 åren</span></h2>
-      <div class="numbers__blocks">
-        <article class="numbers__block"><span class="numbers__value" data-count="150">150</span><p>Fler än 150 kunder med löpande avtal.</p></article>
-        <article class="numbers__block"><span class="numbers__value" data-count="12">12</span><p>Vi har arbetat med webb och digital utveckling i tolv år.</p></article>
-        <article class="numbers__block"><span class="numbers__value" data-count="400">400</span><p>Fler än 400 genomförda uppdrag.</p></article>
-      </div>
-    </section>
 
     <!-- Services intro -->
     <section class="block container services-intro" id="tjanster">
@@ -426,7 +419,7 @@
     <section class="standout" id="kontakt">
       <div class="container standout__row">
         <div class="standout__intro">
-          <h2 class="h2">En digital studio med rötterna i <em>Norrland</em></h2>
+          <h2 class="h2">En digital studio med rötterna i <em>Uppsala</em></h2>
           <p>Funderar du på ett nytt projekt eller behöver du hjälp med något som redan finns? Ring oss på <a href="tel:0000000000">000-000 00 00</a> eller skriv några rader i formuläret, så återkommer vi snart.</p>
         </div>
         <form class="standout__form js-demo-form">
@@ -476,7 +469,7 @@
             <div>
               <h3 class="site-footer__subheader">Studio</h3>
               <ul class="site-footer__links">
-                <li><a href="kontakt.html"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.5 6 10 6 10s6-5.5 6-10a6 6 0 0 0-6-6zm0 8.5A2.5 2.5 0 1 1 6 3.5a2.5 2.5 0 0 1 0 5z" fill="#fff"/></svg> Umeå</a></li>
+                <li><a href="kontakt.html"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.5 6 10 6 10s6-5.5 6-10a6 6 0 0 0-6-6zm0 8.5A2.5 2.5 0 1 1 6 3.5a2.5 2.5 0 0 1 0 5z" fill="#fff"/></svg> Uppsala</a></li>
                 <li><a href="om.html">Om studion</a></li>
                 <li><a href="plattformar/index.html">Plattformar</a></li>
               </ul>
@@ -513,7 +506,7 @@
     <p class="cookie-dialog__links"><a href="cookies.html">Om cookies</a> <a href="integritet.html">Integritet</a></p>
   </div>
 
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/home.js"></script>
+  <script src="assets/js/main.js?v=f1cfb04919"></script>
+  <script src="assets/js/home.js?v=f1cfb04919"></script>
 </body>
 </html>

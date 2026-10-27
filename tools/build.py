@@ -6,6 +6,7 @@ Generates every subpage from tools/content.py and re-wraps index.html and
 404.html with the shared header, menus, footer and cookie dialog, so that
 navigation is identical on every page.
 """
+import hashlib
 import html
 import pathlib
 import re
@@ -149,7 +150,7 @@ def footer(p):
             <div>
               <h3 class="site-footer__subheader">Studio</h3>
               <ul class="site-footer__links">
-                <li><a href="{p}kontakt.html"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.5 6 10 6 10s6-5.5 6-10a6 6 0 0 0-6-6zm0 8.5A2.5 2.5 0 1 1 6 3.5a2.5 2.5 0 0 1 0 5z" fill="#fff"/></svg> Umeå</a></li>
+                <li><a href="{p}kontakt.html"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.5 6 10 6 10s6-5.5 6-10a6 6 0 0 0-6-6zm0 8.5A2.5 2.5 0 1 1 6 3.5a2.5 2.5 0 0 1 0 5z" fill="#fff"/></svg> Uppsala</a></li>
                 <li><a href="{p}om.html">Om studion</a></li>
                 <li><a href="{p}plattformar/index.html">Plattformar</a></li>
               </ul>
@@ -187,10 +188,22 @@ def footer(p):
   </div>'''
 
 
+def asset_version():
+    """Short hash of all CSS/JS so browsers and CDN caches never mix old and new files."""
+    digest = hashlib.sha1()
+    for f in sorted((ROOT / "assets").glob("*/*.*")):
+        if f.suffix in (".css", ".js"):
+            digest.update(f.read_bytes())
+    return digest.hexdigest()[:10]
+
+
+VERSION = asset_version()
+
+
 def document(p, title, main, body_class, crumbs=None, current=None, extra_css=(), extra_js=()):
     css = ["style.css", "home.css", "pages.css", *extra_css]
-    links = "\n  ".join(f'<link rel="stylesheet" href="{p}assets/css/{c}">' for c in css)
-    scripts = "\n  ".join(f'<script src="{p}assets/js/{j}"></script>' for j in ("main.js", *extra_js))
+    links = "\n  ".join(f'<link rel="stylesheet" href="{p}assets/css/{c}?v={VERSION}">' for c in css)
+    scripts = "\n  ".join(f'<script src="{p}assets/js/{j}?v={VERSION}"></script>' for j in ("main.js", *extra_js))
     return f'''<!DOCTYPE html>
 <html lang="sv">
 <head>
@@ -271,7 +284,6 @@ def platform_card(p, x):
     return f'''<a class="platform-card" href="{p}plattformar/{x["slug"]}.html">
               <img src="{p}assets/img/home/{x["icon"]}" alt="" width="60" height="60">
               <h3>{esc(x["name"])}</h3><span class="arrow-link">Läs mer</span>
-              <span class="platform-card__hover">{esc(x["card"])}</span>
             </a>'''
 
 

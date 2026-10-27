@@ -169,8 +169,7 @@ a.case__image { display: block; }
 /* Platform cards as links */
 a.platform-card { display: block; color: #000; text-decoration: none; }
 .platforms__cards--page { margin: 0 -12px -24px; }
-.platforms__cards--page .platform-card { border-color: #ddd5c6; transition: border-color .25s; }
-.platforms__cards--page .platform-card:hover { border-color: var(--accent); }
+.platforms__cards--page .platform-card { border-color: #ddd5c6; }
 @media (max-width: 768px) {
   .platforms__cards--page { flex-wrap: wrap; margin: 0; overflow: visible; }
   .platforms__cards--page .platform-card { flex: 0 1 100%; margin: 0 0 16px; }

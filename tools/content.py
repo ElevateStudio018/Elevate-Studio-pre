@@ -254,7 +254,7 @@ SIMPLE_PAGES = {
     "kontakt": {
         "title": "Kontakt", "lead": "Funderar du på ett nytt projekt eller behöver du hjälp med något som redan finns? Hör av dig så återkommer vi snart.",
         "sections": [
-            ("cols", [("Besök oss", "Studion ligger i Umeå, men vi arbetar med kunder i hela landet. Adressen är påhittad eftersom det här är en designstudie."),
+            ("cols", [("Besök oss", "Studion ligger i Uppsala, men vi arbetar med kunder i hela landet. Adressen är påhittad eftersom det här är en designstudie."),
                       ("Ring eller mejla", "Telefon: 000-000 00 00<br>E-post: hej@exempel.se"),
                       ("Följ oss", "Vi har inga riktiga sociala konton – det här är en designstudie. Länkarna i sidfoten leder därför hit.")]),
             ("form", None),
@@ -280,7 +280,7 @@ SIMPLE_PAGES = {
     "oppna-roller": {
         "title": "Öppna roller", "lead": "Just nu söker vi inga nya kollegor – det här är en designstudie. Men så här skulle en annons kunna se ut.",
         "sections": [
-            ("cols", [("Frontendutvecklare", "Du gillar semantisk HTML, välorganiserad CSS och tillgängliga gränssnitt. Umeå eller distans."),
+            ("cols", [("Frontendutvecklare", "Du gillar semantisk HTML, välorganiserad CSS och tillgängliga gränssnitt. Uppsala eller distans."),
                       ("UX-designer", "Du leder research och prototyparbete och trivs i nära samarbete med utvecklare."),
                       ("Projektledare", "Du håller ihop leveranser och är kundens trygga kontakt genom hela projektet.")]),
             ("links", [("Kontakta oss", "kontakt.html")]),

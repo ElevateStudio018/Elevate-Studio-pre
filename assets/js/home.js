@@ -1,44 +1,29 @@
 (function () {
-  // Process tabs
-  var tabs = document.querySelectorAll('.process__nav button');
-  var panels = document.querySelectorAll('.process__panel');
-  tabs.forEach(function (tab) {
-    tab.addEventListener('click', function () {
-      var i = Number(tab.dataset.step);
-      tabs.forEach(function (t, n) {
-        t.parentElement.classList.toggle('is-active', n === i);
-        t.setAttribute('aria-selected', String(n === i));
-      });
-      panels.forEach(function (p, n) { p.classList.toggle('is-active', n === i); });
-    });
-  });
-
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!('IntersectionObserver' in window)) return;
 
-  // Count-up numbers when they scroll into view
-  var counters = document.querySelectorAll('[data-count]');
-  var countObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      countObserver.unobserve(entry.target);
-      if (reduced) return;
-      var el = entry.target;
-      var target = Number(el.dataset.count);
-      var start = performance.now();
-      var duration = 1600;
-      (function tick(now) {
-        var t = Math.min(1, (now - start) / duration);
-        el.textContent = Math.round(target * (1 - Math.pow(1 - t, 3)));
-        if (t < 1) requestAnimationFrame(tick);
-      })(start);
-    });
-  }, { threshold: 0.6 });
-  counters.forEach(function (el) { countObserver.observe(el); });
+  // Process thermometer: the tube fills as you scroll and each step pops up when reached
+  var thermo = document.querySelector('[data-thermo]');
+  if (thermo) {
+    var steps = Array.prototype.slice.call(thermo.querySelectorAll('.thermo__step'));
+    var update = function () {
+      var rect = thermo.getBoundingClientRect();
+      var trigger = window.innerHeight * 0.65;
+      var progress = reduced ? 1 : Math.min(1, Math.max(0, (trigger - rect.top) / rect.height));
+      thermo.style.setProperty('--progress', progress);
+      var fillBottom = rect.top + progress * rect.height;
+      steps.forEach(function (step) {
+        var dot = step.querySelector('.thermo__dot').getBoundingClientRect();
+        step.classList.toggle('is-on', dot.top + dot.height / 2 <= fillBottom + 1);
+      });
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
 
   // Fade-up reveal for cards
-  if (reduced) return;
-  var revealTargets = document.querySelectorAll('.case, .post-card, .platform-card, .numbers__block, .pair');
+  if (reduced || !('IntersectionObserver' in window)) return;
+  var revealTargets = document.querySelectorAll('.case, .post-card, .platform-card, .pair');
   var revealObserver = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (!entry.isIntersecting) return;
