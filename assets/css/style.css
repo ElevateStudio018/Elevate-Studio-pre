@@ -14,9 +14,11 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 :root {
-  --blue: #0017ee;
-  --sand: #ebe8e3;
-  --grey: #f4f4f4;
+  --accent: #1d3b2a;
+  --accent-dark: #12271b;
+  --cream: #f5f0e6;
+  --cream-dark: #ebe3d4;
+  --grey: #f5f0e6;
   --banner-h: 28px;
   --header-h: 158px;
   --burger-top: calc(var(--banner-h) + 240px);
@@ -45,7 +47,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: rgba(0, 23, 238, .7); color: #fff; }
+::selection { background: rgba(29, 59, 42, .8); color: #fff; }
 
 p { margin: 0 0 26px; }
 a { color: inherit; }
@@ -71,7 +73,7 @@ a { color: inherit; }
 
 /* ---------- 404 page background ---------- */
 body.error404 {
-  background: var(--sand) url("../img/404.svg") right bottom / auto no-repeat;
+  background: var(--cream) url("../img/404.svg") right bottom / auto no-repeat;
 }
 @media (max-width: 1300px) { body.error404 { background-size: 720px auto; } }
 @media (max-width: 1200px) { body.error404 { background-size: 520px auto; } }
@@ -103,14 +105,14 @@ body.error404 {
 }
 .btn span { display: inline-flex; align-items: center; height: 58px; line-height: normal; }
 .btn--primary { background: #000; color: #fff; transition: background-color .2s; }
-.btn--primary:hover { background: var(--blue); }
+.btn--primary:hover { background: var(--accent); }
 .btn--secondary {
   background: #fff;
   border: 2px solid #000;
   color: #000;
   transition: color .2s, background-color .2s, border .2s;
 }
-.btn--secondary:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+.btn--secondary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
 
 /* ---------- Header ---------- */
 .site-header {
@@ -187,14 +189,14 @@ body.error404 {
   left: 50%;
   width: 0;
   height: 3px;
-  background: var(--blue);
+  background: var(--accent);
   transform: translateX(-50%);
   transition: width .4s, background .2s;
 }
-.site-header__navbar > ul > li > a:hover { color: var(--blue); }
+.site-header__navbar > ul > li > a:hover { color: var(--accent); }
 .site-header__navbar > ul > li > a:hover::after,
 .site-header__navbar > ul > li.is-active > a::after { width: 100%; }
-.site-header__navbar > ul > li.is-active > a { color: var(--blue); }
+.site-header__navbar > ul > li.is-active > a { color: var(--accent); }
 
 .chevron {
   position: relative;
@@ -216,9 +218,9 @@ body.error404 {
   width: 46px;
   height: 46px;
   padding: 0;
-  border: 2px solid var(--blue);
+  border: 2px solid var(--accent);
   border-radius: 50%;
-  background: var(--blue);
+  background: var(--accent);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: top .2s, background-color .2s;
@@ -240,7 +242,7 @@ body.error404 {
 .hamburger-icon:hover { background: #fff; }
 .hamburger-icon:hover .icon,
 .hamburger-icon:hover .icon::before,
-.hamburger-icon:hover .icon::after { background: var(--blue); }
+.hamburger-icon:hover .icon::after { background: var(--accent); }
 .hamburger-icon:focus-visible { outline: 2px solid #000; outline-offset: 3px; }
 
 /* Close state (header button while menu is open, and the in-panel button) */
@@ -252,8 +254,8 @@ body.error404 {
 .hamburger-icon.close .icon::after { transform: translateY(-6px) rotate(-135deg); }
 .hamburger-icon.is-close { background: #fff; }
 .hamburger-icon.is-close .icon::before,
-.hamburger-icon.is-close .icon::after { background: var(--blue); }
-.hamburger-icon.is-close:hover { background: var(--blue); }
+.hamburger-icon.is-close .icon::after { background: var(--accent); }
+.hamburger-icon.is-close:hover { background: var(--accent); }
 .hamburger-icon.is-close:hover .icon::before,
 .hamburger-icon.is-close:hover .icon::after { background: #fff; }
 .hamburger-icon.close:hover .icon { background: transparent; }
@@ -264,7 +266,7 @@ body.error404 {
 .breadcrumb-item { display: flex; flex: 0 0 auto; align-items: center; }
 .breadcrumb-item a,
 .breadcrumb-item span { font-size: 16px; line-height: 1.5; }
-.breadcrumb-item a { color: var(--blue); text-underline-offset: 4px; }
+.breadcrumb-item a { color: var(--accent); text-underline-offset: 4px; }
 .breadcrumb-item:not(.active)::after {
   content: "";
   display: inline-flex;
@@ -317,8 +319,8 @@ body.error404 {
   .megamenu__sidebar-button { margin: 0; }
   .megamenu__sidebar-button .btn {
     width: 100%;
-    border: 2px solid var(--blue);
-    background: var(--blue);
+    border: 2px solid var(--accent);
+    background: var(--accent);
     color: #fff;
     transition: color .2s, background-color .2s, border-color .2s;
   }
@@ -343,7 +345,7 @@ body.error404 {
   }
   .megamenu__menu-text { margin: 8px 0 0; font-size: 16px; line-height: 1.5; transition: color .2s; }
   .megamenu__menu > li:hover > a,
-  .megamenu__menu > li:hover p { color: var(--blue); cursor: pointer; }
+  .megamenu__menu > li:hover p { color: var(--accent); cursor: pointer; }
 }
 
 /* ---------- Page dim overlay ---------- */
@@ -402,7 +404,7 @@ body.hamburger-open .not-found::after {
   text-decoration: none;
   transition: color .2s;
 }
-.hamburgermenu__menu > li > a:hover { color: var(--blue); }
+.hamburgermenu__menu > li > a:hover { color: var(--accent); }
 .hamburgermenu__menu > li.main-menu-item > a { width: fit-content; font-size: 56px; }
 .hamburgermenu__menu > li.main-menu-item--last { margin-bottom: 56px; }
 .hamburgermenu__menu > li > a > .chevron { top: 0; width: 22px; height: 22px; margin: 0; }
@@ -419,7 +421,7 @@ body.hamburger-open .not-found::after {
   transition: color .2s;
 }
 .hamburgermenu__menu .sub-menu a:hover,
-.hamburgermenu__sub a:hover { color: var(--blue); }
+.hamburgermenu__sub a:hover { color: var(--accent); }
 .hamburgermenu__sub { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s; }
 .hamburgermenu__sub > ul { min-height: 0; margin: 0; padding: 0; list-style: none; overflow: hidden; }
 .hamburgermenu__sub li:first-child { padding-top: 24px; }
@@ -466,7 +468,7 @@ body.hamburger-open .not-found::after {
   font-size: 50px;
   font-weight: 400;
   line-height: 1.1;
-  color: var(--blue);
+  color: var(--accent);
 }
 .not-found__speech-bubble span {
   font-family: var(--serif);
@@ -505,7 +507,7 @@ body.hamburger-open .not-found::after {
 .cookie-dialog[hidden] { display: none; }
 .cookie-dialog p { margin: 0; }
 .cookie-dialog__title { margin-bottom: 24px !important; font-size: 15px; font-weight: 500; text-align: center; }
-.cookie-dialog__text a { color: var(--blue); }
+.cookie-dialog__text a { color: var(--accent); }
 .cookie-dialog__buttons { display: flex; gap: 10px; margin: 23px 0 16px; }
 .cookie-dialog__buttons button {
   flex: 1;
@@ -520,7 +522,7 @@ body.hamburger-open .not-found::after {
 }
 .cookie-dialog__buttons button:hover { background: #fff; color: #000; }
 .cookie-dialog__links { display: flex; justify-content: center; gap: 10px; font-size: 12.5px; font-weight: 500; }
-.cookie-dialog__links a { color: var(--blue); text-decoration: none; }
+.cookie-dialog__links a { color: var(--accent); text-decoration: none; }
 @media (max-width: 768px) {
   .cookie-dialog { left: 0; bottom: 0; width: 100%; padding: 40px 24px 28px; border-radius: 16px 16px 0 0; font-size: 13px; }
   .cookie-dialog__title { display: none; }

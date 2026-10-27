@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 297" width="840" height="594">
-<rect width="420" height="297" fill="#dcd0c4"/>
-<rect x="0" y="40" width="58" height="18" rx="9" fill="#0017ee"/><text x="29" y="53" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" font-weight="700" fill="#fff">WEBBINAR</text>
-<rect x="64" y="40" width="88" height="18" rx="9" fill="#fff"/><text x="108" y="53" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#0017ee">INKLUDERING</text>
-<g font-family="Arial,sans-serif" font-weight="800" font-size="30" fill="#0017ee">
+<rect width="420" height="297" fill="#f5f0e6"/>
+<rect x="0" y="40" width="58" height="18" rx="9" fill="#1d3b2a"/><text x="29" y="53" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" font-weight="700" fill="#fff">WEBBINAR</text>
+<rect x="64" y="40" width="88" height="18" rx="9" fill="#fff"/><text x="108" y="53" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#1d3b2a">INKLUDERING</text>
+<g font-family="Arial,sans-serif" font-weight="800" font-size="30" fill="#1d3b2a">
 <text x="0" y="104">SÅ BLIR DIN SAJT</text><text x="0" y="140">TILLGÄNGLIG FÖR</text><text x="0" y="176">FLER BESÖKARE</text></g>
 <text x="0" y="222" font-family="Arial,sans-serif" font-size="9" fill="#222">Öppet webbinar · Designstudie</text>
-<path d="M200 297 A110 110 0 0 1 330 190" fill="none" stroke="#0017ee" stroke-width="20"/>
+<path d="M200 297 A110 110 0 0 1 330 190" fill="none" stroke="#1d3b2a" stroke-width="20"/>
 <circle cx="318" cy="150" r="30" fill="#b48a74"/><rect x="282" y="185" width="72" height="112" rx="30" fill="#3c3530"/>
 <circle cx="388" cy="140" r="28" fill="#c79e86"/><rect x="354" y="172" width="70" height="125" rx="28" fill="#f4f1ec"/>
 </svg>

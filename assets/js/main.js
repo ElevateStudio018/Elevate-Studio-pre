@@ -56,6 +56,16 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
+  // Demo forms: nothing is sent, but the flow behaves like a real one
+  document.querySelectorAll('.js-demo-form').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var status = form.querySelector('.demo-form-status');
+      if (status) status.hidden = false;
+      form.reset();
+    });
+  });
+
   // Cookie dialog: the choice is only remembered locally
   var dialog = document.getElementById('cookie-dialog');
   var stored = null;
