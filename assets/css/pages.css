@@ -336,3 +336,6 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .test-teaser p { margin: 0; font-size: 20px; }
 .test-teaser .sitetest__form { margin: 0; }
 @media (max-width: 992px) { .test-teaser__row { grid-template-columns: 1fr; gap: 32px; } .test-teaser h2 { font-size: 36px; } }
+.sitetest__notice { margin-bottom: 24px; padding: 18px 24px; border-radius: 16px; background: #fff7e6; border: 1px solid #ecd9a8; }
+.sitetest__summary--noshot { grid-template-columns: 1fr; }
+.scores { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }

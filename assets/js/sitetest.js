@@ -111,6 +111,33 @@
     'digital-tillvaxt': 'Digital tillväxt', 'design': 'Design', 'strategi': 'Strategi'
   };
 
+
+  // MDN HTTP Observatory: security headers test (CORS-enabled, no key needed)
+  var OBS = 'https://observatory-api.mdn.mozilla.net/api/v2/';
+  var SECURITY = {
+    'content-security-policy': ['Säkerhetspolicy (CSP) saknas eller är svag', 'Vi inför en Content Security Policy som hindrar skadliga skript från att köras på sajten.'],
+    'cookies': ['Cookies saknar säkerhetsflaggor', 'Vi sätter Secure, HttpOnly och SameSite på alla cookies.'],
+    'cross-origin-resource-sharing': ['För öppen delning mellan domäner (CORS)', 'Vi begränsar vilka andra sajter som får läsa ert innehåll.'],
+    'redirection': ['Besökare skickas inte säkert till HTTPS', 'Vi ser till att alla besök går direkt till en krypterad HTTPS-adress.'],
+    'referrer-policy': ['Referrer-policy saknas', 'Vi begränsar vilken information som skickas vidare när besökare klickar sig bort från sajten.'],
+    'strict-transport-security': ['HTTPS tvingas inte (HSTS)', 'Vi slår på HSTS så att webbläsare alltid använder krypterad anslutning.'],
+    'subresource-integrity': ['Externa skript kontrolleras inte (SRI)', 'Vi lägger till integritetskontroll för skript som laddas från andra domäner.'],
+    'x-content-type-options': ['X-Content-Type-Options saknas', 'Vi lägger till nosniff så att webbläsaren inte gissar filtyper.'],
+    'x-frame-options': ['Sajten kan bäddas in av andra (clickjacking)', 'Vi spärrar inbäddning med frame-ancestors så att ingen kan lura besökare via en falsk ram.'],
+    'cross-origin-opener-policy': ['Cross-Origin-Opener-Policy saknas', 'Vi isolerar sajten från fönster som öppnas av andra domäner.'],
+    'cross-origin-embedder-policy': ['Cross-Origin-Embedder-Policy saknas', 'Vi styr vilka externa resurser som får bäddas in.'],
+    'cross-origin-resource-policy': ['Cross-Origin-Resource-Policy saknas', 'Vi styr vilka andra sajter som får använda era resurser.']
+  };
+  function runSecurity(url) {
+    var host = new URL(url).hostname;
+    return fetch(OBS + 'scan?host=' + encodeURIComponent(host), { method: 'POST' })
+      .then(function (r) { return r.json(); })
+      .then(function (scan) {
+        if (scan.error) throw new Error(scan.error);
+        return fetch(OBS + 'analyze?host=' + encodeURIComponent(host)).then(function (r) { return r.json(); });
+      });
+  }
+
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -172,12 +199,11 @@
       '<span class="score__value">' + pct + '</span><span class="score__label">' + label + '</span></div>';
   }
 
-  function render(data, url, strategy) {
-    var lr = data.lighthouseResult;
-    var audits = lr.audits;
-    var cats = lr.categories;
+  function render(data, sec, url, strategy, psiProblem) {
+    var lr = data && data.lighthouseResult;
+    var audits = lr ? lr.audits : {};
+    var cats = lr ? lr.categories : {};
 
-    // Map each audit to the category with the most weight for it.
     var auditCat = {};
     CATEGORIES.forEach(function (c) {
       (cats[c.id] && cats[c.id].auditRefs || []).forEach(function (ref) {
@@ -185,8 +211,12 @@
       });
     });
 
-    var scores = CATEGORIES.filter(function (c) { return cats[c.id]; })
-      .map(function (c) { return ring(cats[c.id].score || 0, c.label); }).join('');
+    var rings = CATEGORIES.filter(function (c) { return cats[c.id]; })
+      .map(function (c) { return ring(cats[c.id].score || 0, c.label); });
+    var secScan = sec && sec.scan;
+    if (secScan && typeof secScan.score === 'number') {
+      rings.push(ring(Math.max(0, Math.min(100, secScan.score)) / 100, 'Säkerhet ' + esc(secScan.grade || '')));
+    }
 
     var metrics = METRICS.filter(function (m) { return audits[m.id]; }).map(function (m) {
       var a = audits[m.id];
@@ -199,40 +229,54 @@
       return auditCat[a.id];
     }).sort(function (a, b) {
       var sa = (a.details && a.details.overallSavingsMs) || 0, sb = (b.details && b.details.overallSavingsMs) || 0;
-      var wa = auditCat[a.id].weight, wb = auditCat[b.id].weight;
-      return (a.score - b.score) || (sb - sa) || (wb - wa);
-    }).slice(0, 15);
-
-    var issueHtml = issues.length ? issues.map(function (a) {
+      return (a.score - b.score) || (sb - sa) || (auditCat[b.id].weight - auditCat[a.id].weight);
+    }).slice(0, 15).map(function (a) {
       var cat = auditCat[a.id].cat;
       var fix = FIXES[a.id] || CATEGORY_FALLBACK[cat];
-      var catLabel = CATEGORIES.filter(function (c) { return c.id === cat; })[0].label;
-      return '<li class="issue issue--' + grade(a.score) + '">' +
-        '<div class="issue__head"><span class="issue__cat">' + catLabel + '</span>' +
-        (a.displayValue ? '<span class="issue__value">' + esc(a.displayValue) + '</span>' : '') + '</div>' +
-        '<h3>' + esc(a.title) + '</h3>' +
-        '<p class="issue__what">' + esc(plain(a.description)).slice(0, 260) + '</p>' +
-        '<p class="issue__fix"><b>Så fixar vi det:</b> ' + esc(fix[0]) + ' <a href="' + prefix + 'tjanster/' + fix[1] + '.html">' + SERVICE_NAMES[fix[1]] + ' →</a></p></li>';
-    }).join('') : '<li class="issue issue--good"><h3>Inga större problem hittades</h3><p>Sajten klarar Googles test bra. Vi hjälper gärna till med nästa steg, till exempel konvertering och innehåll.</p></li>';
+      return { level: grade(a.score), cat: CATEGORIES.filter(function (c) { return c.id === cat; })[0].label,
+        value: a.displayValue, title: a.title, what: plain(a.description).slice(0, 260), fix: fix[0], service: fix[1] };
+    });
+
+    var secTests = sec && sec.tests ? Object.keys(sec.tests).map(function (k) { return [k, sec.tests[k]]; }) : [];
+    secTests.filter(function (t) { return t[1].pass === false; }).forEach(function (t) {
+      var info = SECURITY[t[0]] || [t[1].title, 'Vi åtgärdar inställningen på servern enligt moderna säkerhetsriktlinjer.'];
+      issues.push({ level: t[1].score_modifier <= -20 ? 'bad' : 'ok', cat: 'Säkerhet',
+        value: t[1].score_modifier ? t[1].score_modifier + ' poäng' : '', title: info[0],
+        what: plain(String(t[1].score_description || '').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim(),
+        fix: info[1], service: 'drift-och-support' });
+    });
+
+    var issueHtml = issues.length ? issues.map(function (i) {
+      return '<li class="issue issue--' + i.level + '">' +
+        '<div class="issue__head"><span class="issue__cat">' + i.cat + '</span>' +
+        (i.value ? '<span class="issue__value">' + esc(i.value) + '</span>' : '') + '</div>' +
+        '<h3>' + esc(i.title) + '</h3>' +
+        (i.what ? '<p class="issue__what">' + esc(i.what) + '</p>' : '') +
+        '<p class="issue__fix"><b>Så fixar vi det:</b> ' + esc(i.fix) + ' <a href="' + prefix + 'tjanster/' + i.service + '.html">' + SERVICE_NAMES[i.service] + ' →</a></p></li>';
+    }).join('') : '<li class="issue issue--good"><h3>Inga större problem hittades</h3><p>Sajten klarar testerna bra. Vi hjälper gärna till med nästa steg, till exempel konvertering och innehåll.</p></li>';
 
     var shot = audits['final-screenshot'] && audits['final-screenshot'].details && audits['final-screenshot'].details.data;
-    var summary = CATEGORIES.filter(function (c) { return cats[c.id]; })
-      .map(function (c) { return c.label + ' ' + Math.round((cats[c.id].score || 0) * 100); }).join(', ');
+    var summary = rings.length ? CATEGORIES.filter(function (c) { return cats[c.id]; })
+      .map(function (c) { return c.label + ' ' + Math.round((cats[c.id].score || 0) * 100); })
+      .concat(secScan ? ['Säkerhet ' + secScan.grade] : []).join(', ') : '';
     var mail = 'mailto:info@elevatestudio.nu?subject=' + encodeURIComponent('Hjälp med ' + url) +
       '&body=' + encodeURIComponent('Hej! Vi testade ' + url + ' (' + summary + ') och vill ha hjälp att åtgärda resultatet.');
+    var notice = psiProblem ? '<div class="sitetest__notice"><b>Prestandadelen kunde inte köras just nu.</b> ' + psiProblem +
+      ' Säkerhetstestet nedan är komplett – kör gärna om testet om en stund för prestanda, tillgänglighet och SEO.</div>' : '';
 
-    results.innerHTML =
-      '<div class="sitetest__summary">' +
+    results.innerHTML = notice +
+      '<div class="sitetest__summary' + (shot ? '' : ' sitetest__summary--noshot') + '">' +
         (shot ? '<img class="sitetest__shot" src="' + shot + '" alt="Skärmbild av den testade sidan">' : '') +
-        '<div><p class="sitetest__tested">Testad sida (' + (strategy === 'mobile' ? 'mobil' : 'dator') + ')</p>' +
-        '<p class="sitetest__url">' + esc(url) + '</p><div class="scores">' + scores + '</div></div>' +
+        '<div><p class="sitetest__tested">Testad sida' + (lr ? ' (' + (strategy === 'mobile' ? 'mobil' : 'dator') + ')' : '') + '</p>' +
+        '<p class="sitetest__url">' + esc(url) + '</p><div class="scores">' + rings.join('') + '</div></div>' +
       '</div>' +
-      '<h2 class="sitetest__h2">Laddtider</h2><div class="metrics">' + metrics + '</div>' +
+      (metrics ? '<h2 class="sitetest__h2">Laddtider</h2><div class="metrics">' + metrics + '</div>' : '') +
       '<h2 class="sitetest__h2">Det här kan förbättras <span>(' + issues.length + ')</span></h2>' +
       '<ol class="issues">' + issueHtml + '</ol>' +
       '<div class="sitetest__cta"><div><h2>Vill du att vi fixar det här?</h2><p>Vi går igenom resultatet med dig och ger ett förslag med fast pris.</p></div>' +
       '<a class="btn btn--light" href="' + mail + '"><span>Skicka resultatet till oss</span></a></div>' +
-      '<p class="sitetest__source">Mätningen görs med Google PageSpeed Insights (Lighthouse). Resultatet kan variera något mellan körningar.</p>';
+      '<p class="sitetest__source">Mätningen görs med ' + (lr ? 'Google PageSpeed Insights (Lighthouse) och ' : '') +
+      'MDN HTTP Observatory. Resultatet kan variera något mellan körningar.</p>';
     results.hidden = false;
     results.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -253,25 +297,29 @@
 
     button.disabled = true;
     startProgress();
-    fetch(API + '?' + params.toString())
+    var psi = fetch(API + '?' + params.toString())
       .then(function (res) { return res.json().then(function (body) { return { status: res.status, body: body }; }); })
       .then(function (r) {
-        stopProgress();
-        if (r.status === 429) {
-          showError('Googles testtjänst är överbelastad just nu. Försök igen om en stund – eller låt oss göra testet åt dig.');
-        } else if (r.body.error) {
-          showError('Vi kunde inte ladda ' + esc(url) + '. Kontrollera att adressen stämmer och att sidan är öppen för besökare.');
-        } else if (r.body.lighthouseResult && r.body.lighthouseResult.runtimeError && r.body.lighthouseResult.runtimeError.code !== 'NO_ERROR') {
-          showError('Sidan kunde inte testas: ' + esc(r.body.lighthouseResult.runtimeError.message || 'okänt fel') + '.');
-        } else {
-          render(r.body, url, strategy);
-        }
+        if (r.status === 429) return { problem: 'Googles testtjänst har nått sin dagskvot.' };
+        if (r.body.error) return { problem: 'Google kunde inte ladda sidan.', fatal: true };
+        var rt = r.body.lighthouseResult && r.body.lighthouseResult.runtimeError;
+        if (rt && rt.code !== 'NO_ERROR') return { problem: 'Sidan kunde inte testas (' + esc(rt.message || 'okänt fel') + ').', fatal: true };
+        return { data: r.body };
       })
-      .catch(function () {
-        stopProgress();
-        showError('Testet kunde inte nå Googles testtjänst. Kontrollera din uppkoppling och försök igen.');
-      })
-      .then(function () { button.disabled = false; });
+      .catch(function () { return { problem: 'Vi kunde inte nå Googles testtjänst.' }; });
+    var security = runSecurity(url).then(function (d) { return { data: d }; }).catch(function () { return { failed: true }; });
+
+    Promise.all([psi, security]).then(function (out) {
+      stopProgress();
+      var p = out[0], sec = out[1];
+      if (!p.data && !sec.data) {
+        showError(p.fatal ? 'Vi kunde inte ladda ' + esc(url) + '. Kontrollera att adressen stämmer och att sidan är öppen för besökare.'
+          : 'Testtjänsterna svarar inte just nu. Försök igen om en stund – eller låt oss göra testet åt dig.');
+      } else {
+        render(p.data || null, sec.data || null, url, strategy, p.data ? '' : p.problem);
+      }
+      button.disabled = false;
+    });
   });
 
   var preset = new URLSearchParams(location.search).get('url');
