@@ -15,10 +15,10 @@ FORM_ENDPOINT = "https://formsubmit.co/ajax/info@elevatestudio.nu"
 # Contact-form leads are also saved in the admin panel (Leads), with status and comments.
 LEADS_ENDPOINT = "https://project--774478fd-e67a-4123-8e99-30428a5279d4.lovable.app/api/public/hooks/submit-quote"
 
-# The admin panel (Lovable app). /admin on this site forwards here. It lives on elevatestudio.nu today;
-# before this site takes over the domain, connect admin.elevatestudio.nu to the admin app in Lovable
-# (Project settings → Domains) and change this to "https://admin.elevatestudio.nu/admin".
-ADMIN_URL = "https://elevatestudio.nu/admin"
+# Admin at /admin runs in the browser and talks straight to the database (Supabase). The key below is
+# the public "publishable" key – safe to ship; the database only lets accounts with the admin role read leads.
+SUPABASE_URL = "https://halecxdjclrklyufbept.supabase.co"
+SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhbGVjeGRqY2xya2x5dWZiZXB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwODYwOTcsImV4cCI6MjA5ODY2MjA5N30.Svt4abfAirAVLNDQkmSaQWep_0Ggz-h4WfOGdb0A4RQ"
 
 SERVICES = [
     {

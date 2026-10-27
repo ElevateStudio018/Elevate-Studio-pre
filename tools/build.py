@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ADMIN_URL, ARTICLES, CASES, FORM_ENDPOINT, LEADS_ENDPOINT, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
+from content import ARTICLES, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, CASES, FORM_ENDPOINT, LEADS_ENDPOINT, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -197,6 +197,7 @@ def footer(p):
             <li><a href="{p}integritet.html">Integritetspolicy</a></li>
             <li><a href="{p}cookies.html">Cookies</a></li>
             <li><a href="{p}english.html">In English</a></li>
+            <li><a class="site-footer__admin" href="{p}admin/index.html">Admin</a></li>
             <li class="site-footer__legal">Elevate Studio är ett varumärke som tillhör {PARENT_COMPANY}, org.nr {ORG_NR} · Developed by Isak Mattsson</li>
           </ul>
         </div>
@@ -1207,14 +1208,26 @@ def site_files(built):
     bots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Google-Extended", "Applebot-Extended", "Bingbot"]
     ai = "".join(f"User-agent: {b}\nAllow: /\nDisallow: /admin\n\n" for b in bots)
     (ROOT / "robots.txt").write_text(f"# Vi välkomnar sökmotorer och AI-assistenter.\n{ai}User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
-    # elevatestudio.nu/admin → the admin panel's login
+    # elevatestudio.nu/admin – the admin panel itself (login, leads, offers, calendar)
     (ROOT / "admin").mkdir(exist_ok=True)
     (ROOT / "admin" / "index.html").write_text(f'''<!DOCTYPE html>
-<html lang="sv"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow">
-<title>Admin – Elevate Studio</title><meta http-equiv="refresh" content="0; url={ADMIN_URL}">
-<script>location.replace({json.dumps(ADMIN_URL)})</script></head>
-<body style="font-family:sans-serif;background:#1d3b2a;color:#fdfbf5;display:grid;place-items:center;min-height:100vh;margin:0">
-<p>Skickar dig till admin … <a href="{ADMIN_URL}" style="color:#fdfbf5">Klicka här</a> om inget händer.</p></body></html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin – Elevate Studio</title>
+  <link rel="icon" href="../assets/img/brand/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="stylesheet" href="../assets/css/admin.css?v={VERSION}">
+</head>
+<body>
+  <div id="admin" data-url="{SUPABASE_URL}" data-key="{SUPABASE_PUBLISHABLE_KEY}" data-review="{esc(REVIEW_URL)}"><p style="padding:40px;font-family:sans-serif">Laddar admin …</p></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="../assets/js/admin-offer.js?v={VERSION}"></script>
+  <script src="../assets/js/admin.js?v={VERSION}"></script>
+</body>
+</html>
 ''', encoding="utf-8")
     services = "\n".join(f"- [{x['name']}]({SITE_URL}/tjanster/{x['slug']}.html): {x['lead']}" for x in SERVICES)
     team = "\n".join(f"- {n}, {r}: {t}, {e}" for n, r, t, e in TEAM)
