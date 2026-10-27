@@ -19,7 +19,6 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
 CASE = {c["slug"]: c for c in CASES}
 CHEVRON = '<svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 4.75 8 11.25l6.5-6.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>'
-BANNER = "Unofficial design recreation – not affiliated with Awave"
 
 
 def esc(text):
@@ -48,9 +47,7 @@ def header(p, crumbs, current):
     <div class="breadcrumbs">
       <nav aria-label="Brödsmulor"><ol class="breadcrumb">{"".join(items)}</ol></nav>
     </div>'''
-    return f'''<div class="recreation-banner" role="note">{BANNER}</div>
-
-  <header class="site-header" id="site-header">
+    return f'''<header class="site-header" id="site-header">
     <figure class="site-header__site-logo">
       <a href="{p}index.html" class="wordmark" aria-label="Startsida">
         <svg class="wordmark__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>

@@ -1,20 +1,26 @@
 (function () {
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Process thermometer: the tube fills as you scroll and each step pops up when reached
-  var thermo = document.querySelector('[data-thermo]');
-  if (thermo) {
-    var steps = Array.prototype.slice.call(thermo.querySelectorAll('.thermo__step'));
+  // Process: the tube fills as you scroll, each step lights up when reached and the photo follows the latest one
+  var flow = document.querySelector('[data-flow]');
+  if (flow) {
+    var list = flow.querySelector('.flow__list');
+    var steps = Array.prototype.slice.call(flow.querySelectorAll('.flow__step'));
+    var photos = flow.querySelectorAll('.flow__media img');
+    var pct = flow.querySelector('.flow__pct');
     var update = function () {
-      var rect = thermo.getBoundingClientRect();
+      var rect = list.getBoundingClientRect();
       var trigger = window.innerHeight * 0.65;
       var progress = reduced ? 1 : Math.min(1, Math.max(0, (trigger - rect.top) / rect.height));
-      thermo.style.setProperty('--progress', progress);
-      var fillBottom = rect.top + progress * rect.height;
-      steps.forEach(function (step) {
-        var dot = step.querySelector('.thermo__dot').getBoundingClientRect();
-        step.classList.toggle('is-on', dot.top + dot.height / 2 <= fillBottom + 1);
+      flow.style.setProperty('--progress', progress);
+      var current = 0;
+      steps.forEach(function (step, i) {
+        var on = reduced || step.getBoundingClientRect().top + 24 <= trigger;
+        step.classList.toggle('is-on', on);
+        if (on) current = i;
       });
+      Array.prototype.forEach.call(photos, function (img, i) { img.classList.toggle('is-current', i === current); });
+      pct.textContent = Math.round(progress * 100) + '%';
     };
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);

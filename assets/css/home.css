@@ -414,82 +414,41 @@ h2, h3 { margin: 0; font-weight: 400; }
   .post-card { flex-basis: calc(100% - 22px); max-width: 552px; margin-left: auto; margin-right: auto; }
 }
 
-/* ---------- Process: thermometer that fills as you scroll ---------- */
+/* ---------- Process: list with a tube that fills as you scroll, photo swaps per step ---------- */
 .process { margin-bottom: 128px; }
 .process > .block__header { margin-bottom: 64px; }
-.thermo { --progress: 0; position: relative; max-width: 1100px; margin: 0 auto; }
-.thermo__track {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 14px;
-  border-radius: 7px;
-  background: var(--cream-dark, #f6f1e4);
-  transform: translateX(-50%);
+.flow { --progress: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+.flow__list { position: relative; padding-left: 72px; }
+.flow__tube { position: absolute; left: 10px; top: 0; bottom: 0; width: 16px; overflow: hidden; border-radius: 8px; background: var(--cream-dark, #f6f1e4); }
+.flow__tube i { display: block; height: calc(var(--progress) * 100%); background: var(--accent, #1d3b2a); }
+.flow__steps { display: grid; gap: 22vh; margin: 0; padding: 10vh 0; list-style: none; }
+.flow__step { position: relative; opacity: .3; transition: opacity .4s; }
+.flow__step.is-on { opacity: 1; }
+.flow__dot { position: absolute; left: -72px; top: 0; width: 36px; height: 36px; border: 5px solid var(--cream-dark, #f6f1e4); border-radius: 50%; background: #fff; transition: background-color .3s, border-color .3s; }
+.flow__step.is-on .flow__dot { border-color: var(--accent, #1d3b2a); background: var(--accent, #1d3b2a); }
+.flow__time { display: inline-block; padding: 5px 12px; border-radius: 20px; background: var(--cream-dark, #f6f1e4); color: var(--accent, #1d3b2a); font-size: 13px; font-weight: 600; }
+.flow__step h3 { margin: 14px 0 10px; font-size: 38px; font-weight: 500; line-height: 1.15; }
+.flow__step p { margin: 0; font-size: 18px; }
+.flow__media { position: sticky; top: 12vh; height: 76vh; overflow: hidden; border-radius: 28px; background: var(--cream-dark, #f6f1e4); }
+.flow__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.04); transition: opacity .5s, transform .8s; }
+.flow__media img.is-current { opacity: 1; transform: none; }
+.flow__pct { position: absolute; left: 24px; bottom: 24px; padding: 10px 18px; border-radius: 24px; background: var(--cream, #fdfbf5); color: var(--accent, #1d3b2a); font-size: 22px; font-weight: 600; }
+@media (max-width: 992px) {
+  .flow { grid-template-columns: 1fr; }
+  .flow__media { display: none; }
+  .flow__steps { gap: 64px; padding: 24px 0; }
 }
-.thermo__fill {
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: calc(var(--progress) * 100%);
-  border-radius: 7px;
-  background: linear-gradient(var(--accent, #1d3b2a), #4c7558);
-}
-.thermo__bulb {
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--accent, #1d3b2a);
-  box-shadow: 0 0 0 8px var(--cream-dark, #f6f1e4);
-  transform: translateX(-50%);
-}
-.thermo__steps { display: grid; gap: 56px; margin: 0; padding: 72px 0 24px; list-style: none; }
-.thermo__step { position: relative; display: grid; grid-template-columns: 1fr 1fr; column-gap: 112px; }
-.thermo__dot {
-  position: absolute;
-  top: 44px;
-  left: 50%;
-  z-index: 2;
-  width: 26px;
-  height: 26px;
-  border: 4px solid var(--cream-dark, #f6f1e4);
-  border-radius: 50%;
-  background: #fff;
-  transform: translate(-50%, -50%);
-  transition: background-color .3s, border-color .3s, box-shadow .3s;
-}
-.thermo__card {
-  grid-column: 1;
-  padding: 32px 40px 36px;
-  border-radius: 20px;
-  background: var(--cream, #fdfbf5);
-  opacity: 0;
-  transform: translateY(48px) scale(.95);
-  transition: opacity .6s ease, transform .6s cubic-bezier(.2, .8, .2, 1);
-}
-.thermo__step:nth-child(even) .thermo__card { grid-column: 2; }
-.thermo__step.is-on .thermo__dot { border-color: var(--accent, #1d3b2a); background: var(--accent, #1d3b2a); box-shadow: 0 0 0 8px rgba(29, 59, 42, .15); }
-.thermo__step.is-on .thermo__card { opacity: 1; transform: none; }
-.thermo__no { display: block; margin-bottom: 8px; font-family: var(--serif); font-style: italic; font-size: 34px; line-height: 1; letter-spacing: 0; color: var(--accent, #1d3b2a); }
-.thermo__card h3 { margin: 0 0 12px; font-size: 30px; font-weight: 500; line-height: 1.15; }
-.thermo__card p { margin: 0 0 20px; }
 @media (max-width: 768px) {
   .process { margin-bottom: 64px; }
-  .process > .block__header { margin-bottom: 48px; }
-  .thermo__track { left: 22px; width: 10px; }
-  .thermo__bulb { width: 34px; height: 34px; box-shadow: 0 0 0 6px var(--cream-dark, #f6f1e4); }
-  .thermo__steps { gap: 32px; padding-top: 48px; }
-  .thermo__step { grid-template-columns: 1fr; padding-left: 56px; }
-  .thermo__step:nth-child(even) .thermo__card { grid-column: 1; }
-  .thermo__dot { left: 22px; top: 36px; width: 22px; height: 22px; }
-  .thermo__card { padding: 24px 24px 28px; }
-  .thermo__card h3 { font-size: 24px; }
+  .process > .block__header { margin-bottom: 40px; }
+  .flow__list { padding-left: 52px; }
+  .flow__tube { left: 6px; width: 12px; }
+  .flow__dot { left: -52px; width: 28px; height: 28px; border-width: 4px; }
+  .flow__step h3 { font-size: 26px; }
+  .flow__step p { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .thermo__card { opacity: 1; transform: none; transition: none; }
+  .flow__step, .flow__dot, .flow__media img { transition: none; }
 }
 
 /* ---------- Platforms ---------- */

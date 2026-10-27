@@ -313,7 +313,7 @@ SIMPLE_PAGES = {
     "english": {
         "title": "In English", "lead": "Elevate Studio is a digital studio in Uppsala, Sweden.",
         "sections": [
-            ("text", "We help companies with strategy, design, development and digital growth. Get in touch at info@elevatestudio.nu. The layout of this site is an unofficial design recreation and is not affiliated with Awave; the projects shown are examples."),
+            ("text", "We help companies with strategy, design, development and digital growth. Get in touch at info@elevatestudio.nu. The projects shown on this site are examples."),
             ("links", [("Back to the start page", "index.html")]),
         ],
     },

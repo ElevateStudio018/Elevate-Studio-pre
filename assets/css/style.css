@@ -1,4 +1,4 @@
-/* Unofficial layout study. Own copy, own wordmark, open-source fonts (OFL). */
+/* Elevate Studio. Own copy, own wordmark, open-source fonts (OFL). */
 
 @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 100 900; font-display: swap;
   src: url(../fonts/HankenGrotesk-latin-ext.woff2) format("woff2");
@@ -19,7 +19,7 @@
   --cream: #fdfbf5;
   --cream-dark: #f6f1e4;
   --grey: #fdfbf5;
-  --banner-h: 28px;
+  --banner-h: 0px;
   --header-h: 158px;
   --burger-top: calc(var(--banner-h) + 240px);
   --sans: "Hanken Grotesk", system-ui, sans-serif;
@@ -51,25 +51,6 @@ body {
 
 p { margin: 0 0 26px; }
 a { color: inherit; }
-
-/* ---------- Label banner ---------- */
-.recreation-banner {
-  position: fixed;
-  inset: 0 0 auto 0;
-  z-index: 100001;
-  height: var(--banner-h);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 12px;
-  background: #111;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: .01em;
-  text-align: center;
-}
 
 /* ---------- 404 page background ---------- */
 body.error404 {

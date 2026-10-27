@@ -1,6 +1,6 @@
-# Designstudie: byråsajt
+# Elevate Studio
 
-En privat layoutstudie av en byråsajt. Sidan är inte officiell och har ingen koppling till originalets ägare. Det står också i en banner högst upp på varje sida.
+Webbplatsen för Elevate Studio, en digital studio i Uppsala.
 
 Färgschemat är mörkgrönt (`#1d3b2a`) med en mjölkvit beige (`#f5f0e6`) som andrafärg. Båda styrs av CSS-variablerna `--accent` och `--cream` i `assets/css/style.css`.
 
