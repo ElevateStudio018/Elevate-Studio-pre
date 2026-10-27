@@ -44,17 +44,30 @@ SERVICES = [
         "image": "home/svc-ai-chatt.jpg", "alt": "Händer som skriver på en laptop",
     },
     {
-        "slug": "bokning-och-offert", "name": "Bokning och offert", "short": "Bokning",
-        "card": "Låt kunderna boka tid eller begära offert direkt på sidan.",
-        "lead": "Bokning och offertförfrågningar direkt på hemsidan – med notiser till er via e-post och SMS.",
-        "intro": "Varje gång en kund måste ringa eller mejla fram och tillbaka finns en risk att de ger upp. Med bokning eller ett offertflöde på sidan kan kunden göra klart på en gång, och ni får allt ni behöver för att svara.",
+        "slug": "bokningssystem", "name": "Bokningssystem", "short": "Bokning",
+        "card": "Låt kunderna boka tid direkt på hemsidan – dygnet runt.",
+        "lead": "Ett bokningssystem på hemsidan där kunderna själva väljer en tid som passar – med notiser till er via e-post och SMS.",
+        "intro": "Varje gång en kund måste ringa eller mejla fram och tillbaka för att hitta en tid finns en risk att de ger upp. Med bokning direkt på sidan kan kunden boka på en gång, även när ni inte svarar i telefon.",
         "includes": [
-            ("Offertflöde", "Kunden beskriver jobbet steg för steg och ni får en komplett förfrågan."),
-            ("Bokning", "Kunden väljer en tid som passar direkt på sidan."),
-            ("Notiser via e-post och SMS", "Ni får besked direkt när en ny förfrågan eller bokning kommer in."),
-            ("Status och historik", "Håll koll på alla förfrågningar och vad som hänt med dem."),
+            ("Bokning dygnet runt", "Kunden väljer en ledig tid direkt på sidan, när det passar dem."),
+            ("Notiser via e-post och SMS", "Ni får besked direkt när en ny bokning kommer in."),
+            ("Bekräftelse till kunden", "Kunden får en bekräftelse så att ingen missar tiden."),
+            ("Status och historik", "Håll koll på alla bokningar på ett ställe."),
         ],
         "image": "home/svc-bokning.jpg", "alt": "Person som arbetar vid ett skrivbord med laptop",
+    },
+    {
+        "slug": "offertsystem", "name": "Offertsystem", "short": "Offert",
+        "card": "Kunden beskriver jobbet steg för steg – ni får en komplett förfrågan.",
+        "lead": "Ett offertflöde på hemsidan där kunden beskriver jobbet steg för steg, så att ni får allt ni behöver för att svara direkt.",
+        "intro": "En vag förfrågan betyder ofta flera mejl fram och tillbaka innan ni kan räkna på jobbet. Med ett offertflöde får kunden svara på rätt frågor från början – och ni får en komplett förfrågan som går att svara på samma dag.",
+        "includes": [
+            ("Frågor steg för steg", "Kunden svarar på de frågor ni behöver för att kunna lämna ett pris."),
+            ("Bilder och underlag", "Kunden kan bifoga bilder eller beskrivningar direkt i förfrågan."),
+            ("Notiser via e-post och SMS", "Ni får besked direkt när en ny förfrågan kommer in."),
+            ("Status och historik", "Se vilka förfrågningar som är besvarade och vilka som väntar."),
+        ],
+        "image": "home/svc-offert.jpg", "alt": "Kollegor som tittar på en laptop tillsammans",
     },
     {
         "slug": "seo-och-ai-optimering", "name": "SEO och AI-optimering", "short": "SEO",
@@ -153,7 +166,7 @@ ARTICLES = [
                     "Vad kostar det efter första året?",
                     "Finns det någon bindningstid?"]),
             ("h2", "Så gör vi"),
-            ("p", "Hos oss får du ett fast pris i en offert innan vi börjar. Startpaketet kostar 3 000 kr och därefter 99 kr per år, och under första året ingår upp till 10 timmars support och ändringar per månad. Domänen är alltid din. På vår prissida ser du vad som ingår i varje paket, och du kan ladda ner ett exempel på hur vårt avtal ser ut."),
+            ("p", "Hos oss får du ett fast pris i en offert innan vi börjar. Startpaketet kostar 3 000 kr och därefter 99–199 kr per år, och under första året ingår upp till 10 timmars support och ändringar per månad. Domänen är alltid din. På vår prissida ser du vad som ingår i varje paket, och du kan ladda ner ett exempel på hur vårt avtal ser ut."),
         ],
     },
     {
@@ -263,6 +276,9 @@ PLATFORMS = [
     },
 ]
 
+CEO = ("Per Mattsson", "VD")
+PARENT_COMPANY = "PJM Projekteffektivitet AB"
+
 TEAM = [
                 ("Carl From", "Försäljning & kundkontakt", "+46 76 022 83 61", "carl@elevatestudio.nu"),
                 ("Isak Mattsson", "Försäljning & AI-utveckling", "+46 70 289 58 75", "isak@elevatestudio.nu"),
@@ -303,7 +319,7 @@ SIMPLE_PAGES = {
         "title": "Integritetspolicy", "lead": "Så hanterar vi personuppgifter när du kontaktar oss eller besöker vår webbplats.",
         "description": "Så hanterar Elevate Studio personuppgifter från kontaktformulär, nyhetsbrev och webbstatistik.",
         "sections": [
-            ("cols", [("När du kontaktar oss", "Det du skriver i våra formulär – namn, e-post, telefon, organisation och meddelande – skickas till info@elevatestudio.nu via tjänsten FormSubmit. Vi använder uppgifterna bara för att svara dig och sparar dem inte längre än vi behöver."),
+            ("cols", [("När du kontaktar oss", "Personuppgiftsansvarig är PJM Projekteffektivitet AB, som Elevate Studio är en del av. Det du skriver i våra formulär – namn, e-post, telefon, företag och meddelande – skickas till info@elevatestudio.nu via tjänsten FormSubmit. Vi använder uppgifterna bara för att svara dig och sparar dem inte längre än vi behöver."),
                       ("Webbstatistik", "Om du godkänner statistikcookies använder vi Google Analytics för att se hur webbplatsen används, till exempel vilka sidor som besöks. Uppgifterna används inte för annonsering. Utan ditt godkännande laddas inget analysverktyg."),
                       ("Dina rättigheter", "Du har rätt att få veta vilka uppgifter vi har om dig, få dem rättade eller raderade. Mejla info@elevatestudio.nu så hjälper vi dig. Du kan också vända dig till Integritetsskyddsmyndigheten (IMY).")]),
             ("links", [("Om cookies", "cookies.html"), ("Kontakta oss", "kontakt.html")]),

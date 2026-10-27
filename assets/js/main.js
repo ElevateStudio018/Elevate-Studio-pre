@@ -26,16 +26,23 @@
   // Menu drawer: slides in from the right over a dimmed page
   var backdrop = document.querySelector('.drawer-backdrop');
   var drawerClose = burgerMenu.querySelector('.drawer__close');
-  function setBurger(open) {
+  // On desktop the menu drops down from the bottom edge of the header, whatever its current height
+  function placeDrawer() {
+    body.style.setProperty('--drawer-top', Math.round(header.getBoundingClientRect().bottom) + 'px');
+  }
+  window.addEventListener('scroll', function () { if (burgerMenu.classList.contains('hamburgermenu--visible')) placeDrawer(); }, { passive: true });
+  window.addEventListener('resize', placeDrawer);
+  function setBurger(open, byMouse) {
     if (open === burgerMenu.classList.contains('hamburgermenu--visible')) return;
     burgerMenu.classList.toggle('hamburgermenu--visible', open);
     burgerMenu.setAttribute('aria-hidden', String(!open));
     headerBurger.setAttribute('aria-expanded', String(open));
     body.classList.toggle('drawer-open', open);
     if (open) {
+      placeDrawer();
       backdrop.hidden = false;
       requestAnimationFrame(function () { backdrop.classList.add('is-visible'); });
-      if (window.matchMedia('(min-width: 993px)').matches) { var first = burgerMenu.querySelector('.drawer__main a'); if (first) first.focus(); } else { drawerClose.focus(); }
+      if (window.matchMedia('(min-width: 993px)').matches) { var first = burgerMenu.querySelector('.drawer__main a'); if (first && !byMouse) first.focus(); } else if (!byMouse) { drawerClose.focus(); }
     } else {
       backdrop.classList.remove('is-visible');
       setTimeout(function () { backdrop.hidden = true; }, 300);
@@ -43,9 +50,9 @@
     }
   }
   burgerButtons.forEach(function (btn) {
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', function (e) {
       setMegamenu(false);
-      setBurger(!burgerMenu.classList.contains('hamburgermenu--visible'));
+      setBurger(!burgerMenu.classList.contains('hamburgermenu--visible'), e.detail > 0);
     });
   });
   document.querySelectorAll('.js-close-drawer').forEach(function (el) {

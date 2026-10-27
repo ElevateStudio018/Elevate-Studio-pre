@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, CASES, FORM_ENDPOINT, GA_MEASUREMENT_ID, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM  # noqa: E402
+from content import ARTICLES, CASES, FORM_ENDPOINT, GA_MEASUREMENT_ID, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -178,6 +178,7 @@ def footer(p):
                 <li><a href="{p}priser.html">Priser</a></li>
                 <li><a href="{p}avtal.html">Exempel på webbavtal</a></li>
                 <li><a href="{p}insikter/index.html">Senaste nytt</a></li>
+                <li><a href="{p}plattformar/index.html">Tekniken vi använder</a></li>
               </ul>
             </div>
             <div>
@@ -193,6 +194,7 @@ def footer(p):
             <li><a href="{p}integritet.html">Integritetspolicy</a></li>
             <li><a href="{p}cookies.html">Cookies</a></li>
             <li><a href="{p}english.html">In English</a></li>
+            <li class="site-footer__legal">Elevate Studio är en del av {PARENT_COMPANY} · VD {CEO[0]}</li>
           </ul>
         </div>
       </div>
@@ -240,7 +242,8 @@ def organisation_ld():
         "areaServed": {"@type": "Country", "name": "Sverige"},
         "priceRange": "3 000–6 000 kr",
         "knowsLanguage": ["sv", "en"],
-        "employee": [{"@type": "Person", "name": n, "jobTitle": r, "telephone": t, "email": e} for n, r, t, e in TEAM],
+        "employee": [{"@type": "Person", "name": CEO[0], "jobTitle": CEO[1]}] + [{"@type": "Person", "name": n, "jobTitle": r, "telephone": t, "email": e} for n, r, t, e in TEAM],
+        "parentOrganization": {"@type": "Organization", "name": PARENT_COMPANY},
         "makesOffer": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": x["name"], "url": f"{SITE_URL}/tjanster/{x['slug']}.html"}} for x in SERVICES],
     }
 
@@ -409,6 +412,11 @@ def contact_form(p):
             <label><span class="sr-only">E-post</span><input type="email" name="email" placeholder="E-post" autocomplete="email" required></label>
             <label><span class="sr-only">Telefon</span><input type="tel" name="telefon" placeholder="Telefon" autocomplete="tel"></label>
             <label><span class="sr-only">Företag</span><input type="text" name="foretag" placeholder="Företag" autocomplete="organization"></label>
+            <label class="standout__wide standout__select"><span class="sr-only">Tjänst</span><select name="tjanst">
+              <option value="">Vad är ni intresserade av?</option>
+              {"".join(f'<option>{esc(x["name"])}</option>' for x in SERVICES)}
+              <option>Vet inte än – vill ha råd</option>
+            </select></label>
             <label class="standout__wide"><span class="sr-only">Meddelande</span><textarea name="meddelande" placeholder="Meddelande" rows="1"></textarea></label>
           </div>
           <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -855,14 +863,14 @@ def build_agreement():
 def build_prices():
     p = ""
     plans = [
-        ("Starter", "3 000 kr", "startavgift + 99 kr/år", "En snygg, snabb hemsida som visar vad ni gör och gör det enkelt att kontakta er.", [
+        ("Starter", "3 000 kr", "startavgift + 99–199 kr/år", "En snygg, snabb hemsida som visar vad ni gör och gör det enkelt att kontakta er.", [
             "Webbdesign och mobilanpassning",
             "Kontaktfunktion och presentation av verksamhet och projekt",
             "Grundläggande SEO och AI-optimering",
             "Två korrekturvändor före leverans",
             "Upp till 10 tim support och redigering per månad första året",
         ], "Kom igång", False),
-        ("Pro", "6 000 kr", "startavgift + 99 kr/år", "För er som vill att hemsidan ska jobba – ta emot förfrågningar, bokningar och frågor åt er.", [
+        ("Pro", "6 000 kr", "startavgift + 299–399 kr/år", "För er som vill att hemsidan ska jobba – ta emot förfrågningar, bokningar och frågor åt er.", [
             "Allt i Starter",
             "Offertflöde eller bokning direkt på sidan",
             "AI-chatt som svarar på vanliga frågor",
@@ -945,14 +953,14 @@ def bento_section():
       <a class="bento__tile bento__tile--big" href="tjanster/index.html">
         {mark}
         <div class="bento__body">
-          <h2 class="bento__title">Allt en hemsida <em>behöver</em></h2>
-          <p class="bento__lead">Hemsida, smarta funktioner, synlighet och support – hos samma lilla team.</p>
-          <span class="btn btn--light"><span>Se vad vi gör</span></span>
+          <h2 class="bento__title">En hemsida som <em>jobbar åt er</em></h2>
+          <p class="bento__lead">Vi bygger sidan, kopplar på bokning, offert och AI-chatt, ser till att ni syns på Google – och tar hand om den efteråt.</p>
+          <span class="btn btn--light"><span>Se alla tjänster</span></span>
         </div>
       </a>
       {photo(s["hemsidor"])}
       {text(s["ai-chatt"])}
-      {text(s["bokning-och-offert"], " bento__tile--sand")}
+      {text(s["bokningssystem"], " bento__tile--sand")}
       {photo(s["seo-och-ai-optimering"])}
     </section>'''
 
@@ -968,13 +976,6 @@ def services_grid():
           </div>
         </a>''' for x in SERVICES)
     return f'''<div class="svc-grid">{cards}
-        <a class="svc-card svc-card--cta" href="testa.html">
-          <div class="svc-card__body">
-            <h3>Hur presterar er sajt i dag?</h3>
-            <p>Testa er nuvarande hemsida gratis och se vad som kan bli bättre.</p>
-            <span class="arrow-link">Testa din sajt</span>
-          </div>
-        </a>
       </div>'''
 
 
@@ -1004,8 +1005,8 @@ def site_files(built):
 {services}
 
 ## Priser (exkl. moms)
-- Starter: 3 000 kr i startavgift + 99 kr/år. Webbdesign och mobilanpassning, kontaktfunktion, grundläggande SEO och AI-optimering, två korrekturvändor, upp till 10 timmars support per månad första året.
-- Pro: 6 000 kr i startavgift + 99 kr/år. Allt i Starter plus offertflöde eller bokning, AI-chatt, notiser via e-post och SMS samt förfrågningar med status och historik.
+- Starter: 3 000 kr i startavgift + 99–199 kr/år. Webbdesign och mobilanpassning, kontaktfunktion, grundläggande SEO och AI-optimering, två korrekturvändor, upp till 10 timmars support per månad första året.
+- Pro: 6 000 kr i startavgift + 299–399 kr/år. Allt i Starter plus offertflöde eller bokning, AI-chatt, notiser via e-post och SMS samt förfrågningar med status och historik.
 - Elite: pris efter offert för större sajter, integrationer och egna funktioner.
 - Leverans: cirka en månad från beställning. Kunden äger sin domän.
 - [Priser]({SITE_URL}/priser.html) · [Exempel på webbavtal]({SITE_URL}/avtal.html)
@@ -1048,7 +1049,6 @@ def main():
     pattern = [True, False, False, True]
     regions = {
         "posts": featured_posts("", ARTICLES),
-        "platforms": platforms_section(),
         "bento": bento_section(),
         "services": services_grid(),
         "contactform": contact_form(""),

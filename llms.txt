@@ -5,13 +5,14 @@
 ## Tjänster
 - [Hemsidor](https://elevatestudio.nu/tjanster/hemsidor.html): Snabba, mobilanpassade hemsidor som visar vad ni gör och gör det enkelt för kunderna att höra av sig.
 - [AI-chatt](https://elevatestudio.nu/tjanster/ai-chatt.html): En AI-chatt på hemsidan som svarar på kundernas vanliga frågor, dygnet runt.
-- [Bokning och offert](https://elevatestudio.nu/tjanster/bokning-och-offert.html): Bokning och offertförfrågningar direkt på hemsidan – med notiser till er via e-post och SMS.
+- [Bokningssystem](https://elevatestudio.nu/tjanster/bokningssystem.html): Ett bokningssystem på hemsidan där kunderna själva väljer en tid som passar – med notiser till er via e-post och SMS.
+- [Offertsystem](https://elevatestudio.nu/tjanster/offertsystem.html): Ett offertflöde på hemsidan där kunden beskriver jobbet steg för steg, så att ni får allt ni behöver för att svara direkt.
 - [SEO och AI-optimering](https://elevatestudio.nu/tjanster/seo-och-ai-optimering.html): Sökmotoroptimering och AI-optimering så att kunderna hittar er – på Google och när de frågar en AI.
 - [Support och underhåll](https://elevatestudio.nu/tjanster/support-och-underhall.html): Vi tar hand om ändringar, uppdateringar och uppföljning så att ni kan fokusera på ert jobb.
 
 ## Priser (exkl. moms)
-- Starter: 3 000 kr i startavgift + 99 kr/år. Webbdesign och mobilanpassning, kontaktfunktion, grundläggande SEO och AI-optimering, två korrekturvändor, upp till 10 timmars support per månad första året.
-- Pro: 6 000 kr i startavgift + 99 kr/år. Allt i Starter plus offertflöde eller bokning, AI-chatt, notiser via e-post och SMS samt förfrågningar med status och historik.
+- Starter: 3 000 kr i startavgift + 99–199 kr/år. Webbdesign och mobilanpassning, kontaktfunktion, grundläggande SEO och AI-optimering, två korrekturvändor, upp till 10 timmars support per månad första året.
+- Pro: 6 000 kr i startavgift + 299–399 kr/år. Allt i Starter plus offertflöde eller bokning, AI-chatt, notiser via e-post och SMS samt förfrågningar med status och historik.
 - Elite: pris efter offert för större sajter, integrationer och egna funktioner.
 - Leverans: cirka en månad från beställning. Kunden äger sin domän.
 - [Priser](https://elevatestudio.nu/priser.html) · [Exempel på webbavtal](https://elevatestudio.nu/avtal.html)
