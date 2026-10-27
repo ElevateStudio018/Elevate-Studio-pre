@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, CASES, FORM_ENDPOINT, GA_MEASUREMENT_ID, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY, REVIEWS  # noqa: E402
+from content import ARTICLES, CASES, FORM_ENDPOINT, GA_MEASUREMENT_ID, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY, REVIEWS, FAQ  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -293,6 +293,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#1d3b2a">
+  <link rel="alternate" type="application/rss+xml" title="Elevate Studio – Senaste nytt" href="{SITE_URL}/rss.xml">
   <link rel="icon" href="{p}assets/img/brand/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="{p}assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{p}assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -466,13 +467,14 @@ def build_services():
     </section>
     {cta(p)}
   </main>'''
-    yield write("tjanster/index.html", document(p, "Vad vi gör", main, "subpage", [("Vad vi gör", "tjanster/index.html")], "tjanster"))
+    yield write("tjanster/index.html", document(p, "Tjänster – hemsidor, bokning, offert, AI-chatt och SEO", main, "subpage", [("Vad vi gör", "tjanster/index.html")], "tjanster",
+                description="Elevate Studio bygger hemsidor för företag och kopplar på bokningssystem, offertsystem, AI-chatt, SEO och support. Fast pris, webbyrå i Uppsala."))
 
     for s in SERVICES:
         includes = "".join(f'<div class="info-card"><h3 class="info-card__title">{esc(t)}</h3><p>{esc(d)}</p></div>' for t, d in s["includes"])
         others = "".join(f'<li><a href="{o["slug"]}.html" class="arrow-link">{esc(o["name"])}</a></li>' for o in SERVICES if o is not s)
         main = f'''<main>
-    {page_hero(esc(s["name"]), s["lead"], "Tjänst")}
+    {page_hero(s["h1"], s["lead"], "Tjänst")}
     <section class="section container columns-2">
       <div>
         <h2 class="h2">Det här gör vi</h2>
@@ -504,8 +506,8 @@ def build_services():
   </main>'''
         service = {"@type": "Service", "name": s["name"], "description": s["lead"], "provider": {"@id": ORG_ID},
                    "areaServed": {"@type": "Country", "name": "Sverige"}, "url": "__CANONICAL__"}
-        yield write(f'tjanster/{s["slug"]}.html', document(p, f'{s["name"]} i Uppsala', main, "subpage",
-                    [("Vad vi gör", "tjanster/index.html"), (s["name"], "")], "tjanster", jsonld=[service]))
+        yield write(f'tjanster/{s["slug"]}.html', document(p, s["seo_title"], main, "subpage",
+                    [("Vad vi gör", "tjanster/index.html"), (s["name"], "")], "tjanster", jsonld=[service], description=s["description"]))
 
 
 def build_cases():
@@ -950,8 +952,8 @@ def build_prices():
         {"@type": "Offer", "name": name, "description": text, "seller": {"@id": ORG_ID},
          **({"price": price.replace(" ", "").replace("kr", ""), "priceCurrency": "SEK"} if "kr" in price else {})}
         for name, price, unit, text, items, cta_label, feat in plans]}
-    yield write("priser.html", document(p, "Priser för hemsidor", main, "subpage", [("Priser", "")], "priser",
-                description="Fasta priser för hemsidor: Starter 3 000 kr, Pro 6 000 kr och Elite efter offert. Support ingår första året. Alla priser exkl. moms.", jsonld=[catalog]))
+    yield write("priser.html", document(p, "Vad kostar en hemsida? Priser från 3 000 kr", main, "subpage", [("Priser", "")], "priser",
+                description="Vad kostar en hemsida? Fasta priser: Starter 3 000 kr, Pro 6 000 kr och Elite efter offert. Support ingår första året. Alla priser exkl. moms.", jsonld=[catalog]))
 
 
 def rewrap(path, body_class, crumbs=None, extra_js=(), robots="index, follow"):
@@ -982,6 +984,28 @@ def reviews_section():
       <div class="reviews__track">{slides}</div>
       {arrows}
     </div>'''
+
+
+def faq_section():
+    items = "\n          ".join(f'<details class="faq__item" name="faq"{" open" if i == 0 else ""}><summary>{esc(q)}</summary><p>{a}</p></details>' for i, (q, a) in enumerate(FAQ))
+    ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": html.unescape(re.sub(r"<[^>]+>", "", a))}} for q, a in FAQ]}, ensure_ascii=False)
+    return f'''<div class="faq__list">
+          {items}
+        </div>
+        <script type="application/ld+json">{ld}</script>'''
+
+
+def rss_feed():
+    items = "".join(f'''
+    <item><title>{esc(a["title"])}</title><link>{SITE_URL}/insikter/{a["slug"]}.html</link><guid>{SITE_URL}/insikter/{a["slug"]}.html</guid><pubDate>{datetime.date.fromisoformat(iso_date(a["date"])).strftime("%a, %d %b %Y")} 08:00:00 +0100</pubDate><description>{esc(next(v for k, v in a["body"] if k == "p"))}</description></item>''' for a in ARTICLES)
+    (ROOT / "rss.xml").write_text(f'''<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+    <title>Elevate Studio – Senaste nytt</title><link>{SITE_URL}/insikter/</link><language>sv-se</language>
+    <description>Guider och tips om hemsidor, synlighet och fler förfrågningar.</description>{items}
+</channel></rss>
+''', encoding="utf-8")
+    return "rss.xml"
 
 
 def bento_section():
@@ -1044,6 +1068,7 @@ def site_files(built):
     services = "\n".join(f"- [{x['name']}]({SITE_URL}/tjanster/{x['slug']}.html): {x['lead']}" for x in SERVICES)
     team = "\n".join(f"- {n}, {r}: {t}, {e}" for n, r, t, e in TEAM)
     articles = "\n".join(f"- [{a['title']}]({SITE_URL}/insikter/{a['slug']}.html)" for a in ARTICLES)
+    faq = "\n".join(f"- **{q}** {html.unescape(re.sub(r'<[^>]+>', '', a))}" for q, a in FAQ)
     llms = f"""# Elevate Studio
 
 > Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor som ger förfrågningar – med bokning, offertflöde, AI-chatt, SEO och AI-optimering. Fast pris, och kunden pratar alltid med samma person. Arbetar med företag i hela Sverige.
@@ -1057,6 +1082,9 @@ def site_files(built):
 - Elite: pris efter offert för större sajter, integrationer och egna funktioner.
 - Leverans: cirka en månad från beställning. Kunden äger sin domän.
 - [Priser]({SITE_URL}/priser.html) · [Exempel på webbavtal]({SITE_URL}/avtal.html)
+
+## Vanliga frågor
+{faq}
 
 ## Kontakt
 - E-post: info@elevatestudio.nu
@@ -1100,6 +1128,7 @@ def main():
         "services": services_grid(),
         "contactform": contact_form(""),
         "reviews": reviews_section(),
+        "faq": faq_section(),
     }
     for name, markup in regions.items():
         src, n = re.subn(rf"<!-- build:{name} -->[\s\S]*?<!-- /build:{name} -->",
@@ -1110,6 +1139,7 @@ def main():
     built.append(rewrap("index.html", "home", extra_js=("home.js",)))
     built.append(rewrap("404.html", "error404", crumbs=[("Fel 404", "")], robots="noindex"))
     built.extend(site_files(built))
+    built.append(rss_feed())
     print(f"Built {len(built)} pages")
 
 

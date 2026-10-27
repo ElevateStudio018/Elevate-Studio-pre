@@ -18,7 +18,8 @@ FORM_ENDPOINT = "https://formsubmit.co/ajax/info@elevatestudio.nu"
 
 SERVICES = [
     {
-        "slug": "hemsidor", "name": "Hemsidor", "short": "Hemsidor",
+        "slug": "hemsidor", "seo_title": "Hemsidor för företag i Uppsala och hela Sverige", "h1": "Hemsidor för <em>företag</em>", "description": "Vi bygger snabba, mobilanpassade hemsidor för företag och hantverkare – med fast pris från 3 000 kr. Webbyrå i Uppsala, kunder i hela Sverige.",
+        "name": "Hemsidor", "short": "Hemsidor",
         "card": "Snabba, mobilanpassade hemsidor byggda för att ge förfrågningar.",
         "lead": "Snabba, mobilanpassade hemsidor som visar vad ni gör och gör det enkelt för kunderna att höra av sig.",
         "intro": "En hemsida ska inte bara se bra ut – den ska ge er nya kunder. Vi bygger sidor med tydliga tjänstesidor, en väg till kontakt på varje sida och en struktur som Google förstår. Ni får ett fast pris innan vi börjar och sidan är klar på ungefär en månad.",
@@ -31,7 +32,8 @@ SERVICES = [
         "image": "home/svc-hemsidor.jpg", "alt": "Skisser och laptop på ett skrivbord under arbetet med en hemsida",
     },
     {
-        "slug": "ai-chatt", "name": "AI-chatt", "short": "AI-chatt",
+        "slug": "ai-chatt", "seo_title": "AI-chatt för hemsidan – svarar kunderna dygnet runt", "h1": "AI-chatt för <em>er hemsida</em>", "description": "En AI-chatt på hemsidan som svarar på kundernas vanliga frågor dygnet runt och skickar vidare förfrågningar till er via e-post eller SMS.",
+        "name": "AI-chatt", "short": "AI-chatt",
         "card": "En chatt som svarar på vanliga frågor – även när ni inte hinner.",
         "lead": "En AI-chatt på hemsidan som svarar på kundernas vanliga frågor, dygnet runt.",
         "intro": "Många kunder har samma frågor: vad kostar det, när kan ni komma, gör ni det här? En AI-chatt svarar direkt utifrån informationen om ert företag, så att ni slipper svara på samma sak om och om igen – och kunden får svar medan intresset finns.",
@@ -44,7 +46,8 @@ SERVICES = [
         "image": "home/svc-ai-chatt.jpg", "alt": "Händer som skriver på en laptop",
     },
     {
-        "slug": "bokningssystem", "name": "Bokningssystem", "short": "Bokning",
+        "slug": "bokningssystem", "seo_title": "Bokningssystem för hemsidan – låt kunderna boka online", "h1": "Bokningssystem för <em>hemsidan</em>", "description": "Låt kunderna boka tid direkt på er hemsida. Bokningssystem med notiser via e-post och SMS – från Elevate Studio i Uppsala.",
+        "name": "Bokningssystem", "short": "Bokning",
         "card": "Låt kunderna boka tid direkt på hemsidan – dygnet runt.",
         "lead": "Ett bokningssystem på hemsidan där kunderna själva väljer en tid som passar – med notiser till er via e-post och SMS.",
         "intro": "Varje gång en kund måste ringa eller mejla fram och tillbaka för att hitta en tid finns en risk att de ger upp. Med bokning direkt på sidan kan kunden boka på en gång, även när ni inte svarar i telefon.",
@@ -57,7 +60,8 @@ SERVICES = [
         "image": "home/svc-bokning.jpg", "alt": "Person som arbetar vid ett skrivbord med laptop",
     },
     {
-        "slug": "offertsystem", "name": "Offertsystem", "short": "Offert",
+        "slug": "offertsystem", "seo_title": "Offertsystem och offertformulär för hemsidan", "h1": "Offertsystem för <em>hemsidan</em>", "description": "Ett offertformulär där kunden beskriver jobbet steg för steg, så att ni får kompletta förfrågningar. Perfekt för hantverkare och tjänsteföretag.",
+        "name": "Offertsystem", "short": "Offert",
         "card": "Kunden beskriver jobbet steg för steg – ni får en komplett förfrågan.",
         "lead": "Ett offertflöde på hemsidan där kunden beskriver jobbet steg för steg, så att ni får allt ni behöver för att svara direkt.",
         "intro": "En vag förfrågan betyder ofta flera mejl fram och tillbaka innan ni kan räkna på jobbet. Med ett offertflöde får kunden svara på rätt frågor från början – och ni får en komplett förfrågan som går att svara på samma dag.",
@@ -70,7 +74,8 @@ SERVICES = [
         "image": "home/svc-offert.jpg", "alt": "Kollegor som tittar på en laptop tillsammans",
     },
     {
-        "slug": "seo-och-ai-optimering", "name": "SEO och AI-optimering", "short": "SEO",
+        "slug": "seo-och-ai-optimering", "seo_title": "SEO och AI-optimering – syns på Google och i AI-sök", "h1": "SEO och <em>AI-optimering</em>", "description": "Sökmotoroptimering och AI-optimering så att kunderna hittar ert företag på Google och när de frågar ChatGPT och andra AI-tjänster.",
+        "name": "SEO och AI-optimering", "short": "SEO",
         "card": "Syns på Google och när kunder frågar AI-assistenter.",
         "lead": "Sökmotoroptimering och AI-optimering så att kunderna hittar er – på Google och när de frågar en AI.",
         "intro": "Det spelar ingen roll hur bra hemsidan är om ingen hittar den. Vi bygger sidan så att Google och AI-tjänster förstår vad ni gör, var ni finns och vilka frågor ni kan svara på. Grundläggande SEO och AI-optimering ingår i alla hemsidor vi bygger.",
@@ -83,7 +88,8 @@ SERVICES = [
         "image": "home/svc-seo.jpg", "alt": "Team med laptops runt ett bord, sett ovanifrån",
     },
     {
-        "slug": "support-och-underhall", "name": "Support och underhåll", "short": "Support",
+        "slug": "support-och-underhall", "seo_title": "Support och underhåll av hemsida", "h1": "Support och <em>underhåll</em>", "description": "Ändringar, uppdateringar och uppföljning av er hemsida. Upp till 10 timmars support per månad ingår första året.",
+        "name": "Support och underhåll", "short": "Support",
         "card": "Ändringar, uppdateringar och uppföljning – vi tar hand om det.",
         "lead": "Vi tar hand om ändringar, uppdateringar och uppföljning så att ni kan fokusera på ert jobb.",
         "intro": "En hemsida är aldrig helt färdig. Under första året ingår upp till 10 timmars support och redigering per månad – för text- och bildändringar, layoutjusteringar eller nya funktioner. Vi följer också upp vad som ger kunder och föreslår förbättringar.",
@@ -278,6 +284,20 @@ PLATFORMS = [
 
 CEO = ("Per Mattsson", "VD")
 PARENT_COMPANY = "PJM Projekteffektivitet AB"
+
+# Frequently asked questions: shown on the start page, in structured data and in llms.txt.
+FAQ = [
+    ("Vad kostar en hemsida?", 'Ni får ett fast pris innan vi börjar. Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. <a href="priser.html">Se våra priser</a> eller <a href="avtal.html">ett exempel på hur ett avtal ser ut</a>.'),
+    ("Hur lång tid tar det?", "Räkna med ungefär en månad från beställning till färdig sajt, förutsatt att vi har fått texter, bilder och åtkomst. Själva designen och bygget tar oftast 1–2 veckor."),
+    ("Bygger ni hemsidor för hantverkare?", "Ja. Vi bygger hemsidor för snickare, elektriker, rörmokare, målare, byggföretag och andra hantverkare – ofta med ett offertformulär så att kunderna kan beskriva jobbet direkt."),
+    ("Jobbar ni bara i Uppsala?", "Nej. Vi finns i Uppsala men bygger hemsidor åt företag i hela Sverige. Möten går lika bra på distans."),
+    ("Vad behöver vi bidra med?", "Kunskapen om ert företag: vad ni gör, vilka kunder ni vill ha och de bilder och texter ni redan har. Ni får två korrekturvändor innan sidan lanseras, så att allt blir rätt."),
+    ("Ingår support efter lansering?", "Ja. Under första året ingår upp till 10 timmars support och redigering per månad – till exempel text- och bildändringar, layoutjusteringar eller nya funktioner."),
+    ("Syns hemsidan på Google?", "Grundläggande sökmotoroptimering (SEO) och AI-optimering ingår, så att sidan går att hitta både på Google och i AI-tjänster som svarar på frågor."),
+    ("Kan ni koppla på bokning, offertformulär eller AI-chatt?", "Ja. Vi bygger bokningssystem, offertsystem, AI-chatt och notiser via e-post och SMS – och testar allt innan lansering."),
+    ("Vem äger domänen?", "Ni. Domänen är och förblir er. Hosting och eventuella externa avgifter står specificerade i offerten."),
+    ("Hur godkänner vi offerten?", "Ni svarar på mejlet med offerten och skriver att ni godkänner den. Inga krångliga underskrifter."),
+]
 
 # Real customer reviews from Google. Add new ones at the top; arrows appear automatically when there is more than one.
 REVIEWS = [
