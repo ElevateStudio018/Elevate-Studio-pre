@@ -144,16 +144,16 @@ body.error404 {
   display: flex;
   align-items: center;
   gap: 12px;
-  width: 180px;
+  width: auto;
   height: 60px;
   color: #000;
   text-decoration: none;
   transform-origin: left center;
   transition: transform .2s;
 }
-.wordmark__mark { flex: 0 0 auto; width: 62px; height: auto; }
+.wordmark__mark { flex: 0 0 auto; width: 58px; height: auto; }
 .wordmark__text { display: flex; flex-direction: column; line-height: 1; }
-.wordmark__name { font-size: 30px; font-weight: 700; letter-spacing: -0.03em; }
+.wordmark__name { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
 .wordmark__sub { margin-top: 4px; font-size: 12px; font-weight: 600; letter-spacing: .32em; text-transform: uppercase; }
 .site-header--scrolled .wordmark { transform: scale(.8); }
 
