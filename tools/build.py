@@ -159,7 +159,7 @@ def footer(p):
             <h3 class="site-footer__subheader">Få vårt nyhetsbrev</h3>
             <form class="site-footer__newsletter js-form" action="{FORM_ENDPOINT}" method="post" data-subject="Ny prenumerant på nyhetsbrevet">
               <label><span class="sr-only">E-postadress</span><input type="email" name="email" placeholder="Din e-postadress" required></label>
-              <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="new-password" aria-hidden="true" data-lpignore="true" data-1p-ignore>
               <button type="submit" aria-label="Prenumerera"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="#fff" stroke-width="2"/></svg></button>
               <p class="form-status" role="status" hidden></p>
             </form>
@@ -427,7 +427,7 @@ def contact_form(p):
             </select></label>
             <label class="standout__wide"><span class="sr-only">Meddelande</span><textarea name="meddelande" placeholder="Meddelande" rows="1"></textarea></label>
           </div>
-          <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="new-password" aria-hidden="true" data-lpignore="true" data-1p-ignore>
           <p class="standout__consent">När du skickar formuläret godkänner du vår <a href="{p}integritet.html">integritetspolicy</a></p>
           <button type="submit" class="btn btn--primary"><span>Skicka</span></button>
           <p class="form-status standout__status" role="status" hidden></p>
@@ -1166,6 +1166,7 @@ def bento_section():
       </a>'''
     return f'''<section class="block container bento" id="tjanster-oversikt" aria-label="Vad vi gör">
       <a class="bento__tile bento__tile--big" href="tjanster/index.html">
+        {mark}
         <h2 class="bento__title">En hemsida som <em>jobbar åt er</em></h2>
         <div class="bento__text">
           <p>Vi bygger snabba, mobilanpassade hemsidor med tydliga tjänstesidor och en väg till kontakt på varje sida.</p>

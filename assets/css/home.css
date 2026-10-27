@@ -221,6 +221,7 @@ h2, h3 { margin: 0; font-weight: 400; }
   color: var(--cream, #fdfbf5);
 }
 .bento__tile--big { overflow: visible; justify-content: flex-start; gap: 0; }
+.bento__tile--big .bento__mark { margin-bottom: 36px; }
 .bento__tile--big .bento__title { margin-bottom: 28px; }
 .bento__text { flex: 1; display: grid; align-content: start; gap: 16px; margin-bottom: 32px; font-size: 18px; line-height: 1.55; opacity: .9; }
 .bento__text p { margin: 0; }

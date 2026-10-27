@@ -85,7 +85,7 @@
       var button = form.querySelector('[type="submit"]');
       var data = {};
       new FormData(form).forEach(function (value, key) { data[key] = value; });
-      if (data._honey) return;
+      var isBot = !!data._honey;
       delete data._honey;
       data._subject = form.dataset.subject || 'Meddelande från hemsidan';
       data._template = 'table';
@@ -98,17 +98,20 @@
       };
       button.disabled = true;
       show('Skickar …', true);
+      var done = form.classList.contains('site-footer__newsletter') ? 'Tack! Du står nu på listan.' : 'Tack! Vi återkommer så fort vi kan.';
+      if (isBot) { form.reset(); show(done, true); button.disabled = false; return; }
+      var timer = setTimeout(function () { show('Det tar längre tid än vanligt … mejla oss gärna på info@elevatestudio.nu om inget händer.', false); }, 12000);
       fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
         .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
         .then(function (r) {
           if (!r.ok || String(r.body.success) === 'false') throw new Error(r.body.message || 'fel');
           form.reset();
-          show(form.classList.contains('site-footer__newsletter') ? 'Tack! Du står nu på listan.' : 'Tack! Vi återkommer så fort vi kan.', true);
+          show(done, true);
         })
         .catch(function () {
           show('Något gick fel. Mejla oss gärna direkt på info@elevatestudio.nu.', false);
         })
-        .then(function () { button.disabled = false; });
+        .then(function () { clearTimeout(timer); button.disabled = false; });
     });
   });
 
