@@ -228,7 +228,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <title>{esc(title)} | Designstudie</title>
+  <title>{esc(title)} | Elevate Studio</title>
   <link rel="icon" href="{p}assets/img/brand/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="{p}assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{p}assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -672,11 +672,115 @@ def build_test_page():
     yield write("testa.html", document(p, "Testa din sajt", main, "subpage", [("Testa din sajt", "")], None, extra_js=("sitetest.js",)))
 
 
+def build_agreement():
+    """Example web agreement based on a real offer, with names and company numbers left out."""
+    p = ""
+    mk = '<svg viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>'
+    scope = ["Webbdesign och mobilanpassning utifrån verksamhetens behov.",
+             "Kontaktfunktion, presentation av verksamhet och projekt samt bildmaterial som ni tillhandahåller.",
+             "Grundläggande sökmotoroptimering (SEO) och AI-optimering (AIO).",
+             "Två korrekturvändor före leverans.",
+             "Upp till 10 timmars support och webbplatsredigering per månad under det första året."]
+    items = "".join(f"<li>{esc(x)}</li>" for x in scope)
+    main = f'''<main class="deal-page">
+    <section class="deal-hero">
+      <div class="deal-hero__mark">{mk}</div>
+      <div class="container deal-hero__inner">
+        <p class="deal-hero__eyebrow">Exempel på webbavtal</p>
+        <h1 class="deal-hero__title">Ett avtal ni <em>förstår</em> på fem minuter</h1>
+        <p class="deal-hero__lead">Så här ser en offert från oss ut. Fast pris, tydlig omfattning och inget finstilt – ni godkänner genom att svara på ett mejl.</p>
+      </div>
+    </section>
+    <section class="deal">
+      <div class="container deal__row">
+        <article class="deal-doc" aria-label="Exempel på webbavtal">
+          <header class="deal-doc__head">
+            <div class="deal-doc__brand">{mk}<span>Elevate Studio</span></div>
+            <p class="deal-doc__kind">Webbutveckling · Offert</p>
+            <dl class="deal-doc__meta">
+              <div><dt>Offert nr</dt><dd>Exempel</dd></div>
+              <div><dt>Giltig</dt><dd>30 dagar</dd></div>
+              <div><dt>Leverans</dt><dd>ca 1 månad</dd></div>
+            </dl>
+          </header>
+
+          <section class="deal-doc__sec">
+            <h2><span>01</span> Parter</h2>
+            <div class="deal-doc__parties">
+              <div><p class="deal-doc__label">Producent</p><p>Elevate Studio</p></div>
+              <div><p class="deal-doc__label">Beställare</p><p>Ert företag</p></div>
+            </div>
+          </section>
+
+          <section class="deal-doc__sec">
+            <h2><span>02</span> Uppdragets omfattning</h2>
+            <p>Utveckling och leverans av en modern, responsiv webbplats för ert företag. I uppdraget ingår:</p>
+            <ul class="deal-doc__checks">{items}</ul>
+          </section>
+
+          <section class="deal-doc__sec">
+            <h2><span>03</span> Driftmiljö</h2>
+            <p>Ni äger er domän. Hosting, drift och eventuella externa avgifter specificeras separat om inget annat skriftligen överenskommits.</p>
+          </section>
+
+          <section class="deal-doc__sec">
+            <h2><span>04</span> Leverans</h2>
+            <ol class="deal-doc__time">
+              <li><b>Beställning</b>Ni godkänner offerten</li>
+              <li><b>Underlag</b>Texter, bilder och åtkomst</li>
+              <li><b>Leverans</b>Cirka en månad från beställning</li>
+            </ol>
+            <p>Leveransdatum bekräftas separat, förutsatt att nödvändigt underlag och åtkomst tillhandahålls.</p>
+          </section>
+
+          <section class="deal-doc__sec">
+            <h2><span>05</span> Fast pris och betalning</h2>
+            <table class="deal-doc__price">
+              <thead><tr><th>Post</th><th>Pris (exkl. moms)</th></tr></thead>
+              <tbody>
+                <tr><td>Webbutveckling – fast startavgift</td><td>1 750 kr</td></tr>
+                <tr><td>Årsavgift</td><td>99 kr/år</td></tr>
+                <tr><td>Webbredigering och support, upp till 10 tim/mån första året</td><td>Ingår</td></tr>
+              </tbody>
+              <tfoot><tr><td>Totalt första året</td><td>1 849 kr</td></tr></tfoot>
+            </table>
+            <p>Under de första 12 månaderna från leverans ingår upp till 10 timmars redigeringssupport per månad – för text- och bildändringar, layoutjusteringar, nya funktioner eller större ombyggnationer. Arbete utöver 10 timmar i månaden förutsätter separat överenskommelse, och outnyttjade timmar förs inte över till nästa månad.</p>
+            <p>Efter första året upphör den inkluderade timsupporten. Årsavgiften fortsätter årsvis om inte avtalet sägs upp. Startavgift och första årsavgift faktureras vid driftsättning, med 30 dagars betalningsvillkor.</p>
+          </section>
+
+          <section class="deal-doc__sec">
+            <h2><span>06</span> Godkännande</h2>
+            <p>Ni accepterar offerten genom att svara på mejlet med följande text:</p>
+            <blockquote class="deal-doc__quote">Jag godkänner offerten och beställer tjänsterna enligt offertens villkor.</blockquote>
+            <div class="deal-doc__sign">
+              <div><span></span><p>Beställare</p></div>
+              <div><span></span><p>Elevate Studio</p></div>
+            </div>
+          </section>
+          <p class="deal-doc__stamp" aria-hidden="true">Exempel</p>
+        </article>
+
+        <aside class="deal-sum">
+          <p class="deal-sum__label">Kort sagt</p>
+          <ul>
+            <li><b>Fast pris</b>Ni vet kostnaden innan vi börjar.</li>
+            <li><b>Ca 1 månad</b>Från beställning till färdig sajt.</li>
+            <li><b>10 tim/mån</b>Support och ändringar första året.</li>
+            <li><b>Er domän</b>Domänen är och förblir er.</li>
+          </ul>
+          <a href="{p}kontakt.html" class="btn btn--light"><span>Be om en offert</span></a>
+        </aside>
+      </div>
+    </section>
+  </main>'''
+    yield write("avtal.html", document(p, "Exempel på webbavtal", main, "subpage", [("Exempel på webbavtal", "")], None))
+
+
 def rewrap(path, body_class, crumbs=None, extra_js=()):
     """Re-wrap a hand-written page's <main> with the generated shell."""
     src = (ROOT / path).read_text(encoding="utf-8")
     main = re.search(r"<main[\s\S]*?</main>", src).group(0)
-    title = re.search(r"<title>(.*?) \| Designstudie</title>", src).group(1)
+    title = re.search(r"<title>(.*?) \| (?:Designstudie|Elevate Studio)</title>", src).group(1)
     return write(path, document("", html.unescape(title), main, body_class, crumbs, None, extra_js=extra_js))
 
 
@@ -698,7 +802,7 @@ def platforms_section():
 
 def main():
     built = []
-    for gen in (build_services, build_cases, build_articles, build_platforms, build_simple, build_test_page):
+    for gen in (build_services, build_cases, build_articles, build_platforms, build_simple, build_test_page, build_agreement):
         built.extend(gen())
     # Keep the homepage lists in sync with the data (regions between build markers).
     index = ROOT / "index.html"
