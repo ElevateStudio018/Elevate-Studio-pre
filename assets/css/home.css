@@ -543,6 +543,33 @@ h2, h3 { margin: 0; font-weight: 400; }
 .about .h2 { margin-bottom: 24px; }
 .about strong { font-weight: 400; }
 
+/* ---------- Review ---------- */
+.review__card {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 72px 80px;
+  border-radius: 28px;
+  background: var(--cream, #f5f0e6);
+  text-align: center;
+}
+.review__mark { width: 42px; height: 31px; margin: 0 auto 32px; }
+.review__text { margin: 0 0 28px; }
+.review__text p {
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 36px;
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: #1a1a1a;
+  font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0;
+}
+.review__source { font-size: 16px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent, #1d3b2a); }
+@media (max-width: 768px) {
+  .review__card { padding: 44px 24px; border-radius: 20px; }
+  .review__text p { font-size: 26px; }
+}
+
 /* ---------- Quotes ---------- */
 .quotes { display: flex; gap: 0; padding-top: 37px; }
 .quote { flex: 1 1 0; margin: 0; padding: 0 80px; text-align: center; }

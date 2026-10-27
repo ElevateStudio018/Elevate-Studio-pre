@@ -117,9 +117,6 @@ def header(p, crumbs, current):
 
 def footer(p):
     services = "".join(f'<li><a href="{p}tjanster/{s["slug"]}.html">{esc(s["name"])}</a></li>' for s in SERVICES)
-    logos = "".join(
-        f'<li><a href="{p}plattformar/{x["slug"]}.html"><img src="{p}assets/img/home/{x["icon"]}" alt="{esc(x["name"])}" width="60" height="60"></a></li>'
-        for x in PLATFORMS)
     return f'''<footer>
     <div class="site-footer">
       <div class="container">
@@ -173,7 +170,6 @@ def footer(p):
         </div>
       </div>
     </div>
-    <ul class="bottom-logos" aria-label="Plattformar">{logos}</ul>
   </footer>
 
   <div class="cookie-dialog" id="cookie-dialog" role="dialog" aria-labelledby="cookie-title" hidden>
