@@ -1,82 +1,86 @@
-"""Page content for the design study. All copy is original; clients and projects are fictional."""
+"""Page content for elevatestudio.nu. The example projects under Projekt are fictional and marked as such."""
 
 # Google PageSpeed Insights API key for the "Testa din sajt" tool.
 # Free to create in Google Cloud Console (APIs & Services → enable "PageSpeed Insights API" → Credentials → API key).
 # Restrict the key to your domain (HTTP referrers). Without a key the shared public quota is often exhausted.
 PSI_API_KEY = ""
 
+# The live address of the site, used for canonical links, sitemap and structured data.
+SITE_URL = "https://elevatestudio.nu"
+
+# Google Analytics 4 measurement ID (looks like "G-XXXXXXXXXX"). Empty = no analytics and no cookie banner.
+# Analytics only loads after the visitor accepts statistics cookies.
+GA_MEASUREMENT_ID = ""
+
+# Every form posts here. FormSubmit forwards the message to info@elevatestudio.nu.
+# The first message triggers a one-time activation mail to info@elevatestudio.nu that must be confirmed.
+FORM_ENDPOINT = "https://formsubmit.co/ajax/info@elevatestudio.nu"
+
 SERVICES = [
     {
-        "slug": "strategi", "name": "Affärsutveckling och strategi", "short": "Strategi",
-        "lead": "Tillsammans tar vi fram en färdplan för era digitala kanaler och följer upp att den levererar.",
-        "intro": "Innan något ritas eller byggs behöver alla vara överens om varför. Vi hjälper ledning, marknad och IT att enas om mål, prioriteringar och hur framgång ska mätas – och gör planen så konkret att den går att börja arbeta efter dagen efter.",
+        "slug": "hemsidor", "name": "Hemsidor", "short": "Hemsidor",
+        "card": "Snabba, mobilanpassade hemsidor byggda för att ge förfrågningar.",
+        "lead": "Snabba, mobilanpassade hemsidor som visar vad ni gör och gör det enkelt för kunderna att höra av sig.",
+        "intro": "En hemsida ska inte bara se bra ut – den ska ge er nya kunder. Vi bygger sidor med tydliga tjänstesidor, en väg till kontakt på varje sida och en struktur som Google förstår. Ni får ett fast pris innan vi börjar och sidan är klar på ungefär en månad.",
         "includes": [
-            ("Nulägesanalys", "Vi går igenom era kanaler, data, system och arbetssätt och sammanfattar vad som fungerar och vad som håller er tillbaka."),
-            ("Mål och mätetal", "Affärsmål översätts till mätbara digitala mål, med tydliga nyckeltal och en enkel rapportering."),
-            ("Färdplan", "En prioriterad plan för de kommande 12–24 månaderna, uppdelad i etapper med budget och ansvar."),
-            ("Workshops", "Korta, fokuserade träffar där rätt personer fattar beslut tillsammans i stället för att skicka dokument fram och tillbaka."),
+            ("Design efter er verksamhet", "En design som passar ert företag och era kunder – inte en mall som ser ut som alla andras."),
+            ("Mobilanpassning", "De flesta besökare kommer från telefonen. Sidan fungerar lika bra på mobil som på dator."),
+            ("Tjänstesidor", "En egen sida för varje tjänst gör det lättare för både kunder och Google att hitta rätt."),
+            ("Kontakt på varje sida", "Telefon, mejl och formulär är alltid ett klick bort."),
         ],
-        "image": "home/step-1.jpg", "cases": ["fjallvagen-bildelar", "hallmark-industri"],
+        "image": "home/svc-hemsidor.jpg", "alt": "Skisser och laptop på ett skrivbord under arbetet med en hemsida",
     },
     {
-        "slug": "design", "name": "Design", "short": "Design",
-        "lead": "Vi formger tjänster och gränssnitt utifrån verkliga behov, så att varje kontakt med ert varumärke känns genomtänkt och lätt.",
-        "intro": "Bra design märks mest när den saknas. Vi kombinerar research, interaktionsdesign och visuell identitet för att ta fram gränssnitt som är tydliga, tillgängliga och som känns som just ert varumärke.",
+        "slug": "ai-chatt", "name": "AI-chatt", "short": "AI-chatt",
+        "card": "En chatt som svarar på vanliga frågor – även när ni inte hinner.",
+        "lead": "En AI-chatt på hemsidan som svarar på kundernas vanliga frågor, dygnet runt.",
+        "intro": "Många kunder har samma frågor: vad kostar det, när kan ni komma, gör ni det här? En AI-chatt svarar direkt utifrån informationen om ert företag, så att ni slipper svara på samma sak om och om igen – och kunden får svar medan intresset finns.",
         "includes": [
-            ("Användarresearch", "Intervjuer, enkäter och analys av beteendedata som visar vad användarna faktiskt försöker göra."),
-            ("Prototyper", "Klickbara prototyper som testas med riktiga användare innan något byggs på riktigt."),
-            ("Designsystem", "Komponenter, färger och typografi samlade i ett system som gör det lätt att bygga vidare konsekvent."),
-            ("Varumärke", "Logotyp, tonalitet och visuell identitet som håller i både digitala och fysiska kanaler."),
+            ("Svarar dygnet runt", "Kunderna får svar direkt, även på kvällar och helger."),
+            ("Bygger på er information", "Chatten utgår från era tjänster, priser och villkor."),
+            ("Lämnar över till er", "När kunden vill gå vidare skickas förfrågan till er via e-post eller SMS."),
+            ("Testad före lansering", "Vi testar chatten med riktiga frågor innan den går live."),
         ],
-        "image": "home/pair-4.jpg", "cases": ["nattbryggan", "bergsalen"],
+        "image": "home/svc-ai-chatt.jpg", "alt": "Händer som skriver på en laptop",
     },
     {
-        "slug": "utveckling", "name": "Utveckling", "short": "Utveckling",
-        "lead": "Sajter, appar och integrationer byggda för att hålla. Vi väljer tekniken efter uppdraget, inte tvärtom.",
-        "intro": "Vi bygger snabba, säkra och lättskötta webbplatser och system. Koden ska vara lika enkel att förstå om tre år som i dag, och tekniken ska passa er organisation – inte bara det som råkar vara populärt just nu.",
+        "slug": "bokning-och-offert", "name": "Bokning och offert", "short": "Bokning",
+        "card": "Låt kunderna boka tid eller begära offert direkt på sidan.",
+        "lead": "Bokning och offertförfrågningar direkt på hemsidan – med notiser till er via e-post och SMS.",
+        "intro": "Varje gång en kund måste ringa eller mejla fram och tillbaka finns en risk att de ger upp. Med bokning eller ett offertflöde på sidan kan kunden göra klart på en gång, och ni får allt ni behöver för att svara.",
         "includes": [
-            ("Webbplatser", "Responsiva sajter med fokus på prestanda, tillgänglighet och ett publiceringsverktyg som redaktörerna trivs med."),
-            ("Webbappar", "Interaktiva tjänster och kundportaler byggda med moderna ramverk."),
-            ("Integrationer", "Kopplingar mot affärssystem, CRM, betalning och andra tjänster ni redan använder."),
-            ("Kvalitetssäkring", "Automatiska tester, kodgranskning och visuella jämförelser vid varje ändring."),
+            ("Offertflöde", "Kunden beskriver jobbet steg för steg och ni får en komplett förfrågan."),
+            ("Bokning", "Kunden väljer en tid som passar direkt på sidan."),
+            ("Notiser via e-post och SMS", "Ni får besked direkt när en ny förfrågan eller bokning kommer in."),
+            ("Status och historik", "Håll koll på alla förfrågningar och vad som hänt med dem."),
         ],
-        "image": "home/pair-1.jpg", "cases": ["ljusars-filmdagar", "fjallvagen-bildelar"],
+        "image": "home/svc-bokning.jpg", "alt": "Person som arbetar vid ett skrivbord med laptop",
     },
     {
-        "slug": "digital-tillvaxt", "name": "Digital tillväxt", "short": "Tillväxt",
-        "lead": "Sök, annonsering och analys som hänger ihop och växer i takt med er verksamhet.",
-        "intro": "Trafik är bara värdefull om det är rätt besökare som hittar rätt innehåll. Vi arbetar med sökoptimering, synlighet i AI-assistenter, annonsering och analys som en helhet, och mäter allt mot era affärsmål.",
+        "slug": "seo-och-ai-optimering", "name": "SEO och AI-optimering", "short": "SEO",
+        "card": "Syns på Google och när kunder frågar AI-assistenter.",
+        "lead": "Sökmotoroptimering och AI-optimering så att kunderna hittar er – på Google och när de frågar en AI.",
+        "intro": "Det spelar ingen roll hur bra hemsidan är om ingen hittar den. Vi bygger sidan så att Google och AI-tjänster förstår vad ni gör, var ni finns och vilka frågor ni kan svara på. Grundläggande SEO och AI-optimering ingår i alla hemsidor vi bygger.",
         "includes": [
-            ("Sökoptimering", "Teknisk genomlysning, innehållsstrategi och löpande förbättringar för bättre placeringar."),
-            ("AI-sök", "Strukturerat och tydligt innehåll som gör att ert varumärke nämns korrekt i AI-genererade svar."),
-            ("Annonsering", "Kampanjer i sök och sociala kanaler som optimeras mot faktiska konverteringar."),
-            ("Analys", "Mätplan, dashboards och regelbundna genomgångar som leder till konkreta beslut."),
+            ("Teknisk grund", "Snabba sidor, rätt rubriker, beskrivningar och strukturerad data som sökmotorer läser."),
+            ("Lokala sökningar", "Tydlig information om var ni finns och vilka orter ni jobbar i."),
+            ("AI-optimering", "Innehåll och struktur som gör det lätt för AI-tjänster att beskriva er rätt."),
+            ("Vanliga frågor", "Svar på det kunderna faktiskt söker efter, direkt på sidan."),
         ],
-        "image": "home/pair-2.jpg", "cases": ["insjons-insamlingsfond", "fjallvagen-bildelar"],
+        "image": "home/svc-seo.jpg", "alt": "Team med laptops runt ett bord, sett ovanifrån",
     },
     {
-        "slug": "drift-och-support", "name": "Drift och support", "short": "Drift",
-        "lead": "Vi tar hand om uppdateringar, säkerhet och små förbättringar löpande så att ni kan fokusera på kärnaffären.",
-        "intro": "En webbplats är aldrig färdig. Med ett förvaltningsavtal får ni ett team som håller koll på säkerhet, prestanda och uppdateringar, svarar snabbt när något händer och hjälper er att prioritera nästa förbättring.",
+        "slug": "support-och-underhall", "name": "Support och underhåll", "short": "Support",
+        "card": "Ändringar, uppdateringar och uppföljning – vi tar hand om det.",
+        "lead": "Vi tar hand om ändringar, uppdateringar och uppföljning så att ni kan fokusera på ert jobb.",
+        "intro": "En hemsida är aldrig helt färdig. Under första året ingår upp till 10 timmars support och redigering per månad – för text- och bildändringar, layoutjusteringar eller nya funktioner. Vi följer också upp vad som ger kunder och föreslår förbättringar.",
         "includes": [
-            ("Hosting", "Stabil och övervakad drift med säkerhetskopior och tydliga rutiner för återställning."),
-            ("Uppdateringar", "Plattform, tillägg och beroenden hålls uppdaterade och testas innan de släpps."),
-            ("Support", "En namngiven kontaktperson och snabba svar när något behöver lösas."),
-            ("Vidareutveckling", "En löpande backlog där vi tillsammans prioriterar förbättringar varje månad."),
+            ("10 timmar i månaden", "Under första året ingår upp till 10 timmars support och redigering varje månad."),
+            ("Ändringar", "Nya texter, bilder, priser eller tjänster – säg till så fixar vi det."),
+            ("Uppföljning", "Vi tittar på vad som ger förfrågningar och justerar det som kan bli bättre."),
+            ("Samma kontaktperson", "Ni pratar med samma person hela vägen, utan mellanhänder."),
         ],
-        "image": "home/pair-3.jpg", "cases": ["insjons-insamlingsfond", "hallmark-industri"],
-    },
-    {
-        "slug": "inkludering", "name": "Inkludering", "short": "Inkludering",
-        "lead": "Digitala tjänster som fungerar för alla. Vi granskar, åtgärdar och utbildar enligt gällande riktlinjer och lagkrav.",
-        "intro": "Tillgänglighet handlar om att alla ska kunna använda era tjänster – med skärmläsare, tangentbord, förstoring eller bara en dålig uppkoppling. Det är dessutom ett lagkrav för allt fler organisationer. Vi hjälper er hela vägen från granskning till åtgärd.",
-        "includes": [
-            ("Granskning", "Manuell och automatisk granskning mot WCAG med en prioriterad lista över åtgärder."),
-            ("Åtgärder", "Vi rättar kod, design och innehåll – eller hjälper era egna utvecklare att göra det."),
-            ("Utbildning", "Praktiska utbildningar för redaktörer, designers och utvecklare."),
-            ("Tillgänglighetsredogörelse", "Hjälp att ta fram och hålla redogörelsen aktuell."),
-        ],
-        "image": "home/post-1.jpg", "cases": ["nattbryggan", "bergsalen"],
+        "image": "home/svc-support.jpg", "alt": "Person med laptop som arbetar med webbplatsens drift",
     },
 ]
 
@@ -88,7 +92,6 @@ CASES = [
         "challenge": "Kunderna hade svårt att veta vilka delar som passade deras bil. Många ringde kundtjänst innan de vågade beställa, och andelen returer var hög.",
         "solution": "Vi byggde en sökning där kunden anger registreringsnummer och direkt får se delar som passar. Kassan förenklades till ett steg och produktsidorna fick tydligare bilder och monteringsinformation.",
         "result": "Färre samtal till kundtjänst, färre returer och en kassa som fler slutför.",
-        "services": ["utveckling", "digital-tillvaxt"],
     },
     {
         "slug": "bergsalen", "name": "Bergsalen", "tags": ["Sök", "Webb"],
@@ -97,7 +100,6 @@ CASES = [
         "challenge": "Föreningens samlingar fanns digitaliserade men var gömda bakom en föråldrad sökfunktion som bara forskare orkade använda.",
         "solution": "Vi tog fram en ny struktur där samlingarna går att utforska via teman, platser och tidsperioder, med en sökning som förstår stavfel och gamla ortnamn.",
         "result": "Besökarna stannar längre och arkivet används nu även av skolor och släktforskare.",
-        "services": ["design", "inkludering"],
     },
     {
         "slug": "nattbryggan", "name": "Nattbryggan", "tags": ["App", "Webb"],
@@ -106,7 +108,6 @@ CASES = [
         "challenge": "En ideell stödlinje behövde nå unga som inte ringer, men som gärna skriver. Tjänsten måste vara diskret, trygg och fungera på alla telefoner.",
         "solution": "Vi designade en chattbaserad tjänst med snabb utloggning, ingen sparad historik på enheten och ett lugnt, inkluderande bildspråk.",
         "result": "Fler tar kontakt via chatt, och volontärerna kan hjälpa fler samtidigt.",
-        "services": ["design", "inkludering"],
     },
     {
         "slug": "ljusars-filmdagar", "name": "Ljusårs Filmdagar", "tags": ["Intranät", "Sök", "Webb"],
@@ -115,7 +116,6 @@ CASES = [
         "challenge": "Under festivalveckan ökar trafiken tiofalt. Den gamla sajten gick ner varje år när biljettsläppet startade.",
         "solution": "Vi byggde en statiskt genererad sajt med cachning i flera lager och ett separat, skalbart flöde för biljetter. Ett intranät hjälper personalen att hålla programmet uppdaterat.",
         "result": "Sajten klarade festivalens toppar utan avbrott och programmet uppdateras nu i realtid.",
-        "services": ["utveckling", "drift-och-support"],
     },
     {
         "slug": "hallmark-industri", "name": "Hallmark Industri", "tags": ["Intranät", "Webb"],
@@ -124,7 +124,6 @@ CASES = [
         "challenge": "Ett internationellt industriföretag hade ett tiotal olika sajter och intranät som inte pratade med varandra.",
         "solution": "Vi samlade allt på en gemensam plattform med ett designsystem, delade komponenter och ett gemensamt flöde för översättningar.",
         "result": "Snabbare publicering, ett enhetligt varumärke och lägre förvaltningskostnad.",
-        "services": ["strategi", "utveckling"],
     },
     {
         "slug": "insjons-insamlingsfond", "name": "Insjöns Insamlingsfond", "tags": ["Marknadsföring", "Webb"],
@@ -133,7 +132,6 @@ CASES = [
         "challenge": "Givarna ville känna sig trygga med att pengarna gör nytta, och organisationen ville öka andelen månadsgivare.",
         "solution": "Vi förenklade givarflödet, lyfte fram konkreta resultat och byggde kampanjsidor som marknadsteamet kan skapa själva.",
         "result": "Fler månadsgivare och kampanjer som lanseras på dagar i stället för veckor.",
-        "services": ["digital-tillvaxt", "drift-och-support"],
     },
 ]
 
@@ -191,7 +189,7 @@ ARTICLES = [
     },
 ]
 
-# Technologies actually used to build this study (and that Claude regularly works with).
+# Technologies used to build this site.
 PLATFORMS = [
     {
         "slug": "html-css", "name": "HTML & CSS", "icon": "tech-1.svg",
@@ -225,7 +223,7 @@ PLATFORMS = [
         "uses": [("Webbappar och portaler", "Kundportaler, bokningsflöden och verktyg med mycket logik i gränssnittet."),
                  ("Designsystem i kod", "Komponenter som speglar designsystemet och delas mellan flera produkter."),
                  ("Server-rendering", "Tillsammans med ramverk som Next.js för snabba första visningar och bra sökbarhet.")],
-        "here": ["Den här studien behövde inte React – en statisk sajt med lite JavaScript räckte gott.",
+        "here": ["Den här sajten behövde inte React – en statisk sajt med lite JavaScript räckte gott och blir dessutom snabbare.",
                  "Att välja bort ett ramverk när det inte behövs är också ett tekniskt beslut vi gärna tar."],
     },
     {
@@ -236,8 +234,8 @@ PLATFORMS = [
         "uses": [("API:er och integrationer", "Lätta tjänster som kopplar ihop webbplatsen med affärssystem och tredjepartstjänster."),
                  ("Byggverktyg", "Kompilering, optimering av bilder och generering av sidor."),
                  ("Testautomation", "Skript som kör webbläsartester och jämför skärmdumpar.")],
-        "here": ["Alla jämförelser mellan den här studien och förlagan kördes med Node.js-skript.",
-                 "Skripten mätte positioner och storlekar på element vid flera skärmbredder."],
+        "here": ["Skärmdumparna och testerna av den här sajten körs med Node.js-skript.",
+                 "PDF:en med vårt exempelavtal skapas automatiskt från avtalssidan med ett Node.js-skript."],
     },
     {
         "slug": "python", "name": "Python", "icon": "tech-5.svg",
@@ -249,7 +247,7 @@ PLATFORMS = [
                  ("Generering", "Statiska sidor, bilder och rapporter som skapas automatiskt.")],
         "here": ["Alla undersidor på den här sajten genereras av ett litet Python-skript med gemensam header och footer.",
                  "Den stora 404-siffran ritades om till en SVG direkt från typsnittets konturer med Python.",
-                 "Pixeljämförelser och kontaktark med bildförslag gjordes med Pillow."],
+                 "Bilderna på sajten beskärs och komprimeras automatiskt med Pillow."],
     },
     {
         "slug": "playwright", "name": "Playwright", "icon": "tech-6.svg",
@@ -259,106 +257,65 @@ PLATFORMS = [
         "uses": [("Flödestester", "Viktiga flöden som köp, inloggning och formulär testas vid varje ändring."),
                  ("Visuell regression", "Skärmdumpar jämförs pixel för pixel för att upptäcka oavsiktliga ändringar."),
                  ("Flera enheter", "Samma tester körs i olika skärmstorlekar och webbläsare.")],
-        "here": ["Varje sektion i studien fotograferades vid 1440, 1024, 768 och 390 pixlars bredd.",
-                 "Avvikelser mot förlagan mättes i pixlar och justerades tills de var så små som möjligt.",
+        "here": ["Varje sida testas vid 1440, 1024 och 390 pixlars bredd innan den publiceras.",
+                 "Testerna kontrollerar att ingen sida går att scrolla i sidled på mobilen.",
                  "Menyer, flikar och formulär klickades igenom automatiskt för att hitta fel."],
     },
 ]
 
-SIMPLE_PAGES = {
-    "kontakt": {
-        "title": "Kontakt", "lead": "Funderar du på ett nytt projekt eller behöver du hjälp med något som redan finns? Hör av dig direkt till någon av oss eller mejla info@elevatestudio.nu.",
-        "sections": [
-            ("team", [
-                ("Carl", "Försäljning & kundkontakt", "+46 76 022 83 61", "carl@elevatestudio.nu"),
+TEAM = [
+                ("Carl From", "Försäljning & kundkontakt", "+46 76 022 83 61", "carl@elevatestudio.nu"),
                 ("Isak Mattsson", "Försäljning & AI-utveckling", "+46 70 289 58 75", "isak@elevatestudio.nu"),
                 ("Oscar Svanerud", "Försäljning & affärsutveckling", "+46 76 849 86 68", "svanerudo@gmail.com"),
-            ]),
-            ("cols", [("Mejla oss", '<a href="mailto:info@elevatestudio.nu">info@elevatestudio.nu</a><br>Vi svarar normalt inom en arbetsdag.'),
-                      ("Besök oss", "Vi finns i Uppsala och arbetar med kunder i hela landet."),
-                      ("Följ oss", '<a href="https://elevatestudio.nu">elevatestudio.nu</a><br>Det snabbaste sättet att nå oss är via mejl eller telefon.')]),
+            ]
+
+SIMPLE_PAGES = {
+    "kontakt": {
+        "title": "Kontakt", "lead": "Funderar du på en ny hemsida eller vill du förbättra den du har? Ring eller mejla någon av oss direkt – eller skriv några rader i formuläret.",
+        "description": "Kontakta Elevate Studio i Uppsala. Ring eller mejla Carl, Isak eller Oscar, eller skriv till info@elevatestudio.nu.",
+        "sections": [
+            ("team", TEAM),
+            ("contact", None),
             ("form", None),
         ],
     },
     "om": {
-        "title": "Om studion", "lead": "Vi tror på små, erfarna team som följer kunden hela vägen – från första idé till tjänsten som utvecklas år efter år.",
+        "title": "Om oss", "lead": "Elevate Studio är tre personer i Uppsala som bygger hemsidor som ger förfrågningar – för företag i hela Sverige.",
+        "description": "Elevate Studio är en webbyrå i Uppsala. Tre personer som bygger hemsidor med bokning, offertflöde och AI-chatt till fast pris.",
         "sections": [
-            ("text", "Elevate Studio är en digital studio i Uppsala. Vi arbetar med korta beslutsvägar, öppenhet om vad saker kostar och ett starkt fokus på det som faktiskt ger effekt för våra kunder."),
-            ("cols", [("Långa samarbeten", "Vi lär känna era mål, era användare och er organisation, och kan därför ge råd som håller."),
-                      ("Kvalitet", "Kodgranskning, automatiska tester och tillgänglighet finns med från början."),
-                      ("Ansvar", "Vi väljer leverantörer och arbetssätt som minskar miljöpåverkan.")]),
-            ("links", [("Karriär", "karriar.html"), ("Arbetsvillkor", "arbetsvillkor.html"), ("Ansvar", "ansvar.html")]),
-        ],
-    },
-    "karriar": {
-        "title": "Karriär", "lead": "Vi letar alltid efter nyfikna människor som gillar att bygga saker ordentligt.",
-        "sections": [
-            ("text", "Hos oss jobbar du i små team nära kunden, med stort eget ansvar och kollegor som gärna delar med sig. Vi har flexibla arbetstider och sätter kompetensutveckling i kalendern, inte bara i policyn."),
-            ("links", [("Se öppna roller", "oppna-roller.html"), ("Läs om våra arbetsvillkor", "arbetsvillkor.html")]),
-        ],
-    },
-    "oppna-roller": {
-        "title": "Öppna roller", "lead": "Just nu söker vi inga nya kollegor – det här är en designstudie. Men så här skulle en annons kunna se ut.",
-        "sections": [
-            ("cols", [("Frontendutvecklare", "Du gillar semantisk HTML, välorganiserad CSS och tillgängliga gränssnitt. Uppsala eller distans."),
-                      ("UX-designer", "Du leder research och prototyparbete och trivs i nära samarbete med utvecklare."),
-                      ("Projektledare", "Du håller ihop leveranser och är kundens trygga kontakt genom hela projektet.")]),
-            ("links", [("Kontakta oss", "kontakt.html")]),
-        ],
-    },
-    "arbetsvillkor": {
-        "title": "Arbetsvillkor", "lead": "Bra arbetsvillkor är en förutsättning för bra arbete.",
-        "sections": [
-            ("text", "Här skulle en riktig studio beskriva kollektivavtal, pension, föräldraledighet, friskvård och arbetstider. Eftersom det här är en designstudie finns det inga faktiska villkor att redovisa."),
-        ],
-    },
-    "ansvar": {
-        "title": "Ansvar", "lead": "Hur vi tar ansvar för miljö, människor och informationssäkerhet.",
-        "sections": [
-            ("cols", [("Miljö", "Lätta sidor drar mindre energi. Vi optimerar bilder, kod och hosting med det i åtanke."),
-                      ("Människor", "Tillgängliga tjänster gör att fler kan delta. Det är en självklar del av vårt arbete."),
-                      ("Säkerhet", "Vi arbetar strukturerat med informationssäkerhet i både utveckling och drift.")]),
+            ("text", "Vi startade Elevate Studio för att det ska vara enkelt för företag att få en hemsida som faktiskt ger kunder. Ni får ett fast pris innan vi börjar, en hemsida på ungefär en månad och samma kontaktperson hela vägen – från första mötet till uppföljningen varje månad."),
+            ("cols", [("Fast pris", "Ni vet vad det kostar innan vi börjar. Allt står i en tydlig offert."),
+                      ("Samma kontaktperson", "Inga mellanhänder. Ni pratar med någon som kan ert företag."),
+                      ("Ni äger er domän", "Domänen är och förblir er – oavsett vad som händer.")]),
+            ("team", TEAM),
+            ("links", [("Se våra priser", "priser.html"), ("Se ett exempel på avtal", "avtal.html"), ("Kontakta oss", "kontakt.html")]),
         ],
     },
     "english": {
-        "title": "In English", "lead": "Elevate Studio is a digital studio in Uppsala, Sweden.",
+        "title": "In English", "lead": "Elevate Studio is a web agency in Uppsala, Sweden.",
+        "description": "Elevate Studio is a web agency in Uppsala, Sweden, building fast websites with booking, quote forms and AI chat at a fixed price.",
         "sections": [
-            ("text", "We help companies with strategy, design, development and digital growth. Get in touch at info@elevatestudio.nu. The projects shown on this site are examples."),
-            ("links", [("Back to the start page", "index.html")]),
+            ("text", "We build fast, mobile-friendly websites that bring in enquiries – with booking, quote forms, AI chat, SEO and ongoing support. You get a fixed price before we start, and you always talk to the same person. We mainly work in Swedish, but are happy to help in English. Get in touch at info@elevatestudio.nu."),
+            ("links", [("Prices (in Swedish)", "priser.html"), ("Contact", "kontakt.html"), ("Back to the start page", "index.html")]),
         ],
     },
     "integritet": {
-        "title": "Integritetspolicy", "lead": "Den här designstudien samlar inte in några personuppgifter.",
+        "title": "Integritetspolicy", "lead": "Så hanterar vi personuppgifter när du kontaktar oss eller besöker vår webbplats.",
+        "description": "Så hanterar Elevate Studio personuppgifter från kontaktformulär, nyhetsbrev och webbstatistik.",
         "sections": [
-            ("text", "Formulären på sajten skickar ingenting vidare. Det enda som sparas är ditt val i cookie-dialogen, och det sparas lokalt i din egen webbläsare. Inga analysverktyg eller spårare laddas."),
+            ("cols", [("När du kontaktar oss", "Det du skriver i våra formulär – namn, e-post, telefon, organisation och meddelande – skickas till info@elevatestudio.nu via tjänsten FormSubmit. Vi använder uppgifterna bara för att svara dig och sparar dem inte längre än vi behöver."),
+                      ("Webbstatistik", "Om du godkänner statistikcookies använder vi Google Analytics för att se hur webbplatsen används, till exempel vilka sidor som besöks. Uppgifterna används inte för annonsering. Utan ditt godkännande laddas inget analysverktyg."),
+                      ("Dina rättigheter", "Du har rätt att få veta vilka uppgifter vi har om dig, få dem rättade eller raderade. Mejla info@elevatestudio.nu så hjälper vi dig. Du kan också vända dig till Integritetsskyddsmyndigheten (IMY).")]),
+            ("links", [("Om cookies", "cookies.html"), ("Kontakta oss", "kontakt.html")]),
         ],
     },
     "cookies": {
-        "title": "Om cookies", "lead": "Vi använder inga cookies för spårning eller analys.",
+        "title": "Om cookies", "lead": "Vi använder bara statistikcookies om du godkänner det.",
+        "description": "Elevate Studio använder statistikcookies från Google Analytics endast efter ditt godkännande.",
         "sections": [
-            ("text", "Ditt val i cookie-dialogen sparas i webbläsarens lokala lagring så att dialogen inte visas igen. Vill du se dialogen igen kan du rensa webbplatsdata för den här sidan i webbläsarens inställningar."),
-        ],
-    },
-    "visselblasning": {
-        "title": "Visselblåsning", "lead": "Så skulle en riktig organisation ta emot rapporter om missförhållanden.",
-        "sections": [
-            ("text", "En riktig visselblåsarfunktion ska vara säker, anonym och oberoende. Eftersom det här är en designstudie finns ingen sådan kanal – sidan visar bara var informationen skulle finnas."),
-        ],
-    },
-    "guide": {
-        "title": "Guiden: Nästa steg", "lead": "En praktisk handbok för dig som leder marknad, varumärke eller produkt och vill fatta bättre beslut om nästa digitala satsning.",
-        "sections": [
-            ("cols", [("1. Börja i affären", "Formulera vilket affärsproblem satsningen ska lösa innan ni pratar teknik eller design."),
-                      ("2. Mät det som spelar roll", "Välj några få nyckeltal som går att påverka och följ upp dem varje månad."),
-                      ("3. Bygg i etapper", "Släpp något litet tidigt, lär av användarna och bygg vidare på det som fungerar.")]),
-            ("links", [("Prata med oss om nästa steg", "kontakt.html")]),
-        ],
-    },
-    "ai-sok": {
-        "title": "Sökbarhet i AI-assistenter", "lead": "Allt fler köpare börjar sin research i en chatt. Vi ser till att ditt varumärke dyker upp i svaren och att informationen stämmer.",
-        "sections": [
-            ("text", "Vi kartlägger hur ert varumärke beskrivs i de vanligaste AI-assistenterna i dag, hittar luckor och felaktigheter och tar fram innehåll som gör det lätt att beskriva er rätt."),
-            ("links", [("Läs artikeln om AI-sök", "insikter/synas-nar-kunder-fragar-ai.html"), ("Digital tillväxt", "tjanster/digital-tillvaxt.html")]),
+            ("cols", [("Nödvändigt", "Ditt val i cookierutan sparas i webbläsarens lokala lagring, så att rutan inte visas igen. Det används inte till något annat."),
+                      ("Statistik", "Om du godkänner sätter Google Analytics cookies (till exempel _ga) som hjälper oss förstå hur webbplatsen används. Avböjer du laddas inget analysverktyg."),
+                      ("Ändra ditt val", '<button type="button" class="arrow-link js-cookie-settings">Visa cookierutan igen</button>')]),
         ],
     },
 }

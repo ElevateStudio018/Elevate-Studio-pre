@@ -1,31 +1,41 @@
 # Elevate Studio
 
-Webbplatsen för Elevate Studio, en digital studio i Uppsala.
+Webbplatsen för Elevate Studio, en webbyrå i Uppsala som bygger hemsidor som ger förfrågningar.
 
-Färgschemat är mörkgrönt (`#1d3b2a`) med en mjölkvit beige (`#f5f0e6`) som andrafärg. Båda styrs av CSS-variablerna `--accent` och `--cream` i `assets/css/style.css`.
+Färgschemat är mörkgrönt (`#1d3b2a`) med en mjölkvit beige som andrafärg. Båda styrs av CSS-variablerna `--accent` och `--cream` i `assets/css/style.css`.
 
 ## Sidor
-
-Sajten har 39 sidor, och alla knappar och länkar leder till riktiga sidor.
 
 | Avsnitt | Filer |
 |---|---|
 | Startsida, 404 | `index.html`, `404.html` |
-| Tjänster | `tjanster/index.html` och 6 tjänstesidor |
-| Projekt | `projekt/index.html` och 6 projektsidor (påhittade) |
-| Priser | `priser.html` – Starter, Pro och Elite (offert) |
-| Exempelavtal | `avtal.html` – en riktig offert ord för ord, med namn, organisationsnummer, offertnummer och datum borttagna. Nedladdningsbar som `assets/docs/webbavtal-exempel-elevate-studio.pdf`, som skapas från sidan med `node tools/agreement_pdf.js` efter `python3 tools/build.py` |
+| Tjänster | `tjanster/index.html` och 5 tjänstesidor: hemsidor, AI-chatt, bokning och offert, SEO och AI-optimering, support och underhåll |
+| Priser | `priser.html` – Starter 3 000 kr, Pro 6 000 kr och Elite (offert) |
+| Exempelavtal | `avtal.html` – en riktig offert med namn, organisationsnummer, offertnummer och datum borttagna. Nedladdningsbar som `assets/docs/webbavtal-exempel-elevate-studio.pdf`, som skapas från sidan med `node tools/agreement_pdf.js` efter `python3 tools/build.py` |
 | Senaste nytt | `insikter/index.html` och 3 artiklar |
+| Projekt | `projekt/index.html` och 6 projektsidor (påhittade exempel, märkta som det) |
 | Plattformar | `plattformar/index.html` och 6 sidor: HTML & CSS, JavaScript, React, Node.js, Python, Playwright |
-| Övrigt | kontakt, om studion, karriär, öppna roller, arbetsvillkor, ansvar, in English, integritet, cookies, visselblåsning, guide, AI-sök |
+| Övrigt | kontakt, om oss, in English, integritet, cookies, testa din sajt |
 
-Plattformarna är de verktyg som faktiskt användes för att bygga studien. Varje plattformssida har en sektion som beskriver hur verktyget användes i just det här projektet.
+## Formulär
+
+Alla formulär (kontakt, nyhetsbrev och "kör testet åt mig" på testsidan) skickas till info@elevatestudio.nu via FormSubmit. Adressen ställs in i `FORM_ENDPOINT` i `tools/content.py`.
+
+**Första gången** någon skickar ett formulär från den publicerade sajten mejlar FormSubmit en aktiveringslänk till info@elevatestudio.nu. Klicka på den en gång, sedan levereras alla meddelanden.
+
+## Webbstatistik
+
+Google Analytics laddas bara om besökaren godkänner statistikcookies. Lägg in ert mät-ID (`G-…`) i `GA_MEASUREMENT_ID` i `tools/content.py` och kör `python3 tools/build.py`. Så länge fältet är tomt visas ingen cookieruta och inget analysverktyg laddas.
+
+## SEO och AI-optimering
+
+Varje sida får titel, metabeskrivning, canonical-länk, Open Graph-taggar för delning och strukturerad data (schema.org): företaget, brödsmulor, tjänster, priser, artiklar och vanliga frågor. Bygget skapar också `sitemap.xml`, `robots.txt` och `llms.txt` (en sammanfattning för AI-assistenter). Adressen som används är `SITE_URL` i `tools/content.py`.
 
 ## Testa din sajt (`testa.html`)
 
 Verktyget kör ett riktigt test med Google PageSpeed Insights (Lighthouse) och förklarar på svenska hur varje problem kan åtgärdas. Inga resultat är påhittade. Om testet inte kan köras visas ett felmeddelande i stället.
 
-Utan egen API-nyckel delar alla besökare på Googles gemensamma dagskvot, och den tar ofta slut. Så här skaffar du en gratis nyckel:
+Utan egen API-nyckel delar alla besökare på Googles gemensamma kvot. Om den tar slut försöker sidan igen en gång, kör säkerhetstestet ändå och erbjuder besökaren att lämna sin e-post så att ni kör testet åt dem – förfrågan går till info@elevatestudio.nu. Med en egen gratis nyckel försvinner problemet:
 
 1. Gå till Google Cloud Console.
 2. Välj **APIs & Services**, aktivera **PageSpeed Insights API** och skapa en API-nyckel under **Credentials**.
@@ -42,12 +52,11 @@ python3 tools/build.py
 
 Skriptet genererar alla undersidor. Det lägger också samma header, menyer, footer och cookie-dialog runt `index.html` och `404.html`.
 
-Startsidans listor över projekt, artiklar och plattformar fylls i mellan markörerna `<!-- build:… -->`. Övrigt innehåll i `<main>` på startsidan och 404-sidan redigeras direkt i filerna.
+Startsidans tjänster, artiklar, plattformar och kontaktformulär fylls i mellan markörerna `<!-- build:… -->`. Övrigt innehåll i `<main>` på startsidan och 404-sidan redigeras direkt i filerna.
 
-## Vad som medvetet skiljer sig från förlagan
+## Innehåll och licenser
 
-- **Texter**: alla texter är nyskrivna. Kunderna och projekten är påhittade. Recensionen på startsidan är en riktig kundrecension från Google.
-- **Bilder**: hero-fotot kommer från Pexels (foto 3184360, https://www.pexels.com/photo/3184360/) och används enligt Pexels-licensen. Bilderna i processavsnittet (`process-1.jpg`–`process-5.jpg`) är Pexels-foton 3182759, 7688336, 3861958, 7709242 och 3184292, också enligt Pexels-licensen. Laptop- och mobilbilden i avsnittet "Sajter som känns rätt på alla skärmar" är skärmdumpar av vår egen testsajt https://elevatestudio018.github.io/lirk/. Övriga fotografier är ersättningsbilder från Unsplash, hämtade via Picsum och fria att använda enligt Unsplash-licensen. Övrig grafik är egna SVG-filer.
+- **Texter**: alla texter är nyskrivna. Projekten under Projekt är påhittade exempel. Recensionen på startsidan är en riktig kundrecension från Google.
+- **Bilder**: hero-fotot kommer från Pexels (foto 3184360, https://www.pexels.com/photo/3184360/) och används enligt Pexels-licensen. Bilderna i processavsnittet (`process-1.jpg`–`process-5.jpg`) är Pexels-foton 3182759, 7688336, 3861958, 7709242 och 3184292, också enligt Pexels-licensen. Laptop- och mobilbilden i avsnittet "Sajter som känns rätt på alla skärmar" är skärmdumpar av vår egen testsajt https://elevatestudio018.github.io/lirk/. Tjänstebilderna (`svc-*.jpg`), artikelbilderna och bilden i Vi är Elevate Studio är också Pexels-foton. Projektbilderna är från Unsplash via Picsum. Övrig grafik är egna SVG-filer.
 - **Logotyp och ikoner**: Elevate Studios egen logotyp (`assets/img/brand/`, vektoriserad från originalfilen) och egna plattformsikoner.
 - **Typsnitt**: Hanken Grotesk och Fraunces Italic, båda med OFL-licens och lokalt i `assets/fonts/`.
-- **Formulär**: formulären skickar ingenting. De visar bara en bekräftelse.

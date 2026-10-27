@@ -542,3 +542,11 @@ body.drawer-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0s !important; }
 }
+
+/* ---------- Forms ---------- */
+.form-honey { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.form-status { margin: 12px 0 0; font-weight: 600; }
+.form-status--error { color: #9b2c2c; }
+.site-footer__newsletter { position: relative; }
+.site-footer__newsletter .form-status { flex-basis: 100%; color: var(--cream, #fdfbf5); }
+button.arrow-link { padding: 0; border: 0; background: none; font: inherit; cursor: pointer; }

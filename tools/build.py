@@ -6,14 +6,16 @@ Generates every subpage from tools/content.py and re-wraps index.html and
 404.html with the shared header, menus, footer and cookie dialog, so that
 navigation is identical on every page.
 """
+import datetime
 import hashlib
 import html
+import json
 import pathlib
 import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, CASES, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES  # noqa: E402
+from content import ARTICLES, CASES, FORM_ENDPOINT, GA_MEASUREMENT_ID, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -76,10 +78,10 @@ def header(p, crumbs, current):
       <section class="megamenu" id="megamenu" aria-label="Vad vi gör">
         <div class="megamenu__sidebar">
           <div>
-            <p class="megamenu__sidebar-header">Nytt: sökbarhet i AI-assistenter</p>
-            <p class="megamenu__sidebar-text">Allt fler köpare börjar sin research i en chatt. Vi ser till att ditt varumärke dyker upp i svaren och att informationen om er stämmer.</p>
+            <p class="megamenu__sidebar-header">Syns ni när kunder frågar AI?</p>
+            <p class="megamenu__sidebar-text">Allt fler frågar en AI-assistent i stället för att googla. Vi bygger hemsidan så att både Google och AI-tjänster beskriver er rätt.</p>
           </div>
-          <p class="megamenu__sidebar-button"><a href="{p}ai-sok.html" class="btn btn--primary"><span>Upptäck</span></a></p>
+          <p class="megamenu__sidebar-button"><a href="{p}tjanster/seo-och-ai-optimering.html" class="btn btn--primary"><span>Läs mer</span></a></p>
         </div>
         <ul class="megamenu__menu">{mega_items}</ul>
       </section>
@@ -122,18 +124,15 @@ def header(p, crumbs, current):
     <div class="drawer__about">
       <p class="drawer__heading">Om oss</p>
       <ul class="drawer__minor">
-        <li><a href="{p}om.html">Om studion</a></li>
+        <li><a href="{p}om.html">Om oss</a></li>
+        <li><a href="{p}priser.html">Priser</a></li>
         <li><a href="{p}avtal.html">Exempel på webbavtal</a></li>
-        <li><a href="{p}karriar.html">Karriär</a></li>
-        <li><a href="{p}oppna-roller.html">Öppna roller</a></li>
-        <li><a href="{p}arbetsvillkor.html">Arbetsvillkor</a></li>
-        <li><a href="{p}ansvar.html">Ansvar</a></li>
         <li><a href="{p}english.html">In English</a></li>
       </ul>
     </div>
     <div class="drawer__contact">
       <p class="drawer__contact-title">Har du ett projekt på gång?</p>
-      <p>Vi svarar normalt inom en arbetsdag.</p>
+      <p>Vi svarar så fort vi kan.</p>
       <a class="drawer__mail" href="mailto:info@elevatestudio.nu">info@elevatestudio.nu</a>
       <a class="btn btn--primary" href="{p}kontakt.html"><span>Hör av dig</span></a>
     </div>
@@ -154,14 +153,15 @@ def footer(p):
             </a>
           </div>
           <div class="site-footer__big site-footer__slogan">
-            <p>Vi hjälper dig från första skiss till en tjänst som växer med din affär. <em>Vi ses i nästa projekt!</em></p>
+            <p>Hemsidor som ger förfrågningar – byggda i Uppsala, för företag i hela Sverige. <em>Hör av er så tar vi ett första möte.</em></p>
           </div>
           <div class="site-footer__small">
             <h3 class="site-footer__subheader">Få vårt nyhetsbrev</h3>
-            <form class="site-footer__newsletter js-demo-form">
-              <label><span class="sr-only">E-postadress</span><input type="email" placeholder="Din e-postadress" required></label>
+            <form class="site-footer__newsletter js-form" action="{FORM_ENDPOINT}" method="post" data-subject="Ny prenumerant på nyhetsbrevet">
+              <label><span class="sr-only">E-postadress</span><input type="email" name="email" placeholder="Din e-postadress" required></label>
+              <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
               <button type="submit" aria-label="Prenumerera"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="#fff" stroke-width="2"/></svg></button>
-              <p class="demo-form-status" role="status" hidden>Tack! (Designstudie – inget skickades.)</p>
+              <p class="form-status" role="status" hidden></p>
             </form>
             <p class="site-footer__fine">När du skickar formuläret godkänner du vår <a href="{p}integritet.html">integritetspolicy</a></p>
           </div>
@@ -171,28 +171,28 @@ def footer(p):
               <ul class="site-footer__links">{services}</ul>
             </div>
             <div>
-              <h3 class="site-footer__subheader">Studio</h3>
+              <h3 class="site-footer__subheader">Elevate Studio</h3>
               <ul class="site-footer__links">
                 <li><a href="{p}kontakt.html"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.5 6 10 6 10s6-5.5 6-10a6 6 0 0 0-6-6zm0 8.5A2.5 2.5 0 1 1 6 3.5a2.5 2.5 0 0 1 0 5z" fill="#fff"/></svg> Uppsala</a></li>
-                <li><a href="{p}om.html">Om studion</a></li>
-                <li><a href="{p}plattformar/index.html">Plattformar</a></li>
+                <li><a href="{p}om.html">Om oss</a></li>
                 <li><a href="{p}priser.html">Priser</a></li>
                 <li><a href="{p}avtal.html">Exempel på webbavtal</a></li>
+                <li><a href="{p}insikter/index.html">Senaste nytt</a></li>
               </ul>
             </div>
             <div>
-              <h3 class="site-footer__subheader">Följ oss</h3>
+              <h3 class="site-footer__subheader">Kontakt</h3>
               <ul class="site-footer__links">
-                <li><a href="{p}kontakt.html#folj-oss">LinkedIn</a></li>
-                <li><a href="{p}kontakt.html#folj-oss">Facebook</a></li>
-                <li><a href="{p}kontakt.html#folj-oss">Instagram</a></li>
+                <li><a href="mailto:info@elevatestudio.nu">info@elevatestudio.nu</a></li>
+                <li><a href="{p}kontakt.html">Ring oss</a></li>
+                <li><a href="{p}testa.html">Testa din sajt</a></li>
               </ul>
             </div>
           </div>
           <ul class="site-footer__bottom">
             <li><a href="{p}integritet.html">Integritetspolicy</a></li>
             <li><a href="{p}cookies.html">Cookies</a></li>
-            <li><a href="{p}visselblasning.html">Visselblåsning</a></li>
+            <li><a href="{p}english.html">In English</a></li>
           </ul>
         </div>
       </div>
@@ -201,11 +201,10 @@ def footer(p):
 
   <div class="cookie-dialog" id="cookie-dialog" role="dialog" aria-labelledby="cookie-title" hidden>
     <p class="cookie-dialog__title" id="cookie-title">Dina val kring cookies</p>
-    <p class="cookie-dialog__text">Den här studien sparar bara ditt cookieval lokalt i webbläsaren. Inga spårare eller analysverktyg laddas, oavsett vad du väljer. Läs mer <a href="{p}cookies.html">här.</a></p>
+    <p class="cookie-dialog__text">Vi vill använda statistikcookies (Google Analytics) för att se hur webbplatsen används. Inget laddas om du avböjer. Läs mer <a href="{p}cookies.html">om cookies.</a></p>
     <div class="cookie-dialog__buttons">
       <button type="button" data-choice="accept">Godkänn</button>
       <button type="button" data-choice="deny">Avböj</button>
-      <a class="cookie-dialog__settings" href="{p}cookies.html">Inställningar</a>
     </div>
     <p class="cookie-dialog__links"><a href="{p}cookies.html">Om cookies</a> <a href="{p}integritet.html">Integritet</a></p>
   </div>'''
@@ -223,23 +222,80 @@ def asset_version():
 VERSION = asset_version()
 
 
-def document(p, title, main, body_class, crumbs=None, current=None, extra_css=(), extra_js=()):
+ORG_ID = f"{SITE_URL}/#organisation"
+
+
+def organisation_ld():
+    """Who we are, for Google and AI assistants. Only facts that are stated elsewhere on the site."""
+    return {
+        "@type": "ProfessionalService",
+        "@id": ORG_ID,
+        "name": "Elevate Studio",
+        "url": f"{SITE_URL}/",
+        "logo": f"{SITE_URL}/assets/img/brand/logo-mark.svg",
+        "image": f"{SITE_URL}/assets/img/brand/og.jpg",
+        "description": "Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor med bokning, offertflöde, AI-chatt, SEO och AI-optimering till fast pris.",
+        "email": "info@elevatestudio.nu",
+        "address": {"@type": "PostalAddress", "addressLocality": "Uppsala", "addressCountry": "SE"},
+        "areaServed": {"@type": "Country", "name": "Sverige"},
+        "priceRange": "3 000–6 000 kr",
+        "knowsLanguage": ["sv", "en"],
+        "employee": [{"@type": "Person", "name": n, "jobTitle": r, "telephone": t, "email": e} for n, r, t, e in TEAM],
+        "makesOffer": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": x["name"], "url": f"{SITE_URL}/tjanster/{x['slug']}.html"}} for x in SERVICES],
+    }
+
+
+def auto_description(main):
+    """First lead paragraph of the page, trimmed to what Google shows."""
+    m = re.search(r'class="(?:page-hero__lead|hero__text)">(.*?)</p>', main, re.S) or re.search(r"<p[^>]*>(.*?)</p>", main, re.S)
+    text = html.unescape(re.sub(r"<[^>]+>", "", m.group(1))).strip() if m else ""
+    text = re.sub(r"\s+", " ", text)
+    if len(text) > 158:
+        text = text[:155].rsplit(" ", 1)[0] + " …"
+    return text
+
+
+def document(p, title, main, body_class, crumbs=None, current=None, extra_css=(), extra_js=(), description=None, jsonld=(), og_type="website", robots="index, follow"):
     css = ["style.css", "home.css", "pages.css", *extra_css]
     links = "\n  ".join(f'<link rel="stylesheet" href="{p}assets/css/{c}?v={VERSION}">' for c in css)
     scripts = "\n  ".join(f'<script src="{p}assets/js/{j}?v={VERSION}"></script>' for j in ("main.js", *extra_js))
+    desc = esc(description or auto_description(main))
+    full_title = esc(title if "Elevate Studio" in title else f"{title} | Elevate Studio")
+    graph = [organisation_ld(), {"@type": "WebSite", "@id": f"{SITE_URL}/#webbplats", "url": f"{SITE_URL}/", "name": "Elevate Studio", "inLanguage": "sv-SE", "publisher": {"@id": ORG_ID}}]
+    if crumbs:
+        trail = [("Start", "index.html")] + [(label, href or "__SELF__") for label, href in crumbs]
+        graph.append({"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": i, "name": label, "item": f"{SITE_URL}/{href}" if href != "__SELF__" else "__CANONICAL__"}
+            for i, (label, href) in enumerate(trail, 1)]})
+    graph.extend(jsonld)
+    ld = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False).replace("</", "<\\/")
     return f'''<!DOCTYPE html>
 <html lang="sv">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>{esc(title)} | Elevate Studio</title>
+  <meta name="robots" content="{robots}">
+  <title>{full_title}</title>
+  <meta name="description" content="{desc}">
+  <link rel="canonical" href="__CANONICAL__">
+  <meta property="og:type" content="{og_type}">
+  <meta property="og:site_name" content="Elevate Studio">
+  <meta property="og:locale" content="sv_SE">
+  <meta property="og:title" content="{full_title}">
+  <meta property="og:description" content="{desc}">
+  <meta property="og:url" content="__CANONICAL__">
+  <meta property="og:image" content="{SITE_URL}/assets/img/brand/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#1d3b2a">
   <link rel="icon" href="{p}assets/img/brand/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="{p}assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{p}assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
   {links}
+  <script type="application/ld+json">{ld}</script>
 </head>
-<body class="{body_class}">
+<body class="{body_class}" data-ga="{esc(GA_MEASUREMENT_ID)}">
 
   {header(p, crumbs, current)}
 
@@ -265,7 +321,7 @@ def page_hero(title, lead, eyebrow=""):
     </section>'''
 
 
-def cta(p, title="Ska vi bygga något tillsammans?", text="Berätta kort om vad du funderar på, så hör vi av oss inom en arbetsdag."):
+def cta(p, title="Ska vi bygga något tillsammans?", text="Berätta kort om vad du funderar på, så hör vi av oss så fort vi kan."):
     return f'''<section class="cta-band">
       <div class="container cta-band__inner">
         <div>
@@ -346,41 +402,50 @@ def featured_posts(p, articles):
 
 
 def contact_form(p):
-    return f'''<form class="standout__form js-demo-form" id="formular">
+    return f'''<form class="standout__form js-form" id="formular" action="{FORM_ENDPOINT}" method="post" data-subject="Ny förfrågan från hemsidan">
           <h3 class="standout__header">Hej! Jag vill gärna bli kontaktad.</h3>
           <div class="standout__fields">
-            <label><span class="sr-only">Namn</span><input type="text" placeholder="Namn" required></label>
-            <label><span class="sr-only">E-post</span><input type="email" placeholder="E-post" required></label>
-            <label><span class="sr-only">Telefon</span><input type="tel" placeholder="Telefon"></label>
-            <label><span class="sr-only">Organisation</span><input type="text" placeholder="Organisation"></label>
-            <label class="standout__wide"><span class="sr-only">Meddelande</span><textarea placeholder="Meddelande" rows="1"></textarea></label>
+            <label><span class="sr-only">Namn</span><input type="text" name="namn" placeholder="Namn" autocomplete="name" required></label>
+            <label><span class="sr-only">E-post</span><input type="email" name="email" placeholder="E-post" autocomplete="email" required></label>
+            <label><span class="sr-only">Telefon</span><input type="tel" name="telefon" placeholder="Telefon" autocomplete="tel"></label>
+            <label><span class="sr-only">Företag</span><input type="text" name="foretag" placeholder="Företag" autocomplete="organization"></label>
+            <label class="standout__wide"><span class="sr-only">Meddelande</span><textarea name="meddelande" placeholder="Meddelande" rows="1"></textarea></label>
           </div>
+          <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p class="standout__consent">När du skickar formuläret godkänner du vår <a href="{p}integritet.html">integritetspolicy</a></p>
           <button type="submit" class="btn btn--primary"><span>Skicka</span></button>
-          <p class="demo-form-status standout__status" role="status" hidden>Tack! Det här är en designstudie, så inget skickades.</p>
+          <p class="form-status standout__status" role="status" hidden></p>
         </form>'''
 
 
 # ---------------------------------------------------------------- pages
 
+def page_url(path):
+    if path == "index.html":
+        return f"{SITE_URL}/"
+    if path.endswith("/index.html"):
+        return f"{SITE_URL}/{path[:-len('index.html')]}"
+    return f"{SITE_URL}/{path}"
+
+
 def write(path, text):
     out = ROOT / path
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(text, encoding="utf-8")
+    out.write_text(text.replace("__CANONICAL__", page_url(path)), encoding="utf-8")
     return path
 
 
 def build_services():
     p = "../"
     cards = "".join(service_card(p, s) for s in SERVICES)
-    steps = [("Kartläggning", "Vi förstår verksamheten, användarna och målen."),
-             ("Design", "Koncept och prototyper som testas tidigt."),
-             ("Bygge", "Korta etapper med löpande demo."),
-             ("Test", "Funktion, tillgänglighet och säkerhet."),
-             ("Lansering", "Noggrann uppföljning de första veckorna.")]
+    steps = [("Vi lär känna företaget", "Ett kort möte om era tjänster, era kunder och vilka affärer ni vill ha fler av."),
+             ("Vi bygger hemsidan", "Mobilanpassad design med tydliga tjänstesidor, klar på 1–2 veckor."),
+             ("Vi kopplar på smarta funktioner", "Offertflöde, bokning, AI-chatt och notiser testas före lansering."),
+             ("Hemsidan börjar ge förfrågningar", "Sidan lanseras och indexeras av Google."),
+             ("Vi förbättrar över tid", "Vi följer upp vad som ger kunder och justerar löpande.")]
     steps_html = "".join(f'<li><span class="step-list__no">{i}</span><h3>{t}</h3><p>{d}</p></li>' for i, (t, d) in enumerate(steps, 1))
     main = f'''<main>
-    {page_hero("Vad vi <em>gör</em>", "Från strategi och design till utveckling, tillväxt och drift. Välj en del eller låt oss ta hand om hela kedjan.")}
+    {page_hero("Vad vi <em>gör</em>", "Hemsidor som ger förfrågningar – och de smarta funktionerna runt omkring. Allt från samma lilla team i Uppsala.")}
     <section class="section container">
       <div class="card-grid">{cards}</div>
     </section>
@@ -396,7 +461,6 @@ def build_services():
 
     for s in SERVICES:
         includes = "".join(f'<div class="info-card"><h3 class="info-card__title">{esc(t)}</h3><p>{esc(d)}</p></div>' for t, d in s["includes"])
-        cases = "".join(case_card(p, CASE[c], False) for c in s["cases"])
         others = "".join(f'<li><a href="{o["slug"]}.html" class="arrow-link">{esc(o["name"])}</a></li>' for o in SERVICES if o is not s)
         main = f'''<main>
     {page_hero(esc(s["name"]), s["lead"], "Tjänst")}
@@ -406,7 +470,7 @@ def build_services():
         <p class="preamble">{esc(s["intro"])}</p>
         <a href="../kontakt.html" class="btn btn--primary"><span>Boka ett samtal</span></a>
       </div>
-      <img class="rounded" src="../assets/img/{s["image"]}" alt="" width="632" height="474" loading="lazy">
+      <img class="rounded" src="../assets/img/{s["image"]}" alt="{esc(s["alt"])}" width="632" height="474" loading="lazy">
     </section>
     <section class="section section--cream">
       <div class="container">
@@ -415,11 +479,13 @@ def build_services():
       </div>
     </section>
     <section class="section container">
-      <div class="block__header-row">
-        <h2 class="block__header">Utvalda <span>projekt</span></h2>
-        <a href="../projekt/index.html" class="arrow-link">Se alla</a>
+      <div class="plans-note">
+        <div>
+          <h2 class="plans-note__title">Fast pris</h2>
+          <p>Ni får ett fast pris i en offert innan vi börjar. Se vad som ingår i våra paket.</p>
+        </div>
+        <div class="plans-note__links"><a class="arrow-link" href="../priser.html">Se priser</a></div>
       </div>
-      <ul class="cases__grid cases__grid--even">{cases}</ul>
     </section>
     <section class="section container">
       <h2 class="h3 section__title">Fler tjänster</h2>
@@ -427,8 +493,10 @@ def build_services():
     </section>
     {cta(p)}
   </main>'''
-        yield write(f'tjanster/{s["slug"]}.html', document(p, s["name"], main, "subpage",
-                    [("Vad vi gör", "tjanster/index.html"), (s["name"], "")], "tjanster"))
+        service = {"@type": "Service", "name": s["name"], "description": s["lead"], "provider": {"@id": ORG_ID},
+                   "areaServed": {"@type": "Country", "name": "Sverige"}, "url": "__CANONICAL__"}
+        yield write(f'tjanster/{s["slug"]}.html', document(p, f'{s["name"]} i Uppsala', main, "subpage",
+                    [("Vad vi gör", "tjanster/index.html"), (s["name"], "")], "tjanster", jsonld=[service]))
 
 
 def build_cases():
@@ -436,7 +504,7 @@ def build_cases():
     pattern = [True, False, False, True]
     cards = "".join(case_card(p, c, pattern[i % 4]) for i, c in enumerate(CASES))
     main = f'''<main>
-    {page_hero("Våra <em>projekt</em>", "Ett urval av uppdrag där strategi, design och teknik har gjort skillnad. Alla kunder och projekt här är påhittade exempel.")}
+    {page_hero("Våra <em>projekt</em>", "Exempel på hur vi arbetar. Kunderna och projekten på den här sidan är påhittade exempel.")}
     <section class="section container">
       <ul class="cases__grid">{cards}</ul>
     </section>
@@ -447,13 +515,12 @@ def build_cases():
     for i, c in enumerate(CASES):
         nxt = CASES[(i + 1) % len(CASES)]
         tags = "".join(f"<li>{esc(t)}</li>" for t in c["tags"])
-        services = "".join(f'<li><a href="../tjanster/{s}.html" class="arrow-link">{esc(SERVICE[s]["name"])}</a></li>' for s in c["services"])
         main = f'''<main>
     {page_hero(esc(c["name"]), c["lead"], "Projekt")}
     <section class="section container">
       <ul class="tag-row">{tags}</ul>
       <img class="rounded case-hero-image" src="../assets/img/{c["image"]}" alt="" width="1304" height="{round(1304 * c["h"] / c["w"])}">
-      <p class="fiction-note">Påhittat exempelprojekt i en designstudie.</p>
+      <p class="fiction-note">Påhittat exempelprojekt som visar hur vi arbetar.</p>
     </section>
     <section class="section container">
       <div class="card-grid">
@@ -462,11 +529,7 @@ def build_cases():
         <div class="info-card info-card--accent"><h2 class="info-card__title">Resultatet</h2><p>{esc(c["result"])}</p></div>
       </div>
     </section>
-    <section class="section container two-up">
-      <div>
-        <h2 class="h3 section__title">Tjänster i projektet</h2>
-        <ul class="link-list">{services}</ul>
-      </div>
+    <section class="section container">
       <a class="next-card" href="{nxt["slug"]}.html">
         <span class="next-card__label">Nästa projekt</span>
         <span class="next-card__title">{esc(nxt["name"])}</span>
@@ -531,8 +594,11 @@ def build_articles():
     </section>
     {cta(p)}
   </main>'''
+        posting = {"@type": "BlogPosting", "headline": a["title"], "datePublished": iso_date(a["date"]), "inLanguage": "sv-SE",
+                   "image": f"{SITE_URL}/assets/img/{a['image']}", "author": {"@id": ORG_ID}, "publisher": {"@id": ORG_ID},
+                   "mainEntityOfPage": "__CANONICAL__", "keywords": ", ".join(a["terms"])}
         yield write(f'insikter/{a["slug"]}.html', document(p, a["title"], main, "subpage",
-                    [("Senaste nytt", "insikter/index.html"), (a["title"], "")], "insikter"))
+                    [("Senaste nytt", "insikter/index.html"), (a["title"], "")], "insikter", jsonld=[posting], og_type="article"))
 
 
 def build_platforms():
@@ -599,7 +665,7 @@ def build_simple():
                 parts.append(f'<section class="section container"><p class="preamble prose">{esc(value)}</p></section>')
             elif kind == "cols":
                 cards = "".join(
-                    f'<div class="info-card"{" id=\"folj-oss\"" if t == "Följ oss" else ""}><h2 class="info-card__title">{esc(t)}</h2><p>{d}</p></div>'
+                    f'<div class="info-card"><h2 class="info-card__title">{esc(t)}</h2><p>{d}</p></div>'
                     for t, d in value)
                 parts.append(f'<section class="section container"><div class="card-grid">{cards}</div></section>')
             elif kind == "team":
@@ -625,12 +691,38 @@ def build_simple():
             elif kind == "links":
                 links = "".join(f'<li><a href="{href}" class="arrow-link">{esc(label)}</a></li>' for label, href in value)
                 parts.append(f'<section class="section container"><ul class="link-list">{links}</ul></section>')
+            elif kind == "contact":
+                ic_mail = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2.2V17h16V7.2l-8 5.3z M4.6 7l7.4 4.9L19.4 7z" fill="currentColor"/></svg>'
+                ic_pin = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg>'
+                ic_doc = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm8 1.5V8h4.5zM8 12h8v1.6H8zm0 4h8v1.6H8z" fill="currentColor"/></svg>'
+                parts.append(f'''<section class="contact-strip">
+      <div class="container contact-strip__row">
+        <a class="contact-strip__item contact-strip__item--main" href="mailto:info@elevatestudio.nu">
+          <span class="contact-strip__icon">{ic_mail}</span>
+          <span class="contact-strip__label">Mejla oss</span>
+          <span class="contact-strip__value">info@elevatestudio.nu</span>
+          <span class="contact-strip__note">Vi svarar så fort vi kan.</span>
+        </a>
+        <div class="contact-strip__item">
+          <span class="contact-strip__icon">{ic_pin}</span>
+          <span class="contact-strip__label">Här finns vi</span>
+          <span class="contact-strip__value">Uppsala</span>
+          <span class="contact-strip__note">Vi jobbar med företag i hela Sverige – på plats eller på distans.</span>
+        </div>
+        <a class="contact-strip__item" href="{p}priser.html">
+          <span class="contact-strip__icon">{ic_doc}</span>
+          <span class="contact-strip__label">Innan ni hör av er</span>
+          <span class="contact-strip__value">Se våra priser</span>
+          <span class="contact-strip__note">Fast pris från 3 000 kr – och ett exempel på hur avtalet ser ut.</span>
+        </a>
+      </div>
+    </section>''')
             elif kind == "form":
                 parts.append(f'''<section class="standout">
       <div class="container standout__row">
         <div class="standout__intro">
           <h2 class="h2">Skriv till <em>oss</em></h2>
-          <p>Fyll i formuläret så återkommer vi. Eftersom det här är en designstudie skickas inget – men flödet fungerar precis som på riktigt.</p>
+          <p>Berätta kort vad ni funderar på så återkommer vi så fort vi kan. Meddelandet går direkt till info@elevatestudio.nu.</p>
         </div>
         {contact_form(p)}
       </div>
@@ -642,7 +734,7 @@ def build_simple():
     {body}
     {tail}
   </main>'''
-        yield write(f"{slug}.html", document(p, page["title"], main, "subpage", [(page["title"], "")], current_map.get(slug)))
+        yield write(f"{slug}.html", document(p, page["title"], main, "subpage", [(page["title"], "")], current_map.get(slug), description=page.get("description")))
 
 
 def build_test_page():
@@ -653,7 +745,7 @@ def build_test_page():
         <p class="page-hero__eyebrow">Gratis djuptest</p>
         <h1 class="page-hero__title">Hur presterar <em>din sajt?</em></h1>
         <p class="page-hero__lead">Skriv in din adress så testar vi sidan i en riktig webbläsare på cirka 30 sekunder. Du får betyg för prestanda, tillgänglighet, bästa praxis och SEO – och konkreta förslag på hur allt kan åtgärdas.</p>
-        <form class="sitetest__form" id="sitetest-form" data-api-key="{esc(PSI_API_KEY)}" data-prefix="{p}" novalidate>
+        <form class="sitetest__form" id="sitetest-form" data-api-key="{esc(PSI_API_KEY)}" data-form-endpoint="{FORM_ENDPOINT}" data-prefix="{p}" novalidate>
           <label class="sitetest__field"><span class="sr-only">Webbadress</span>
             <input type="text" name="url" inputmode="url" autocomplete="url" placeholder="dittforetag.se" required>
           </label>
@@ -726,11 +818,11 @@ def build_agreement():
             <table>
               <thead><tr><th>Post</th><th>Pris (exkl. moms)</th></tr></thead>
               <tbody>
-                <tr><td>Webbutveckling - fast startavgift</td><td>1 750 kr</td></tr>
+                <tr><td>Webbutveckling - fast startavgift</td><td>3 000 kr</td></tr>
                 <tr><td>Årsavgift</td><td>99 kr/år</td></tr>
                 <tr><td>Webbredigering och support, upp till 10 tim/mån första året</td><td>Ingår</td></tr>
               </tbody>
-              <tfoot><tr><td>Totalt första året</td><td>1 849 kr</td></tr></tfoot>
+              <tfoot><tr><td>Totalt första året</td><td>3 099 kr</td></tr></tfoot>
             </table>
             <p>Under de första 12 månaderna från leverans ingår upp till 10 timmars redigeringssupport per månad. Supporten kan användas för text- och bildändringar, layoutjusteringar, nya funktioner eller större ombyggnationer av webbplatsen.</p>
             <p>Nya funktioner och större ombyggnationer utförs inom den tillgängliga månadstiden. Arbete utöver 10 timmar under en månad förutsätter separat överenskommelse. Outnyttjade timmar förs inte över till nästa månad.</p>
@@ -821,15 +913,113 @@ def build_prices():
     </section>
     {cta(p, "Osäkra på vilket som passar?", "Boka ett kort möte så hjälper vi er att välja – utan att ni förbinder er till något.")}
   </main>'''
-    yield write("priser.html", document(p, "Priser", main, "subpage", [("Priser", "")], "priser"))
+    catalog = {"@type": "OfferCatalog", "name": "Paket för hemsidor", "itemListElement": [
+        {"@type": "Offer", "name": name, "description": text, "seller": {"@id": ORG_ID},
+         **({"price": price.replace(" ", "").replace("kr", ""), "priceCurrency": "SEK"} if "kr" in price else {})}
+        for name, price, unit, text, items, cta_label, feat in plans]}
+    yield write("priser.html", document(p, "Priser för hemsidor", main, "subpage", [("Priser", "")], "priser",
+                description="Fasta priser för hemsidor: Starter 3 000 kr, Pro 6 000 kr och Elite efter offert. Support ingår första året. Alla priser exkl. moms.", jsonld=[catalog]))
 
 
-def rewrap(path, body_class, crumbs=None, extra_js=()):
+def rewrap(path, body_class, crumbs=None, extra_js=(), robots="index, follow"):
     """Re-wrap a hand-written page's <main> with the generated shell."""
     src = (ROOT / path).read_text(encoding="utf-8")
     main = re.search(r"<main[\s\S]*?</main>", src).group(0)
-    title = re.search(r"<title>(.*?) \| (?:Designstudie|Elevate Studio)</title>", src).group(1)
-    return write(path, document("", html.unescape(title), main, body_class, crumbs, None, extra_js=extra_js))
+    title = re.search(r"<title>(.*?)</title>", src).group(1)
+    return write(path, document("", html.unescape(title), main, body_class, crumbs, None, extra_js=extra_js, robots=robots))
+
+
+def bento_section():
+    mark = '<svg class="bento__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>'
+    s = {x["slug"]: x for x in SERVICES}
+    photo = lambda x: f'''<a class="bento__tile bento__tile--photo" href="tjanster/{x["slug"]}.html">
+        <img src="assets/img/{x["image"]}" alt="{esc(x["alt"])}" width="636" height="477" loading="lazy">
+        <span class="bento__cap">{esc(x["name"])}</span>
+      </a>'''
+    text = lambda x, extra="": f'''<a class="bento__tile bento__tile--text{extra}" href="tjanster/{x["slug"]}.html">
+        <h3>{esc(x["name"])}</h3>
+        <p>{esc(x["card"])}</p>
+        <span class="arrow-link">Läs mer</span>
+      </a>'''
+    return f'''<section class="block container bento" id="tjanster-oversikt" aria-label="Vad vi gör">
+      <a class="bento__tile bento__tile--big" href="tjanster/index.html">
+        {mark}
+        <div class="bento__body">
+          <h2 class="bento__title">Allt en hemsida <em>behöver</em></h2>
+          <p class="bento__lead">Hemsida, smarta funktioner, synlighet och support – hos samma lilla team.</p>
+          <span class="btn btn--light"><span>Se vad vi gör</span></span>
+        </div>
+      </a>
+      {photo(s["hemsidor"])}
+      {text(s["ai-chatt"])}
+      {text(s["bokning-och-offert"], " bento__tile--sand")}
+      {photo(s["seo-och-ai-optimering"])}
+    </section>'''
+
+
+def services_grid():
+    cards = "".join(f'''
+        <a class="svc-card" href="tjanster/{x["slug"]}.html">
+          <img src="assets/img/{x["image"]}" alt="{esc(x["alt"])}" width="636" height="420" loading="lazy">
+          <div class="svc-card__body">
+            <h3>{esc(x["name"])}</h3>
+            <p>{esc(x["card"])}</p>
+            <span class="arrow-link">Läs mer</span>
+          </div>
+        </a>''' for x in SERVICES)
+    return f'''<div class="svc-grid">{cards}
+        <a class="svc-card svc-card--cta" href="testa.html">
+          <div class="svc-card__body">
+            <h3>Hur presterar er sajt i dag?</h3>
+            <p>Testa er nuvarande hemsida gratis och se vad som kan bli bättre.</p>
+            <span class="arrow-link">Testa din sajt</span>
+          </div>
+        </a>
+      </div>'''
+
+
+MONTHS = ["januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober", "november", "december"]
+
+
+def iso_date(text):
+    day, month, year = text.split()
+    return f"{int(year):04d}-{MONTHS.index(month) + 1:02d}-{int(day):02d}"
+
+
+def site_files(built):
+    """sitemap.xml, robots.txt and llms.txt (a plain summary for AI assistants)."""
+    today = datetime.date.today().isoformat()
+    pages = sorted(x for x in built if x != "404.html")
+    urls = "".join(f"\n  <url><loc>{page_url(x)}</loc><lastmod>{today}</lastmod></url>" for x in pages)
+    (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}\n</urlset>\n', encoding="utf-8")
+    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
+    services = "\n".join(f"- [{x['name']}]({SITE_URL}/tjanster/{x['slug']}.html): {x['lead']}" for x in SERVICES)
+    team = "\n".join(f"- {n}, {r}: {t}, {e}" for n, r, t, e in TEAM)
+    articles = "\n".join(f"- [{a['title']}]({SITE_URL}/insikter/{a['slug']}.html)" for a in ARTICLES)
+    llms = f"""# Elevate Studio
+
+> Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor som ger förfrågningar – med bokning, offertflöde, AI-chatt, SEO och AI-optimering. Fast pris, och kunden pratar alltid med samma person. Arbetar med företag i hela Sverige.
+
+## Tjänster
+{services}
+
+## Priser (exkl. moms)
+- Starter: 3 000 kr i startavgift + 99 kr/år. Webbdesign och mobilanpassning, kontaktfunktion, grundläggande SEO och AI-optimering, två korrekturvändor, upp till 10 timmars support per månad första året.
+- Pro: 6 000 kr i startavgift + 99 kr/år. Allt i Starter plus offertflöde eller bokning, AI-chatt, notiser via e-post och SMS samt förfrågningar med status och historik.
+- Elite: pris efter offert för större sajter, integrationer och egna funktioner.
+- Leverans: cirka en månad från beställning. Kunden äger sin domän.
+- [Priser]({SITE_URL}/priser.html) · [Exempel på webbavtal]({SITE_URL}/avtal.html)
+
+## Kontakt
+- E-post: info@elevatestudio.nu
+- Ort: Uppsala, Sverige
+{team}
+
+## Artiklar
+{articles}
+"""
+    (ROOT / "llms.txt").write_text(llms, encoding="utf-8")
+    return ["sitemap.xml", "robots.txt", "llms.txt"]
 
 
 def platforms_section():
@@ -839,7 +1029,7 @@ def platforms_section():
         <h2 class="block__header">Våra <span>plattformar</span></h2>
         <div class="platforms__row">
           <aside class="platforms__aside">
-            <p>Verktygen vi bygger med – samma som användes för att bygga just den här sajten. Vi hjälper er att välja det som passar er bäst.</p>
+            <p>Verktygen vi bygger med. Vi väljer det som passar ert företag – ni behöver aldrig tänka på tekniken.</p>
             <a href="plattformar/index.html" class="arrow-link">Läs mer</a>
           </aside>
           <div class="platforms__cards">{cards}</div>
@@ -859,6 +1049,9 @@ def main():
     regions = {
         "posts": featured_posts("", ARTICLES),
         "platforms": platforms_section(),
+        "bento": bento_section(),
+        "services": services_grid(),
+        "contactform": contact_form(""),
     }
     for name, markup in regions.items():
         src, n = re.subn(rf"<!-- build:{name} -->[\s\S]*?<!-- /build:{name} -->",
@@ -867,7 +1060,8 @@ def main():
             raise SystemExit(f"index.html: marker for {name!r} found {n} times")
     index.write_text(src, encoding="utf-8")
     built.append(rewrap("index.html", "home", extra_js=("home.js",)))
-    built.append(rewrap("404.html", "error404", crumbs=[("Fel 404", "")]))
+    built.append(rewrap("404.html", "error404", crumbs=[("Fel 404", "")], robots="noindex"))
+    built.extend(site_files(built))
     print(f"Built {len(built)} pages")
 
 

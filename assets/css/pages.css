@@ -426,3 +426,26 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
   .pricing__mark { right: -110px; bottom: -70px; width: 360px; }
   .plans-note { padding: 28px 24px; }
 }
+
+/* ---------- Contact strip (contact page) ---------- */
+.contact-strip { padding: 72px 0; background: var(--cream-dark, #f6f1e4); }
+.contact-strip__row { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 20px; }
+.contact-strip__item { display: flex; flex-direction: column; padding: 32px 32px 30px; border-radius: 22px; background: #fff; color: #111; text-decoration: none; transition: transform .25s, box-shadow .25s; }
+a.contact-strip__item:hover { transform: translateY(-4px); box-shadow: 0 24px 40px -30px rgba(18, 39, 27, .55); }
+.contact-strip__item--main { background: var(--accent, #1d3b2a); color: var(--cream, #fdfbf5); }
+.contact-strip__icon { display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 28px; border-radius: 50%; background: var(--cream-dark, #f6f1e4); color: var(--accent, #1d3b2a); }
+.contact-strip__item--main .contact-strip__icon { background: rgba(253, 251, 245, .12); color: #fff; }
+.contact-strip__icon svg { width: 24px; height: 24px; }
+.contact-strip__label { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent, #1d3b2a); }
+.contact-strip__item--main .contact-strip__label { color: var(--cream, #fdfbf5); opacity: .75; }
+.contact-strip__value { margin: 8px 0 10px; font-size: 28px; font-weight: 500; line-height: 1.2; overflow-wrap: anywhere; }
+.contact-strip__item--main .contact-strip__value { color: #fff; }
+.contact-strip__note { margin-top: auto; font-size: 15px; color: #5d6a63; }
+.contact-strip__item--main .contact-strip__note { color: var(--cream, #fdfbf5); opacity: .8; }
+@media (max-width: 992px) { .contact-strip__row { grid-template-columns: 1fr; } }
+@media (max-width: 768px) { .contact-strip { padding: 48px 0; } .contact-strip__item { padding: 26px 24px; } .contact-strip__value { font-size: 23px; } }
+
+.sitetest__lead { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.sitetest__lead label { flex: 1 1 240px; }
+.sitetest__lead input { width: 100%; height: 52px; padding: 0 20px; border: 1px solid #e3dccb; border-radius: 26px; background: #fff; font: inherit; }
+.sitetest__lead .form-status { flex-basis: 100%; margin: 4px 0 0; }

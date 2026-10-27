@@ -70,25 +70,67 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Demo forms: nothing is sent, but the flow behaves like a real one
-  document.querySelectorAll('.js-demo-form').forEach(function (form) {
+  // Forms: sent to info@elevatestudio.nu through FormSubmit, with the result shown inline
+  document.querySelectorAll('.js-form').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var status = form.querySelector('.demo-form-status');
-      if (status) status.hidden = false;
-      form.reset();
+      var status = form.querySelector('.form-status');
+      var button = form.querySelector('[type="submit"]');
+      var data = {};
+      new FormData(form).forEach(function (value, key) { data[key] = value; });
+      if (data._honey) return;
+      delete data._honey;
+      data._subject = form.dataset.subject || 'Meddelande från hemsidan';
+      data._template = 'table';
+      data.sida = location.href;
+      var show = function (text, ok) {
+        if (!status) return;
+        status.hidden = false;
+        status.textContent = text;
+        status.classList.toggle('form-status--error', !ok);
+      };
+      button.disabled = true;
+      show('Skickar …', true);
+      fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
+        .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
+        .then(function (r) {
+          if (!r.ok || String(r.body.success) === 'false') throw new Error(r.body.message || 'fel');
+          form.reset();
+          show(form.classList.contains('site-footer__newsletter') ? 'Tack! Du står nu på listan.' : 'Tack! Vi återkommer så fort vi kan.', true);
+        })
+        .catch(function () {
+          show('Något gick fel. Mejla oss gärna direkt på info@elevatestudio.nu.', false);
+        })
+        .then(function () { button.disabled = false; });
     });
   });
 
-  // Cookie dialog: the choice is only remembered locally
+  // Statistics: Google Analytics loads only after the visitor accepts, and only if an ID is configured
+  var gaId = body.dataset.ga;
   var dialog = document.getElementById('cookie-dialog');
+  function loadAnalytics() {
+    if (!gaId || window.gtag) return;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', gaId, { anonymize_ip: true });
+    var tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaId);
+    document.head.appendChild(tag);
+  }
   var stored = null;
   try { stored = localStorage.getItem('cookie-choice'); } catch (err) {}
-  if (!stored) dialog.hidden = false;
+  if (gaId && stored === 'accept') loadAnalytics();
+  if (gaId && !stored) dialog.hidden = false;
   dialog.querySelectorAll('button').forEach(function (btn) {
     btn.addEventListener('click', function () {
       try { localStorage.setItem('cookie-choice', btn.dataset.choice); } catch (err) {}
       dialog.hidden = true;
+      if (btn.dataset.choice === 'accept') loadAnalytics();
     });
+  });
+  document.querySelectorAll('.js-cookie-settings').forEach(function (btn) {
+    btn.addEventListener('click', function () { dialog.hidden = false; });
   });
 })();
