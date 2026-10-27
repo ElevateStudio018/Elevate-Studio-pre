@@ -437,7 +437,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 .flow__no { color: var(--accent, #1d3b2a); }
 .flow__step h3 { margin: 0 0 8px; font-size: 28px; font-weight: 500; line-height: 1.2; }
 .flow__step p { margin: 0; max-width: 520px; font-size: 17px; color: #555; }
-.flow__media { position: sticky; top: calc(var(--header-h, 100px) + 24px); height: min(520px, 62vh); overflow: hidden; border-radius: 16px; background: #e9e2d0; }
+.flow__media { position: sticky; top: calc((100vh - min(520px, 62vh)) / 2); height: min(520px, 62vh); overflow: hidden; border-radius: 16px; background: #e9e2d0; }
 .flow__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .5s; }
 .flow__media img.is-current { opacity: 1; }
 @media (max-width: 1200px) { .process__head { gap: 48px; } .flow { gap: 48px; } }
