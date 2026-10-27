@@ -31,6 +31,9 @@
     out: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>',
     msg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
     menu: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M3 12h18M3 18h18"/></svg>',
+    star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.5 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.5 6.6-.8z"/></svg>',
+    mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>',
+    bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
     site: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>'
   };
 
@@ -42,7 +45,15 @@
       '<div class="login__form"><form class="login__card" id="login"><h2>Logga in</h2><p style="color:var(--muted);margin:0 0 22px">För Elevate-teamet.</p>' +
       '<label class="field">E-post<input class="input" type="email" name="email" autocomplete="email" required></label>' +
       '<label class="field">Lösenord<input class="input" type="password" name="password" autocomplete="current-password" required></label>' +
-      '<button class="btn btn--block" type="submit">Logga in</button><p class="msg" id="login-msg">' + esc(message || '') + '</p></form></div></div>';
+      '<button class="btn btn--block" type="submit">Logga in</button><p class="msg" id="login-msg">' + esc(message || '') + '</p>' +
+      '<button type="button" class="link" id="forgot">Glömt lösenord?</button></form></div></div>';
+    $('#forgot').addEventListener('click', function () {
+      var email = $('#login').email.value.trim();
+      if (!email) { $('#login-msg').textContent = 'Fyll i din e-post först, tryck sedan på Glömt lösenord.'; return; }
+      sb.auth.resetPasswordForEmail(email, { redirectTo: location.href.split('#')[0] }).then(function (r) {
+        $('#login-msg').textContent = r.error ? r.error.message : 'Om e-posten finns skickas en länk dit. Klicka på den för att välja ett nytt lösenord.';
+      });
+    });
     $('#login').addEventListener('submit', function (e) {
       e.preventDefault();
       var f = e.target, btn = $('button', f);
@@ -228,11 +239,11 @@
 
   function openReview(l) {
     var who = 'Elevate Studio';
-    dialog('<div class="star">★</div><h2>Grattis till affären!</h2><p>Be ' + esc(l.company || l.name) + ' om en recension på Google – nu direkt eller om en vecka.</p>' +
+    dialog('<div class="star">' + ICON.star + '</div><h2>Grattis till affären!</h2><p>Be ' + esc(l.company || l.name) + ' om en recension på Google – nu direkt eller om en vecka.</p>' +
       '<div class="field">Mejlet skickas från<div class="who">' + TEAM.map(function (t) { return '<button class="chip" data-who="' + t[1] + '">' + t[0] + '</button>'; }).join('') +
       '<button class="chip is-on" data-who="Elevate Studio">Elevate Studio</button></div></div>' +
-      '<div class="stack"><button class="btn" id="mail"' + (l.email ? '' : ' disabled') + '>✉ Skicka mejl för att recensera' + (l.email ? '' : ' (e-post saknas)') + '</button>' +
-      '<button class="btn btn--ghost" id="remind">🔔 Påminn mig om en vecka</button><button class="btn btn--ghost" data-close style="justify-content:center">Inte nu</button></div>',
+      '<div class="stack"><button class="btn" id="mail"' + (l.email ? '' : ' disabled') + '>' + ICON.mail + 'Skicka mejl för att recensera' + (l.email ? '' : ' (e-post saknas)') + '</button>' +
+      '<button class="btn btn--ghost" id="remind">' + ICON.bell + 'Påminn mig om en vecka</button><button class="btn btn--ghost" data-close style="justify-content:center">Inte nu</button></div>',
       function (d) {
         d.querySelectorAll('[data-who]').forEach(function (b) {
           b.addEventListener('click', function () { who = b.dataset.who; d.querySelectorAll('[data-who]').forEach(function (x) { x.classList.toggle('is-on', x === b); }); });
@@ -307,9 +318,27 @@
     });
   }
 
+  // After clicking the reset link in the e-mail: choose a new password
+  function renderNewPassword() {
+    root.innerHTML = '<div class="login"><aside class="login__side"><span class="brand">' + MARK + 'Elevate Studio</span><div><h1>Nytt <span class="serif">lösenord.</span></h1></div><p>elevatestudio.nu</p><span class="login__big">' + MARK + '</span></aside>' +
+      '<div class="login__form"><form class="login__card" id="newpw"><h2>Välj nytt lösenord</h2><label class="field">Nytt lösenord (minst 8 tecken)<input class="input" type="password" name="pw" minlength="8" autocomplete="new-password" required></label>' +
+      '<button class="btn btn--block" type="submit">Spara lösenord</button><p class="msg" id="pw-msg"></p></form></div></div>';
+    $('#newpw').addEventListener('submit', function (e) {
+      e.preventDefault();
+      sb.auth.updateUser({ password: e.target.pw.value }).then(function (r) {
+        if (r.error) { $('#pw-msg').textContent = r.error.message; return; }
+        history.replaceState(null, '', location.pathname);
+        start(r.data.user);
+      });
+    });
+  }
+  var recovering = /type=recovery/.test(location.hash);
+  sb.auth.onAuthStateChange(function (event) { if (event === 'PASSWORD_RECOVERY') { recovering = true; renderNewPassword(); } });
+
   /* ---------- Start ---------- */
   sb.auth.getSession().then(function (r) {
     var u = r.data && r.data.session && r.data.session.user;
+    if (recovering) return renderNewPassword();
     if (u) start(u); else renderLogin();
   });
 })();

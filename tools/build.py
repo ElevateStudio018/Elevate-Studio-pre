@@ -526,7 +526,7 @@ def compare(p, after, after_alt, label_after="Efter"):
     return f'''<div class="compare" data-compare style="--pos:50%">
         <div class="compare__before" aria-hidden="true"><div class="compare__old"><i class="o1"></i><i class="o2"></i><i class="o3"></i><i class="o3 o3--s"></i><i class="o4"></i></div><span class="compare__lb">Före</span></div>
         <div class="compare__after"><img src="{after}" alt="{esc(after_alt)}" loading="lazy"><span class="compare__lb compare__lb--after">{label_after}</span></div>
-        <div class="compare__handle" aria-hidden="true"><span>&#8596;</span></div>
+        <div class="compare__handle" aria-hidden="true"><span><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span></div>
         <input class="compare__range" type="range" min="0" max="100" value="50" aria-label="Dra för att jämföra före och efter">
       </div>'''
 
