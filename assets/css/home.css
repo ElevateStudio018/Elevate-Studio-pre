@@ -267,6 +267,103 @@ h2, h3 { margin: 0; font-weight: 400; }
   .case__overlay { display: none; }
 }
 
+/* ---------- Bento: services overview ---------- */
+.bento {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  grid-template-rows: 300px 300px;
+  gap: 24px;
+}
+.bento__tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--cream, #f5f0e6);
+  color: #000;
+  text-decoration: none;
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s;
+}
+.bento__tile:hover { transform: translateY(-6px); box-shadow: 0 28px 50px -30px rgba(18, 39, 27, .55); }
+.bento__tile--big {
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 48px;
+  background: var(--accent, #1d3b2a);
+  color: var(--cream, #f5f0e6);
+}
+.bento__title { margin: 0; font-size: 56px; font-weight: 400; line-height: 1.05; color: #fff; }
+.bento__title em { font-family: var(--serif); letter-spacing: 0; font-variation-settings: "opsz" 72, "SOFT" 0, "WONK" 0; }
+.bento__lead { margin: 0; font-size: 20px; line-height: 1.5; }
+.bento__tile--big .btn { align-self: flex-start; }
+.bento__tile--big:hover .btn--light { background: #fff; }
+.bento__tile--text { display: flex; flex-direction: column; justify-content: flex-end; padding: 32px; }
+.bento__tile--text h3 { margin: 0 0 8px; font-size: 30px; font-weight: 500; }
+.bento__tile--text p { margin: 0 0 16px; }
+.bento__tile--sand { background: var(--cream-dark, #ebe3d4); }
+.bento__tile--photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.bento__tile--photo:hover img { transform: scale(1.05); }
+.bento__cap {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  padding: 8px 16px;
+  border-radius: 30px;
+  background: #fff;
+  font-weight: 500;
+}
+@media (max-width: 992px) {
+  .bento { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+  .bento__tile--big { grid-column: 1 / -1; grid-row: auto; }
+  .bento__tile { min-height: 260px; }
+}
+@media (max-width: 576px) {
+  .bento { grid-template-columns: 1fr; gap: 16px; }
+  .bento__tile--big { padding: 32px; }
+  .bento__title { font-size: 40px; }
+  .bento__tile { min-height: 220px; }
+}
+
+/* ---------- Devices: the site on laptop and phone ---------- */
+.devices { padding: 112px 0; background: var(--accent, #1d3b2a); color: var(--cream, #f5f0e6); overflow: hidden; }
+.devices__row { display: grid; grid-template-columns: 420px 1fr; gap: 64px; align-items: center; }
+.devices__title { margin: 0 0 24px; font-size: 52px; font-weight: 400; line-height: 1.05; color: #fff; }
+.devices__title em { font-family: var(--serif); letter-spacing: 0; font-variation-settings: "opsz" 72, "SOFT" 0, "WONK" 0; }
+.devices__text p { margin: 0 0 32px; font-size: 20px; line-height: 1.5; }
+.devices__stage { position: relative; height: 500px; }
+.devices__laptop { position: absolute; top: 10px; left: 0; width: 88%; }
+.devices__screen { padding: 14px; border-radius: 18px 18px 0 0; background: #0c1a12; box-shadow: 0 40px 70px -30px rgba(0, 0, 0, .6); }
+.devices__screen img { display: block; width: 100%; height: auto; border-radius: 6px; }
+.devices__base { height: 18px; margin: 0 -6%; border-radius: 0 0 20px 20px; background: linear-gradient(#d8d1c3, #a9a294); }
+.devices__phone {
+  position: absolute;
+  right: 0;
+  top: 70px;
+  width: 26%;
+  max-width: 220px;
+  padding: 10px;
+  border-radius: 34px;
+  background: #0c1a12;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .6);
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1);
+}
+.devices__phone img { display: block; width: 100%; height: auto; border-radius: 26px; }
+.devices:hover .devices__phone { transform: translateY(-10px); }
+@media (max-width: 1200px) {
+  .devices__row { grid-template-columns: 1fr; gap: 48px; }
+  .devices__text { max-width: 640px; }
+}
+@media (max-width: 768px) {
+  .devices { padding: 64px 0; }
+  .devices__title { font-size: 36px; }
+  .devices__stage { height: auto; padding-bottom: 40px; }
+  .devices__laptop { position: relative; top: 0; width: 86%; }
+  .devices__phone { top: auto; bottom: 0; width: 32%; border-radius: 22px; padding: 6px; }
+  .devices__phone img { border-radius: 17px; }
+}
+
 /* ---------- Client logos ---------- */
 .clients__list {
   display: flex;

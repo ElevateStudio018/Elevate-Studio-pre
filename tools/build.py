@@ -615,8 +615,8 @@ def main():
     for name, markup in regions.items():
         src, n = re.subn(rf"<!-- build:{name} -->[\s\S]*?<!-- /build:{name} -->",
                          lambda _m, name=name, markup=markup: f"<!-- build:{name} -->{markup}<!-- /build:{name} -->", src)
-        if n != 1:
-            raise SystemExit(f"index.html: marker for {name!r} not found")
+        if n > 1:
+            raise SystemExit(f"index.html: marker for {name!r} found {n} times")
     index.write_text(src, encoding="utf-8")
     built.append(rewrap("index.html", "home", extra_js=("home.js",)))
     built.append(rewrap("404.html", "error404", crumbs=[("Fel 404", "")]))

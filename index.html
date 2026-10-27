@@ -7,9 +7,9 @@
   <title>Startsida | Designstudie</title>
   <link rel="preload" href="assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css?v=471126d28d">
-  <link rel="stylesheet" href="assets/css/home.css?v=471126d28d">
-  <link rel="stylesheet" href="assets/css/pages.css?v=471126d28d">
+  <link rel="stylesheet" href="assets/css/style.css?v=98d948cda5">
+  <link rel="stylesheet" href="assets/css/home.css?v=98d948cda5">
+  <link rel="stylesheet" href="assets/css/pages.css?v=98d948cda5">
 </head>
 <body class="home">
 
@@ -120,85 +120,48 @@
       </div>
     </section>
 
-    <!-- Feature -->
-    <section class="block container columns-2 feature">
-      <img class="rounded" src="assets/img/home/playbook.jpg" alt="Porträtt i mjukt motljus" width="632" height="474" loading="lazy">
-      <div>
-        <h2 class="h2">Guiden: Nästa steg</h2>
-        <p class="preamble">En praktisk handbok för dig som leder marknad, varumärke eller produkt och vill fatta bättre beslut om nästa digitala satsning.</p>
-        <a href="guide.html" class="btn btn--primary"><span>Läs mer</span></a>
-      </div>
+    <!-- Bento: services overview -->
+    <section class="block container bento" aria-label="Vad vi gör">
+      <a class="bento__tile bento__tile--big" href="tjanster/index.html">
+        <h2 class="bento__title">Digitalt som <em>gör skillnad</em></h2>
+        <p class="bento__lead">Strategi, design och teknik under samma tak – från första skiss till en tjänst som växer med er.</p>
+        <span class="btn btn--light"><span>Se vad vi gör</span></span>
+      </a>
+      <a class="bento__tile bento__tile--photo" href="tjanster/design.html">
+        <img src="assets/img/home/pair-4.jpg" alt="" width="636" height="595" loading="lazy">
+        <span class="bento__cap">Design &amp; UX</span>
+      </a>
+      <a class="bento__tile bento__tile--text" href="tjanster/utveckling.html">
+        <h3>Utveckling</h3>
+        <p>Snabba, tillgängliga sajter och appar.</p>
+        <span class="arrow-link">Läs mer</span>
+      </a>
+      <a class="bento__tile bento__tile--text bento__tile--sand" href="tjanster/digital-tillvaxt.html">
+        <h3>Digital tillväxt</h3>
+        <p>Sök, annonser och analys som hänger ihop.</p>
+        <span class="arrow-link">Läs mer</span>
+      </a>
+      <a class="bento__tile bento__tile--photo" href="tjanster/drift-och-support.html">
+        <img src="assets/img/home/team.jpg" alt="" width="632" height="421" loading="lazy">
+        <span class="bento__cap">Drift &amp; support</span>
+      </a>
     </section>
 
-    <!-- Cases -->
-    <section class="block cases" id="projekt">
-      <div class="container">
-        <div class="block__header-row">
-          <h2 class="block__header"><span>Projekt</span></h2>
-          <a href="projekt/index.html" class="arrow-link">Se alla</a>
+    <!-- Devices: the site on laptop and phone -->
+    <section class="block devices" id="projekt">
+      <div class="container devices__row">
+        <div class="devices__text">
+          <h2 class="devices__title">Sajter som känns <em>rätt</em> på alla skärmar</h2>
+          <p>Vi designar mobilen först och finputsar varje brytpunkt – så att upplevelsen håller lika hög nivå i telefonen som på en stor skärm.</p>
+          <a class="btn btn--light" href="projekt/index.html"><span>Se våra projekt</span></a>
         </div>
-        <ul class="cases__grid"><!-- build:cases --><li class="case case--big">
-            <a class="case__image" href="projekt/fjallvagen-bildelar.html">
-              <img src="assets/img/home/case-1.jpg" alt="" width="746" height="480" loading="lazy">
-              <span class="case__overlay">
-                <span class="case__overlay-text">En ny e-handel för reservdelar där kunderna hittar rätt del på några klick, oavsett bilmodell.</span>
-                <span class="case__overlay-link"><span class="arrow-link">Läs mer</span></span>
-              </span>
-            </a>
-            <h3 class="case__title"><a href="projekt/fjallvagen-bildelar.html">Fjällvägen Bildelar</a></h3>
-            <ul class="case__tags"><li><a href="projekt/index.html">E-handel</a></li><li><a href="projekt/index.html">Sök</a></li><li><a href="projekt/index.html">Webb</a></li></ul>
-          </li><li class="case">
-            <a class="case__image" href="projekt/bergsalen.html">
-              <img src="assets/img/home/case-2.jpg" alt="" width="534" height="342" loading="lazy">
-              <span class="case__overlay">
-                <span class="case__overlay-text">En kulturhistorisk förening som ville göra sitt arkiv tillgängligt för fler.</span>
-                <span class="case__overlay-link"><span class="arrow-link">Läs mer</span></span>
-              </span>
-            </a>
-            <h3 class="case__title"><a href="projekt/bergsalen.html">Bergsalen</a></h3>
-            <ul class="case__tags"><li><a href="projekt/index.html">Sök</a></li><li><a href="projekt/index.html">Webb</a></li></ul>
-          </li><li class="case">
-            <a class="case__image" href="projekt/nattbryggan.html">
-              <img src="assets/img/home/case-3.svg" alt="" width="534" height="342" loading="lazy">
-              <span class="case__overlay">
-                <span class="case__overlay-text">En app och en webb som gör det enkelt och tryggt att söka stöd, när som helst på dygnet.</span>
-                <span class="case__overlay-link"><span class="arrow-link">Läs mer</span></span>
-              </span>
-            </a>
-            <h3 class="case__title"><a href="projekt/nattbryggan.html">Nattbryggan</a></h3>
-            <ul class="case__tags"><li><a href="projekt/index.html">App</a></li><li><a href="projekt/index.html">Webb</a></li></ul>
-          </li><li class="case case--big">
-            <a class="case__image" href="projekt/ljusars-filmdagar.html">
-              <img src="assets/img/home/case-4.jpg" alt="" width="746" height="480" loading="lazy">
-              <span class="case__overlay">
-                <span class="case__overlay-text">En filmfestival som behövde samla biljetter, program och nyheter på ett ställe.</span>
-                <span class="case__overlay-link"><span class="arrow-link">Läs mer</span></span>
-              </span>
-            </a>
-            <h3 class="case__title"><a href="projekt/ljusars-filmdagar.html">Ljusårs Filmdagar</a></h3>
-            <ul class="case__tags"><li><a href="projekt/index.html">Intranät</a></li><li><a href="projekt/index.html">Sök</a></li><li><a href="projekt/index.html">Webb</a></li></ul>
-          </li><li class="case case--big">
-            <a class="case__image" href="projekt/hallmark-industri.html">
-              <img src="assets/img/home/case-5.jpg" alt="" width="746" height="480" loading="lazy">
-              <span class="case__overlay">
-                <span class="case__overlay-text">Intranät och publika sajter för medarbetare och kunder i många länder.</span>
-                <span class="case__overlay-link"><span class="arrow-link">Läs mer</span></span>
-              </span>
-            </a>
-            <h3 class="case__title"><a href="projekt/hallmark-industri.html">Hallmark Industri</a></h3>
-            <ul class="case__tags"><li><a href="projekt/index.html">Intranät</a></li><li><a href="projekt/index.html">Webb</a></li></ul>
-          </li><li class="case">
-            <a class="case__image" href="projekt/insjons-insamlingsfond.html">
-              <img src="assets/img/home/case-6.jpg" alt="" width="534" height="342" loading="lazy">
-              <span class="case__overlay">
-                <span class="case__overlay-text">En insamlingsorganisation som vi har förvaltat i många år.</span>
-                <span class="case__overlay-link"><span class="arrow-link">Läs mer</span></span>
-              </span>
-            </a>
-            <h3 class="case__title"><a href="projekt/insjons-insamlingsfond.html">Insjöns Insamlingsfond</a></h3>
-            <ul class="case__tags"><li><a href="projekt/index.html">Marknadsföring</a></li><li><a href="projekt/index.html">Webb</a></li></ul>
-          </li><!-- /build:cases -->
-        </ul>
+        <div class="devices__stage" aria-hidden="true">
+          <div class="devices__laptop">
+            <div class="devices__screen"><img src="assets/img/home/device-desktop.jpg" alt="" width="1440" height="900" loading="lazy"></div>
+            <div class="devices__base"></div>
+          </div>
+          <div class="devices__phone"><img src="assets/img/home/device-phone.jpg" alt="" width="390" height="844" loading="lazy"></div>
+        </div>
       </div>
     </section>
 
@@ -506,7 +469,7 @@
     <p class="cookie-dialog__links"><a href="cookies.html">Om cookies</a> <a href="integritet.html">Integritet</a></p>
   </div>
 
-  <script src="assets/js/main.js?v=471126d28d"></script>
-  <script src="assets/js/home.js?v=471126d28d"></script>
+  <script src="assets/js/main.js?v=98d948cda5"></script>
+  <script src="assets/js/home.js?v=98d948cda5"></script>
 </body>
 </html>
