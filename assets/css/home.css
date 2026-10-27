@@ -197,7 +197,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 .bento {
   display: grid;
   grid-template-columns: 1.3fr 1fr 1fr;
-  grid-template-rows: 300px 300px;
+  grid-template-rows: minmax(300px, auto) minmax(300px, auto);
   gap: 24px;
 }
 .bento__tile {
@@ -220,7 +220,15 @@ h2, h3 { margin: 0; font-weight: 400; }
   background: var(--accent, #1d3b2a);
   color: var(--cream, #fdfbf5);
 }
-.bento__mark { display: block; width: 72px; color: #3f6a4d; }
+.bento__tile--big { overflow: visible; }
+.bento__mark { display: block; width: 64px; color: #3f6a4d; }
+.bento__top { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.bento__price { margin: 0; padding: 8px 14px; border-radius: 20px; background: rgba(253, 251, 245, .1); font-size: 14px; }
+.bento__price b { color: #fff; }
+.bento__list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; margin: 0; padding: 22px 0; border-top: 1px solid rgba(253, 251, 245, .16); border-bottom: 1px solid rgba(253, 251, 245, .16); list-style: none; font-size: 15px; }
+.bento__list li { position: relative; padding-left: 24px; }
+.bento__list li::before { content: ""; position: absolute; left: 0; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: #3f6a4d; }
+.bento__list li::after { content: ""; position: absolute; left: 5px; top: 6px; width: 3px; height: 7px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
 .bento__body { display: grid; justify-items: start; gap: 20px; }
 .bento__body .btn { margin-top: 12px; }
 .bento__title { margin: 0; font-size: 52px; font-weight: 400; line-height: 1.05; color: #fff; text-wrap: balance; }

@@ -771,7 +771,6 @@ def build_simple():
           <li><a href="mailto:info@elevatestudio.nu"><span class="contact-hero__k">Mejla oss</span><span class="contact-hero__v">info@elevatestudio.nu</span></a></li>
           <li><a href="#formular"><span class="contact-hero__k">Skriv till oss</span><span class="contact-hero__v">Fyll i formuläret</span></a></li>
         </ul>
-        <p class="contact-hero__facts"><span>Uppsala – kunder i hela Sverige</span><span>Fast pris från 3 000 kr</span><span>Svar så fort vi kan</span></p>
       </div>
     </section>''')
             elif kind == "nextsteps":
@@ -1077,7 +1076,11 @@ def bento_section():
       </a>'''
     return f'''<section class="block container bento" id="tjanster-oversikt" aria-label="Vad vi gör">
       <a class="bento__tile bento__tile--big" href="tjanster/index.html">
-        {mark}
+        <div class="bento__top">
+          {mark}
+          <p class="bento__price">Fast pris från <b>3 000 kr</b></p>
+        </div>
+        <ul class="bento__list">{"".join(f"<li>{esc(x['name'])}</li>" for x in SERVICES)}</ul>
         <div class="bento__body">
           <h2 class="bento__title">En hemsida som <em>jobbar åt er</em></h2>
           <p class="bento__lead">Vi bygger sidan, kopplar på bokning, offert och AI-chatt, ser till att ni syns på Google – och tar hand om den efteråt.</p>
