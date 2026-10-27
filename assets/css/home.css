@@ -191,44 +191,6 @@ h2, h3 { margin: 0; font-weight: 400; }
   .case__overlay { display: none; }
 }
 
-.hero__scroll {
-  position: absolute;
-  left: 50%;
-  bottom: 36px;
-  z-index: 1;
-  display: grid;
-  justify-items: center;
-  gap: 10px;
-  color: var(--cream, #fdfbf5);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transform: translateX(-50%);
-}
-.hero__scroll i {
-  width: 26px;
-  height: 42px;
-  border: 2px solid currentColor;
-  border-radius: 14px;
-  position: relative;
-}
-.hero__scroll i::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 8px;
-  width: 4px;
-  height: 8px;
-  margin-left: -2px;
-  border-radius: 2px;
-  background: currentColor;
-  animation: scroll-dot 1.8s ease-in-out infinite;
-}
-@keyframes scroll-dot { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(14px); } }
-@media (prefers-reduced-motion: reduce) { .hero__scroll i::after { animation: none; } }
-
 /* ---------- Bento: services overview ---------- */
 .hero + .bento { margin-top: 112px; }
 @media (max-width: 768px) { .hero + .bento { margin-top: 56px; } }
