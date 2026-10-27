@@ -293,6 +293,8 @@ PLATFORMS = [
 ]
 
 PARENT_COMPANY = "PJM Projekteffektivitet AB"
+# Elevate Studio is a brand (trade name) of the parent company; this is the parent company's number.
+ORG_NR = "556969-4358"
 
 # Frequently asked questions: shown on the start page, in structured data and in llms.txt.
 FAQ = [
@@ -339,7 +341,7 @@ SIMPLE_PAGES = {
     },
     "om": {
         "title": "Om oss", "lead": "Elevate Studio är ett litet team i Uppsala som bygger hemsidor som ger förfrågningar – för företag i hela Sverige.",
-        "description": "Elevate Studio är en webbyrå i Uppsala och en del av PJM Projekteffektivitet AB. Vi bygger hemsidor med bokning, offertflöde och AI-chatt till fast pris.",
+        "description": "Elevate Studio är en webbyrå i Uppsala och ett varumärke som tillhör PJM Projekteffektivitet AB. Vi bygger hemsidor med bokning, offertflöde och AI-chatt till fast pris.",
         "sections": [
             ("text", "Vi startade Elevate Studio för att det ska vara enkelt för företag att få en hemsida som faktiskt ger kunder. Många företag har en hemsida som ser okej ut men som inte ger några förfrågningar – eller ingen hemsida alls, för att det känns dyrt och krångligt. Vi vill ändra på det: ett fast pris innan vi börjar, en hemsida på ungefär en månad och samma kontaktperson hela vägen."),
             ("cols", [("Fast pris", "Ni vet vad det kostar innan vi börjar. Allt står i en tydlig offert på två sidor."),
@@ -363,7 +365,7 @@ SIMPLE_PAGES = {
         "title": "Integritetspolicy", "lead": "Så hanterar vi personuppgifter när du kontaktar oss eller besöker vår webbplats.",
         "description": "Så hanterar Elevate Studio personuppgifter från kontaktformulär och nyhetsbrev.",
         "sections": [
-            ("cols", [("När du kontaktar oss", "Personuppgiftsansvarig är PJM Projekteffektivitet AB, som Elevate Studio är en del av. Det du skriver i våra formulär – namn, e-post, telefon, företag och meddelande – skickas till info@elevatestudio.nu via tjänsten FormSubmit. Vi använder uppgifterna bara för att svara dig och sparar dem inte längre än vi behöver."),
+            ("cols", [("När du kontaktar oss", "Personuppgiftsansvarig är PJM Projekteffektivitet AB (org.nr 556969-4358), som Elevate Studio är ett varumärke för. Det du skriver i våra formulär – namn, e-post, telefon, företag och meddelande – skickas till info@elevatestudio.nu via tjänsten FormSubmit. Vi använder uppgifterna bara för att svara dig och sparar dem inte längre än vi behöver."),
                       ("Ingen spårning", "Webbplatsen sätter inga cookies och använder inga analys- eller annonsverktyg. Vi följer inte vad du gör här."),
                       ("Dina rättigheter", "Du har rätt att få veta vilka uppgifter vi har om dig, få dem rättade eller raderade. Mejla info@elevatestudio.nu så hjälper vi dig. Du kan också vända dig till Integritetsskyddsmyndigheten (IMY).")]),
             ("links", [("Om cookies", "cookies.html"), ("Kontakta oss", "kontakt.html")]),

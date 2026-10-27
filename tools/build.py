@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ADMIN_URL, ARTICLES, CASES, FORM_ENDPOINT, LEADS_ENDPOINT, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
+from content import ADMIN_URL, ARTICLES, CASES, FORM_ENDPOINT, LEADS_ENDPOINT, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -197,7 +197,7 @@ def footer(p):
             <li><a href="{p}integritet.html">Integritetspolicy</a></li>
             <li><a href="{p}cookies.html">Cookies</a></li>
             <li><a href="{p}english.html">In English</a></li>
-            <li class="site-footer__legal">Elevate Studio är en del av {PARENT_COMPANY}</li>
+            <li class="site-footer__legal">Elevate Studio är ett varumärke som tillhör {PARENT_COMPANY}, org.nr {ORG_NR} · Developed by Isak Mattsson</li>
           </ul>
         </div>
       </div>
@@ -236,7 +236,7 @@ def organisation_ld():
         "priceRange": "3 000–6 000 kr",
         "knowsLanguage": ["sv", "en"],
         "employee": [{"@type": "Person", "name": n, "jobTitle": r, "telephone": t, "email": e} for n, r, t, e in TEAM],
-        "parentOrganization": {"@type": "Organization", "name": PARENT_COMPANY},
+        "parentOrganization": {"@type": "Organization", "name": PARENT_COMPANY, "taxID": ORG_NR, "identifier": ORG_NR},
         "makesOffer": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": x["name"], "url": f"{SITE_URL}/tjanster/{x['slug']}.html"}} for x in SERVICES],
     }
 
@@ -798,9 +798,9 @@ def build_simple():
       <div class="about-ceo__card">
         <p class="about-ceo__k">Koncern</p>
         <h2 class="about-ceo__name">{esc(PARENT_COMPANY)}</h2>
-        <p class="about-ceo__role">Elevate Studio är en del av koncernen</p>
+        <p class="about-ceo__role">Org.nr {ORG_NR}</p>
       </div>
-      <p class="about-ceo__text">Elevate Studio är en del av {esc(PARENT_COMPANY)}. Det betyder ett litet, snabbt team mot er som kund – med ett etablerat bolag i ryggen.</p>
+      <p class="about-ceo__text">Elevate Studio är ett varumärke som tillhör {esc(PARENT_COMPANY)}. Det betyder ett litet, snabbt team mot er som kund – med ett etablerat bolag i ryggen.</p>
     </section>''')
             elif kind == "review":
                 parts.append(f'<section class="section container">{reviews_section()}</section>')
