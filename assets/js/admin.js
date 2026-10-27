@@ -14,7 +14,7 @@
   var MEETING = { quote: 'Offertförfrågan', teams: 'Microsoft Teams', google_meet: 'Google Meet', phone: 'Telefonmöte' };
   var TEAM = [['Carl', 'Carl From'], ['Isak', 'Isak Mattsson'], ['Oscar', 'Oscar Svanerud']];
   var CLOSED = ['sold', 'lost', 'archived', 'done'];
-  var st = { user: null, leads: [], view: 'leads', status: 'all', q: '', sort: 'created_desc', shown: 40, editing: null };
+  var st = { user: null, leads: [], view: (location.hash.slice(1).match(/^[a-z]+$/) || ['leads'])[0], status: 'all', q: '', sort: 'created_desc', shown: 40, editing: null };
 
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var sInfo = function (k) { return STATUS.find(function (s) { return s[0] === k; }) || STATUS[0]; };
@@ -34,6 +34,20 @@
     star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.5 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.5 6.6-.8z"/></svg>',
     mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>',
     bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
+    users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>',
+    file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>',
+    send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>',
+    layers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>',
+    eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+    door: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>',
+    spark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>',
+    chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 15l4-4 3 3 6-6"/></svg>',
+    wallet: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M16 15h2M6 6V4h12v2"/></svg>',
+    brain: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 6 1V5a2 2 0 0 0-3-2zM15 3a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-6 1"/></svg>',
+    plug: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2v6M15 2v6M6 8h12v4a6 6 0 0 1-12 0zM12 18v4"/></svg>',
+    user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+    x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+    phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>',
     site: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>'
   };
 
@@ -71,23 +85,39 @@
     return sb.rpc('has_role', { _user_id: user.id, _role: 'admin' }).then(function (r) {
       if (r.error || !r.data) { sb.auth.signOut(); renderLogin('Kontot saknar admin-behörighet.'); return; }
       st.user = user;
+      if (!VIEWS[st.view]) st.view = 'leads';
       renderShell();
       return loadLeads();
     });
   }
 
   /* ---------- Shell ---------- */
+  var NAV = [
+    ['Försäljning', [['leads', 'Leads', 'inbox'], ['kalender', 'Kalender', 'cal'], ['kontakter', 'Kontakter', 'users'], ['fakturor', 'Fakturor', 'file']]],
+    ['Marknadsföring', [['utskick', 'Utskick', 'send'], ['segment', 'Segment', 'layers'], ['besokare', 'Besökare', 'eye'], ['chatten', 'Chatten', 'msg']]],
+    ['Kunder', [['kundportal', 'Kundportal', 'door']]],
+    ['AI & analys', [['ai', 'AI-assistent', 'spark'], ['insikter', 'Insikter', 'chart'], ['ekonomi', 'Ekonomi', 'wallet'], ['minne', 'AI-minne', 'brain']]],
+    ['Inställningar', [['integrationer', 'Integrationer', 'plug'], ['konto', 'Konto', 'user']]]
+  ];
+  var VIEWS = {};
+  NAV.forEach(function (g) { g[1].forEach(function (v) { VIEWS[v[0]] = v[1]; }); });
+
   function renderShell() {
-    root.innerHTML = '<div class="shell" id="shell"><aside class="side"><a class="brand" href="../index.html">' + MARK + 'Elevate Studio</a>' +
-      '<small>Försäljning</small><button class="nav" data-view="leads">' + ICON.inbox + 'Leads</button><button class="nav" data-view="kalender">' + ICON.cal + 'Kalender</button>' +
-      '<small>Webb</small><a class="nav" href="../index.html">' + ICON.site + 'Till hemsidan</a>' +
-      '<div class="side__foot"><div class="side__me">' + esc(st.user.email) + '</div><button class="nav" id="logout">' + ICON.out + 'Logga ut</button></div></aside>' +
+    root.innerHTML = '<div class="shell" id="shell"><aside class="side"><a class="brand" href="../index.html">' + MARK + 'Elevate Studio</a><nav class="side__nav">' +
+      NAV.map(function (g) {
+        return '<small>' + g[0] + '</small>' + g[1].map(function (v) { return '<button class="nav" data-view="' + v[0] + '">' + ICON[v[2]] + v[1] + '</button>'; }).join('');
+      }).join('') + '</nav>' +
+      '<div class="side__foot"><div class="side__me">' + esc(st.user.email) + '</div><a class="nav" href="../index.html">' + ICON.site + 'Till hemsidan</a><button class="nav" id="logout">' + ICON.out + 'Logga ut</button></div></aside>' +
       '<div><div class="top"><button id="menu" aria-label="Meny">' + ICON.menu + '</button><span class="brand">' + MARK + 'Admin</span></div><main id="main"></main></div></div>';
     root.querySelectorAll('[data-view]').forEach(function (b) {
-      b.addEventListener('click', function () { st.view = b.dataset.view; $('#shell').classList.remove('is-menu'); render(); });
+      b.addEventListener('click', function () { go(b.dataset.view); });
     });
-    $('#logout').addEventListener('click', function () { sb.auth.signOut().then(function () { st.user = null; renderLogin(); }); });
+    $('#logout').addEventListener('click', function () { sb.auth.signOut().then(function () { st.user = null; history.replaceState(null, '', location.pathname); renderLogin(); }); });
     $('#menu').addEventListener('click', function () { $('#shell').classList.toggle('is-menu'); });
+  }
+  function go(view) {
+    st.view = view; $('#shell').classList.remove('is-menu');
+    history.replaceState(null, '', '#' + view); window.scrollTo(0, 0); render();
   }
 
   function loadLeads() {
@@ -101,7 +131,8 @@
 
   function render() {
     root.querySelectorAll('[data-view]').forEach(function (b) { b.classList.toggle('is-on', b.dataset.view === st.view); });
-    if (st.view === 'kalender') return renderCalendar();
+    var fn = PAGES[st.view];
+    if (fn) return fn();
     renderLeads();
   }
 
@@ -180,9 +211,10 @@
   function bindCard(el) {
     var id = el.dataset.id, l = lead(id);
     el.addEventListener('click', function (e) {
-      var a = e.target.closest('[data-a]'); if (!a) return;
+      var a = e.target.closest('[data-a]');
+      if (!a) { if (!e.target.closest('a, select, textarea, button')) openLead(l); return; }
       var act = a.dataset.a;
-      if (act === 'detail') openDetail(l);
+      if (act === 'detail') openLead(l);
       if (act === 'offer') openOffer(l);
       if (act === 'note') { st.editing = id; renderLeads(); var t = $('.lead[data-id="' + id + '"] textarea'); if (t) t.focus(); }
       if (act === 'note-cancel') { st.editing = null; renderLeads(); }
@@ -202,23 +234,12 @@
   /* ---------- Dialogs ---------- */
   function dialog(html, onMount) {
     var d = document.createElement('div'); d.className = 'dlg';
-    d.innerHTML = '<div class="dlg__box" role="dialog" aria-modal="true">' + html + '</div>';
+    d.innerHTML = '<div class="dlg__box' + (dialog.wide ? ' dlg__box--wide' : '') + '" role="dialog" aria-modal="true">' + html + '</div>';
+    dialog.wide = false;
     d.addEventListener('click', function (e) { if (e.target === d || e.target.closest('[data-close]')) d.remove(); });
     document.body.appendChild(d);
     if (onMount) onMount(d);
     return d;
-  }
-
-  function openDetail(l) {
-    var s = sInfo(l.status || 'new');
-    dialog('<div class="detail"><h2>' + esc(l.name) + '</h2><p style="color:' + s[2] + ';font-weight:600;margin:0 0 16px">' + s[1] + '</p><dl>' +
-      [['Företag', l.company], ['E-post', l.email], ['Telefon', l.phone], ['Bransch', l.service_type], ['Mötestyp', MEETING[l.meeting_type] || l.meeting_type],
-       ['Önskad tid', l.preferred_time], ['Bokad tid', l.booking_at && dt(l.booking_at)], ['Paket', l.selected_package],
-       ['Uppskattat start', l.estimated_start_cost != null && kr(l.estimated_start_cost)], ['Inkom', dt(l.created_at)], ['Såld', l.sold_at && dt(l.sold_at)]]
-        .filter(function (r) { return r[1]; }).map(function (r) { return '<dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd>'; }).join('') + '</dl>' +
-      (l.message ? '<div class="box">' + esc(l.message) + '</div>' : '') + (l.project_description ? '<div class="box">' + esc(l.project_description) + '</div>' : '') +
-      '<div class="dlg__row">' + (l.status === 'sold' ? '<button class="btn btn--ghost" data-review>Be om recension</button>' : '') + '<button class="btn" data-close>Stäng</button></div></div>',
-      function (d) { var r = $('[data-review]', d); if (r) r.addEventListener('click', function () { d.remove(); openReview(l); }); });
   }
 
   function openSold(l) {
@@ -226,12 +247,12 @@
       '<label class="field">Belopp (kr)<input class="input" type="number" min="0" step="1" id="amount" placeholder="t.ex. 6000"></label>' +
       '<div class="dlg__row"><button class="btn btn--ghost" data-close>Avbryt</button><button class="btn" id="save-sold">Spara som såld</button></div>',
       function (d) {
-        d.addEventListener('click', function (e) { if (e.target === d || e.target.closest('[data-close]')) renderLeads(); });
+        d.addEventListener('click', function (e) { if (e.target === d || e.target.closest('[data-close]')) render(); });
         $('#amount', d).focus();
         $('#save-sold', d).addEventListener('click', function () {
           var amount = Number($('#amount', d).value) || null;
           update(l.id, { status: 'sold', sold_amount: amount, sold_at: new Date().toISOString() })
-            .then(function () { d.remove(); renderLeads(); openReview(l); })
+            .then(function () { d.remove(); render(); openReview(l); })
             .catch(function (err) { toast(err.message); });
         });
       });
@@ -296,27 +317,479 @@
       });
   }
 
-  /* ---------- Calendar ---------- */
+  /* ---------- Shared helpers for the pages ---------- */
+  var CUSTOMER = { lead: 'Lead', prospect: 'Blivande kund', active: 'Aktiv kund', paused: 'Pausad', former: 'Tidigare kund', internal: 'Intern' };
+  var CATEGORY = { meeting: 'Möte', call: 'Samtal', task: 'Uppgift', deadline: 'Deadline', reminder: 'Påminnelse', personal: 'Personligt', other: 'Övrigt' };
+  var SCOPE = { foretag: 'Företaget', operativt: 'Hur vi jobbar', profil: 'Personligt' };
+  var main = function () { return $('#main'); };
+  function head(title, sub, actions) {
+    return '<div class="page-h"><div><h1>' + title + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div>' + (actions ? '<div class="page-h__acts">' + actions + '</div>' : '') + '</div>';
+  }
+  function kpis(list) { return '<div class="kpis">' + list.map(function (k) { return '<div class="kpi"><small>' + k[0] + '</small><b>' + k[1] + '</b></div>'; }).join('') + '</div>'; }
+  function info(title, text) { return '<div class="info"><b>' + title + '</b><p>' + text + '</p></div>'; }
+  function table(cols, rows, rowAttr) {
+    if (!rows.length) return '<p class="empty">Inget här än.</p>';
+    return '<div class="tbl"><table><thead><tr>' + cols.map(function (c) { return '<th>' + c[0] + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      rows.map(function (r) { return '<tr' + (rowAttr ? ' ' + rowAttr(r) : '') + '>' + cols.map(function (c) { return '<td>' + c[1](r) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+  }
+  function bars(title, pairs, total) {
+    var max = Math.max.apply(null, pairs.map(function (p) { return p[1]; }).concat([1]));
+    return '<section class="panel"><h3>' + title + '</h3>' + (pairs.length ? pairs.map(function (p) {
+      return '<div class="barrow"><span>' + esc(p[0]) + '</span><i style="--w:' + Math.round(p[1] / max * 100) + '%"></i><b>' + p[1] + (total ? ' <em>' + Math.round(p[1] / total * 100) + ' %</em>' : '') + '</b></div>';
+    }).join('') : '<p class="empty">Ingen data.</p>') + '</section>';
+  }
+  function countBy(rows, fn, limit) {
+    var c = {}; rows.forEach(function (r) { var k = fn(r); if (k) c[k] = (c[k] || 0) + 1; });
+    return Object.keys(c).map(function (k) { return [k, c[k]]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, limit || 8);
+  }
+  function fetchRows(query, render) {
+    main().insertAdjacentHTML('beforeend', '<p class="empty" id="loading">Hämtar …</p>');
+    var view = st.view;
+    return query.then(function (r) {
+      if (st.view !== view) return;
+      var l = $('#loading'); if (l) l.remove();
+      if (r.error) { main().insertAdjacentHTML('beforeend', '<p class="empty">Kunde inte hämta: ' + esc(r.error.message) + '</p>'); return; }
+      render(r.data || []);
+    });
+  }
+  function form(fields) {
+    return fields.map(function (f) {
+      var v = f.value == null ? '' : f.value;
+      if (f.type === 'textarea') return '<label class="field">' + f.label + '<textarea class="input" rows="' + (f.rows || 3) + '" name="' + f.name + '">' + esc(v) + '</textarea></label>';
+      if (f.options) return '<label class="field">' + f.label + '<select class="input" name="' + f.name + '">' + Object.keys(f.options).map(function (k) { return '<option value="' + k + '"' + (k === v ? ' selected' : '') + '>' + f.options[k] + '</option>'; }).join('') + '</select></label>';
+      return '<label class="field">' + f.label + '<input class="input" name="' + f.name + '" type="' + (f.type || 'text') + '" value="' + esc(v) + '"' + (f.required ? ' required' : '') + (f.placeholder ? ' placeholder="' + esc(f.placeholder) + '"' : '') + '></label>';
+    }).join('');
+  }
+  function formDialog(title, sub, fields, save, extra) {
+    dialog('<form id="fd"><h2>' + title + '</h2>' + (sub ? '<p>' + sub + '</p>' : '') + form(fields) +
+      '<div class="dlg__row">' + (extra || '') + '<button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">Spara</button></div></form>', function (d) {
+      $('#fd', d).addEventListener('submit', function (e) {
+        e.preventDefault();
+        var data = {}; fields.forEach(function (f) { var v = e.target.elements[f.name].value.trim(); data[f.name] = v === '' ? null : v; });
+        var btn = $('button[type=submit]', d); btn.disabled = true;
+        Promise.resolve(save(data, d)).then(function (r) {
+          if (r && r.error) throw r.error;
+          d.remove(); render();
+        }).catch(function (err) { btn.disabled = false; toast(err.message); });
+      });
+    });
+  }
+  var localInput = function (iso) { if (!iso) return ''; var d = new Date(iso); return new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 16); };
+  var fromLocal = function (v) { return v ? new Date(v).toISOString() : null; };
+  var day = function (iso) { return iso ? new Date(iso).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short', year: 'numeric' }) : '–'; };
+  var since = function (days) { return new Date(Date.now() - days * 864e5).toISOString(); };
+
+  /* ---------- Big lead window (like the old admin) ---------- */
+  function openLead(l) {
+    var s = sInfo(l.status || 'new');
+    var addons = Array.isArray(l.selected_addons) ? l.selected_addons : (l.selected_addons && typeof l.selected_addons === 'object' ? Object.keys(l.selected_addons).filter(function (k) { return l.selected_addons[k]; }) : []);
+    var addonName = function (x) { return typeof x === 'string' ? x : (x && (x.name || x.label || x.title)) || JSON.stringify(x); };
+    var row = function (k, v) { return v ? '<dt>' + k + '</dt><dd>' + v + '</dd>' : ''; };
+    dialog.wide = true;
+    dialog('<div class="ld"><header class="ld__head" style="--c:' + s[2] + '"><div><p class="ld__kicker">' + esc(MEETING[l.meeting_type] || 'Förfrågan') + ' · inkom ' + dt(l.created_at) + '</p>' +
+      '<h2>' + esc(l.name) + (l.company ? ' <span>· ' + esc(l.company) + '</span>' : '') + '</h2></div>' +
+      '<div class="ld__headacts"><select class="status" id="ld-status" style="color:' + s[2] + '">' + STATUS.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === s[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>' +
+      '<button class="iconbtn" data-close aria-label="Stäng">' + ICON.x + '</button></div></header>' +
+      '<div class="ld__quick">' + (l.phone ? '<a class="btn btn--ghost btn--sm" href="tel:' + esc(l.phone) + '">' + ICON.phone + 'Ring</a>' : '') +
+      (l.email ? '<a class="btn btn--ghost btn--sm" href="mailto:' + esc(l.email) + '">' + ICON.mail + 'Mejla</a>' : '') +
+      '<button class="btn btn--ghost btn--sm" id="ld-offer">' + ICON.file + 'Skapa offert</button>' +
+      (l.status === 'sold' ? '<button class="btn btn--sm" id="ld-review">' + ICON.star + 'Be om recension</button>' : '<button class="btn btn--sm" id="ld-sold">' + ICON.star + 'Markera som såld</button>') + '</div>' +
+      '<div class="ld__cols"><div>' +
+      '<section class="panel"><h3>Kontaktuppgifter</h3><form id="ld-form"><div class="grid2">' +
+      form([{ name: 'name', label: 'Namn', value: l.name, required: true }, { name: 'company', label: 'Företag', value: l.company },
+        { name: 'email', label: 'E-post', value: l.email, type: 'email', required: true }, { name: 'phone', label: 'Telefon', value: l.phone },
+        { name: 'service_type', label: 'Bransch', value: l.service_type }, { name: 'company_type', label: 'Företagsform', value: l.company_type },
+        { name: 'booking_at', label: 'Bokat möte', value: localInput(l.booking_at), type: 'datetime-local' }, { name: 'followup_at', label: 'Ring upp', value: localInput(l.followup_at), type: 'datetime-local' }]) +
+      '</div><div class="ld__save"><button class="btn btn--sm" type="submit">Spara ändringar</button></div></form></section>' +
+      ((l.message || l.project_description) ? '<section class="panel"><h3>Meddelande</h3>' + (l.message ? '<div class="box">' + esc(l.message) + '</div>' : '') +
+        (l.project_description ? '<p class="panel__sub">Projektbeskrivning</p><div class="box">' + esc(l.project_description) + '</div>' : '') + '</section>' : '') +
+      '<section class="panel"><h3>Valda tjänster</h3><dl class="dl">' +
+      row('Paket', l.selected_package && esc(l.selected_package)) + row('Tillägg', addons.length && addons.map(function (x) { return '<span class="tag">' + esc(addonName(x)) + '</span>'; }).join(' ')) +
+      row('Startkostnad', l.estimated_start_cost != null && kr(l.estimated_start_cost)) + row('Månadskostnad', l.estimated_monthly_cost != null && kr(l.estimated_monthly_cost) + '/mån') +
+      row('Önskad tid', l.preferred_time && esc(l.preferred_time)) + row('Mötesutfall', l.meeting_outcome && esc(l.meeting_outcome)) +
+      row('Såld för', l.sold_amount != null && '<b>' + kr(l.sold_amount) + '</b>' + (l.sold_at ? ' · ' + day(l.sold_at) : '')) +
+      row('Faktura', l.stripe_invoice_status && (esc(l.stripe_invoice_status) + (l.stripe_invoice_url ? ' · <a href="' + esc(l.stripe_invoice_url) + '" target="_blank" rel="noopener">Öppna</a>' : ''))) +
+      '</dl>' + (!l.selected_package && !addons.length && l.estimated_start_cost == null ? '<p class="muted">Inga tjänster valda i formuläret.</p>' : '') + '</section>' +
+      '</div><div>' +
+      '<section class="panel"><h3>Kommentar</h3><textarea class="input" id="ld-note" rows="3" placeholder="Snabb kommentar som syns i listan …">' + esc(l.admin_notes || '') + '</textarea><div class="ld__save"><button class="btn btn--ghost btn--sm" id="ld-note-save">Spara kommentar</button></div></section>' +
+      '<section class="panel"><h3>Anteckningar</h3><div id="ld-notes" class="feed"><p class="muted">Hämtar …</p></div>' +
+      '<div class="ld__add"><input class="input" id="ld-newnote" placeholder="Skriv en anteckning …"><button class="btn btn--sm" id="ld-addnote">Lägg till</button></div></section>' +
+      '<section class="panel"><h3>Mötesinbjudningar</h3><div id="ld-meet" class="feed"><p class="muted">Hämtar …</p></div></section>' +
+      '<section class="panel"><h3>Utskick</h3><div id="ld-out" class="feed"><p class="muted">Hämtar …</p></div></section>' +
+      '<section class="panel"><h3>Historik</h3><div id="ld-hist" class="feed"><p class="muted">Hämtar …</p></div></section>' +
+      '</div></div><footer class="ld__foot"><button class="link link--danger" id="ld-del">Ta bort lead</button><button class="btn" data-close>Stäng</button></footer></div>',
+    function (d) {
+      var close = function () { d.remove(); render(); };
+      d.addEventListener('click', function (e) { if (e.target === d || e.target.closest('[data-close]')) render(); });
+      $('#ld-status', d).addEventListener('change', function (e) {
+        var v = e.target.value;
+        if (v === 'sold') { d.remove(); return openSold(l); }
+        update(l.id, { status: v }).then(function () { toast('Status: ' + sInfo(v)[1]); d.remove(); render(); openLead(l); }).catch(function (err) { toast(err.message); });
+      });
+      $('#ld-form', d).addEventListener('submit', function (e) {
+        e.preventDefault(); var g = function (n) { return e.target.elements[n].value.trim(); };
+        var patch = { name: g('name'), company: g('company') || null, email: g('email'), phone: g('phone') || null,
+          service_type: g('service_type') || null, company_type: g('company_type') || null, booking_at: fromLocal(g('booking_at')), followup_at: fromLocal(g('followup_at')) };
+        update(l.id, patch).then(function () { toast('Ändringarna är sparade'); }).catch(function (err) { toast(err.message); });
+      });
+      $('#ld-note-save', d).addEventListener('click', function () {
+        update(l.id, { admin_notes: $('#ld-note', d).value.trim() || null }).then(function () { toast('Kommentaren är sparad'); }).catch(function (err) { toast(err.message); });
+      });
+      $('#ld-offer', d).addEventListener('click', function () { d.remove(); openOffer(l); });
+      var rv = $('#ld-review', d); if (rv) rv.addEventListener('click', function () { d.remove(); openReview(l); });
+      var sd = $('#ld-sold', d); if (sd) sd.addEventListener('click', function () { d.remove(); openSold(l); });
+      $('#ld-del', d).addEventListener('click', function () {
+        if (!confirm('Ta bort ' + l.name + ' för gott? Det går inte att ångra.')) return;
+        sb.from('quote_requests').delete().eq('id', l.id).select().then(function (r) {
+          if (r.error || !r.data || !r.data.length) return toast(r.error ? r.error.message : 'Kunde inte ta bort.');
+          st.leads = st.leads.filter(function (x) { return x.id !== l.id; }); close(); toast('Leaden är borttagen');
+        });
+      });
+      var feed = function (sel, rows, fn) { $(sel, d).innerHTML = rows.length ? rows.map(fn).join('') : '<p class="muted">Inget än.</p>'; };
+      var loadNotes = function () {
+        sb.from('quote_notes').select('*').eq('quote_request_id', l.id).order('created_at', { ascending: false }).then(function (r) {
+          feed('#ld-notes', r.data || [], function (n) { return '<div class="feed__it"><p>' + esc(n.body) + '</p><time>' + dt(n.created_at) + (n.created_by === st.user.id ? ' · du' : '') + '</time></div>'; });
+        });
+      };
+      loadNotes();
+      var add = function () {
+        var t = $('#ld-newnote', d), body = t.value.trim(); if (!body) return;
+        sb.from('quote_notes').insert({ quote_request_id: l.id, body: body, created_by: st.user.id }).then(function (r) {
+          if (r.error) return toast(r.error.message);
+          t.value = ''; loadNotes();
+        });
+      };
+      $('#ld-addnote', d).addEventListener('click', add);
+      $('#ld-newnote', d).addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); add(); } });
+      sb.from('meeting_invites').select('booking_at,meet_link,recipients,outcome,subject,created_at').eq('quote_request_id', l.id).order('booking_at', { ascending: false }).then(function (r) {
+        feed('#ld-meet', r.data || [], function (m) {
+          return '<div class="feed__it"><p><b>' + dt(m.booking_at) + '</b>' + (m.subject ? ' · ' + esc(m.subject) : '') + '</p><time>' +
+            (Array.isArray(m.recipients) ? esc(m.recipients.join(', ')) : '') + (m.outcome ? ' · ' + esc(m.outcome) : '') + (m.meet_link ? ' · <a href="' + esc(m.meet_link) + '" target="_blank" rel="noopener">Meet-länk</a>' : '') + '</time></div>';
+        });
+      });
+      sb.from('outbound_messages').select('channel,recipient,subject,status,created_at').eq('quote_request_id', l.id).order('created_at', { ascending: false }).then(function (r) {
+        feed('#ld-out', r.data || [], function (m) {
+          return '<div class="feed__it"><p><b>' + esc(m.channel === 'sms' ? 'SMS' : 'Mejl') + '</b> till ' + esc(m.recipient) + (m.subject ? ' · ' + esc(m.subject) : '') + '</p><time>' + dt(m.created_at) + ' · ' + esc(m.status || '') + '</time></div>';
+        });
+      });
+      sb.from('quote_status_history').select('from_status,to_status,note,created_at').eq('quote_request_id', l.id).order('created_at', { ascending: false }).then(function (r) {
+        var rows = (r.data || []).concat([{ to_status: 'new', created_at: l.created_at, note: 'Förfrågan kom in' }]);
+        feed('#ld-hist', rows, function (h) {
+          var t = sInfo(h.to_status);
+          return '<div class="feed__it"><p><i class="dot" style="background:' + t[2] + '"></i> ' + (h.from_status ? esc(sInfo(h.from_status)[1]) + ' → ' : '') + '<b>' + t[1] + '</b>' + (h.note ? ' · ' + esc(h.note) : '') + '</p><time>' + dt(h.created_at) + '</time></div>';
+        });
+      });
+    });
+  }
+
+  /* ---------- Kalender ---------- */
   function renderCalendar() {
-    $('#main').innerHTML = '<div class="page-h"><div><h1>Kalender</h1><p>Möten och påminnelser de kommande 30 dagarna.</p></div></div><div class="cal" id="cal"><p class="empty">Hämtar …</p></div>';
+    main().innerHTML = head('Kalender', 'Möten och påminnelser de kommande 30 dagarna.', '<button class="btn" id="add">+ Ny aktivitet</button>') + '<div class="cal" id="cal"></div>';
+    $('#add').addEventListener('click', function () {
+      var t = new Date(); t.setDate(t.getDate() + 1); t.setHours(9, 0, 0, 0);
+      formDialog('Ny aktivitet', 'Syns i din kalender här i admin.', [
+        { name: 'title', label: 'Titel', required: true }, { name: 'category', label: 'Typ', options: CATEGORY, value: 'meeting' },
+        { name: 'starts_at', label: 'Start', type: 'datetime-local', value: localInput(t.toISOString()), required: true },
+        { name: 'minutes', label: 'Längd (minuter)', type: 'number', value: 30 }, { name: 'location', label: 'Plats' }, { name: 'description', label: 'Beskrivning', type: 'textarea' }
+      ], function (v) {
+        var s = new Date(v.starts_at);
+        return sb.from('calendar_activities').insert({ title: v.title, category: v.category, location: v.location, description: v.description, starts_at: s.toISOString(),
+          ends_at: new Date(s.getTime() + (Number(v.minutes) || 30) * 6e4).toISOString(), created_by: st.user.id });
+      });
+    });
     var from = new Date(); from.setHours(0, 0, 0, 0);
     var to = new Date(from.getTime() + 30 * 864e5);
-    sb.from('calendar_activities').select('id,title,starts_at,category,location').gte('starts_at', from.toISOString()).lte('starts_at', to.toISOString()).order('starts_at').then(function (r) {
-      var items = (r.data || []).map(function (a) { return { at: a.starts_at, title: a.title }; });
+    fetchRows(sb.from('calendar_activities').select('id,title,starts_at,category,location').gte('starts_at', from.toISOString()).lte('starts_at', to.toISOString()).order('starts_at'), function (data) {
+      var items = data.map(function (a) { return { at: a.starts_at, title: a.title, tag: CATEGORY[a.category] || a.category, id: a.id, where: a.location }; });
       st.leads.forEach(function (l) {
         var t = l.booking_at && Date.parse(l.booking_at);
-        if (t && t >= from.getTime() && t <= to.getTime()) items.push({ at: l.booking_at, title: 'Möte: ' + (l.company || l.name) + (MEETING[l.meeting_type] ? ' (' + MEETING[l.meeting_type] + ')' : '') });
+        if (t && t >= from.getTime() && t <= to.getTime()) items.push({ at: l.booking_at, title: (l.company || l.name) + (MEETING[l.meeting_type] ? ' (' + MEETING[l.meeting_type] + ')' : ''), tag: 'Kundmöte', lead: l.id });
       });
       items.sort(function (a, b) { return Date.parse(a.at) - Date.parse(b.at); });
       var days = {};
       items.forEach(function (i) { var k = new Date(i.at).toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'long' }); (days[k] = days[k] || []).push(i); });
       $('#cal').innerHTML = Object.keys(days).map(function (k) {
         return '<section class="cal__day"><h3>' + k + '</h3>' + days[k].map(function (i) {
-          return '<div class="cal__ev"><time>' + new Date(i.at).toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' }) + '</time><span>' + esc(i.title) + '</span></div>';
+          return '<div class="cal__ev"><time>' + new Date(i.at).toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' }) + '</time><span>' +
+            (i.lead ? '<button class="link" data-lead="' + i.lead + '">' + esc(i.title) + '</button>' : esc(i.title)) + (i.where ? ' <em class="muted">· ' + esc(i.where) + '</em>' : '') +
+            '</span><span class="tag">' + esc(i.tag) + '</span>' + (i.id ? '<button class="iconbtn iconbtn--sm" data-del="' + i.id + '" aria-label="Ta bort">' + ICON.x + '</button>' : '') + '</div>';
         }).join('') + '</section>';
       }).join('') || '<p class="empty">Inget inbokat de kommande 30 dagarna.</p>';
+      $('#cal').addEventListener('click', function (e) {
+        var ld = e.target.closest('[data-lead]'); if (ld) return openLead(lead(ld.dataset.lead));
+        var del = e.target.closest('[data-del]'); if (!del || !confirm('Ta bort aktiviteten?')) return;
+        sb.from('calendar_activities').delete().eq('id', del.dataset.del).then(function (r) { if (r.error) return toast(r.error.message); render(); });
+      });
     });
   }
+
+  /* ---------- Kontakter ---------- */
+  function contactDialog(c) {
+    c = c || {};
+    formDialog(c.id ? 'Redigera kontakt' : 'Ny kontakt', null, [
+      { name: 'full_name', label: 'Namn', value: c.full_name, required: true }, { name: 'company_name', label: 'Företag', value: c.company_name },
+      { name: 'email', label: 'E-post', type: 'email', value: c.email }, { name: 'phone', label: 'Telefon', value: c.phone },
+      { name: 'customer_status', label: 'Kundstatus', options: CUSTOMER, value: c.customer_status || 'lead' }, { name: 'notes', label: 'Anteckningar', type: 'textarea', value: c.notes }
+    ], function (v) {
+      return c.id ? sb.from('contacts').update(v).eq('id', c.id) : sb.from('contacts').insert(Object.assign(v, { contact_source: 'manual' }));
+    }, c.id ? '<button type="button" class="link link--danger" id="arch" style="margin:0 auto 0 0">Arkivera</button>' : '');
+    var a = $('#arch'); if (a) a.addEventListener('click', function () {
+      sb.from('contacts').update({ archived_at: new Date().toISOString() }).eq('id', c.id).then(function (r) { if (r.error) return toast(r.error.message); $('.dlg').remove(); render(); toast('Kontakten är arkiverad'); });
+    });
+  }
+  function renderContacts() {
+    main().innerHTML = head('Kontakter', 'Kunder och kontakter, sparade i databasen.', '<button class="btn" id="add">+ Ny kontakt</button>');
+    $('#add').addEventListener('click', function () { contactDialog(); });
+    fetchRows(sb.from('contacts').select('id,full_name,email,phone,company_name,customer_status,notes,created_at').is('archived_at', null).order('created_at', { ascending: false }).limit(3000), function (rows) {
+      var by = function (k) { return rows.filter(function (c) { return c.customer_status === k; }).length; };
+      main().insertAdjacentHTML('beforeend', kpis([['Kontakter', rows.length], ['Aktiva kunder', by('active')], ['Blivande kunder', by('prospect')], ['Leads', by('lead')]]) +
+        '<div class="bar"><input class="input" id="cq" placeholder="Sök namn, företag, mejl …"></div><div id="ct"></div>');
+      var draw = function () {
+        var q = $('#cq').value.toLowerCase();
+        var list = rows.filter(function (c) { return !q || [c.full_name, c.company_name, c.email, c.phone].some(function (v) { return v && v.toLowerCase().indexOf(q) > -1; }); });
+        $('#ct').innerHTML = table([['Namn', function (c) { return '<b>' + esc(c.full_name) + '</b>'; }], ['Företag', function (c) { return esc(c.company_name || '–'); }],
+          ['E-post', function (c) { return c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' : '–'; }], ['Telefon', function (c) { return esc(c.phone || '–'); }],
+          ['Status', function (c) { return '<span class="tag">' + esc(CUSTOMER[c.customer_status] || c.customer_status || '–') + '</span>'; }], ['Tillagd', function (c) { return day(c.created_at); }]],
+          list.slice(0, 300), function (c) { return 'data-id="' + c.id + '" class="click"'; });
+      };
+      draw();
+      $('#cq').addEventListener('input', draw);
+      $('#ct').addEventListener('click', function (e) {
+        if (e.target.closest('a')) return;
+        var tr = e.target.closest('tr[data-id]'); if (tr) contactDialog(rows.find(function (c) { return c.id === tr.dataset.id; }));
+      });
+    });
+  }
+
+  /* ---------- Fakturor ---------- */
+  function renderInvoices() {
+    var sold = st.leads.filter(function (l) { return l.status === 'sold' || l.stripe_invoice_id; }).sort(function (a, b) { return Date.parse(b.sold_at || b.created_at) - Date.parse(a.sold_at || a.created_at); });
+    var sum = function (f) { return sold.filter(f).reduce(function (s, l) { return s + Number(l.sold_amount || 0); }, 0); };
+    main().innerHTML = head('Fakturor', 'Sålda affärer och deras fakturor.') +
+      kpis([['Sålt totalt', kr(sum(function () { return true; }))], ['Affärer', sold.length], ['Fakturerat', kr(sum(function (l) { return l.stripe_invoice_id; }))], ['Betalt', kr(sum(function (l) { return l.stripe_invoice_status === 'paid'; }))]]) +
+      info('Skicka fakturor', 'Att skapa och skicka fakturor via Stripe kräver en server (den gamla admin gjorde det via Lovable). Tills dess: skapa offerten här, fakturera från ert bokföringsprogram och markera affären som såld.') +
+      '<div id="it">' + table([['Kund', function (l) { return '<b>' + esc(l.company || l.name) + '</b>'; }], ['Såld', function (l) { return day(l.sold_at); }],
+        ['Belopp', function (l) { return l.sold_amount != null ? kr(l.sold_amount) : '–'; }],
+        ['Faktura', function (l) { return l.stripe_invoice_status ? '<span class="tag">' + esc(l.stripe_invoice_status) + '</span>' : '<span class="muted">Ingen</span>'; }],
+        ['', function (l) { return l.stripe_invoice_url ? '<a href="' + esc(l.stripe_invoice_url) + '" target="_blank" rel="noopener">Öppna</a>' : ''; }]], sold,
+        function (l) { return 'data-lead="' + l.id + '" class="click"'; }) + '</div>';
+    $('#it').addEventListener('click', function (e) { var tr = e.target.closest('[data-lead]'); if (tr && !e.target.closest('a')) openLead(lead(tr.dataset.lead)); });
+  }
+
+  /* ---------- Utskick ---------- */
+  var CAMPAIGN = { draft: 'Utkast', scheduled: 'Schemalagt', sending: 'Skickas', sent: 'Skickat', failed: 'Misslyckades', cancelled: 'Avbrutet' };
+  function renderCampaigns() {
+    main().innerHTML = head('Utskick', 'Nyhetsbrev och kampanjer till kontakterna.') +
+      info('Skicka utskick', 'Själva utskicken gick via Gmail-kopplingen i Lovable och kräver en server eller ett e-posttjänst-konto (t.ex. Brevo eller Mailchimp). Här ser ni historiken.');
+    fetchRows(sb.from('email_campaigns').select('internal_name,subject,status,recipient_count,sent_count,sent_at,scheduled_at,created_at').order('created_at', { ascending: false }), function (rows) {
+      main().insertAdjacentHTML('beforeend', kpis([['Utskick', rows.length], ['Skickade', rows.filter(function (c) { return c.status === 'sent'; }).length],
+        ['Mejl skickade', rows.reduce(function (s, c) { return s + (c.sent_count || 0); }, 0)], ['Utkast', rows.filter(function (c) { return c.status === 'draft'; }).length]]) +
+        table([['Namn', function (c) { return '<b>' + esc(c.internal_name || '–') + '</b>'; }], ['Ämne', function (c) { return esc(c.subject || '–'); }],
+          ['Status', function (c) { return '<span class="tag">' + esc(CAMPAIGN[c.status] || c.status) + '</span>'; }], ['Mottagare', function (c) { return c.recipient_count || 0; }],
+          ['Skickade', function (c) { return c.sent_count || 0; }], ['Datum', function (c) { return day(c.sent_at || c.scheduled_at || c.created_at); }]], rows));
+    });
+  }
+
+  /* ---------- Segment ---------- */
+  function renderSegments() {
+    main().innerHTML = head('Segment', 'Grupper av kontakter för utskick.', '<button class="btn" id="add">+ Nytt segment</button>');
+    $('#add').addEventListener('click', function () {
+      formDialog('Nytt segment', null, [{ name: 'name', label: 'Namn', required: true }, { name: 'description', label: 'Beskrivning', type: 'textarea' }],
+        function (v) { return sb.from('contact_segments').insert(Object.assign(v, { created_by: st.user.id })); });
+    });
+    fetchRows(sb.from('contact_segments').select('id,name,description,created_at').is('archived_at', null).order('created_at', { ascending: false }), function (rows) {
+      main().insertAdjacentHTML('beforeend', '<div class="cards" id="sg">' + (rows.map(function (g) {
+        return '<article class="cardx"><h3>' + esc(g.name) + '</h3><p>' + esc(g.description || 'Ingen beskrivning.') + '</p><footer><time>' + day(g.created_at) + '</time><button class="link link--danger" data-arch="' + g.id + '">Arkivera</button></footer></article>';
+      }).join('') || '<p class="empty">Inga segment än.</p>') + '</div>');
+      $('#sg').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-arch]'); if (!b) return;
+        sb.from('contact_segments').update({ archived_at: new Date().toISOString() }).eq('id', b.dataset.arch).then(function (r) { if (r.error) return toast(r.error.message); render(); });
+      });
+    });
+  }
+
+  /* ---------- Besökare ---------- */
+  function renderVisitors() {
+    main().innerHTML = head('Besökare', 'Besök de senaste 30 dagarna (utan botar).') +
+      info('Bra att veta', 'Siffrorna kommer från den gamla sidans besöksräknare. Nya hemsidan har inga cookies och ingen spårning, så när den går live slutar siffrorna växa.');
+    fetchRows(sb.from('site_visits').select('path,device_type,source,referrer_host,is_bot,created_at,session_id').gte('created_at', since(30)).order('created_at', { ascending: false }).limit(10000), function (all) {
+      var v = all.filter(function (x) { return !x.is_bot; });
+      var sessions = {}; v.forEach(function (x) { if (x.session_id) sessions[x.session_id] = 1; });
+      var today = new Date().toDateString(), mobile = v.filter(function (x) { return x.device_type === 'mobile'; }).length;
+      var perDay = []; for (var i = 13; i >= 0; i--) { var d = new Date(Date.now() - i * 864e5).toDateString(); perDay.push([new Date(d).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' }), v.filter(function (x) { return new Date(x.created_at).toDateString() === d; }).length]); }
+      var max = Math.max.apply(null, perDay.map(function (p) { return p[1]; }).concat([1]));
+      main().insertAdjacentHTML('beforeend', kpis([['Sidvisningar', v.length], ['Unika besök', Object.keys(sessions).length], ['Idag', v.filter(function (x) { return new Date(x.created_at).toDateString() === today; }).length], ['Mobil', v.length ? Math.round(mobile / v.length * 100) + ' %' : '–']]) +
+        '<section class="panel"><h3>Senaste 14 dagarna</h3><div class="cols">' + perDay.map(function (p) { return '<div title="' + p[1] + '"><i style="--h:' + Math.round(p[1] / max * 100) + '%"></i><span>' + p[0] + '</span></div>'; }).join('') + '</div></section>' +
+        '<div class="split">' + bars('Mest besökta sidor', countBy(v, function (x) { return x.path; })) + bars('Källor', countBy(v, function (x) { return x.referrer_host || x.source || 'Direkt'; }), v.length) +
+        bars('Enheter', countBy(v, function (x) { return { mobile: 'Mobil', desktop: 'Dator', tablet: 'Surfplatta' }[x.device_type] || x.device_type; }), v.length) + '</div>');
+    });
+  }
+
+  /* ---------- Chatten ---------- */
+  function renderChat() {
+    main().innerHTML = head('Chatten', 'Vad besökarna frågar chatten – senaste 90 dagarna.');
+    fetchRows(sb.from('chatbot_queries').select('question,matched,topic,page_path,created_at').gte('created_at', since(90)).order('created_at', { ascending: false }).limit(5000), function (q) {
+      var miss = q.filter(function (x) { return !x.matched; });
+      main().insertAdjacentHTML('beforeend', kpis([['Frågor', q.length], ['Besvarade', q.length ? Math.round((q.length - miss.length) / q.length * 100) + ' %' : '–'], ['Obesvarade', miss.length], ['Senaste 7 dagar', q.filter(function (x) { return Date.parse(x.created_at) > Date.now() - 7 * 864e5; }).length]]) +
+        '<div class="split">' + bars('Ämnen', countBy(q, function (x) { return x.topic || 'Övrigt'; }), q.length) + bars('Sidor där chatten används', countBy(q, function (x) { return x.page_path; })) + '</div>' +
+        '<section class="panel"><h3>Frågor chatten inte kunde svara på</h3><p class="panel__sub">Lägg till svaren i chattens FAQ så blir den bättre.</p>' +
+        table([['Fråga', function (x) { return esc(x.question); }], ['Sida', function (x) { return esc(x.page_path || '–'); }], ['När', function (x) { return dt(x.created_at); }]], miss.slice(0, 50)) + '</section>');
+    });
+  }
+
+  /* ---------- Kundportal ---------- */
+  function renderPortal() {
+    main().innerHTML = head('Kundportal', 'Kunder med inloggning till kundportalen.') +
+      info('Nya portalkonton', 'Att skapa inloggningar åt kunder kräver en server (det görs med en admin-nyckel som aldrig får ligga på en hemsida). Här kan ni se och stänga av befintliga konton.');
+    fetchRows(sb.from('portal_clients').select('id,display_name,company_name,is_active,created_at').order('created_at', { ascending: false }), function (rows) {
+      main().insertAdjacentHTML('beforeend', '<div id="pt">' + table([['Kund', function (c) { return '<b>' + esc(c.display_name || '–') + '</b>'; }], ['Företag', function (c) { return esc(c.company_name || '–'); }],
+        ['Skapad', function (c) { return day(c.created_at); }], ['Aktiv', function (c) { return '<label class="switch"><input type="checkbox" data-id="' + c.id + '"' + (c.is_active ? ' checked' : '') + '><i></i></label>'; }]], rows) + '</div>');
+      $('#pt').addEventListener('change', function (e) {
+        var id = e.target.dataset.id; if (!id) return;
+        sb.from('portal_clients').update({ is_active: e.target.checked }).eq('id', id).then(function (r) { toast(r.error ? r.error.message : (e.target.checked ? 'Kontot är aktiverat' : 'Kontot är avstängt')); });
+      });
+    });
+  }
+
+  /* ---------- AI-assistent ---------- */
+  function renderAI() {
+    main().innerHTML = head('AI-assistent', 'Fråga om leads, skriv mejl och få förslag.') +
+      '<section class="panel hero-note"><div class="star">' + ICON.spark + '</div><h3>Behöver en server för att svara</h3>' +
+      '<p>AI-assistenten anropar en AI-modell med en hemlig nyckel. En sådan nyckel får aldrig ligga på en hemsida, där kan vem som helst läsa den. I den gamla admin låg nyckeln hos Lovable.</p>' +
+      '<p>När ni har en egen server (t.ex. en Supabase Edge Function) kopplar vi in den här. Allt annat i admin fungerar redan utan.</p>' +
+      '<p class="muted">Under tiden: AI-minnet nedan går att fylla på, så är det redo.</p><button class="btn btn--ghost" id="tomem">' + ICON.brain + 'Gå till AI-minne</button></section>';
+    $('#tomem').addEventListener('click', function () { go('minne'); });
+  }
+
+  /* ---------- Insikter ---------- */
+  function renderInsights() {
+    var L = st.leads, sold = L.filter(function (l) { return l.status === 'sold'; });
+    var total = sold.reduce(function (s, l) { return s + Number(l.sold_amount || 0); }, 0);
+    var months = []; for (var i = 5; i >= 0; i--) { var d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - i); months.push(d); }
+    var perMonth = months.map(function (m) {
+      var n = L.filter(function (l) { var c = new Date(l.created_at); return c.getFullYear() === m.getFullYear() && c.getMonth() === m.getMonth(); }).length;
+      return [m.toLocaleDateString('sv-SE', { month: 'short', year: '2-digit' }), n];
+    });
+    var max = Math.max.apply(null, perMonth.map(function (p) { return p[1]; }).concat([1]));
+    var funnel = STATUS.map(function (s) { return [s[1], L.filter(function (l) { return (l.status || 'new') === s[0]; }).length]; }).filter(function (p) { return p[1]; });
+    main().innerHTML = head('Insikter', 'Räknat direkt från era leads.') +
+      kpis([['Leads totalt', L.length], ['Sålda', sold.length], ['Konvertering', L.length ? (sold.length / L.length * 100).toFixed(1).replace('.', ',') + ' %' : '–'], ['Snittaffär', sold.length ? kr(total / sold.length) : '–']]) +
+      '<section class="panel"><h3>Nya leads per månad</h3><div class="cols">' + perMonth.map(function (p) { return '<div title="' + p[1] + '"><i style="--h:' + Math.round(p[1] / max * 100) + '%"></i><b>' + p[1] + '</b><span>' + p[0] + '</span></div>'; }).join('') + '</div></section>' +
+      '<div class="split">' + bars('Status just nu', funnel, L.length) + bars('Branscher', countBy(L, function (l) { return l.service_type; }), L.length) +
+      bars('Typ av förfrågan', countBy(L, function (l) { return MEETING[l.meeting_type] || l.meeting_type; }), L.length) + bars('Paket', countBy(L, function (l) { return l.selected_package; }), L.length) + '</div>';
+  }
+
+  /* ---------- Ekonomi ---------- */
+  function renderEconomy() {
+    var y = new Date().getFullYear(), start = new Date(y, 0, 1).toISOString();
+    var income = st.leads.filter(function (l) { return l.status === 'sold' && l.sold_at && l.sold_at >= start; }).reduce(function (s, l) { return s + Number(l.sold_amount || 0); }, 0);
+    main().innerHTML = head('Ekonomi', 'Intäkter från sålda affärer och era kostnader ' + y + '.', '<button class="btn" id="add">+ Ny kostnad</button>');
+    $('#add').addEventListener('click', function () {
+      formDialog('Ny kostnad', 'Belopp exklusive moms.', [
+        { name: 'vendor', label: 'Leverantör', required: true }, { name: 'category', label: 'Kategori', value: 'Programvara', required: true },
+        { name: 'amount_sek', label: 'Belopp (kr)', type: 'number', required: true }, { name: 'vat_sek', label: 'Moms (kr)', type: 'number' },
+        { name: 'spent_at', label: 'Datum', type: 'date', value: new Date().toISOString().slice(0, 10), required: true }, { name: 'description', label: 'Beskrivning' }
+      ], function (v) {
+        v.amount_sek = Number(v.amount_sek); v.vat_sek = v.vat_sek == null ? null : Number(v.vat_sek);
+        return sb.from('cfo_expenses').insert(Object.assign(v, { user_id: st.user.id }));
+      });
+    });
+    fetchRows(sb.from('cfo_expenses').select('id,amount_sek,category,spent_at,vendor,description,vat_sek').gte('spent_at', start.slice(0, 10)).order('spent_at', { ascending: false }), function (rows) {
+      var cost = rows.reduce(function (s, e) { return s + Number(e.amount_sek || 0); }, 0), vat = rows.reduce(function (s, e) { return s + Number(e.vat_sek || 0); }, 0);
+      var cat = {}; rows.forEach(function (e) { cat[e.category] = (cat[e.category] || 0) + Number(e.amount_sek || 0); });
+      main().insertAdjacentHTML('beforeend', kpis([['Intäkter i år', kr(income)], ['Kostnader i år', kr(cost)], ['Resultat', kr(income - cost)], ['Ingående moms', kr(vat)]]) +
+        '<p class="muted small">Intäkterna räknas från sålda leads (beloppet ni skrev in). Exakta siffror finns i bokföringen.</p>' +
+        '<div id="ex">' + table([['Datum', function (e) { return esc(e.spent_at); }], ['Leverantör', function (e) { return '<b>' + esc(e.vendor || '–') + '</b>' + (e.description ? '<br><span class="muted">' + esc(e.description) + '</span>' : ''); }],
+          ['Kategori', function (e) { return '<span class="tag">' + esc(e.category) + '</span>'; }], ['Belopp', function (e) { return kr(e.amount_sek); }],
+          ['', function (e) { return '<button class="iconbtn iconbtn--sm" data-del="' + e.id + '" aria-label="Ta bort">' + ICON.x + '</button>'; }]], rows) + '</div>');
+      $('#ex').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-del]'); if (!b || !confirm('Ta bort kostnaden?')) return;
+        sb.from('cfo_expenses').delete().eq('id', b.dataset.del).then(function (r) { if (r.error) return toast(r.error.message); render(); });
+      });
+    });
+  }
+
+  /* ---------- AI-minne ---------- */
+  function renderMemory() {
+    main().innerHTML = head('AI-minne', 'Fakta som AI:n ska komma ihåg om Elevate och hur ni jobbar.', '<button class="btn" id="add">+ Lägg till</button>');
+    $('#add').addEventListener('click', function () {
+      formDialog('Nytt minne', 'Skriv en sak per minne, t.ex. "Vi svarar alltid inom en arbetsdag."', [
+        { name: 'content', label: 'Innehåll', type: 'textarea', required: true }, { name: 'scope', label: 'Gäller', options: SCOPE, value: 'foretag' }
+      ], function (v) { return sb.from('ai_memory').insert(Object.assign(v, { approved: true, created_by: st.user.id })); });
+    });
+    fetchRows(sb.from('ai_memory').select('id,content,scope,source,approved,created_at').order('created_at', { ascending: false }), function (rows) {
+      main().insertAdjacentHTML('beforeend', '<div id="mm">' + Object.keys(SCOPE).map(function (k) {
+        var list = rows.filter(function (m) { return m.scope === k; });
+        return '<section class="panel"><h3>' + SCOPE[k] + ' <em class="muted">' + list.length + '</em></h3>' + (list.map(function (m) {
+          return '<div class="mem' + (m.approved ? '' : ' is-off') + '"><p>' + esc(m.content) + '</p><div><span class="muted small">' + (m.source === 'ai_proposed' ? 'Föreslaget av AI' : 'Manuellt') + ' · ' + day(m.created_at) + '</span>' +
+            '<label class="switch" title="Godkänd"><input type="checkbox" data-ok="' + m.id + '"' + (m.approved ? ' checked' : '') + '><i></i></label>' +
+            '<button class="iconbtn iconbtn--sm" data-del="' + m.id + '" aria-label="Ta bort">' + ICON.x + '</button></div></div>';
+        }).join('') || '<p class="muted">Inget här än.</p>') + '</section>';
+      }).join('') + '</div>');
+      var mm = $('#mm');
+      mm.addEventListener('change', function (e) {
+        var id = e.target.dataset.ok; if (!id) return;
+        sb.from('ai_memory').update({ approved: e.target.checked }).eq('id', id).then(function (r) { if (r.error) return toast(r.error.message); e.target.closest('.mem').classList.toggle('is-off', !e.target.checked); });
+      });
+      mm.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-del]'); if (!b || !confirm('Ta bort minnet?')) return;
+        sb.from('ai_memory').delete().eq('id', b.dataset.del).then(function (r) { if (r.error) return toast(r.error.message); render(); });
+      });
+    });
+  }
+
+  /* ---------- Integrationer ---------- */
+  function renderIntegrations() {
+    var items = [
+      ['Databas (Supabase)', 'Leads, kontakter, kalender, ekonomi och AI-minne.', 'on', 'Ansluten'],
+      ['Kontaktformulär', 'Förfrågningar från hemsidan hamnar som leads här.', 'on', 'Ansluten'],
+      ['Offert-PDF', 'Skapas direkt i webbläsaren, samma som på hemsidan.', 'on', 'Fungerar'],
+      ['Gmail', 'Skicka mejl, mötesinbjudningar och recensionsmejl automatiskt.', 'off', 'Kräver server'],
+      ['Google Kalender & Meet', 'Skapa möten med Meet-länk direkt från en lead.', 'off', 'Kräver server'],
+      ['SMS (GatewayAPI)', 'SMS-påminnelser till kund och team.', 'off', 'Kräver server'],
+      ['Stripe', 'Skapa och skicka fakturor.', 'off', 'Kräver server'],
+      ['AI-modell', 'AI-assistent och AI-förslag.', 'off', 'Kräver server']
+    ];
+    main().innerHTML = head('Integrationer', 'Vad admin är kopplad till.') +
+      info('Varför vissa kräver server', 'Kopplingarna till Gmail, Kalender, SMS, Stripe och AI behöver hemliga nycklar. De kan inte ligga på en vanlig hemsida. I den gamla admin låg de hos Lovable. Vill ni ha tillbaka dem byggs en liten server (t.ex. Supabase Edge Functions) som admin anropar.') +
+      '<div class="cards">' + items.map(function (i) {
+        return '<article class="cardx"><h3>' + i[0] + '</h3><p>' + i[1] + '</p><footer><span class="pill pill--' + i[2] + '">' + i[3] + '</span></footer></article>';
+      }).join('') + '</div>';
+  }
+
+  /* ---------- Konto ---------- */
+  function renderAccount() {
+    main().innerHTML = head('Konto', 'Byt e-post och lösenord för inloggningen.') +
+      '<div class="split split--2"><section class="panel"><h3>E-post</h3><p class="panel__sub">Nu: <b>' + esc(st.user.email) + '</b></p><form id="em">' +
+      '<label class="field">Ny e-post<input class="input" type="email" name="email" placeholder="info@elevatestudio.nu" required></label>' +
+      '<button class="btn" type="submit">Byt e-post</button><p class="msg ok" id="em-msg"></p></form>' +
+      '<p class="muted small">En bekräftelselänk skickas till den nya adressen. Bytet gäller först när ni klickat på den.</p></section>' +
+      '<section class="panel"><h3>Lösenord</h3><form id="pw">' +
+      '<label class="field">Nytt lösenord (minst 8 tecken)<input class="input" type="password" name="pw" minlength="8" autocomplete="new-password" required></label>' +
+      '<label class="field">Upprepa lösenordet<input class="input" type="password" name="pw2" minlength="8" autocomplete="new-password" required></label>' +
+      '<button class="btn" type="submit">Byt lösenord</button><p class="msg ok" id="pw-msg"></p></form>' +
+      '<p class="muted small">Tips: tre vanliga ord ihop med en siffra är lätt att komma ihåg och svårt att gissa. Inga konstiga tecken behövs.</p></section></div>';
+    $('#em').addEventListener('submit', function (e) {
+      e.preventDefault(); var m = $('#em-msg');
+      sb.auth.updateUser({ email: e.target.email.value.trim() }, { emailRedirectTo: location.href.split('#')[0] }).then(function (r) {
+        m.textContent = r.error ? r.error.message : 'Klart. Öppna mejlet som skickats till den nya adressen och klicka på länken för att bekräfta.';
+      });
+    });
+    $('#pw').addEventListener('submit', function (e) {
+      e.preventDefault(); var f = e.target, m = $('#pw-msg');
+      if (f.pw.value !== f.pw2.value) { m.textContent = 'Lösenorden är inte likadana.'; return; }
+      sb.auth.updateUser({ password: f.pw.value }).then(function (r) {
+        if (r.error) { m.textContent = r.error.message; return; }
+        f.reset(); m.textContent = 'Lösenordet är bytt. Använd det nya nästa gång du loggar in.';
+      });
+    });
+  }
+
+  var PAGES = {
+    kalender: renderCalendar, kontakter: renderContacts, fakturor: renderInvoices, utskick: renderCampaigns, segment: renderSegments,
+    besokare: renderVisitors, chatten: renderChat, kundportal: renderPortal, ai: renderAI, insikter: renderInsights, ekonomi: renderEconomy,
+    minne: renderMemory, integrationer: renderIntegrations, konto: renderAccount
+  };
 
   // After clicking the reset link in the e-mail: choose a new password
   function renderNewPassword() {
