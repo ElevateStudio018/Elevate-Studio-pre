@@ -8,9 +8,9 @@
   <link rel="icon" href="../assets/img/brand/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="../assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../assets/css/style.css?v=1366616dd0">
-  <link rel="stylesheet" href="../assets/css/home.css?v=1366616dd0">
-  <link rel="stylesheet" href="../assets/css/pages.css?v=1366616dd0">
+  <link rel="stylesheet" href="../assets/css/style.css?v=63b8e565a3">
+  <link rel="stylesheet" href="../assets/css/home.css?v=63b8e565a3">
+  <link rel="stylesheet" href="../assets/css/pages.css?v=63b8e565a3">
 </head>
 <body class="subpage">
 
@@ -63,33 +63,46 @@
       <span class="drawer__label">Meny</span>
       <button class="drawer__close js-close-drawer" type="button" aria-label="Stäng meny"><span aria-hidden="true"></span></button>
     </div>
-    <ul class="drawer__main">
-      <li><a href="../projekt/index.html">Projekt</a></li>
-      <li class="has-sub">
-        <button type="button" class="drawer__toggle js-toggle-sub" aria-expanded="false">Vad vi gör <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 4.75 8 11.25l6.5-6.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
-        <div class="hamburgermenu__sub">
-          <ul>
-            <li><a href="../tjanster/strategi.html">Affärsutveckling och strategi</a></li><li><a href="../tjanster/design.html">Design</a></li><li><a href="../tjanster/utveckling.html">Utveckling</a></li><li><a href="../tjanster/digital-tillvaxt.html">Digital tillväxt</a></li><li><a href="../tjanster/drift-och-support.html">Drift och support</a></li><li><a href="../tjanster/inkludering.html">Inkludering</a></li>
-            <li><a href="../tjanster/index.html" class="drawer__all">Alla tjänster</a></li>
-          </ul>
-        </div>
-      </li>
-      <li><a href="../insikter/index.html">Insikter &amp; Artiklar</a></li>
-      <li><a href="../plattformar/index.html">Plattformar</a></li>
-      <li><a href="../testa.html">Testa din sajt</a></li>
-      <li><a href="../kontakt.html">Kontakt</a></li>
-    </ul>
-    <p class="drawer__heading">Om oss</p>
-    <ul class="drawer__minor">
-      <li><a href="../om.html">Om studion</a></li>
-      <li><a href="../karriar.html">Karriär</a></li>
-      <li><a href="../oppna-roller.html">Öppna roller</a></li>
-      <li><a href="../arbetsvillkor.html">Arbetsvillkor</a></li>
-      <li><a href="../ansvar.html">Ansvar</a></li>
-      <li><a href="../english.html">In English</a></li>
-    </ul>
+    <div class="drawer__nav">
+      <p class="drawer__heading drawer__heading--desk">Meny</p>
+      <ul class="drawer__main">
+        <li><a href="../projekt/index.html">Projekt</a></li>
+        <li class="has-sub">
+          <button type="button" class="drawer__toggle js-toggle-sub" aria-expanded="false">Vad vi gör <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 4.75 8 11.25l6.5-6.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+          <div class="hamburgermenu__sub">
+            <ul>
+              <li><a href="../tjanster/strategi.html">Affärsutveckling och strategi</a></li><li><a href="../tjanster/design.html">Design</a></li><li><a href="../tjanster/utveckling.html">Utveckling</a></li><li><a href="../tjanster/digital-tillvaxt.html">Digital tillväxt</a></li><li><a href="../tjanster/drift-och-support.html">Drift och support</a></li><li><a href="../tjanster/inkludering.html">Inkludering</a></li>
+              <li><a href="../tjanster/index.html" class="drawer__all">Alla tjänster</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="drawer__desk-only"><a href="../tjanster/index.html">Vad vi gör</a></li>
+        <li><a href="../insikter/index.html">Insikter &amp; Artiklar</a></li>
+        <li><a href="../plattformar/index.html">Plattformar</a></li>
+        <li><a href="../testa.html">Testa din sajt</a></li>
+        <li><a href="../kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+    <div class="drawer__services">
+      <p class="drawer__heading">Tjänster</p>
+      <ul class="drawer__list">
+        <li><a href="../tjanster/strategi.html">Affärsutveckling och strategi</a></li><li><a href="../tjanster/design.html">Design</a></li><li><a href="../tjanster/utveckling.html">Utveckling</a></li><li><a href="../tjanster/digital-tillvaxt.html">Digital tillväxt</a></li><li><a href="../tjanster/drift-och-support.html">Drift och support</a></li><li><a href="../tjanster/inkludering.html">Inkludering</a></li>
+      </ul>
+    </div>
+    <div class="drawer__about">
+      <p class="drawer__heading">Om oss</p>
+      <ul class="drawer__minor">
+        <li><a href="../om.html">Om studion</a></li>
+        <li><a href="../karriar.html">Karriär</a></li>
+        <li><a href="../oppna-roller.html">Öppna roller</a></li>
+        <li><a href="../arbetsvillkor.html">Arbetsvillkor</a></li>
+        <li><a href="../ansvar.html">Ansvar</a></li>
+        <li><a href="../english.html">In English</a></li>
+      </ul>
+    </div>
     <div class="drawer__contact">
-      <p>Har du ett projekt på gång?</p>
+      <p class="drawer__contact-title">Har du ett projekt på gång?</p>
+      <p>Vi svarar normalt inom en arbetsdag.</p>
       <a class="drawer__mail" href="mailto:info@elevatestudio.nu">info@elevatestudio.nu</a>
       <a class="btn btn--primary" href="../kontakt.html"><span>Hör av dig</span></a>
     </div>
@@ -202,6 +215,6 @@
     <p class="cookie-dialog__links"><a href="../cookies.html">Om cookies</a> <a href="../integritet.html">Integritet</a></p>
   </div>
 
-  <script src="../assets/js/main.js?v=1366616dd0"></script>
+  <script src="../assets/js/main.js?v=63b8e565a3"></script>
 </body>
 </html>

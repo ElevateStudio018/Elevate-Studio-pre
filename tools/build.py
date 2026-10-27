@@ -94,33 +94,46 @@ def header(p, crumbs, current):
       <span class="drawer__label">Meny</span>
       <button class="drawer__close js-close-drawer" type="button" aria-label="Stäng meny"><span aria-hidden="true"></span></button>
     </div>
-    <ul class="drawer__main">
-      <li><a href="{p}projekt/index.html">Projekt</a></li>
-      <li class="has-sub">
-        <button type="button" class="drawer__toggle js-toggle-sub" aria-expanded="false">Vad vi gör {CHEVRON}</button>
-        <div class="hamburgermenu__sub">
-          <ul>
-            {"".join(f'<li><a href="{p}tjanster/{s["slug"]}.html">{esc(s["name"])}</a></li>' for s in SERVICES)}
-            <li><a href="{p}tjanster/index.html" class="drawer__all">Alla tjänster</a></li>
-          </ul>
-        </div>
-      </li>
-      <li><a href="{p}insikter/index.html">Insikter &amp; Artiklar</a></li>
-      <li><a href="{p}plattformar/index.html">Plattformar</a></li>
-      <li><a href="{p}testa.html">Testa din sajt</a></li>
-      <li><a href="{p}kontakt.html">Kontakt</a></li>
-    </ul>
-    <p class="drawer__heading">Om oss</p>
-    <ul class="drawer__minor">
-      <li><a href="{p}om.html">Om studion</a></li>
-      <li><a href="{p}karriar.html">Karriär</a></li>
-      <li><a href="{p}oppna-roller.html">Öppna roller</a></li>
-      <li><a href="{p}arbetsvillkor.html">Arbetsvillkor</a></li>
-      <li><a href="{p}ansvar.html">Ansvar</a></li>
-      <li><a href="{p}english.html">In English</a></li>
-    </ul>
+    <div class="drawer__nav">
+      <p class="drawer__heading drawer__heading--desk">Meny</p>
+      <ul class="drawer__main">
+        <li><a href="{p}projekt/index.html">Projekt</a></li>
+        <li class="has-sub">
+          <button type="button" class="drawer__toggle js-toggle-sub" aria-expanded="false">Vad vi gör {CHEVRON}</button>
+          <div class="hamburgermenu__sub">
+            <ul>
+              {"".join(f'<li><a href="{p}tjanster/{s["slug"]}.html">{esc(s["name"])}</a></li>' for s in SERVICES)}
+              <li><a href="{p}tjanster/index.html" class="drawer__all">Alla tjänster</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="drawer__desk-only"><a href="{p}tjanster/index.html">Vad vi gör</a></li>
+        <li><a href="{p}insikter/index.html">Insikter &amp; Artiklar</a></li>
+        <li><a href="{p}plattformar/index.html">Plattformar</a></li>
+        <li><a href="{p}testa.html">Testa din sajt</a></li>
+        <li><a href="{p}kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+    <div class="drawer__services">
+      <p class="drawer__heading">Tjänster</p>
+      <ul class="drawer__list">
+        {"".join(f'<li><a href="{p}tjanster/{s["slug"]}.html">{esc(s["name"])}</a></li>' for s in SERVICES)}
+      </ul>
+    </div>
+    <div class="drawer__about">
+      <p class="drawer__heading">Om oss</p>
+      <ul class="drawer__minor">
+        <li><a href="{p}om.html">Om studion</a></li>
+        <li><a href="{p}karriar.html">Karriär</a></li>
+        <li><a href="{p}oppna-roller.html">Öppna roller</a></li>
+        <li><a href="{p}arbetsvillkor.html">Arbetsvillkor</a></li>
+        <li><a href="{p}ansvar.html">Ansvar</a></li>
+        <li><a href="{p}english.html">In English</a></li>
+      </ul>
+    </div>
     <div class="drawer__contact">
-      <p>Har du ett projekt på gång?</p>
+      <p class="drawer__contact-title">Har du ett projekt på gång?</p>
+      <p>Vi svarar normalt inom en arbetsdag.</p>
       <a class="drawer__mail" href="mailto:info@elevatestudio.nu">info@elevatestudio.nu</a>
       <a class="btn btn--primary" href="{p}kontakt.html"><span>Hör av dig</span></a>
     </div>

@@ -35,7 +35,7 @@
     if (open) {
       backdrop.hidden = false;
       requestAnimationFrame(function () { backdrop.classList.add('is-visible'); });
-      drawerClose.focus();
+      if (window.matchMedia('(min-width: 993px)').matches) { var first = burgerMenu.querySelector('.drawer__main a'); if (first) first.focus(); } else { drawerClose.focus(); }
     } else {
       backdrop.classList.remove('is-visible');
       setTimeout(function () { backdrop.hidden = true; }, 300);
@@ -45,7 +45,7 @@
   burgerButtons.forEach(function (btn) {
     btn.addEventListener('click', function () {
       setMegamenu(false);
-      setBurger(true);
+      setBurger(!burgerMenu.classList.contains('hamburgermenu--visible'));
     });
   });
   document.querySelectorAll('.js-close-drawer').forEach(function (el) {
