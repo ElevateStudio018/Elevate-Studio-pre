@@ -329,9 +329,9 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 }
 
 /* Homepage teaser for the site test */
-.test-teaser { padding: 96px 0; background: var(--accent); color: var(--cream); }
+.test-teaser { padding: 96px 0; background: var(--cream-dark, #f6f1e4); color: #222; }
 .test-teaser__row { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-.test-teaser h2 { margin: 0 0 16px; font-size: 48px; font-weight: 400; line-height: 1.1; color: #fff; }
+.test-teaser h2 { margin: 0 0 16px; font-size: 48px; font-weight: 400; line-height: 1.1; color: #000; }
 .test-teaser h2 em { font-family: var(--serif); letter-spacing: 0; }
 .test-teaser p { margin: 0; font-size: 20px; }
 .test-teaser .sitetest__form { margin: 0; }

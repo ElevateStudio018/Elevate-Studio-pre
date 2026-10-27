@@ -459,8 +459,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 }
 
 /* ---------- FAQ: green band, centred heading with a short bar, each question in its own white row ---------- */
-.faq { margin-bottom: 152px; padding: 112px 0 120px; background: var(--accent, #1d3b2a); }
-.test-teaser + .faq { margin-top: 152px; }
+.faq { padding: 112px 0 120px; background: var(--accent, #1d3b2a); }
 .faq__inner { max-width: 930px; text-align: center; }
 .faq__title { margin: 0; font-size: 56px; font-weight: 800; line-height: 1; letter-spacing: -.01em; text-transform: uppercase; color: #fff; }
 .faq__bar { display: block; width: 88px; height: 4px; margin: 28px auto 48px; background: var(--cream, #fdfbf5); }
@@ -476,10 +475,9 @@ h2, h3 { margin: 0; font-weight: 400; }
 .faq__item p a { color: var(--accent, #1d3b2a); font-weight: 600; }
 .faq__more { margin: 40px 0 0; color: var(--cream, #fdfbf5); opacity: .9; }
 .faq__more a { color: #fff; font-weight: 600; }
-@media (max-width: 992px) { .faq { margin-bottom: 120px; padding: 88px 0; } .test-teaser + .faq { margin-top: 120px; } }
+@media (max-width: 992px) { .faq { padding: 88px 0; } }
 @media (max-width: 768px) {
-  .faq { margin-bottom: 80px; padding: 64px 0; }
-  .test-teaser + .faq { margin-top: 80px; }
+  .faq { padding: 64px 0; }
   .faq__title { font-size: 36px; }
   .faq__bar { margin: 20px auto 32px; }
   .faq__item { padding: 0 20px; }
