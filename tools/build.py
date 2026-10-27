@@ -755,14 +755,14 @@ def build_agreement():
 def build_prices():
     p = ""
     plans = [
-        ("Starter", "1 750 kr", "startavgift + 99 kr/år", "En snygg, snabb hemsida som visar vad ni gör och gör det enkelt att kontakta er.", [
+        ("Starter", "3 000 kr", "startavgift + 99 kr/år", "En snygg, snabb hemsida som visar vad ni gör och gör det enkelt att kontakta er.", [
             "Webbdesign och mobilanpassning",
             "Kontaktfunktion och presentation av verksamhet och projekt",
             "Grundläggande SEO och AI-optimering",
             "Två korrekturvändor före leverans",
             "Upp till 10 tim support och redigering per månad första året",
         ], "Kom igång", False),
-        ("Pro", "4 950 kr", "startavgift + 99 kr/år", "För er som vill att hemsidan ska jobba – ta emot förfrågningar, bokningar och frågor åt er.", [
+        ("Pro", "6 000 kr", "startavgift + 99 kr/år", "För er som vill att hemsidan ska jobba – ta emot förfrågningar, bokningar och frågor åt er.", [
             "Allt i Starter",
             "Offertflöde eller bokning direkt på sidan",
             "AI-chatt som svarar på vanliga frågor",
