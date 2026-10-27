@@ -305,6 +305,9 @@ FAQ = [
     ("Hur godkänner vi offerten?", "Ni svarar på mejlet med offerten och skriver att ni godkänner den. Inga krångliga underskrifter."),
 ]
 
+# Where visitors leave a Google review. Replace with the direct review link from your Google Business Profile.
+REVIEW_URL = "https://www.google.com/search?q=Elevate+Studio+Uppsala"
+
 # Real customer reviews from Google. Add new ones at the top; arrows appear automatically when there is more than one.
 REVIEWS = [
     {"text": "Väl utfört arbete med vår hemsida, vi märker redan skillnad på inflöde av förfrågningar till våra tjänster.", "source": "Recension på Google"},

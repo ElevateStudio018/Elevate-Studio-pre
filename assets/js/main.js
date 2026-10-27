@@ -130,9 +130,11 @@
     var track = box.querySelector('.reviews__track');
     var prev = box.querySelector('.js-review-prev'), next = box.querySelector('.js-review-next');
     if (!prev || !next) return;
+    var counter = box.querySelector('.js-review-n');
     var sync = function () {
       prev.disabled = track.scrollLeft < 10;
       next.disabled = track.scrollLeft > track.scrollWidth - track.clientWidth - 10;
+      if (counter) counter.textContent = Math.round(track.scrollLeft / track.clientWidth) + 1;
     };
     prev.addEventListener('click', function () { track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }); });
     next.addEventListener('click', function () { track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }); });

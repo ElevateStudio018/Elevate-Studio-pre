@@ -24,9 +24,9 @@
   <link rel="icon" href="assets/img/brand/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css?v=d13166fe2a">
-  <link rel="stylesheet" href="assets/css/home.css?v=d13166fe2a">
-  <link rel="stylesheet" href="assets/css/pages.css?v=d13166fe2a">
+  <link rel="stylesheet" href="assets/css/style.css?v=75f8d8a3c6">
+  <link rel="stylesheet" href="assets/css/home.css?v=75f8d8a3c6">
+  <link rel="stylesheet" href="assets/css/pages.css?v=75f8d8a3c6">
   <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "ProfessionalService", "@id": "https://elevatestudio.nu/#organisation", "name": "Elevate Studio", "url": "https://elevatestudio.nu/", "logo": "https://elevatestudio.nu/assets/img/brand/logo-mark.svg", "image": "https://elevatestudio.nu/assets/img/brand/og.jpg", "description": "Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor med bokning, offertflöde, AI-chatt, SEO och AI-optimering till fast pris.", "email": "info@elevatestudio.nu", "address": {"@type": "PostalAddress", "addressLocality": "Uppsala", "addressCountry": "SE"}, "areaServed": {"@type": "Country", "name": "Sverige"}, "priceRange": "3 000–6 000 kr", "knowsLanguage": ["sv", "en"], "employee": [{"@type": "Person", "name": "Per Mattsson", "jobTitle": "VD"}, {"@type": "Person", "name": "Carl From", "jobTitle": "Försäljning & kundkontakt", "telephone": "+46 76 022 83 61", "email": "carl@elevatestudio.nu"}, {"@type": "Person", "name": "Isak Mattsson", "jobTitle": "Försäljning & AI-utveckling", "telephone": "+46 70 289 58 75", "email": "isak@elevatestudio.nu"}, {"@type": "Person", "name": "Oscar Svanerud", "jobTitle": "Försäljning & affärsutveckling", "telephone": "+46 76 849 86 68", "email": "svanerudo@gmail.com"}], "parentOrganization": {"@type": "Organization", "name": "PJM Projekteffektivitet AB"}, "makesOffer": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Hemsidor", "url": "https://elevatestudio.nu/tjanster/hemsidor.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI-chatt", "url": "https://elevatestudio.nu/tjanster/ai-chatt.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Bokningssystem", "url": "https://elevatestudio.nu/tjanster/bokningssystem.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Offertsystem", "url": "https://elevatestudio.nu/tjanster/offertsystem.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "SEO och AI-optimering", "url": "https://elevatestudio.nu/tjanster/seo-och-ai-optimering.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Support och underhåll", "url": "https://elevatestudio.nu/tjanster/support-och-underhall.html"}}]}, {"@type": "WebSite", "@id": "https://elevatestudio.nu/#webbplats", "url": "https://elevatestudio.nu/", "name": "Elevate Studio", "inLanguage": "sv-SE", "publisher": {"@id": "https://elevatestudio.nu/#organisation"}}]}</script>
 </head>
 <body class="home" data-ga="">
@@ -173,22 +173,43 @@
     </section><!-- /build:bento -->
 
     <!-- Devices: the site on laptop and phone -->
-    <section class="block devices" id="projekt">
-      <div class="container devices__row">
-        <div class="devices__text">
-          <h2 class="devices__title">Sajter som känns <em>rätt</em> på alla skärmar</h2>
-          <p>Vi designar mobilen först och finputsar varje brytpunkt – så att upplevelsen håller lika hög nivå i telefonen som på en stor skärm.</p>
-          <a class="btn btn--light" href="projekt/index.html"><span>Se våra projekt</span></a>
-        </div>
-        <div class="devices__stage" aria-hidden="true">
-          <div class="devices__laptop">
-            <div class="devices__screen"><img src="assets/img/home/device-desktop.jpg" alt="" width="1440" height="900" loading="lazy"></div>
-            <div class="devices__base"></div>
+    <!-- build:projects --><section class="block hp-proj" id="projekt">
+      <div class="container">
+        <div class="hp-proj__hero">
+          <div>
+            <span class="ex-tag ex-tag--demo">Demo / testsajt</span>
+            <h2 class="hp-proj__title">Hemsidor som känns rätt <em>på alla skärmar</em></h2>
+            <p class="hp-proj__lead">Vi bygger mobilen först och finputsar varje skärmstorlek. Här är vår testsajt Lindvik Bygg – och några exempel på hur vi arbetar.</p>
+            <div class="hp-proj__btns">
+              <a class="btn btn--light" href="projekt/index.html"><span>Se alla projekt</span></a>
+              <a class="arrow-link hp-proj__link" href="https://elevatestudio018.github.io/lirk/" target="_blank" rel="noopener">Öppna testsajten</a>
+            </div>
           </div>
-          <div class="devices__phone"><img src="assets/img/home/device-phone.jpg" alt="" width="780" height="1688" loading="lazy"></div>
+          <div class="hp-proj__devs">
+            <div class="laptop"><div class="laptop__scr"><img src="assets/img/home/device-desktop.jpg" alt="Testsajten Lindvik Bygg på en laptop" loading="lazy"></div><div class="laptop__base"></div></div>
+            <div class="phone"><img src="assets/img/home/device-phone.jpg" alt="Testsajten Lindvik Bygg på en mobil" loading="lazy"></div>
+          </div>
         </div>
+        <div class="hp-proj__grid">
+          <a class="hp-proj__card" href="projekt/fjallvagen-bildelar.html">
+            <div class="laptop"><div class="laptop__scr"><img src="assets/img/home/case-1.jpg" alt="" loading="lazy"></div><div class="laptop__base"></div></div>
+            <div class="hp-proj__meta"><h3>Fjällvägen Bildelar</h3><span class="ex-tag">Exempel</span></div>
+            <span class="btn btn--light hp-proj__btn"><span>Läs mer</span></span>
+          </a>
+          <a class="hp-proj__card" href="projekt/bergsalen.html">
+            <div class="laptop"><div class="laptop__scr"><img src="assets/img/home/case-2.jpg" alt="" loading="lazy"></div><div class="laptop__base"></div></div>
+            <div class="hp-proj__meta"><h3>Bergsalen</h3><span class="ex-tag">Exempel</span></div>
+            <span class="btn btn--light hp-proj__btn"><span>Läs mer</span></span>
+          </a>
+          <a class="hp-proj__card" href="projekt/nattbryggan.html">
+            <div class="laptop"><div class="laptop__scr"><img src="assets/img/home/case-3.svg" alt="" loading="lazy"></div><div class="laptop__base"></div></div>
+            <div class="hp-proj__meta"><h3>Nattbryggan</h3><span class="ex-tag">Exempel</span></div>
+            <span class="btn btn--light hp-proj__btn"><span>Läs mer</span></span>
+          </a>
+        </div>
+        <p class="hp-proj__note">Kunderna i exemplen är påhittade och visar hur vi arbetar.</p>
       </div>
-    </section>
+    </section><!-- /build:projects -->
 
     <!-- Client logos: two rows drifting slowly in opposite directions (fictional companies) -->
     <section class="block clients-marquee" aria-label="Företag vi har jobbat med (påhittade exempel)">
@@ -320,13 +341,21 @@
 
     <!-- Review (real customer review from Google) -->
     <section class="block container review">
-      <!-- build:reviews --><div class="reviews" data-reviews aria-label="Kundrecensioner">
+      <!-- build:reviews --><div class="reviews reviews--many" data-reviews aria-label="Kundrecensioner">
       <div class="reviews__track"><figure class="review__card">
           <svg class="review__mark" viewBox="0 0 30 22" aria-hidden="true"><path d="M0 22V13C0 5 4 1 12 0l1 3C8 4 6 7 6 11h6v11zm17 0V13c0-8 4-12 12-13l1 3c-5 1-7 4-7 8h6v11z" fill="#1d3b2a"/></svg>
           <blockquote class="review__text"><p>Väl utfört arbete med vår hemsida, vi märker redan skillnad på inflöde av förfrågningar till våra tjänster.</p></blockquote>
           <figcaption class="review__source">Recension på Google</figcaption>
-        </figure></div>
-      
+        </figure><div class="review__card review__card--ask">
+          <p class="review__ask-k">Har ni jobbat med oss?</p>
+          <p class="review__ask">Vi blir glada för en recension på Google – det hjälper andra företag att hitta oss.</p>
+          <a class="btn btn--primary" href="https://www.google.com/search?q=Elevate+Studio+Uppsala" target="_blank" rel="noopener"><span>Lämna en recension</span></a>
+        </div></div>
+      <div class="review__nav">
+        <button type="button" class="review__arrow js-review-prev" aria-label="Föregående"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+        <span class="review__count"><b class="js-review-n">1</b> / 2</span>
+        <button type="button" class="review__arrow js-review-next" aria-label="Nästa"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+      </div>
     </div><!-- /build:reviews -->
     </section>
 
@@ -526,8 +555,8 @@
     <p class="cookie-dialog__links"><a href="cookies.html">Om cookies</a> <a href="integritet.html">Integritet</a></p>
   </div>
 
-  <script src="assets/js/main.js?v=d13166fe2a"></script>
-  <script src="assets/js/home.js?v=d13166fe2a"></script>
-  <script src="assets/js/chat.js?v=d13166fe2a" data-prefix="" data-endpoint="https://formsubmit.co/ajax/info@elevatestudio.nu" defer></script>
+  <script src="assets/js/main.js?v=75f8d8a3c6"></script>
+  <script src="assets/js/home.js?v=75f8d8a3c6"></script>
+  <script src="assets/js/chat.js?v=75f8d8a3c6" data-prefix="" data-endpoint="https://formsubmit.co/ajax/info@elevatestudio.nu" defer></script>
 </body>
 </html>

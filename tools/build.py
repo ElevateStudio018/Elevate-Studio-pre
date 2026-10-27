@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, CASES, FORM_ENDPOINT, GA_MEASUREMENT_ID, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY, REVIEWS, FAQ, LANDINGS  # noqa: E402
+from content import ARTICLES, CASES, FORM_ENDPOINT, GA_MEASUREMENT_ID, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -1064,23 +1064,59 @@ def rewrap(path, body_class, crumbs=None, extra_js=(), robots="index, follow"):
 MARK_SVG = '<svg viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>'
 
 
-def reviews_section():
-    """Real Google reviews. With more than one, arrows and swipe appear; with one it stays still."""
+def reviews_section(p=""):
+    """Real Google reviews, followed by a card inviting the next review. Arrows step between them."""
     quote = '<svg class="review__mark" viewBox="0 0 30 22" aria-hidden="true"><path d="M0 22V13C0 5 4 1 12 0l1 3C8 4 6 7 6 11h6v11zm17 0V13c0-8 4-12 12-13l1 3c-5 1-7 4-7 8h6v11z" fill="#1d3b2a"/></svg>'
     slides = "".join(f'''<figure class="review__card">
           {quote}
           <blockquote class="review__text"><p>{esc(r["text"])}</p></blockquote>
           <figcaption class="review__source">{esc(r["source"])}</figcaption>
         </figure>''' for r in REVIEWS)
-    many = len(REVIEWS) > 1
-    arrows = '''<div class="review__nav">
-        <button type="button" class="review__arrow js-review-prev" aria-label="Föregående recension"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
-        <button type="button" class="review__arrow js-review-next" aria-label="Nästa recension"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
-      </div>''' if many else ""
-    return f'''<div class="reviews{" reviews--many" if many else ""}" data-reviews aria-label="Kundrecensioner">
+    slides += f'''<div class="review__card review__card--ask">
+          <p class="review__ask-k">Har ni jobbat med oss?</p>
+          <p class="review__ask">Vi blir glada för en recension på Google – det hjälper andra företag att hitta oss.</p>
+          <a class="btn btn--primary" href="{REVIEW_URL}" target="_blank" rel="noopener"><span>Lämna en recension</span></a>
+        </div>'''
+    return f'''<div class="reviews reviews--many" data-reviews aria-label="Kundrecensioner">
       <div class="reviews__track">{slides}</div>
-      {arrows}
+      <div class="review__nav">
+        <button type="button" class="review__arrow js-review-prev" aria-label="Föregående"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+        <span class="review__count"><b class="js-review-n">1</b> / {len(REVIEWS) + 1}</span>
+        <button type="button" class="review__arrow js-review-next" aria-label="Nästa"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+      </div>
     </div>'''
+
+
+def projects_section():
+    """Start page: the demo site in laptop and phone, then example projects in laptops (J10)."""
+    cards = "".join(f'''
+          <a class="hp-proj__card" href="projekt/{c["slug"]}.html">
+            {laptop("assets/img/" + c["image"])}
+            <div class="hp-proj__meta"><h3>{esc(c["name"])}</h3><span class="ex-tag">Exempel</span></div>
+            <span class="btn btn--light hp-proj__btn"><span>Läs mer</span></span>
+          </a>''' for c in CASES[:3])
+    return f'''<section class="block hp-proj" id="projekt">
+      <div class="container">
+        <div class="hp-proj__hero">
+          <div>
+            <span class="ex-tag ex-tag--demo">Demo / testsajt</span>
+            <h2 class="hp-proj__title">Hemsidor som känns rätt <em>på alla skärmar</em></h2>
+            <p class="hp-proj__lead">Vi bygger mobilen först och finputsar varje skärmstorlek. Här är vår testsajt Lindvik Bygg – och några exempel på hur vi arbetar.</p>
+            <div class="hp-proj__btns">
+              <a class="btn btn--light" href="projekt/index.html"><span>Se alla projekt</span></a>
+              <a class="arrow-link hp-proj__link" href="{LIRK_URL}" target="_blank" rel="noopener">Öppna testsajten</a>
+            </div>
+          </div>
+          <div class="hp-proj__devs">
+            {laptop("assets/img/home/device-desktop.jpg", "Testsajten Lindvik Bygg på en laptop")}
+            <div class="phone"><img src="assets/img/home/device-phone.jpg" alt="Testsajten Lindvik Bygg på en mobil" loading="lazy"></div>
+          </div>
+        </div>
+        <div class="hp-proj__grid">{cards}
+        </div>
+        <p class="hp-proj__note">Kunderna i exemplen är påhittade och visar hur vi arbetar.</p>
+      </div>
+    </section>'''
 
 
 def faq_block(qa, name):
@@ -1249,6 +1285,7 @@ def main():
         "services": services_grid(),
         "contactform": contact_form(""),
         "reviews": reviews_section(),
+        "projects": projects_section(),
         "faq": faq_section(),
     }
     for name, markup in regions.items():
