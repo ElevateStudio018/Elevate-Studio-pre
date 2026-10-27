@@ -26,9 +26,9 @@
   <link rel="apple-touch-icon" href="assets/img/brand/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css?v=4f695a095c">
-  <link rel="stylesheet" href="assets/css/home.css?v=4f695a095c">
-  <link rel="stylesheet" href="assets/css/pages.css?v=4f695a095c">
+  <link rel="stylesheet" href="assets/css/style.css?v=0356856100">
+  <link rel="stylesheet" href="assets/css/home.css?v=0356856100">
+  <link rel="stylesheet" href="assets/css/pages.css?v=0356856100">
   <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "ProfessionalService", "@id": "https://elevatestudio.nu/#organisation", "name": "Elevate Studio", "url": "https://elevatestudio.nu/", "logo": "https://elevatestudio.nu/assets/img/brand/logo-mark.svg", "image": "https://elevatestudio.nu/assets/img/brand/og.jpg", "description": "Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor med bokning, offertflöde, AI-chatt, SEO och AI-optimering till fast pris.", "email": "info@elevatestudio.nu", "address": {"@type": "PostalAddress", "addressLocality": "Uppsala", "addressCountry": "SE"}, "areaServed": {"@type": "Country", "name": "Sverige"}, "priceRange": "3 000–6 000 kr", "knowsLanguage": ["sv", "en"], "employee": [{"@type": "Person", "name": "Carl From", "jobTitle": "Försäljning & kundkontakt", "telephone": "+46 76 022 83 61", "email": "carl@elevatestudio.nu"}, {"@type": "Person", "name": "Isak Mattsson", "jobTitle": "Försäljning & AI-utveckling", "telephone": "+46 70 289 58 75", "email": "isak@elevatestudio.nu"}, {"@type": "Person", "name": "Oscar Svanerud", "jobTitle": "Försäljning & affärsutveckling", "telephone": "+46 76 849 86 68", "email": "svanerudo@gmail.com"}], "parentOrganization": {"@type": "Organization", "name": "PJM Projekteffektivitet AB"}, "makesOffer": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Hemsidor", "url": "https://elevatestudio.nu/tjanster/hemsidor.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI-chatt", "url": "https://elevatestudio.nu/tjanster/ai-chatt.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Bokningssystem", "url": "https://elevatestudio.nu/tjanster/bokningssystem.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Offertsystem", "url": "https://elevatestudio.nu/tjanster/offertsystem.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "SEO och AI-optimering", "url": "https://elevatestudio.nu/tjanster/seo-och-ai-optimering.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Support och underhåll", "url": "https://elevatestudio.nu/tjanster/support-och-underhall.html"}}]}, {"@type": "WebSite", "@id": "https://elevatestudio.nu/#webbplats", "url": "https://elevatestudio.nu/", "name": "Elevate Studio", "inLanguage": "sv-SE", "publisher": {"@id": "https://elevatestudio.nu/#organisation"}}]}</script>
 </head>
 <body class="home">
@@ -130,13 +130,22 @@
         <img src="assets/img/home/hero.jpg" alt="" width="2400" height="1600" fetchpriority="high">
       </figure>
       <div class="container hero__inner">
-        <p class="hero__eyebrow">Webbyrå i Uppsala</p>
-        <h1 class="hero__header">Hemsidor som<br><em>ger förfrågningar</em></h1>
-        <p class="hero__text">Snabba, mobilanpassade hemsidor med bokning, offertflöde och AI-chatt – till fast pris. Ni pratar alltid med samma person.</p>
-        <div class="hero__buttons">
-          <a href="kontakt.html" class="btn btn--primary"><span>Boka ett möte</span></a>
-          <a href="priser.html" class="btn btn--secondary"><span>Se priser</span></a>
+        <div class="hero__main">
+          <p class="hero__eyebrow"><span class="hero__dash"></span>Webbyrå i Uppsala</p>
+          <h1 class="hero__header">Hemsidor som<br><em>ger förfrågningar</em></h1>
         </div>
+        <div class="hero__side">
+          <p class="hero__text">Snabba, mobilanpassade hemsidor med bokning, offertflöde och AI-chatt – till fast pris. Ni pratar alltid med samma person.</p>
+          <div class="hero__buttons">
+            <a href="kontakt.html" class="btn btn--primary"><span>Boka ett möte</span></a>
+            <a href="priser.html" class="btn btn--secondary"><span>Se priser</span></a>
+          </div>
+        </div>
+        <ul class="hero__facts">
+          <li><b>Fast pris</b>från 3 000 kr</li>
+          <li><b>Mobil först</b>på alla skärmar</li>
+          <li><b>En kontakt</b>hela vägen</li>
+        </ul>
       </div>
     </section>
 
@@ -335,7 +344,7 @@
         <div class="about__card">
           <svg class="about__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>
           <h2 class="about__title" id="about-title">Vi är <span>Elevate Studio</span></h2>
-          <p class="about__lead">Vi är tre personer i Uppsala som bygger hemsidor som ger förfrågningar – och kopplar på det som sparar tid åt er: offertflöden, bokning och AI-chatt.</p>
+          <p class="about__lead">Vi är ett team i Uppsala som bygger hemsidor som ger förfrågningar – och kopplar på det som sparar tid åt er: offertflöden, bokning och AI-chatt.</p>
           <p>Ni pratar med samma person från första mötet till uppföljningen varje månad. Inga mellanhänder, inga långa mejltrådar – bara någon som kan ert företag och svarar när ni ringer.</p>
           <ul class="about__team">
             <li><b>Carl From</b>Försäljning &amp; kundkontakt</li>
@@ -552,8 +561,8 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js?v=4f695a095c"></script>
-  <script src="assets/js/home.js?v=4f695a095c"></script>
-  <script src="assets/js/chat.js?v=4f695a095c" data-prefix="" data-endpoint="https://formsubmit.co/ajax/info@elevatestudio.nu" defer></script>
+  <script src="assets/js/main.js?v=0356856100"></script>
+  <script src="assets/js/home.js?v=0356856100"></script>
+  <script src="assets/js/chat.js?v=0356856100" data-prefix="" data-endpoint="https://formsubmit.co/ajax/info@elevatestudio.nu" defer></script>
 </body>
 </html>

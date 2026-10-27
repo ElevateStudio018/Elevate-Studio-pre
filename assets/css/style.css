@@ -566,3 +566,13 @@ button.arrow-link { padding: 0; border: 0; background: none; font: inherit; curs
   @keyframes chat-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 }
 @media (max-width: 576px) { .chat__toggle { height: 58px; padding: 0 22px 0 18px; font-size: 17px; } }
+
+/* ---------- Menu button: no background, bolder lines ---------- */
+.hamburger-icon { width: 48px; height: 48px; border: 0; background: transparent; }
+.hamburger-icon .icon, .hamburger-icon .icon::before, .hamburger-icon .icon::after { width: 26px; height: 3px; border-radius: 2px; background: var(--accent, #1d3b2a); }
+.hamburger-icon .icon::before { top: -8px; }
+.hamburger-icon .icon::after { top: 8px; }
+.hamburger-icon:hover { background: transparent; }
+.hamburger-icon:hover .icon, .hamburger-icon:hover .icon::before, .hamburger-icon:hover .icon::after { background: #000; }
+.site-header .hamburger-icon[aria-expanded="true"] .icon::before { transform: translateY(8px) rotate(45deg); }
+.site-header .hamburger-icon[aria-expanded="true"] .icon::after { transform: translateY(-8px) rotate(-45deg); }

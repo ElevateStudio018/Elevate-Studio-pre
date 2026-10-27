@@ -943,3 +943,27 @@ h2, h3 { margin: 0; font-weight: 400; }
   .about__grid .about__title { font-size: 36px; }
   .about__team { flex-direction: column; gap: 12px; }
 }
+
+/* ---------- Hero text: editorial layout, headline left and text/buttons right, facts along the bottom ---------- */
+.hero { align-items: flex-end; text-align: left; padding-bottom: 56px; }
+.hero__inner { display: grid; grid-template-columns: 1.35fr 1fr; align-items: end; gap: 32px 64px; max-width: 1334px; }
+.hero__eyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; font-size: 14px; }
+.hero__dash { display: inline-block; width: 44px; height: 2px; background: var(--cream, #fdfbf5); }
+.hero__header { margin: 0; font-size: 92px; line-height: .98; }
+.hero__side { padding-left: 32px; border-left: 1px solid rgba(253, 251, 245, .35); }
+.hero__text { margin: 0 0 28px; max-width: 460px; font-size: 19px; }
+.hero__buttons { justify-content: flex-start; }
+.hero__facts { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); margin: 24px 0 0; padding: 22px 0 0; border-top: 1px solid rgba(253, 251, 245, .25); list-style: none; color: rgba(253, 251, 245, .75); font-size: 15px; }
+.hero__facts b { display: block; margin-bottom: 2px; font-size: 18px; font-weight: 600; color: #fff; }
+@media (max-width: 992px) {
+  .hero__inner { grid-template-columns: 1fr; }
+  .hero__header { font-size: 64px; }
+  .hero__side { padding-left: 0; border-left: 0; }
+}
+@media (max-width: 576px) {
+  .hero__header { font-size: 44px; }
+  .hero__facts { grid-template-columns: 1fr; gap: 12px; }
+  .hero__facts li { display: flex; gap: 8px; align-items: baseline; }
+  .hero__facts b { margin: 0; font-size: 16px; }
+}
+

@@ -10,6 +10,7 @@ elevatestudio.nu is published.
 """
 import html
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -125,9 +126,18 @@ def welcome():
     return shell("Välkommen till Elevate Studio", "Tack för att du vill höra från oss.", inner)
 
 
+def with_bgcolor(page):
+    """Mirror CSS backgrounds as bgcolor attributes so Gmail/Outlook keep the colours."""
+    def add(m):
+        tag = m.group(0)
+        c = re.search(r"background:(#[0-9a-fA-F]{6})", tag)
+        return tag if not c or "bgcolor=" in tag else tag.replace(m.group(1), f'{m.group(1)} bgcolor="{c.group(1)}"', 1)
+    return re.sub(r"(<(?:table|td|body))\b[^>]*>", add, page)
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     for name, body in (("nyhetsbrev.html", newsletter()), ("valkommen.html", welcome())):
         with open(os.path.join(OUT, name), "w") as f:
-            f.write(body)
+            f.write(with_bgcolor(body))
     print("Wrote", OUT)
