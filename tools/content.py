@@ -279,6 +279,11 @@ PLATFORMS = [
 CEO = ("Per Mattsson", "VD")
 PARENT_COMPANY = "PJM Projekteffektivitet AB"
 
+# Real customer reviews from Google. Add new ones at the top; arrows appear automatically when there is more than one.
+REVIEWS = [
+    {"text": "Väl utfört arbete med vår hemsida, vi märker redan skillnad på inflöde av förfrågningar till våra tjänster.", "source": "Recension på Google"},
+]
+
 TEAM = [
                 ("Carl From", "Försäljning & kundkontakt", "+46 76 022 83 61", "carl@elevatestudio.nu"),
                 ("Isak Mattsson", "Försäljning & AI-utveckling", "+46 70 289 58 75", "isak@elevatestudio.nu"),
@@ -287,24 +292,30 @@ TEAM = [
 
 SIMPLE_PAGES = {
     "kontakt": {
-        "title": "Kontakt", "lead": "Funderar du på en ny hemsida eller vill du förbättra den du har? Ring eller mejla någon av oss direkt – eller skriv några rader i formuläret.",
-        "description": "Kontakta Elevate Studio i Uppsala. Ring eller mejla Carl, Isak eller Oscar, eller skriv till info@elevatestudio.nu.",
+        "title": "Kontakt", "lead": "Låt oss prata om er hemsida.",
+        "description": "Kontakta Elevate Studio i Uppsala. Ring eller mejla Carl, Isak eller Oscar, skriv till info@elevatestudio.nu eller fyll i formuläret.",
         "sections": [
+            ("contacthero", None),
             ("team", TEAM),
-            ("contact", None),
             ("form", None),
+            ("nextsteps", [("Vi hör av oss", "Vi läser er förfrågan och återkommer så fort vi kan – oftast med ett förslag på tid för ett kort möte."),
+                           ("Första mötet", "Vi pratar om ert företag, era kunder och vad hemsidan ska ge. Det kostar ingenting."),
+                           ("Ni får en offert", "Ett fast pris och en tydlig plan på två sidor. Ni godkänner genom att svara på mejlet.")]),
+            ("minifaq", None),
         ],
     },
     "om": {
-        "title": "Om oss", "lead": "Elevate Studio är tre personer i Uppsala som bygger hemsidor som ger förfrågningar – för företag i hela Sverige.",
-        "description": "Elevate Studio är en webbyrå i Uppsala. Tre personer som bygger hemsidor med bokning, offertflöde och AI-chatt till fast pris.",
+        "title": "Om oss", "lead": "Elevate Studio är ett litet team i Uppsala som bygger hemsidor som ger förfrågningar – för företag i hela Sverige.",
+        "description": "Elevate Studio är en webbyrå i Uppsala och en del av PJM Projekteffektivitet AB. Vi bygger hemsidor med bokning, offertflöde och AI-chatt till fast pris.",
         "sections": [
-            ("text", "Vi startade Elevate Studio för att det ska vara enkelt för företag att få en hemsida som faktiskt ger kunder. Ni får ett fast pris innan vi börjar, en hemsida på ungefär en månad och samma kontaktperson hela vägen – från första mötet till uppföljningen varje månad."),
-            ("cols", [("Fast pris", "Ni vet vad det kostar innan vi börjar. Allt står i en tydlig offert."),
+            ("text", "Vi startade Elevate Studio för att det ska vara enkelt för företag att få en hemsida som faktiskt ger kunder. Många företag har en hemsida som ser okej ut men som inte ger några förfrågningar – eller ingen hemsida alls, för att det känns dyrt och krångligt. Vi vill ändra på det: ett fast pris innan vi börjar, en hemsida på ungefär en månad och samma kontaktperson hela vägen."),
+            ("cols", [("Fast pris", "Ni vet vad det kostar innan vi börjar. Allt står i en tydlig offert på två sidor."),
                       ("Samma kontaktperson", "Inga mellanhänder. Ni pratar med någon som kan ert företag."),
                       ("Ni äger er domän", "Domänen är och förblir er – oavsett vad som händer.")]),
+            ("ceo", None),
             ("team", TEAM),
-            ("links", [("Se våra priser", "priser.html"), ("Se ett exempel på avtal", "avtal.html"), ("Kontakta oss", "kontakt.html")]),
+            ("review", None),
+            ("aboutlinks", None),
         ],
     },
     "english": {

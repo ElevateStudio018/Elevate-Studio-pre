@@ -112,6 +112,21 @@
     });
   });
 
+  // Reviews: arrows step one review at a time (only rendered when there is more than one)
+  document.querySelectorAll('[data-reviews]').forEach(function (box) {
+    var track = box.querySelector('.reviews__track');
+    var prev = box.querySelector('.js-review-prev'), next = box.querySelector('.js-review-next');
+    if (!prev || !next) return;
+    var sync = function () {
+      prev.disabled = track.scrollLeft < 10;
+      next.disabled = track.scrollLeft > track.scrollWidth - track.clientWidth - 10;
+    };
+    prev.addEventListener('click', function () { track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }); });
+    next.addEventListener('click', function () { track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }); });
+    track.addEventListener('scroll', sync, { passive: true });
+    sync();
+  });
+
   // Statistics: Google Analytics loads only after the visitor accepts, and only if an ID is configured
   var gaId = body.dataset.ga;
   var dialog = document.getElementById('cookie-dialog');

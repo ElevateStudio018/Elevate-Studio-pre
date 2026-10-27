@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, CASES, FORM_ENDPOINT, GA_MEASUREMENT_ID, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY  # noqa: E402
+from content import ARTICLES, CASES, FORM_ENDPOINT, GA_MEASUREMENT_ID, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY, REVIEWS  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -262,6 +262,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
     css = ["style.css", "home.css", "pages.css", *extra_css]
     links = "\n  ".join(f'<link rel="stylesheet" href="{p}assets/css/{c}?v={VERSION}">' for c in css)
     scripts = "\n  ".join(f'<script src="{p}assets/js/{j}?v={VERSION}"></script>' for j in ("main.js", *extra_js))
+    scripts += f'\n  <script src="{p}assets/js/chat.js?v={VERSION}" data-prefix="{p}" data-endpoint="{FORM_ENDPOINT}" defer></script>'
     desc = esc(description or auto_description(main))
     full_title = esc(title if "Elevate Studio" in title else f"{title} | Elevate Studio")
     graph = [organisation_ld(), {"@type": "WebSite", "@id": f"{SITE_URL}/#webbplats", "url": f"{SITE_URL}/", "name": "Elevate Studio", "inLanguage": "sv-SE", "publisher": {"@id": ORG_ID}}]
@@ -699,31 +700,54 @@ def build_simple():
             elif kind == "links":
                 links = "".join(f'<li><a href="{href}" class="arrow-link">{esc(label)}</a></li>' for label, href in value)
                 parts.append(f'<section class="section container"><ul class="link-list">{links}</ul></section>')
-            elif kind == "contact":
-                ic_mail = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2.2V17h16V7.2l-8 5.3z M4.6 7l7.4 4.9L19.4 7z" fill="currentColor"/></svg>'
-                ic_pin = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg>'
-                ic_doc = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm8 1.5V8h4.5zM8 12h8v1.6H8zm0 4h8v1.6H8z" fill="currentColor"/></svg>'
-                parts.append(f'''<section class="contact-strip">
-      <div class="container contact-strip__row">
-        <a class="contact-strip__item contact-strip__item--main" href="mailto:info@elevatestudio.nu">
-          <span class="contact-strip__icon">{ic_mail}</span>
-          <span class="contact-strip__label">Mejla oss</span>
-          <span class="contact-strip__value">info@elevatestudio.nu</span>
-          <span class="contact-strip__note">Vi svarar så fort vi kan.</span>
-        </a>
-        <div class="contact-strip__item">
-          <span class="contact-strip__icon">{ic_pin}</span>
-          <span class="contact-strip__label">Här finns vi</span>
-          <span class="contact-strip__value">Uppsala</span>
-          <span class="contact-strip__note">Vi jobbar med företag i hela Sverige – på plats eller på distans.</span>
+            elif kind == "contacthero":
+                carl = TEAM[0]
+                parts.append(f'''<section class="contact-hero">
+      <div class="contact-hero__mark">{MARK_SVG}</div>
+      <div class="container contact-hero__inner">
+        <div class="contact-hero__text">
+          <h1 class="contact-hero__title">Låt oss prata om <em>er hemsida</em></h1>
+          <p class="contact-hero__lead">Ring, mejla eller skriv några rader. Vi svarar så fort vi kan – och första mötet kostar ingenting.</p>
         </div>
-        <a class="contact-strip__item" href="{p}priser.html">
-          <span class="contact-strip__icon">{ic_doc}</span>
-          <span class="contact-strip__label">Innan ni hör av er</span>
-          <span class="contact-strip__value">Se våra priser</span>
-          <span class="contact-strip__note">Fast pris från 3 000 kr – och ett exempel på hur avtalet ser ut.</span>
-        </a>
+        <ul class="contact-hero__actions">
+          <li><a href="tel:{carl[2].replace(" ", "")}"><span class="contact-hero__k">Ring oss</span><span class="contact-hero__v">{esc(carl[2])}</span></a></li>
+          <li><a href="mailto:info@elevatestudio.nu"><span class="contact-hero__k">Mejla oss</span><span class="contact-hero__v">info@elevatestudio.nu</span></a></li>
+          <li><a href="#formular"><span class="contact-hero__k">Skriv till oss</span><span class="contact-hero__v">Fyll i formuläret</span></a></li>
+        </ul>
+        <p class="contact-hero__facts"><span>Uppsala – kunder i hela Sverige</span><span>Fast pris från 3 000 kr</span><span>Svar så fort vi kan</span></p>
       </div>
+    </section>''')
+            elif kind == "nextsteps":
+                steps = "".join(f'<li><span class="next-steps__no">0{i}</span><h3>{esc(t)}</h3><p>{esc(d)}</p></li>' for i, (t, d) in enumerate(value, 1))
+                parts.append(f'''<section class="section container next-steps">
+      <h2 class="block__header">Efter att ni <span>hört av er</span></h2>
+      <ol>{steps}</ol>
+    </section>''')
+            elif kind == "minifaq":
+                qa = [("Vad kostar en hemsida?", 'Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. <a href="priser.html">Se priser</a>.'),
+                      ("Hur lång tid tar det?", "Räkna med ungefär en månad från beställning till färdig sajt, förutsatt att vi har fått texter, bilder och åtkomst."),
+                      ("Måste vi bo i Uppsala?", "Nej. Vi finns i Uppsala men jobbar med företag i hela Sverige – möten går lika bra på distans.")]
+                items = "".join(f'<details class="faq__item" name="kfaq"><summary>{esc(q)}</summary><p>{a}</p></details>' for q, a in qa)
+                parts.append(f'''<section class="section container mini-faq">
+      <div class="mini-faq__head"><h2 class="block__header">Vanliga <span>frågor</span></h2><a class="arrow-link" href="index.html#faq">Alla frågor</a></div>
+      <div class="faq__list">{items}</div>
+    </section>''')
+            elif kind == "ceo":
+                parts.append(f'''<section class="section container about-ceo">
+      <div class="about-ceo__card">
+        <p class="about-ceo__k">Ledning</p>
+        <h2 class="about-ceo__name">{esc(CEO[0])}</h2>
+        <p class="about-ceo__role">{esc(CEO[1])}, Elevate Studio</p>
+      </div>
+      <p class="about-ceo__text">Elevate Studio är en del av {esc(PARENT_COMPANY)}. Det betyder ett litet, snabbt team mot er som kund – med ett etablerat bolag i ryggen.</p>
+    </section>''')
+            elif kind == "review":
+                parts.append(f'<section class="section container">{reviews_section()}</section>')
+            elif kind == "aboutlinks":
+                parts.append('''<section class="section container about-links">
+      <a class="about-links__item" href="priser.html"><h3>Priser</h3><p>Starter, Pro och Elite – vad som ingår och vad det kostar.</p><span class="arrow-link">Se priser</span></a>
+      <a class="about-links__item" href="avtal.html"><h3>Så ser avtalet ut</h3><p>Ett exempel på vår offert, att läsa eller ladda ner.</p><span class="arrow-link">Se avtalet</span></a>
+      <a class="about-links__item" href="plattformar/index.html"><h3>Tekniken vi använder</h3><p>HTML, CSS, JavaScript, React, Node.js, Python och Playwright.</p><span class="arrow-link">Läs mer</span></a>
     </section>''')
             elif kind == "form":
                 parts.append(f'''<section class="standout">
@@ -737,8 +761,9 @@ def build_simple():
     </section>''')
         body = "\n    ".join(parts)
         tail = "" if slug == "kontakt" else cta(p)
+        hero = "" if page["sections"][0][0] == "contacthero" else page_hero(esc(page["title"]), page["lead"])
         main = f'''<main>
-    {page_hero(esc(page["title"]), page["lead"])}
+    {hero}
     {body}
     {tail}
   </main>'''
@@ -937,6 +962,28 @@ def rewrap(path, body_class, crumbs=None, extra_js=(), robots="index, follow"):
     return write(path, document("", html.unescape(title), main, body_class, crumbs, None, extra_js=extra_js, robots=robots))
 
 
+MARK_SVG = '<svg viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>'
+
+
+def reviews_section():
+    """Real Google reviews. With more than one, arrows and swipe appear; with one it stays still."""
+    quote = '<svg class="review__mark" viewBox="0 0 30 22" aria-hidden="true"><path d="M0 22V13C0 5 4 1 12 0l1 3C8 4 6 7 6 11h6v11zm17 0V13c0-8 4-12 12-13l1 3c-5 1-7 4-7 8h6v11z" fill="#1d3b2a"/></svg>'
+    slides = "".join(f'''<figure class="review__card">
+          {quote}
+          <blockquote class="review__text"><p>{esc(r["text"])}</p></blockquote>
+          <figcaption class="review__source">{esc(r["source"])}</figcaption>
+        </figure>''' for r in REVIEWS)
+    many = len(REVIEWS) > 1
+    arrows = '''<div class="review__nav">
+        <button type="button" class="review__arrow js-review-prev" aria-label="Föregående recension"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+        <button type="button" class="review__arrow js-review-next" aria-label="Nästa recension"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+      </div>''' if many else ""
+    return f'''<div class="reviews{" reviews--many" if many else ""}" data-reviews aria-label="Kundrecensioner">
+      <div class="reviews__track">{slides}</div>
+      {arrows}
+    </div>'''
+
+
 def bento_section():
     mark = '<svg class="bento__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>'
     s = {x["slug"]: x for x in SERVICES}
@@ -1052,6 +1099,7 @@ def main():
         "bento": bento_section(),
         "services": services_grid(),
         "contactform": contact_form(""),
+        "reviews": reviews_section(),
     }
     for name, markup in regions.items():
         src, n = re.subn(rf"<!-- build:{name} -->[\s\S]*?<!-- /build:{name} -->",

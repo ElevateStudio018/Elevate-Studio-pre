@@ -21,9 +21,9 @@
   <link rel="icon" href="assets/img/brand/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css?v=b1f030fd1e">
-  <link rel="stylesheet" href="assets/css/home.css?v=b1f030fd1e">
-  <link rel="stylesheet" href="assets/css/pages.css?v=b1f030fd1e">
+  <link rel="stylesheet" href="assets/css/style.css?v=1dc58e4577">
+  <link rel="stylesheet" href="assets/css/home.css?v=1dc58e4577">
+  <link rel="stylesheet" href="assets/css/pages.css?v=1dc58e4577">
   <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "ProfessionalService", "@id": "https://elevatestudio.nu/#organisation", "name": "Elevate Studio", "url": "https://elevatestudio.nu/", "logo": "https://elevatestudio.nu/assets/img/brand/logo-mark.svg", "image": "https://elevatestudio.nu/assets/img/brand/og.jpg", "description": "Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor med bokning, offertflöde, AI-chatt, SEO och AI-optimering till fast pris.", "email": "info@elevatestudio.nu", "address": {"@type": "PostalAddress", "addressLocality": "Uppsala", "addressCountry": "SE"}, "areaServed": {"@type": "Country", "name": "Sverige"}, "priceRange": "3 000–6 000 kr", "knowsLanguage": ["sv", "en"], "employee": [{"@type": "Person", "name": "Per Mattsson", "jobTitle": "VD"}, {"@type": "Person", "name": "Carl From", "jobTitle": "Försäljning & kundkontakt", "telephone": "+46 76 022 83 61", "email": "carl@elevatestudio.nu"}, {"@type": "Person", "name": "Isak Mattsson", "jobTitle": "Försäljning & AI-utveckling", "telephone": "+46 70 289 58 75", "email": "isak@elevatestudio.nu"}, {"@type": "Person", "name": "Oscar Svanerud", "jobTitle": "Försäljning & affärsutveckling", "telephone": "+46 76 849 86 68", "email": "svanerudo@gmail.com"}], "parentOrganization": {"@type": "Organization", "name": "PJM Projekteffektivitet AB"}, "makesOffer": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Hemsidor", "url": "https://elevatestudio.nu/tjanster/hemsidor.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI-chatt", "url": "https://elevatestudio.nu/tjanster/ai-chatt.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Bokningssystem", "url": "https://elevatestudio.nu/tjanster/bokningssystem.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Offertsystem", "url": "https://elevatestudio.nu/tjanster/offertsystem.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "SEO och AI-optimering", "url": "https://elevatestudio.nu/tjanster/seo-och-ai-optimering.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Support och underhåll", "url": "https://elevatestudio.nu/tjanster/support-och-underhall.html"}}]}, {"@type": "WebSite", "@id": "https://elevatestudio.nu/#webbplats", "url": "https://elevatestudio.nu/", "name": "Elevate Studio", "inLanguage": "sv-SE", "publisher": {"@id": "https://elevatestudio.nu/#organisation"}}]}</script>
 </head>
 <body class="home" data-ga="">
@@ -308,12 +308,15 @@
     </section>
 
     <!-- Review (real customer review from Google) -->
-    <section class="block container review" aria-label="Kundrecension">
-      <figure class="review__card">
-        <svg class="quote__mark review__mark" viewBox="0 0 30 22" aria-hidden="true"><path d="M0 22V13C0 5 4 1 12 0l1 3C8 4 6 7 6 11h6v11zm17 0V13c0-8 4-12 12-13l1 3c-5 1-7 4-7 8h6v11z" fill="#1d3b2a"/></svg>
-        <blockquote class="review__text"><p>Väl utfört arbete med vår hemsida, vi märker redan skillnad på inflöde av förfrågningar till våra tjänster.</p></blockquote>
-        <figcaption class="review__source">Recension på Google</figcaption>
-      </figure>
+    <section class="block container review">
+      <!-- build:reviews --><div class="reviews" data-reviews aria-label="Kundrecensioner">
+      <div class="reviews__track"><figure class="review__card">
+          <svg class="review__mark" viewBox="0 0 30 22" aria-hidden="true"><path d="M0 22V13C0 5 4 1 12 0l1 3C8 4 6 7 6 11h6v11zm17 0V13c0-8 4-12 12-13l1 3c-5 1-7 4-7 8h6v11z" fill="#1d3b2a"/></svg>
+          <blockquote class="review__text"><p>Väl utfört arbete med vår hemsida, vi märker redan skillnad på inflöde av förfrågningar till våra tjänster.</p></blockquote>
+          <figcaption class="review__source">Recension på Google</figcaption>
+        </figure></div>
+      
+    </div><!-- /build:reviews -->
     </section>
 
 
@@ -533,7 +536,8 @@
     <p class="cookie-dialog__links"><a href="cookies.html">Om cookies</a> <a href="integritet.html">Integritet</a></p>
   </div>
 
-  <script src="assets/js/main.js?v=b1f030fd1e"></script>
-  <script src="assets/js/home.js?v=b1f030fd1e"></script>
+  <script src="assets/js/main.js?v=1dc58e4577"></script>
+  <script src="assets/js/home.js?v=1dc58e4577"></script>
+  <script src="assets/js/chat.js?v=1dc58e4577" data-prefix="" data-endpoint="https://formsubmit.co/ajax/info@elevatestudio.nu" defer></script>
 </body>
 </html>

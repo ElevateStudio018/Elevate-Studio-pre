@@ -557,7 +557,17 @@ h2, h3 { margin: 0; font-weight: 400; }
   background: var(--cream, #fdfbf5);
   text-align: center;
 }
-.review__mark { width: 42px; height: 31px; margin: 0 auto 32px; }
+.review__mark { display: block; width: 42px; height: 31px; margin: 0 auto 32px; }
+.reviews { position: relative; max-width: 900px; margin: 0 auto; }
+.reviews__track { display: flex; overflow: hidden; }
+.reviews--many .reviews__track { overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+.reviews--many .reviews__track::-webkit-scrollbar { display: none; }
+.reviews__track .review__card { flex: 0 0 100%; margin: 0; scroll-snap-align: center; }
+.review__nav { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+.review__arrow { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 1px solid rgba(29, 59, 42, .25); border-radius: 50%; background: #fff; color: var(--accent, #1d3b2a); cursor: pointer; transition: background-color .2s, color .2s; }
+.review__arrow svg { width: 14px; height: 14px; }
+.review__arrow:hover { background: var(--accent, #1d3b2a); color: #fff; }
+.review__arrow[disabled] { opacity: .35; cursor: default; background: #fff; color: var(--accent, #1d3b2a); }
 .review__text { margin: 0 0 28px; }
 .review__text p {
   margin: 0;
