@@ -173,6 +173,7 @@ def footer(p):
                 <li><a href="{p}kontakt.html"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.5 6 10 6 10s6-5.5 6-10a6 6 0 0 0-6-6zm0 8.5A2.5 2.5 0 1 1 6 3.5a2.5 2.5 0 0 1 0 5z" fill="#fff"/></svg> Uppsala</a></li>
                 <li><a href="{p}om.html">Om studion</a></li>
                 <li><a href="{p}plattformar/index.html">Plattformar</a></li>
+                <li><a href="{p}avtal.html">Exempel på webbavtal</a></li>
               </ul>
             </div>
             <div>
@@ -672,104 +673,75 @@ def build_test_page():
     yield write("testa.html", document(p, "Testa din sajt", main, "subpage", [("Testa din sajt", "")], None, extra_js=("sitetest.js",)))
 
 
+AGREEMENT_PDF = "assets/docs/webbavtal-exempel-elevate-studio.pdf"
+
+
 def build_agreement():
-    """Example web agreement based on a real offer, with names and company numbers left out."""
+    """Example web agreement: the real offer word for word, with names, numbers and dates left blank."""
     p = ""
-    mk = '<svg viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>'
+    mk = '<svg class="agr__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>'
+    blank = '<span class="agr__blank"></span>'
+
+    def sheet(sub, body, no):
+        return f'''<section class="agr__sheet">
+          <header class="agr__top">{mk}<div><p class="agr__brand">ELEVATE STUDIO</p><p class="agr__sub">{sub}</p></div></header>
+          <div class="agr__body">{body}</div>
+          <footer class="agr__foot"><span>ELEVATE STUDIO&nbsp; | &nbsp;OFFERT</span><span>Sida {no} av 2</span></footer>
+        </section>'''
+
     scope = ["Webbdesign och mobilanpassning utifrån verksamhetens behov.",
-             "Kontaktfunktion, presentation av verksamhet och projekt samt bildmaterial som ni tillhandahåller.",
+             "Kontaktfunktion, presentation av verksamhet och projekt samt bildmaterial som kunden tillhandahåller.",
              "Grundläggande sökmotoroptimering (SEO) och AI-optimering (AIO).",
              "Två korrekturvändor före leverans.",
              "Upp till 10 timmars support och webbplatsredigering per månad under det första året."]
-    items = "".join(f"<li>{esc(x)}</li>" for x in scope)
-    main = f'''<main class="deal-page">
-    <section class="deal-hero">
-      <div class="deal-hero__mark">{mk}</div>
-      <div class="container deal-hero__inner">
-        <p class="deal-hero__eyebrow">Exempel på webbavtal</p>
-        <h1 class="deal-hero__title">Ett avtal ni <em>förstår</em> på fem minuter</h1>
-        <p class="deal-hero__lead">Så här ser en offert från oss ut. Fast pris, tydlig omfattning och inget finstilt – ni godkänner genom att svara på ett mejl.</p>
-      </div>
-    </section>
-    <section class="deal">
-      <div class="container deal__row">
-        <article class="deal-doc" aria-label="Exempel på webbavtal">
-          <header class="deal-doc__head">
-            <div class="deal-doc__brand">{mk}<span>Elevate Studio</span></div>
-            <p class="deal-doc__kind">Webbutveckling · Offert</p>
-            <dl class="deal-doc__meta">
-              <div><dt>Offert nr</dt><dd>Exempel</dd></div>
-              <div><dt>Giltig</dt><dd>30 dagar</dd></div>
-              <div><dt>Leverans</dt><dd>ca 1 månad</dd></div>
-            </dl>
-          </header>
-
-          <section class="deal-doc__sec">
-            <h2><span>01</span> Parter</h2>
-            <div class="deal-doc__parties">
-              <div><p class="deal-doc__label">Producent</p><p>Elevate Studio</p></div>
-              <div><p class="deal-doc__label">Beställare</p><p>Ert företag</p></div>
-            </div>
-          </section>
-
-          <section class="deal-doc__sec">
-            <h2><span>02</span> Uppdragets omfattning</h2>
-            <p>Utveckling och leverans av en modern, responsiv webbplats för ert företag. I uppdraget ingår:</p>
-            <ul class="deal-doc__checks">{items}</ul>
-          </section>
-
-          <section class="deal-doc__sec">
-            <h2><span>03</span> Driftmiljö</h2>
-            <p>Ni äger er domän. Hosting, drift och eventuella externa avgifter specificeras separat om inget annat skriftligen överenskommits.</p>
-          </section>
-
-          <section class="deal-doc__sec">
-            <h2><span>04</span> Leverans</h2>
-            <ol class="deal-doc__time">
-              <li><b>Beställning</b>Ni godkänner offerten</li>
-              <li><b>Underlag</b>Texter, bilder och åtkomst</li>
-              <li><b>Leverans</b>Cirka en månad från beställning</li>
-            </ol>
-            <p>Leveransdatum bekräftas separat, förutsatt att nödvändigt underlag och åtkomst tillhandahålls.</p>
-          </section>
-
-          <section class="deal-doc__sec">
-            <h2><span>05</span> Fast pris och betalning</h2>
-            <table class="deal-doc__price">
+    page1 = sheet("WEBBUTVECKLING / OFFERT", f'''
+            <div class="agr__meta"><p class="agr__no">OFFERT NR {blank}</p><p>Datum: {blank}&nbsp; | &nbsp;Giltig till: {blank}</p></div>
+            <h2>1. Parter</h2>
+            <p>Producent: Elevate Studio</p>
+            <p>Producentens företrädare: {blank}</p>
+            <p>Beställare: {blank}</p>
+            <p>Beställarens företrädare: {blank}</p>
+            <h2>2. Uppdragets omfattning (specifikation)</h2>
+            <p>Utveckling och leverans av en modern, responsiv webbplats för Beställaren.</p>
+            <p class="agr__lead">I uppdraget ingår:</p>
+            <ul>{"".join(f"<li>{esc(x)}</li>" for x in scope)}</ul>
+            <h2>3. Driftmiljö</h2>
+            <p>Beställaren äger sin domän. Hosting, drift och eventuella externa avgifter specificeras separat om inget annat skriftligen överenskommits.</p>
+            <h2>4. Leverans</h2>
+            <p>Leveransdatum bekräftas separat och uppskattas till cirka en månad från beställning, förutsatt att nödvändigt underlag och åtkomst tillhandahålls.</p>''', 1)
+    page2 = sheet("OFFERT / VILLKOR OCH GODKÄNNANDE", f'''
+            <h2>5. Fast pris och betalning</h2>
+            <table>
               <thead><tr><th>Post</th><th>Pris (exkl. moms)</th></tr></thead>
               <tbody>
-                <tr><td>Webbutveckling – fast startavgift</td><td>1 750 kr</td></tr>
+                <tr><td>Webbutveckling - fast startavgift</td><td>1 750 kr</td></tr>
                 <tr><td>Årsavgift</td><td>99 kr/år</td></tr>
                 <tr><td>Webbredigering och support, upp till 10 tim/mån första året</td><td>Ingår</td></tr>
               </tbody>
               <tfoot><tr><td>Totalt första året</td><td>1 849 kr</td></tr></tfoot>
             </table>
-            <p>Under de första 12 månaderna från leverans ingår upp till 10 timmars redigeringssupport per månad – för text- och bildändringar, layoutjusteringar, nya funktioner eller större ombyggnationer. Arbete utöver 10 timmar i månaden förutsätter separat överenskommelse, och outnyttjade timmar förs inte över till nästa månad.</p>
-            <p>Efter första året upphör den inkluderade timsupporten. Årsavgiften fortsätter årsvis om inte avtalet sägs upp. Startavgift och första årsavgift faktureras vid driftsättning, med 30 dagars betalningsvillkor.</p>
-          </section>
-
-          <section class="deal-doc__sec">
-            <h2><span>06</span> Godkännande</h2>
-            <p>Ni accepterar offerten genom att svara på mejlet med följande text:</p>
-            <blockquote class="deal-doc__quote">Jag godkänner offerten och beställer tjänsterna enligt offertens villkor.</blockquote>
-            <div class="deal-doc__sign">
-              <div><span></span><p>Beställare</p></div>
-              <div><span></span><p>Elevate Studio</p></div>
-            </div>
-          </section>
-          <p class="deal-doc__stamp" aria-hidden="true">Exempel</p>
-        </article>
-
-        <aside class="deal-sum">
-          <p class="deal-sum__label">Kort sagt</p>
-          <ul>
-            <li><b>Fast pris</b>Ni vet kostnaden innan vi börjar.</li>
-            <li><b>Ca 1 månad</b>Från beställning till färdig sajt.</li>
-            <li><b>10 tim/mån</b>Support och ändringar första året.</li>
-            <li><b>Er domän</b>Domänen är och förblir er.</li>
-          </ul>
-          <a href="{p}kontakt.html" class="btn btn--light"><span>Be om en offert</span></a>
-        </aside>
+            <p>Under de första 12 månaderna från leverans ingår upp till 10 timmars redigeringssupport per månad. Supporten kan användas för text- och bildändringar, layoutjusteringar, nya funktioner eller större ombyggnationer av webbplatsen.</p>
+            <p>Nya funktioner och större ombyggnationer utförs inom den tillgängliga månadstiden. Arbete utöver 10 timmar under en månad förutsätter separat överenskommelse. Outnyttjade timmar förs inte över till nästa månad.</p>
+            <p>Efter första året upphör den inkluderade timsupporten. Fortsatt support och utveckling kan avtalas separat. Årsavgiften på 99 kr fortsätter årsvis om inte avtalet sägs upp.</p>
+            <p>Startavgift och första årsavgift faktureras vid driftsättning. Betalningsvillkor: 30 dagar. Samtliga priser anges exklusive moms.</p>
+            <h2>6. Godkännande av offert</h2>
+            <p>Beställaren kan acceptera denna offert genom att svara på mejlet med följande text:</p>
+            <blockquote>Jag godkänner offert nr {blank} och beställer tjänsterna enligt offertens villkor.</blockquote>
+            <p>Genom godkännandet accepterar beställaren uppdragets omfattning, priser, betalningsvillkor och övriga villkor i denna offert.</p>''', 2)
+    main = f'''<main class="agr-page">
+    <section class="page-hero agr-hero">
+      <div class="container agr-hero__row">
+        <div>
+          <h1 class="page-hero__title">Exempel på webbavtal</h1>
+          <p class="page-hero__lead">Så här ser en offert från oss ut. Namn, organisationsnummer och datum är borttagna.</p>
+        </div>
+        <a class="btn btn--primary" href="{p}{AGREEMENT_PDF}" download><span>Ladda ner som PDF</span></a>
+      </div>
+    </section>
+    <section class="agr">
+      <div class="container agr__sheets">
+        {page1}
+        {page2}
       </div>
     </section>
   </main>'''

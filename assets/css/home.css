@@ -462,6 +462,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 .faq__intro { position: sticky; top: calc(var(--header-h, 100px) + 24px); }
 .faq__intro .block__header { margin-bottom: 24px; }
 .faq__intro p { margin-bottom: 20px; color: #444; }
+.faq__links { display: grid; justify-items: start; gap: 12px; }
 .faq__intro p a { color: var(--accent, #1d3b2a); font-weight: 600; }
 .faq__list { border-top: 1px solid rgba(0, 0, 0, .12); }
 .faq__item { border-bottom: 1px solid rgba(0, 0, 0, .12); }
