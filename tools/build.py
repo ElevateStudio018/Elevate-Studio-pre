@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, CASES, FORM_ENDPOINT, GA_MEASUREMENT_ID, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY, REVIEWS, FAQ  # noqa: E402
+from content import ARTICLES, CASES, FORM_ENDPOINT, GA_MEASUREMENT_ID, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY, REVIEWS, FAQ, LANDINGS  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -179,6 +179,9 @@ def footer(p):
                 <li><a href="{p}avtal.html">Exempel på webbavtal</a></li>
                 <li><a href="{p}insikter/index.html">Senaste nytt</a></li>
                 <li><a href="{p}plattformar/index.html">Tekniken vi använder</a></li>
+                <li><a href="{p}webbyra-uppsala.html">Webbyrå i Uppsala</a></li>
+                <li><a href="{p}hemsida-for-hantverkare.html">Hemsida för hantverkare</a></li>
+                <li><a href="{p}billig-hemsida.html">Billig hemsida</a></li>
               </ul>
             </div>
             <div>
@@ -258,13 +261,14 @@ def auto_description(main):
     return text
 
 
-def document(p, title, main, body_class, crumbs=None, current=None, extra_css=(), extra_js=(), description=None, jsonld=(), og_type="website", robots="index, follow"):
+def document(p, title, main, body_class, crumbs=None, current=None, extra_css=(), extra_js=(), description=None, jsonld=(), og_type="website", robots="index, follow", lang="sv"):
     css = ["style.css", "home.css", "pages.css", *extra_css]
     links = "\n  ".join(f'<link rel="stylesheet" href="{p}assets/css/{c}?v={VERSION}">' for c in css)
     scripts = "\n  ".join(f'<script src="{p}assets/js/{j}?v={VERSION}"></script>' for j in ("main.js", *extra_js))
     scripts += f'\n  <script src="{p}assets/js/chat.js?v={VERSION}" data-prefix="{p}" data-endpoint="{FORM_ENDPOINT}" defer></script>'
     desc = esc(description or auto_description(main))
-    full_title = esc(title if "Elevate Studio" in title else f"{title} | Elevate Studio")
+    # Keep titles within what Google shows; long titles drop the brand suffix
+    full_title = esc(title if "Elevate Studio" in title or len(title) > 48 else f"{title} | Elevate Studio")
     graph = [organisation_ld(), {"@type": "WebSite", "@id": f"{SITE_URL}/#webbplats", "url": f"{SITE_URL}/", "name": "Elevate Studio", "inLanguage": "sv-SE", "publisher": {"@id": ORG_ID}}]
     if crumbs:
         trail = [("Start", "index.html")] + [(label, href or "__SELF__") for label, href in crumbs]
@@ -274,7 +278,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
     graph.extend(jsonld)
     ld = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False).replace("</", "<\\/")
     return f'''<!DOCTYPE html>
-<html lang="sv">
+<html lang="{lang}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -293,6 +297,8 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#1d3b2a">
+  <meta name="geo.region" content="SE-C">
+  <meta name="geo.placename" content="Uppsala">
   <link rel="alternate" type="application/rss+xml" title="Elevate Studio – Senaste nytt" href="{SITE_URL}/rss.xml">
   <link rel="icon" href="{p}assets/img/brand/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="{p}assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -472,6 +478,7 @@ def build_services():
 
     for s in SERVICES:
         includes = "".join(f'<div class="info-card"><h3 class="info-card__title">{esc(t)}</h3><p>{esc(d)}</p></div>' for t, d in s["includes"])
+        faq_html, faq_ld = faq_block(s["faq"], "sfaq")
         others = "".join(f'<li><a href="{o["slug"]}.html" class="arrow-link">{esc(o["name"])}</a></li>' for o in SERVICES if o is not s)
         main = f'''<main>
     {page_hero(s["h1"], s["lead"], "Tjänst")}
@@ -499,6 +506,10 @@ def build_services():
       </div>
     </section>
     <section class="section container">
+      <h2 class="block__header">Vanliga <span>frågor</span></h2>
+      {faq_html}
+    </section>
+    <section class="section container">
       <h2 class="h3 section__title">Fler tjänster</h2>
       <ul class="link-list">{others}</ul>
     </section>
@@ -507,7 +518,7 @@ def build_services():
         service = {"@type": "Service", "name": s["name"], "description": s["lead"], "provider": {"@id": ORG_ID},
                    "areaServed": {"@type": "Country", "name": "Sverige"}, "url": "__CANONICAL__"}
         yield write(f'tjanster/{s["slug"]}.html', document(p, s["seo_title"], main, "subpage",
-                    [("Vad vi gör", "tjanster/index.html"), (s["name"], "")], "tjanster", jsonld=[service], description=s["description"]))
+                    [("Vad vi gör", "tjanster/index.html"), (s["name"], "")], "tjanster", jsonld=[service, faq_ld], description=s["description"]))
 
 
 LIRK_URL = "https://elevatestudio018.github.io/lirk/"
@@ -624,7 +635,7 @@ def build_articles():
     p = "../"
     cards = "".join(post_card(p, a) for a in ARTICLES)
     main = f'''<main>
-    {page_hero("Senaste <em>nytt</em>", "Guider och tips om hemsidor, synlighet och fler förfrågningar.")}
+    {page_hero("Senaste <em>nytt</em>", "Guider och tips om hemsidor, synlighet på Google och i AI-sök, bokning, offertflöden och hur ni får fler förfrågningar.")}
     <section class="section section--cream">
       <div class="container"><div class="posts__grid">{cards}</div></div>
     </section>
@@ -664,7 +675,8 @@ def build_articles():
                    "image": f"{SITE_URL}/assets/img/{a['image']}", "author": {"@id": ORG_ID}, "publisher": {"@id": ORG_ID},
                    "mainEntityOfPage": "__CANONICAL__", "keywords": ", ".join(a["terms"])}
         yield write(f'insikter/{a["slug"]}.html', document(p, a["title"], main, "subpage",
-                    [("Senaste nytt", "insikter/index.html"), (a["title"], "")], "insikter", jsonld=[posting], og_type="article"))
+                    [("Senaste nytt", "insikter/index.html"), (a["title"], "")], "insikter", jsonld=[posting], og_type="article",
+                    description=auto_description(f'<p>{esc(next(v for k, v in a["body"] if k == "p"))}</p>')))
 
 
 def build_platforms():
@@ -823,7 +835,7 @@ def build_simple():
     {body}
     {tail}
   </main>'''
-        yield write(f"{slug}.html", document(p, page["title"], main, "subpage", [(page["title"], "")], current_map.get(slug), description=page.get("description")))
+        yield write(f"{slug}.html", document(p, page["title"], main, "subpage", [(page["title"], "")], current_map.get(slug), description=page.get("description"), lang="en" if slug == "english" else "sv"))
 
 
 def build_test_page():
@@ -941,6 +953,37 @@ def build_agreement():
     yield write("avtal.html", document(p, "Exempel på webbavtal", main, "subpage", [("Exempel på webbavtal", "")], None))
 
 
+def build_landings():
+    p = ""
+    for L in LANDINGS:
+        secs = ""
+        for h, items in L["sections"]:
+            body = f'<p class="preamble">{esc(items[0])}</p>' if len(items) == 1 else '<ul class="land__list">' + "".join(f"<li>{esc(x)}</li>" for x in items) + "</ul>"
+            secs += f'<div class="land__sec"><h2>{esc(h)}</h2>{body}</div>'
+        faq_html, faq_ld = faq_block(L["faq"], "lfaq")
+        main = f'''<main>
+    {page_hero(L["h1"], L["lead"])}
+    <section class="section container land">{secs}
+    </section>
+    <section class="section container">
+      <div class="plans-note">
+        <div><h2 class="plans-note__title">Fast pris från 3 000 kr</h2><p>Se vad som ingår i Starter, Pro och Elite – och hur avtalet ser ut.</p></div>
+        <div class="plans-note__links"><a class="arrow-link" href="{p}priser.html">Se priser</a><a class="arrow-link" href="{p}avtal.html">Exempel på avtal</a></div>
+      </div>
+    </section>
+    <section class="section container">
+      <h2 class="block__header">Vanliga <span>frågor</span></h2>
+      {faq_html}
+    </section>
+    {cta(p)}
+  </main>'''
+        service = {"@type": "Service", "name": re.sub(r"<[^>]+>", "", L["h1"]), "description": L["description"], "provider": {"@id": ORG_ID},
+                   "areaServed": [{"@type": "City", "name": "Uppsala"}, {"@type": "Country", "name": "Sverige"}], "url": "__CANONICAL__",
+                   "offers": {"@type": "Offer", "price": "3000", "priceCurrency": "SEK", "description": "Starter – startavgift, exkl. moms"}}
+        yield write(f'{L["slug"]}.html', document(p, L["title"], main, "subpage", [(re.sub(r"<[^>]+>", "", L["h1"]), "")], None,
+                    description=L["description"], jsonld=[service, faq_ld]))
+
+
 def build_prices():
     p = ""
     plans = [
@@ -1040,6 +1083,13 @@ def reviews_section():
     </div>'''
 
 
+def faq_block(qa, name):
+    """Accordion plus FAQPage structured data for a list of (question, answer)."""
+    items = "".join(f'<details class="faq__item" name="{name}"><summary>{esc(q)}</summary><p>{a}</p></details>' for q, a in qa)
+    ld = {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": html.unescape(re.sub(r"<[^>]+>", "", a))}} for q, a in qa]}
+    return f'<div class="faq__list page-faq">{items}</div>', ld
+
+
 def faq_section():
     items = "\n          ".join(f'<details class="faq__item" name="faq"{" open" if i == 0 else ""}><summary>{esc(q)}</summary><p>{a}</p></details>' for i, (q, a) in enumerate(FAQ))
     ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
@@ -1122,7 +1172,9 @@ def site_files(built):
     pages = sorted(x for x in built if x != "404.html")
     urls = "".join(f"\n  <url><loc>{page_url(x)}</loc><lastmod>{today}</lastmod></url>" for x in pages)
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}\n</urlset>\n', encoding="utf-8")
-    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
+    bots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Google-Extended", "Applebot-Extended", "Bingbot"]
+    ai = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in bots)
+    (ROOT / "robots.txt").write_text(f"# Vi välkomnar sökmotorer och AI-assistenter.\n{ai}User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
     services = "\n".join(f"- [{x['name']}]({SITE_URL}/tjanster/{x['slug']}.html): {x['lead']}" for x in SERVICES)
     team = "\n".join(f"- {n}, {r}: {t}, {e}" for n, r, t, e in TEAM)
     articles = "\n".join(f"- [{a['title']}]({SITE_URL}/insikter/{a['slug']}.html)" for a in ARTICLES)
@@ -1153,7 +1205,18 @@ def site_files(built):
 {articles}
 """
     (ROOT / "llms.txt").write_text(llms, encoding="utf-8")
-    return ["sitemap.xml", "robots.txt", "llms.txt"]
+    # The long version: every service, landing page and article in full text.
+    parts = [llms, "\n# Tjänster i detalj\n"]
+    for x in SERVICES:
+        parts.append(f"\n## {x['name']}\n{x['intro']}\n" + "".join(f"- {t}: {d}\n" for t, d in x["includes"]) + "".join(f"- **{q}** {a}\n" for q, a in x["faq"]))
+    for L in LANDINGS:
+        parts.append(f"\n## {re.sub(r'<[^>]+>', '', L['h1'])}\n{L['lead']}\n" + "".join(f"\n### {h}\n" + "\n".join(f"- {i}" for i in items) + "\n" for h, items in L["sections"]))
+    parts.append("\n# Artiklar\n")
+    for a in ARTICLES:
+        body = "\n".join(v if k == "p" else (f"### {v}" if k == "h2" else "\n".join(f"- {i}" for i in v)) for k, v in a["body"])
+        parts.append(f"\n## {a['title']} ({a['date']})\n{body}\n")
+    (ROOT / "llms-full.txt").write_text("".join(parts), encoding="utf-8")
+    return ["sitemap.xml", "robots.txt", "llms.txt", "llms-full.txt"]
 
 
 def platforms_section():
@@ -1174,7 +1237,7 @@ def platforms_section():
 
 def main():
     built = []
-    for gen in (build_services, build_cases, build_articles, build_platforms, build_simple, build_test_page, build_agreement, build_prices):
+    for gen in (build_services, build_cases, build_articles, build_platforms, build_simple, build_test_page, build_agreement, build_prices, build_landings):
         built.extend(gen())
     # Keep the homepage lists in sync with the data (regions between build markers).
     index = ROOT / "index.html"

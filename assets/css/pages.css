@@ -534,3 +534,15 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
   .pj-hero__devs .phone { width: 100px; border-width: 5px; border-radius: 18px; }
   .pgrid { grid-template-columns: 1fr; }
 }
+
+/* ---------- Landing pages and page FAQs ---------- */
+.land { display: grid; gap: 56px; }
+.land__sec { max-width: 900px; }
+.land__sec h2 { margin: 0 0 18px; font-size: 34px; font-weight: 500; line-height: 1.2; }
+.land__list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; font-size: 19px; }
+.land__list li { position: relative; padding-left: 32px; }
+.land__list li::before { content: ""; position: absolute; left: 0; top: 4px; width: 20px; height: 20px; border-radius: 50%; background: var(--accent, #1d3b2a); }
+.land__list li::after { content: ""; position: absolute; left: 7px; top: 8px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.page-faq { display: grid; gap: 12px; max-width: 900px; }
+.page-faq .faq__item { border: 1px solid #ece5d3; }
+@media (max-width: 768px) { .land { gap: 40px; } .land__sec h2 { font-size: 26px; } .land__list { font-size: 17px; } }

@@ -15,6 +15,7 @@ Färgschemat är mörkgrönt (`#1d3b2a`) med en mjölkvit beige som andrafärg. 
 | Senaste nytt | `insikter/index.html` och 3 artiklar |
 | Projekt | `projekt/index.html` och 6 projektsidor (påhittade exempel, märkta som det) |
 | Plattformar | `plattformar/index.html` och 6 sidor: HTML & CSS, JavaScript, React, Node.js, Python, Playwright |
+| Landningssidor | `webbyra-uppsala.html`, `hemsida-for-hantverkare.html`, `billig-hemsida.html` – innehållet ligger i `LANDINGS` i `tools/content.py` |
 | Övrigt | kontakt, om oss, in English, integritet, cookies, testa din sajt |
 
 ## Formulär
@@ -29,7 +30,7 @@ Google Analytics laddas bara om besökaren godkänner statistikcookies. Lägg in
 
 ## SEO och AI-optimering
 
-Varje sida får titel, metabeskrivning, canonical-länk, Open Graph-taggar för delning och strukturerad data (schema.org): företaget, brödsmulor, tjänster, priser, artiklar och vanliga frågor. Bygget skapar också `sitemap.xml`, `robots.txt` och `llms.txt` (en sammanfattning för AI-assistenter). Adressen som används är `SITE_URL` i `tools/content.py`.
+Varje sida får titel, metabeskrivning, canonical-länk, Open Graph-taggar för delning och strukturerad data (schema.org): företaget, brödsmulor, tjänster, priser, artiklar och vanliga frågor. Bygget skapar också `sitemap.xml`, `robots.txt` (som uttryckligen släpper in AI-sökrobotar), `rss.xml`, `llms.txt` (en sammanfattning för AI-assistenter) och `llms-full.txt` (all text om tjänster, landningssidor och artiklar). Varje tjänstesida och landningssida har vanliga frågor med strukturerad data. Adressen som används är `SITE_URL` i `tools/content.py`.
 
 ## Testa din sajt (`testa.html`)
 

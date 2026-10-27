@@ -1,0 +1,189 @@
+# Elevate Studio
+
+> Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor som ger förfrågningar – med bokning, offertflöde, AI-chatt, SEO och AI-optimering. Fast pris, och kunden pratar alltid med samma person. Arbetar med företag i hela Sverige.
+
+## Tjänster
+- [Hemsidor](https://elevatestudio.nu/tjanster/hemsidor.html): Snabba, mobilanpassade hemsidor som visar vad ni gör och gör det enkelt för kunderna att höra av sig.
+- [AI-chatt](https://elevatestudio.nu/tjanster/ai-chatt.html): En AI-chatt på hemsidan som svarar på kundernas vanliga frågor, dygnet runt.
+- [Bokningssystem](https://elevatestudio.nu/tjanster/bokningssystem.html): Ett bokningssystem på hemsidan där kunderna själva väljer en tid som passar – med notiser till er via e-post och SMS.
+- [Offertsystem](https://elevatestudio.nu/tjanster/offertsystem.html): Ett offertflöde på hemsidan där kunden beskriver jobbet steg för steg, så att ni får allt ni behöver för att svara direkt.
+- [SEO och AI-optimering](https://elevatestudio.nu/tjanster/seo-och-ai-optimering.html): Sökmotoroptimering och AI-optimering så att kunderna hittar er – på Google och när de frågar en AI.
+- [Support och underhåll](https://elevatestudio.nu/tjanster/support-och-underhall.html): Vi tar hand om ändringar, uppdateringar och uppföljning så att ni kan fokusera på ert jobb.
+
+## Priser (exkl. moms)
+- Starter: 3 000 kr i startavgift + 99–199 kr/år. Webbdesign och mobilanpassning, kontaktfunktion, grundläggande SEO och AI-optimering, två korrekturvändor, upp till 10 timmars support per månad första året.
+- Pro: 6 000 kr i startavgift + 299–399 kr/år. Allt i Starter plus offertflöde eller bokning, AI-chatt, notiser via e-post och SMS samt förfrågningar med status och historik.
+- Elite: pris efter offert för större sajter, integrationer och egna funktioner.
+- Leverans: cirka en månad från beställning. Kunden äger sin domän.
+- [Priser](https://elevatestudio.nu/priser.html) · [Exempel på webbavtal](https://elevatestudio.nu/avtal.html)
+
+## Vanliga frågor
+- **Vad kostar en hemsida?** Ni får ett fast pris innan vi börjar. Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. Se våra priser eller ett exempel på hur ett avtal ser ut.
+- **Hur lång tid tar det?** Räkna med ungefär en månad från beställning till färdig sajt, förutsatt att vi har fått texter, bilder och åtkomst. Själva designen och bygget tar oftast 1–2 veckor.
+- **Bygger ni hemsidor för hantverkare?** Ja. Vi bygger hemsidor för snickare, elektriker, rörmokare, målare, byggföretag och andra hantverkare – ofta med ett offertformulär så att kunderna kan beskriva jobbet direkt.
+- **Jobbar ni bara i Uppsala?** Nej. Vi finns i Uppsala men bygger hemsidor åt företag i hela Sverige. Möten går lika bra på distans.
+- **Vad behöver vi bidra med?** Kunskapen om ert företag: vad ni gör, vilka kunder ni vill ha och de bilder och texter ni redan har. Ni får två korrekturvändor innan sidan lanseras, så att allt blir rätt.
+- **Ingår support efter lansering?** Ja. Under första året ingår upp till 10 timmars support och redigering per månad – till exempel text- och bildändringar, layoutjusteringar eller nya funktioner.
+- **Syns hemsidan på Google?** Grundläggande sökmotoroptimering (SEO) och AI-optimering ingår, så att sidan går att hitta både på Google och i AI-tjänster som svarar på frågor.
+- **Kan ni koppla på bokning, offertformulär eller AI-chatt?** Ja. Vi bygger bokningssystem, offertsystem, AI-chatt och notiser via e-post och SMS – och testar allt innan lansering.
+- **Vem äger domänen?** Ni. Domänen är och förblir er. Hosting och eventuella externa avgifter står specificerade i offerten.
+- **Hur godkänner vi offerten?** Ni svarar på mejlet med offerten och skriver att ni godkänner den. Inga krångliga underskrifter.
+
+## Kontakt
+- E-post: info@elevatestudio.nu
+- Ort: Uppsala, Sverige
+- Carl From, Försäljning & kundkontakt: +46 76 022 83 61, carl@elevatestudio.nu
+- Isak Mattsson, Försäljning & AI-utveckling: +46 70 289 58 75, isak@elevatestudio.nu
+- Oscar Svanerud, Försäljning & affärsutveckling: +46 76 849 86 68, svanerudo@gmail.com
+
+## Artiklar
+- [Vad kostar en hemsida – och vad betalar du egentligen för?](https://elevatestudio.nu/insikter/vad-kostar-en-hemsida.html)
+- [Fem saker som får besökare att höra av sig](https://elevatestudio.nu/insikter/fa-besokare-att-hora-av-sig.html)
+- [Så syns ditt företag när kunder frågar AI](https://elevatestudio.nu/insikter/synas-nar-kunder-fragar-ai.html)
+
+# Tjänster i detalj
+
+## Hemsidor
+En hemsida ska inte bara se bra ut – den ska ge er nya kunder. Vi bygger sidor med tydliga tjänstesidor, en väg till kontakt på varje sida och en struktur som Google förstår. Ni får ett fast pris innan vi börjar och sidan är klar på ungefär en månad.
+- Design efter er verksamhet: En design som passar ert företag och era kunder – inte en mall som ser ut som alla andras.
+- Mobilanpassning: De flesta besökare kommer från telefonen. Sidan fungerar lika bra på mobil som på dator.
+- Tjänstesidor: En egen sida för varje tjänst gör det lättare för både kunder och Google att hitta rätt.
+- Kontakt på varje sida: Telefon, mejl och formulär är alltid ett klick bort.
+- **Vad kostar en hemsida hos er?** Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert.
+- **Hur lång tid tar det att bygga en hemsida?** Räkna med ungefär en månad från beställning, förutsatt att vi har fått texter, bilder och åtkomst. Själva bygget tar oftast 1–2 veckor.
+- **Kan ni göra om vår gamla hemsida?** Ja. Vi kan bygga en ny sida från grunden och flytta över det innehåll som fungerar från den gamla.
+
+## AI-chatt
+Många kunder har samma frågor: vad kostar det, när kan ni komma, gör ni det här? En AI-chatt svarar direkt utifrån informationen om ert företag, så att ni slipper svara på samma sak om och om igen – och kunden får svar medan intresset finns.
+- Svarar dygnet runt: Kunderna får svar direkt, även på kvällar och helger.
+- Bygger på er information: Chatten utgår från era tjänster, priser och villkor.
+- Lämnar över till er: När kunden vill gå vidare skickas förfrågan till er via e-post eller SMS.
+- Testad före lansering: Vi testar chatten med riktiga frågor innan den går live.
+- **Vad svarar AI-chatten på?** Chatten svarar på vanliga frågor utifrån informationen om ert företag – till exempel tjänster, priser, villkor och hur man bokar.
+- **Vad händer om chatten inte kan svara?** Då skickas frågan vidare till er via e-post eller SMS, så att ni kan svara kunden själva.
+- **Ingår AI-chatt i paketen?** AI-chatt ingår i Pro-paketet och kan läggas till i större projekt.
+
+## Bokningssystem
+Varje gång en kund måste ringa eller mejla fram och tillbaka för att hitta en tid finns en risk att de ger upp. Med bokning direkt på sidan kan kunden boka på en gång, även när ni inte svarar i telefon.
+- Bokning dygnet runt: Kunden väljer en ledig tid direkt på sidan, när det passar dem.
+- Notiser via e-post och SMS: Ni får besked direkt när en ny bokning kommer in.
+- Bekräftelse till kunden: Kunden får en bekräftelse så att ingen missar tiden.
+- Status och historik: Håll koll på alla bokningar på ett ställe.
+- **Kan kunderna boka utan att ringa?** Ja. Kunden väljer en ledig tid direkt på hemsidan och ni får en notis via e-post eller SMS.
+- **Ingår bokning i paketen?** Bokning eller offertflöde ingår i Pro-paketet.
+
+## Offertsystem
+En vag förfrågan betyder ofta flera mejl fram och tillbaka innan ni kan räkna på jobbet. Med ett offertflöde får kunden svara på rätt frågor från början – och ni får en komplett förfrågan som går att svara på samma dag.
+- Frågor steg för steg: Kunden svarar på de frågor ni behöver för att kunna lämna ett pris.
+- Bilder och underlag: Kunden kan bifoga bilder eller beskrivningar direkt i förfrågan.
+- Notiser via e-post och SMS: Ni får besked direkt när en ny förfrågan kommer in.
+- Status och historik: Se vilka förfrågningar som är besvarade och vilka som väntar.
+- **Vad är ett offertsystem på hemsidan?** Ett formulär där kunden beskriver jobbet steg för steg, så att ni får alla uppgifter ni behöver för att kunna lämna ett pris.
+- **Passar det för hantverkare?** Ja. Offertflöden passar särskilt bra för hantverkare och andra tjänsteföretag som behöver veta mer om jobbet innan de kan ge ett pris.
+
+## SEO och AI-optimering
+Det spelar ingen roll hur bra hemsidan är om ingen hittar den. Vi bygger sidan så att Google och AI-tjänster förstår vad ni gör, var ni finns och vilka frågor ni kan svara på. Grundläggande SEO och AI-optimering ingår i alla hemsidor vi bygger.
+- Teknisk grund: Snabba sidor, rätt rubriker, beskrivningar och strukturerad data som sökmotorer läser.
+- Lokala sökningar: Tydlig information om var ni finns och vilka orter ni jobbar i.
+- AI-optimering: Innehåll och struktur som gör det lätt för AI-tjänster att beskriva er rätt.
+- Vanliga frågor: Svar på det kunderna faktiskt söker efter, direkt på sidan.
+- **Ingår SEO i hemsidan?** Ja. Grundläggande sökmotoroptimering och AI-optimering ingår i alla hemsidor vi bygger.
+- **Vad är AI-optimering?** Att bygga sidan så att AI-tjänster som ChatGPT kan förstå och beskriva ert företag rätt – med tydliga fakta, vanliga frågor och strukturerad data.
+
+## Support och underhåll
+En hemsida är aldrig helt färdig. Under första året ingår upp till 10 timmars support och redigering per månad – för text- och bildändringar, layoutjusteringar eller nya funktioner. Vi följer också upp vad som ger kunder och föreslår förbättringar.
+- 10 timmar i månaden: Under första året ingår upp till 10 timmars support och redigering varje månad.
+- Ändringar: Nya texter, bilder, priser eller tjänster – säg till så fixar vi det.
+- Uppföljning: Vi tittar på vad som ger förfrågningar och justerar det som kan bli bättre.
+- Samma kontaktperson: Ni pratar med samma person hela vägen, utan mellanhänder.
+- **Vad ingår i supporten?** Under första året ingår upp till 10 timmars support och redigering per månad, till exempel text- och bildändringar, layoutjusteringar eller nya funktioner.
+- **Vad händer efter första året?** Den inkluderade timsupporten upphör och årsavgiften fortsätter. Fortsatt support och utveckling kan avtalas separat.
+
+## Webbyrå i Uppsala
+Vi är en liten webbyrå i Uppsala som bygger hemsidor som ger förfrågningar – för företag i Uppsala och i hela Sverige.
+
+### Lokal webbyrå – samma kontaktperson hela vägen
+- Som företag i Uppsala kan ni träffa oss på plats, men det går lika bra att ses på distans. Ni pratar med samma person från första mötet till uppföljningen varje månad – inga mellanhänder och inga långa mejltrådar.
+
+### Det här bygger vi
+- Snabba, mobilanpassade hemsidor med tydliga tjänstesidor och kontakt på varje sida.
+- Bokningssystem och offertformulär direkt på hemsidan.
+- AI-chatt som svarar på kundernas vanliga frågor.
+- SEO och AI-optimering så att ni syns på Google och i AI-sök.
+- Support och underhåll efter lansering.
+
+### Fast pris och tydligt avtal
+- Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. Ni får allt på två sidor och godkänner genom att svara på mejlet.
+
+## Hemsida för hantverkare
+För snickare, elektriker, rörmokare, målare och byggföretag: en hemsida som visar vad ni gör och gör det enkelt för kunderna att begära offert.
+
+### Det här behöver en hantverkare på sin hemsida
+- En tydlig rubrik som säger vad ni gör och var ni jobbar.
+- En egen sida för varje tjänst – till exempel badrum, kök eller tak.
+- Bilder på riktiga jobb som visar vad ni kan.
+- Telefonnummer och offertknapp på varje sida.
+- En sida som fungerar perfekt på mobilen, där de flesta kunder söker.
+
+### Offertformulär som sparar tid
+- Med ett offertflöde beskriver kunden jobbet steg för steg och kan bifoga bilder. Ni får en komplett förfrågan och slipper ringa tillbaka för att fråga om grundläggande saker.
+
+### Synas när kunderna söker lokalt
+- Vi bygger sidan så att Google förstår vilka tjänster ni erbjuder och i vilka orter – och så att AI-tjänster kan beskriva er rätt när någon frågar efter en hantverkare i närheten.
+
+## Prisvärd hemsida till fast pris
+En hemsida behöver inte kosta tiotusentals kronor. Hos oss får ni en snabb, mobilanpassad hemsida till fast pris från 3 000 kr.
+
+### Det här ingår i Starter
+- Webbdesign och mobilanpassning utifrån er verksamhet.
+- Kontaktfunktion och presentation av verksamhet och projekt.
+- Grundläggande SEO och AI-optimering.
+- Två korrekturvändor före leverans.
+- Upp till 10 timmars support och redigering per månad första året.
+
+### Vad kostar det efteråt?
+- Startavgiften är 3 000 kr. Därefter betalar ni en årsavgift på 99–199 kr per år. Hosting och eventuella externa avgifter står specificerade i offerten, så att ni vet exakt vad som gäller.
+
+### Behöver ni mer?
+- Pro för 6 000 kr lägger till bokning eller offertflöde, AI-chatt och notiser via e-post och SMS. Större projekt får ett fast pris i en offert.
+
+# Artiklar
+
+## Vad kostar en hemsida – och vad betalar du egentligen för? (27 oktober 2026)
+Frågan om vad en hemsida kostar får svar som spretar från några hundralappar till hundratusentals kronor. Skillnaden ligger sällan i själva sidan, utan i vad som ingår – och i vad som tillkommer efteråt.
+### Det här brukar priset bestå av
+- En startkostnad för design och bygge av sidan.
+- En löpande kostnad för domän, drift och hosting.
+- Support och ändringar efter lansering – ingår de, eller betalar du per timme?
+- Funktioner som bokning, offertformulär eller chatt, som ofta prissätts separat.
+### Fem frågor att ställa innan du väljer leverantör
+- Är priset fast, eller kan det bli dyrare under arbetets gång?
+- Vem äger domänen – du eller leverantören?
+- Vad ingår i supporten, och hur länge?
+- Vad kostar det efter första året?
+- Finns det någon bindningstid?
+### Så gör vi
+Hos oss får du ett fast pris i en offert innan vi börjar. Startpaketet kostar 3 000 kr och därefter 99–199 kr per år, och under första året ingår upp till 10 timmars support och ändringar per månad. Domänen är alltid din. På vår prissida ser du vad som ingår i varje paket, och du kan ladda ner ett exempel på hur vårt avtal ser ut.
+
+## Fem saker som får besökare att höra av sig (20 oktober 2026)
+En hemsida kan vara snygg och ändå inte ge en enda förfrågan. Oftast beror det inte på designen, utan på att besökaren inte förstår vad ni gör, inte litar på er eller inte hittar hur man tar kontakt. Här är fem saker som gör störst skillnad.
+### 1. Säg vad ni gör – direkt
+Den första rubriken ska berätta vad ni erbjuder och var. ”Badrumsrenoveringar i Uppsala” fungerar bättre än ”Kvalitet i varje detalj”, både för besökaren och för Google.
+### 2. Gör det lätt att ta kontakt
+Telefonnummer och en knapp för att höra av sig ska synas på varje sida, inte bara på kontaktsidan. Ju färre klick, desto fler förfrågningar.
+### 3. En sida per tjänst
+En egen sida för varje tjänst gör det enklare för besökaren att hitta rätt – och för Google att visa er när någon söker på just den tjänsten.
+### 4. Visa att ni är på riktigt
+Bilder på riktiga jobb, recensioner från kunder och namnen på de som jobbar hos er bygger förtroende snabbare än allmänna löften.
+### 5. Snabb på mobilen
+De flesta besökare kommer från telefonen. En sida som laddar långsamt eller är svår att använda på liten skärm tappar dem innan de ens läst rubriken. Du kan testa din egen sida gratis med vårt djuptest.
+
+## Så syns ditt företag när kunder frågar AI (13 oktober 2026)
+Allt fler söker inte längre bara på Google, utan ställer frågan direkt till en AI-assistent: ”Vilken snickare i Haninge kan bygga om mitt kök?” Svaret bygger på det som finns att läsa om ditt företag på nätet – och då behöver din hemsida säga rätt saker, på rätt sätt.
+### Från placering till omnämnande
+I vanlig sökning handlar det om att hamna högt i en lista. I ett AI-svar finns ingen lista – antingen nämns ditt företag, eller så gör det inte det. Och när det nämns måste informationen stämma.
+### Tre saker att börja med
+- Beskriv tydligt vad ni gör, för vem och var – med samma ord på alla sidor.
+- Svara på de frågor kunderna faktiskt ställer, till exempel i en sektion med vanliga frågor.
+- Håll kontaktuppgifter, öppettider och tjänster uppdaterade, både på sajten och i Googles företagsprofil.
+Det mesta som gör dig synlig för AI gör dig också bättre på Google. Därför ingår både sökmotoroptimering (SEO) och AI-optimering i alla hemsidor vi bygger.

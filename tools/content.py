@@ -18,7 +18,8 @@ FORM_ENDPOINT = "https://formsubmit.co/ajax/info@elevatestudio.nu"
 
 SERVICES = [
     {
-        "slug": "hemsidor", "seo_title": "Hemsidor för företag i Uppsala och hela Sverige", "h1": "Hemsidor för <em>företag</em>", "description": "Vi bygger snabba, mobilanpassade hemsidor för företag och hantverkare – med fast pris från 3 000 kr. Webbyrå i Uppsala, kunder i hela Sverige.",
+        "slug": "hemsidor", "faq": [('Vad kostar en hemsida hos er?', 'Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert.'), ('Hur lång tid tar det att bygga en hemsida?', 'Räkna med ungefär en månad från beställning, förutsatt att vi har fått texter, bilder och åtkomst. Själva bygget tar oftast 1–2 veckor.'), ('Kan ni göra om vår gamla hemsida?', 'Ja. Vi kan bygga en ny sida från grunden och flytta över det innehåll som fungerar från den gamla.')],
+        "seo_title": "Hemsidor för företag i Uppsala och hela Sverige", "h1": "Hemsidor för <em>företag</em>", "description": "Vi bygger snabba, mobilanpassade hemsidor för företag och hantverkare – med fast pris från 3 000 kr. Webbyrå i Uppsala, kunder i hela Sverige.",
         "name": "Hemsidor", "short": "Hemsidor",
         "card": "Snabba, mobilanpassade hemsidor byggda för att ge förfrågningar.",
         "lead": "Snabba, mobilanpassade hemsidor som visar vad ni gör och gör det enkelt för kunderna att höra av sig.",
@@ -32,7 +33,8 @@ SERVICES = [
         "image": "home/svc-hemsidor.jpg", "alt": "Skisser och laptop på ett skrivbord under arbetet med en hemsida",
     },
     {
-        "slug": "ai-chatt", "seo_title": "AI-chatt för hemsidan – svarar kunderna dygnet runt", "h1": "AI-chatt för <em>er hemsida</em>", "description": "En AI-chatt på hemsidan som svarar på kundernas vanliga frågor dygnet runt och skickar vidare förfrågningar till er via e-post eller SMS.",
+        "slug": "ai-chatt", "faq": [('Vad svarar AI-chatten på?', 'Chatten svarar på vanliga frågor utifrån informationen om ert företag – till exempel tjänster, priser, villkor och hur man bokar.'), ('Vad händer om chatten inte kan svara?', 'Då skickas frågan vidare till er via e-post eller SMS, så att ni kan svara kunden själva.'), ('Ingår AI-chatt i paketen?', 'AI-chatt ingår i Pro-paketet och kan läggas till i större projekt.')],
+        "seo_title": "AI-chatt för hemsidan – svarar kunderna dygnet runt", "h1": "AI-chatt för <em>er hemsida</em>", "description": "En AI-chatt på hemsidan som svarar på kundernas vanliga frågor dygnet runt och skickar vidare förfrågningar till er via e-post eller SMS.",
         "name": "AI-chatt", "short": "AI-chatt",
         "card": "En chatt som svarar på vanliga frågor – även när ni inte hinner.",
         "lead": "En AI-chatt på hemsidan som svarar på kundernas vanliga frågor, dygnet runt.",
@@ -46,7 +48,8 @@ SERVICES = [
         "image": "home/svc-ai-chatt.jpg", "alt": "Händer som skriver på en laptop",
     },
     {
-        "slug": "bokningssystem", "seo_title": "Bokningssystem för hemsidan – låt kunderna boka online", "h1": "Bokningssystem för <em>hemsidan</em>", "description": "Låt kunderna boka tid direkt på er hemsida. Bokningssystem med notiser via e-post och SMS – från Elevate Studio i Uppsala.",
+        "slug": "bokningssystem", "faq": [('Kan kunderna boka utan att ringa?', 'Ja. Kunden väljer en ledig tid direkt på hemsidan och ni får en notis via e-post eller SMS.'), ('Ingår bokning i paketen?', 'Bokning eller offertflöde ingår i Pro-paketet.')],
+        "seo_title": "Bokningssystem för hemsidan – låt kunderna boka online", "h1": "Bokningssystem för <em>hemsidan</em>", "description": "Låt kunderna boka tid direkt på er hemsida. Bokningssystem med notiser via e-post och SMS – från Elevate Studio i Uppsala.",
         "name": "Bokningssystem", "short": "Bokning",
         "card": "Låt kunderna boka tid direkt på hemsidan – dygnet runt.",
         "lead": "Ett bokningssystem på hemsidan där kunderna själva väljer en tid som passar – med notiser till er via e-post och SMS.",
@@ -60,7 +63,8 @@ SERVICES = [
         "image": "home/svc-bokning.jpg", "alt": "Person som arbetar vid ett skrivbord med laptop",
     },
     {
-        "slug": "offertsystem", "seo_title": "Offertsystem och offertformulär för hemsidan", "h1": "Offertsystem för <em>hemsidan</em>", "description": "Ett offertformulär där kunden beskriver jobbet steg för steg, så att ni får kompletta förfrågningar. Perfekt för hantverkare och tjänsteföretag.",
+        "slug": "offertsystem", "faq": [('Vad är ett offertsystem på hemsidan?', 'Ett formulär där kunden beskriver jobbet steg för steg, så att ni får alla uppgifter ni behöver för att kunna lämna ett pris.'), ('Passar det för hantverkare?', 'Ja. Offertflöden passar särskilt bra för hantverkare och andra tjänsteföretag som behöver veta mer om jobbet innan de kan ge ett pris.')],
+        "seo_title": "Offertsystem och offertformulär för hemsidan", "h1": "Offertsystem för <em>hemsidan</em>", "description": "Ett offertformulär där kunden beskriver jobbet steg för steg, så att ni får kompletta förfrågningar. Perfekt för hantverkare och tjänsteföretag.",
         "name": "Offertsystem", "short": "Offert",
         "card": "Kunden beskriver jobbet steg för steg – ni får en komplett förfrågan.",
         "lead": "Ett offertflöde på hemsidan där kunden beskriver jobbet steg för steg, så att ni får allt ni behöver för att svara direkt.",
@@ -74,7 +78,8 @@ SERVICES = [
         "image": "home/svc-offert.jpg", "alt": "Kollegor som tittar på en laptop tillsammans",
     },
     {
-        "slug": "seo-och-ai-optimering", "seo_title": "SEO och AI-optimering – syns på Google och i AI-sök", "h1": "SEO och <em>AI-optimering</em>", "description": "Sökmotoroptimering och AI-optimering så att kunderna hittar ert företag på Google och när de frågar ChatGPT och andra AI-tjänster.",
+        "slug": "seo-och-ai-optimering", "faq": [('Ingår SEO i hemsidan?', 'Ja. Grundläggande sökmotoroptimering och AI-optimering ingår i alla hemsidor vi bygger.'), ('Vad är AI-optimering?', 'Att bygga sidan så att AI-tjänster som ChatGPT kan förstå och beskriva ert företag rätt – med tydliga fakta, vanliga frågor och strukturerad data.')],
+        "seo_title": "SEO och AI-optimering – syns på Google och i AI-sök", "h1": "SEO och <em>AI-optimering</em>", "description": "Sökmotoroptimering och AI-optimering så att kunderna hittar ert företag på Google och när de frågar ChatGPT och andra AI-tjänster.",
         "name": "SEO och AI-optimering", "short": "SEO",
         "card": "Syns på Google och när kunder frågar AI-assistenter.",
         "lead": "Sökmotoroptimering och AI-optimering så att kunderna hittar er – på Google och när de frågar en AI.",
@@ -88,7 +93,8 @@ SERVICES = [
         "image": "home/svc-seo.jpg", "alt": "Team med laptops runt ett bord, sett ovanifrån",
     },
     {
-        "slug": "support-och-underhall", "seo_title": "Support och underhåll av hemsida", "h1": "Support och <em>underhåll</em>", "description": "Ändringar, uppdateringar och uppföljning av er hemsida. Upp till 10 timmars support per månad ingår första året.",
+        "slug": "support-och-underhall", "faq": [('Vad ingår i supporten?', 'Under första året ingår upp till 10 timmars support och redigering per månad, till exempel text- och bildändringar, layoutjusteringar eller nya funktioner.'), ('Vad händer efter första året?', 'Den inkluderade timsupporten upphör och årsavgiften fortsätter. Fortsatt support och utveckling kan avtalas separat.')],
+        "seo_title": "Support och underhåll av hemsida", "h1": "Support och <em>underhåll</em>", "description": "Ändringar, uppdateringar och uppföljning av er hemsida. Upp till 10 timmars support per månad ingår första året.",
         "name": "Support och underhåll", "short": "Support",
         "card": "Ändringar, uppdateringar och uppföljning – vi tar hand om det.",
         "lead": "Vi tar hand om ändringar, uppdateringar och uppföljning så att ni kan fokusera på ert jobb.",
@@ -366,3 +372,50 @@ SIMPLE_PAGES = {
         ],
     },
 }
+
+
+# Landing pages for common searches. Every fact here is also stated elsewhere on the site.
+LANDINGS = [
+    {
+        "slug": "webbyra-uppsala", "title": "Webbyrå i Uppsala – hemsidor till fast pris",
+        "h1": "Webbyrå i <em>Uppsala</em>",
+        "description": "Elevate Studio är en webbyrå i Uppsala som bygger hemsidor för företag till fast pris från 3 000 kr. Möt oss på plats i Uppsala eller på distans.",
+        "lead": "Vi är en liten webbyrå i Uppsala som bygger hemsidor som ger förfrågningar – för företag i Uppsala och i hela Sverige.",
+        "sections": [
+            ("Lokal webbyrå – samma kontaktperson hela vägen", ["Som företag i Uppsala kan ni träffa oss på plats, men det går lika bra att ses på distans. Ni pratar med samma person från första mötet till uppföljningen varje månad – inga mellanhänder och inga långa mejltrådar."]),
+            ("Det här bygger vi", ["Snabba, mobilanpassade hemsidor med tydliga tjänstesidor och kontakt på varje sida.", "Bokningssystem och offertformulär direkt på hemsidan.", "AI-chatt som svarar på kundernas vanliga frågor.", "SEO och AI-optimering så att ni syns på Google och i AI-sök.", "Support och underhåll efter lansering."]),
+            ("Fast pris och tydligt avtal", ["Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. Ni får allt på två sidor och godkänner genom att svara på mejlet."]),
+        ],
+        "faq": [("Kan vi träffas i Uppsala?", "Ja. Vi finns i Uppsala och träffar gärna kunder på plats. Möten går också bra på distans."),
+                ("Bygger ni hemsidor för företag utanför Uppsala?", "Ja. Vi bygger hemsidor åt företag i hela Sverige."),
+                ("Hur lång tid tar det?", "Räkna med ungefär en månad från beställning till färdig sajt.")],
+    },
+    {
+        "slug": "hemsida-for-hantverkare", "title": "Hemsida för hantverkare – med offertformulär",
+        "h1": "Hemsida för <em>hantverkare</em>",
+        "description": "Hemsida för snickare, elektriker, rörmokare, målare och byggföretag – med offertformulär, tjänstesidor och synlighet på Google. Fast pris från 3 000 kr.",
+        "lead": "För snickare, elektriker, rörmokare, målare och byggföretag: en hemsida som visar vad ni gör och gör det enkelt för kunderna att begära offert.",
+        "sections": [
+            ("Det här behöver en hantverkare på sin hemsida", ["En tydlig rubrik som säger vad ni gör och var ni jobbar.", "En egen sida för varje tjänst – till exempel badrum, kök eller tak.", "Bilder på riktiga jobb som visar vad ni kan.", "Telefonnummer och offertknapp på varje sida.", "En sida som fungerar perfekt på mobilen, där de flesta kunder söker."]),
+            ("Offertformulär som sparar tid", ["Med ett offertflöde beskriver kunden jobbet steg för steg och kan bifoga bilder. Ni får en komplett förfrågan och slipper ringa tillbaka för att fråga om grundläggande saker."]),
+            ("Synas när kunderna söker lokalt", ["Vi bygger sidan så att Google förstår vilka tjänster ni erbjuder och i vilka orter – och så att AI-tjänster kan beskriva er rätt när någon frågar efter en hantverkare i närheten."]),
+        ],
+        "faq": [("Vad kostar en hemsida för hantverkare?", "Starter kostar 3 000 kr och Pro, med offertflöde eller bokning, 6 000 kr i startavgift plus en låg årsavgift."),
+                ("Kan kunderna skicka bilder i offertformuläret?", "Ja, kunden kan bifoga bilder eller beskrivningar direkt i förfrågan."),
+                ("Har ni ett exempel?", "Ja, vår testsajt Lindvik Bygg visar hur en hemsida för ett byggföretag kan se ut.")],
+    },
+    {
+        "slug": "billig-hemsida", "title": "Billig hemsida för företag – fast pris från 3 000 kr",
+        "h1": "Prisvärd hemsida <em>till fast pris</em>",
+        "description": "Billig hemsida för företag utan att snåla på kvaliteten: mobilanpassad, SEO-optimerad och med support första året. Fast pris från 3 000 kr exkl. moms.",
+        "lead": "En hemsida behöver inte kosta tiotusentals kronor. Hos oss får ni en snabb, mobilanpassad hemsida till fast pris från 3 000 kr.",
+        "sections": [
+            ("Det här ingår i Starter", ["Webbdesign och mobilanpassning utifrån er verksamhet.", "Kontaktfunktion och presentation av verksamhet och projekt.", "Grundläggande SEO och AI-optimering.", "Två korrekturvändor före leverans.", "Upp till 10 timmars support och redigering per månad första året."]),
+            ("Vad kostar det efteråt?", ["Startavgiften är 3 000 kr. Därefter betalar ni en årsavgift på 99–199 kr per år. Hosting och eventuella externa avgifter står specificerade i offerten, så att ni vet exakt vad som gäller."]),
+            ("Behöver ni mer?", ["Pro för 6 000 kr lägger till bokning eller offertflöde, AI-chatt och notiser via e-post och SMS. Större projekt får ett fast pris i en offert."]),
+        ],
+        "faq": [("Varför är det så billigt?", "Vi är ett litet team med låga omkostnader och bygger effektivt – därför kan vi hålla ett lågt fast pris."),
+                ("Finns det dolda avgifter?", "Nej. Startavgift och årsavgift står i offerten, och hosting och eventuella externa avgifter specificeras där också."),
+                ("Äger vi hemsidans domän?", "Ja. Domänen är och förblir er.")],
+    },
+]
