@@ -14,23 +14,6 @@ body.subpage main { padding-top: var(--header-h); }
 .btn--secondary:hover { background: var(--accent); border-color: var(--accent); }
 .btn--light { background: var(--cream); color: var(--accent); transition: background-color .2s, color .2s; }
 .btn--light:hover { background: #fff; }
-.cookie-dialog__buttons button,
-.cookie-dialog__settings { background: var(--accent); border-color: var(--accent); }
-.cookie-dialog__settings {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  height: 45px;
-  border: 1px solid var(--accent);
-  border-radius: 22px;
-  color: #fff;
-  font: 600 15px/1 var(--sans);
-  text-decoration: none;
-  transition: background-color .2s, color .2s;
-}
-.cookie-dialog__settings:hover { background: #fff; color: #000; }
-@media (max-width: 768px) { .cookie-dialog__settings { flex: 0 0 45px; } }
 
 /* Page hero */
 .page-hero { padding: 80px 0; background: var(--cream); }
@@ -371,7 +354,7 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
   @page { size: A4; margin: 0; }
   html, body.subpage { margin: 0 !important; padding: 0 !important; background: #fff; }
   body.subpage main { margin: 0 !important; padding: 0 !important; }
-  body.subpage > :not(main), .agr-hero, .breadcrumbs, #cookie-dialog { display: none !important; }
+  body.subpage > :not(main), .agr-hero, .breadcrumbs { display: none !important; }
   .agr { padding: 0; background: #fff; }
   .agr .container { max-width: none; padding: 0; }
   .agr__sheets { display: block; }

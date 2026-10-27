@@ -8,13 +8,12 @@ PSI_API_KEY = ""
 # The live address of the site, used for canonical links, sitemap and structured data.
 SITE_URL = "https://elevatestudio.nu"
 
-# Google Analytics 4 measurement ID (looks like "G-XXXXXXXXXX"). Empty = no analytics and no cookie banner.
-# Analytics only loads after the visitor accepts statistics cookies.
-GA_MEASUREMENT_ID = ""
-
 # Every form posts here. FormSubmit forwards the message to info@elevatestudio.nu.
 # The first message triggers a one-time activation mail to info@elevatestudio.nu that must be confirmed.
 FORM_ENDPOINT = "https://formsubmit.co/ajax/info@elevatestudio.nu"
+
+# Contact-form leads are also saved in the admin panel (Leads), with status and comments.
+LEADS_ENDPOINT = "https://project--774478fd-e67a-4123-8e99-30428a5279d4.lovable.app/api/public/hooks/submit-quote"
 
 SERVICES = [
     {
@@ -357,21 +356,22 @@ SIMPLE_PAGES = {
     },
     "integritet": {
         "title": "Integritetspolicy", "lead": "Så hanterar vi personuppgifter när du kontaktar oss eller besöker vår webbplats.",
-        "description": "Så hanterar Elevate Studio personuppgifter från kontaktformulär, nyhetsbrev och webbstatistik.",
+        "description": "Så hanterar Elevate Studio personuppgifter från kontaktformulär och nyhetsbrev.",
         "sections": [
             ("cols", [("När du kontaktar oss", "Personuppgiftsansvarig är PJM Projekteffektivitet AB, som Elevate Studio är en del av. Det du skriver i våra formulär – namn, e-post, telefon, företag och meddelande – skickas till info@elevatestudio.nu via tjänsten FormSubmit. Vi använder uppgifterna bara för att svara dig och sparar dem inte längre än vi behöver."),
-                      ("Webbstatistik", "Om du godkänner statistikcookies använder vi Google Analytics för att se hur webbplatsen används, till exempel vilka sidor som besöks. Uppgifterna används inte för annonsering. Utan ditt godkännande laddas inget analysverktyg."),
+                      ("Ingen spårning", "Webbplatsen sätter inga cookies och använder inga analys- eller annonsverktyg. Vi följer inte vad du gör här."),
                       ("Dina rättigheter", "Du har rätt att få veta vilka uppgifter vi har om dig, få dem rättade eller raderade. Mejla info@elevatestudio.nu så hjälper vi dig. Du kan också vända dig till Integritetsskyddsmyndigheten (IMY).")]),
             ("links", [("Om cookies", "cookies.html"), ("Kontakta oss", "kontakt.html")]),
         ],
     },
     "cookies": {
-        "title": "Om cookies", "lead": "Vi använder bara statistikcookies om du godkänner det.",
-        "description": "Elevate Studio använder statistikcookies från Google Analytics endast efter ditt godkännande.",
+        "title": "Om cookies", "lead": "Vi använder inga cookies.",
+        "description": "Elevate Studios webbplats sätter inga cookies och använder inga analys- eller annonsverktyg.",
         "sections": [
-            ("cols", [("Nödvändigt", "Ditt val i cookierutan sparas i webbläsarens lokala lagring, så att rutan inte visas igen. Det används inte till något annat."),
-                      ("Statistik", "Om du godkänner sätter Google Analytics cookies (till exempel _ga) som hjälper oss förstå hur webbplatsen används. Avböjer du laddas inget analysverktyg."),
-                      ("Ändra ditt val", '<button type="button" class="arrow-link js-cookie-settings">Visa cookierutan igen</button>')]),
+            ("cols", [("Inga cookies", "Webbplatsen sätter inga cookies, varken egna eller från andra. Därför finns det heller ingen cookieruta att godkänna."),
+                      ("Ingen statistik eller annonsering", "Vi använder inga analysverktyg som Google Analytics och inga annonsspårare."),
+                      ("Formulär", "Det du skriver i ett formulär skickas till oss när du trycker på skicka. Läs mer i vår integritetspolicy.")]),
+            ("links", [("Integritetspolicy", "integritet.html"), ("Kontakta oss", "kontakt.html")]),
         ],
     },
 }

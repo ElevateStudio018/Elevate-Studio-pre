@@ -3,7 +3,7 @@
 Run from the repository root:  python3 tools/build.py
 
 Generates every subpage from tools/content.py and re-wraps index.html and
-404.html with the shared header, menus, footer and cookie dialog, so that
+404.html with the shared header, menus and footer, so that
 navigation is identical on every page.
 """
 import datetime
@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, CASES, FORM_ENDPOINT, GA_MEASUREMENT_ID, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
+from content import ARTICLES, CASES, FORM_ENDPOINT, LEADS_ENDPOINT, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -202,17 +202,7 @@ def footer(p):
         </div>
       </div>
     </div>
-  </footer>
-
-  <div class="cookie-dialog" id="cookie-dialog" role="dialog" aria-labelledby="cookie-title" hidden>
-    <p class="cookie-dialog__title" id="cookie-title">Dina val kring cookies</p>
-    <p class="cookie-dialog__text">Vi vill använda statistikcookies (Google Analytics) för att se hur webbplatsen används. Inget laddas om du avböjer. Läs mer <a href="{p}cookies.html">om cookies.</a></p>
-    <div class="cookie-dialog__buttons">
-      <button type="button" data-choice="accept">Godkänn</button>
-      <button type="button" data-choice="deny">Avböj</button>
-    </div>
-    <p class="cookie-dialog__links"><a href="{p}cookies.html">Om cookies</a> <a href="{p}integritet.html">Integritet</a></p>
-  </div>'''
+  </footer>'''
 
 
 def asset_version():
@@ -308,7 +298,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
   {links}
   <script type="application/ld+json">{ld}</script>
 </head>
-<body class="{body_class}" data-ga="{esc(GA_MEASUREMENT_ID)}">
+<body class="{body_class}">
 
   {header(p, crumbs, current)}
 
@@ -415,7 +405,7 @@ def featured_posts(p, articles):
 
 
 def contact_form(p):
-    return f'''<form class="standout__form js-form" id="formular" action="{FORM_ENDPOINT}" method="post" data-subject="Ny förfrågan från hemsidan">
+    return f'''<form class="standout__form js-form" id="formular" action="{FORM_ENDPOINT}" method="post" data-subject="Ny förfrågan från hemsidan" data-leads="{LEADS_ENDPOINT}">
           <h3 class="standout__header">Hej! Jag vill gärna bli kontaktad.</h3>
           <div class="standout__fields">
             <label><span class="sr-only">Namn</span><input type="text" name="namn" placeholder="Namn" autocomplete="name" required></label>

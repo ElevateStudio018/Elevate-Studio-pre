@@ -100,6 +100,13 @@
       show('Skickar …', true);
       var done = form.classList.contains('site-footer__newsletter') ? 'Tack! Du står nu på listan.' : 'Tack! Vi återkommer så fort vi kan.';
       if (isBot) { form.reset(); show(done, true); button.disabled = false; return; }
+      // Contact requests also become a lead in the admin panel (best effort, never blocks the form)
+      if (form.dataset.leads && data.email) {
+        fetch(form.dataset.leads, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+          name: data.namn || data.email, email: data.email, phone: data.telefon || '', company: data.foretag || '',
+          service_type: data.tjanst || '', message: data.meddelande || '', meeting_type: 'quote'
+        }) }).catch(function () {});
+      }
       var timer = setTimeout(function () { show('Det tar längre tid än vanligt … mejla oss gärna på info@elevatestudio.nu om inget händer.', false); }, 12000);
       fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
         .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
@@ -143,34 +150,5 @@
     next.addEventListener('click', function () { track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }); });
     track.addEventListener('scroll', sync, { passive: true });
     sync();
-  });
-
-  // Statistics: Google Analytics loads only after the visitor accepts, and only if an ID is configured
-  var gaId = body.dataset.ga;
-  var dialog = document.getElementById('cookie-dialog');
-  function loadAnalytics() {
-    if (!gaId || window.gtag) return;
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function () { window.dataLayer.push(arguments); };
-    window.gtag('js', new Date());
-    window.gtag('config', gaId, { anonymize_ip: true });
-    var tag = document.createElement('script');
-    tag.async = true;
-    tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaId);
-    document.head.appendChild(tag);
-  }
-  var stored = null;
-  try { stored = localStorage.getItem('cookie-choice'); } catch (err) {}
-  if (gaId && stored === 'accept') loadAnalytics();
-  if (gaId && !stored) dialog.hidden = false;
-  dialog.querySelectorAll('button').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      try { localStorage.setItem('cookie-choice', btn.dataset.choice); } catch (err) {}
-      dialog.hidden = true;
-      if (btn.dataset.choice === 'accept') loadAnalytics();
-    });
-  });
-  document.querySelectorAll('.js-cookie-settings').forEach(function (btn) {
-    btn.addEventListener('click', function () { dialog.hidden = false; });
   });
 })();
