@@ -1112,6 +1112,10 @@ def projects_section():
             <div class="phone"><img src="assets/img/home/device-phone.jpg" alt="Testsajten Lindvik Bygg på en mobil" loading="lazy"></div>
           </div>
         </div>
+        <div class="hp-proj__divider">
+          <h3 class="hp-proj__sub">Exempel på projekt</h3>
+          <a class="arrow-link hp-proj__link" href="projekt/index.html">Fler exempel</a>
+        </div>
         <div class="hp-proj__grid">{cards}
         </div>
         <p class="hp-proj__note">Kunderna i exemplen är påhittade och visar hur vi arbetar.</p>
@@ -1162,16 +1166,13 @@ def bento_section():
       </a>'''
     return f'''<section class="block container bento" id="tjanster-oversikt" aria-label="Vad vi gör">
       <a class="bento__tile bento__tile--big" href="tjanster/index.html">
-        <div class="bento__top">
-          {mark}
-          <p class="bento__price">Fast pris från <b>3 000 kr</b></p>
+        <h2 class="bento__title">En hemsida som <em>jobbar åt er</em></h2>
+        <div class="bento__text">
+          <p>Vi bygger snabba, mobilanpassade hemsidor med tydliga tjänstesidor och en väg till kontakt på varje sida.</p>
+          <p class="bento__more">Sedan kopplar vi på det som sparar tid åt er – bokning, offertflöden och AI-chatt – och ser till att ni syns på Google och när kunder frågar AI.</p>
+          <p class="bento__more">Efter lansering tar vi hand om ändringar och uppföljning. Allt hos samma lilla team i Uppsala.</p>
         </div>
-        <ul class="bento__list">{"".join(f"<li>{esc(x['name'])}</li>" for x in SERVICES)}</ul>
-        <div class="bento__body">
-          <h2 class="bento__title">En hemsida som <em>jobbar åt er</em></h2>
-          <p class="bento__lead">Vi bygger sidan, kopplar på bokning, offert och AI-chatt, ser till att ni syns på Google – och tar hand om den efteråt.</p>
-          <span class="btn btn--light"><span>Se alla tjänster</span></span>
-        </div>
+        <span class="btn btn--light"><span>Se alla tjänster</span></span>
       </a>
       {photo(s["hemsidor"])}
       {text(s["ai-chatt"])}
