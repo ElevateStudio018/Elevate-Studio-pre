@@ -199,33 +199,16 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 
 /* Contact: team cards */
 .people { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.person {
-  display: flex;
-  flex-direction: column;
-  padding: 40px;
-  border: 1px solid #ddd5c6;
-  border-radius: 24px;
-  background: #fff;
-  transition: background-color .3s, border-color .3s, color .3s;
-}
-.person__mark {
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  margin-bottom: 28px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--cream);
-  font-size: 26px;
-  font-weight: 600;
-}
-.person__name { margin: 0 0 6px; font-size: 30px; font-weight: 500; line-height: 1.15; }
-.person__role { margin: 0 0 24px; color: #5c5c5c; }
-.person__links { display: grid; gap: 8px; margin: auto 0 0; padding: 0; list-style: none; font-size: 18px; }
-.person__links a { color: var(--accent); font-weight: 500; text-decoration: none; overflow-wrap: anywhere; }
-.person__links a:hover { text-decoration: underline; text-underline-offset: 4px; }
-.person:hover { border-color: var(--accent); background: var(--cream); }
+.person { display: flex; flex-direction: column; min-height: 260px; padding: 34px 36px 26px; border-radius: 18px; background: var(--accent, #1d3b2a); color: var(--cream, #fdfbf5); box-shadow: 0 24px 40px -32px rgba(18, 39, 27, .7); }
+.person__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 32px; }
+.person__name { margin: 0 0 6px; font-size: 28px; font-weight: 500; line-height: 1.15; color: #fff; }
+.person__role { margin: 0; font-size: 15px; opacity: .75; }
+.person__logo { flex: none; width: 34px; color: #6f9a7c; }
+.person__links { display: grid; gap: 10px; margin: auto 0 0; padding: 0; list-style: none; font-size: 17px; }
+.person__links a { display: flex; align-items: center; gap: 12px; color: #fff; font-weight: 500; text-decoration: none; overflow-wrap: anywhere; }
+.person__links a:hover span { text-decoration: underline; text-underline-offset: 4px; }
+.person__ic { flex: none; width: 18px; height: 18px; color: #9fc0a8; }
+.person__company { margin: 20px 0 0; padding-top: 14px; border-top: 1px solid rgba(253, 251, 245, .16); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; opacity: .6; }
 @media (max-width: 992px) { .people { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 640px) { .people { grid-template-columns: 1fr; } .person { padding: 28px; } }
 .info-card a { color: var(--accent); font-weight: 500; }
