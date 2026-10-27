@@ -8,9 +8,9 @@
   <link rel="icon" href="assets/img/brand/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css?v=4f1165f9cd">
-  <link rel="stylesheet" href="assets/css/home.css?v=4f1165f9cd">
-  <link rel="stylesheet" href="assets/css/pages.css?v=4f1165f9cd">
+  <link rel="stylesheet" href="assets/css/style.css?v=076f80c7c0">
+  <link rel="stylesheet" href="assets/css/home.css?v=076f80c7c0">
+  <link rel="stylesheet" href="assets/css/pages.css?v=076f80c7c0">
 </head>
 <body class="home">
 
@@ -30,7 +30,7 @@
             <a href="tjanster/index.html" class="js-show-megamenu" aria-expanded="false" aria-controls="megamenu">Vad vi gör <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 4.75 8 11.25l6.5-6.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
           </li>
           <li><a href="kontakt.html">Kontakt</a></li>
-          <li><a href="insikter/index.html">Insikter &amp; Artiklar</a></li>
+          <li><a href="insikter/index.html">Senaste nytt</a></li>
         </ul>
       </nav>
       <button class="hamburger-icon js-show-hamburger" type="button" aria-label="Öppna meny" aria-expanded="false" aria-controls="hamburgermenu">
@@ -72,7 +72,7 @@
           </div>
         </li>
         <li class="drawer__desk-only"><a href="tjanster/index.html">Vad vi gör</a></li>
-        <li><a href="insikter/index.html">Insikter &amp; Artiklar</a></li>
+        <li><a href="insikter/index.html">Senaste nytt</a></li>
         <li><a href="plattformar/index.html">Plattformar</a></li>
         <li><a href="testa.html">Testa din sajt</a></li>
         <li><a href="kontakt.html">Kontakt</a></li>
@@ -181,7 +181,7 @@
     <section class="block insights" id="insikter">
       <div class="container">
         <div class="block__header-row">
-          <h2 class="block__header">Insikter</h2>
+          <h2 class="block__header">Senaste <span>nytt</span></h2>
           <a href="insikter/index.html" class="arrow-link">Alla artiklar</a>
         </div>
         <!-- build:posts --><div class="insights__grid">
@@ -214,42 +214,56 @@
 
     <!-- Process -->
     <section class="process" id="process">
-      <h2 class="block__header container">Så <span>jobbar vi</span></h2>
       <div class="container">
+        <div class="process__head">
+          <div>
+            <p class="process__eyebrow">Arbetsprocess</p>
+            <h2 class="block__header">Så <span>jobbar vi</span></h2>
+          </div>
+          <div class="process__intro">
+            <p>Fem steg från första mötet till en hemsida som ger förfrågningar – och som blir bättre varje månad. Vi tar hand om det tekniska, ni bidrar med kunskapen om ert företag.</p>
+            <a class="btn btn--primary" href="kontakt.html"><span>Boka ett första möte</span></a>
+          </div>
+        </div>
         <div class="flow" data-flow>
           <div class="flow__list">
             <div class="flow__tube" aria-hidden="true"><i></i></div>
             <ol class="flow__steps">
-            <li class="flow__step">
-              <span class="flow__dot" aria-hidden="true"></span>
-              <span class="flow__time">Första mötet</span>
-              <h3>Vi lär känna företaget</h3>
-              <p>Ett kort möte om era tjänster, era kunder och vilka affärer ni vill ha fler av.</p>
-            </li>
-            <li class="flow__step">
-              <span class="flow__dot" aria-hidden="true"></span>
-              <span class="flow__time">1–2 veckor</span>
-              <h3>Vi bygger hemsidan</h3>
-              <p>Mobilanpassad design med tydliga tjänstesidor och en väg till kontakt på varje sida.</p>
-            </li>
-            <li class="flow__step">
-              <span class="flow__dot" aria-hidden="true"></span>
-              <span class="flow__time">Före lansering</span>
-              <h3>Vi kopplar på smarta funktioner</h3>
-              <p>Offertflöde, bokning, AI-chatt och notiser via e-post och SMS aktiveras och testas.</p>
-            </li>
-            <li class="flow__step">
-              <span class="flow__dot" aria-hidden="true"></span>
-              <span class="flow__time">Lanseringsdagen</span>
-              <h3>Hemsidan börjar ge förfrågningar</h3>
-              <p>Sidan lanseras, indexeras av Google och tar emot förfrågningar med status och historik.</p>
-            </li>
-            <li class="flow__step">
-              <span class="flow__dot" aria-hidden="true"></span>
-              <span class="flow__time">Varje månad</span>
-              <h3>Vi förbättrar över tid</h3>
-              <p>Vi följer upp vad som ger kunder och justerar texter, erbjudanden och flöden löpande.</p>
-            </li>
+              <li class="flow__step">
+                <span class="flow__dot" aria-hidden="true"></span>
+                <div class="flow__meta"><span class="flow__no">01</span><span class="flow__time">Första mötet</span></div>
+                <h3>Vi lär känna företaget</h3>
+                <p>Ett kort möte om era tjänster, era kunder och vilka affärer ni vill ha fler av.</p>
+                <p class="flow__you"><b>Ni:</b> Berätta om ert företag</p>
+              </li>
+              <li class="flow__step">
+                <span class="flow__dot" aria-hidden="true"></span>
+                <div class="flow__meta"><span class="flow__no">02</span><span class="flow__time">1–2 veckor</span></div>
+                <h3>Vi bygger hemsidan</h3>
+                <p>Mobilanpassad design med tydliga tjänstesidor och en väg till kontakt på varje sida.</p>
+                <p class="flow__you"><b>Ni:</b> Skicka bilder och underlag</p>
+              </li>
+              <li class="flow__step">
+                <span class="flow__dot" aria-hidden="true"></span>
+                <div class="flow__meta"><span class="flow__no">03</span><span class="flow__time">Före lansering</span></div>
+                <h3>Vi kopplar på smarta funktioner</h3>
+                <p>Offertflöde, bokning, AI-chatt och notiser via e-post och SMS aktiveras och testas.</p>
+                <p class="flow__you"><b>Ni:</b> Godkänn flödena</p>
+              </li>
+              <li class="flow__step">
+                <span class="flow__dot" aria-hidden="true"></span>
+                <div class="flow__meta"><span class="flow__no">04</span><span class="flow__time">Lanseringsdagen</span></div>
+                <h3>Hemsidan börjar ge förfrågningar</h3>
+                <p>Sidan lanseras, indexeras av Google och tar emot förfrågningar med status och historik.</p>
+                <p class="flow__you"><b>Ni:</b> Ta emot förfrågningarna</p>
+              </li>
+              <li class="flow__step">
+                <span class="flow__dot" aria-hidden="true"></span>
+                <div class="flow__meta"><span class="flow__no">05</span><span class="flow__time">Varje månad</span></div>
+                <h3>Vi förbättrar över tid</h3>
+                <p>Vi följer upp vad som ger kunder och justerar texter, erbjudanden och flöden löpande.</p>
+                <p class="flow__you"><b>Ni:</b> Fokusera på ert jobb</p>
+              </li>
             </ol>
           </div>
           <div class="flow__media">
@@ -258,7 +272,7 @@
             <img src="assets/img/home/process-3.jpg" alt="Utvecklare som skriver kod vid två skärmar" width="1200" height="800" loading="lazy">
             <img src="assets/img/home/process-4.jpg" alt="Person med headset som tar emot en förfrågan" width="1200" height="800" loading="lazy">
             <img src="assets/img/home/process-5.jpg" alt="Händer som pekar på diagram över resultat" width="1200" height="800" loading="lazy">
-            <b class="flow__pct" aria-hidden="true">0%</b>
+            <b class="flow__count" aria-hidden="true">Steg <span>1</span> av 5</b>
           </div>
         </div>
       </div>
@@ -479,7 +493,7 @@
     <p class="cookie-dialog__links"><a href="cookies.html">Om cookies</a> <a href="integritet.html">Integritet</a></p>
   </div>
 
-  <script src="assets/js/main.js?v=4f1165f9cd"></script>
-  <script src="assets/js/home.js?v=4f1165f9cd"></script>
+  <script src="assets/js/main.js?v=076f80c7c0"></script>
+  <script src="assets/js/home.js?v=076f80c7c0"></script>
 </body>
 </html>

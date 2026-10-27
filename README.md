@@ -13,7 +13,7 @@ Sajten har 39 sidor, och alla knappar och länkar leder till riktiga sidor.
 | Startsida, 404 | `index.html`, `404.html` |
 | Tjänster | `tjanster/index.html` och 6 tjänstesidor |
 | Projekt | `projekt/index.html` och 6 projektsidor (påhittade) |
-| Insikter | `insikter/index.html` och 3 artiklar |
+| Senaste nytt | `insikter/index.html` och 3 artiklar |
 | Plattformar | `plattformar/index.html` och 6 sidor: HTML & CSS, JavaScript, React, Node.js, Python, Playwright |
 | Övrigt | kontakt, om studion, karriär, öppna roller, arbetsvillkor, ansvar, in English, integritet, cookies, visselblåsning, guide, AI-sök |
 

@@ -7,20 +7,21 @@
     var list = flow.querySelector('.flow__list');
     var steps = Array.prototype.slice.call(flow.querySelectorAll('.flow__step'));
     var photos = flow.querySelectorAll('.flow__media img');
-    var pct = flow.querySelector('.flow__pct');
+    var count = flow.querySelector('.flow__count span');
     var update = function () {
       var rect = list.getBoundingClientRect();
-      var trigger = window.innerHeight * 0.65;
+      var trigger = window.innerHeight * 0.6;
       var progress = reduced ? 1 : Math.min(1, Math.max(0, (trigger - rect.top) / rect.height));
       flow.style.setProperty('--progress', progress);
       var current = 0;
       steps.forEach(function (step, i) {
-        var on = reduced || step.getBoundingClientRect().top + 24 <= trigger;
+        var on = reduced || step.getBoundingClientRect().top + 40 <= trigger;
         step.classList.toggle('is-on', on);
         if (on) current = i;
       });
+      steps.forEach(function (step, i) { step.classList.toggle('is-current', !reduced && i === current); });
       Array.prototype.forEach.call(photos, function (img, i) { img.classList.toggle('is-current', i === current); });
-      pct.textContent = Math.round(progress * 100) + '%';
+      count.textContent = current + 1;
     };
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);

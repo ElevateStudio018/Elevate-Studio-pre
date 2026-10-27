@@ -63,7 +63,7 @@ def header(p, crumbs, current):
             <a href="{p}tjanster/index.html" class="js-show-megamenu" aria-expanded="false" aria-controls="megamenu">Vad vi gör {CHEVRON}</a>
           </li>
           {nav_item("kontakt", "kontakt.html", "Kontakt")}
-          {nav_item("insikter", "insikter/index.html", "Insikter &amp; Artiklar")}
+          {nav_item("insikter", "insikter/index.html", "Senaste nytt")}
         </ul>
       </nav>
       <button class="hamburger-icon js-show-hamburger" type="button" aria-label="Öppna meny" aria-expanded="false" aria-controls="hamburgermenu">
@@ -105,7 +105,7 @@ def header(p, crumbs, current):
           </div>
         </li>
         <li class="drawer__desk-only"><a href="{p}tjanster/index.html">Vad vi gör</a></li>
-        <li><a href="{p}insikter/index.html">Insikter &amp; Artiklar</a></li>
+        <li><a href="{p}insikter/index.html">Senaste nytt</a></li>
         <li><a href="{p}plattformar/index.html">Plattformar</a></li>
         <li><a href="{p}testa.html">Testa din sajt</a></li>
         <li><a href="{p}kontakt.html">Kontakt</a></li>
@@ -490,13 +490,13 @@ def build_articles():
     p = "../"
     cards = "".join(post_card(p, a) for a in ARTICLES)
     main = f'''<main>
-    {page_hero("Insikter &amp; <em>artiklar</em>", "Tankar, guider och nyheter om design, utveckling och digital tillväxt.")}
+    {page_hero("Senaste <em>nytt</em>", "Tankar, guider och nyheter om design, utveckling och digital tillväxt.")}
     <section class="section section--cream">
       <div class="container"><div class="posts__grid">{cards}</div></div>
     </section>
     {cta(p)}
   </main>'''
-    yield write("insikter/index.html", document(p, "Insikter & Artiklar", main, "subpage", [("Insikter", "")], "insikter"))
+    yield write("insikter/index.html", document(p, "Senaste nytt", main, "subpage", [("Senaste nytt", "")], "insikter"))
 
     for a in ARTICLES:
         more = "".join(post_card(p, o) for o in ARTICLES if o is not a)
@@ -527,7 +527,7 @@ def build_articles():
     {cta(p)}
   </main>'''
         yield write(f'insikter/{a["slug"]}.html', document(p, a["title"], main, "subpage",
-                    [("Insikter", "insikter/index.html"), (a["title"], "")], "insikter"))
+                    [("Senaste nytt", "insikter/index.html"), (a["title"], "")], "insikter"))
 
 
 def build_platforms():
