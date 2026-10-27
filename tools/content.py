@@ -15,10 +15,10 @@ FORM_ENDPOINT = "https://formsubmit.co/ajax/info@elevatestudio.nu"
 # Contact-form leads are also saved in the admin panel (Leads), with status and comments.
 LEADS_ENDPOINT = "https://project--774478fd-e67a-4123-8e99-30428a5279d4.lovable.app/api/public/hooks/submit-quote"
 
-# The admin panel (Lovable app). elevatestudio.nu/admin forwards here, so the admin app needs
-# its own address once this site takes over elevatestudio.nu: connect admin.elevatestudio.nu
-# as a custom domain in Lovable (Project settings → Domains).
-ADMIN_URL = "https://admin.elevatestudio.nu/admin"
+# The admin panel (Lovable app). /admin on this site forwards here. It lives on elevatestudio.nu today;
+# before this site takes over the domain, connect admin.elevatestudio.nu to the admin app in Lovable
+# (Project settings → Domains) and change this to "https://admin.elevatestudio.nu/admin".
+ADMIN_URL = "https://elevatestudio.nu/admin"
 
 SERVICES = [
     {
@@ -308,8 +308,9 @@ FAQ = [
     ("Hur godkänner vi offerten?", "Ni svarar på mejlet med offerten och skriver att ni godkänner den. Inga krångliga underskrifter."),
 ]
 
-# Opens the Google review box for Elevate Studio directly (link from the Google Business Profile).
-REVIEW_URL = "https://g.page/r/CaJmmZVCdm82EBM/review"
+# Opens the Google review box for Elevate Studio directly. This is where g.page/r/CaJmmZVCdm82EBM/review
+# leads; linking straight here avoids the redirect warning Gmail shows for short links.
+REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJcRLSybPJX0YRomaZlUJ2bzY"
 
 # Real customer reviews from Google. Add new ones at the top; arrows appear automatically when there is more than one.
 REVIEWS = [
