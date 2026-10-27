@@ -23,19 +23,33 @@
     if (megamenu.classList.contains('megamenu--visible') && !header.contains(e.target)) setMegamenu(false);
   });
 
-  // Hamburger menu
+  // Menu drawer: slides in from the right over a dimmed page
+  var backdrop = document.querySelector('.drawer-backdrop');
+  var drawerClose = burgerMenu.querySelector('.drawer__close');
   function setBurger(open) {
+    if (open === burgerMenu.classList.contains('hamburgermenu--visible')) return;
     burgerMenu.classList.toggle('hamburgermenu--visible', open);
-    headerBurger.classList.toggle('is-close', open);
+    burgerMenu.setAttribute('aria-hidden', String(!open));
     headerBurger.setAttribute('aria-expanded', String(open));
-    headerBurger.setAttribute('aria-label', open ? 'Stäng meny' : 'Öppna meny');
-    body.classList.toggle('hamburger-open', open);
+    body.classList.toggle('drawer-open', open);
+    if (open) {
+      backdrop.hidden = false;
+      requestAnimationFrame(function () { backdrop.classList.add('is-visible'); });
+      drawerClose.focus();
+    } else {
+      backdrop.classList.remove('is-visible');
+      setTimeout(function () { backdrop.hidden = true; }, 300);
+      headerBurger.focus();
+    }
   }
   burgerButtons.forEach(function (btn) {
     btn.addEventListener('click', function () {
       setMegamenu(false);
-      setBurger(!burgerMenu.classList.contains('hamburgermenu--visible'));
+      setBurger(true);
     });
+  });
+  document.querySelectorAll('.js-close-drawer').forEach(function (el) {
+    el.addEventListener('click', function () { setBurger(false); });
   });
   document.querySelectorAll('.js-toggle-sub').forEach(function (link) {
     link.addEventListener('click', function (e) {

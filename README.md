@@ -19,6 +19,17 @@ Sajten har 39 sidor, och alla knappar och länkar leder till riktiga sidor.
 
 Plattformarna är de verktyg som faktiskt användes för att bygga studien. Varje plattformssida har en sektion som beskriver hur verktyget användes i just det här projektet.
 
+## Testa din sajt (`testa.html`)
+
+Verktyget kör ett riktigt test med Google PageSpeed Insights (Lighthouse) och förklarar på svenska hur varje problem kan åtgärdas. Inga resultat är påhittade. Om testet inte kan köras visas ett felmeddelande i stället.
+
+Utan egen API-nyckel delar alla besökare på Googles gemensamma dagskvot, och den tar ofta slut. Så här skaffar du en gratis nyckel:
+
+1. Gå till Google Cloud Console.
+2. Välj **APIs & Services**, aktivera **PageSpeed Insights API** och skapa en API-nyckel under **Credentials**.
+3. Begränsa nyckeln till er domän (HTTP referrers).
+4. Lägg in den i `PSI_API_KEY` i `tools/content.py` och kör `python3 tools/build.py`.
+
 ## Bygga om sidorna
 
 Innehållet ligger i `tools/content.py` och mallarna i `tools/build.py`. Kör så här efter en ändring:

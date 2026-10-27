@@ -13,7 +13,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, CASES, PLATFORMS, SERVICES, SIMPLE_PAGES  # noqa: E402
+from content import ARTICLES, CASES, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -88,30 +88,42 @@ def header(p, crumbs, current):
     </div>
   </header>
 
-  <nav class="hamburgermenu" id="hamburgermenu" aria-label="Meny">
-    <button class="hamburger-icon close js-show-hamburger" type="button" aria-label="Stäng meny">
-      <span class="icon"></span>
-    </button>
-    <ul class="hamburgermenu__menu">
-      <li class="main-menu-item"><a href="{p}projekt/index.html">Projekt</a></li>
-      <li class="main-menu-item has-sub">
-        <a href="{p}tjanster/index.html" class="js-toggle-sub" aria-expanded="false">Vad vi gör {CHEVRON}</a>
+  <div class="drawer-backdrop js-close-drawer" hidden></div>
+  <nav class="hamburgermenu" id="hamburgermenu" aria-label="Meny" aria-hidden="true">
+    <div class="drawer__top">
+      <span class="drawer__label">Meny</span>
+      <button class="drawer__close js-close-drawer" type="button" aria-label="Stäng meny"><span aria-hidden="true"></span></button>
+    </div>
+    <ul class="drawer__main">
+      <li><a href="{p}projekt/index.html">Projekt</a></li>
+      <li class="has-sub">
+        <button type="button" class="drawer__toggle js-toggle-sub" aria-expanded="false">Vad vi gör {CHEVRON}</button>
         <div class="hamburgermenu__sub">
           <ul>
-            <li><a href="{p}tjanster/index.html">Alla tjänster</a></li>
             {"".join(f'<li><a href="{p}tjanster/{s["slug"]}.html">{esc(s["name"])}</a></li>' for s in SERVICES)}
+            <li><a href="{p}tjanster/index.html" class="drawer__all">Alla tjänster</a></li>
           </ul>
         </div>
       </li>
-      <li class="main-menu-item"><a href="{p}kontakt.html">Kontakt</a></li>
-      <li class="main-menu-item main-menu-item--last"><a href="{p}insikter/index.html">Insikter &amp; Artiklar</a></li>
+      <li><a href="{p}insikter/index.html">Insikter &amp; Artiklar</a></li>
       <li><a href="{p}plattformar/index.html">Plattformar</a></li>
-      <li><a href="{p}karriar.html">Karriär</a>
-        <ul class="sub-menu"><li><a href="{p}oppna-roller.html">Öppna roller</a></li></ul></li>
-      <li><a href="{p}om.html">Om studion</a>
-        <ul class="sub-menu"><li><a href="{p}arbetsvillkor.html">Arbetsvillkor</a></li><li><a href="{p}ansvar.html">Ansvar</a></li></ul></li>
+      <li><a href="{p}testa.html">Testa din sajt</a></li>
+      <li><a href="{p}kontakt.html">Kontakt</a></li>
+    </ul>
+    <p class="drawer__heading">Om oss</p>
+    <ul class="drawer__minor">
+      <li><a href="{p}om.html">Om studion</a></li>
+      <li><a href="{p}karriar.html">Karriär</a></li>
+      <li><a href="{p}oppna-roller.html">Öppna roller</a></li>
+      <li><a href="{p}arbetsvillkor.html">Arbetsvillkor</a></li>
+      <li><a href="{p}ansvar.html">Ansvar</a></li>
       <li><a href="{p}english.html">In English</a></li>
     </ul>
+    <div class="drawer__contact">
+      <p>Har du ett projekt på gång?</p>
+      <a class="drawer__mail" href="mailto:info@elevatestudio.nu">info@elevatestudio.nu</a>
+      <a class="btn btn--primary" href="{p}kontakt.html"><span>Hör av dig</span></a>
+    </div>
   </nav>'''
 
 
@@ -610,6 +622,46 @@ def build_simple():
         yield write(f"{slug}.html", document(p, page["title"], main, "subpage", [(page["title"], "")], current_map.get(slug)))
 
 
+def build_test_page():
+    p = ""
+    main = f'''<main>
+    <section class="page-hero sitetest-hero">
+      <div class="container">
+        <p class="page-hero__eyebrow">Gratis djuptest</p>
+        <h1 class="page-hero__title">Hur presterar <em>din sajt?</em></h1>
+        <p class="page-hero__lead">Skriv in din adress så testar vi sidan i en riktig webbläsare på cirka 30 sekunder. Du får betyg för prestanda, tillgänglighet, bästa praxis och SEO – och konkreta förslag på hur allt kan åtgärdas.</p>
+        <form class="sitetest__form" id="sitetest-form" data-api-key="{esc(PSI_API_KEY)}" data-prefix="{p}" novalidate>
+          <label class="sitetest__field"><span class="sr-only">Webbadress</span>
+            <input type="text" name="url" inputmode="url" autocomplete="url" placeholder="dittforetag.se" required>
+          </label>
+          <fieldset class="sitetest__device">
+            <legend class="sr-only">Enhet</legend>
+            <label><input type="radio" name="strategy" value="mobile" checked><span>Mobil</span></label>
+            <label><input type="radio" name="strategy" value="desktop"><span>Dator</span></label>
+          </fieldset>
+          <button type="submit" class="btn btn--primary"><span>Starta djuptest</span></button>
+        </form>
+      </div>
+    </section>
+    <section class="section container sitetest">
+      <div class="sitetest__progress" id="sitetest-progress" hidden aria-live="polite">
+        <div class="sitetest__progress-head"><p class="sitetest__step">Startar …</p><span class="sitetest__time">0 s</span></div>
+        <div class="sitetest__bar"><i></i></div>
+        <p class="sitetest__note">Testet tar oftast 20–40 sekunder. Stäng inte sidan.</p>
+      </div>
+      <div class="sitetest__error" id="sitetest-error" hidden role="alert"></div>
+      <div class="sitetest__results" id="sitetest-results" hidden></div>
+      <div class="sitetest__about">
+        <div class="info-card"><h2 class="info-card__title">Prestanda</h2><p>Hur snabbt sidan visas och blir klickbar, särskilt på mobil.</p></div>
+        <div class="info-card"><h2 class="info-card__title">Tillgänglighet</h2><p>Om alla kan använda sidan – kontraster, rubriker, etiketter och mer.</p></div>
+        <div class="info-card"><h2 class="info-card__title">SEO &amp; kvalitet</h2><p>Om Google förstår sidan och om den följer moderna riktlinjer för säkerhet.</p></div>
+      </div>
+    </section>
+    {cta(p, "Hellre att vi tittar åt dig?", "Vi gör gärna en personlig genomgång av din sajt och berättar vad som ger mest effekt.")}
+  </main>'''
+    yield write("testa.html", document(p, "Testa din sajt", main, "subpage", [("Testa din sajt", "")], None, extra_js=("sitetest.js",)))
+
+
 def rewrap(path, body_class, crumbs=None, extra_js=()):
     """Re-wrap a hand-written page's <main> with the generated shell."""
     src = (ROOT / path).read_text(encoding="utf-8")
@@ -636,7 +688,7 @@ def platforms_section():
 
 def main():
     built = []
-    for gen in (build_services, build_cases, build_articles, build_platforms, build_simple):
+    for gen in (build_services, build_cases, build_articles, build_platforms, build_simple, build_test_page):
         built.extend(gen())
     # Keep the homepage lists in sync with the data (regions between build markers).
     index = ROOT / "index.html"

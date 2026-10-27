@@ -8,9 +8,9 @@
   <link rel="icon" href="../assets/img/brand/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="../assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../assets/css/style.css?v=0a0c72e947">
-  <link rel="stylesheet" href="../assets/css/home.css?v=0a0c72e947">
-  <link rel="stylesheet" href="../assets/css/pages.css?v=0a0c72e947">
+  <link rel="stylesheet" href="../assets/css/style.css?v=3288933600">
+  <link rel="stylesheet" href="../assets/css/home.css?v=3288933600">
+  <link rel="stylesheet" href="../assets/css/pages.css?v=3288933600">
 </head>
 <body class="subpage">
 
@@ -57,30 +57,42 @@
     </div>
   </header>
 
-  <nav class="hamburgermenu" id="hamburgermenu" aria-label="Meny">
-    <button class="hamburger-icon close js-show-hamburger" type="button" aria-label="Stäng meny">
-      <span class="icon"></span>
-    </button>
-    <ul class="hamburgermenu__menu">
-      <li class="main-menu-item"><a href="../projekt/index.html">Projekt</a></li>
-      <li class="main-menu-item has-sub">
-        <a href="../tjanster/index.html" class="js-toggle-sub" aria-expanded="false">Vad vi gör <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 4.75 8 11.25l6.5-6.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
+  <div class="drawer-backdrop js-close-drawer" hidden></div>
+  <nav class="hamburgermenu" id="hamburgermenu" aria-label="Meny" aria-hidden="true">
+    <div class="drawer__top">
+      <span class="drawer__label">Meny</span>
+      <button class="drawer__close js-close-drawer" type="button" aria-label="Stäng meny"><span aria-hidden="true"></span></button>
+    </div>
+    <ul class="drawer__main">
+      <li><a href="../projekt/index.html">Projekt</a></li>
+      <li class="has-sub">
+        <button type="button" class="drawer__toggle js-toggle-sub" aria-expanded="false">Vad vi gör <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 4.75 8 11.25l6.5-6.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
         <div class="hamburgermenu__sub">
           <ul>
-            <li><a href="../tjanster/index.html">Alla tjänster</a></li>
             <li><a href="../tjanster/strategi.html">Affärsutveckling och strategi</a></li><li><a href="../tjanster/design.html">Design</a></li><li><a href="../tjanster/utveckling.html">Utveckling</a></li><li><a href="../tjanster/digital-tillvaxt.html">Digital tillväxt</a></li><li><a href="../tjanster/drift-och-support.html">Drift och support</a></li><li><a href="../tjanster/inkludering.html">Inkludering</a></li>
+            <li><a href="../tjanster/index.html" class="drawer__all">Alla tjänster</a></li>
           </ul>
         </div>
       </li>
-      <li class="main-menu-item"><a href="../kontakt.html">Kontakt</a></li>
-      <li class="main-menu-item main-menu-item--last"><a href="../insikter/index.html">Insikter &amp; Artiklar</a></li>
+      <li><a href="../insikter/index.html">Insikter &amp; Artiklar</a></li>
       <li><a href="../plattformar/index.html">Plattformar</a></li>
-      <li><a href="../karriar.html">Karriär</a>
-        <ul class="sub-menu"><li><a href="../oppna-roller.html">Öppna roller</a></li></ul></li>
-      <li><a href="../om.html">Om studion</a>
-        <ul class="sub-menu"><li><a href="../arbetsvillkor.html">Arbetsvillkor</a></li><li><a href="../ansvar.html">Ansvar</a></li></ul></li>
+      <li><a href="../testa.html">Testa din sajt</a></li>
+      <li><a href="../kontakt.html">Kontakt</a></li>
+    </ul>
+    <p class="drawer__heading">Om oss</p>
+    <ul class="drawer__minor">
+      <li><a href="../om.html">Om studion</a></li>
+      <li><a href="../karriar.html">Karriär</a></li>
+      <li><a href="../oppna-roller.html">Öppna roller</a></li>
+      <li><a href="../arbetsvillkor.html">Arbetsvillkor</a></li>
+      <li><a href="../ansvar.html">Ansvar</a></li>
       <li><a href="../english.html">In English</a></li>
     </ul>
+    <div class="drawer__contact">
+      <p>Har du ett projekt på gång?</p>
+      <a class="drawer__mail" href="mailto:info@elevatestudio.nu">info@elevatestudio.nu</a>
+      <a class="btn btn--primary" href="../kontakt.html"><span>Hör av dig</span></a>
+    </div>
   </nav>
 
   <main>
@@ -200,6 +212,6 @@
     <p class="cookie-dialog__links"><a href="../cookies.html">Om cookies</a> <a href="../integritet.html">Integritet</a></p>
   </div>
 
-  <script src="../assets/js/main.js?v=0a0c72e947"></script>
+  <script src="../assets/js/main.js?v=3288933600"></script>
 </body>
 </html>

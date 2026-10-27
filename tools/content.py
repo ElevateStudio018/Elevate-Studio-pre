@@ -1,5 +1,10 @@
 """Page content for the design study. All copy is original; clients and projects are fictional."""
 
+# Google PageSpeed Insights API key for the "Testa din sajt" tool.
+# Free to create in Google Cloud Console (APIs & Services → enable "PageSpeed Insights API" → Credentials → API key).
+# Restrict the key to your domain (HTTP referrers). Without a key the shared public quota is often exhausted.
+PSI_API_KEY = ""
+
 SERVICES = [
     {
         "slug": "strategi", "name": "Affärsutveckling och strategi", "short": "Strategi",
