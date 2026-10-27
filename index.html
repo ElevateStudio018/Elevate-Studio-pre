@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>Startsida | Designstudie</title>
+  <link rel="icon" href="assets/img/brand/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css?v=bf40bd6e5f">
-  <link rel="stylesheet" href="assets/css/home.css?v=bf40bd6e5f">
-  <link rel="stylesheet" href="assets/css/pages.css?v=bf40bd6e5f">
+  <link rel="stylesheet" href="assets/css/style.css?v=8c0d961d74">
+  <link rel="stylesheet" href="assets/css/home.css?v=8c0d961d74">
+  <link rel="stylesheet" href="assets/css/pages.css?v=8c0d961d74">
 </head>
 <body class="home">
 
@@ -18,8 +19,8 @@
   <header class="site-header" id="site-header">
     <figure class="site-header__site-logo">
       <a href="index.html" class="wordmark" aria-label="Startsida">
-        <span class="wordmark__name">elevate</span>
-        <span class="wordmark__sub">Designstudie</span>
+        <svg class="wordmark__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>
+        <span class="wordmark__text"><span class="wordmark__name">Elevate</span><span class="wordmark__sub">Studio</span></span>
       </a>
     </figure>
 
@@ -321,52 +322,62 @@
     </section>
 
 
-    <!-- Services intro -->
-    <section class="block container services-intro" id="tjanster">
-      <h2 class="block__header">Våra <span>tjänster</span></h2>
-      <div class="columns-2">
-        <h3 class="h3">Vi bygger genomtänkta, långsiktiga och lättanvända digitala tjänster.</h3>
-        <div>
-          <p>En stark digital närvaro handlar om mer än en snygg yta. Vi kombinerar strategi, design och teknik så att varje del drar åt samma håll, och anpassar alltid arbetet efter er verksamhet och era resurser.</p>
-          <p>Eftersom vi gärna följer våra kunder i många år kan vi dela med oss av erfarenheter och bygga relationer som håller. Vi erbjuder hela kedjan, från första analys till drift och vidareutveckling, med specialister inom varje område.</p>
-        </div>
+    <!-- Services: photo-top cards -->
+    <section class="block container services" id="tjanster">
+      <div class="block__header-row">
+        <h2 class="block__header">Det här <span>gör vi</span></h2>
+        <a href="tjanster/index.html" class="arrow-link">Alla tjänster</a>
       </div>
-    </section>
-
-    <!-- Block pairs -->
-    <section class="block container pairs">
-      <article class="pair">
-        <div class="pair__text">
-          <h3>Utveckling &amp; Teknik</h3>
-          <p>Vi bygger responsiva, snabba och skräddarsydda webbplatser och system. Vi är vana vid krävande integrationer och ser till att allt fungerar ihop och går att utveckla vidare efter verksamhetens behov.</p>
-          <a href="tjanster/utveckling.html" class="arrow-link">Läs mer</a>
-        </div>
-        <img src="assets/img/home/pair-1.jpg" alt="Person som sitter med en kamera" width="636" height="595" loading="lazy">
-      </article>
-      <article class="pair pair--reverse">
-        <img src="assets/img/home/pair-2.jpg" alt="Person i en solig äng" width="636" height="595" loading="lazy">
-        <div class="pair__text">
-          <h3>Sök, annonsering &amp; analys</h3>
-          <p>Synlighet i sökmotorer och AI-assistenter avgör ofta om rätt kunder hittar er. Vi tar fram strategier för sök, innehåll och annonsering, och mäter löpande så att budgeten läggs där den gör mest nytta.</p>
-          <a href="tjanster/digital-tillvaxt.html" class="arrow-link">Läs mer</a>
-        </div>
-      </article>
-      <article class="pair">
-        <div class="pair__text">
-          <h3>Drift &amp; vidareutveckling</h3>
-          <p>Med ett förvaltningsavtal får ni ett team som håller koll på säkerhet, uppdateringar och prestanda. Vi svarar snabbt när något händer och hjälper er att prioritera nästa förbättring.</p>
-          <a href="tjanster/drift-och-support.html" class="arrow-link">Läs mer</a>
-        </div>
-        <img src="assets/img/home/pair-3.jpg" alt="Person som håller en kamera" width="636" height="595" loading="lazy">
-      </article>
-      <article class="pair pair--reverse">
-        <img src="assets/img/home/pair-4.jpg" alt="Café med stora fönster" width="636" height="595" loading="lazy">
-        <div class="pair__text">
-          <h3>Design, gränssnitt, varumärke &amp; research</h3>
-          <p>En användarcentrerad design gör tjänsten lätt att förstå och trevlig att återvända till. Vi arbetar med research, koncept, prototyper och visuell identitet i nära dialog med er.</p>
-          <a href="tjanster/design.html" class="arrow-link">Läs mer</a>
-        </div>
-      </article>
+      <div class="svc-grid">
+        <a class="svc-card" href="tjanster/utveckling.html">
+          <img src="assets/img/home/pair-1.jpg" alt="" width="636" height="420" loading="lazy">
+          <div class="svc-card__body">
+            <h3>Utveckling</h3>
+            <p>Snabba, säkra och skräddarsydda sajter och appar.</p>
+            <span class="arrow-link">Läs mer</span>
+          </div>
+        </a>
+        <a class="svc-card svc-card--dark" href="tjanster/design.html">
+          <img src="assets/img/home/pair-4.jpg" alt="" width="636" height="420" loading="lazy">
+          <div class="svc-card__body">
+            <h3>Design &amp; UX</h3>
+            <p>Gränssnitt som känns självklara att använda.</p>
+            <span class="arrow-link">Läs mer</span>
+          </div>
+        </a>
+        <a class="svc-card" href="tjanster/digital-tillvaxt.html">
+          <img src="assets/img/home/pair-2.jpg" alt="" width="636" height="420" loading="lazy">
+          <div class="svc-card__body">
+            <h3>Digital tillväxt</h3>
+            <p>Sök, annonser och analys som ger affär.</p>
+            <span class="arrow-link">Läs mer</span>
+          </div>
+        </a>
+        <a class="svc-card" href="tjanster/strategi.html">
+          <img src="assets/img/home/step-1.jpg" alt="" width="636" height="420" loading="lazy">
+          <div class="svc-card__body">
+            <h3>Strategi</h3>
+            <p>En tydlig färdplan för era digitala kanaler.</p>
+            <span class="arrow-link">Läs mer</span>
+          </div>
+        </a>
+        <a class="svc-card" href="tjanster/drift-och-support.html">
+          <img src="assets/img/home/pair-3.jpg" alt="" width="636" height="420" loading="lazy">
+          <div class="svc-card__body">
+            <h3>Drift &amp; support</h3>
+            <p>Trygg drift, uppdateringar och snabb hjälp.</p>
+            <span class="arrow-link">Läs mer</span>
+          </div>
+        </a>
+        <a class="svc-card" href="tjanster/inkludering.html">
+          <img src="assets/img/home/post-1.jpg" alt="" width="636" height="420" loading="lazy">
+          <div class="svc-card__body">
+            <h3>Inkludering</h3>
+            <p>Digitala tjänster som fungerar för alla.</p>
+            <span class="arrow-link">Läs mer</span>
+          </div>
+        </a>
+      </div>
     </section>
 
     <!-- Contact form -->
@@ -399,8 +410,8 @@
         <div class="site-footer__row">
           <div class="site-footer__small">
             <a href="index.html" class="wordmark wordmark--light" aria-label="Startsida">
-              <span class="wordmark__name">elevate</span>
-              <span class="wordmark__sub">Designstudie</span>
+              <svg class="wordmark__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>
+              <span class="wordmark__text"><span class="wordmark__name">Elevate</span><span class="wordmark__sub">Studio</span></span>
             </a>
           </div>
           <div class="site-footer__big site-footer__slogan">
@@ -459,7 +470,7 @@
     <p class="cookie-dialog__links"><a href="cookies.html">Om cookies</a> <a href="integritet.html">Integritet</a></p>
   </div>
 
-  <script src="assets/js/main.js?v=bf40bd6e5f"></script>
-  <script src="assets/js/home.js?v=bf40bd6e5f"></script>
+  <script src="assets/js/main.js?v=8c0d961d74"></script>
+  <script src="assets/js/home.js?v=8c0d961d74"></script>
 </body>
 </html>

@@ -53,8 +53,8 @@ def header(p, crumbs, current):
   <header class="site-header" id="site-header">
     <figure class="site-header__site-logo">
       <a href="{p}index.html" class="wordmark" aria-label="Startsida">
-        <span class="wordmark__name">elevate</span>
-        <span class="wordmark__sub">Designstudie</span>
+        <svg class="wordmark__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>
+        <span class="wordmark__text"><span class="wordmark__name">Elevate</span><span class="wordmark__sub">Studio</span></span>
       </a>
     </figure>
 
@@ -123,8 +123,8 @@ def footer(p):
         <div class="site-footer__row">
           <div class="site-footer__small">
             <a href="{p}index.html" class="wordmark wordmark--light" aria-label="Startsida">
-              <span class="wordmark__name">elevate</span>
-              <span class="wordmark__sub">Designstudie</span>
+              <svg class="wordmark__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>
+              <span class="wordmark__text"><span class="wordmark__name">Elevate</span><span class="wordmark__sub">Studio</span></span>
             </a>
           </div>
           <div class="site-footer__big site-footer__slogan">
@@ -207,6 +207,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>{esc(title)} | Designstudie</title>
+  <link rel="icon" href="{p}assets/img/brand/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="{p}assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{p}assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
   {links}

@@ -691,6 +691,35 @@ h2, h3 { margin: 0; font-weight: 400; }
   .pair img { height: 320px; min-height: 0; }
 }
 
+/* ---------- Services: photo-top cards ---------- */
+.svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.svc-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--cream, #f5f0e6);
+  color: #000;
+  text-decoration: none;
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s;
+}
+.svc-card:hover { transform: translateY(-6px); box-shadow: 0 28px 50px -30px rgba(18, 39, 27, .55); }
+.svc-card img { display: block; width: 100%; height: 240px; object-fit: cover; transition: transform .6s ease; }
+.svc-card:hover img { transform: scale(1.04); }
+.svc-card__body { display: flex; flex: 1; flex-direction: column; padding: 28px 30px 32px; }
+.svc-card h3 { margin: 0 0 8px; font-size: 28px; font-weight: 500; }
+.svc-card p { margin: 0 0 18px; }
+.svc-card .arrow-link { margin-top: auto; }
+.svc-card--dark { background: var(--accent, #1d3b2a); color: var(--cream, #f5f0e6); }
+.svc-card--dark h3 { color: #fff; }
+.svc-card--dark .arrow-link { color: var(--cream, #f5f0e6); }
+.svc-card--dark .arrow-link::after { filter: brightness(0) invert(1); }
+@media (max-width: 992px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 576px) {
+  .svc-grid { grid-template-columns: 1fr; gap: 16px; }
+  .svc-card img { height: 200px; }
+}
+
 /* ---------- Contact form ---------- */
 .standout { padding: 80px 0; background: var(--cream-dark); }
 .standout__row { display: flex; gap: 80px; }

@@ -35,6 +35,6 @@ Startsidans listor över projekt, artiklar och plattformar fylls i mellan markö
 
 - **Texter**: alla texter är nyskrivna. Kunderna och projekten är påhittade. Recensionen på startsidan är en riktig kundrecension från Google.
 - **Bilder**: hero-fotot kommer från Pexels (foto 3184465, https://www.pexels.com/photo/3184465/) och används enligt Pexels-licensen. Övriga fotografier är ersättningsbilder från Unsplash, hämtade via Picsum och fria att använda enligt Unsplash-licensen. Övrig grafik är egna SVG-filer.
-- **Logotyp och ikoner**: egen ordmärkning och egna plattformsikoner.
+- **Logotyp och ikoner**: Elevate Studios egen logotyp (`assets/img/brand/`, vektoriserad från originalfilen) och egna plattformsikoner.
 - **Typsnitt**: Hanken Grotesk och Fraunces Italic, båda med OFL-licens och lokalt i `assets/fonts/`.
 - **Formulär**: formulären skickar ingenting. De visar bara en bekräftelse.
