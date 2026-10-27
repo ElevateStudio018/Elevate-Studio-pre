@@ -308,8 +308,8 @@ FAQ = [
     ("Hur godkänner vi offerten?", "Ni svarar på mejlet med offerten och skriver att ni godkänner den. Inga krångliga underskrifter."),
 ]
 
-# Where visitors leave a Google review. Replace with the direct review link from your Google Business Profile.
-REVIEW_URL = "https://www.google.com/search?q=Elevate+Studio+Uppsala"
+# Opens the Google review box for Elevate Studio directly (link from the Google Business Profile).
+REVIEW_URL = "https://g.page/r/CaJmmZVCdm82EBM/review"
 
 # Real customer reviews from Google. Add new ones at the top; arrows appear automatically when there is more than one.
 REVIEWS = [

@@ -906,7 +906,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 
 /* ---------- Small animations (all switched off with prefers-reduced-motion) ---------- */
 @media (prefers-reduced-motion: no-preference) {
-  /* 1. Headings slide up when they come into view */
+  /* 1. Cards slide up when they come into view */
   .rv { opacity: 0; transform: translate3d(0, 28px, 0); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--i, 0) * 90ms); }
   .rv.is-visible { opacity: 1; transform: none; }
   /* 2. Devices: the laptop glides in, the phone pops up just after */
@@ -922,4 +922,24 @@ h2, h3 { margin: 0; font-weight: 400; }
   /* 5. Buttons lift slightly on hover */
   .btn { transition: transform .2s ease, background-color .2s, color .2s; }
   .btn:hover { transform: translateY(-2px); }
+}
+
+/* ---------- Vi är Elevate Studio: image mosaic (V4) ---------- */
+.about { display: block; min-height: 0; }
+.about__grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; grid-template-rows: 300px auto; gap: 16px; }
+.about__pic { display: block; width: 100%; height: 100%; min-height: 300px; object-fit: cover; border-radius: 20px; }
+.about__pic--big { grid-row: span 2; }
+.about__grid .about__card { grid-column: span 2; max-width: none; padding: 44px 48px; border-radius: 20px; }
+.about__grid .about__mark { width: 48px; margin-bottom: 22px; }
+.about__grid .about__title { font-size: 50px; margin-bottom: 18px; }
+@media (max-width: 992px) {
+  .about__grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+  .about__pic--big { grid-column: span 2; grid-row: auto; height: 340px; }
+  .about__pic { min-height: 200px; height: 220px; }
+  .about__grid .about__card { grid-column: span 2; }
+}
+@media (max-width: 576px) {
+  .about__grid .about__card { padding: 32px 26px; }
+  .about__grid .about__title { font-size: 36px; }
+  .about__team { flex-direction: column; gap: 12px; }
 }

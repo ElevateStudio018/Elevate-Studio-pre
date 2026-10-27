@@ -541,3 +541,11 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .devs-cap { position: relative; z-index: 1; margin: 40px 0 0 90px; font-size: 14px; color: rgba(253, 251, 245, .7); }
 .devs-cap b { color: #fff; font-weight: 600; }
 @media (max-width: 992px) { .devs-cap { margin-left: 60px; } }
+
+/* Devices, clearer: silver lid and frame with a black bezel inside, like a real laptop/phone */
+.laptop__scr { padding: 7px 7px 9px; border: 9px solid #d7dbdf; border-bottom-width: 12px; background: #0d0d0d; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .25), 0 0 0 1px #9ba1a7, 0 40px 70px -36px rgba(0, 0, 0, .7); }
+.laptop__scr img { border-radius: 3px; }
+.laptop__base { height: 18px; margin: 0 -8%; background: linear-gradient(#f4f5f7, #d0d4d8 55%, #9aa0a6); }
+.phone { padding: 5px; border: 7px solid #d7dbdf; background: #0d0d0d; box-shadow: 0 0 0 1px #9ba1a7, 0 30px 50px -20px rgba(0, 0, 0, .6); }
+.phone img { border-radius: 20px; }
+.phone::before { top: 9px; }
