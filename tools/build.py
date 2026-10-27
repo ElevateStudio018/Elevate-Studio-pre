@@ -144,6 +144,7 @@ def footer(p):
     services = "".join(f'<li><a href="{p}tjanster/{s["slug"]}.html">{esc(s["name"])}</a></li>' for s in SERVICES)
     return f'''<footer>
     <div class="site-footer">
+      <svg class="site-footer__bigmark" viewBox="0 0 1884.3 1353.9" aria-hidden="true" focusable="false"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>
       <div class="container">
         <div class="site-footer__row">
           <div class="site-footer__small">
@@ -191,7 +192,6 @@ def footer(p):
             <li><a href="{p}cookies.html">Cookies</a></li>
             <li><a href="{p}visselblasning.html">Visselblåsning</a></li>
           </ul>
-          <div class="site-footer__seal"><img src="{p}assets/img/home/seal.svg" alt="" width="100" height="100"></div>
         </div>
       </div>
     </div>
