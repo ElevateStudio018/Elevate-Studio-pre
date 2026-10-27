@@ -62,6 +62,7 @@ def header(p, crumbs, current):
           <li class="has-megamenu{services_cls}">
             <a href="{p}tjanster/index.html" class="js-show-megamenu" aria-expanded="false" aria-controls="megamenu">Vad vi gör {CHEVRON}</a>
           </li>
+          {nav_item("priser", "priser.html", "Priser")}
           {nav_item("kontakt", "kontakt.html", "Kontakt")}
           {nav_item("insikter", "insikter/index.html", "Senaste nytt")}
         </ul>
@@ -105,6 +106,7 @@ def header(p, crumbs, current):
           </div>
         </li>
         <li class="drawer__desk-only"><a href="{p}tjanster/index.html">Vad vi gör</a></li>
+        <li><a href="{p}priser.html">Priser</a></li>
         <li><a href="{p}insikter/index.html">Senaste nytt</a></li>
         <li><a href="{p}plattformar/index.html">Plattformar</a></li>
         <li><a href="{p}testa.html">Testa din sajt</a></li>
@@ -121,6 +123,7 @@ def header(p, crumbs, current):
       <p class="drawer__heading">Om oss</p>
       <ul class="drawer__minor">
         <li><a href="{p}om.html">Om studion</a></li>
+        <li><a href="{p}avtal.html">Exempel på webbavtal</a></li>
         <li><a href="{p}karriar.html">Karriär</a></li>
         <li><a href="{p}oppna-roller.html">Öppna roller</a></li>
         <li><a href="{p}arbetsvillkor.html">Arbetsvillkor</a></li>
@@ -173,6 +176,7 @@ def footer(p):
                 <li><a href="{p}kontakt.html"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.5 6 10 6 10s6-5.5 6-10a6 6 0 0 0-6-6zm0 8.5A2.5 2.5 0 1 1 6 3.5a2.5 2.5 0 0 1 0 5z" fill="#fff"/></svg> Uppsala</a></li>
                 <li><a href="{p}om.html">Om studion</a></li>
                 <li><a href="{p}plattformar/index.html">Plattformar</a></li>
+                <li><a href="{p}priser.html">Priser</a></li>
                 <li><a href="{p}avtal.html">Exempel på webbavtal</a></li>
               </ul>
             </div>
@@ -748,6 +752,61 @@ def build_agreement():
     yield write("avtal.html", document(p, "Exempel på webbavtal", main, "subpage", [("Exempel på webbavtal", "")], None))
 
 
+def build_prices():
+    p = ""
+    plans = [
+        ("Starter", "1 750 kr", "startavgift + 99 kr/år", "En snygg, snabb hemsida som visar vad ni gör och gör det enkelt att kontakta er.", [
+            "Webbdesign och mobilanpassning",
+            "Kontaktfunktion och presentation av verksamhet och projekt",
+            "Grundläggande SEO och AI-optimering",
+            "Två korrekturvändor före leverans",
+            "Upp till 10 tim support och redigering per månad första året",
+        ], "Kom igång", False),
+        ("Pro", "4 950 kr", "startavgift + 99 kr/år", "För er som vill att hemsidan ska jobba – ta emot förfrågningar, bokningar och frågor åt er.", [
+            "Allt i Starter",
+            "Offertflöde eller bokning direkt på sidan",
+            "AI-chatt som svarar på vanliga frågor",
+            "Notiser via e-post och SMS",
+            "Förfrågningar med status och historik",
+        ], "Välj Pro", True),
+        ("Elite", "Offert", "pris efter behov", "Något utöver det vanliga? Större sajter, egna system eller integrationer – vi tar fram ett upplägg och ett fast pris.", [
+            "Allt i Pro",
+            "Skräddarsydd design och struktur",
+            "Integrationer med era system",
+            "Egna funktioner efter behov",
+            "Fast pris i en offert innan vi börjar",
+        ], "Berätta om projektet", False),
+    ]
+    cards = "".join(f'''
+          <article class="plan{" plan--featured" if feat else ""}">
+            <h2 class="plan__name">{name}</h2>
+            <p class="plan__price">{price}</p>
+            <p class="plan__unit">{unit}</p>
+            <p class="plan__text">{esc(text)}</p>
+            <ul class="plan__list">{"".join(f"<li>{esc(x)}</li>" for x in items)}</ul>
+            <a class="btn {"btn--light" if feat else "btn--primary"}" href="{p}kontakt.html"><span>{cta_label}</span></a>
+          </article>''' for name, price, unit, text, items, cta_label, feat in plans)
+    main = f'''<main>
+    {page_hero("Priser", "Fast pris, inga överraskningar. Alla priser anges exklusive moms.")}
+    <section class="section container">
+      <div class="plans">{cards}
+      </div>
+      <div class="plans-note">
+        <div>
+          <h2 class="plans-note__title">Så ser avtalet ut</h2>
+          <p>Ni får allt i en tydlig offert på två sidor – vad som ingår, när det levereras och vad det kostar. Ni godkänner genom att svara på mejlet.</p>
+        </div>
+        <div class="plans-note__links">
+          <a class="arrow-link" href="{p}avtal.html">Se exempel på webbavtal</a>
+          <a class="arrow-link" href="{p}{AGREEMENT_PDF}" download>Ladda ner som PDF</a>
+        </div>
+      </div>
+    </section>
+    {cta(p, "Osäkra på vilket som passar?", "Boka ett kort möte så hjälper vi er att välja – utan att ni förbinder er till något.")}
+  </main>'''
+    yield write("priser.html", document(p, "Priser", main, "subpage", [("Priser", "")], "priser"))
+
+
 def rewrap(path, body_class, crumbs=None, extra_js=()):
     """Re-wrap a hand-written page's <main> with the generated shell."""
     src = (ROOT / path).read_text(encoding="utf-8")
@@ -774,7 +833,7 @@ def platforms_section():
 
 def main():
     built = []
-    for gen in (build_services, build_cases, build_articles, build_platforms, build_simple, build_test_page, build_agreement):
+    for gen in (build_services, build_cases, build_articles, build_platforms, build_simple, build_test_page, build_agreement, build_prices):
         built.extend(gen())
     # Keep the homepage lists in sync with the data (regions between build markers).
     index = ROOT / "index.html"

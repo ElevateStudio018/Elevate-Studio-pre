@@ -13,6 +13,7 @@ Sajten har 39 sidor, och alla knappar och länkar leder till riktiga sidor.
 | Startsida, 404 | `index.html`, `404.html` |
 | Tjänster | `tjanster/index.html` och 6 tjänstesidor |
 | Projekt | `projekt/index.html` och 6 projektsidor (påhittade) |
+| Priser | `priser.html` – Starter, Pro och Elite (offert) |
 | Exempelavtal | `avtal.html` – en riktig offert ord för ord, med namn, organisationsnummer, offertnummer och datum borttagna. Nedladdningsbar som `assets/docs/webbavtal-exempel-elevate-studio.pdf`, som skapas från sidan med `node tools/agreement_pdf.js` efter `python3 tools/build.py` |
 | Senaste nytt | `insikter/index.html` och 3 artiklar |
 | Plattformar | `plattformar/index.html` och 6 sidor: HTML & CSS, JavaScript, React, Node.js, Python, Playwright |
