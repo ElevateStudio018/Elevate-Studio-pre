@@ -269,13 +269,22 @@
         d.querySelectorAll('[data-who]').forEach(function (b) {
           b.addEventListener('click', function () { who = b.dataset.who; d.querySelectorAll('[data-who]').forEach(function (x) { x.classList.toggle('is-on', x === b); }); });
         });
-        $('#mail', d).addEventListener('click', function () {
+        $('#mail', d).addEventListener('click', function (e) {
+          // Mail function live: the review mail goes out from info@elevatestudio.nu in the green design
+          if (root.dataset.mail) {
+            var btn = e.currentTarget; btn.disabled = true;
+            var key = (TEAM.find(function (t) { return t[1] === who; }) || [''])[0].toLowerCase();
+            return sb.functions.invoke('mail', { body: { action: 'review', lead_id: l.id, sender: key } }).then(function (r) {
+              if (r.error) { btn.disabled = false; return toast('Kunde inte skicka: ' + r.error.message); }
+              d.remove(); toast('Recensionsmejlet är skickat från info@elevatestudio.nu');
+            });
+          }
           var first = (l.name || '').trim().split(/\s+/)[0] || '';
           var me = who === 'Elevate Studio' ? 'Vi' : 'Jag';
           var body = 'Hej' + (first ? ' ' + first : '') + '!\n\nTack för förtroendet. ' + me + ' hoppas att du är nöjd med hemsidan. Vill du berätta hur samarbetet var? En kort recension på Google hjälper oss mycket – det tar ungefär en minut:\n\n' +
             REVIEW_URL + '\n\nTack!\n' + who + (who === 'Elevate Studio' ? '' : '\nElevate Studio') + '\ninfo@elevatestudio.nu';
           location.href = 'mailto:' + encodeURIComponent(l.email) + '?subject=' + encodeURIComponent('Tack för att du valde Elevate Studio') + '&body=' + encodeURIComponent(body);
-          d.remove();
+          d.remove(); toast('Mejlet öppnas i ditt mejlprogram – skicka det från info@elevatestudio.nu');
         });
         $('#remind', d).addEventListener('click', function () {
           var s = new Date(); s.setDate(s.getDate() + 7); s.setHours(9, 0, 0, 0);
@@ -580,7 +589,7 @@
   var CAMPAIGN = { draft: 'Utkast', scheduled: 'Schemalagt', sending: 'Skickas', sent: 'Skickat', failed: 'Misslyckades', cancelled: 'Avbrutet' };
   function renderCampaigns() {
     main().innerHTML = head('Utskick', 'Nyhetsbrev och kampanjer till kontakterna.') +
-      info('Skicka utskick', 'Själva utskicken gick via Gmail-kopplingen i Lovable och kräver en server eller ett e-posttjänst-konto (t.ex. Brevo eller Mailchimp). Här ser ni historiken.');
+      info('Skicka utskick', 'Nyhetsbrev skrivs och skickas i Brevo, från info@elevatestudio.nu. Den som anmäler sig i sidfoten på hemsidan hamnar direkt på listan där, och Brevo sköter avregistrering. Här ser ni historiken från gamla admin.') + '<p><a class="btn btn--ghost" href="https://app.brevo.com/marketing-campaign" target="_blank" rel="noopener">' + ICON.send + 'Öppna Brevo</a></p>';
     fetchRows(sb.from('email_campaigns').select('internal_name,subject,status,recipient_count,sent_count,sent_at,scheduled_at,created_at').order('created_at', { ascending: false }), function (rows) {
       main().insertAdjacentHTML('beforeend', kpis([['Utskick', rows.length], ['Skickade', rows.filter(function (c) { return c.status === 'sent'; }).length],
         ['Mejl skickade', rows.reduce(function (s, c) { return s + (c.sent_count || 0); }, 0)], ['Utkast', rows.filter(function (c) { return c.status === 'draft'; }).length]]) +
@@ -744,14 +753,15 @@
       ['Databas (Supabase)', 'Leads, kontakter, kalender, ekonomi och AI-minne.', 'on', 'Ansluten'],
       ['Kontaktformulär', 'Förfrågningar från hemsidan hamnar som leads här.', 'on', 'Ansluten'],
       ['Offert-PDF', 'Skapas direkt i webbläsaren, samma som på hemsidan.', 'on', 'Fungerar'],
-      ['Gmail', 'Skicka mejl, mötesinbjudningar och recensionsmejl automatiskt.', 'off', 'Kräver server'],
+      ['Mejl från info@ (Brevo)', 'Bekräftelse till kunden, avisering till info@ och recensionsmejl, i den gröna designen.', root.dataset.mail ? 'on' : 'off', root.dataset.mail ? 'Ansluten' : 'Väntar på Brevo'],
+      ['Nyhetsbrev (Brevo)', 'Anmälningar från hemsidan läggs i listan. Utskick görs i Brevo från info@.', root.dataset.mail ? 'on' : 'off', root.dataset.mail ? 'Ansluten' : 'Väntar på Brevo'],
       ['Google Kalender & Meet', 'Skapa möten med Meet-länk direkt från en lead.', 'off', 'Kräver server'],
       ['SMS (GatewayAPI)', 'SMS-påminnelser till kund och team.', 'off', 'Kräver server'],
       ['Stripe', 'Skapa och skicka fakturor.', 'off', 'Kräver server'],
       ['AI-modell', 'AI-assistent och AI-förslag.', 'off', 'Kräver server']
     ];
     main().innerHTML = head('Integrationer', 'Vad admin är kopplad till.') +
-      info('Varför vissa kräver server', 'Kopplingarna till Gmail, Kalender, SMS, Stripe och AI behöver hemliga nycklar. De kan inte ligga på en vanlig hemsida. I den gamla admin låg de hos Lovable. Vill ni ha tillbaka dem byggs en liten server (t.ex. Supabase Edge Functions) som admin anropar.') +
+      info('Varför vissa kräver server', 'Kopplingarna till Kalender, SMS, Stripe och AI behöver hemliga nycklar. De kan inte ligga på en vanlig hemsida. I den gamla admin låg de hos Lovable. Vill ni ha tillbaka dem byggs en liten server (t.ex. Supabase Edge Functions) som admin anropar.') +
       '<div class="cards">' + items.map(function (i) {
         return '<article class="cardx"><h3>' + i[0] + '</h3><p>' + i[1] + '</p><footer><span class="pill pill--' + i[2] + '">' + i[3] + '</span></footer></article>';
       }).join('') + '</div>';

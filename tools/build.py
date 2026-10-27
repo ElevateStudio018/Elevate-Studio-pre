@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, CASES, FORM_ENDPOINT, LEADS_ENDPOINT, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
+from content import ARTICLES, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, CASES, FORM_ENDPOINT, MAIL_FUNCTION, MAIL_LIVE, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -157,7 +157,7 @@ def footer(p):
           </div>
           <div class="site-footer__small">
             <h3 class="site-footer__subheader">Få vårt nyhetsbrev</h3>
-            <form class="site-footer__newsletter js-form" action="{FORM_ENDPOINT}" method="post" data-subject="Ny prenumerant på nyhetsbrevet">
+            <form class="site-footer__newsletter js-form" action="{FORM_ENDPOINT}" method="post" data-subject="Ny prenumerant på nyhetsbrevet"{mail_attrs()}>
               <label><span class="sr-only">E-postadress</span><input type="email" name="email" placeholder="Din e-postadress" required></label>
               <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="new-password" aria-hidden="true" data-lpignore="true" data-1p-ignore>
               <button type="submit" aria-label="Prenumerera"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="#fff" stroke-width="2"/></svg></button>
@@ -405,8 +405,14 @@ def featured_posts(p, articles):
         </div>'''
 
 
+def mail_attrs():
+    """Where forms save leads and send mail from info@ (see MAIL_LIVE in content.py)."""
+    attrs = f' data-db="{SUPABASE_URL}" data-key="{SUPABASE_PUBLISHABLE_KEY}"'
+    return attrs + (f' data-mail="{MAIL_FUNCTION}"' if MAIL_LIVE else "")
+
+
 def contact_form(p):
-    return f'''<form class="standout__form js-form" id="formular" action="{FORM_ENDPOINT}" method="post" data-subject="Ny förfrågan från hemsidan" data-leads="{LEADS_ENDPOINT}">
+    return f'''<form class="standout__form js-form" id="formular" action="{FORM_ENDPOINT}" method="post" data-subject="Ny förfrågan från hemsidan" data-lead{mail_attrs()}>
           <h3 class="standout__header">Hej! Jag vill gärna bli kontaktad.</h3>
           <div class="standout__fields">
             <label><span class="sr-only">Namn</span><input type="text" name="namn" placeholder="Namn" autocomplete="name" required></label>
@@ -1221,7 +1227,7 @@ def site_files(built):
   <link rel="stylesheet" href="../assets/css/admin.css?v={VERSION}">
 </head>
 <body>
-  <div id="admin" data-url="{SUPABASE_URL}" data-key="{SUPABASE_PUBLISHABLE_KEY}" data-review="{esc(REVIEW_URL)}"><p style="padding:40px;font-family:sans-serif">Laddar admin …</p></div>
+  <div id="admin"{' data-mail="' + MAIL_FUNCTION + '"' if MAIL_LIVE else ''} data-url="{SUPABASE_URL}" data-key="{SUPABASE_PUBLISHABLE_KEY}" data-review="{esc(REVIEW_URL)}"><p style="padding:40px;font-family:sans-serif">Laddar admin …</p></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="../assets/js/admin-offer.js?v={VERSION}"></script>

@@ -61,3 +61,21 @@ Startsidans tjänster, artiklar, plattformar och kontaktformulär fylls i mellan
 - **Bilder**: hero-fotot kommer från Pexels (foto 3184360, https://www.pexels.com/photo/3184360/) och används enligt Pexels-licensen. Bilderna i processavsnittet (`process-1.jpg`–`process-5.jpg`) är Pexels-foton 3182759, 7688336, 3861958, 7709242 och 3184292, också enligt Pexels-licensen. Laptop- och mobilbilden i avsnittet "Sajter som känns rätt på alla skärmar" är skärmdumpar av vår egen testsajt https://elevatestudio018.github.io/lirk/. Tjänstebilderna (`svc-*.jpg`) och artikelbilderna är också Pexels-foton. Bilderna i Vi är Elevate Studio (`about-1.jpg`–`about-3.jpg`) är Pexels-foton 3182827, 196644 och 16019722. Projektbilderna är från Unsplash via Picsum. Övrig grafik är egna SVG-filer.
 - **Logotyp och ikoner**: Elevate Studios egen logotyp (`assets/img/brand/`, vektoriserad från originalfilen) och egna plattformsikoner.
 - **Typsnitt**: Hanken Grotesk och Fraunces Italic, båda med OFL-licens och lokalt i `assets/fonts/`.
+
+## Mejl från info@elevatestudio.nu
+
+Alla mejl till kunder skickas från **info@elevatestudio.nu** via Brevo, med funktionen
+`supabase/functions/mail` (kontaktformulärets bekräftelse, avisering till info@, recensionsmejl
+från admin och anmälan till nyhetsbrevet). Nyhetsbreven skrivs och skickas i Brevo.
+
+1. Skapa ett konto på brevo.com (gratis upp till 300 mejl/dag).
+2. Brevo → Senders, domains → lägg till domänen `elevatestudio.nu` och avsändaren `info@elevatestudio.nu`.
+   Lägg in DNS-posterna Brevo visar i Cloudflare (där domänens DNS ligger). Mejlen på Loopia påverkas inte.
+3. Brevo → Contacts → Lists → skapa listan "Nyhetsbrev" och notera dess ID.
+   Lägg `mejl/valkommen.html` som automatiskt välkomstmejl när någon läggs till i listan.
+4. Brevo → SMTP & API → skapa en API-nyckel.
+5. I ert eget Supabase-projekt: `supabase functions deploy mail` och
+   `supabase secrets set BREVO_API_KEY=... BREVO_LIST_ID=...`.
+6. Sätt `MAIL_LIVE = True` i `tools/content.py` och kör `python3 tools/build.py`.
+
+Innan dess sparas leads direkt i databasen och FormSubmit aviserar info@.

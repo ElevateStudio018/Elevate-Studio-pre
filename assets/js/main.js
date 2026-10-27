@@ -77,7 +77,21 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Forms: sent to info@elevatestudio.nu through FormSubmit, with the result shown inline
+  // Forms. With the mail function live (data-mail), leads and newsletter sign-ups go there and
+  // every mail is sent from info@elevatestudio.nu. Otherwise FormSubmit notifies info@ and the
+  // lead is saved straight in the database for the admin.
+  var send = function (url, body, key) {
+    var h = { 'Content-Type': 'application/json', Accept: 'application/json' };
+    if (key) { h.apikey = key; h.Authorization = 'Bearer ' + key; }
+    return fetch(url, { method: 'POST', headers: h, body: JSON.stringify(body) }).then(function (res) {
+      return res.text().then(function (t) {
+        var b = {}; try { b = JSON.parse(t); } catch (e) { /* empty body */ }
+        if (!res.ok || String(b.success) === 'false') throw new Error(b.message || b.error || 'fel');
+        return b;
+      });
+    });
+  };
+  var cut = function (v, n) { v = (v || '').trim(); return v ? v.slice(0, n) : null; };
   document.querySelectorAll('.js-form').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -87,9 +101,6 @@
       new FormData(form).forEach(function (value, key) { data[key] = value; });
       var isBot = !!data._honey;
       delete data._honey;
-      data._subject = form.dataset.subject || 'Meddelande från hemsidan';
-      data._template = 'table';
-      data.sida = location.href;
       var show = function (text, ok) {
         if (!status) return;
         status.hidden = false;
@@ -98,26 +109,27 @@
       };
       button.disabled = true;
       show('Skickar …', true);
-      var done = form.classList.contains('site-footer__newsletter') ? 'Tack! Du står nu på listan.' : 'Tack! Vi återkommer så fort vi kan.';
+      var news = form.classList.contains('site-footer__newsletter');
+      var done = news ? 'Tack! Du står nu på listan.' : 'Tack! Vi återkommer så fort vi kan.';
       if (isBot) { form.reset(); show(done, true); button.disabled = false; return; }
-      // Contact requests also become a lead in the admin panel (best effort, never blocks the form)
-      if (form.dataset.leads && data.email) {
-        fetch(form.dataset.leads, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
-          name: data.namn || data.email, email: data.email, phone: data.telefon || '', company: data.foretag || '',
-          service_type: data.tjanst || '', message: data.meddelande || '', meeting_type: 'quote'
-        }) }).catch(function () {});
-      }
+      var isLead = 'lead' in form.dataset && data.email;
+      var lead = isLead && { name: cut(data.namn, 100) || cut(data.email, 100), email: cut(data.email, 255), phone: cut(data.telefon, 40), company: cut(data.foretag, 150), service_type: cut(data.tjanst, 100), message: cut(data.meddelande, 2000) };
+      var viaFormSubmit = function () {
+        // The lead still lands in the admin (best effort, never blocks the form)
+        if (lead && form.dataset.db) {
+          send(form.dataset.db + '/rest/v1/quote_requests', Object.assign({ meeting_type: 'quote' }, lead), form.dataset.key).catch(function () {});
+        }
+        data._subject = form.dataset.subject || 'Meddelande från hemsidan';
+        data._template = 'table';
+        data.sida = location.href;
+        return send(form.action, data);
+      };
+      var go = form.dataset.mail && (news || lead)
+        ? send(form.dataset.mail, news ? { action: 'subscribe', email: data.email } : Object.assign({ action: 'lead' }, lead), form.dataset.key).catch(viaFormSubmit)
+        : viaFormSubmit();
       var timer = setTimeout(function () { show('Det tar längre tid än vanligt … mejla oss gärna på info@elevatestudio.nu om inget händer.', false); }, 12000);
-      fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
-        .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
-        .then(function (r) {
-          if (!r.ok || String(r.body.success) === 'false') throw new Error(r.body.message || 'fel');
-          form.reset();
-          show(done, true);
-        })
-        .catch(function () {
-          show('Något gick fel. Mejla oss gärna direkt på info@elevatestudio.nu.', false);
-        })
+      go.then(function () { form.reset(); show(done, true); })
+        .catch(function () { show('Något gick fel. Mejla oss gärna direkt på info@elevatestudio.nu.', false); })
         .then(function () { clearTimeout(timer); button.disabled = false; });
     });
   });

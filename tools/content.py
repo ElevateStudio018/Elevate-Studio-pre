@@ -12,13 +12,17 @@ SITE_URL = "https://elevatestudio.nu"
 # The first message triggers a one-time activation mail to info@elevatestudio.nu that must be confirmed.
 FORM_ENDPOINT = "https://formsubmit.co/ajax/info@elevatestudio.nu"
 
-# Contact-form leads are also saved in the admin panel (Leads), with status and comments.
-LEADS_ENDPOINT = "https://project--774478fd-e67a-4123-8e99-30428a5279d4.lovable.app/api/public/hooks/submit-quote"
-
 # Admin at /admin runs in the browser and talks straight to the database (Supabase). The key below is
 # the public "publishable" key – safe to ship; the database only lets accounts with the admin role read leads.
 SUPABASE_URL = "https://halecxdjclrklyufbept.supabase.co"
 SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhbGVjeGRqY2xya2x5dWZiZXB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwODYwOTcsImV4cCI6MjA5ODY2MjA5N30.Svt4abfAirAVLNDQkmSaQWep_0Ggz-h4WfOGdb0A4RQ"
+
+# All mail to customers goes out from info@elevatestudio.nu through the "mail" function
+# (supabase/functions/mail, sends with Brevo). Set MAIL_LIVE = True once it is deployed.
+# Until then: leads are saved straight in the database, the team is notified at info@ via
+# FormSubmit, and the admin opens review mails in your own mail program.
+MAIL_FUNCTION = f"{SUPABASE_URL}/functions/v1/mail"
+MAIL_LIVE = False
 
 SERVICES = [
     {
@@ -365,7 +369,7 @@ SIMPLE_PAGES = {
         "title": "Integritetspolicy", "lead": "Så hanterar vi personuppgifter när du kontaktar oss eller besöker vår webbplats.",
         "description": "Så hanterar Elevate Studio personuppgifter från kontaktformulär och nyhetsbrev.",
         "sections": [
-            ("cols", [("När du kontaktar oss", "Personuppgiftsansvarig är PJM Projekteffektivitet AB (org.nr 556969-4358), som Elevate Studio är ett varumärke för. Det du skriver i våra formulär – namn, e-post, telefon, företag och meddelande – skickas till info@elevatestudio.nu via tjänsten FormSubmit. Vi använder uppgifterna bara för att svara dig och sparar dem inte längre än vi behöver."),
+            ("cols", [("När du kontaktar oss", "Personuppgiftsansvarig är PJM Projekteffektivitet AB (org.nr 556969-4358), som Elevate Studio är ett varumärke för. Det du skriver i våra formulär – namn, e-post, telefon, företag och meddelande – skickas till info@elevatestudio.nu och sparas i vårt kundregister. Mejl från oss, som bekräftelser och nyhetsbrev, skickas från info@elevatestudio.nu via e-posttjänsten Brevo. Anmäler du dig till nyhetsbrevet sparas din e-post i Brevo tills du avslutar prenumerationen, vilket du kan göra med en länk i varje utskick. Vi använder uppgifterna bara för att svara dig och sparar dem inte längre än vi behöver."),
                       ("Ingen spårning", "Webbplatsen sätter inga cookies och använder inga analys- eller annonsverktyg. Vi följer inte vad du gör här."),
                       ("Dina rättigheter", "Du har rätt att få veta vilka uppgifter vi har om dig, få dem rättade eller raderade. Mejla info@elevatestudio.nu så hjälper vi dig. Du kan också vända dig till Integritetsskyddsmyndigheten (IMY).")]),
             ("links", [("Om cookies", "cookies.html"), ("Kontakta oss", "kontakt.html")]),
