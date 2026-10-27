@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ADMIN_URL, ARTICLES, CASES, FORM_ENDPOINT, LEADS_ENDPOINT, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, CEO, PARENT_COMPANY, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
+from content import ADMIN_URL, ARTICLES, CASES, FORM_ENDPOINT, LEADS_ENDPOINT, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -197,7 +197,7 @@ def footer(p):
             <li><a href="{p}integritet.html">Integritetspolicy</a></li>
             <li><a href="{p}cookies.html">Cookies</a></li>
             <li><a href="{p}english.html">In English</a></li>
-            <li class="site-footer__legal">Elevate Studio är en del av {PARENT_COMPANY} · VD {CEO[0]}</li>
+            <li class="site-footer__legal">Elevate Studio är en del av {PARENT_COMPANY}</li>
           </ul>
         </div>
       </div>
@@ -235,7 +235,7 @@ def organisation_ld():
         "areaServed": {"@type": "Country", "name": "Sverige"},
         "priceRange": "3 000–6 000 kr",
         "knowsLanguage": ["sv", "en"],
-        "employee": [{"@type": "Person", "name": CEO[0], "jobTitle": CEO[1]}] + [{"@type": "Person", "name": n, "jobTitle": r, "telephone": t, "email": e} for n, r, t, e in TEAM],
+        "employee": [{"@type": "Person", "name": n, "jobTitle": r, "telephone": t, "email": e} for n, r, t, e in TEAM],
         "parentOrganization": {"@type": "Organization", "name": PARENT_COMPANY},
         "makesOffer": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": x["name"], "url": f"{SITE_URL}/tjanster/{x['slug']}.html"}} for x in SERVICES],
     }
@@ -548,24 +548,25 @@ def build_cases():
       <div class="pj-hero__mark">{MARK_SVG}</div>
       <div class="container pj-hero__row">
         <div>
-          <span class="ex-tag ex-tag--demo">Demo / testsajt</span>
+          <span class="ex-tag ex-tag--demo">Så kan det se ut</span>
           <h1 class="pj-hero__title">Hemsidor som känns rätt <em>på alla skärmar</em></h1>
-          <p class="pj-hero__lead">Vi bygger mobilen först. Här är vår testsajt Lindvik Bygg – och längre ner exempel på hur vi arbetar.</p>
-          <a class="btn btn--light" href="{LIRK_URL}" target="_blank" rel="noopener"><span>Se testsajten</span></a>
+          <p class="pj-hero__lead">Vi bygger mobilen först. Lindvik Bygg är en hemsida vi har byggt för att visa hur det kan se ut – på dator och mobil. Längre ner finns exempel på hur vi arbetar.</p>
+          <a class="btn btn--light" href="{LIRK_URL}" target="_blank" rel="noopener"><span>Klicka runt på Lindvik Bygg</span></a>
         </div>
         <div class="pj-hero__devs">
-          {laptop(p + "assets/img/home/device-desktop.jpg", "Testsajten Lindvik Bygg på en laptop")}
-          <div class="phone"><img src="{p}assets/img/home/device-phone.jpg" alt="Testsajten Lindvik Bygg på en mobil" loading="lazy"></div>
+          {laptop(p + "assets/img/home/device-desktop.jpg", "Lindvik Bygg på en dator")}
+          <div class="phone"><img src="{p}assets/img/home/device-phone.jpg" alt="Lindvik Bygg på en mobil" loading="lazy"></div>
         </div>
+          <p class="devs-cap"><b>Dator och mobil</b> – samma sajt, anpassad för varje skärm</p>
       </div>
     </section>
     <section class="section container">
       <div class="pj-compare">
         <div>
           <h2 class="block__header">Från <span>före</span> till <span>efter</span></h2>
-          <p>Dra i reglaget och se skillnaden mellan en typisk gammal hemsida och vår testsajt. Mobil först, tydliga tjänster och kontakt på varje sida.</p>
+          <p>Dra i reglaget och se skillnaden mellan en typisk gammal hemsida och Lindvik Bygg. Mobil först, tydliga tjänster och kontakt på varje sida.</p>
         </div>
-        {compare(p, p + "assets/img/home/device-desktop.jpg", "Testsajten Lindvik Bygg")}
+        {compare(p, p + "assets/img/home/device-desktop.jpg", "Lindvik Bygg")}
       </div>
     </section>
     <section class="section section--cream">
@@ -579,7 +580,7 @@ def build_cases():
     {cta(p)}
   </main>'''
     yield write("projekt/index.html", document(p, "Projekt och exempel på hemsidor", main, "subpage", [("Projekt", "")], "projekt",
-                description="Se exempel på hemsidor från Elevate Studio – vår testsajt i laptop och mobil, före och efter, och exempel på hur vi arbetar."))
+                description="Se exempel på hemsidor från Elevate Studio – Lindvik Bygg på dator och mobil, före och efter, och exempel på hur vi arbetar."))
 
     for i, c in enumerate(CASES):
         nxt = CASES[(i + 1) % len(CASES)]
@@ -795,9 +796,9 @@ def build_simple():
             elif kind == "ceo":
                 parts.append(f'''<section class="section container about-ceo">
       <div class="about-ceo__card">
-        <p class="about-ceo__k">Ledning</p>
-        <h2 class="about-ceo__name">{esc(CEO[0])}</h2>
-        <p class="about-ceo__role">{esc(CEO[1])}, Elevate Studio</p>
+        <p class="about-ceo__k">Koncern</p>
+        <h2 class="about-ceo__name">{esc(PARENT_COMPANY)}</h2>
+        <p class="about-ceo__role">Elevate Studio är en del av koncernen</p>
       </div>
       <p class="about-ceo__text">Elevate Studio är en del av {esc(PARENT_COMPANY)}. Det betyder ett litet, snabbt team mot er som kund – med ett etablerat bolag i ryggen.</p>
     </section>''')
@@ -1091,18 +1092,19 @@ def projects_section():
       <div class="container">
         <div class="hp-proj__hero">
           <div>
-            <span class="ex-tag ex-tag--demo">Demo / testsajt</span>
+            <span class="ex-tag ex-tag--demo">Så kan det se ut</span>
             <h2 class="hp-proj__title">Hemsidor som känns rätt <em>på alla skärmar</em></h2>
-            <p class="hp-proj__lead">Vi bygger mobilen först och finputsar varje skärmstorlek. Här är vår testsajt Lindvik Bygg – och några exempel på hur vi arbetar.</p>
+            <p class="hp-proj__lead">Vi bygger mobilen först och finputsar varje skärmstorlek. Lindvik Bygg är en hemsida vi har byggt för att visa hur det kan se ut – på dator och mobil.</p>
             <div class="hp-proj__btns">
               <a class="btn btn--light" href="projekt/index.html"><span>Se alla projekt</span></a>
-              <a class="arrow-link hp-proj__link" href="{LIRK_URL}" target="_blank" rel="noopener">Öppna testsajten</a>
+              <a class="arrow-link hp-proj__link" href="{LIRK_URL}" target="_blank" rel="noopener">Klicka runt på Lindvik Bygg</a>
             </div>
           </div>
           <div class="hp-proj__devs">
-            {laptop("assets/img/home/device-desktop.jpg", "Testsajten Lindvik Bygg på en laptop")}
-            <div class="phone"><img src="assets/img/home/device-phone.jpg" alt="Testsajten Lindvik Bygg på en mobil" loading="lazy"></div>
+            {laptop("assets/img/home/device-desktop.jpg", "Lindvik Bygg på en dator")}
+            <div class="phone"><img src="assets/img/home/device-phone.jpg" alt="Lindvik Bygg på en mobil" loading="lazy"></div>
           </div>
+          <p class="devs-cap"><b>Dator och mobil</b> – samma sajt, anpassad för varje skärm</p>
         </div>
         <div class="hp-proj__divider">
           <h3 class="hp-proj__sub">Exempel på projekt</h3>

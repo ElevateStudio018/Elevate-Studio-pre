@@ -151,4 +151,20 @@
     track.addEventListener('scroll', sync, { passive: true });
     sync();
   });
+
+  // Reviews animate: the card rises in on scroll, and each review slides in when you step to it
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+    document.querySelectorAll('[data-reviews]').forEach(function (box) {
+      var track = box.querySelector('.reviews__track');
+      if (!track) return;
+      box.classList.add('reviews--anim');
+      new IntersectionObserver(function (entries, obs) {
+        if (entries[0].isIntersecting) { box.classList.add('is-shown'); obs.disconnect(); }
+      }, { rootMargin: '0px 0px -80px 0px' }).observe(box);
+      var cardObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { e.target.classList.toggle('is-in', e.intersectionRatio > 0.55); });
+      }, { root: track, threshold: [0, 0.55, 1] });
+      track.querySelectorAll('.review__card').forEach(function (c) { cardObs.observe(c); });
+    });
+  }
 })();

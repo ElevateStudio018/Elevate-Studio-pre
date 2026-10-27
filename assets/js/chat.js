@@ -54,6 +54,12 @@
   document.body.appendChild(root);
 
   var toggle = root.querySelector('.chat__toggle'), panel = root.querySelector('.chat__panel');
+  // The button waves once after a few seconds so visitors notice it (skipped if already opened)
+  setTimeout(function () {
+    if (root.classList.contains('chat--open')) return;
+    toggle.classList.add('is-hello');
+    toggle.addEventListener('animationend', function () { toggle.classList.remove('is-hello'); });
+  }, 4500);
   var log = root.querySelector('.chat__log'), chips = root.querySelector('.chat__chips');
   var form = root.querySelector('.chat__form'), input = root.querySelector('#chat-input');
   var waitingForEmail = null, greeted = false;
@@ -79,7 +85,7 @@
       dots.innerHTML = '<i></i><i></i><i></i>';
       r.appendChild(dots);
       log.scrollTop = log.scrollHeight;
-      var wait = reduced ? 0 : Math.min(1800, 550 + text.length * 6);
+      var wait = reduced ? 0 : Math.min(1100, 420 + text.length * 3);
       return new Promise(function (ok) { setTimeout(ok, wait); }).then(function () { r.remove(); show(text, 'bot', link); });
     });
     return queue;

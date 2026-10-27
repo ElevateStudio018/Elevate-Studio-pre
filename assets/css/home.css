@@ -897,3 +897,29 @@ h2, h3 { margin: 0; font-weight: 400; }
   .hp-proj__devs .phone { width: 100px; border-width: 5px; border-radius: 18px; }
   .hp-proj__grid { grid-template-columns: 1fr; gap: 40px; }
 }
+
+/* ---------- FAQ heading in the same style as the other section headings ---------- */
+.faq__title { font-size: 50px; font-weight: 400; line-height: 1.1; letter-spacing: 0; text-transform: none; }
+.faq__title span { display: inline-block; line-height: 1; font-family: var(--serif); font-style: italic; font-variation-settings: "opsz" 36, "SOFT" 0, "WONK" 0; }
+.faq__item summary { font-weight: 500; font-size: 19px; color: #16241b; }
+@media (max-width: 768px) { .faq__title { font-size: 35px; } }
+
+/* ---------- Small animations (all switched off with prefers-reduced-motion) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* 1. Headings slide up when they come into view */
+  .rv { opacity: 0; transform: translate3d(0, 28px, 0); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--i, 0) * 90ms); }
+  .rv.is-visible { opacity: 1; transform: none; }
+  /* 2. Devices: the laptop glides in, the phone pops up just after */
+  .rv-devs .laptop { opacity: 0; transform: translate3d(40px, 0, 0); transition: opacity .9s ease, transform .9s cubic-bezier(.2, .7, .2, 1); }
+  .rv-devs .phone { opacity: 0; transform: translate3d(0, 40px, 0) rotate(-3deg); transition: opacity .8s ease .35s, transform .8s cubic-bezier(.2, .7, .2, 1) .35s; }
+  .rv-devs.is-visible .laptop, .rv-devs.is-visible .phone { opacity: 1; transform: none; }
+  /* 3. FAQ answers fade down when opened */
+  .faq__item[open] p, .page-faq details[open] p { animation: faq-open .35s ease both; }
+  @keyframes faq-open { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  /* 4. Reviews: the card rises in, and each review slides in when you step to it */
+  .reviews--anim .review__card { transition: opacity .6s ease, transform .6s cubic-bezier(.2, .7, .2, 1); }
+  .reviews--anim:not(.is-shown) .review__card, .reviews--anim .review__card:not(.is-in) { opacity: 0; transform: translate3d(0, 26px, 0) scale(.98); }
+  /* 5. Buttons lift slightly on hover */
+  .btn { transition: transform .2s ease, background-color .2s, color .2s; }
+  .btn:hover { transform: translateY(-2px); }
+}

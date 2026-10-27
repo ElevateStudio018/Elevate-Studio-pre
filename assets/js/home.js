@@ -49,4 +49,28 @@
     el.classList.add('reveal');
     revealObserver.observe(el);
   });
+
+  // Headings and card rows slide up as they come into view (cards in a row one after another)
+  var rvObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      rvObserver.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.block__header, .faq__title, .about__title, .hp-proj__title, .bento__title').forEach(function (el) {
+    el.classList.add('rv');
+    rvObserver.observe(el);
+  });
+  ['.bento__tile', '.svc-card', '.hp-proj__card', '.faq__item'].forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (el, i) {
+      el.classList.add('rv');
+      el.style.setProperty('--i', String(i % 6));
+      rvObserver.observe(el);
+    });
+  });
+  document.querySelectorAll('.hp-proj__devs').forEach(function (el) {
+    el.classList.add('rv-devs');
+    rvObserver.observe(el);
+  });
 })();

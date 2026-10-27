@@ -292,7 +292,6 @@ PLATFORMS = [
     },
 ]
 
-CEO = ("Per Mattsson", "VD")
 PARENT_COMPANY = "PJM Projekteffektivitet AB"
 
 # Frequently asked questions: shown on the start page, in structured data and in llms.txt.
@@ -410,7 +409,7 @@ LANDINGS = [
         ],
         "faq": [("Vad kostar en hemsida för hantverkare?", "Starter kostar 3 000 kr och Pro, med offertflöde eller bokning, 6 000 kr i startavgift plus en låg årsavgift."),
                 ("Kan kunderna skicka bilder i offertformuläret?", "Ja, kunden kan bifoga bilder eller beskrivningar direkt i förfrågan."),
-                ("Har ni ett exempel?", "Ja, vår testsajt Lindvik Bygg visar hur en hemsida för ett byggföretag kan se ut.")],
+                ("Har ni ett exempel?", "Ja, Lindvik Bygg är en hemsida vi har byggt som visar hur en hemsida för ett byggföretag kan se ut.")],
     },
     {
         "slug": "billig-hemsida", "title": "Billig hemsida för företag – fast pris från 3 000 kr",
