@@ -1,28 +1,29 @@
 (function () {
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Process: the tube fills as you scroll, each step lights up when reached and the photo follows the latest one
-  var flow = document.querySelector('[data-flow]');
-  if (flow) {
-    var list = flow.querySelector('.flow__list');
-    var steps = Array.prototype.slice.call(flow.querySelectorAll('.flow__step'));
-    var photos = flow.querySelectorAll('.flow__media img');
-    var update = function () {
-      var rect = list.getBoundingClientRect();
-      var trigger = window.innerHeight * 0.6;
-      var progress = reduced ? 1 : Math.min(1, Math.max(0, (trigger - rect.top) / rect.height));
-      flow.style.setProperty('--progress', progress);
-      var current = 0;
-      steps.forEach(function (step, i) {
-        var on = reduced || step.getBoundingClientRect().top + 40 <= trigger;
-        step.classList.toggle('is-on', on);
-        if (on) current = i;
+  // Process: the step indicator fills as you scroll and the matching polaroid lifts
+  var stepsBox = document.querySelector('[data-steps]');
+  if (stepsBox) {
+    var dots = stepsBox.querySelectorAll('.steps__bar li');
+    var cards = stepsBox.querySelectorAll('.polaroid');
+    var updateSteps = function () {
+      var rect = stepsBox.getBoundingClientRect();
+      var start = window.innerHeight * 0.85, span = rect.height + window.innerHeight * 0.3;
+      var p = reduced ? 1 : Math.min(1, Math.max(0, (start - rect.top) / span));
+      var cur = Math.min(dots.length - 1, Math.floor(p * dots.length));
+      stepsBox.style.setProperty('--progress', cur / (dots.length - 1));
+      Array.prototype.forEach.call(dots, function (d, i) {
+        d.classList.toggle('is-done', i < cur);
+        d.classList.toggle('is-cur', i === cur);
       });
-      Array.prototype.forEach.call(photos, function (img, i) { img.classList.toggle('is-current', i === current); });
+      Array.prototype.forEach.call(cards, function (c, i) {
+        c.classList.toggle('is-on', reduced || i <= cur);
+        c.classList.toggle('is-cur', !reduced && i === cur);
+      });
     };
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
+    window.addEventListener('scroll', updateSteps, { passive: true });
+    window.addEventListener('resize', updateSteps);
+    updateSteps();
   }
 
   // FAQ: opening one question closes the others (fallback for browsers without exclusive <details name>)

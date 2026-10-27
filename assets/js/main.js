@@ -112,6 +112,19 @@
     });
   });
 
+  // Before/after: drag the handle (or use the range input with keyboard) to compare
+  document.querySelectorAll('[data-compare]').forEach(function (box) {
+    var range = box.querySelector('.compare__range');
+    var set = function (v) { v = Math.max(0, Math.min(100, v)); box.style.setProperty('--pos', v + '%'); range.value = v; };
+    var fromPointer = function (e) { var r = box.getBoundingClientRect(); set((e.clientX - r.left) / r.width * 100); };
+    var dragging = false;
+    box.addEventListener('pointerdown', function (e) { dragging = true; e.preventDefault(); fromPointer(e); });
+    window.addEventListener('pointermove', function (e) { if (dragging) fromPointer(e); });
+    ['pointerup', 'pointercancel'].forEach(function (t) { window.addEventListener(t, function () { dragging = false; }); });
+    range.addEventListener('input', function () { set(Number(range.value)); });
+    set(Number(range.value));
+  });
+
   // Reviews: arrows step one review at a time (only rendered when there is more than one)
   document.querySelectorAll('[data-reviews]').forEach(function (box) {
     var track = box.querySelector('.reviews__track');

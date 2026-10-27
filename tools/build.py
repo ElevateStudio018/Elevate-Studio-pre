@@ -510,18 +510,73 @@ def build_services():
                     [("Vad vi gör", "tjanster/index.html"), (s["name"], "")], "tjanster", jsonld=[service], description=s["description"]))
 
 
+LIRK_URL = "https://elevatestudio018.github.io/lirk/"
+
+
+def laptop(src, alt=""):
+    return f'<div class="laptop"><div class="laptop__scr"><img src="{src}" alt="{esc(alt)}" loading="lazy"></div><div class="laptop__base"></div></div>'
+
+
+def compare(p, after, after_alt, label_after="Efter"):
+    """Draggable before/after: a plain wireframe of a typical old site against the new one."""
+    return f'''<div class="compare" data-compare style="--pos:50%">
+        <div class="compare__before" aria-hidden="true"><div class="compare__old"><i class="o1"></i><i class="o2"></i><i class="o3"></i><i class="o3 o3--s"></i><i class="o4"></i></div><span class="compare__lb">Före</span></div>
+        <div class="compare__after"><img src="{after}" alt="{esc(after_alt)}" loading="lazy"><span class="compare__lb compare__lb--after">{label_after}</span></div>
+        <div class="compare__handle" aria-hidden="true"><span>&#8596;</span></div>
+        <input class="compare__range" type="range" min="0" max="100" value="50" aria-label="Dra för att jämföra före och efter">
+      </div>'''
+
+
 def build_cases():
     p = "../"
-    pattern = [True, False, False, True]
-    cards = "".join(case_card(p, c, pattern[i % 4]) for i, c in enumerate(CASES))
+    cards = "".join(f'''
+        <a class="pcard" href="{c["slug"]}.html">
+          {laptop(p + "assets/img/" + c["image"])}
+          <div class="pcard__body">
+            <span class="ex-tag">Exempel</span>
+            <h3>{esc(c["name"])}</h3>
+            <p>{esc(c["lead"])}</p>
+            <ul class="pcard__tags">{"".join(f"<li>{esc(t)}</li>" for t in c["tags"])}</ul>
+            <span class="btn btn--primary pcard__btn"><span>Läs mer</span></span>
+          </div>
+        </a>''' for c in CASES)
     main = f'''<main>
-    {page_hero("Våra <em>projekt</em>", "Exempel på hur vi arbetar. Kunderna och projekten på den här sidan är påhittade exempel.")}
+    <section class="pj-hero">
+      <div class="pj-hero__mark">{MARK_SVG}</div>
+      <div class="container pj-hero__row">
+        <div>
+          <span class="ex-tag ex-tag--demo">Demo / testsajt</span>
+          <h1 class="pj-hero__title">Hemsidor som känns rätt <em>på alla skärmar</em></h1>
+          <p class="pj-hero__lead">Vi bygger mobilen först. Här är vår testsajt Lindvik Bygg – och längre ner exempel på hur vi arbetar.</p>
+          <a class="btn btn--light" href="{LIRK_URL}" target="_blank" rel="noopener"><span>Se testsajten</span></a>
+        </div>
+        <div class="pj-hero__devs">
+          {laptop(p + "assets/img/home/device-desktop.jpg", "Testsajten Lindvik Bygg på en laptop")}
+          <div class="phone"><img src="{p}assets/img/home/device-phone.jpg" alt="Testsajten Lindvik Bygg på en mobil" loading="lazy"></div>
+        </div>
+      </div>
+    </section>
     <section class="section container">
-      <ul class="cases__grid">{cards}</ul>
+      <div class="pj-compare">
+        <div>
+          <h2 class="block__header">Från <span>före</span> till <span>efter</span></h2>
+          <p>Dra i reglaget och se skillnaden mellan en typisk gammal hemsida och vår testsajt. Mobil först, tydliga tjänster och kontakt på varje sida.</p>
+        </div>
+        {compare(p, p + "assets/img/home/device-desktop.jpg", "Testsajten Lindvik Bygg")}
+      </div>
+    </section>
+    <section class="section section--cream">
+      <div class="container">
+        <h2 class="block__header">Exempel på <span>projekt</span></h2>
+        <div class="pgrid">{cards}
+        </div>
+        <p class="fiction-note">Kunderna i exemplen är påhittade och visar hur vi arbetar.</p>
+      </div>
     </section>
     {cta(p)}
   </main>'''
-    yield write("projekt/index.html", document(p, "Projekt", main, "subpage", [("Projekt", "")], "projekt"))
+    yield write("projekt/index.html", document(p, "Projekt och exempel på hemsidor", main, "subpage", [("Projekt", "")], "projekt",
+                description="Se exempel på hemsidor från Elevate Studio – vår testsajt i laptop och mobil, före och efter, och exempel på hur vi arbetar."))
 
     for i, c in enumerate(CASES):
         nxt = CASES[(i + 1) % len(CASES)]
@@ -530,7 +585,7 @@ def build_cases():
     {page_hero(esc(c["name"]), c["lead"], "Projekt")}
     <section class="section container">
       <ul class="tag-row">{tags}</ul>
-      <img class="rounded case-hero-image" src="../assets/img/{c["image"]}" alt="" width="1304" height="{round(1304 * c["h"] / c["w"])}">
+      {compare(p, "../assets/img/" + c["image"], c["name"])}
       <p class="fiction-note">Påhittat exempelprojekt som visar hur vi arbetar.</p>
     </section>
     <section class="section container">
