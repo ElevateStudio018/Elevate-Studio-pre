@@ -203,6 +203,25 @@ main { min-width: 0; padding: 32px 40px 80px; }
 .cal__ev > span:nth-child(2) { flex: 1; }
 .cal__ev .link { margin: 0; text-align: left; }
 
+/* Month calendar */
+.calm { padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }
+.calm__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 14px; }
+.calm__bar h2 { min-width: 190px; margin: 0 6px; font-size: 22px; text-align: center; }
+.calm__bar .iconbtn { font-size: 22px; line-height: 1; color: var(--g); }
+.calm__legend { display: flex; flex-wrap: wrap; gap: 12px; margin-left: auto; font-size: 12px; color: var(--muted); }
+.calm__legend span { display: inline-flex; align-items: center; gap: 5px; }
+.calm__grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.calm__dow { padding: 8px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--bg); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.calm__day { min-height: 112px; padding: 6px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); cursor: pointer; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.calm__day:hover { background: var(--bg); }
+.calm__day > b { font-size: 13px; font-weight: 600; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; }
+.calm__day.is-out { background: #fbfcfa; }
+.calm__day.is-out > b { color: #b4bdb7; }
+.calm__day.is-today > b { background: var(--g); color: #fff; }
+.calm__ev { display: block; width: 100%; padding: 3px 6px; border: 0; border-left: 3px solid var(--c); border-radius: 6px; background: color-mix(in srgb, var(--c) 12%, #fff); font-size: 12px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+.calm__ev time { font-weight: 700; }
+.calm__more { font-size: 11px; color: var(--muted); padding-left: 4px; }
+
 /* Calendar list */
 .cal { display: grid; gap: 10px; }
 .cal__day { padding: 14px 18px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
@@ -227,4 +246,9 @@ main { min-width: 0; padding: 32px 40px 80px; }
   .dlg { padding: 0; }
   .dlg__box--wide { max-height: 100vh; height: 100vh; border-radius: 0; }
   .dl { grid-template-columns: 110px 1fr; }
+  .calm { padding: 10px; }
+  .calm__legend { margin-left: 0; }
+  .calm__day { min-height: 64px; padding: 3px; }
+  .calm__ev { font-size: 0; height: 6px; padding: 0; border: 0; background: var(--c); }
+  .calm__ev time { display: none; }
 }

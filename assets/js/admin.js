@@ -491,44 +491,78 @@
     });
   }
 
-  /* ---------- Kalender ---------- */
-  function renderCalendar() {
-    main().innerHTML = head('Kalender', 'Möten och påminnelser de kommande 30 dagarna.', '<button class="btn" id="add">+ Ny aktivitet</button>') + '<div class="cal" id="cal"></div>';
-    $('#add').addEventListener('click', function () {
-      var t = new Date(); t.setDate(t.getDate() + 1); t.setHours(9, 0, 0, 0);
-      formDialog('Ny aktivitet', 'Syns i din kalender här i admin.', [
-        { name: 'title', label: 'Titel', required: true }, { name: 'category', label: 'Typ', options: CATEGORY, value: 'meeting' },
-        { name: 'starts_at', label: 'Start', type: 'datetime-local', value: localInput(t.toISOString()), required: true },
-        { name: 'minutes', label: 'Längd (minuter)', type: 'number', value: 30 }, { name: 'location', label: 'Plats' }, { name: 'description', label: 'Beskrivning', type: 'textarea' }
-      ], function (v) {
-        var s = new Date(v.starts_at);
-        return sb.from('calendar_activities').insert({ title: v.title, category: v.category, location: v.location, description: v.description, starts_at: s.toISOString(),
-          ends_at: new Date(s.getTime() + (Number(v.minutes) || 30) * 6e4).toISOString(), created_by: st.user.id });
+  /* ---------- Kalender: month grid like the old admin, plus a list of what is coming up ---------- */
+  var CAT_COLOR = { meeting: '#14b8a6', call: '#3b82f6', task: '#10b981', deadline: '#f43f5e', reminder: '#f59e0b', personal: '#8b5cf6', other: '#94a3b8', lead: '#1d3b2a', followup: '#06b6d4' };
+  function newActivity(at) {
+    var t = at ? new Date(at) : new Date(Date.now() + 864e5); if (!at) t.setHours(9, 0, 0, 0);
+    formDialog('Ny aktivitet', 'Syns i kalendern här i admin.', [
+      { name: 'title', label: 'Titel', required: true }, { name: 'category', label: 'Typ', options: CATEGORY, value: 'meeting' },
+      { name: 'starts_at', label: 'Start', type: 'datetime-local', value: localInput(t.toISOString()), required: true },
+      { name: 'minutes', label: 'Längd (minuter)', type: 'number', value: 30 }, { name: 'location', label: 'Plats' }, { name: 'description', label: 'Beskrivning', type: 'textarea' }
+    ], function (v) {
+      var s = new Date(v.starts_at);
+      return sb.from('calendar_activities').insert({ title: v.title, category: v.category, location: v.location, description: v.description, starts_at: s.toISOString(),
+        ends_at: new Date(s.getTime() + (Number(v.minutes) || 30) * 6e4).toISOString(), created_by: st.user.id });
+    });
+  }
+  function openActivity(a) {
+    dialog('<h2>' + esc(a.title) + '</h2><p>' + esc(CATEGORY[a.category] || 'Aktivitet') + ' · ' + dt(a.starts_at) + (a.location ? ' · ' + esc(a.location) : '') + '</p>' +
+      (a.description ? '<div class="box">' + esc(a.description) + '</div>' : '') +
+      '<div class="dlg__row"><button class="link link--danger" id="del" style="margin:0 auto 0 0">Ta bort</button><button class="btn" data-close>Stäng</button></div>', function (d) {
+      $('#del', d).addEventListener('click', function () {
+        if (!confirm('Ta bort aktiviteten?')) return;
+        sb.from('calendar_activities').delete().eq('id', a.id).then(function (r) { if (r.error) return toast(r.error.message); d.remove(); render(); });
       });
     });
-    var from = new Date(); from.setHours(0, 0, 0, 0);
-    var to = new Date(from.getTime() + 30 * 864e5);
-    fetchRows(sb.from('calendar_activities').select('id,title,starts_at,category,location').gte('starts_at', from.toISOString()).lte('starts_at', to.toISOString()).order('starts_at'), function (data) {
-      var items = data.map(function (a) { return { at: a.starts_at, title: a.title, tag: CATEGORY[a.category] || a.category, id: a.id, where: a.location }; });
+  }
+  function renderCalendar() {
+    var m = st.month || (st.month = new Date(new Date().getFullYear(), new Date().getMonth(), 1));
+    var first = new Date(m), gridStart = new Date(first); gridStart.setDate(1 - ((first.getDay() + 6) % 7));
+    var gridEnd = new Date(gridStart.getTime() + 42 * 864e5);
+    var title = m.toLocaleDateString('sv-SE', { month: 'long', year: 'numeric' });
+    main().innerHTML = head('Kalender', 'Möten, uppringningar och påminnelser. Klicka på en dag för att lägga till.', '<button class="btn" id="add">+ Ny aktivitet</button>') +
+      '<div class="calm"><div class="calm__bar"><button class="iconbtn" id="prev" aria-label="Föregående månad">&#8249;</button><h2>' + title.charAt(0).toUpperCase() + title.slice(1) + '</h2>' +
+      '<button class="iconbtn" id="next" aria-label="Nästa månad">&#8250;</button><button class="btn btn--ghost btn--sm" id="today">Idag</button>' +
+      '<span class="calm__legend">' + [['lead', 'Kundmöte'], ['followup', 'Ring upp'], ['meeting', 'Möte'], ['reminder', 'Påminnelse'], ['task', 'Uppgift']].map(function (x) { return '<span><i class="dot" style="background:' + CAT_COLOR[x[0]] + '"></i>' + x[1] + '</span>'; }).join('') + '</span></div>' +
+      '<div class="calm__grid" id="grid"><p class="empty" style="grid-column:1/-1">Hämtar …</p></div></div><section class="panel" style="margin-top:14px"><h3>Kommande 14 dagar</h3><div class="cal" id="cal"></div></section>';
+    $('#add').addEventListener('click', function () { newActivity(); });
+    $('#prev').addEventListener('click', function () { st.month = new Date(m.getFullYear(), m.getMonth() - 1, 1); render(); });
+    $('#next').addEventListener('click', function () { st.month = new Date(m.getFullYear(), m.getMonth() + 1, 1); render(); });
+    $('#today').addEventListener('click', function () { st.month = null; render(); });
+    var now = new Date(); now.setHours(0, 0, 0, 0);
+    var from = new Date(Math.min(gridStart.getTime(), now.getTime())), to = new Date(Math.max(gridEnd.getTime(), now.getTime() + 14 * 864e5));
+    sb.from('calendar_activities').select('id,title,starts_at,category,location,description').gte('starts_at', from.toISOString()).lt('starts_at', to.toISOString()).order('starts_at').then(function (r) {
+      if (st.view !== 'kalender') return;
+      if (r.error) toast('Kunde inte hämta aktiviteter: ' + r.error.message);
+      var items = (r.data || []).map(function (a) { return { at: a.starts_at, title: a.title, color: CAT_COLOR[a.category] || CAT_COLOR.other, tag: CATEGORY[a.category] || 'Aktivitet', act: a }; });
       st.leads.forEach(function (l) {
-        var t = l.booking_at && Date.parse(l.booking_at);
-        if (t && t >= from.getTime() && t <= to.getTime()) items.push({ at: l.booking_at, title: (l.company || l.name) + (MEETING[l.meeting_type] ? ' (' + MEETING[l.meeting_type] + ')' : ''), tag: 'Kundmöte', lead: l.id });
+        if (l.booking_at) items.push({ at: l.booking_at, title: (l.company || l.name), color: CAT_COLOR.lead, tag: 'Kundmöte' + (MEETING[l.meeting_type] && l.meeting_type !== 'quote' ? ' · ' + MEETING[l.meeting_type] : ''), lead: l.id });
+        if (l.followup_at) items.push({ at: l.followup_at, title: 'Ring ' + (l.company || l.name), color: CAT_COLOR.followup, tag: 'Ring upp', lead: l.id });
       });
       items.sort(function (a, b) { return Date.parse(a.at) - Date.parse(b.at); });
-      var days = {};
-      items.forEach(function (i) { var k = new Date(i.at).toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'long' }); (days[k] = days[k] || []).push(i); });
+      var byDay = {}; items.forEach(function (i, n) { i.n = n; var k = new Date(i.at).toDateString(); (byDay[k] = byDay[k] || []).push(i); });
+      var hm = function (i) { return new Date(i.at).toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' }); };
+      var cells = ['Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör', 'Sön'].map(function (d) { return '<div class="calm__dow">' + d + '</div>'; }).join('');
+      for (var i = 0; i < 42; i++) {
+        var d = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + i), ev = byDay[d.toDateString()] || [];
+        cells += '<div class="calm__day' + (d.getMonth() !== m.getMonth() ? ' is-out' : '') + (d.getTime() === now.getTime() ? ' is-today' : '') + '" data-day="' + d.toISOString() + '"><b>' + d.getDate() + '</b>' +
+          ev.slice(0, 3).map(function (e) { return '<button class="calm__ev" data-n="' + e.n + '" style="--c:' + e.color + '"><time>' + hm(e) + '</time> ' + esc(e.title) + '</button>'; }).join('') +
+          (ev.length > 3 ? '<span class="calm__more">+' + (ev.length - 3) + ' till</span>' : '') + '</div>';
+      }
+      $('#grid').innerHTML = cells;
+      var soon = items.filter(function (x) { var t = Date.parse(x.at); return t >= now.getTime() && t < now.getTime() + 14 * 864e5; });
+      var days = {}; soon.forEach(function (x) { var k = new Date(x.at).toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'long' }); (days[k] = days[k] || []).push(x); });
       $('#cal').innerHTML = Object.keys(days).map(function (k) {
-        return '<section class="cal__day"><h3>' + k + '</h3>' + days[k].map(function (i) {
-          return '<div class="cal__ev"><time>' + new Date(i.at).toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' }) + '</time><span>' +
-            (i.lead ? '<button class="link" data-lead="' + i.lead + '">' + esc(i.title) + '</button>' : esc(i.title)) + (i.where ? ' <em class="muted">· ' + esc(i.where) + '</em>' : '') +
-            '</span><span class="tag">' + esc(i.tag) + '</span>' + (i.id ? '<button class="iconbtn iconbtn--sm" data-del="' + i.id + '" aria-label="Ta bort">' + ICON.x + '</button>' : '') + '</div>';
+        return '<section class="cal__day"><h3>' + k + '</h3>' + days[k].map(function (x) {
+          return '<div class="cal__ev"><time>' + hm(x) + '</time><span><button class="link" data-n="' + x.n + '">' + esc(x.title) + '</button></span><span class="tag" style="color:' + x.color + '">' + esc(x.tag) + '</span></div>';
         }).join('') + '</section>';
-      }).join('') || '<p class="empty">Inget inbokat de kommande 30 dagarna.</p>';
-      $('#cal').addEventListener('click', function (e) {
-        var ld = e.target.closest('[data-lead]'); if (ld) return openLead(lead(ld.dataset.lead));
-        var del = e.target.closest('[data-del]'); if (!del || !confirm('Ta bort aktiviteten?')) return;
-        sb.from('calendar_activities').delete().eq('id', del.dataset.del).then(function (r) { if (r.error) return toast(r.error.message); render(); });
-      });
+      }).join('') || '<p class="muted">Inget inbokat de kommande 14 dagarna.</p>';
+      var open = function (e) {
+        var b = e.target.closest('[data-n]');
+        if (b) { var it = items[b.dataset.n]; return it.lead ? openLead(lead(it.lead)) : openActivity(it.act); }
+        var day = e.target.closest('[data-day]'); if (day) { var t = new Date(day.dataset.day); t.setHours(9, 0, 0, 0); newActivity(t); }
+      };
+      $('#grid').addEventListener('click', open); $('#cal').addEventListener('click', open);
     });
   }
 
