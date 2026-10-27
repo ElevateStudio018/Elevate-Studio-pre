@@ -8,9 +8,9 @@
   <link rel="icon" href="assets/img/brand/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css?v=076f80c7c0">
-  <link rel="stylesheet" href="assets/css/home.css?v=076f80c7c0">
-  <link rel="stylesheet" href="assets/css/pages.css?v=076f80c7c0">
+  <link rel="stylesheet" href="assets/css/style.css?v=ee4795b8aa">
+  <link rel="stylesheet" href="assets/css/home.css?v=ee4795b8aa">
+  <link rel="stylesheet" href="assets/css/pages.css?v=ee4795b8aa">
 </head>
 <body class="home">
 
@@ -217,12 +217,11 @@
       <div class="container">
         <div class="process__head">
           <div>
-            <p class="process__eyebrow">Arbetsprocess</p>
             <h2 class="block__header">Så <span>jobbar vi</span></h2>
           </div>
           <div class="process__intro">
             <p>Fem steg från första mötet till en hemsida som ger förfrågningar – och som blir bättre varje månad. Vi tar hand om det tekniska, ni bidrar med kunskapen om ert företag.</p>
-            <a class="btn btn--primary" href="kontakt.html"><span>Boka ett första möte</span></a>
+            <a class="arrow-link" href="kontakt.html">Boka ett första möte</a>
           </div>
         </div>
         <div class="flow" data-flow>
@@ -234,35 +233,30 @@
                 <div class="flow__meta"><span class="flow__no">01</span><span class="flow__time">Första mötet</span></div>
                 <h3>Vi lär känna företaget</h3>
                 <p>Ett kort möte om era tjänster, era kunder och vilka affärer ni vill ha fler av.</p>
-                <p class="flow__you"><b>Ni:</b> Berätta om ert företag</p>
               </li>
               <li class="flow__step">
                 <span class="flow__dot" aria-hidden="true"></span>
                 <div class="flow__meta"><span class="flow__no">02</span><span class="flow__time">1–2 veckor</span></div>
                 <h3>Vi bygger hemsidan</h3>
                 <p>Mobilanpassad design med tydliga tjänstesidor och en väg till kontakt på varje sida.</p>
-                <p class="flow__you"><b>Ni:</b> Skicka bilder och underlag</p>
               </li>
               <li class="flow__step">
                 <span class="flow__dot" aria-hidden="true"></span>
                 <div class="flow__meta"><span class="flow__no">03</span><span class="flow__time">Före lansering</span></div>
                 <h3>Vi kopplar på smarta funktioner</h3>
                 <p>Offertflöde, bokning, AI-chatt och notiser via e-post och SMS aktiveras och testas.</p>
-                <p class="flow__you"><b>Ni:</b> Godkänn flödena</p>
               </li>
               <li class="flow__step">
                 <span class="flow__dot" aria-hidden="true"></span>
                 <div class="flow__meta"><span class="flow__no">04</span><span class="flow__time">Lanseringsdagen</span></div>
                 <h3>Hemsidan börjar ge förfrågningar</h3>
                 <p>Sidan lanseras, indexeras av Google och tar emot förfrågningar med status och historik.</p>
-                <p class="flow__you"><b>Ni:</b> Ta emot förfrågningarna</p>
               </li>
               <li class="flow__step">
                 <span class="flow__dot" aria-hidden="true"></span>
                 <div class="flow__meta"><span class="flow__no">05</span><span class="flow__time">Varje månad</span></div>
                 <h3>Vi förbättrar över tid</h3>
                 <p>Vi följer upp vad som ger kunder och justerar texter, erbjudanden och flöden löpande.</p>
-                <p class="flow__you"><b>Ni:</b> Fokusera på ert jobb</p>
               </li>
             </ol>
           </div>
@@ -272,7 +266,6 @@
             <img src="assets/img/home/process-3.jpg" alt="Utvecklare som skriver kod vid två skärmar" width="1200" height="800" loading="lazy">
             <img src="assets/img/home/process-4.jpg" alt="Person med headset som tar emot en förfrågan" width="1200" height="800" loading="lazy">
             <img src="assets/img/home/process-5.jpg" alt="Händer som pekar på diagram över resultat" width="1200" height="800" loading="lazy">
-            <b class="flow__count" aria-hidden="true">Steg <span>1</span> av 5</b>
           </div>
         </div>
       </div>
@@ -311,14 +304,21 @@
     </section><!-- /build:platforms -->
 
     <!-- About -->
-    <section class="block container columns-2 about">
-      <div>
-        <h2 class="h2">Vi är Elevate</h2>
-        <p><strong>Vi tror på små, erfarna team som följer kunden hela vägen – från första idé till tjänsten som utvecklas år efter år.</strong></p>
-        <p>Långa samarbeten är kärnan i hur vi arbetar. Vi lär känna era mål, era användare och er organisation, och kan därför ge råd som håller även när förutsättningarna ändras. Tillsammans hittar vi lösningar som är lagom stora.</p>
-        <p>Vi har tydliga rutiner för kvalitet och informationssäkerhet, och vi tar ansvar för miljöpåverkan i både drift och arbetssätt.</p>
+    <section class="block about" aria-labelledby="about-title">
+      <img class="about__img" src="assets/img/home/about.jpg" alt="Kollegor som arbetar tillsammans runt ett bord med datorer" width="1600" height="1067" loading="lazy">
+      <div class="container about__inner">
+        <div class="about__card">
+          <svg class="about__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>
+          <h2 class="about__title" id="about-title">Vi är <span>Elevate</span></h2>
+          <p class="about__lead">Vi är tre personer i Uppsala som bygger hemsidor som ger förfrågningar – och kopplar på det som sparar tid åt er: offertflöden, bokning och AI-chatt.</p>
+          <p>Ni pratar med samma person från första mötet till uppföljningen varje månad. Inga mellanhänder, inga långa mejltrådar – bara någon som kan ert företag och svarar när ni ringer.</p>
+          <ul class="about__team">
+            <li><b>Carl</b>Försäljning &amp; kundkontakt</li>
+            <li><b>Isak Mattsson</b>Försäljning &amp; AI-utveckling</li>
+            <li><b>Oscar Svanerud</b>Försäljning &amp; affärsutveckling</li>
+          </ul>
+        </div>
       </div>
-      <img class="rounded" src="assets/img/home/team.jpg" alt="Människor i en stor stationshall" width="632" height="421" loading="lazy">
     </section>
 
     <!-- Review (real customer review from Google) -->
@@ -493,7 +493,7 @@
     <p class="cookie-dialog__links"><a href="cookies.html">Om cookies</a> <a href="integritet.html">Integritet</a></p>
   </div>
 
-  <script src="assets/js/main.js?v=076f80c7c0"></script>
-  <script src="assets/js/home.js?v=076f80c7c0"></script>
+  <script src="assets/js/main.js?v=ee4795b8aa"></script>
+  <script src="assets/js/home.js?v=ee4795b8aa"></script>
 </body>
 </html>

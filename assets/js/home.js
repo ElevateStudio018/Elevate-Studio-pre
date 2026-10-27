@@ -7,7 +7,6 @@
     var list = flow.querySelector('.flow__list');
     var steps = Array.prototype.slice.call(flow.querySelectorAll('.flow__step'));
     var photos = flow.querySelectorAll('.flow__media img');
-    var count = flow.querySelector('.flow__count span');
     var update = function () {
       var rect = list.getBoundingClientRect();
       var trigger = window.innerHeight * 0.6;
@@ -19,9 +18,7 @@
         step.classList.toggle('is-on', on);
         if (on) current = i;
       });
-      steps.forEach(function (step, i) { step.classList.toggle('is-current', !reduced && i === current); });
       Array.prototype.forEach.call(photos, function (img, i) { img.classList.toggle('is-current', i === current); });
-      count.textContent = current + 1;
     };
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
