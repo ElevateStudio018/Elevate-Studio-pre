@@ -993,8 +993,10 @@ h2, h3 { margin: 0; font-weight: 400; }
 }
 
 /* ---------- Process: scroll timeline on desktop (built by home.js from the .flow list) ---------- */
-.pscroll { position: relative; height: calc(var(--n, 5) * 62vh + 100vh); }
-.pscroll__sticky { position: sticky; top: 120px; display: grid; grid-template-columns: minmax(220px, 1fr) 2fr; gap: 96px; align-items: start; padding-top: 16px; }
+.pscroll { position: relative; height: calc(var(--n, 5) * 62vh + 100vh); margin-top: calc(-1 * var(--header-h)); pointer-events: none; }
+/* The sticky part fills the screen under the header, with the timeline and picture centred in it */
+.pscroll__sticky { position: sticky; top: 0; box-sizing: border-box; min-height: 100vh; display: grid; grid-template-columns: minmax(220px, 1fr) 2fr; gap: 96px; align-content: center; align-items: center; padding: calc(var(--header-h) + 8px) 0 32px; pointer-events: none; }
+.pscroll__sticky > * { pointer-events: auto; }
 .pscroll__nav { position: relative; }
 .pscroll__nav ol { position: relative; display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
 .pscroll__nav li { height: clamp(84px, 13vh, 132px); }
