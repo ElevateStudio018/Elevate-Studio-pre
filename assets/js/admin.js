@@ -108,7 +108,9 @@
         if (r.error) throw r.error;
         return start(r.data.user);
       }).catch(function (err) {
-        renderLogin(/invalid/i.test(err.message) ? 'Fel e-post eller lösenord.' : err.message);
+        var m = err.message || '';
+        renderLogin(/not confirmed/i.test(m) ? 'E-posten är inte bekräftad än. Klicka först på länken i bekräftelsemejlet som skickades när inloggningen skapades.'
+          : /invalid/i.test(m) ? 'Fel e-post eller lösenord – eller så finns ingen inloggning för den adressen än (den skapas under Konto → Profiler).' : m);
       });
     });
   }
