@@ -407,6 +407,10 @@ body.drawer-open { overflow: hidden; }
 .drawer__minor { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; margin: 0; padding: 0; list-style: none; }
 .drawer__minor a { font-size: 17px; font-weight: 500; color: #333; text-decoration: none; }
 .drawer__minor a:hover { color: var(--accent); }
+.drawer__lang { display: flex; gap: 24px; margin: 0; padding: 0; list-style: none; }
+.drawer__lang a { display: inline-flex; align-items: center; gap: 6px; padding: 7px 0; font-size: 17px; font-weight: 500; color: #333; text-decoration: none; }
+.drawer__lang a:hover { color: var(--accent); }
+.drawer__lang a.is-on { font-weight: 700; color: var(--accent); }
 .drawer__contact { display: grid; gap: 10px; margin-top: auto; padding-top: 36px; }
 .drawer__contact p { margin: 0; color: #555; }
 .drawer__mail { font-size: 20px; font-weight: 600; color: var(--accent); text-decoration: none; }
@@ -450,6 +454,8 @@ body.drawer-open { overflow: hidden; }
   .drawer__main > li.has-sub { display: none; }
   .drawer__heading,
   .drawer__about .drawer__heading { margin: 0 0 16px; }
+  .drawer__about .drawer__heading--lang { margin-top: 28px; }
+  .drawer__lang a { font-size: 18px; }
   .drawer__main { border-top: 0; }
   .drawer__main > li { border-bottom: 0; }
   .drawer__main > li > a { padding: 8px 0; font-size: 24px; }

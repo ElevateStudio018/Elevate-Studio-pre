@@ -29,7 +29,10 @@ def esc(text):
 
 # ---------------------------------------------------------------- shell
 
-def header(p, crumbs, current):
+CHECK = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>'
+
+
+def header(p, crumbs, current, lang="sv"):
     def nav_item(key, href, label):
         cls = ' class="is-current"' if key == current else ""
         return f'<li{cls}><a href="{p}{href}">{label}</a></li>'
@@ -127,7 +130,11 @@ def header(p, crumbs, current):
         <li><a href="{p}om.html">Om oss</a></li>
         <li><a href="{p}priser.html">Priser</a></li>
         <li><a href="{p}avtal.html">Exempel på webbavtal</a></li>
-        <li><a href="{p}english.html">In English</a></li>
+      </ul>
+      <p class="drawer__heading drawer__heading--lang">Språk / Language</p>
+      <ul class="drawer__lang">
+        <li><a href="{p}index.html" lang="sv"{' class="is-on" aria-current="true"' if lang == "sv" else ""}>{CHECK if lang == "sv" else ""}Svenska</a></li>
+        <li><a href="{p}english.html" lang="en"{' class="is-on" aria-current="true"' if lang == "en" else ""}>{CHECK if lang == "en" else ""}English</a></li>
       </ul>
     </div>
     <div class="drawer__contact">
@@ -301,7 +308,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
 </head>
 <body class="{body_class}">
 
-  {header(p, crumbs, current)}
+  {header(p, crumbs, current, lang)}
 
   {main}
 
