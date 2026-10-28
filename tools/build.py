@@ -1330,6 +1330,9 @@ def main():
     index.write_text(src, encoding="utf-8")
     built.append(rewrap("index.html", "home", extra_js=("home.js",)))
     built.append(rewrap("404.html", "error404", crumbs=[("Fel 404", "")], robots="noindex"))
+    # The server shows 404.html at any address, so its links must start from the site root.
+    page404 = ROOT / "404.html"
+    page404.write_text(page404.read_text(encoding="utf-8").replace("<head>", '<head>\n  <base href="/">', 1), encoding="utf-8")
     built.extend(site_files(built))
     i18n_files()
     built.append(rss_feed())
