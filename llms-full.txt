@@ -61,7 +61,7 @@ Många kunder har samma frågor: vad kostar det, när kan ni komma, gör ni det 
 - Testad före lansering: Vi testar chatten med riktiga frågor innan den går live.
 - **Vad svarar AI-chatten på?** Chatten svarar på vanliga frågor utifrån informationen om ert företag – till exempel tjänster, priser, villkor och hur man bokar.
 - **Vad händer om chatten inte kan svara?** Då skickas frågan vidare till er via e-post eller SMS, så att ni kan svara kunden själva.
-- **Ingår AI-chatt i paketen?** AI-chatt ingår i Pro-paketet och kan läggas till i större projekt.
+- **Ingår AI-chatt i paketen?** AI-chatt ingår i Pro och Elite.
 
 ## Bokningssystem
 Varje gång en kund måste ringa eller mejla fram och tillbaka för att hitta en tid finns en risk att de ger upp. Med bokning direkt på sidan kan kunden boka på en gång, även när ni inte svarar i telefon.
@@ -70,7 +70,7 @@ Varje gång en kund måste ringa eller mejla fram och tillbaka för att hitta en
 - Bekräftelse till kunden: Kunden får en bekräftelse så att ingen missar tiden.
 - Status och historik: Håll koll på alla bokningar på ett ställe.
 - **Kan kunderna boka utan att ringa?** Ja. Kunden väljer en ledig tid direkt på hemsidan och ni får en notis via e-post eller SMS.
-- **Ingår bokning i paketen?** Bokning eller offertflöde ingår i Pro-paketet.
+- **Ingår bokning i paketen?** Bokning eller offertflöde ingår i Pro och Elite.
 
 ## Offertsystem
 En vag förfrågan betyder ofta flera mejl fram och tillbaka innan ni kan räkna på jobbet. Med ett offertflöde får kunden svara på rätt frågor från början – och ni får en komplett förfrågan som går att svara på samma dag.
@@ -86,7 +86,7 @@ Det spelar ingen roll hur bra hemsidan är om ingen hittar den. Vi bygger sidan 
 - Teknisk grund: Snabba sidor, rätt rubriker, beskrivningar och strukturerad data som sökmotorer läser.
 - Lokala sökningar: Tydlig information om var ni finns och vilka orter ni jobbar i.
 - AI-optimering: Innehåll och struktur som gör det lätt för AI-tjänster att beskriva er rätt.
-- Vanliga frågor: Svar på det kunderna faktiskt söker efter, direkt på sidan.
+- Svar på vanliga frågor: Svar på det kunderna faktiskt söker efter, direkt på sidan.
 - **Ingår SEO i hemsidan?** Ja. Grundläggande sökmotoroptimering och AI-optimering ingår i alla hemsidor vi bygger.
 - **Vad är AI-optimering?** Att bygga sidan så att AI-tjänster som ChatGPT kan förstå och beskriva ert företag rätt – med tydliga fakta, vanliga frågor och strukturerad data.
 
@@ -129,7 +129,7 @@ För snickare, elektriker, rörmokare, målare och byggföretag: en hemsida som 
 - Med ett offertflöde beskriver kunden jobbet steg för steg och kan bifoga bilder. Ni får en komplett förfrågan och slipper ringa tillbaka för att fråga om grundläggande saker.
 
 ### Synas när kunderna söker lokalt
-- Vi bygger sidan så att Google förstår vilka tjänster ni erbjuder och i vilka orter – och så att AI-tjänster kan beskriva er rätt när någon frågar efter en hantverkare i närheten.
+- Vi bygger sidan så att Google förstår vilka tjänster ni erbjuder och på vilka orter – och så att AI-tjänster kan beskriva er rätt när någon frågar efter en hantverkare i närheten.
 
 ## Prisvärd hemsida till fast pris
 En hemsida behöver inte kosta tiotusentals kronor. Hos oss får ni en snabb, mobilanpassad hemsida till fast pris från 3 000 kr.
@@ -163,7 +163,7 @@ Frågan om vad en hemsida kostar får svar som spretar från några hundralappar
 - Vad kostar det efter första året?
 - Finns det någon bindningstid?
 ### Så gör vi
-Hos oss får du ett fast pris i en offert innan vi börjar. Startpaketet kostar 3 000 kr och därefter 99–199 kr per år, och under första året ingår upp till 10 timmars support och ändringar per månad. Domänen är alltid din. På vår prissida ser du vad som ingår i varje paket, och du kan ladda ner ett exempel på hur vårt avtal ser ut.
+Hos oss får du ett fast pris i en offert innan vi börjar. Starter kostar 3 000 kr i startavgift och därefter 99–199 kr per år, och under första året ingår upp till 10 timmars support och ändringar per månad. Domänen är alltid din. På vår prissida ser du vad som ingår i varje paket, och du kan ladda ner ett exempel på hur vårt avtal ser ut.
 
 ## Fem saker som får besökare att höra av sig (20 oktober 2026)
 En hemsida kan vara snygg och ändå inte ge en enda förfrågan. Oftast beror det inte på designen, utan på att besökaren inte förstår vad ni gör, inte litar på er eller inte hittar hur man tar kontakt. Här är fem saker som gör störst skillnad.
@@ -174,7 +174,7 @@ Telefonnummer och en knapp för att höra av sig ska synas på varje sida, inte 
 ### 3. En sida per tjänst
 En egen sida för varje tjänst gör det enklare för besökaren att hitta rätt – och för Google att visa er när någon söker på just den tjänsten.
 ### 4. Visa att ni är på riktigt
-Bilder på riktiga jobb, recensioner från kunder och namnen på de som jobbar hos er bygger förtroende snabbare än allmänna löften.
+Bilder på riktiga jobb, recensioner från kunder och namnen på dem som jobbar hos er bygger förtroende snabbare än allmänna löften.
 ### 5. Snabb på mobilen
 De flesta besökare kommer från telefonen. En sida som laddar långsamt eller är svår att använda på liten skärm tappar dem innan de ens läst rubriken. Du kan testa din egen sida gratis med vårt djuptest.
 

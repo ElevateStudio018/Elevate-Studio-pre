@@ -31,7 +31,7 @@
     { k: ['var finns', 'var ligger', 'uppsala', 'stockholm', 'ort', 'distans', 'sverige'],
       a: 'Vi finns i Uppsala och jobbar med företag i hela Sverige – möten går lika bra på distans.' },
     { k: ['kontakt', 'ring', 'telefon', 'mejl', 'mail', 'prata', 'möte'],
-      a: 'Ring Carl på 076-022 83 61 eller mejla info@elevatestudio.nu. Du kan också fylla i formuläret, så hör vi av oss så fort vi kan.',
+      a: 'Ring Carl på +46 76 022 83 61 eller mejla info@elevatestudio.nu. Du kan också fylla i formuläret, så hör vi av oss så fort vi kan.',
       link: ['Kontakta oss', 'kontakt.html'] }
   ];
   var CHIPS = ['Vad kostar det?', 'Hur lång tid tar det?', 'Vad gör ni?', 'Prata med någon'];
@@ -146,7 +146,7 @@
       return;
     }
     if (/prata med någon|människa|person/i.test(q)) {
-      say('Absolut! Ring Carl på 076-022 83 61 eller mejla info@elevatestudio.nu. Vill du att vi hör av oss? Skriv din e-postadress här.', 'bot');
+      say('Absolut! Ring Carl på +46 76 022 83 61 eller mejla info@elevatestudio.nu. Vill du att vi hör av oss? Skriv din e-postadress här.', 'bot');
       waitingForEmail = 'Vill bli kontaktad';
       return;
     }

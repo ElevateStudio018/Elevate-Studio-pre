@@ -131,10 +131,10 @@ def header(p, crumbs, current):
       </ul>
     </div>
     <div class="drawer__contact">
-      <p class="drawer__contact-title">Har du ett projekt på gång?</p>
+      <p class="drawer__contact-title">Har ni ett projekt på gång?</p>
       <p>Vi svarar så fort vi kan.</p>
       <a class="drawer__mail" href="mailto:info@elevatestudio.nu">info@elevatestudio.nu</a>
-      <a class="btn btn--primary" href="{p}kontakt.html"><span>Hör av dig</span></a>
+      <a class="btn btn--primary" href="{p}kontakt.html"><span>Hör av er</span></a>
     </div>
   </nav>'''
 
@@ -325,7 +325,7 @@ def page_hero(title, lead, eyebrow=""):
     </section>'''
 
 
-def cta(p, title="Ska vi bygga något tillsammans?", text="Berätta kort om vad du funderar på, så hör vi av oss så fort vi kan."):
+def cta(p, title="Ska vi bygga något tillsammans?", text="Berätta kort vad ni funderar på, så hör vi av oss så fort vi kan."):
     return f'''<section class="cta-band">
       <div class="container cta-band__inner">
         <div>
@@ -690,7 +690,7 @@ def build_platforms():
     <section class="section section--cream">
       <div class="container columns-2">
         <h2 class="h3">Vi väljer tekniken efter uppdraget, inte tvärtom.</h2>
-        <p>Ibland är ett ramverk rätt, ibland räcker ren HTML, CSS och lite JavaScript. Det viktiga är att lösningen är snabb, tillgänglig och lätt att förvalta för de som ska ta hand om den efter lansering.</p>
+        <p>Ibland är ett ramverk rätt, ibland räcker ren HTML, CSS och lite JavaScript. Det viktiga är att lösningen är snabb, tillgänglig och lätt att förvalta för dem som ska ta hand om den efter lansering.</p>
       </div>
     </section>
     {cta(p)}
@@ -719,7 +719,7 @@ def build_platforms():
     </section>
     <section class="section section--accent">
       <div class="container">
-        <h2 class="block__header">Så användes det <span>i den här sajten</span></h2>
+        <h2 class="block__header">Så används det <span>på den här sajten</span></h2>
         <ul class="check-list">{here}</ul>
       </div>
     </section>
@@ -794,7 +794,7 @@ def build_simple():
             elif kind == "minifaq":
                 qa = [("Vad kostar en hemsida?", 'Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. <a href="priser.html">Se priser</a>.'),
                       ("Hur lång tid tar det?", "Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst."),
-                      ("Måste vi bo i Uppsala?", "Nej. Vi finns i Uppsala men jobbar med företag i hela Sverige – möten går lika bra på distans.")]
+                      ("Måste vi finnas i Uppsala?", "Nej. Vi finns i Uppsala men jobbar med företag i hela Sverige – möten går lika bra på distans.")]
                 items = "".join(f'<details class="faq__item" name="kfaq"><summary>{esc(q)}</summary><p>{a}</p></details>' for q, a in qa)
                 parts.append(f'''<section class="section container mini-faq">
       <div class="mini-faq__head"><h2 class="block__header">Vanliga <span>frågor</span></h2><a class="arrow-link" href="index.html#faq">Alla frågor</a></div>
@@ -803,7 +803,7 @@ def build_simple():
             elif kind == "ceo":
                 parts.append(f'''<section class="section container about-ceo">
       <div class="about-ceo__card">
-        <p class="about-ceo__k">Koncern</p>
+        <p class="about-ceo__k">Bolaget bakom</p>
         <h2 class="about-ceo__name">{esc(PARENT_COMPANY)}</h2>
         <p class="about-ceo__role">Org.nr {ORG_NR}</p>
       </div>
@@ -822,7 +822,7 @@ def build_simple():
       <div class="container standout__row">
         <div class="standout__intro">
           <h2 class="h2">Skriv till <em>oss</em></h2>
-          <p>Berätta kort vad ni funderar på så återkommer vi så fort vi kan. Meddelandet går direkt till info@elevatestudio.nu.</p>
+          <p>Berätta kort vad ni funderar på, så återkommer vi så fort vi kan. Meddelandet går direkt till info@elevatestudio.nu.</p>
         </div>
         {contact_form(p)}
       </div>
@@ -873,7 +873,7 @@ def build_test_page():
         <div class="info-card"><h2 class="info-card__title">SEO &amp; kvalitet</h2><p>Om Google förstår sidan och om den följer moderna riktlinjer för säkerhet.</p></div>
       </div>
     </section>
-    {cta(p, "Hellre att vi tittar åt dig?", "Vi gör gärna en personlig genomgång av din sajt och berättar vad som ger mest effekt.")}
+    {cta(p, "Vill du hellre att vi tittar åt dig?", "Vi gör gärna en personlig genomgång av din sajt och berättar vad som ger mest effekt.")}
   </main>'''
     yield write("testa.html", document(p, "Testa din sajt", main, "subpage", [("Testa din sajt", "")], None, extra_js=("sitetest.js",)))
 
@@ -919,7 +919,7 @@ def build_agreement():
             <table>
               <thead><tr><th>Post</th><th>Pris (exkl. moms)</th></tr></thead>
               <tbody>
-                <tr><td>Webbutveckling - fast startavgift</td><td>3 000 kr</td></tr>
+                <tr><td>Webbutveckling – fast startavgift</td><td>3 000 kr</td></tr>
                 <tr><td>Årsavgift</td><td>99 kr/år</td></tr>
                 <tr><td>Webbredigering och support, upp till 10 tim/mån första året</td><td>Ingår</td></tr>
               </tbody>
@@ -992,7 +992,7 @@ def build_prices():
             "Kontaktfunktion och presentation av verksamhet och projekt",
             "Grundläggande SEO och AI-optimering",
             "Två korrekturvändor före leverans",
-            "Upp till 10 tim support och redigering per månad första året",
+            "Upp till 10 timmars support och redigering per månad första året",
         ], "Kom igång", False),
         ("Pro", "6 000 kr", "startavgift + 299–399 kr/år", "För er som vill att hemsidan ska jobba – ta emot förfrågningar, bokningar och frågor åt er.", [
             "Allt i Starter",
@@ -1172,7 +1172,7 @@ def bento_section():
         <div class="bento__text">
           <p>Vi bygger snabba, mobilanpassade hemsidor med tydliga tjänstesidor och en väg till kontakt på varje sida.</p>
           <p class="bento__more">Sedan kopplar vi på det som sparar tid åt er – bokning, offertflöden och AI-chatt – och ser till att ni syns på Google och när kunder frågar AI.</p>
-          <p class="bento__more">Efter lansering tar vi hand om ändringar och uppföljning. Allt hos samma lilla team i Uppsala.</p>
+          <p class="bento__more">Efter lansering tar vi hand om ändringar och uppföljning.</p>
         </div>
         <span class="btn btn--light"><span>Se alla tjänster</span></span>
       </a>
@@ -1181,20 +1181,6 @@ def bento_section():
       {text(s["bokningssystem"], " bento__tile--sand")}
       {photo(s["seo-och-ai-optimering"])}
     </section>'''
-
-
-def services_grid():
-    cards = "".join(f'''
-        <a class="svc-card" href="tjanster/{x["slug"]}.html">
-          <img src="assets/img/{x["image"]}" alt="{esc(x["alt"])}" width="636" height="420" loading="lazy">
-          <div class="svc-card__body">
-            <h3>{esc(x["name"])}</h3>
-            <p>{esc(x["card"])}</p>
-            <span class="arrow-link">Läs mer</span>
-          </div>
-        </a>''' for x in SERVICES)
-    return f'''<div class="svc-grid">{cards}
-      </div>'''
 
 
 MONTHS = ["januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober", "november", "december"]
@@ -1306,7 +1292,6 @@ def main():
     regions = {
         "posts": featured_posts("", ARTICLES),
         "bento": bento_section(),
-        "services": services_grid(),
         "contactform": contact_form(""),
         "reviews": reviews_section(),
         "projects": projects_section(),

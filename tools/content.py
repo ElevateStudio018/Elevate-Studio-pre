@@ -41,7 +41,7 @@ SERVICES = [
         "image": "home/svc-hemsidor.jpg", "alt": "Skisser och laptop på ett skrivbord under arbetet med en hemsida",
     },
     {
-        "slug": "ai-chatt", "faq": [('Vad svarar AI-chatten på?', 'Chatten svarar på vanliga frågor utifrån informationen om ert företag – till exempel tjänster, priser, villkor och hur man bokar.'), ('Vad händer om chatten inte kan svara?', 'Då skickas frågan vidare till er via e-post eller SMS, så att ni kan svara kunden själva.'), ('Ingår AI-chatt i paketen?', 'AI-chatt ingår i Pro-paketet och kan läggas till i större projekt.')],
+        "slug": "ai-chatt", "faq": [('Vad svarar AI-chatten på?', 'Chatten svarar på vanliga frågor utifrån informationen om ert företag – till exempel tjänster, priser, villkor och hur man bokar.'), ('Vad händer om chatten inte kan svara?', 'Då skickas frågan vidare till er via e-post eller SMS, så att ni kan svara kunden själva.'), ('Ingår AI-chatt i paketen?', 'AI-chatt ingår i Pro och Elite.')],
         "seo_title": "AI-chatt för hemsidan – svarar kunderna dygnet runt", "h1": "AI-chatt för <em>er hemsida</em>", "description": "En AI-chatt på hemsidan som svarar på kundernas vanliga frågor dygnet runt och skickar vidare förfrågningar till er via e-post eller SMS.",
         "name": "AI-chatt", "short": "AI-chatt",
         "card": "En chatt som svarar på vanliga frågor – även när ni inte hinner.",
@@ -56,7 +56,7 @@ SERVICES = [
         "image": "home/svc-ai-chatt.jpg", "alt": "Händer som skriver på en laptop",
     },
     {
-        "slug": "bokningssystem", "faq": [('Kan kunderna boka utan att ringa?', 'Ja. Kunden väljer en ledig tid direkt på hemsidan och ni får en notis via e-post eller SMS.'), ('Ingår bokning i paketen?', 'Bokning eller offertflöde ingår i Pro-paketet.')],
+        "slug": "bokningssystem", "faq": [('Kan kunderna boka utan att ringa?', 'Ja. Kunden väljer en ledig tid direkt på hemsidan och ni får en notis via e-post eller SMS.'), ('Ingår bokning i paketen?', 'Bokning eller offertflöde ingår i Pro och Elite.')],
         "seo_title": "Bokningssystem för hemsidan – låt kunderna boka online", "h1": "Bokningssystem för <em>hemsidan</em>", "description": "Låt kunderna boka tid direkt på er hemsida. Bokningssystem med notiser via e-post och SMS – från Elevate Studio i Uppsala.",
         "name": "Bokningssystem", "short": "Bokning",
         "card": "Låt kunderna boka tid direkt på hemsidan – dygnet runt.",
@@ -96,7 +96,7 @@ SERVICES = [
             ("Teknisk grund", "Snabba sidor, rätt rubriker, beskrivningar och strukturerad data som sökmotorer läser."),
             ("Lokala sökningar", "Tydlig information om var ni finns och vilka orter ni jobbar i."),
             ("AI-optimering", "Innehåll och struktur som gör det lätt för AI-tjänster att beskriva er rätt."),
-            ("Vanliga frågor", "Svar på det kunderna faktiskt söker efter, direkt på sidan."),
+            ("Svar på vanliga frågor", "Svar på det kunderna faktiskt söker efter, direkt på sidan."),
         ],
         "image": "home/svc-seo.jpg", "alt": "Team med laptops runt ett bord, sett ovanifrån",
     },
@@ -161,7 +161,7 @@ CASES = [
     {
         "slug": "insjons-insamlingsfond", "name": "Insjöns Insamlingsfond", "tags": ["Marknadsföring", "Webb"],
         "image": "home/case-6.jpg", "w": 534, "h": 342,
-        "lead": "En insamlingsorganisation som vi har förvaltat i många år.",
+        "lead": "En insamlingsorganisation som ville få fler månadsgivare.",
         "challenge": "Givarna ville känna sig trygga med att pengarna gör nytta, och organisationen ville öka andelen månadsgivare.",
         "solution": "Vi förenklade givarflödet, lyfte fram konkreta resultat och byggde kampanjsidor som marknadsteamet kan skapa själva.",
         "result": "Fler månadsgivare och kampanjer som lanseras på dagar i stället för veckor.",
@@ -186,7 +186,7 @@ ARTICLES = [
                     "Vad kostar det efter första året?",
                     "Finns det någon bindningstid?"]),
             ("h2", "Så gör vi"),
-            ("p", "Hos oss får du ett fast pris i en offert innan vi börjar. Startpaketet kostar 3 000 kr och därefter 99–199 kr per år, och under första året ingår upp till 10 timmars support och ändringar per månad. Domänen är alltid din. På vår prissida ser du vad som ingår i varje paket, och du kan ladda ner ett exempel på hur vårt avtal ser ut."),
+            ("p", "Hos oss får du ett fast pris i en offert innan vi börjar. Starter kostar 3 000 kr i startavgift och därefter 99–199 kr per år, och under första året ingår upp till 10 timmars support och ändringar per månad. Domänen är alltid din. På vår prissida ser du vad som ingår i varje paket, och du kan ladda ner ett exempel på hur vårt avtal ser ut."),
         ],
     },
     {
@@ -201,7 +201,7 @@ ARTICLES = [
             ("h2", "3. En sida per tjänst"),
             ("p", "En egen sida för varje tjänst gör det enklare för besökaren att hitta rätt – och för Google att visa er när någon söker på just den tjänsten."),
             ("h2", "4. Visa att ni är på riktigt"),
-            ("p", "Bilder på riktiga jobb, recensioner från kunder och namnen på de som jobbar hos er bygger förtroende snabbare än allmänna löften."),
+            ("p", "Bilder på riktiga jobb, recensioner från kunder och namnen på dem som jobbar hos er bygger förtroende snabbare än allmänna löften."),
             ("h2", "5. Snabb på mobilen"),
             ("p", "De flesta besökare kommer från telefonen. En sida som laddar långsamt eller är svår att använda på liten skärm tappar dem innan de ens läst rubriken. Du kan testa din egen sida gratis med vårt djuptest."),
         ],
@@ -233,7 +233,7 @@ PLATFORMS = [
                  ("Moderna layouter", "Flexbox, grid och scroll-snap ger responsiva layouter utan tunga bibliotek."),
                  ("Designvariabler", "Färger, typografi och avstånd samlas i CSS-variabler som gör teman enkla att byta.")],
         "here": ["Hela den här sajten är handskriven HTML och CSS utan ramverk.",
-                 "Den gröna och beige färgskalan styrs av ett fåtal CSS-variabler, så hela sajten kunde byta färg genom att ändra dem.",
+                 "Den gröna och beige färgskalan styrs av ett fåtal CSS-variabler, så hela sajten kan byta färg genom att ändra dem.",
                  "Karusellerna på mobil är byggda med scroll-snap i ren CSS."],
     },
     {
@@ -244,8 +244,8 @@ PLATFORMS = [
         "uses": [("Progressiv förbättring", "Grundfunktionen fungerar utan skript – JavaScript gör upplevelsen bättre, inte möjlig."),
                  ("Tillgänglig interaktion", "Menyer och flikar som styrs med tangentbord och berättar sitt läge för skärmläsare."),
                  ("Prestanda", "Små, fokuserade skript utan onödiga beroenden.")],
-        "here": ["Megamenyn, hamburgermenyn och processflikarna styrs av några få rader JavaScript.",
-                 "Siffrorna som räknas upp och korten som tonar in använder IntersectionObserver.",
+        "here": ["Megamenyn, hamburgermenyn och recensionskarusellen styrs av några få rader JavaScript.",
+                 "Korten som tonar in när man scrollar använder IntersectionObserver.",
                  "Allt respekterar inställningen för reducerad rörelse i operativsystemet."],
     },
     {
@@ -292,7 +292,7 @@ PLATFORMS = [
                  ("Flera enheter", "Samma tester körs i olika skärmstorlekar och webbläsare.")],
         "here": ["Varje sida testas vid 1440, 1024 och 390 pixlars bredd innan den publiceras.",
                  "Testerna kontrollerar att ingen sida går att scrolla i sidled på mobilen.",
-                 "Menyer, flikar och formulär klickades igenom automatiskt för att hitta fel."],
+                 "Menyer, flikar och formulär klickas igenom automatiskt för att hitta fel."],
     },
 ]
 
@@ -369,9 +369,9 @@ SIMPLE_PAGES = {
         "title": "Integritetspolicy", "lead": "Så hanterar vi personuppgifter när du kontaktar oss eller besöker vår webbplats.",
         "description": "Så hanterar Elevate Studio personuppgifter från kontaktformulär och nyhetsbrev.",
         "sections": [
-            ("cols", [("När du kontaktar oss", "Personuppgiftsansvarig är PJM Projekteffektivitet AB (org.nr 556969-4358), som Elevate Studio är ett varumärke för. Det du skriver i våra formulär – namn, e-post, telefon, företag och meddelande – skickas till info@elevatestudio.nu och sparas i vårt kundregister. Mejl från oss, som bekräftelser och nyhetsbrev, skickas från info@elevatestudio.nu via e-posttjänsten Brevo. Anmäler du dig till nyhetsbrevet sparas din e-post i Brevo tills du avslutar prenumerationen, vilket du kan göra med en länk i varje utskick. Vi använder uppgifterna bara för att svara dig och sparar dem inte längre än vi behöver."),
+            ("cols", [("När du kontaktar oss", "Personuppgiftsansvarig är PJM Projekteffektivitet AB (org.nr 556969-4358), som Elevate Studio är ett varumärke för. Det du skriver i våra formulär – namn, e-post, telefon, företag och meddelande – skickas till info@elevatestudio.nu och sparas i vårt kundregister. Mejl från oss, som bekräftelser och nyhetsbrev, skickas från info@elevatestudio.nu via e-posttjänsten Brevo. Anmäler du dig till nyhetsbrevet sparas din e-post i Brevo tills du avslutar prenumerationen, vilket du kan göra med en länk i varje utskick. Vi använder uppgifterna bara för att svara dig och skicka det du har bett om, och sparar dem inte längre än vi behöver."),
                       ("Ingen spårning", "Webbplatsen sätter inga cookies och använder inga analys- eller annonsverktyg. Vi följer inte vad du gör här."),
-                      ("Dina rättigheter", "Du har rätt att få veta vilka uppgifter vi har om dig, få dem rättade eller raderade. Mejla info@elevatestudio.nu så hjälper vi dig. Du kan också vända dig till Integritetsskyddsmyndigheten (IMY).")]),
+                      ("Dina rättigheter", "Du har rätt att få veta vilka uppgifter vi har om dig, och att få dem rättade eller raderade. Mejla info@elevatestudio.nu så hjälper vi dig. Du kan också vända dig till Integritetsskyddsmyndigheten (IMY).")]),
             ("links", [("Om cookies", "cookies.html"), ("Kontakta oss", "kontakt.html")]),
         ],
     },
@@ -412,7 +412,7 @@ LANDINGS = [
         "sections": [
             ("Det här behöver en hantverkare på sin hemsida", ["En tydlig rubrik som säger vad ni gör och var ni jobbar.", "En egen sida för varje tjänst – till exempel badrum, kök eller tak.", "Bilder på riktiga jobb som visar vad ni kan.", "Telefonnummer och offertknapp på varje sida.", "En sida som fungerar perfekt på mobilen, där de flesta kunder söker."]),
             ("Offertformulär som sparar tid", ["Med ett offertflöde beskriver kunden jobbet steg för steg och kan bifoga bilder. Ni får en komplett förfrågan och slipper ringa tillbaka för att fråga om grundläggande saker."]),
-            ("Synas när kunderna söker lokalt", ["Vi bygger sidan så att Google förstår vilka tjänster ni erbjuder och i vilka orter – och så att AI-tjänster kan beskriva er rätt när någon frågar efter en hantverkare i närheten."]),
+            ("Synas när kunderna söker lokalt", ["Vi bygger sidan så att Google förstår vilka tjänster ni erbjuder och på vilka orter – och så att AI-tjänster kan beskriva er rätt när någon frågar efter en hantverkare i närheten."]),
         ],
         "faq": [("Vad kostar en hemsida för hantverkare?", "Starter kostar 3 000 kr och Pro, med offertflöde eller bokning, 6 000 kr i startavgift plus en låg årsavgift."),
                 ("Kan kunderna skicka bilder i offertformuläret?", "Ja, kunden kan bifoga bilder eller beskrivningar direkt i förfrågan."),

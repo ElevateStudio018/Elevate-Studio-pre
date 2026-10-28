@@ -183,7 +183,7 @@ async function buildQuotePdf(input) {
     top += rowH;
   };
   row("Post", "Pris (exkl. moms)", "head");
-  row("Webbutveckling - fast startavgift", kr(input.startFee), "body");
+  row("Webbutveckling – fast startavgift", kr(input.startFee), "body");
   row("Årsavgift", `${kr(input.yearlyFee)}/år`, "body");
   row("Webbredigering och support, upp till 10 tim/mån första året", "Ingår", "body");
   row("Totalt första året", kr(input.startFee + input.yearlyFee), "foot");
