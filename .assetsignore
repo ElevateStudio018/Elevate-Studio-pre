@@ -13,3 +13,4 @@ mejl
 dist
 *.zip
 /*.png
+.wrangler

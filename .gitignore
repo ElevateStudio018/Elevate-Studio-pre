@@ -4,3 +4,4 @@ __pycache__/
 node_modules/
 elevate-studio-webb.zip
 dist/
+.wrangler/
