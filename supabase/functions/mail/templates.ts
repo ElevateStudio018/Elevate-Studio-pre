@@ -140,13 +140,13 @@ export function meetingInvite(o: { name: string; when: string; minutes: number; 
 }
 
 /** Calendar file attached to the invite, so the meeting lands in the customer's calendar. */
-export function ics(o: { start: Date; minutes: number; title: string; location?: string; description?: string; attendee: string }) {
+export function ics(o: { start: Date; minutes: number; title: string; location?: string; description?: string; attendee: string; uid?: string; organizer?: string }) {
   const f = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
   const e = (s: string) => s.replace(/\\/g, "\\\\").replace(/;/g, "\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
   return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Elevate Studio//Admin//SV", "METHOD:REQUEST", "BEGIN:VEVENT",
-    `UID:${o.start.getTime()}-${Math.random().toString(36).slice(2, 8)}@elevatestudio.nu`, `DTSTAMP:${f(new Date())}`, `DTSTART:${f(o.start)}`,
+    `UID:${o.uid || `${o.start.getTime()}-${Math.random().toString(36).slice(2, 8)}@elevatestudio.nu`}`, `DTSTAMP:${f(new Date())}`, `DTSTART:${f(o.start)}`,
     `DTEND:${f(new Date(o.start.getTime() + o.minutes * 6e4))}`, `SUMMARY:${e(o.title)}`, `DESCRIPTION:${e(o.description || "")}`, `LOCATION:${e(o.location || "")}`,
-    "ORGANIZER;CN=Elevate Studio:mailto:info@elevatestudio.nu", `ATTENDEE;RSVP=TRUE:mailto:${o.attendee}`, "STATUS:CONFIRMED", "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+    `ORGANIZER;CN=Elevate Studio:mailto:${o.organizer || "info@elevatestudio.nu"}`, `ATTENDEE;RSVP=TRUE:mailto:${o.attendee}`, "STATUS:CONFIRMED", "END:VEVENT", "END:VCALENDAR"].join("\r\n");
 }
 
 /** Mail campaign written in the admin. */

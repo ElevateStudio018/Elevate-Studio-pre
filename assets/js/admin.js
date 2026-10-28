@@ -502,7 +502,7 @@
       form([{ name: 'lead', label: 'Kund', options: leads, value: l ? l.id : '' }]) + '<div class="grid2">' +
       form([{ name: 'at', label: 'Tid', type: 'datetime-local', value: localInput(t.toISOString()), required: true }, { name: 'minutes', label: 'Längd (minuter)', type: 'number', value: 30 },
         { name: 'type', label: 'Typ', options: types, value: 'google_meet' }, { name: 'host', label: 'Värd', options: hosts, value: '' }]) + '</div>' +
-      form([{ name: 'link', label: 'Möteslänk (Meet/Teams) eller adress', placeholder: 'https://meet.google.com/…' }, { name: 'message', label: 'Meddelande till kunden', type: 'textarea' }]) +
+      form([{ name: 'link', label: 'Möteslänk eller adress', placeholder: 'Tomt vid Google Meet – länken skapas automatiskt' }, { name: 'message', label: 'Meddelande till kunden', type: 'textarea' }]) +
       '<label class="check"><input type="checkbox" name="send" checked> Skicka inbjudan till kunden från ' + GMAIL + '</label>' +
       '<div class="dlg__row"><button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">Boka</button></div></form>', function (d) {
       $('#bm', d).addEventListener('submit', function (e) {
@@ -510,35 +510,40 @@
         var x = lead(v('lead')); if (!x) return toast('Välj en kund.');
         var at = new Date(v('at')), mins = Number(v('minutes')) || 30, host = v('host'), type = v('type');
         var hostName = hosts[host], when = at.toLocaleString('sv-SE', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
-        var btn = $('button[type=submit]', d); btn.disabled = true;
-        update(x.id, { booking_at: at.toISOString(), status: 'meeting_booked', meeting_type: type === 'visit' ? 'quote' : type }).then(function () {
-          return Promise.all([
-            sb.from('calendar_activities').insert({ title: 'Möte: ' + (x.company || x.name), category: 'meeting', starts_at: at.toISOString(), ends_at: new Date(at.getTime() + mins * 6e4).toISOString(),
-              location: v('link') || null, description: [types[type], 'Värd: ' + hostName, x.email, x.phone].filter(Boolean).join('\n'), link: '/admin', created_by: st.user.id }),
-            sb.from('meeting_invites').insert({ quote_request_id: x.id, booking_at: at.toISOString(), duration_min: mins, meet_link: v('link') || null, recipients: [x.email], recipient_name: x.name,
-              subject: 'Möte med Elevate Studio', message: v('message') || null, created_by: st.user.id })
-          ]);
-        }).then(function () {
-          if (!f.elements.send.checked) return 'booked';
-          // Sent by the site's server through Gmail – no mail program opens
-          return sb.auth.getSession().then(function (r) {
-            var token = r.data && r.data.session && r.data.session.access_token;
-            return fetch('/api/invite', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
-              body: JSON.stringify({ lead_id: x.id, at: at.toISOString(), minutes: mins, type: types[type], link: v('link'), message: v('message'), sender: host }) });
-          }).then(function (res) {
-            return res.json().catch(function () { return {}; }).then(function (b) {
-              if (res.ok) return 'sent';
-              if (b.error === 'not_configured') return 'not_configured';
-              return 'failed:' + (b.error === 'auth' ? 'Du behöver logga in igen.' : b.error || res.status);
-            });
-          }).catch(function () { return 'failed:Servern svarade inte.'; });
-        }).then(function (how) {
+        var btn = $('button[type=submit]', d); btn.disabled = true; btn.textContent = 'Bokar …';
+        var send = f.elements.send.checked, auto = type === 'google_meet' && !v('link');
+        // The server makes the Google Meet link (when none is given) and mails the invite from Gmail – no mail program opens
+        var server = !send && !auto ? Promise.resolve({ how: 'booked' }) : sb.auth.getSession().then(function (r) {
+          var token = r.data && r.data.session && r.data.session.access_token;
+          return fetch('/api/invite', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+            body: JSON.stringify({ lead_id: x.id, at: at.toISOString(), minutes: mins, type: types[type], link: v('link'), message: v('message'), sender: host, send: send, auto_meet: auto }) });
+        }).then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (b) {
+            if (res.ok) return { how: b.sent === false ? 'booked' : 'sent', link: b.link };
+            if (b.error === 'not_configured') return { how: 'not_configured' };
+            if (b.error === 'google_not_configured') return { how: 'no_google' };
+            return { how: 'failed', why: b.error === 'auth' ? 'Du behöver logga in igen.' : b.error || res.status };
+          });
+        }).catch(function () { return { how: 'failed', why: 'Servern svarade inte.' }; });
+        server.then(function (out) {
+          var link = v('link') || out.link || null;
+          return update(x.id, { booking_at: at.toISOString(), status: 'meeting_booked', meeting_type: type === 'visit' ? 'quote' : type }).then(function () {
+            return Promise.all([
+              sb.from('calendar_activities').insert({ title: 'Möte: ' + (x.company || x.name), category: 'meeting', starts_at: at.toISOString(), ends_at: new Date(at.getTime() + mins * 6e4).toISOString(),
+                location: link, description: [types[type], 'Värd: ' + hostName, x.email, x.phone].filter(Boolean).join('\n'), link: '/admin', created_by: st.user.id }),
+              sb.from('meeting_invites').insert({ quote_request_id: x.id, booking_at: at.toISOString(), duration_min: mins, meet_link: link, recipients: [x.email], recipient_name: x.name,
+                subject: 'Möte med Elevate Studio', message: v('message') || null, created_by: st.user.id })
+            ]);
+          }).then(function () { return out; });
+        }).then(function (out) {
           d.remove(); render();
-          if (how === 'sent') return toast('Mötet är bokat och inbjudan skickad från ' + GMAIL);
-          if (how === 'not_configured') return toast('Mötet är bokat. Inbjudan skickades inte – Gmail är inte kopplat än (se Integrationer).');
-          if (String(how).indexOf('failed:') === 0) return toast('Mötet är bokat, men inbjudan kunde inte skickas: ' + how.slice(7));
-          toast('Mötet är bokat');
-        }).catch(function (err) { btn.disabled = false; toast(err.message); });
+          var meet = out.link ? ' Meet-länken är skapad och mötet ligger i Elevates Google Kalender.' : '';
+          if (out.how === 'sent') return toast('Mötet är bokat och inbjudan skickad från ' + GMAIL + '.' + meet);
+          if (out.how === 'not_configured') return toast('Mötet är bokat. Inbjudan skickades inte – Gmail är inte kopplat än (se Integrationer).');
+          if (out.how === 'no_google') return toast('Mötet är bokat, men inget skickades: Google Kalender är inte kopplat än, så Meet-länken kunde inte skapas (se Integrationer).');
+          if (out.how === 'failed') return toast('Mötet är bokat, men inbjudan kunde inte skickas: ' + out.why);
+          toast('Mötet är bokat.' + meet);
+        }).catch(function (err) { btn.disabled = false; btn.textContent = 'Boka'; toast(err.message); });
       });
     });
   }
@@ -979,20 +984,24 @@
       ['Mejl från info@ (Brevo)', 'Bekräftelse till kunden, avisering till info@ och recensionsmejl, i den gröna designen.', root.dataset.mail ? 'on' : 'off', root.dataset.mail ? 'Ansluten' : 'Väntar på Brevo'],
       ['Nyhetsbrev (Brevo)', 'Anmälningar från hemsidan läggs i listan. Utskick görs i Brevo från info@.', root.dataset.mail ? 'on' : 'off', root.dataset.mail ? 'Ansluten' : 'Väntar på Brevo'],
       ['Gmail (' + GMAIL + ')', 'Mötesinbjudningar skickas härifrån, med kalenderfil.', 'gmail', 'Kollar …'],
-      ['Google Kalender & Meet', 'Skapa möten med Meet-länk direkt från en lead.', 'off', 'Kräver server'],
+      ['Google Kalender & Meet', 'Bokade Google Meet-möten hamnar i Elevates Google Kalender och får en Meet-länk automatiskt.', 'google', 'Kollar …'],
       ['SMS (GatewayAPI)', 'SMS-påminnelser till kund och team.', 'off', 'Kräver server'],
       ['Stripe', 'Skapa och skicka fakturor.', 'off', 'Kräver server'],
       ['AI-modell', 'AI-assistent och AI-förslag.', 'off', 'Kräver server']
     ];
     main().innerHTML = head('Integrationer', 'Vad admin är kopplad till.') +
-      info('Varför vissa kräver server', 'Kopplingarna till Kalender, SMS, Stripe och AI behöver hemliga nycklar. De kan inte ligga på en vanlig hemsida. I den gamla admin låg de hos Lovable. Vill ni ha tillbaka dem byggs en liten server (t.ex. Supabase Edge Functions) som admin anropar.') +
+      info('Varför vissa kräver server', 'Kopplingarna till SMS, Stripe och AI behöver hemliga nycklar. De kan inte ligga på en vanlig hemsida. I den gamla admin låg de hos Lovable. Vill ni ha tillbaka dem byggs en liten server (t.ex. Supabase Edge Functions) som admin anropar.') +
       '<div class="cards">' + items.map(function (i) {
-        return '<article class="cardx"><h3>' + i[0] + '</h3><p>' + i[1] + '</p><footer><span class="pill pill--' + i[2] + '"' + (i[2] === 'gmail' ? ' id="gmail-pill"' : '') + '>' + i[3] + '</span></footer></article>';
+        return '<article class="cardx"><h3>' + i[0] + '</h3><p>' + i[1] + '</p><footer><span class="pill pill--' + i[2] + '"' + (i[2] === 'gmail' || i[2] === 'google' ? ' id="' + i[2] + '-pill"' : '') + '>' + i[3] + '</span>' +
+          (i[2] === 'google' ? ' <a class="btn btn--ghost btn--sm" id="google-connect" href="/api/google/connect" hidden>Koppla Google</a>' : '') + '</footer></article>';
       }).join('') + '</div>';
     fetch('/api/status').then(function (r) { return r.json(); }).then(function (st) {
       var pill = $('#gmail-pill'); if (!pill) return;
       pill.className = 'pill pill--' + (st.gmail ? 'on' : 'off');
       pill.textContent = st.gmail ? 'Ansluten' : 'Lösenord saknas i Cloudflare';
+      var g = $('#google-pill'); if (!g) return;
+      g.className = 'pill pill--' + (st.google ? 'on' : 'off'); g.textContent = st.google ? 'Ansluten' : 'Inte kopplat';
+      $('#google-connect').hidden = !!st.google;
     }).catch(function () { var pill = $('#gmail-pill'); if (pill) { pill.className = 'pill pill--off'; pill.textContent = 'Kan inte nås här'; } });
   }
 

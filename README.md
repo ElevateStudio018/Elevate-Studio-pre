@@ -92,3 +92,21 @@ Domänens DNS ligger i Cloudflare, så sidan publiceras direkt från GitHub:
 `wrangler.jsonc` säger att webbplatsen är filerna i repot; `.assetsignore` håller verktyg, serverkod och utkast utanför.
 Omdirigeringar från gamla adresser finns i `_redirects`, cache-regler i `_headers`. Sidorna nås utan `.html` (`/priser`).
 Varje push till `main` publiceras. För Loopia/Apache används i stället `.htaccess` och zip-filen från `tools/package.py`.
+
+## Google Meet-länkar automatiskt
+
+När ett möte av typen Google Meet bokas i admin utan egen länk skapar servern mötet i Elevates
+Google Kalender (elevate.studio018@gmail.com) med en Meet-länk. Länken kommer med i den gröna inbjudan.
+Kunden läggs till som gäst, men Google skickar inget eget mejl.
+
+Engångsinställning:
+1. I Google Cloud Console (inloggad som elevate.studio018@gmail.com): skapa ett projekt och slå på
+   **Google Calendar API**.
+2. **OAuth consent screen**: External, lägg till scope `calendar.events`, och tryck **Publish app**
+   (annars slutar kopplingen fungera efter 7 dagar).
+3. **Credentials → Create credentials → OAuth client ID**, typ Web application, med redirect URI
+   `https://elevatestudio.nu/api/google/callback`.
+4. I Cloudflare (Workers → elevate-studio-pre → Settings → Variables and Secrets) läggs två
+   **Secrets** in: `GOOGLE_CLIENT_ID` och `GOOGLE_CLIENT_SECRET`.
+5. I admin: Integrationer → **Koppla Google**. Logga in med Elevate-kontot och godkänn. Sidan som
+   visas efteråt ger en nyckel som läggs in som Secret `GOOGLE_REFRESH_TOKEN`.

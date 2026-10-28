@@ -2,6 +2,7 @@
 // meeting invites (with a calendar file), personal mails, review requests and mail campaigns.
 // The Gmail app password is a Cloudflare secret (GMAIL_APP_PASSWORD), never in the code.
 import { WorkerMailer } from 'worker-mailer';
+import { googleReady, createMeet } from './google.js';
 import { meetingInvite, ics, reviewRequest, personalMail, campaign, TEAM } from '../supabase/functions/mail/templates.ts';
 
 const REVIEW_URL = 'https://search.google.com/local/writereview?placeid=ChIJcRLSybPJX0YRomaZlUJ2bzY';
@@ -32,7 +33,8 @@ export function buildInvite(lead, input) {
   const when = start.toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   const link = clip(input.link, 500), type = clip(input.type, 60) || 'Möte';
   const mail = meetingInvite({ name: lead.name || '', when, minutes, type, link, message: clip(input.message, 2000), host });
-  const cal = ics({ start, minutes, title: 'Möte med Elevate Studio', location: link, description: `${type}${link ? '\n' + link : ''}`, attendee: lead.email });
+  const cal = ics({ start, minutes, title: 'Möte med Elevate Studio', location: link, description: `${type}${link ? '\n' + link : ''}`, attendee: lead.email,
+    uid: clip(input.uid, 200), organizer: input.uid ? input.organizer : undefined });
   return { mail, cal, host };
 }
 
@@ -61,11 +63,12 @@ async function oneMail(env, auth, lead, built) {
 
 export async function handleMail(req, env, forcedAction) {
   if (req.method !== 'POST') return json({ error: 'method' }, 405);
-  if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) return json({ error: 'not_configured' }, 503);
   const auth = await adminUser(req, env);
   if (!auth) return json({ error: 'auth' }, 401);
   let input; try { input = await req.json(); } catch { return json({ error: 'json' }, 400); }
   const action = forcedAction || input.action;
+  const sending = !(action === 'invite' && input.send === false);
+  if (sending && (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD)) return json({ error: 'not_configured' }, 503);
   const host = TEAM[String(input.sender || '')];
 
   // Who it goes to: a lead from the database, or (for a contact) an address given by the admin
@@ -79,8 +82,21 @@ export async function handleMail(req, env, forcedAction) {
 
   if (action === 'invite') {
     if (!lead?.email) return json({ error: 'lead' }, 404);
-    const built = buildInvite(lead, input);
-    return built ? oneMail(env, auth, lead, built) : json({ error: 'time' }, 400);
+    if (isNaN(new Date(String(input.at)).getTime())) return json({ error: 'time' }, 400);
+    // Google Meet without a link given: the event and its Meet link are made in the Elevate calendar
+    let meet = null;
+    if (input.auto_meet && !clip(input.link, 500)) {
+      if (!googleReady(env)) return json({ error: 'google_not_configured' }, 503);
+      try {
+        meet = await createMeet(env, { start: new Date(String(input.at)), minutes: Math.min(Math.max(Number(input.minutes) || 30, 5), 480),
+          title: `Möte: ${lead.name || lead.email} och Elevate Studio`, description: clip(input.message, 2000), attendee: lead.email, name: lead.name });
+      } catch (e) { return json({ error: String(e.message || e).slice(0, 300) }, 502); }
+      input = { ...input, link: meet.link, uid: meet.uid, organizer: env.GMAIL_USER };
+    }
+    if (!sending) return json({ ok: true, link: meet?.link || null, sent: false });
+    const res = await oneMail(env, auth, lead, buildInvite(lead, input));
+    if (!meet || !res.ok) return res;
+    return json({ ok: true, from: env.GMAIL_USER, link: meet.link, sent: true });
   }
   if (action === 'review') {
     if (!lead?.email) return json({ error: 'lead' }, 404);
