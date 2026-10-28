@@ -70,7 +70,8 @@
     var update = function () {
       var g = range(), p = Math.min(1, Math.max(0, (window.scrollY - g.top) / Math.max(1, g.len)));
       var i = Math.min(steps.length - 1, Math.floor(p * steps.length));
-      fill.style.height = (steps.length > 1 ? (i / (steps.length - 1)) * 100 : 100) + '%';
+      // The line fills smoothly with the scroll and reaches each dot as its step starts
+      fill.style.height = (steps.length > 1 ? Math.min(1, p * steps.length / (steps.length - 1)) * 100 : 100) + '%';
       if (i === current) return;
       current = i;
       for (var k = 0; k < steps.length; k++) {
@@ -80,7 +81,12 @@
         panels[k].setAttribute('aria-hidden', String(k !== i));
       }
     };
-    window.addEventListener('scroll', update, { passive: true });
+    var queued = false;
+    window.addEventListener('scroll', function () {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () { queued = false; update(); });
+    }, { passive: true });
     window.addEventListener('resize', update);
     update();
   }
