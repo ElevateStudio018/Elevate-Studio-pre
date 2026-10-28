@@ -228,6 +228,9 @@ I18N_VERSION = hashlib.sha1((ROOT / "tools/i18n_en.py").read_bytes()).hexdigest(
 
 
 ORG_ID = f"{SITE_URL}/#organisation"
+# Google Maps listing (the same place as the review link) and the area we serve around Uppsala
+MAPS_URL = "https://www.google.com/maps/search/?api=1&query=Elevate%20Studio%20Uppsala&query_place_id=ChIJcRLSybPJX0YRomaZlUJ2bzY"
+UPPSALA_AREA = ["Uppsala", "Knivsta", "Enköping", "Sigtuna", "Märsta", "Östhammar", "Tierp", "Heby", "Älvkarleby", "Stockholm"]
 
 
 def organisation_ld():
@@ -237,12 +240,17 @@ def organisation_ld():
         "@id": ORG_ID,
         "name": "Elevate Studio",
         "url": f"{SITE_URL}/",
-        "logo": f"{SITE_URL}/assets/img/brand/logo-mark.svg",
+        "logo": f"{SITE_URL}/assets/img/brand/favicon-512.png",
         "image": f"{SITE_URL}/assets/img/brand/og.jpg",
         "description": "Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor med bokning, offertflöde, AI-chatt, SEO och AI-optimering till fast pris.",
         "email": "info@elevatestudio.nu",
-        "address": {"@type": "PostalAddress", "addressLocality": "Uppsala", "addressCountry": "SE"},
-        "areaServed": {"@type": "Country", "name": "Sverige"},
+        "telephone": TEAM[0][2],
+        "address": {"@type": "PostalAddress", "addressLocality": "Uppsala", "addressRegion": "Uppsala län", "addressCountry": "SE"},
+        "areaServed": [{"@type": "City", "name": c} for c in UPPSALA_AREA] + [{"@type": "Country", "name": "Sverige"}],
+        "hasMap": MAPS_URL,
+        "sameAs": [MAPS_URL],
+        "knowsAbout": ["Webbdesign", "Hemsidor för företag", "Sökmotoroptimering (SEO)", "AI-optimering", "Bokningssystem", "Offertsystem", "AI-chatt", "Webbutveckling"],
+        "slogan": "Hemsidor som ger förfrågningar",
         "priceRange": "3 000–6 000 kr",
         "knowsLanguage": ["sv", "en"],
         "employee": [{"@type": "Person", "name": n, "jobTitle": r, "telephone": t, "email": e} for n, r, t, e in TEAM],
@@ -450,13 +458,24 @@ def page_url(path):
         return f"{SITE_URL}/"
     if path.endswith("/index.html"):
         return f"{SITE_URL}/{path[:-len('index.html')]}"
-    return f"{SITE_URL}/{path}"
+    return f"{SITE_URL}/{path.removesuffix('.html')}"
+
+
+# The host serves pages without ".html" (/priser, /tjanster/), so every link and address uses
+# that form. Linking to /priser.html would cost a redirect and blur which address is the real one.
+_LOCAL_HREF = re.compile(r'href="(?![a-z]+:|//|#)([^"#?]*?)(index)?\.html([#?][^"]*)?"')
+_SITE_HTML = re.compile(re.escape(SITE_URL) + r'(/[^\s"<>)\]]*?)(index)?\.html')
+
+
+def pretty(text):
+    text = _LOCAL_HREF.sub(lambda m: f'href="{(m.group(1) or "./")}{m.group(3) or ""}"', text)
+    return _SITE_HTML.sub(lambda m: SITE_URL + m.group(1), text)
 
 
 def write(path, text):
     out = ROOT / path
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(text.replace("__CANONICAL__", page_url(path)), encoding="utf-8")
+    out.write_text(pretty(text.replace("__CANONICAL__", page_url(path))), encoding="utf-8")
     return path
 
 
@@ -1336,6 +1355,10 @@ def main():
     built.extend(site_files(built))
     i18n_files()
     built.append(rss_feed())
+    for name in ("sitemap.xml", "llms.txt", "llms-full.txt", "rss.xml"):
+        f = ROOT / name
+        if f.exists():
+            f.write_text(pretty(f.read_text(encoding="utf-8")), encoding="utf-8")
     print(f"Built {len(built)} pages")
 
 

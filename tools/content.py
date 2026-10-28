@@ -391,16 +391,22 @@ SIMPLE_PAGES = {
 # Landing pages for common searches. Every fact here is also stated elsewhere on the site.
 LANDINGS = [
     {
-        "slug": "webbyra-uppsala", "title": "Webbyrå i Uppsala – hemsidor till fast pris",
+        "slug": "webbyra-uppsala", "title": "Webbyrå Uppsala – hemsidor till fast pris från 3 000 kr",
         "h1": "Webbyrå i <em>Uppsala</em>",
-        "description": "Elevate Studio är en webbyrå i Uppsala som bygger hemsidor för företag till fast pris från 3 000 kr. Möt oss på plats i Uppsala eller på distans.",
-        "lead": "Vi är en liten webbyrå i Uppsala som bygger hemsidor som ger förfrågningar – för företag i Uppsala och i hela Sverige.",
+        "description": "Elevate Studio är en webbyrå i Uppsala som bygger hemsidor för företag till fast pris från 3 000 kr. Första utkastet efter ungefär en dag. Möt oss i Uppsala eller på distans.",
+        "lead": "Vi är en liten webbyrå i Uppsala som bygger hemsidor som ger förfrågningar – för företag i Uppsala, i hela Uppsala län och i resten av Sverige.",
         "sections": [
             ("Lokal webbyrå – samma kontaktperson hela vägen", ["Som företag i Uppsala kan ni träffa oss på plats, men det går lika bra att ses på distans. Ni pratar med samma person från första mötet till uppföljningen varje månad – inga mellanhänder och inga långa mejltrådar."]),
-            ("Det här bygger vi", ["Snabba, mobilanpassade hemsidor med tydliga tjänstesidor och kontakt på varje sida.", "Bokningssystem och offertformulär direkt på hemsidan.", "AI-chatt som svarar på kundernas vanliga frågor.", "SEO och AI-optimering så att ni syns på Google och i AI-sök.", "Support och underhåll efter lansering."]),
+            ("Det här gör en webbyrå åt er", ["Snabba, mobilanpassade hemsidor med tydliga tjänstesidor och kontakt på varje sida.", "Bokningssystem och offertformulär direkt på hemsidan.", "AI-chatt som svarar på kundernas vanliga frågor.", "SEO och AI-optimering så att ni syns på Google och i AI-sök.", "Support och underhåll efter lansering."]),
+            ("Så går det till", ["Första mötet: vi lär känna ert företag, era kunder och vad hemsidan ska ge.", "Utkast på en dag: ni ser ett första utkast efter ungefär en dag.", "Finjustering: ni får två korrekturvändor, så att allt blir rätt.", "Lansering: sidan går live, indexeras av Google och börjar ta emot förfrågningar.", "Uppföljning: vi följer upp vad som ger kunder och förbättrar löpande."]),
             ("Fast pris och tydligt avtal", ["Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. Ni får allt på två sidor och godkänner genom att svara på mejlet."]),
+            ("Syns när kunder i Uppsala söker", ["När någon söker på en tjänst i Uppsala visar Google först de företag som har en tydlig hemsida, en komplett företagsprofil och bra recensioner. Vi bygger sidan så att Google förstår vad ni gör och var ni finns – och så att AI-tjänster som ChatGPT kan beskriva er rätt när någon frågar efter ett företag i närheten."]),
+            ("Vi hjälper företag i hela Uppsala län", ["Uppsala, Knivsta, Enköping, Östhammar, Tierp, Heby och Älvkarleby – och gärna Sigtuna, Märsta och Stockholm också. Vi träffas där det passar er eller på distans."]),
         ],
         "faq": [("Kan vi träffas i Uppsala?", "Ja. Vi finns i Uppsala och träffar gärna kunder på plats. Möten går också bra på distans."),
+                ("Vad kostar en hemsida hos en webbyrå i Uppsala?", "Hos oss kostar Starter 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert innan vi börjar."),
+                ("Vad gör en webbyrå?", "En webbyrå planerar, designar och bygger hemsidor – och hjälper ofta till med sådant som SEO, bokning, formulär och support efter lansering. Hos oss ingår grundläggande SEO och AI-optimering i alla hemsidor."),
+                ("Hur väljer man webbyrå?", "Fråga efter ett fast pris, vem som äger domänen, vad som ingår i supporten och vad det kostar efter första året. Be också att få se exempel på hemsidor byrån har byggt."),
                 ("Bygger ni hemsidor för företag utanför Uppsala?", "Ja. Vi bygger hemsidor åt företag i hela Sverige."),
                 ("Hur lång tid tar det?", "Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst.")],
     },

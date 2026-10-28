@@ -10,18 +10,22 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
+# Pages are linked without ".html" (/priser): serve priser.html for them
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L]
+
 # Old addresses from the previous site
-RewriteRule ^om-oss/?$ /om.html [L,R=301]
-RewriteRule ^priser/?$ /priser.html [L,R=301]
-RewriteRule ^integritetspolicy/?$ /integritet.html [L,R=301]
-RewriteRule ^branscher/?$ /hemsida-for-hantverkare.html [L,R=301]
+RewriteRule ^om-oss/?$ /om [L,R=301]
+RewriteRule ^integritetspolicy/?$ /integritet [L,R=301]
+RewriteRule ^branscher/?$ /hemsida-for-hantverkare [L,R=301]
 RewriteRule ^sa-fungerar-det/?$ /tjanster/ [L,R=301]
 RewriteRule ^vara-hemsidor/?$ /projekt/ [L,R=301]
-RewriteRule ^tjanster/(ai-chatt|bokningssystem|offertsystem)/?$ /tjanster/$1.html [L,R=301]
-RewriteRule ^tjanster/hemsida-for-hantverkare/?$ /hemsida-for-hantverkare.html [L,R=301]
-RewriteRule ^tjanster/seo-for-hantverkare/?$ /tjanster/seo-och-ai-optimering.html [L,R=301]
-RewriteRule ^tjanster/underhall-och-support/?$ /tjanster/support-och-underhall.html [L,R=301]
-RewriteRule ^tjanster/start/?$ /tjanster/hemsidor.html [L,R=301]
+RewriteRule ^tjanster/hemsida-for-hantverkare/?$ /hemsida-for-hantverkare [L,R=301]
+RewriteRule ^tjanster/seo-for-hantverkare/?$ /tjanster/seo-och-ai-optimering [L,R=301]
+RewriteRule ^tjanster/underhall-och-support/?$ /tjanster/support-och-underhall [L,R=301]
+RewriteRule ^tjanster/start/?$ /tjanster/hemsidor [L,R=301]
 RewriteRule ^(auth|kalender|kontakter|fakturor|utskick|segment|besokare|chatt-insikter|kundportal|cfo|minne|integrationer|ai|portal)(/.*)?$ /admin/ [L,R=301]
 
 # Hide the build tools and server code if they are ever uploaded by mistake
