@@ -526,6 +526,19 @@
       form([{ name: 'link', label: 'Möteslänk eller adress', placeholder: 'Tomt vid Google Meet – länken skapas automatiskt' }, { name: 'message', label: 'Meddelande till kunden', type: 'textarea' }]) +
       '<label class="check"><input type="checkbox" name="send" checked> Skicka inbjudan till kunden från ' + GMAIL + '</label>' +
       '<div class="dlg__row"><button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">Boka</button></div></form>', function (d) {
+      // The link field follows the meeting type: hidden for Google Meet (the link is made when booking)
+      var bm = $('#bm', d), linkField = bm.elements.link.closest('.field');
+      var auto = document.createElement('p'); auto.className = 'small muted'; auto.style.margin = '-4px 0 14px';
+      auto.textContent = 'Google Meet-länken skapas automatiskt när du bokar och kommer med i inbjudan.';
+      linkField.parentNode.insertBefore(auto, linkField);
+      var LINK = { teams: ['Teams-länk', 'https://teams.microsoft.com/…'], phone: ['Telefonnummer (valfritt)', 'Vi ringer upp på …'], visit: ['Adress', 'Gatuadress, ort'] };
+      var syncLink = function () {
+        var t = bm.elements.type.value, meet = t === 'google_meet';
+        linkField.hidden = meet; auto.hidden = !meet;
+        if (meet) { bm.elements.link.value = ''; return; }
+        linkField.firstChild.nodeValue = LINK[t][0]; bm.elements.link.placeholder = LINK[t][1];
+      };
+      bm.elements.type.addEventListener('change', syncLink); syncLink();
       $('#bm', d).addEventListener('submit', function (e) {
         e.preventDefault(); var f = e.target, v = function (n) { return f.elements[n].value.trim(); };
         var x = lead(v('lead')); if (!x) return toast('Välj en kund.');
