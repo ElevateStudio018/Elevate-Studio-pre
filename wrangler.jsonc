@@ -3,6 +3,11 @@
 {
   "name": "elevate-studio-pre",
   "compatibility_date": "2026-10-01",
+  // The site's own addresses. Cloudflare creates the DNS records for these when it publishes.
+  "routes": [
+    { "pattern": "elevatestudio.nu", "custom_domain": true },
+    { "pattern": "www.elevatestudio.nu", "custom_domain": true }
+  ],
   "assets": {
     "directory": ".",
     "not_found_handling": "404-page"
