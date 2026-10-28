@@ -25,7 +25,7 @@ RewriteRule ^tjanster/start/?$ /tjanster/hemsidor.html [L,R=301]
 RewriteRule ^(auth|kalender|kontakter|fakturor|utskick|segment|besokare|chatt-insikter|kundportal|cfo|minne|integrationer|ai|portal)(/.*)?$ /admin/ [L,R=301]
 
 # Hide the build tools and server code if they are ever uploaded by mistake
-RewriteRule ^(tools|supabase|v2|mejl)(/|$) - [F,L]
+RewriteRule ^(tools|supabase|v2|mejl|material)(/|$) - [F,L]
 
 <IfModule mod_expires.c>
   ExpiresActive On
