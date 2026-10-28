@@ -35,6 +35,56 @@
     });
   });
 
+  // Process: on desktop the five steps become a timeline that follows the scroll – the section
+  // stays in place, the next step lights up and its picture and text fade in. Mobile keeps the list.
+  var flow = document.querySelector('.process .flow');
+  if (flow && window.matchMedia('(min-width: 993px)').matches) {
+    var steps = Array.prototype.slice.call(flow.querySelectorAll('.flow__step'));
+    var wrap = document.createElement('div');
+    wrap.className = 'pscroll';
+    wrap.style.setProperty('--n', steps.length);
+    wrap.innerHTML = '<div class="pscroll__sticky"><div class="pscroll__nav"><span class="pscroll__line"><i></i></span><ol></ol></div><div class="pscroll__stage"></div></div>';
+    var navList = wrap.querySelector('ol'), stage = wrap.querySelector('.pscroll__stage'), fill = wrap.querySelector('.pscroll__line i');
+    steps.forEach(function (step, i) {
+      var li = document.createElement('li');
+      li.innerHTML = '<button type="button"><span class="pscroll__label"></span><span class="pscroll__dot"></span></button>';
+      li.querySelector('.pscroll__label').textContent = step.querySelector('.flow__when').textContent;
+      li.querySelector('button').addEventListener('click', function () { go(i); });
+      navList.appendChild(li);
+      var panel = document.createElement('div');
+      panel.className = 'pscroll__panel';
+      panel.appendChild(step.querySelector('.flow__img'));
+      var no = document.createElement('p'); no.className = 'pscroll__no'; no.textContent = step.querySelector('.flow__no').textContent + ' / 0' + steps.length;
+      panel.appendChild(no);
+      panel.appendChild(step.querySelector('.flow__title'));
+      panel.appendChild(step.querySelector('.flow__text'));
+      stage.appendChild(panel);
+    });
+    flow.replaceWith(wrap);
+    var navItems = navList.children, panels = stage.children, current = -1;
+    var range = function () { var r = wrap.getBoundingClientRect(); return { top: r.top + window.scrollY, len: wrap.offsetHeight - window.innerHeight }; };
+    var go = function (i) {
+      var g = range();
+      window.scrollTo({ top: g.top + g.len * (i + 0.5) / steps.length, behavior: reduced ? 'auto' : 'smooth' });
+    };
+    var update = function () {
+      var g = range(), p = Math.min(1, Math.max(0, (window.scrollY - g.top) / Math.max(1, g.len)));
+      var i = Math.min(steps.length - 1, Math.floor(p * steps.length));
+      fill.style.height = (steps.length > 1 ? (i / (steps.length - 1)) * 100 : 100) + '%';
+      if (i === current) return;
+      current = i;
+      for (var k = 0; k < steps.length; k++) {
+        navItems[k].classList.toggle('is-on', k === i);
+        navItems[k].classList.toggle('is-done', k < i);
+        panels[k].classList.toggle('is-on', k === i);
+        panels[k].setAttribute('aria-hidden', String(k !== i));
+      }
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
   // Fade-up reveal for cards
   if (reduced || !('IntersectionObserver' in window)) return;
   var revealTargets = document.querySelectorAll('.case, .post-card, .platform-card, .pair');
