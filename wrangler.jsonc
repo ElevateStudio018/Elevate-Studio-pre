@@ -3,6 +3,15 @@
 {
   "name": "elevate-studio-pre",
   "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  // Server part for the admin (worker/): meeting invites sent through Gmail. Everything else is static files.
+  "main": "worker/index.js",
+  "vars": {
+    "GMAIL_USER": "elevate.studio018@gmail.com",
+    "SUPABASE_URL": "https://halecxdjclrklyufbept.supabase.co",
+    "SUPABASE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhbGVjeGRqY2xya2x5dWZiZXB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwODYwOTcsImV4cCI6MjA5ODY2MjA5N30.Svt4abfAirAVLNDQkmSaQWep_0Ggz-h4WfOGdb0A4RQ"
+  },
+  // GMAIL_APP_PASSWORD is a secret set in Cloudflare (Settings -> Variables and Secrets), never here.
   // The site's own addresses. Cloudflare creates the DNS records for these when it publishes.
   "routes": [
     { "pattern": "elevatestudio.nu", "custom_domain": true },
@@ -10,6 +19,7 @@
   ],
   "assets": {
     "directory": ".",
+    "binding": "ASSETS",
     "not_found_handling": "404-page"
   }
 }

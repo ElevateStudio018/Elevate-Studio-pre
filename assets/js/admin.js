@@ -14,6 +14,7 @@
   var MEETING = { manual: 'Manuellt tillagd', quote: 'Offertförfrågan', teams: 'Microsoft Teams', google_meet: 'Google Meet', phone: 'Telefonmöte' };
   var TEAM = [['Carl', 'Carl From'], ['Isak', 'Isak Mattsson'], ['Oscar', 'Oscar Svanerud']];
   var CLOSED = ['sold', 'lost', 'archived', 'done'];
+  var GMAIL = 'elevate.studio018@gmail.com'; // meeting invites are sent from here (worker/invite.js)
   var st = { user: null, leads: [], view: (location.hash.slice(1).match(/^[a-z]+$/) || ['leads'])[0], status: 'all', q: '', sort: 'created_desc', shown: 40, editing: null };
 
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
@@ -503,7 +504,7 @@
       form([{ name: 'at', label: 'Tid', type: 'datetime-local', value: localInput(t.toISOString()), required: true }, { name: 'minutes', label: 'Längd (minuter)', type: 'number', value: 30 },
         { name: 'type', label: 'Typ', options: types, value: 'google_meet' }, { name: 'host', label: 'Värd', options: hosts, value: '' }]) + '</div>' +
       form([{ name: 'link', label: 'Möteslänk (Meet/Teams) eller adress', placeholder: 'https://meet.google.com/…' }, { name: 'message', label: 'Meddelande till kunden', type: 'textarea' }]) +
-      '<label class="check"><input type="checkbox" name="send" checked> Skicka inbjudan till kunden' + (root.dataset.mail ? ' från info@elevatestudio.nu' : ' (öppnas i ditt mejlprogram)') + '</label>' +
+      '<label class="check"><input type="checkbox" name="send" checked> Skicka inbjudan till kunden från ' + GMAIL + '</label>' +
       '<div class="dlg__row"><button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">Boka</button></div></form>', function (d) {
       $('#bm', d).addEventListener('submit', function (e) {
         e.preventDefault(); var f = e.target, v = function (n) { return f.elements[n].value.trim(); };
@@ -520,17 +521,24 @@
           ]);
         }).then(function () {
           if (!f.elements.send.checked) return 'booked';
-          if (root.dataset.mail) {
-            return sb.functions.invoke('mail', { body: { action: 'invite', lead_id: x.id, at: at.toISOString(), minutes: mins, type: types[type], link: v('link'), message: v('message'), sender: host } })
-              .then(function (r) { if (r.error) throw r.error; return 'sent'; });
-          }
-          var body = 'Hej ' + ((x.name || '').split(/\s+/)[0] || '') + '!\n\nDu har blivit inbjuden till ett möte med Elevate Studio.\n\nTid: ' + when + ' (' + mins + ' min)\nTyp: ' + types[type] +
-            (v('link') ? '\nLänk/plats: ' + v('link') : '') + (v('message') ? '\n\n' + v('message') : '') + '\n\nVänliga hälsningar\n' + hostName + (host ? '\nElevate Studio' : '') + '\ninfo@elevatestudio.nu';
-          location.href = 'mailto:' + encodeURIComponent(x.email) + '?subject=' + encodeURIComponent('Mötesinbjudan från Elevate Studio') + '&body=' + encodeURIComponent(body);
-          return 'mailto';
+          // Sent by the site's server through Gmail – no mail program opens
+          return sb.auth.getSession().then(function (r) {
+            var token = r.data && r.data.session && r.data.session.access_token;
+            return fetch('/api/invite', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+              body: JSON.stringify({ lead_id: x.id, at: at.toISOString(), minutes: mins, type: types[type], link: v('link'), message: v('message'), sender: host }) });
+          }).then(function (res) {
+            return res.json().catch(function () { return {}; }).then(function (b) {
+              if (res.ok) return 'sent';
+              if (b.error === 'not_configured') return 'not_configured';
+              return 'failed:' + (b.error === 'auth' ? 'Du behöver logga in igen.' : b.error || res.status);
+            });
+          }).catch(function () { return 'failed:Servern svarade inte.'; });
         }).then(function (how) {
           d.remove(); render();
-          toast(how === 'sent' ? 'Mötet är bokat och inbjudan skickad från info@' : how === 'mailto' ? 'Mötet är bokat – inbjudan öppnas i ditt mejlprogram' : 'Mötet är bokat');
+          if (how === 'sent') return toast('Mötet är bokat och inbjudan skickad från ' + GMAIL);
+          if (how === 'not_configured') return toast('Mötet är bokat. Inbjudan skickades inte – Gmail är inte kopplat än (se Integrationer).');
+          if (String(how).indexOf('failed:') === 0) return toast('Mötet är bokat, men inbjudan kunde inte skickas: ' + how.slice(7));
+          toast('Mötet är bokat');
         }).catch(function (err) { btn.disabled = false; toast(err.message); });
       });
     });
@@ -939,6 +947,7 @@
       ['Offert-PDF', 'Skapas direkt i webbläsaren, samma som på hemsidan.', 'on', 'Fungerar'],
       ['Mejl från info@ (Brevo)', 'Bekräftelse till kunden, avisering till info@ och recensionsmejl, i den gröna designen.', root.dataset.mail ? 'on' : 'off', root.dataset.mail ? 'Ansluten' : 'Väntar på Brevo'],
       ['Nyhetsbrev (Brevo)', 'Anmälningar från hemsidan läggs i listan. Utskick görs i Brevo från info@.', root.dataset.mail ? 'on' : 'off', root.dataset.mail ? 'Ansluten' : 'Väntar på Brevo'],
+      ['Gmail (' + GMAIL + ')', 'Mötesinbjudningar skickas härifrån, med kalenderfil.', 'gmail', 'Kollar …'],
       ['Google Kalender & Meet', 'Skapa möten med Meet-länk direkt från en lead.', 'off', 'Kräver server'],
       ['SMS (GatewayAPI)', 'SMS-påminnelser till kund och team.', 'off', 'Kräver server'],
       ['Stripe', 'Skapa och skicka fakturor.', 'off', 'Kräver server'],
@@ -947,8 +956,13 @@
     main().innerHTML = head('Integrationer', 'Vad admin är kopplad till.') +
       info('Varför vissa kräver server', 'Kopplingarna till Kalender, SMS, Stripe och AI behöver hemliga nycklar. De kan inte ligga på en vanlig hemsida. I den gamla admin låg de hos Lovable. Vill ni ha tillbaka dem byggs en liten server (t.ex. Supabase Edge Functions) som admin anropar.') +
       '<div class="cards">' + items.map(function (i) {
-        return '<article class="cardx"><h3>' + i[0] + '</h3><p>' + i[1] + '</p><footer><span class="pill pill--' + i[2] + '">' + i[3] + '</span></footer></article>';
+        return '<article class="cardx"><h3>' + i[0] + '</h3><p>' + i[1] + '</p><footer><span class="pill pill--' + i[2] + '"' + (i[2] === 'gmail' ? ' id="gmail-pill"' : '') + '>' + i[3] + '</span></footer></article>';
       }).join('') + '</div>';
+    fetch('/api/status').then(function (r) { return r.json(); }).then(function (st) {
+      var pill = $('#gmail-pill'); if (!pill) return;
+      pill.className = 'pill pill--' + (st.gmail ? 'on' : 'off');
+      pill.textContent = st.gmail ? 'Ansluten' : 'Lösenord saknas i Cloudflare';
+    }).catch(function () { var pill = $('#gmail-pill'); if (pill) { pill.className = 'pill pill--off'; pill.textContent = 'Kan inte nås här'; } });
   }
 
   /* ---------- Konto ---------- */

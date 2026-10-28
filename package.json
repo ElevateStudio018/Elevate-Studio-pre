@@ -1,0 +1,8 @@
+{
+  "name": "elevate-studio-site",
+  "private": true,
+  "description": "Elevate Studio website. Pages are static files; worker/ adds the admin's server parts on Cloudflare.",
+  "dependencies": {
+    "worker-mailer": "1.2.1"
+  }
+}
