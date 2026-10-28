@@ -1,6 +1,6 @@
 // All mail from the website and the admin goes out from info@elevatestudio.nu through Brevo.
 // The Brevo key lives as a secret on the server, never on the website.
-import { FROM, TEAM, leadConfirmation, leadNotification, reviewRequest } from "./templates.ts";
+import { FROM, TEAM, campaign, ics, leadConfirmation, leadNotification, meetingInvite, reviewRequest } from "./templates.ts";
 
 export type Env = {
   BREVO_API_KEY: string;
@@ -37,10 +37,10 @@ export async function handle(req: Request, env: Env, fetchFn: typeof fetch = fet
       headers: { "api-key": env.BREVO_API_KEY, "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify(payload),
     });
-  const send = async (to: { email: string; name?: string }, mail: { subject: string; html: string; text: string }, replyTo = FROM, senderName = FROM.name) => {
+  const send = async (to: { email: string; name?: string }, mail: { subject: string; html: string; text: string }, replyTo = FROM, senderName = FROM.name, attachment?: { name: string; content: string }[]) => {
     const res = await brevo("smtp/email", {
       sender: { name: senderName, email: FROM.email }, to: [to], replyTo,
-      subject: mail.subject, htmlContent: mail.html, textContent: mail.text,
+      subject: mail.subject, htmlContent: mail.html, textContent: mail.text, ...(attachment ? { attachment } : {}),
     });
     if (!res.ok) throw new Error(`brevo ${res.status}: ${(await res.text()).slice(0, 200)}`);
   };
@@ -96,6 +96,42 @@ export async function handle(req: Request, env: Env, fetchFn: typeof fetch = fet
       await db("outbound_messages", { method: "POST", body: JSON.stringify({ channel: "email", recipient: lead.email, subject: mail.subject, status, detail: detail || null, quote_request_id: lead.id, sent_by: user.id }) });
       if (status !== "sent") return reply({ error: detail }, 502);
       return reply({ ok: true });
+    }
+    if (body.action === "invite") {
+      const r = await db(`quote_requests?id=eq.${encodeURIComponent(String(body.lead_id))}&select=id,name,email`);
+      const [lead] = r.ok ? await r.json() : [];
+      if (!lead?.email) return reply({ error: "lead" }, 404);
+      const start = new Date(String(body.at));
+      if (isNaN(start.getTime())) return reply({ error: "time" }, 400);
+      const minutes = Math.min(Math.max(Number(body.minutes) || 30, 5), 480);
+      const host = TEAM[String(body.sender || "")];
+      const when = start.toLocaleString("sv-SE", { timeZone: "Europe/Stockholm", weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
+      const link = clip(body.link, 500) || undefined, type = clip(body.type, 60) || "Möte";
+      const mail = meetingInvite({ name: lead.name || "", when, minutes, type, link, message: clip(body.message, 2000) || undefined, host });
+      const cal = ics({ start, minutes, title: "Möte med Elevate Studio", location: link, description: `${type}${link ? "\n" + link : ""}`, attendee: lead.email });
+      let status = "sent", detail = "";
+      try {
+        await send({ email: lead.email, name: lead.name }, mail, host ? { name: host.name, email: FROM.email } : FROM, host ? `${host.first} på Elevate Studio` : FROM.name,
+          [{ name: "mote.ics", content: btoa(String.fromCharCode(...new TextEncoder().encode(cal))) }]);
+      } catch (e) { status = "failed"; detail = (e as Error).message; }
+      await db("outbound_messages", { method: "POST", body: JSON.stringify({ channel: "email", recipient: lead.email, subject: mail.subject, status, detail: detail || null, quote_request_id: lead.id, sent_by: user.id }) });
+      if (status !== "sent") return reply({ error: detail }, 502);
+      return reply({ ok: true });
+    }
+
+    if (body.action === "campaign") {
+      const list = (Array.isArray(body.recipients) ? body.recipients : []).filter((x: { email?: unknown }) => isEmail(x?.email)).slice(0, 1000);
+      const subject = clip(body.subject, 200), text = clip(body.body, 10000);
+      if (!list.length || !subject || !text) return reply({ error: "input" }, 400);
+      const c = { subject, headline: clip(body.headline, 200) || subject, body: text, button_label: clip(body.button_label, 60), button_url: clip(body.button_url, 500) };
+      let sent = 0;
+      // One personal mail per recipient (nobody sees the others), in batches.
+      for (let i = 0; i < list.length; i += 50) {
+        const part = list.slice(i, i + 50);
+        const results = await Promise.allSettled(part.map((x: { email: string; name?: string }) => send({ email: x.email, name: x.name || undefined }, campaign({ ...c, name: x.name || "" }))));
+        sent += results.filter((r) => r.status === "fulfilled").length;
+      }
+      return reply({ ok: true, sent });
     }
     return reply({ error: "action" }, 400);
   } catch (e) {

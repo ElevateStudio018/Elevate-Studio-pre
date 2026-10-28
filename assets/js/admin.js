@@ -11,7 +11,7 @@
     ['quote_sent', 'Offert skickad', '#6366f1'], ['waiting', 'Väntar svar', '#f59e0b'], ['negotiation', 'Förhandling', '#8b5cf6'],
     ['done', 'Klar', '#10b981'], ['sold', 'Såld', '#d4a017'], ['lost', 'Förlorad', '#f43f5e'], ['archived', 'Arkiverad', '#94a3b8']
   ];
-  var MEETING = { quote: 'Offertförfrågan', teams: 'Microsoft Teams', google_meet: 'Google Meet', phone: 'Telefonmöte' };
+  var MEETING = { manual: 'Manuellt tillagd', quote: 'Offertförfrågan', teams: 'Microsoft Teams', google_meet: 'Google Meet', phone: 'Telefonmöte' };
   var TEAM = [['Carl', 'Carl From'], ['Isak', 'Isak Mattsson'], ['Oscar', 'Oscar Svanerud']];
   var CLOSED = ['sold', 'lost', 'archived', 'done'];
   var st = { user: null, leads: [], view: (location.hash.slice(1).match(/^[a-z]+$/) || ['leads'])[0], status: 'all', q: '', sort: 'created_desc', shown: 40, editing: null };
@@ -161,7 +161,7 @@
     var counts = {}; L.forEach(function (l) { var k = l.status || 'new'; counts[k] = (counts[k] || 0) + 1; });
     var rows = filtered();
     $('#main').innerHTML =
-      '<div class="page-h"><div><h1>Leads <span class="serif">&amp; förfrågningar</span></h1><p>Alla som hört av sig. Byt status och skriv kommentarer direkt i listan.</p></div></div>' +
+      '<div class="page-h"><div><h1>Leads <span class="serif">&amp; förfrågningar</span></h1><p>Alla som hört av sig. Byt status och skriv kommentarer direkt i listan.</p></div></div>' + quickBar() +
       '<div class="kpis"><div class="kpi"><small>Nya senaste 7 dagarna</small><b>' + newWeek + '</b></div><div class="kpi"><small>Öppna leads</small><b>' + open +
       '</b></div><div class="kpi"><small>Möten kommande 7 dagar</small><b>' + meetings + '</b></div><div class="kpi"><small>Sålt senaste 30 dagar</small><b>' + kr(sold30) + '</b></div></div>' +
       '<div class="bar"><input class="input" id="q" placeholder="Sök namn, företag, mejl, kommentar …" value="' + esc(st.q) + '">' +
@@ -176,6 +176,7 @@
     root.querySelectorAll('[data-s]').forEach(function (b) { b.addEventListener('click', function () { st.status = b.dataset.s; st.shown = 40; renderLeads(); }); });
     if ($('#more')) $('#more').addEventListener('click', function () { st.shown += 40; renderLeads(); });
     root.querySelectorAll('.lead').forEach(bindCard);
+    bindQuick();
   }
 
   function card(l) {
@@ -388,6 +389,153 @@
   var day = function (iso) { return iso ? new Date(iso).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short', year: 'numeric' }) : '–'; };
   var since = function (days) { return new Date(Date.now() - days * 864e5).toISOString(); };
 
+  /* ---------- Quick actions above the leads (like the old admin) ---------- */
+  var QUICK = [['newlead', 'Ny lead', 'inbox', true], ['campaign', 'Nytt mejlutskick', 'send'], ['meeting', 'Boka möte', 'cal'], ['offer', 'Ny offert', 'file'],
+    ['contact', 'Ny kontakt', 'users'], ['activity', 'Ny aktivitet', 'bell'], ['csv', 'Exportera CSV', 'chart']];
+  function quickBar() {
+    return '<div class="quick">' + QUICK.map(function (q) { return '<button class="btn btn--sm' + (q[3] ? '' : ' btn--ghost') + '" data-q="' + q[0] + '">' + ICON[q[2]] + q[1] + '</button>'; }).join('') + '</div>';
+  }
+  function bindQuick() {
+    root.querySelectorAll('[data-q]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var q = b.dataset.q;
+        if (q === 'newlead') newLead();
+        if (q === 'campaign') newCampaign();
+        if (q === 'meeting') bookMeeting();
+        if (q === 'offer') openOffer({ id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())), name: '', company: '' });
+        if (q === 'contact') contactDialog();
+        if (q === 'activity') newActivity();
+        if (q === 'csv') exportCsv();
+      });
+    });
+  }
+
+  function newLead() {
+    formDialog('Ny lead', 'Lägg in en kund som hört av sig på telefon, mejl eller i person.', [
+      { name: 'name', label: 'Namn', required: true }, { name: 'company', label: 'Företag' },
+      { name: 'email', label: 'E-post', type: 'email', required: true }, { name: 'phone', label: 'Telefon' },
+      { name: 'service_type', label: 'Bransch' }, { name: 'status', label: 'Status', options: STATUS.reduce(function (o, s) { o[s[0]] = s[1]; return o; }, {}), value: 'new' },
+      { name: 'message', label: 'Vad vill de ha?', type: 'textarea' }
+    ], function (v) {
+      return sb.from('quote_requests').insert(Object.assign(v, { meeting_type: 'manual' })).select().then(function (r) {
+        if (r.error) throw r.error;
+        if (r.data && r.data[0]) st.leads.unshift(r.data[0]);
+        toast('Leaden är tillagd');
+      });
+    });
+  }
+
+  function exportCsv() {
+    var cols = [['Namn', 'name'], ['Företag', 'company'], ['E-post', 'email'], ['Telefon', 'phone'], ['Bransch', 'service_type'], ['Status', 'status'], ['Inkom', 'created_at'], ['Bokat möte', 'booking_at'], ['Såld för', 'sold_amount'], ['Kommentar', 'admin_notes']];
+    var cell = function (v) { v = v == null ? '' : String(v); return /[";\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    var csv = '﻿' + cols.map(function (c) { return c[0]; }).join(';') + '\n' + filtered().map(function (l) {
+      return cols.map(function (c) { return cell(c[1] === 'status' ? sInfo(l.status || 'new')[1] : l[c[1]]); }).join(';');
+    }).join('\n');
+    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    a.download = 'leads-' + new Date().toISOString().slice(0, 10) + '.csv'; a.click();
+    toast('Exporterade ' + filtered().length + ' leads');
+  }
+
+  /* Mail campaign: pick a group, write the mail. Sent from info@ when the mail function is live. */
+  function newCampaign() {
+    var groups = { marketing: 'Kontakter som sagt ja till utskick', customers: 'Aktiva kunder', contacts: 'Alla kontakter', leads: 'Alla leads' };
+    STATUS.forEach(function (s) { groups['status:' + s[0]] = 'Leads med status: ' + s[1]; });
+    var contacts = null, list = [];
+    dialog('<form id="cp"><h2>Nytt mejlutskick</h2><p>' + (root.dataset.mail ? 'Skickas från info@elevatestudio.nu, ett mejl per mottagare.' : 'Öppnas i ditt mejlprogram med mottagarna som hemlig kopia. Skicka från info@elevatestudio.nu.') + '</p>' +
+      form([{ name: 'group', label: 'Till', options: groups, value: 'marketing' }]) + '<p class="small muted" id="cp-count" style="margin:-6px 0 14px">Räknar …</p>' +
+      form([{ name: 'subject', label: 'Ämne', required: true }, { name: 'headline', label: 'Rubrik i mejlet' }, { name: 'body', label: 'Text', type: 'textarea', rows: 7, required: true },
+        { name: 'button_label', label: 'Knapptext (valfri)', placeholder: 'Läs mer' }, { name: 'button_url', label: 'Knapplänk (valfri)', type: 'url', placeholder: 'https://elevatestudio.nu/' }]) +
+      '<div class="dlg__row"><button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">' + ICON.send + 'Skicka</button></div></form>', function (d) {
+      var f = $('#cp', d);
+      var count = function () {
+        var g = f.elements.group.value, seen = {};
+        var add = function (email, name) { email = (email || '').trim().toLowerCase(); if (email && !seen[email]) { seen[email] = 1; list.push({ email: email, name: name || '' }); } };
+        list = [];
+        if (g === 'leads' || g.indexOf('status:') === 0) {
+          st.leads.forEach(function (l) { if (g === 'leads' || (l.status || 'new') === g.slice(7)) add(l.email, l.name); });
+        } else {
+          (contacts || []).forEach(function (c) {
+            if (c.unsubscribed_at) return;
+            if (g === 'marketing' && !c.allow_marketing_email) return;
+            if (g === 'customers' && c.customer_status !== 'active') return;
+            add(c.email, c.full_name);
+          });
+        }
+        $('#cp-count', d).textContent = contacts === null && g.indexOf('status:') && g !== 'leads' ? 'Räknar …' : list.length + ' mottagare';
+      };
+      sb.from('contacts').select('email,full_name,customer_status,allow_marketing_email,unsubscribed_at').is('archived_at', null).not('email', 'is', null).limit(5000)
+        .then(function (r) { contacts = r.data || []; count(); });
+      f.elements.group.addEventListener('change', count); count();
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!list.length) return toast('Inga mottagare i den gruppen.');
+        var v = function (n) { return f.elements[n].value.trim(); };
+        var c = { subject: v('subject'), headline: v('headline') || v('subject'), body: v('body'), button_label: v('button_label') || null, button_url: v('button_url') || null };
+        var log = function (sent) {
+          return sb.from('email_campaigns').insert({ internal_name: c.subject, subject: c.subject, headline: c.headline, body: c.body, button_label: c.button_label, button_url: c.button_url,
+            status: 'sent', recipient_count: list.length, sent_count: sent, sent_at: new Date().toISOString(), sent_by: st.user.id, created_by: st.user.id,
+            from_email: 'info@elevatestudio.nu', from_name: 'Elevate Studio', audience: { group: f.elements.group.value } });
+        };
+        if (!root.dataset.mail) {
+          if (!confirm('Öppna mejlet till ' + list.length + ' mottagare i ditt mejlprogram?')) return;
+          var text = c.body + (c.button_url ? '\n\n' + (c.button_label || 'Läs mer') + ': ' + c.button_url : '') + '\n\nVänliga hälsningar\nElevate Studio\ninfo@elevatestudio.nu\n\nVill du inte få fler mejl från oss? Svara "avregistrera" så tar vi bort dig.';
+          location.href = 'mailto:info@elevatestudio.nu?bcc=' + list.map(function (x) { return encodeURIComponent(x.email); }).join(',') + '&subject=' + encodeURIComponent(c.subject) + '&body=' + encodeURIComponent(text);
+          log(list.length); d.remove(); return toast('Utskicket öppnas i ditt mejlprogram');
+        }
+        var btn = $('button[type=submit]', d); btn.disabled = true; btn.textContent = 'Skickar …';
+        sb.functions.invoke('mail', { body: Object.assign({ action: 'campaign', recipients: list }, c) }).then(function (r) {
+          if (r.error) { btn.disabled = false; btn.textContent = 'Skicka'; return toast('Kunde inte skicka: ' + r.error.message); }
+          log(r.data && r.data.sent || list.length); d.remove(); toast('Utskicket är skickat till ' + list.length + ' mottagare');
+        });
+      });
+    });
+  }
+
+  /* Book a meeting with a lead: sets the time on the lead, puts it in the calendar and (when live) mails the invite from info@. */
+  function bookMeeting(l) {
+    var open = st.leads.filter(function (x) { return CLOSED.indexOf(x.status || 'new') < 0 || (l && x.id === l.id); });
+    var leads = {}; open.forEach(function (x) { leads[x.id] = (x.company ? x.company + ' – ' : '') + x.name; });
+    var t = new Date(Date.now() + 864e5); t.setHours(10, 0, 0, 0);
+    var hosts = { '': 'Elevate Studio' }; TEAM.forEach(function (m) { hosts[m[0].toLowerCase()] = m[1]; });
+    var types = { google_meet: 'Google Meet', teams: 'Microsoft Teams', phone: 'Telefonmöte', visit: 'Fysiskt möte' };
+    dialog('<form id="bm"><h2>Boka möte</h2><p>Mötet hamnar på leaden och i kalendern.</p>' +
+      form([{ name: 'lead', label: 'Kund', options: leads, value: l ? l.id : '' }]) + '<div class="grid2">' +
+      form([{ name: 'at', label: 'Tid', type: 'datetime-local', value: localInput(t.toISOString()), required: true }, { name: 'minutes', label: 'Längd (minuter)', type: 'number', value: 30 },
+        { name: 'type', label: 'Typ', options: types, value: 'google_meet' }, { name: 'host', label: 'Värd', options: hosts, value: '' }]) + '</div>' +
+      form([{ name: 'link', label: 'Möteslänk (Meet/Teams) eller adress', placeholder: 'https://meet.google.com/…' }, { name: 'message', label: 'Meddelande till kunden', type: 'textarea' }]) +
+      '<label class="check"><input type="checkbox" name="send" checked> Skicka inbjudan till kunden' + (root.dataset.mail ? ' från info@elevatestudio.nu' : ' (öppnas i ditt mejlprogram)') + '</label>' +
+      '<div class="dlg__row"><button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">Boka</button></div></form>', function (d) {
+      $('#bm', d).addEventListener('submit', function (e) {
+        e.preventDefault(); var f = e.target, v = function (n) { return f.elements[n].value.trim(); };
+        var x = lead(v('lead')); if (!x) return toast('Välj en kund.');
+        var at = new Date(v('at')), mins = Number(v('minutes')) || 30, host = v('host'), type = v('type');
+        var hostName = hosts[host], when = at.toLocaleString('sv-SE', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+        var btn = $('button[type=submit]', d); btn.disabled = true;
+        update(x.id, { booking_at: at.toISOString(), status: 'meeting_booked', meeting_type: type === 'visit' ? 'quote' : type }).then(function () {
+          return Promise.all([
+            sb.from('calendar_activities').insert({ title: 'Möte: ' + (x.company || x.name), category: 'meeting', starts_at: at.toISOString(), ends_at: new Date(at.getTime() + mins * 6e4).toISOString(),
+              location: v('link') || null, description: [types[type], 'Värd: ' + hostName, x.email, x.phone].filter(Boolean).join('\n'), link: '/admin', created_by: st.user.id }),
+            sb.from('meeting_invites').insert({ quote_request_id: x.id, booking_at: at.toISOString(), duration_min: mins, meet_link: v('link') || null, recipients: [x.email], recipient_name: x.name,
+              subject: 'Möte med Elevate Studio', message: v('message') || null, created_by: st.user.id })
+          ]);
+        }).then(function () {
+          if (!f.elements.send.checked) return 'booked';
+          if (root.dataset.mail) {
+            return sb.functions.invoke('mail', { body: { action: 'invite', lead_id: x.id, at: at.toISOString(), minutes: mins, type: types[type], link: v('link'), message: v('message'), sender: host } })
+              .then(function (r) { if (r.error) throw r.error; return 'sent'; });
+          }
+          var body = 'Hej ' + ((x.name || '').split(/\s+/)[0] || '') + '!\n\nDu har blivit inbjuden till ett möte med Elevate Studio.\n\nTid: ' + when + ' (' + mins + ' min)\nTyp: ' + types[type] +
+            (v('link') ? '\nLänk/plats: ' + v('link') : '') + (v('message') ? '\n\n' + v('message') : '') + '\n\nVänliga hälsningar\n' + hostName + (host ? '\nElevate Studio' : '') + '\ninfo@elevatestudio.nu';
+          location.href = 'mailto:' + encodeURIComponent(x.email) + '?subject=' + encodeURIComponent('Mötesinbjudan från Elevate Studio') + '&body=' + encodeURIComponent(body);
+          return 'mailto';
+        }).then(function (how) {
+          d.remove(); render();
+          toast(how === 'sent' ? 'Mötet är bokat och inbjudan skickad från info@' : how === 'mailto' ? 'Mötet är bokat – inbjudan öppnas i ditt mejlprogram' : 'Mötet är bokat');
+        }).catch(function (err) { btn.disabled = false; toast(err.message); });
+      });
+    });
+  }
+
   /* ---------- Big lead window (like the old admin) ---------- */
   function openLead(l) {
     var s = sInfo(l.status || 'new');
@@ -401,7 +549,7 @@
       '<button class="iconbtn" data-close aria-label="Stäng">' + ICON.x + '</button></div></header>' +
       '<div class="ld__quick">' + (l.phone ? '<a class="btn btn--ghost btn--sm" href="tel:' + esc(l.phone) + '">' + ICON.phone + 'Ring</a>' : '') +
       (l.email ? '<a class="btn btn--ghost btn--sm" href="mailto:' + esc(l.email) + '">' + ICON.mail + 'Mejla</a>' : '') +
-      '<button class="btn btn--ghost btn--sm" id="ld-offer">' + ICON.file + 'Skapa offert</button>' +
+      '<button class="btn btn--ghost btn--sm" id="ld-meet">' + ICON.cal + 'Boka möte</button><button class="btn btn--ghost btn--sm" id="ld-offer">' + ICON.file + 'Skapa offert</button>' +
       (l.status === 'sold' ? '<button class="btn btn--sm" id="ld-review">' + ICON.star + 'Be om recension</button>' : '<button class="btn btn--sm" id="ld-sold">' + ICON.star + 'Markera som såld</button>') + '</div>' +
       '<div class="ld__cols"><div>' +
       '<section class="panel"><h3>Kontaktuppgifter</h3><form id="ld-form"><div class="grid2">' +
@@ -445,6 +593,7 @@
         update(l.id, { admin_notes: $('#ld-note', d).value.trim() || null }).then(function () { toast('Kommentaren är sparad'); }).catch(function (err) { toast(err.message); });
       });
       $('#ld-offer', d).addEventListener('click', function () { d.remove(); openOffer(l); });
+      $('#ld-meet', d).addEventListener('click', function () { d.remove(); bookMeeting(l); });
       var rv = $('#ld-review', d); if (rv) rv.addEventListener('click', function () { d.remove(); openReview(l); });
       var sd = $('#ld-sold', d); if (sd) sd.addEventListener('click', function () { d.remove(); openSold(l); });
       $('#ld-del', d).addEventListener('click', function () {
@@ -622,8 +771,9 @@
   /* ---------- Utskick ---------- */
   var CAMPAIGN = { draft: 'Utkast', scheduled: 'Schemalagt', sending: 'Skickas', sent: 'Skickat', failed: 'Misslyckades', cancelled: 'Avbrutet' };
   function renderCampaigns() {
-    main().innerHTML = head('Utskick', 'Nyhetsbrev och kampanjer till kontakterna.') +
-      info('Skicka utskick', 'Nyhetsbrev skrivs och skickas i Brevo, från info@elevatestudio.nu. Den som anmäler sig i sidfoten på hemsidan hamnar direkt på listan där, och Brevo sköter avregistrering. Här ser ni historiken från gamla admin.') + '<p><a class="btn btn--ghost" href="https://app.brevo.com/marketing-campaign" target="_blank" rel="noopener">' + ICON.send + 'Öppna Brevo</a></p>';
+    main().innerHTML = head('Utskick', 'Mejlutskick och nyhetsbrev till kontakter och leads.', '<button class="btn" data-q="campaign">' + ICON.send + 'Nytt mejlutskick</button>') +
+      info('Skicka utskick', 'Snabba utskick gör ni med knappen ovan. Större nyhetsbrev skrivs och skickas i Brevo, från info@elevatestudio.nu. Den som anmäler sig i sidfoten på hemsidan hamnar direkt på listan där, och Brevo sköter avregistrering. Nedan ser ni alla utskick.');
+    bindQuick();
     fetchRows(sb.from('email_campaigns').select('internal_name,subject,status,recipient_count,sent_count,sent_at,scheduled_at,created_at').order('created_at', { ascending: false }), function (rows) {
       main().insertAdjacentHTML('beforeend', kpis([['Utskick', rows.length], ['Skickade', rows.filter(function (c) { return c.status === 'sent'; }).length],
         ['Mejl skickade', rows.reduce(function (s, c) { return s + (c.sent_count || 0); }, 0)], ['Utkast', rows.filter(function (c) { return c.status === 'draft'; }).length]]) +

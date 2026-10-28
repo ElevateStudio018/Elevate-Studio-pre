@@ -117,3 +117,45 @@ export function reviewRequest(name: string, reviewUrl: string, sender?: Member) 
     text: `${hello(name)}\n\nTack för förtroendet. ${me} hoppas att du är nöjd med hemsidan. En kort recension på Google hjälper oss mycket:\n\n${reviewUrl}\n\nTack!\n${sender ? sender.name + "\n" : ""}Elevate Studio\ninfo@elevatestudio.nu`,
   };
 }
+
+/** Meeting invite: white time box, cream button, the host as a contact card. */
+export function meetingInvite(o: { name: string; when: string; minutes: number; type: string; link?: string; message?: string; host?: Member }) {
+  const label = `font:bold 11px ${SANS};letter-spacing:1.2px;text-transform:uppercase;color:#4f7a60`;
+  const isUrl = o.link && /^https?:\/\//.test(o.link);
+  return {
+    subject: "Mötesinbjudan från Elevate Studio",
+    html: shell("Mötesinbjudan från Elevate Studio",
+      heading(o.host ? `Du har blivit inbjuden av ${esc(o.host.first)}` : "Du är inbjuden till ett möte") +
+      para(`${hello(o.name)} Här är din inbjudan till mötet med Elevate Studio.`, "10px 40px 26px") +
+      `<tr><td style="padding:0 28px"><table bgcolor="#ffffff" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px">
+        <tr><td style="padding:20px 22px;border-bottom:1px solid #e6ece8"><div style="${label}">Datum &amp; tid</div><div style="font:bold 18px/1.4 ${SANS};color:#1d3b2a;margin-top:4px">${esc(o.when)}</div></td></tr>
+        <tr><td style="padding:18px 22px"><div style="${label}">Möte</div><div style="font:16px ${SANS};color:#1d3b2a;margin-top:4px">${esc(o.type)} · ${o.minutes} minuter${o.link && !isUrl ? "<br>" + esc(o.link) : ""}</div></td></tr>
+      </table></td></tr>` +
+      (o.message ? para(esc(o.message).replace(/\n/g, "<br>"), "26px 40px 4px") : "") +
+      (isUrl ? button(o.link!, "Anslut till mötet") : "") + (o.host ? contactCard(o.host) : ""),
+      "Kalenderinbjudan är bifogad – öppna den för att lägga in mötet i din kalender."),
+    text: `${hello(o.name)}\n\nDu är inbjuden till ett möte med Elevate Studio.\n\nTid: ${o.when} (${o.minutes} min)\nTyp: ${o.type}${o.link ? "\nLänk/plats: " + o.link : ""}${o.message ? "\n\n" + o.message : ""}\n\nElevate Studio\ninfo@elevatestudio.nu`,
+  };
+}
+
+/** Calendar file attached to the invite, so the meeting lands in the customer's calendar. */
+export function ics(o: { start: Date; minutes: number; title: string; location?: string; description?: string; attendee: string }) {
+  const f = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  const e = (s: string) => s.replace(/\\/g, "\\\\").replace(/;/g, "\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
+  return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Elevate Studio//Admin//SV", "METHOD:REQUEST", "BEGIN:VEVENT",
+    `UID:${o.start.getTime()}-${Math.random().toString(36).slice(2, 8)}@elevatestudio.nu`, `DTSTAMP:${f(new Date())}`, `DTSTART:${f(o.start)}`,
+    `DTEND:${f(new Date(o.start.getTime() + o.minutes * 6e4))}`, `SUMMARY:${e(o.title)}`, `DESCRIPTION:${e(o.description || "")}`, `LOCATION:${e(o.location || "")}`,
+    "ORGANIZER;CN=Elevate Studio:mailto:info@elevatestudio.nu", `ATTENDEE;RSVP=TRUE:mailto:${o.attendee}`, "STATUS:CONFIRMED", "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+}
+
+/** Mail campaign written in the admin. */
+export function campaign(c: { name: string; subject: string; headline: string; body: string; button_label?: string | null; button_url?: string | null }) {
+  const unsub = `mailto:info@elevatestudio.nu?subject=${encodeURIComponent("Avregistrera")}`;
+  return {
+    subject: c.subject,
+    html: shell(c.subject, heading(esc(c.headline)) + para(`${hello(c.name)}<br><br>${esc(c.body).replace(/\n/g, "<br>")}`) +
+      (c.button_url ? button(c.button_url, esc(c.button_label || "Läs mer")) : ""),
+      `Du får det här mejlet från Elevate Studio. Vill du inte få fler utskick? <a href="${unsub}" style="color:#fdfbf5">Avregistrera dig här</a>.`),
+    text: `${hello(c.name)}\n\n${c.body}${c.button_url ? "\n\n" + (c.button_label || "Läs mer") + ": " + c.button_url : ""}\n\nElevate Studio\ninfo@elevatestudio.nu\n\nVill du inte få fler utskick? Svara "avregistrera".`,
+  };
+}
