@@ -150,7 +150,7 @@ def footer(p):
     services = "".join(f'<li><a href="{p}tjanster/{s["slug"]}.html">{esc(s["name"])}</a></li>' for s in SERVICES)
     return f'''<footer>
     <div class="site-footer">
-      <svg class="site-footer__bigmark" viewBox="0 0 1884.3 1353.9" aria-hidden="true" focusable="false"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>
+      <span class="site-footer__word" aria-hidden="true">Elevate Studio</span>
       <div class="container">
         <div class="site-footer__row">
           <div class="site-footer__small">
@@ -350,7 +350,10 @@ def cta(p, title="Ska vi bygga något tillsammans?", text="Berätta kort vad ni 
           <h2 class="cta-band__title">{title}</h2>
           <p>{text}</p>
         </div>
-        <a href="{p}kontakt.html" class="btn btn--light"><span>Kontakta oss</span></a>
+        <div class="cta-band__btns">
+          <a href="{p}kontakt.html" class="btn btn--light"><span>Kontakta oss</span></a>
+          <a href="tel:+46760228361" class="btn cta-band__phone"><span>Ring 076-022 83 61</span></a>
+        </div>
       </div>
     </section>'''
 
@@ -1106,6 +1109,7 @@ def reviews_section(p=""):
     quote = '<svg class="review__mark" viewBox="0 0 30 22" aria-hidden="true"><path d="M0 22V13C0 5 4 1 12 0l1 3C8 4 6 7 6 11h6v11zm17 0V13c0-8 4-12 12-13l1 3c-5 1-7 4-7 8h6v11z" fill="#1d3b2a"/></svg>'
     slides = "".join(f'''<figure class="review__card">
           {quote}
+          <span class="review__stars" role="img" aria-label="5 av 5 stjärnor">★★★★★</span>
           <blockquote class="review__text"><p>{esc(r["text"])}</p></blockquote>
           <figcaption class="review__source">{esc(r["source"])}</figcaption>
         </figure>''' for r in REVIEWS)
@@ -1134,8 +1138,8 @@ def projects_section():
           </a>''' for c in CASES[:3])
     return f'''<section class="block hp-proj" id="projekt">
       <div class="container">
-        <div class="hp-proj__hero">
-          <div>
+        <div class="hp-proj__hero hp-proj__hero--trio">
+          <div class="hp-proj__head">
             <span class="ex-tag ex-tag--demo">Så kan det se ut</span>
             <h2 class="hp-proj__title">Hemsidor som känns rätt <em>på alla skärmar</em></h2>
             <p class="hp-proj__lead">Vi bygger mobilen först och finputsar varje skärmstorlek. Lindvik Bygg är en hemsida vi har byggt för att visa hur det kan se ut – på dator och mobil.</p>
@@ -1144,11 +1148,11 @@ def projects_section():
               <a class="arrow-link hp-proj__link" href="{LIRK_URL}" target="_blank" rel="noopener">Klicka runt på Lindvik Bygg</a>
             </div>
           </div>
-          <div class="hp-proj__devs">
+          <div class="hp-proj__trio">
+            <div class="phone hp-proj__phone hp-proj__phone--l"><img src="assets/img/home/device-phone.jpg" alt="Lindvik Bygg på en mobil" loading="lazy"></div>
             {laptop("assets/img/home/device-desktop.jpg", "Lindvik Bygg på en dator")}
-            <div class="phone"><img src="assets/img/home/device-phone.jpg" alt="Lindvik Bygg på en mobil" loading="lazy"></div>
+            <div class="phone hp-proj__phone hp-proj__phone--r" aria-hidden="true"><img src="assets/img/home/device-phone.jpg" alt="" loading="lazy"></div>
           </div>
-          <p class="devs-cap"><b>Dator och mobil</b> – samma sajt, anpassad för varje skärm</p>
         </div>
         <div class="hp-proj__divider">
           <h3 class="hp-proj__sub">Exempel på projekt</h3>
@@ -1191,32 +1195,24 @@ def rss_feed():
 
 
 def bento_section():
-    mark = '<svg class="bento__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>'
-    s = {x["slug"]: x for x in SERVICES}
-    photo = lambda x: f'''<a class="bento__tile bento__tile--photo" href="tjanster/{x["slug"]}.html">
-        <img src="assets/img/{x["image"]}" alt="{esc(x["alt"])}" width="636" height="477" loading="lazy">
-        <span class="bento__cap">{esc(x["name"])}</span>
-      </a>'''
-    text = lambda x, extra="": f'''<a class="bento__tile bento__tile--text{extra}" href="tjanster/{x["slug"]}.html">
-        <h3>{esc(x["name"])}</h3>
-        <p>{esc(x["card"])}</p>
-        <span class="arrow-link">Läs mer</span>
-      </a>'''
-    return f'''<section class="block container bento" id="tjanster-oversikt" aria-label="Vad vi gör">
-      <a class="bento__tile bento__tile--big" href="tjanster/index.html">
-        {mark}
-        <h2 class="bento__title">En hemsida som <em>jobbar åt er</em></h2>
-        <div class="bento__text">
-          <p>Vi bygger snabba, mobilanpassade hemsidor med tydliga tjänstesidor och en väg till kontakt på varje sida.</p>
-          <p class="bento__more">Sedan kopplar vi på det som sparar tid åt er – bokning, offertflöden och AI-chatt – och ser till att ni syns på Google och när kunder frågar AI.</p>
-          <p class="bento__more">Efter lansering tar vi hand om ändringar och uppföljning.</p>
-        </div>
-        <span class="btn btn--light"><span>Se alla tjänster</span></span>
-      </a>
-      {photo(s["hemsidor"])}
-      {text(s["ai-chatt"])}
-      {text(s["bokningssystem"], " bento__tile--sand")}
-      {photo(s["seo-och-ai-optimering"])}
+    """Start page services: the names as a large list; the card beside it shows the one in focus."""
+    items = "".join(f'''<li><a class="svc-list__item{" is-on" if i == 0 else ""}" href="tjanster/{x["slug"]}.html" data-svc="{i}">{esc(x["name"])}<span class="svc-list__short">{esc(x["card"])}</span></a></li>'''
+                    for i, x in enumerate(SERVICES))
+    panels = "".join(f'''<div class="svc-card__panel{" is-on" if i == 0 else ""}" data-svc="{i}"{"" if i == 0 else " hidden"}>
+          <img class="svc-card__img" src="assets/img/{x["image"]}" alt="{esc(x["alt"])}" width="636" height="477" loading="lazy">
+          <h3 class="svc-card__name">{esc(x["name"])}</h3>
+          <p class="svc-card__text">{esc(x["card"])}</p>
+          <a class="btn btn--light svc-card__btn" href="tjanster/{x["slug"]}.html"><span>Läs mer</span></a>
+        </div>''' for i, x in enumerate(SERVICES))
+    return f'''<section class="block container svc" id="tjanster-oversikt" aria-label="Vad vi gör">
+      <div class="svc__intro">
+        <p class="svc__eyebrow">Vad vi gör</p>
+        <h2 class="svc__title">En hemsida som <em>jobbar åt er</em></h2>
+        <p class="svc__lead">Vi bygger snabba, mobilanpassade hemsidor med tydliga tjänstesidor och en väg till kontakt på varje sida. Sedan kopplar vi på det som sparar tid åt er – bokning, offertflöden och AI-chatt – och ser till att ni syns på Google och när kunder frågar AI.</p>
+      </div>
+      <ul class="svc-list">{items}</ul>
+      <div class="svc-card" aria-live="polite">{panels}</div>
+      <a class="arrow-link svc__all" href="tjanster/index.html">Se alla tjänster</a>
     </section>'''
 
 

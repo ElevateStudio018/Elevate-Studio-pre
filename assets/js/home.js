@@ -91,6 +91,18 @@
     update();
   }
 
+  // Services: the name in focus (hover or keyboard) shows its card
+  var svcItems = document.querySelectorAll('.svc-list__item'), svcPanels = document.querySelectorAll('.svc-card__panel');
+  Array.prototype.forEach.call(svcItems, function (item) {
+    var show = function () {
+      var n = item.getAttribute('data-svc');
+      Array.prototype.forEach.call(svcItems, function (x) { x.classList.toggle('is-on', x === item); });
+      Array.prototype.forEach.call(svcPanels, function (p) { p.hidden = p.getAttribute('data-svc') !== n; });
+    };
+    item.addEventListener('mouseenter', show);
+    item.addEventListener('focus', show);
+  });
+
   // Fade-up reveal for cards
   if (reduced || !('IntersectionObserver' in window)) return;
   var revealTargets = document.querySelectorAll('.case, .post-card, .platform-card, .pair');

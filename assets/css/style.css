@@ -636,3 +636,13 @@ button.arrow-link { padding: 0; border: 0; background: none; font: inherit; curs
   .drawer__list a:hover, .drawer__minor a:hover { color: var(--glow-lime); }
   .drawer__contact { border: 1px solid rgba(253, 251, 245, .16); background: rgba(253, 251, 245, .08); }
 }
+
+/* Menu as a full screen: big links, light in the corners and a picture with the contact card */
+.drawer__main > li > a, .drawer__toggle { font-size: 30px; font-weight: 600; letter-spacing: -.02em; }
+.hamburgermenu { background: var(--noise) 0 0 / 180px auto, radial-gradient(45% 40% at 0% 105%, rgba(63, 193, 176, .85) 0%, transparent 70%), radial-gradient(45% 40% at 100% 105%, rgba(215, 227, 107, .8) 0%, transparent 70%), #0f2116; background-blend-mode: soft-light, normal, normal, normal; }
+@media (min-width: 993px) {
+  .hamburgermenu { grid-template-columns: 1.5fr .9fr .9fr 1.2fr; min-height: calc(100vh - var(--drawer-top, calc(var(--banner-h) + var(--header-h)))); align-content: start; border-radius: 0; }
+  .drawer__main > li > a { padding: 4px 0; font-size: 46px; line-height: 1.1; letter-spacing: -.035em; }
+  .drawer__main > li > a:hover { padding-left: 0; color: var(--glow-lime, #d7e36b); }
+  .drawer__contact { min-height: 420px; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; border: 0; background: linear-gradient(180deg, rgba(15, 33, 22, 0) 30%, rgba(15, 33, 22, .95) 78%), url("../img/home/svc-hemsidor.jpg") center / cover; }
+}
