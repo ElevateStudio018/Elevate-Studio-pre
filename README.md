@@ -79,3 +79,19 @@ från admin och anmälan till nyhetsbrevet). Nyhetsbreven skrivs och skickas i B
 6. Sätt `MAIL_LIVE = True` i `tools/content.py` och kör `python3 tools/build.py`.
 
 Innan dess sparas leads direkt i databasen och FormSubmit aviserar info@.
+
+## Publicera med Cloudflare Pages (automatiskt vid varje push)
+
+Domänens DNS ligger i Cloudflare, så sidan kan publiceras direkt från GitHub:
+
+1. Cloudflare → **Workers & Pages** → **Create** → **Pages** → **Connect to Git** → välj `ElevateStudio018/Elevate-Studio-pre`.
+2. Inställningar:
+   - Production branch: `main`
+   - Build command: `python3 tools/package.py`
+   - Build output directory: `dist`
+3. **Save and Deploy**. Sidan får en adress som `elevate-studio-pre.pages.dev`.
+4. Projektet → **Custom domains** → lägg till `elevatestudio.nu` och `www.elevatestudio.nu`. Cloudflare byter själv A-posterna; MX/TXT för mejlen hos Loopia lämnas orörda.
+
+Varje push till `main` publiceras automatiskt. Andra grenar får en egen förhandsadress.
+Omdirigeringar från gamla adresser finns i `_redirects`, cache-regler i `_headers`.
+För Loopia/Apache används i stället `.htaccess` och zip-filen från `tools/package.py`.

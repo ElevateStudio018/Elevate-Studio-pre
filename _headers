@@ -1,0 +1,5 @@
+# Cloudflare Pages: files under /assets carry a version (?v=…), so they can be cached for a long time.
+/assets/*
+  Cache-Control: public, max-age=31536000
+/admin/*
+  X-Robots-Tag: noindex
