@@ -157,6 +157,7 @@ main { min-width: 0; padding: 32px 40px 80px; }
 .iconbtn svg { width: 16px; height: 16px; }
 .iconbtn--sm { width: 28px; height: 28px; border: 0; }
 .iconbtn--sm svg { width: 13px; height: 13px; }
+.link--inline { margin: 0; font-size: inherit; font-weight: 400; }
 .link--danger { color: #a54848; margin: 0; }
 .lead { cursor: pointer; transition: box-shadow .15s; }
 .lead:hover { box-shadow: 0 10px 24px -16px rgba(29, 59, 42, .45); }

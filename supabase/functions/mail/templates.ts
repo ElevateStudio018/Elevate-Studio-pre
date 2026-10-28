@@ -160,3 +160,17 @@ export function campaign(c: { name: string; subject: string; headline: string; b
     text: `${hello(c.name)}\n\n${c.body}${c.button_url ? "\n\n" + (c.button_label || "Läs mer") + ": " + c.button_url : ""}\n\nElevate Studio\ninfo@elevatestudio.nu\n\nVill du inte få fler utskick? Svara "avregistrera".`,
   };
 }
+
+/** A personal mail written in the admin: the green design with the sender's contact card. */
+export function personalMail(o: { name: string; subject: string; body: string; host?: Member; button_label?: string; button_url?: string }) {
+  return {
+    subject: o.subject,
+    html: shell(o.subject,
+      heading(esc(o.subject)) +
+      para(`${hello(o.name)}<br><br>${esc(o.body).replace(/\n/g, "<br>")}`) +
+      (o.button_url ? button(o.button_url, esc(o.button_label || "Läs mer")) : "") +
+      (o.host ? contactCard(o.host) : ""),
+      "Svara gärna direkt på det här mejlet."),
+    text: `${hello(o.name)}\n\n${o.body}${o.button_url ? "\n\n" + (o.button_label || "Läs mer") + ": " + o.button_url : ""}\n\n${o.host ? o.host.name + "\n" : ""}Elevate Studio`,
+  };
+}

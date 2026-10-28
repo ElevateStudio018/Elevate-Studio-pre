@@ -14,7 +14,22 @@
   var MEETING = { manual: 'Manuellt tillagd', quote: 'Offertförfrågan', teams: 'Microsoft Teams', google_meet: 'Google Meet', phone: 'Telefonmöte' };
   var TEAM = [['Carl', 'Carl From'], ['Isak', 'Isak Mattsson'], ['Oscar', 'Oscar Svanerud']];
   var CLOSED = ['sold', 'lost', 'archived', 'done'];
-  var GMAIL = 'elevate.studio018@gmail.com'; // meeting invites are sent from here (worker/invite.js)
+  var GMAIL = 'elevate.studio018@gmail.com'; // all mail from the admin is sent from here (worker/invite.js)
+  // Sends through the site's server (Gmail) – never opens a mail program. Resolves to 'sent' or an error text.
+  function sendMail(body) {
+    return sb.auth.getSession().then(function (r) {
+      var token = r.data && r.data.session && r.data.session.access_token;
+      return fetch('/api/mail', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token }, body: JSON.stringify(body) });
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (b) {
+        if (res.ok) return b;
+        if (b.error === 'not_configured') throw new Error('Gmail är inte kopplat än (se Integrationer).');
+        if (b.error === 'auth') throw new Error('Du behöver logga in igen.');
+        throw new Error(b.error || 'Fel ' + res.status);
+      });
+    }, function () { throw new Error('Servern svarade inte.'); });
+  }
+  var senderKey = function (who) { return (TEAM.find(function (t) { return t[1] === who || t[0] === who; }) || [''])[0].toLowerCase(); };
   var st = { user: null, leads: [], view: (location.hash.slice(1).match(/^[a-z]+$/) || ['leads'])[0], status: 'all', q: '', sort: 'created_desc', shown: 40, editing: null };
 
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
@@ -189,7 +204,7 @@
       '<p class="lead__meta">' + esc(MEETING[l.meeting_type] || l.meeting_type || 'Förfrågan') + ' · ' + dt(l.created_at) + '</p></div>' +
       '<div class="lead__acts"><button class="btn btn--ghost btn--sm" data-a="detail">Detaljer</button><button class="btn btn--ghost btn--sm" data-a="offer">Skapa offert</button>' +
       '<select class="status" data-a="status" style="color:' + s[2] + '">' + STATUS.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === s[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></div></div>' +
-      '<div class="lead__grid"><div><span>E-post:</span> ' + (l.email ? '<a href="mailto:' + esc(l.email) + '">' + esc(l.email) + '</a>' : '–') + '</div>' +
+      '<div class="lead__grid"><div><span>E-post:</span> ' + (l.email ? '<button type="button" class="link link--inline" data-a="mail">' + esc(l.email) + '</button>' : '–') + '</div>' +
       '<div><span>Telefon:</span> ' + (l.phone ? '<a href="tel:' + esc(l.phone) + '">' + esc(l.phone) + '</a>' : '–') + '</div>' +
       '<div><span>Bransch:</span> ' + esc(l.service_type || '–') + '</div><div><span>Tid:</span> ' + esc(when) + '</div>' +
       (l.followup_at ? '<div><span>Ring upp:</span> ' + dt(l.followup_at) + '</div>' : '') +
@@ -218,6 +233,7 @@
       var act = a.dataset.a;
       if (act === 'detail') openLead(l);
       if (act === 'offer') openOffer(l);
+      if (act === 'mail') composeMail(l);
       if (act === 'note') { st.editing = id; renderLeads(); var t = $('.lead[data-id="' + id + '"] textarea'); if (t) t.focus(); }
       if (act === 'note-cancel') { st.editing = null; renderLeads(); }
       if (act === 'note-save') {
@@ -272,21 +288,10 @@
           b.addEventListener('click', function () { who = b.dataset.who; d.querySelectorAll('[data-who]').forEach(function (x) { x.classList.toggle('is-on', x === b); }); });
         });
         $('#mail', d).addEventListener('click', function (e) {
-          // Mail function live: the review mail goes out from info@elevatestudio.nu in the green design
-          if (root.dataset.mail) {
-            var btn = e.currentTarget; btn.disabled = true;
-            var key = (TEAM.find(function (t) { return t[1] === who; }) || [''])[0].toLowerCase();
-            return sb.functions.invoke('mail', { body: { action: 'review', lead_id: l.id, sender: key } }).then(function (r) {
-              if (r.error) { btn.disabled = false; return toast('Kunde inte skicka: ' + r.error.message); }
-              d.remove(); toast('Recensionsmejlet är skickat från info@elevatestudio.nu');
-            });
-          }
-          var first = (l.name || '').trim().split(/\s+/)[0] || '';
-          var me = who === 'Elevate Studio' ? 'Vi' : 'Jag';
-          var body = 'Hej' + (first ? ' ' + first : '') + '!\n\nTack för förtroendet. ' + me + ' hoppas att du är nöjd med hemsidan. Vill du berätta hur samarbetet var? En kort recension på Google hjälper oss mycket – det tar ungefär en minut:\n\n' +
-            REVIEW_URL + '\n\nTack!\n' + who + (who === 'Elevate Studio' ? '' : '\nElevate Studio') + '\ninfo@elevatestudio.nu';
-          location.href = 'mailto:' + encodeURIComponent(l.email) + '?subject=' + encodeURIComponent('Tack för att du valde Elevate Studio') + '&body=' + encodeURIComponent(body);
-          d.remove(); toast('Mejlet öppnas i ditt mejlprogram – skicka det från info@elevatestudio.nu');
+          var btn = e.currentTarget; btn.disabled = true;
+          sendMail({ action: 'review', lead_id: l.id, sender: senderKey(who) }).then(function () {
+            d.remove(); toast('Recensionsmejlet är skickat från ' + GMAIL);
+          }, function (err) { btn.disabled = false; toast('Kunde inte skicka: ' + err.message); });
         });
         $('#remind', d).addEventListener('click', function () {
           var s = new Date(); s.setDate(s.getDate() + 7); s.setHours(9, 0, 0, 0);
@@ -442,7 +447,7 @@
     var groups = { marketing: 'Kontakter som sagt ja till utskick', customers: 'Aktiva kunder', contacts: 'Alla kontakter', leads: 'Alla leads' };
     STATUS.forEach(function (s) { groups['status:' + s[0]] = 'Leads med status: ' + s[1]; });
     var contacts = null, list = [];
-    dialog('<form id="cp"><h2>Nytt mejlutskick</h2><p>' + (root.dataset.mail ? 'Skickas från info@elevatestudio.nu, ett mejl per mottagare.' : 'Öppnas i ditt mejlprogram med mottagarna som hemlig kopia. Skicka från info@elevatestudio.nu.') + '</p>' +
+    dialog('<form id="cp"><h2>Nytt mejlutskick</h2><p>' + 'Skickas från ' + GMAIL + ' i den gröna designen, ett mejl per mottagare (högst 200 åt gången).' + '</p>' +
       form([{ name: 'group', label: 'Till', options: groups, value: 'marketing' }]) + '<p class="small muted" id="cp-count" style="margin:-6px 0 14px">Räknar …</p>' +
       form([{ name: 'subject', label: 'Ämne', required: true }, { name: 'headline', label: 'Rubrik i mejlet' }, { name: 'body', label: 'Text', type: 'textarea', rows: 7, required: true },
         { name: 'button_label', label: 'Knapptext (valfri)', placeholder: 'Läs mer' }, { name: 'button_url', label: 'Knapplänk (valfri)', type: 'url', placeholder: 'https://elevatestudio.nu/' }]) +
@@ -475,19 +480,13 @@
         var log = function (sent) {
           return sb.from('email_campaigns').insert({ internal_name: c.subject, subject: c.subject, headline: c.headline, body: c.body, button_label: c.button_label, button_url: c.button_url,
             status: 'sent', recipient_count: list.length, sent_count: sent, sent_at: new Date().toISOString(), sent_by: st.user.id, created_by: st.user.id,
-            from_email: 'info@elevatestudio.nu', from_name: 'Elevate Studio', audience: { group: f.elements.group.value } });
+            from_email: GMAIL, from_name: 'Elevate Studio', audience: { group: f.elements.group.value } }).then(function () {});
         };
-        if (!root.dataset.mail) {
-          if (!confirm('Öppna mejlet till ' + list.length + ' mottagare i ditt mejlprogram?')) return;
-          var text = c.body + (c.button_url ? '\n\n' + (c.button_label || 'Läs mer') + ': ' + c.button_url : '') + '\n\nVänliga hälsningar\nElevate Studio\ninfo@elevatestudio.nu\n\nVill du inte få fler mejl från oss? Svara "avregistrera" så tar vi bort dig.';
-          location.href = 'mailto:info@elevatestudio.nu?bcc=' + list.map(function (x) { return encodeURIComponent(x.email); }).join(',') + '&subject=' + encodeURIComponent(c.subject) + '&body=' + encodeURIComponent(text);
-          log(list.length); d.remove(); return toast('Utskicket öppnas i ditt mejlprogram');
-        }
+        if (!confirm('Skicka utskicket till ' + list.length + ' mottagare från ' + GMAIL + '?')) return;
         var btn = $('button[type=submit]', d); btn.disabled = true; btn.textContent = 'Skickar …';
-        sb.functions.invoke('mail', { body: Object.assign({ action: 'campaign', recipients: list }, c) }).then(function (r) {
-          if (r.error) { btn.disabled = false; btn.textContent = 'Skicka'; return toast('Kunde inte skicka: ' + r.error.message); }
-          log(r.data && r.data.sent || list.length); d.remove(); toast('Utskicket är skickat till ' + list.length + ' mottagare');
-        });
+        sendMail(Object.assign({ action: 'campaign', recipients: list.slice(0, 200) }, c)).then(function (r) {
+          log(r.sent || 0); d.remove(); toast('Utskicket är skickat till ' + (r.sent || 0) + ' av ' + list.length + ' mottagare från ' + GMAIL);
+        }, function (err) { btn.disabled = false; btn.textContent = 'Skicka'; toast('Kunde inte skicka: ' + err.message); });
       });
     });
   }
@@ -544,6 +543,35 @@
     });
   }
 
+  /* Write a mail in the admin; it goes out from the Elevate Gmail in the green design with the sender's card */
+  function composeMail(to) {
+    if (!to || !to.email) return toast('E-postadress saknas.');
+    var who = 'Elevate Studio';
+    dialog('<form id="cm"><h2>Nytt mejl</h2><p>Till ' + esc(to.name || '') + ' &lt;' + esc(to.email) + '&gt; · skickas från ' + GMAIL + '</p>' +
+      '<div class="field">Från<div class="who">' + TEAM.map(function (t) { return '<button type="button" class="chip" data-who="' + t[1] + '">' + t[0] + '</button>'; }).join('') +
+      '<button type="button" class="chip is-on" data-who="Elevate Studio">Elevate Studio</button></div></div>' +
+      form([{ name: 'subject', label: 'Ämne', required: true }, { name: 'body', label: 'Meddelande', type: 'textarea', rows: 8 },
+        { name: 'button_label', label: 'Knapptext (valfri)', placeholder: 'Se offerten' }, { name: 'button_url', label: 'Knapplänk (valfri)', type: 'url', placeholder: 'https://' }]) +
+      '<p class="small muted" style="margin:-4px 0 0">Mejlet får den gröna designen med avsändarens kontaktkort. Svar kommer till ' + GMAIL + '.</p>' +
+      '<div class="dlg__row"><button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">' + ICON.send + 'Skicka</button></div></form>', function (d) {
+      d.querySelectorAll('[data-who]').forEach(function (b) {
+        b.addEventListener('click', function () { who = b.dataset.who; d.querySelectorAll('[data-who]').forEach(function (x) { x.classList.toggle('is-on', x === b); }); });
+      });
+      var f = $('#cm', d);
+      f.elements.body.required = true;
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var v = function (n) { return f.elements[n].value.trim(); }, btn = $('button[type=submit]', d);
+        btn.disabled = true; btn.textContent = 'Skickar …';
+        sendMail({ action: 'message', lead_id: to.id || undefined, email: to.id ? undefined : to.email, name: to.name, sender: senderKey(who),
+          subject: v('subject'), body: v('body'), button_label: v('button_label') || undefined, button_url: v('button_url') || undefined })
+          .then(function () { d.remove(); toast('Mejlet är skickat från ' + GMAIL); },
+            function (err) { btn.disabled = false; btn.textContent = 'Skicka'; toast('Kunde inte skicka: ' + err.message); });
+      });
+      f.elements.subject.focus();
+    });
+  }
+
   /* ---------- Big lead window (like the old admin) ---------- */
   function openLead(l) {
     var s = sInfo(l.status || 'new');
@@ -556,7 +584,7 @@
       '<div class="ld__headacts"><select class="status" id="ld-status" style="color:' + s[2] + '">' + STATUS.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === s[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>' +
       '<button class="iconbtn" data-close aria-label="Stäng">' + ICON.x + '</button></div></header>' +
       '<div class="ld__quick">' + (l.phone ? '<a class="btn btn--ghost btn--sm" href="tel:' + esc(l.phone) + '">' + ICON.phone + 'Ring</a>' : '') +
-      (l.email ? '<a class="btn btn--ghost btn--sm" href="mailto:' + esc(l.email) + '">' + ICON.mail + 'Mejla</a>' : '') +
+      (l.email ? '<button class="btn btn--ghost btn--sm" id="ld-mail">' + ICON.mail + 'Mejla</button>' : '') +
       '<button class="btn btn--ghost btn--sm" id="ld-meet">' + ICON.cal + 'Boka möte</button><button class="btn btn--ghost btn--sm" id="ld-offer">' + ICON.file + 'Skapa offert</button>' +
       (l.status === 'sold' ? '<button class="btn btn--sm" id="ld-review">' + ICON.star + 'Be om recension</button>' : '<button class="btn btn--sm" id="ld-sold">' + ICON.star + 'Markera som såld</button>') + '</div>' +
       '<div class="ld__cols"><div>' +
@@ -601,6 +629,7 @@
         update(l.id, { admin_notes: $('#ld-note', d).value.trim() || null }).then(function () { toast('Kommentaren är sparad'); }).catch(function (err) { toast(err.message); });
       });
       $('#ld-offer', d).addEventListener('click', function () { d.remove(); openOffer(l); });
+      var lm = $('#ld-mail', d); if (lm) lm.addEventListener('click', function () { d.remove(); composeMail(l); });
       $('#ld-meet', d).addEventListener('click', function () { d.remove(); bookMeeting(l); });
       var rv = $('#ld-review', d); if (rv) rv.addEventListener('click', function () { d.remove(); openReview(l); });
       var sd = $('#ld-sold', d); if (sd) sd.addEventListener('click', function () { d.remove(); openSold(l); });
@@ -748,7 +777,7 @@
         var q = $('#cq').value.toLowerCase();
         var list = rows.filter(function (c) { return !q || [c.full_name, c.company_name, c.email, c.phone].some(function (v) { return v && v.toLowerCase().indexOf(q) > -1; }); });
         $('#ct').innerHTML = table([['Namn', function (c) { return '<b>' + esc(c.full_name) + '</b>'; }], ['Företag', function (c) { return esc(c.company_name || '–'); }],
-          ['E-post', function (c) { return c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' : '–'; }], ['Telefon', function (c) { return esc(c.phone || '–'); }],
+          ['E-post', function (c) { return c.email ? '<button type="button" class="link link--inline" data-mail="' + esc(c.id) + '">' + esc(c.email) + '</button>' : '–'; }], ['Telefon', function (c) { return esc(c.phone || '–'); }],
           ['Status', function (c) { return '<span class="tag">' + esc(CUSTOMER[c.customer_status] || c.customer_status || '–') + '</span>'; }], ['Tillagd', function (c) { return day(c.created_at); }]],
           list.slice(0, 300), function (c) { return 'data-id="' + c.id + '" class="click"'; });
       };
@@ -756,6 +785,8 @@
       $('#cq').addEventListener('input', draw);
       $('#ct').addEventListener('click', function (e) {
         if (e.target.closest('a')) return;
+        var m = e.target.closest('[data-mail]');
+        if (m) { var c = rows.find(function (x) { return x.id === m.dataset.mail; }); return composeMail({ email: c.email, name: c.full_name }); }
         var tr = e.target.closest('tr[data-id]'); if (tr) contactDialog(rows.find(function (c) { return c.id === tr.dataset.id; }));
       });
     });
