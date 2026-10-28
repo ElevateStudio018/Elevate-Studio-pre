@@ -83,7 +83,7 @@ main > .page-hero + .section--cream { margin-top: 0; }
 .info-card p { margin: 0; }
 .info-card__title { margin: 0; font-size: 28px; font-weight: 500; line-height: 1.15; }
 .info-card .arrow-link { margin-top: auto; }
-.info-card--link { transition: background-color .25s, border-color .25s; }
+.info-card--link { position: relative; transition: background-color .25s, border-color .25s; }
 .info-card--link:hover { border-color: var(--accent); background: var(--cream); }
 .info-card--accent { border-color: var(--accent); background: var(--accent); color: var(--cream); }
 @media (max-width: 768px) { .info-card { padding: 28px; } }
@@ -195,6 +195,7 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 @media (max-width: 992px) { .people { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 640px) { .people { grid-template-columns: 1fr; } .person { padding: 28px; } }
 .info-card a { color: var(--accent); font-weight: 500; }
+.info-card .cover-link { color: inherit; }
 
 /* ---------- Testa din sajt ---------- */
 .sitetest__form {

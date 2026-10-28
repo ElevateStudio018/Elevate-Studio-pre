@@ -133,8 +133,8 @@ def header(p, crumbs, current):
       </ul>
       <p class="drawer__heading drawer__heading--lang">Språk / Language</p>
       <ul class="drawer__lang">
-        <li><a href="?lang=sv" lang="sv" data-lang="sv" class="is-on" aria-current="true">{CHECK}Svenska</a></li>
-        <li><a href="?lang=en" lang="en" data-lang="en">English</a></li>
+        <li><a href="?lang=sv" lang="sv" data-lang="sv" class="is-on" aria-current="true" rel="nofollow">{CHECK}Svenska</a></li>
+        <li><a href="?lang=en" lang="en" data-lang="en" rel="nofollow">English</a></li>
       </ul>
     </div>
     <div class="drawer__contact">
@@ -163,7 +163,7 @@ def footer(p):
             <p>Hemsidor som ger förfrågningar – byggda i Uppsala, för företag i hela Sverige. <em>Hör av er så tar vi ett första möte.</em></p>
           </div>
           <div class="site-footer__small">
-            <h3 class="site-footer__subheader">Få vårt nyhetsbrev</h3>
+            <p class="site-footer__subheader">Få vårt nyhetsbrev</p>
             <form class="site-footer__newsletter js-form" action="{FORM_ENDPOINT}" method="post" data-subject="Ny prenumerant på nyhetsbrevet"{mail_attrs()}>
               <label><span class="sr-only">E-postadress</span><input type="email" name="email" placeholder="Din e-postadress" required></label>
               <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="new-password" aria-hidden="true" data-lpignore="true" data-1p-ignore>
@@ -174,11 +174,11 @@ def footer(p):
           </div>
           <div class="site-footer__big site-footer__cols">
             <div>
-              <h3 class="site-footer__subheader">Tjänster</h3>
+              <p class="site-footer__subheader">Tjänster</p>
               <ul class="site-footer__links">{services}</ul>
             </div>
             <div>
-              <h3 class="site-footer__subheader">Elevate Studio</h3>
+              <p class="site-footer__subheader">Elevate Studio</p>
               <ul class="site-footer__links">
                 <li><a href="{p}kontakt.html"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.5 6 10 6 10s6-5.5 6-10a6 6 0 0 0-6-6zm0 8.5A2.5 2.5 0 1 1 6 3.5a2.5 2.5 0 0 1 0 5z" fill="#fff"/></svg> Uppsala</a></li>
                 <li><a href="{p}om.html">Om oss</a></li>
@@ -192,10 +192,10 @@ def footer(p):
               </ul>
             </div>
             <div>
-              <h3 class="site-footer__subheader">Kontakt</h3>
+              <p class="site-footer__subheader">Kontakt</p>
               <ul class="site-footer__links">
                 <li><a href="mailto:info@elevatestudio.nu">info@elevatestudio.nu</a></li>
-                <li><a href="{p}kontakt.html">Ring oss</a></li>
+                <li><a href="tel:+46760228361">Ring 076-022 83 61</a></li>
                 <li><a href="{p}testa.html">Testa din sajt</a></li>
               </ul>
             </div>
@@ -203,7 +203,7 @@ def footer(p):
           <ul class="site-footer__bottom">
             <li><a href="{p}integritet.html">Integritetspolicy</a></li>
             <li><a href="{p}cookies.html">Cookies</a></li>
-            <li><a href="?lang=en" lang="en" data-lang="en">In English</a></li>
+            <li><a href="?lang=en" lang="en" data-lang="en" rel="nofollow">In English</a></li>
             <li><a class="site-footer__admin" href="{p}admin/index.html">Admin</a></li>
             <li class="site-footer__legal">Elevate Studio är ett varumärke som tillhör {PARENT_COMPANY}, org.nr {ORG_NR} · Developed by Isak Mattsson</li>
           </ul>
@@ -284,7 +284,9 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
             {"@type": "ListItem", "position": i, "name": label, "item": f"{SITE_URL}/{href}" if href != "__SELF__" else "__CANONICAL__"}
             for i, (label, href) in enumerate(trail, 1)]})
     graph.extend(jsonld)
+    # The addresses are escaped so the entity used in the page text does not reach the JSON
     ld = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False).replace("</", "<\\/")
+    ld = ld.replace("@elevatestudio.nu", "\\u0040elevatestudio.nu").replace("@gmail.com", "\\u0040gmail.com")
     return f'''<!DOCTYPE html>
 <html lang="{lang}">
 <head>
@@ -359,7 +361,7 @@ def case_card(p, c, big):
     tags = "".join(f'<li><a href="{p}projekt/index.html">{esc(t)}</a></li>' for t in c["tags"])
     return f'''<li class="case{' case--big' if big else ''}">
             <a class="case__image" href="{p}projekt/{c["slug"]}.html">
-              <img src="{p}assets/img/{c["image"]}" alt="" width="{c["w"]}" height="{c["h"]}" loading="lazy">
+              <img src="{p}assets/img/{c["image"]}" alt="{esc(c["name"])} – exempel på hemsida" width="{c["w"]}" height="{c["h"]}" loading="lazy">
               <span class="case__overlay">
                 <span class="case__overlay-text">{esc(c["lead"])}</span>
                 <span class="case__overlay-link"><span class="arrow-link">Läs mer</span></span>
@@ -372,29 +374,29 @@ def case_card(p, c, big):
 
 def post_card(p, a):
     terms = "".join(f"<span>{esc(t)}</span>" for t in a["terms"])
-    return f'''<a href="{p}insikter/{a["slug"]}.html" class="post-card">
-            <img src="{p}assets/img/{a["image"]}" alt="" width="420" height="297" loading="lazy">
+    return f'''<article class="post-card">
+            <img src="{p}assets/img/{a["image"]}" alt="{esc(a["title"])}" width="420" height="297" loading="lazy">
             <div class="post-card__content">
               <p class="post-card__terms">{terms}</p>
-              <h3 class="post-card__title">{esc(a["title"])}</h3>
+              <h3 class="post-card__title"><a class="cover-link" href="{p}insikter/{a["slug"]}.html">{esc(a["title"])}</a></h3>
               <p class="post-card__time">{a["date"]}</p>
             </div>
-          </a>'''
+          </article>'''
 
 
 def platform_card(p, x):
     return f'''<a class="platform-card" href="{p}plattformar/{x["slug"]}.html">
-              <img src="{p}assets/img/home/{x["icon"]}" alt="" width="60" height="60">
+              <img src="{p}assets/img/home/{x["icon"]}" alt="{esc(x["name"])}" width="60" height="60">
               <h3>{esc(x["name"])}</h3><span class="arrow-link">Läs mer</span>
             </a>'''
 
 
 def service_card(p, s):
-    return f'''<a class="info-card info-card--link" href="{p}tjanster/{s["slug"]}.html">
-          <h3 class="info-card__title">{esc(s["name"])}</h3>
+    return f'''<article class="info-card info-card--link">
+          <h3 class="info-card__title"><a class="cover-link" href="{p}tjanster/{s["slug"]}.html">{esc(s["name"])}</a></h3>
           <p>{esc(s["lead"])}</p>
           <span class="arrow-link">Läs mer</span>
-        </a>'''
+        </article>'''
 
 
 def featured_posts(p, articles):
@@ -402,23 +404,23 @@ def featured_posts(p, articles):
     def terms(a):
         return "".join(f"<span>{esc(x)}</span>" for x in a["terms"])
     big, *rest = articles[:3]
-    side = "".join(f'''<a class="insights__small" href="{p}insikter/{a["slug"]}.html">
-            <img src="{p}assets/img/{a["image"]}" alt="" width="420" height="297" loading="lazy">
+    side = "".join(f'''<article class="insights__small">
+            <img src="{p}assets/img/{a["image"]}" alt="{esc(a["title"])}" width="420" height="297" loading="lazy">
             <div>
               <p class="post-card__terms">{terms(a)}</p>
-              <h3 class="insights__small-title">{esc(a["title"])}</h3>
+              <h3 class="insights__small-title"><a class="cover-link" href="{p}insikter/{a["slug"]}.html">{esc(a["title"])}</a></h3>
               <p class="post-card__time">{a["date"]}</p>
             </div>
-          </a>''' for a in rest)
+          </article>''' for a in rest)
     return f'''<div class="insights__grid">
-          <a class="insights__big" href="{p}insikter/{big["slug"]}.html">
-            <img src="{p}assets/img/{big["image"]}" alt="" width="840" height="594" loading="lazy">
+          <article class="insights__big">
+            <img src="{p}assets/img/{big["image"]}" alt="{esc(big["title"])}" width="840" height="594" loading="lazy">
             <div>
               <p class="post-card__terms">{terms(big)}</p>
-              <h3 class="insights__big-title">{esc(big["title"])}</h3>
+              <h3 class="insights__big-title"><a class="cover-link" href="{p}insikter/{big["slug"]}.html">{esc(big["title"])}</a></h3>
               <p class="post-card__time">{big["date"]}</p>
             </div>
-          </a>
+          </article>
           <div class="insights__side">{side}</div>
         </div>'''
 
@@ -431,7 +433,7 @@ def mail_attrs():
 
 def contact_form(p):
     return f'''<form class="standout__form js-form" id="formular" action="{FORM_ENDPOINT}" method="post" data-subject="Ny förfrågan från hemsidan" data-lead{mail_attrs()}>
-          <h3 class="standout__header">Hej! Jag vill gärna bli kontaktad.</h3>
+          <p class="standout__header">Hej! Jag vill gärna bli kontaktad.</p>
           <div class="standout__fields">
             <label><span class="sr-only">Namn</span><input type="text" name="namn" placeholder="Namn" autocomplete="name" required></label>
             <label><span class="sr-only">E-post</span><input type="email" name="email" placeholder="E-post" autocomplete="email" required></label>
@@ -472,10 +474,29 @@ def pretty(text):
     return _SITE_HTML.sub(lambda m: SITE_URL + m.group(1), text)
 
 
+_EMAIL = re.compile(r"@(elevatestudio\.nu|gmail\.com)")
+_IMG_SRC = re.compile(r'src="([^"]*?)\.jpg"')
+
+
+def finish(text):
+    """Last touches on every page: e-mail addresses written with a character entity (harder for
+    address scrapers, the same for readers) and photos served as WebP where tools/images.py has
+    made a copy."""
+    text = _EMAIL.sub(r"&#64;\1", text)
+
+    def webp(m):
+        src = m.group(1)
+        i = src.find("assets/img/")
+        if i >= 0 and (ROOT / (src[i:] + ".webp")).exists():
+            return f'src="{src}.webp"'
+        return m.group(0)
+    return _IMG_SRC.sub(webp, text)
+
+
 def write(path, text):
     out = ROOT / path
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(pretty(text.replace("__CANONICAL__", page_url(path))), encoding="utf-8")
+    out.write_text(finish(pretty(text.replace("__CANONICAL__", page_url(path)))), encoding="utf-8")
     return path
 
 
@@ -569,7 +590,7 @@ def build_cases():
     p = "../"
     cards = "".join(f'''
         <a class="pcard" href="{c["slug"]}.html">
-          {laptop(p + "assets/img/" + c["image"])}
+          {laptop(p + "assets/img/" + c["image"], c["name"] + " – exempel på hemsida på en dator")}
           <div class="pcard__body">
             <span class="ex-tag">Exempel</span>
             <h3>{esc(c["name"])}</h3>
@@ -683,7 +704,7 @@ def build_articles():
       </div>
     </section>
     <section class="section container article">
-      <img class="rounded article__image" src="../assets/img/{a["image"]}" alt="" width="840" height="594">
+      <img class="rounded article__image" src="../assets/img/{a["image"]}" alt="{esc(a["title"])}" width="840" height="594">
       <div class="prose">
         {render_body(a["body"])}
       </div>
@@ -732,7 +753,7 @@ def build_platforms():
         main = f'''<main>
     <section class="page-hero page-hero--icon">
       <div class="container">
-        <img class="page-hero__icon" src="../assets/img/home/{x["icon"]}" alt="" width="96" height="96">
+        <img class="page-hero__icon" src="../assets/img/home/{x["icon"]}" alt="{esc(x["name"])}" width="96" height="96">
         <p class="page-hero__eyebrow">Plattform</p>
         <h1 class="page-hero__title">{esc(x["name"])}</h1>
         <p class="page-hero__lead">{esc(x["lead"])}</p>
@@ -1128,7 +1149,7 @@ def projects_section():
     """Start page: the demo site in laptop and phone, then example projects in laptops (J10)."""
     cards = "".join(f'''
           <a class="hp-proj__card" href="projekt/{c["slug"]}.html">
-            {laptop("assets/img/" + c["image"])}
+            {laptop("assets/img/" + c["image"], c["name"] + " – exempel på hemsida på en dator")}
             <div class="hp-proj__meta"><h3>{esc(c["name"])}</h3><span class="ex-tag">Exempel</span></div>
             <span class="btn btn--light hp-proj__btn"><span>Läs mer</span></span>
           </a>''' for c in CASES[:3])
@@ -1151,7 +1172,7 @@ def projects_section():
           <p class="devs-cap"><b>Dator och mobil</b> – samma sajt, anpassad för varje skärm</p>
         </div>
         <div class="hp-proj__divider">
-          <h3 class="hp-proj__sub">Exempel på projekt</h3>
+          <p class="hp-proj__sub">Exempel på projekt</p>
           <a class="arrow-link hp-proj__link" href="projekt/index.html">Fler exempel</a>
         </div>
         <div class="hp-proj__grid">{cards}
@@ -1197,22 +1218,22 @@ def bento_section():
         <img src="assets/img/{x["image"]}" alt="{esc(x["alt"])}" width="636" height="477" loading="lazy">
         <span class="bento__cap">{esc(x["name"])}</span>
       </a>'''
-    text = lambda x, extra="": f'''<a class="bento__tile bento__tile--text{extra}" href="tjanster/{x["slug"]}.html">
-        <h3>{esc(x["name"])}</h3>
+    text = lambda x, extra="": f'''<div class="bento__tile bento__tile--text{extra}">
+        <h3><a class="cover-link" href="tjanster/{x["slug"]}.html">{esc(x["name"])}</a></h3>
         <p>{esc(x["card"])}</p>
         <span class="arrow-link">Läs mer</span>
-      </a>'''
+      </div>'''
     return f'''<section class="block container bento" id="tjanster-oversikt" aria-label="Vad vi gör">
-      <a class="bento__tile bento__tile--big" href="tjanster/index.html">
+      <div class="bento__tile bento__tile--big">
         {mark}
-        <h2 class="bento__title">En hemsida som <em>jobbar åt er</em></h2>
+        <h2 class="bento__title"><a class="cover-link" href="tjanster/index.html">En hemsida som <em>jobbar åt er</em></a></h2>
         <div class="bento__text">
           <p>Vi bygger snabba, mobilanpassade hemsidor med tydliga tjänstesidor och en väg till kontakt på varje sida.</p>
           <p class="bento__more">Sedan kopplar vi på det som sparar tid åt er – bokning, offertflöden och AI-chatt – och ser till att ni syns på Google och när kunder frågar AI.</p>
           <p class="bento__more">Efter lansering tar vi hand om ändringar och uppföljning.</p>
         </div>
         <span class="btn btn--light"><span>Se alla tjänster</span></span>
-      </a>
+      </div>
       {photo(s["hemsidor"])}
       {text(s["ai-chatt"])}
       {text(s["bokningssystem"], " bento__tile--sand")}
@@ -1241,7 +1262,8 @@ def site_files(built):
     pages = sorted(x for x in built if x != "404.html")
     urls = "".join(f"\n  <url><loc>{page_url(x)}</loc><lastmod>{today}</lastmod></url>" for x in pages)
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}\n</urlset>\n', encoding="utf-8")
-    bots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Google-Extended", "Applebot-Extended", "Bingbot"]
+    bots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Google-Extended", "Applebot-Extended", "Bingbot",
+            "anthropic-ai", "Claude-Web", "cohere-ai", "Amazonbot", "meta-externalagent", "DuckAssistBot", "YouBot"]
     ai = "".join(f"User-agent: {b}\nAllow: /\nDisallow: /admin\n\n" for b in bots)
     (ROOT / "robots.txt").write_text(f"# Vi välkomnar sökmotorer och AI-assistenter.\n{ai}User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
     # elevatestudio.nu/admin – the admin panel itself (login, leads, offers, calendar)
