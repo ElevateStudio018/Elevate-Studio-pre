@@ -85,18 +85,22 @@ export async function handleMail(req, env, forcedAction) {
     if (isNaN(new Date(String(input.at)).getTime())) return json({ error: 'time' }, 400);
     // Google Meet without a link given: the event and its Meet link are made in the Elevate calendar
     let meet = null;
-    if (input.auto_meet && !clip(input.link, 500)) {
-      if (!googleReady(env)) return json({ error: 'google_not_configured' }, 503);
+    if (input.auto_meet && !clip(input.link, 500) && !googleReady(env)) {
+      // Google not connected yet: a video link that needs no account is made instead (Jitsi Meet)
+      const room = [...crypto.getRandomValues(new Uint8Array(12))].map((x) => (x % 36).toString(36)).join('');
+      meet = { link: `https://meet.jit.si/ElevateStudio-${room}`, provider: 'jitsi' };
+      input = { ...input, link: meet.link, type: 'Videomöte' };
+    } else if (input.auto_meet && !clip(input.link, 500)) {
       try {
         meet = await createMeet(env, { start: new Date(String(input.at)), minutes: Math.min(Math.max(Number(input.minutes) || 30, 5), 480),
           title: `Möte: ${lead.name || lead.email} och Elevate Studio`, description: clip(input.message, 2000), attendee: lead.email, name: lead.name });
       } catch (e) { return json({ error: String(e.message || e).slice(0, 300) }, 502); }
       input = { ...input, link: meet.link, uid: meet.uid, organizer: env.GMAIL_USER };
     }
-    if (!sending) return json({ ok: true, link: meet?.link || null, sent: false });
+    if (!sending) return json({ ok: true, link: meet?.link || null, provider: meet?.provider || 'google', sent: false });
     const res = await oneMail(env, auth, lead, buildInvite(lead, input));
     if (!meet || !res.ok) return res;
-    return json({ ok: true, from: env.GMAIL_USER, link: meet.link, sent: true });
+    return json({ ok: true, from: env.GMAIL_USER, link: meet.link, provider: meet.provider || 'google', sent: true });
   }
   if (action === 'review') {
     if (!lead?.email) return json({ error: 'lead' }, 404);

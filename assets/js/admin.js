@@ -538,7 +538,7 @@
             body: JSON.stringify({ lead_id: x.id, at: at.toISOString(), minutes: mins, type: types[type], link: v('link'), message: v('message'), sender: host, send: send, auto_meet: auto }) });
         }).then(function (res) {
           return res.json().catch(function () { return {}; }).then(function (b) {
-            if (res.ok) return { how: b.sent === false ? 'booked' : 'sent', link: b.link };
+            if (res.ok) return { how: b.sent === false ? 'booked' : 'sent', link: b.link, provider: b.provider };
             if (b.error === 'not_configured') return { how: 'not_configured' };
             if (b.error === 'google_not_configured') return { how: 'no_google' };
             return { how: 'failed', why: b.error === 'auth' ? 'Du behöver logga in igen.' : b.error || res.status };
@@ -556,7 +556,8 @@
           }).then(function () { return out; });
         }).then(function (out) {
           d.remove(); render();
-          var meet = out.link ? ' Meet-länken är skapad och mötet ligger i Elevates Google Kalender.' : '';
+          var meet = !out.link ? '' : out.provider === 'jitsi' ? ' Videolänken skapades automatiskt (Jitsi). Koppla Google under Integrationer för Google Meet-länkar.'
+            : ' Meet-länken är skapad och mötet ligger i Elevates Google Kalender.';
           if (out.how === 'sent') return toast('Mötet är bokat och inbjudan skickad från ' + GMAIL + '.' + meet);
           if (out.how === 'not_configured') return toast('Mötet är bokat. Inbjudan skickades inte – Gmail är inte kopplat än (se Integrationer).');
           if (out.how === 'no_google') return toast('Mötet är bokat, men inget skickades: Google Kalender är inte kopplat än, så Meet-länken kunde inte skapas (se Integrationer).');
@@ -1028,7 +1029,7 @@
       pill.className = 'pill pill--' + (st.gmail ? 'on' : 'off');
       pill.textContent = st.gmail ? 'Ansluten' : 'Lösenord saknas i Cloudflare';
       var g = $('#google-pill'); if (!g) return;
-      g.className = 'pill pill--' + (st.google ? 'on' : 'off'); g.textContent = st.google ? 'Ansluten' : 'Inte kopplat';
+      g.className = 'pill pill--' + (st.google ? 'on' : 'off'); g.textContent = st.google ? 'Ansluten' : 'Inte kopplat – videolänkar via Jitsi tills vidare';
       $('#google-connect').hidden = !!st.google;
     }).catch(function () { var pill = $('#gmail-pill'); if (pill) { pill.className = 'pill pill--off'; pill.textContent = 'Kan inte nås här'; } });
   }
