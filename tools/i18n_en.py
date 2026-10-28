@@ -246,6 +246,8 @@ EN = {
     "Vi är ett team i Uppsala som bygger hemsidor åt företag i hela Sverige – med fast pris, snabba leveranser och personlig kontakt.": "We are a team in Uppsala building websites for businesses all over Sweden – with fixed prices, fast delivery and a personal touch.",
     "Ni pratar med samma person från första mötet till uppföljningen varje månad. Inga mellanhänder, inga långa mejltrådar – bara någon som kan ert företag och svarar när ni ringer.": "You talk to the same person from the first meeting to the monthly follow-up. No middlemen, no long email threads – just someone who knows your business and answers when you call.",
     "Recension på Google": "Review on Google (translated from Swedish)",
+    "Hemmacykel · Recension på Google": "Hemmacykel · Review on Google (translated from Swedish)",
+    "Gjorde en väldigt bra och proffesionell hemsida åt oss. Mycket nöjd med detta. Kan varmt rekommendera!": "They made a really good and professional website for us. Very happy with it. Warmly recommended!",
     "Väl utfört arbete med vår hemsida, vi märker redan skillnad på inflöde av förfrågningar till våra tjänster.": "Well-executed work on our website – we're already noticing a difference in the number of enquiries for our services.",
     "Har ni jobbat med oss?": "Have you worked with us?",
     "Vi blir glada för en recension på Google – det hjälper andra företag att hitta oss.": "We'd be grateful for a review on Google – it helps other businesses find us.",
