@@ -586,3 +586,53 @@ button.arrow-link { padding: 0; border: 0; background: none; font: inherit; curs
 .hamburger-icon:hover .icon, .hamburger-icon:hover .icon::before, .hamburger-icon:hover .icon::after { background: #000; }
 .site-header .hamburger-icon[aria-expanded="true"] .icon::before { transform: translateY(8px) rotate(45deg); }
 .site-header .hamburger-icon[aria-expanded="true"] .icon::after { transform: translateY(-8px) rotate(-45deg); }
+
+/* ---------- Gradient glow (soft light from the edges of dark green surfaces, with fine grain) ---------- */
+:root {
+  --glow-lime: #d7e36b;
+  --glow-teal: #3fc1b0;
+  --glow-amber: #f2b866;
+  --glow-deep: #15301f;
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Chat: the button gets a glowing ring, the window a glowing header */
+.chat__toggle {
+  border: 3px solid transparent;
+  background: linear-gradient(var(--glow-deep), var(--glow-deep)) padding-box, linear-gradient(120deg, var(--glow-teal), var(--glow-lime) 55%, var(--glow-amber)) border-box;
+  box-shadow: 0 0 34px -6px rgba(215, 227, 107, .6), 0 14px 34px -12px rgba(18, 39, 27, .55);
+}
+.chat__head {
+  border-bottom: 0;
+  background: radial-gradient(90% 150% at 100% 140%, var(--glow-lime) 0%, transparent 60%), radial-gradient(70% 140% at 0% 150%, var(--glow-teal) 0%, transparent 65%), var(--glow-deep);
+}
+.chat__title { color: #fff; }
+.chat__sub { color: rgba(253, 251, 245, .78); }
+.chat__close { border-color: rgba(253, 251, 245, .3); background: rgba(253, 251, 245, .1); color: #fff; }
+
+/* Menu: the open menu is dark green with light from the lower edge */
+.hamburgermenu {
+  color: var(--cream, #fdfbf5);
+  background: var(--noise) 0 0 / 180px auto, radial-gradient(70% 55% at 100% 112%, rgba(215, 227, 107, .85) 0%, rgba(215, 227, 107, .22) 38%, transparent 70%), radial-gradient(55% 50% at 0% 108%, rgba(63, 193, 176, .8) 0%, transparent 70%), var(--glow-deep);
+  background-blend-mode: soft-light, normal, normal, normal;
+}
+.drawer__label, .drawer__heading { color: #cfe3a8; }
+.drawer__main { border-top-color: rgba(253, 251, 245, .15); }
+.drawer__main > li { border-bottom-color: rgba(253, 251, 245, .15); }
+.drawer__main > li > a, .drawer__toggle { color: #fff; }
+.drawer__main > li > a:hover, .drawer__toggle:hover { color: var(--glow-lime); }
+.hamburgermenu__sub a { color: rgba(253, 251, 245, .85); border-left-color: rgba(253, 251, 245, .25); }
+.hamburgermenu__sub a:hover, .hamburgermenu__sub a.drawer__all { color: var(--glow-lime); border-left-color: var(--glow-lime); }
+.drawer__minor a, .drawer__lang a { color: rgba(253, 251, 245, .85); }
+.drawer__minor a:hover, .drawer__lang a:hover, .drawer__lang a.is-on { color: var(--glow-lime); }
+.drawer__contact p { color: rgba(253, 251, 245, .75); }
+.drawer__contact-title { color: #fff !important; }
+.drawer__mail { color: #fff; }
+.drawer__contact .btn--primary { background: var(--cream, #fdfbf5); color: var(--accent, #1d3b2a); }
+.drawer__contact .btn--primary:hover { background: #fff; }
+.drawer__close { background: rgba(253, 251, 245, .14); }
+@media (min-width: 993px) {
+  .drawer__list a, .drawer__minor a { color: rgba(253, 251, 245, .85); }
+  .drawer__list a:hover, .drawer__minor a:hover { color: var(--glow-lime); }
+  .drawer__contact { border: 1px solid rgba(253, 251, 245, .16); background: rgba(253, 251, 245, .08); }
+}

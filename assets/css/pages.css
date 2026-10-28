@@ -549,3 +549,41 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .phone { padding: 5px; border: 7px solid #d7dbdf; background: #0d0d0d; box-shadow: 0 0 0 1px #9ba1a7, 0 30px 50px -20px rgba(0, 0, 0, .6); }
 .phone img { border-radius: 20px; }
 .phone::before { top: 9px; }
+
+/* ---------- Gradient glow ---------- */
+/* Closing band ("Osäkra på vilket som passar?" and the others): light from the right edge */
+.cta-band {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(42% 150% at 104% 50%, rgba(215, 227, 107, .85) 0%, rgba(215, 227, 107, .22) 38%, transparent 70%), radial-gradient(34% 130% at 82% 135%, rgba(63, 193, 176, .8) 0%, transparent 70%), var(--glow-deep);
+}
+.cta-band::after { content: ""; position: absolute; inset: 0; background: var(--noise) 0 0 / 180px auto; opacity: .16; mix-blend-mode: soft-light; pointer-events: none; }
+.cta-band > * { position: relative; z-index: 1; }
+
+/* Prices: the Pro package glows instead of being white */
+.plan--featured {
+  border: 1px solid rgba(215, 227, 107, .55);
+  background: radial-gradient(95% 55% at 50% 112%, rgba(215, 227, 107, .9) 0%, rgba(215, 227, 107, .24) 38%, transparent 72%), radial-gradient(65% 45% at 0% 106%, rgba(63, 193, 176, .85) 0%, transparent 70%), var(--glow-deep);
+  color: var(--cream, #fdfbf5);
+  box-shadow: 0 0 70px -20px rgba(215, 227, 107, .6), 0 40px 80px -40px rgba(0, 0, 0, .6);
+}
+.plan--featured .plan__name { color: var(--glow-lime); }
+.plan--featured .plan__price { color: #fff; }
+.plan--featured .plan__text { border-color: rgba(253, 251, 245, .16); color: rgba(253, 251, 245, .88); }
+.plan--featured .plan__list li::before { background: var(--cream, #fdfbf5); }
+.plan--featured .plan__list li::after { border-color: var(--accent, #1d3b2a); }
+.plan--featured .btn--primary { background: var(--cream, #fdfbf5); color: var(--accent, #1d3b2a); }
+.plan--featured .btn--primary:hover { background: #fff; }
+
+/* Testa din sajt: dark top with light from below; the test form stays white */
+.sitetest-hero {
+  position: relative;
+  overflow: hidden;
+  color: var(--cream, #fdfbf5);
+  background: radial-gradient(60% 75% at 30% 125%, rgba(63, 193, 176, .85) 0%, rgba(63, 193, 176, .2) 40%, transparent 72%), radial-gradient(40% 70% at 100% 110%, rgba(215, 227, 107, .8) 0%, transparent 70%), var(--glow-deep);
+}
+.sitetest-hero::after { content: ""; position: absolute; inset: 0; background: var(--noise) 0 0 / 180px auto; opacity: .16; mix-blend-mode: soft-light; pointer-events: none; }
+.sitetest-hero > * { position: relative; z-index: 1; }
+.sitetest-hero .page-hero__eyebrow { color: #cfe3a8; }
+.sitetest-hero .page-hero__title { color: #fff; }
+.sitetest-hero .sitetest__form { color: #111; box-shadow: 0 0 60px -10px rgba(215, 227, 107, .45), 0 24px 50px -30px rgba(0, 0, 0, .5); }
