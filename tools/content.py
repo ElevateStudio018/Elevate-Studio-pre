@@ -345,10 +345,11 @@ REVIEWS = [
     {"text": "Väl utfört arbete med vår hemsida, vi märker redan skillnad på inflöde av förfrågningar till våra tjänster.", "source": "Recension på Google"},
 ]
 
+# Oscar: byt till oskar@elevatestudio.nu (även i supabase/functions/mail/templates.ts) när adressen är öppnad hos Loopia
 TEAM = [
                 ("Carl From", "Försäljning & kundkontakt", "+46 76 022 83 61", "carl@elevatestudio.nu"),
                 ("Isak Mattsson", "Försäljning & AI-utveckling", "+46 70 289 58 75", "isak@elevatestudio.nu"),
-                ("Oscar Svanerud", "Försäljning & affärsutveckling", "+46 76 849 86 68", "oscar@elevatestudio.nu"),
+                ("Oscar Svanerud", "Försäljning & affärsutveckling", "+46 76 849 86 68", "svanerudo@gmail.com"),
             ]
 
 SIMPLE_PAGES = {

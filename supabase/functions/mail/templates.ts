@@ -11,7 +11,7 @@ export type Member = { first: string; name: string; role: string; phone: string;
 export const TEAM: Record<string, Member> = {
   carl: { first: "Carl", name: "Carl From", role: "Försäljning & kundkontakt", phone: "+46 76 022 83 61", email: "carl@elevatestudio.nu" },
   isak: { first: "Isak", name: "Isak Mattsson", role: "Försäljning & AI-utveckling", phone: "+46 70 289 58 75", email: "isak@elevatestudio.nu" },
-  oscar: { first: "Oscar", name: "Oscar Svanerud", role: "Försäljning & affärsutveckling", phone: "+46 76 849 86 68", email: "oscar@elevatestudio.nu" },
+  oscar: { first: "Oscar", name: "Oscar Svanerud", role: "Försäljning & affärsutveckling", phone: "+46 76 849 86 68", email: "svanerudo@gmail.com" },
 };
 
 export const esc = (s: unknown) =>

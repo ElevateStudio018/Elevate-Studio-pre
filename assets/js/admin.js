@@ -31,8 +31,10 @@
   }
   // The four admin profiles; who is signed in decides the name in the menu and the default sender
   var PROFILES = [['carl', 'Carl From', 'carl@elevatestudio.nu'], ['isak', 'Isak Mattsson', 'isak@elevatestudio.nu'],
-    ['oscar', 'Oscar Svanerud', 'oscar@elevatestudio.nu', ['leads', 'kalender', 'fakturor', 'konto']], ['', 'Elevate Studio', 'info@elevatestudio.nu']];
-  var profile = function (email) { email = String(email || '').toLowerCase(); return PROFILES.find(function (p) { return p[2] === email; }) || PROFILES[3]; };
+    // Oscar uses his Gmail until oskar@elevatestudio.nu is opened; both addresses (and oscar@) count as him
+    ['oscar', 'Oscar Svanerud', 'svanerudo@gmail.com', ['leads', 'kalender', 'fakturor', 'konto'], ['oskar@elevatestudio.nu', 'oscar@elevatestudio.nu']],
+    ['', 'Elevate Studio', 'info@elevatestudio.nu']];
+  var profile = function (email) { email = String(email || '').toLowerCase(); return PROFILES.find(function (p) { return p[2] === email || (p[4] || []).indexOf(email) >= 0; }) || PROFILES[3]; };
   // A profile with a list sees only those pages (and no mail campaigns); the others see everything
   var allowed = function (view) { var only = profile(st.user && st.user.email)[3]; return !only || only.indexOf(view) >= 0; };
   // Whose lead it is: the leads table has no owner column, so the owner is a tag on the first line of
@@ -1045,8 +1047,8 @@
       '<p class="muted small">Tips: tre vanliga ord ihop med en siffra är lätt att komma ihåg och svårt att gissa. Inga konstiga tecken behövs.</p></section></div>' +
       (!allowed('integrationer') ? '' : '<section class="panel" style="margin-top:20px"><h3>Profiler</h3><p class="panel__sub">Var och en loggar in med sin egen e-post och sitt eget lösenord. Du är inloggad som <b>' + esc(me()) + '</b>.</p>' +
       '<div class="profiles">' + PROFILES.map(function (p) {
-        var mine = p[2] === String(st.user.email).toLowerCase();
-        return '<article class="profile"><div><b>' + esc(p[1]) + '</b><span>' + esc(p[2]) + '</span></div>' +
+        var mine = profile(st.user.email) === p;
+        return '<article class="profile"><div><b>' + esc(p[1]) + '</b><span>' + esc(p[2]) + (p[4] ? ' (sedan ' + esc(p[4][0]) + ')' : '') + '</span></div>' +
           (mine ? '<span class="pill pill--on">Du</span>' : '<button class="btn btn--ghost btn--sm" data-profile="' + esc(p[2]) + '">Skapa inloggning</button>') + '</article>';
       }).join('') + '</div>' +
       '<p class="muted small">Har en profil redan en inloggning? Då loggar personen in med sin e-post och byter lösenord här under Konto, eller trycker på Glömt lösenord på inloggningssidan.</p></section>');
