@@ -342,7 +342,7 @@ REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJcRLSybPJX0
 
 # Real customer reviews from Google. Add new ones at the top; arrows appear automatically when there is more than one.
 REVIEWS = [
-    {"text": "Gjorde en väldigt bra och proffesionell hemsida åt oss. Mycket nöjd med detta. Kan varmt rekommendera!", "source": "Hemmacykel · Recension på Google"},
+    {"text": "Gjorde en väldigt bra och professionell hemsida åt oss. Mycket nöjd med detta. Kan varmt rekommendera!", "source": "Hemmacykel · Recension på Google"},
     {"text": "Väl utfört arbete med vår hemsida, vi märker redan skillnad på inflöde av förfrågningar till våra tjänster.", "source": "Recension på Google"},
 ]
 
