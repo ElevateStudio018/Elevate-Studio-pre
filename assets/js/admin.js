@@ -35,6 +35,13 @@
   var profile = function (email) { email = String(email || '').toLowerCase(); return PROFILES.find(function (p) { return p[2] === email; }) || PROFILES[3]; };
   // A profile with a list sees only those pages (and no mail campaigns); the others see everything
   var allowed = function (view) { var only = profile(st.user && st.user.email)[3]; return !only || only.indexOf(view) >= 0; };
+  // Whose lead it is: the leads table has no owner column, so the owner is a tag on the first line of
+  // the comment ("[Oscar]"). It is hidden in the comment fields and shown as a badge instead.
+  var OWNER_RE = /^\[(Carl|Isak|Oscar)\]\n?/;
+  var ownerOf = function (l) { var m = OWNER_RE.exec((l && l.admin_notes) || ''); return m ? m[1] : ''; };
+  var noteOf = function (l) { return ((l && l.admin_notes) || '').replace(OWNER_RE, ''); };
+  var withOwner = function (owner, note) { note = (note || '').trim(); return owner ? '[' + owner + ']' + (note ? '\n' + note : '') : (note || null); };
+  var myTag = function () { var p = profile(st.user && st.user.email); return p[3] ? p[1].split(' ')[0] : ''; };
   var me = function () { return profile(st.user && st.user.email)[1]; };
   var senderKey = function (who) { return (TEAM.find(function (t) { return t[1] === who || t[0] === who; }) || [''])[0].toLowerCase(); };
   var st = { user: null, leads: [], view: (location.hash.slice(1).match(/^[a-z]+$/) || ['leads'])[0], status: 'all', q: '', sort: 'created_desc', shown: 40, editing: null };
@@ -148,7 +155,7 @@
     $('#main').innerHTML = '<p class="empty">Hämtar leads …</p>';
     return sb.from('quote_requests').select('*').order('created_at', { ascending: false }).limit(2000).then(function (r) {
       if (r.error) { $('#main').innerHTML = '<p class="empty">Kunde inte hämta leads: ' + esc(r.error.message) + '</p>'; return; }
-      st.leads = r.data || [];
+      st.leads = (r.data || []).filter(function (l) { return !myTag() || ownerOf(l) === myTag(); });
       render();
     });
   }
@@ -209,7 +216,7 @@
     var when = l.booking_at ? dt(l.booking_at) : (l.preferred_time || '–');
     var editing = st.editing === l.id;
     return '<article class="lead" data-id="' + l.id + '" style="--c:' + s[2] + '">' +
-      '<div class="lead__top"><div><h3 class="lead__name">' + esc(l.name) + (l.company ? ' <span>· ' + esc(l.company) + '</span>' : '') + '</h3>' +
+      '<div class="lead__top"><div><h3 class="lead__name">' + esc(l.name) + (l.company ? ' <span>· ' + esc(l.company) + '</span>' : '') + (ownerOf(l) ? ' <em class="owner">' + esc(ownerOf(l)) + 's lead</em>' : '') + '</h3>' +
       '<p class="lead__meta">' + esc(MEETING[l.meeting_type] || l.meeting_type || 'Förfrågan') + ' · ' + dt(l.created_at) + '</p></div>' +
       '<div class="lead__acts"><button class="btn btn--ghost btn--sm" data-a="detail">Detaljer</button><button class="btn btn--ghost btn--sm" data-a="offer">Skapa offert</button>' +
       '<select class="status" data-a="status" style="color:' + s[2] + '">' + STATUS.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === s[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></div></div>' +
@@ -219,9 +226,9 @@
       (l.followup_at ? '<div><span>Ring upp:</span> ' + dt(l.followup_at) + '</div>' : '') +
       (l.sold_amount != null ? '<div><span>Såld för:</span> <b>' + kr(l.sold_amount) + '</b></div>' : '') + '</div>' +
       (editing
-        ? '<div class="note-edit"><textarea class="input" rows="3" data-a="note-text" placeholder="Skriv en kommentar …">' + esc(l.admin_notes || '') + '</textarea>' +
+        ? '<div class="note-edit"><textarea class="input" rows="3" data-a="note-text" placeholder="Skriv en kommentar …">' + esc(noteOf(l)) + '</textarea>' +
           '<div class="note-edit__row"><button class="btn btn--ghost btn--sm" data-a="note-cancel">Avbryt</button><button class="btn btn--sm" data-a="note-save">Spara kommentar</button></div></div>'
-        : '<button class="note' + (l.admin_notes ? '' : ' is-empty') + '" data-a="note">' + ICON.msg + '<span>' + (l.admin_notes ? esc(l.admin_notes) : 'Lägg till kommentar …') + '</span></button>') +
+        : '<button class="note' + (noteOf(l) ? '' : ' is-empty') + '" data-a="note">' + ICON.msg + '<span>' + (noteOf(l) ? esc(noteOf(l)) : 'Lägg till kommentar …') + '</span></button>') +
       '</article>';
   }
 
@@ -247,7 +254,7 @@
       if (act === 'note-cancel') { st.editing = null; renderLeads(); }
       if (act === 'note-save') {
         var text = $('textarea', el).value;
-        update(id, { admin_notes: text || null }).then(function () { st.editing = null; renderLeads(); toast('Kommentaren är sparad'); })
+        update(id, { admin_notes: withOwner(ownerOf(lead(id)), text) }).then(function () { st.editing = null; renderLeads(); toast('Kommentaren är sparad'); })
           .catch(function (err) { toast(err.message); });
       }
     });
@@ -433,7 +440,7 @@
       { name: 'service_type', label: 'Bransch' }, { name: 'status', label: 'Status', options: STATUS.reduce(function (o, s) { o[s[0]] = s[1]; return o; }, {}), value: 'new' },
       { name: 'message', label: 'Vad vill de ha?', type: 'textarea' }
     ], function (v) {
-      return sb.from('quote_requests').insert(Object.assign(v, { meeting_type: 'manual' })).select().then(function (r) {
+      return sb.from('quote_requests').insert(Object.assign(v, { meeting_type: 'manual', admin_notes: withOwner(myTag(), '') })).select().then(function (r) {
         if (r.error) throw r.error;
         if (r.data && r.data[0]) st.leads.unshift(r.data[0]);
         toast('Leaden är tillagd');
@@ -619,7 +626,9 @@
       row('Faktura', l.stripe_invoice_status && (esc(l.stripe_invoice_status) + (l.stripe_invoice_url ? ' · <a href="' + esc(l.stripe_invoice_url) + '" target="_blank" rel="noopener">Öppna</a>' : ''))) +
       '</dl>' + (!l.selected_package && !addons.length && l.estimated_start_cost == null ? '<p class="muted">Inga tjänster valda i formuläret.</p>' : '') + '</section>' +
       '</div><div>' +
-      '<section class="panel"><h3>Kommentar</h3><textarea class="input" id="ld-note" rows="3" placeholder="Snabb kommentar som syns i listan …">' + esc(l.admin_notes || '') + '</textarea><div class="ld__save"><button class="btn btn--ghost btn--sm" id="ld-note-save">Spara kommentar</button></div></section>' +
+      '<section class="panel"><h3>Kommentar</h3><textarea class="input" id="ld-note" rows="3" placeholder="Snabb kommentar som syns i listan …">' + esc(noteOf(l)) + '</textarea><div class="ld__save"><button class="btn btn--ghost btn--sm" id="ld-note-save">Spara kommentar</button></div></section>' +
+      (myTag() ? '' : '<section class="panel"><h3>Ansvarig</h3><p class="panel__sub">Markerar vems lead det är. Oscar ser bara sina egna.</p><select class="input" id="ld-owner">' +
+        [['', 'Elevate Studio'], ['Carl', 'Carl'], ['Isak', 'Isak'], ['Oscar', 'Oscar']].map(function (o) { return '<option value="' + o[0] + '"' + (ownerOf(l) === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></section>') +
       '<section class="panel"><h3>Anteckningar</h3><div id="ld-notes" class="feed"><p class="muted">Hämtar …</p></div>' +
       '<div class="ld__add"><input class="input" id="ld-newnote" placeholder="Skriv en anteckning …"><button class="btn btn--sm" id="ld-addnote">Lägg till</button></div></section>' +
       '<section class="panel"><h3>Mötesinbjudningar</h3><div id="ld-meet" class="feed"><p class="muted">Hämtar …</p></div></section>' +
@@ -640,8 +649,14 @@
           service_type: g('service_type') || null, company_type: g('company_type') || null, booking_at: fromLocal(g('booking_at')), followup_at: fromLocal(g('followup_at')) };
         update(l.id, patch).then(function () { toast('Ändringarna är sparade'); }).catch(function (err) { toast(err.message); });
       });
+      var ownerSel = $('#ld-owner', d);
+      if (ownerSel) ownerSel.addEventListener('change', function () {
+        var cur = lead(l.id) || l;
+        update(l.id, { admin_notes: withOwner(ownerSel.value, noteOf(cur)) }).then(function () { render(); toast(ownerSel.value ? 'Leaden är markerad som ' + ownerSel.value + 's' : 'Leaden är Elevate Studios'); })
+          .catch(function (err) { toast(err.message); });
+      });
       $('#ld-note-save', d).addEventListener('click', function () {
-        update(l.id, { admin_notes: $('#ld-note', d).value.trim() || null }).then(function () { toast('Kommentaren är sparad'); }).catch(function (err) { toast(err.message); });
+        update(l.id, { admin_notes: withOwner(ownerOf(lead(l.id) || l), $('#ld-note', d).value) }).then(function () { toast('Kommentaren är sparad'); }).catch(function (err) { toast(err.message); });
       });
       $('#ld-offer', d).addEventListener('click', function () { d.remove(); openOffer(l); });
       var lm = $('#ld-mail', d); if (lm) lm.addEventListener('click', function () { d.remove(); composeMail(l); });
@@ -732,7 +747,8 @@
     $('#today').addEventListener('click', function () { st.month = null; render(); });
     var now = new Date(); now.setHours(0, 0, 0, 0);
     var from = new Date(Math.min(gridStart.getTime(), now.getTime())), to = new Date(Math.max(gridEnd.getTime(), now.getTime() + 14 * 864e5));
-    sb.from('calendar_activities').select('id,title,starts_at,category,location,description').gte('starts_at', from.toISOString()).lt('starts_at', to.toISOString()).order('starts_at').then(function (r) {
+    var own = myTag() ? function (q) { return q.eq('created_by', st.user.id); } : function (q) { return q; };
+    own(sb.from('calendar_activities').select('id,title,starts_at,category,location,description')).gte('starts_at', from.toISOString()).lt('starts_at', to.toISOString()).order('starts_at').then(function (r) {
       if (st.view !== 'kalender') return;
       if (r.error) toast('Kunde inte hämta aktiviteter: ' + r.error.message);
       var items = (r.data || []).map(function (a) { return { at: a.starts_at, title: a.title, color: CAT_COLOR[a.category] || CAT_COLOR.other, tag: CATEGORY[a.category] || 'Aktivitet', act: a }; });
