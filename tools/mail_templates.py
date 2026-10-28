@@ -68,6 +68,7 @@ def watermark():
 
 def shell(title, preheader, inner):
     return (f'<!DOCTYPE html><html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">'
+            '<meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark"><style>:root{color-scheme:light dark;supported-color-schemes:light dark}</style>'
             f'<title>{e(title)}</title></head><body style="margin:0;padding:0;background:{G_DEEP}">'
             f'<div style="display:none;max-height:0;overflow:hidden;opacity:0">{e(preheader)}</div>'
             f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{G_DEEP}"><tr><td align="center" style="padding:32px 12px">'

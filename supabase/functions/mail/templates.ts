@@ -1,5 +1,6 @@
 // Mail designs in Elevate green: the same look as the meeting invite and review mails from the old admin.
 // Tables with inline CSS and bgcolor so Gmail, Outlook and Apple Mail keep the colours.
+// The color-scheme tags tell Apple Mail and others the design is already dark, so they don't invert it in dark mode.
 
 export const FROM = { name: "Elevate Studio", email: "info@elevatestudio.nu" };
 const IMG = "https://elevatestudio.nu/assets/img/brand";
@@ -47,7 +48,7 @@ function contactCard(m: Member) {
 }
 
 function shell(title: string, inner: string, footnote: string) {
-  return `<!DOCTYPE html><html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${esc(title)}</title></head>
+  return `<!DOCTYPE html><html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark"><style>:root{color-scheme:light dark;supported-color-schemes:light dark}</style><title>${esc(title)}</title></head>
 <body bgcolor="#12271b" style="margin:0;padding:0;background:#12271b">
 <table bgcolor="#12271b" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#12271b"><tr><td align="center" style="padding:32px 12px">
 <table bgcolor="#1d3b2a" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#1d3b2a;border-radius:14px;overflow:hidden">
