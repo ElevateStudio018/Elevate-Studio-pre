@@ -157,7 +157,7 @@ async function buildQuotePdf(input) {
   h2("3. Driftmiljö");
   para("Beställaren äger sin domän. Hosting, drift och eventuella externa avgifter specificeras separat om inget annat skriftligen överenskommits.");
   h2("4. Leverans");
-  para("Leveransdatum bekräftas separat och uppskattas till cirka en månad från beställning, förutsatt att nödvändigt underlag och åtkomst tillhandahålls.");
+  para("Leveransdatum bekräftas separat och förutsätter att nödvändigt underlag och åtkomst tillhandahålls.");
   sheet("OFFERT / VILLKOR OCH GODKÄNNANDE", 2);
   h2("5. Fast pris och betalning", true);
   const tSize = 1.6 * U;

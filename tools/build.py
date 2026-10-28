@@ -454,7 +454,7 @@ def build_services():
     p = "../"
     cards = "".join(service_card(p, s) for s in SERVICES)
     steps = [("Vi lär känna företaget", "Ett kort möte om era tjänster, era kunder och vilka affärer ni vill ha fler av."),
-             ("Vi bygger hemsidan", "Mobilanpassad design med tydliga tjänstesidor, klar på 1–2 veckor."),
+             ("Vi bygger hemsidan", "Mobilanpassad design med tydliga tjänstesidor. Ett första utkast ser ni efter ungefär en dag."),
              ("Vi kopplar på smarta funktioner", "Offertflöde, bokning, AI-chatt och notiser testas före lansering."),
              ("Hemsidan börjar ge förfrågningar", "Sidan lanseras och indexeras av Google."),
              ("Vi förbättrar över tid", "Vi följer upp vad som ger kunder och justerar löpande.")]
@@ -793,7 +793,7 @@ def build_simple():
     </section>''')
             elif kind == "minifaq":
                 qa = [("Vad kostar en hemsida?", 'Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. <a href="priser.html">Se priser</a>.'),
-                      ("Hur lång tid tar det?", "Räkna med ungefär en månad från beställning till färdig sajt, förutsatt att vi har fått texter, bilder och åtkomst."),
+                      ("Hur lång tid tar det?", "Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst."),
                       ("Måste vi bo i Uppsala?", "Nej. Vi finns i Uppsala men jobbar med företag i hela Sverige – möten går lika bra på distans.")]
                 items = "".join(f'<details class="faq__item" name="kfaq"><summary>{esc(q)}</summary><p>{a}</p></details>' for q, a in qa)
                 parts.append(f'''<section class="section container mini-faq">
@@ -913,7 +913,7 @@ def build_agreement():
             <h2>3. Driftmiljö</h2>
             <p>Beställaren äger sin domän. Hosting, drift och eventuella externa avgifter specificeras separat om inget annat skriftligen överenskommits.</p>
             <h2>4. Leverans</h2>
-            <p>Leveransdatum bekräftas separat och uppskattas till cirka en månad från beställning, förutsatt att nödvändigt underlag och åtkomst tillhandahålls.</p>''', 1)
+            <p>Leveransdatum bekräftas separat och förutsätter att nödvändigt underlag och åtkomst tillhandahålls.</p>''', 1)
     page2 = sheet("OFFERT / VILLKOR OCH GODKÄNNANDE", f'''
             <h2>5. Fast pris och betalning</h2>
             <table>
@@ -1250,7 +1250,7 @@ def site_files(built):
 - Starter: 3 000 kr i startavgift + 99–199 kr/år. Webbdesign och mobilanpassning, kontaktfunktion, grundläggande SEO och AI-optimering, två korrekturvändor, upp till 10 timmars support per månad första året.
 - Pro: 6 000 kr i startavgift + 299–399 kr/år. Allt i Starter plus offertflöde eller bokning, AI-chatt, notiser via e-post och SMS samt förfrågningar med status och historik.
 - Elite: pris efter offert för större sajter, integrationer och egna funktioner.
-- Leverans: cirka en månad från beställning. Kunden äger sin domän.
+- Leverans: ett första utkast efter ungefär en dag; lansering när texter, bilder och åtkomst är på plats. Kunden äger sin domän.
 - [Priser]({SITE_URL}/priser.html) · [Exempel på webbavtal]({SITE_URL}/avtal.html)
 
 ## Vanliga frågor

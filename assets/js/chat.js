@@ -8,7 +8,7 @@
       a: 'Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en årsavgift (99–199 kr/år för Starter, 299–399 kr/år för Pro). Större projekt får ett fast pris i en offert. Alla priser är exkl. moms.',
       link: ['Se priser', 'priser.html'] },
     { k: ['tid', 'lång', 'snabb', 'färdig', 'vecka', 'månad', 'leverans', 'när'],
-      a: 'Räkna med ungefär en månad från beställning till färdig sajt, förutsatt att vi har fått texter, bilder och åtkomst. Själva designen och bygget tar oftast 1–2 veckor.' },
+      a: 'Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst.' },
     { k: ['tjänst', 'erbjud', 'gör ni', 'vad gör', 'hjälp med'],
       a: 'Vi bygger hemsidor och kopplar på bokningssystem, offertsystem och AI-chatt. Vi jobbar också med SEO och AI-optimering, och tar hand om support och underhåll efteråt.',
       link: ['Se alla tjänster', 'tjanster/index.html'] },

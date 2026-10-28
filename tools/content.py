@@ -26,12 +26,12 @@ MAIL_LIVE = False
 
 SERVICES = [
     {
-        "slug": "hemsidor", "faq": [('Vad kostar en hemsida hos er?', 'Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert.'), ('Hur lång tid tar det att bygga en hemsida?', 'Räkna med ungefär en månad från beställning, förutsatt att vi har fått texter, bilder och åtkomst. Själva bygget tar oftast 1–2 veckor.'), ('Kan ni göra om vår gamla hemsida?', 'Ja. Vi kan bygga en ny sida från grunden och flytta över det innehåll som fungerar från den gamla.')],
+        "slug": "hemsidor", "faq": [('Vad kostar en hemsida hos er?', 'Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert.'), ('Hur lång tid tar det att bygga en hemsida?', 'Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst.'), ('Kan ni göra om vår gamla hemsida?', 'Ja. Vi kan bygga en ny sida från grunden och flytta över det innehåll som fungerar från den gamla.')],
         "seo_title": "Hemsidor för företag i Uppsala och hela Sverige", "h1": "Hemsidor för <em>företag</em>", "description": "Vi bygger snabba, mobilanpassade hemsidor för företag och hantverkare – med fast pris från 3 000 kr. Webbyrå i Uppsala, kunder i hela Sverige.",
         "name": "Hemsidor", "short": "Hemsidor",
         "card": "Snabba, mobilanpassade hemsidor byggda för att ge förfrågningar.",
         "lead": "Snabba, mobilanpassade hemsidor som visar vad ni gör och gör det enkelt för kunderna att höra av sig.",
-        "intro": "En hemsida ska inte bara se bra ut – den ska ge er nya kunder. Vi bygger sidor med tydliga tjänstesidor, en väg till kontakt på varje sida och en struktur som Google förstår. Ni får ett fast pris innan vi börjar och sidan är klar på ungefär en månad.",
+        "intro": "En hemsida ska inte bara se bra ut – den ska ge er nya kunder. Vi bygger sidor med tydliga tjänstesidor, en väg till kontakt på varje sida och en struktur som Google förstår. Ni får ett fast pris innan vi börjar och ser ett första utkast redan efter ungefär en dag.",
         "includes": [
             ("Design efter er verksamhet", "En design som passar ert företag och era kunder – inte en mall som ser ut som alla andras."),
             ("Mobilanpassning", "De flesta besökare kommer från telefonen. Sidan fungerar lika bra på mobil som på dator."),
@@ -303,7 +303,7 @@ ORG_NR = "556969-4358"
 # Frequently asked questions: shown on the start page, in structured data and in llms.txt.
 FAQ = [
     ("Vad kostar en hemsida?", 'Ni får ett fast pris innan vi börjar. Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. <a href="priser.html">Se våra priser</a> eller <a href="avtal.html">ett exempel på hur ett avtal ser ut</a>.'),
-    ("Hur lång tid tar det?", "Räkna med ungefär en månad från beställning till färdig sajt, förutsatt att vi har fått texter, bilder och åtkomst. Själva designen och bygget tar oftast 1–2 veckor."),
+    ("Hur lång tid tar det?", "Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst."),
     ("Bygger ni hemsidor för hantverkare?", "Ja. Vi bygger hemsidor för snickare, elektriker, rörmokare, målare, byggföretag och andra hantverkare – ofta med ett offertformulär så att kunderna kan beskriva jobbet direkt."),
     ("Jobbar ni bara i Uppsala?", "Nej. Vi finns i Uppsala men bygger hemsidor åt företag i hela Sverige. Möten går lika bra på distans."),
     ("Vad behöver vi bidra med?", "Kunskapen om ert företag: vad ni gör, vilka kunder ni vill ha och de bilder och texter ni redan har. Ni får två korrekturvändor innan sidan lanseras, så att allt blir rätt."),
@@ -347,7 +347,7 @@ SIMPLE_PAGES = {
         "title": "Om oss", "lead": "Elevate Studio är ett litet team i Uppsala som bygger hemsidor som ger förfrågningar – för företag i hela Sverige.",
         "description": "Elevate Studio är en webbyrå i Uppsala och ett varumärke som tillhör PJM Projekteffektivitet AB. Vi bygger hemsidor med bokning, offertflöde och AI-chatt till fast pris.",
         "sections": [
-            ("text", "Vi startade Elevate Studio för att det ska vara enkelt för företag att få en hemsida som faktiskt ger kunder. Många företag har en hemsida som ser okej ut men som inte ger några förfrågningar – eller ingen hemsida alls, för att det känns dyrt och krångligt. Vi vill ändra på det: ett fast pris innan vi börjar, en hemsida på ungefär en månad och samma kontaktperson hela vägen."),
+            ("text", "Vi startade Elevate Studio för att det ska vara enkelt för företag att få en hemsida som faktiskt ger kunder. Många företag har en hemsida som ser okej ut men som inte ger några förfrågningar – eller ingen hemsida alls, för att det känns dyrt och krångligt. Vi vill ändra på det: ett fast pris innan vi börjar, ett första utkast redan efter ungefär en dag och samma kontaktperson hela vägen."),
             ("cols", [("Fast pris", "Ni vet vad det kostar innan vi börjar. Allt står i en tydlig offert på två sidor."),
                       ("Samma kontaktperson", "Inga mellanhänder. Ni pratar med någon som kan ert företag."),
                       ("Ni äger er domän", "Domänen är och förblir er – oavsett vad som händer.")]),
@@ -402,7 +402,7 @@ LANDINGS = [
         ],
         "faq": [("Kan vi träffas i Uppsala?", "Ja. Vi finns i Uppsala och träffar gärna kunder på plats. Möten går också bra på distans."),
                 ("Bygger ni hemsidor för företag utanför Uppsala?", "Ja. Vi bygger hemsidor åt företag i hela Sverige."),
-                ("Hur lång tid tar det?", "Räkna med ungefär en månad från beställning till färdig sajt.")],
+                ("Hur lång tid tar det?", "Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst.")],
     },
     {
         "slug": "hemsida-for-hantverkare", "title": "Hemsida för hantverkare – med offertformulär",

@@ -931,7 +931,10 @@ h2, h3 { margin: 0; font-weight: 400; }
 .about__pic--big { grid-row: span 2; }
 .about__grid .about__card { grid-column: span 2; max-width: none; padding: 44px 48px; border-radius: 20px; }
 .about__grid .about__mark { width: 48px; margin-bottom: 22px; }
-.about__grid .about__title { font-size: 50px; margin-bottom: 18px; }
+.about__grid .about__title { font-size: 60px; margin-bottom: 22px; }
+.about__grid .about__card { display: flex; flex-direction: column; justify-content: center; }
+.about__grid .about__card .about__lead { font-size: 28px; line-height: 1.35; }
+.about__grid .about__card p { font-size: 19px; line-height: 1.6; }
 @media (max-width: 992px) {
   .about__grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
   .about__pic--big { grid-column: span 2; grid-row: auto; height: 340px; }
@@ -940,7 +943,9 @@ h2, h3 { margin: 0; font-weight: 400; }
 }
 @media (max-width: 576px) {
   .about__grid .about__card { padding: 32px 26px; }
-  .about__grid .about__title { font-size: 36px; }
+  .about__grid .about__title { font-size: 40px; }
+  .about__grid .about__card .about__lead { font-size: 22px; }
+  .about__grid .about__card p { font-size: 17px; }
   .about__team { flex-direction: column; gap: 12px; }
 }
 
