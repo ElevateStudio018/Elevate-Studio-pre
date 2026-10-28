@@ -117,7 +117,7 @@ body.error404 {
 }
 @media (max-width: 1200px) { .site-header { padding: 0 64px; } }
 @media (max-width: 576px)  { .site-header { padding: 0 24px; } }
-.site-header--scrolled { height: 110px; }
+.site-header--scrolled { height: 120px; }
 
 .site-header__site-logo { margin: 0; padding: 24px 0; transition: opacity .2s, padding .2s; }
 .site-header--scrolled .site-header__site-logo { padding: 12px 0; }
@@ -128,27 +128,30 @@ body.error404 {
   align-items: center;
   gap: 12px;
   width: auto;
-  height: 60px;
+  height: 66px;
   color: #000;
   text-decoration: none;
   transform-origin: left center;
   transition: transform .2s;
 }
-.wordmark__mark { flex: 0 0 auto; width: 58px; height: auto; }
+.wordmark__mark { flex: 0 0 auto; width: 64px; height: auto; }
 .wordmark__text { display: flex; flex-direction: column; line-height: 1; }
-.wordmark__name { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.wordmark__name { font-size: 31px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
 .wordmark__sub { margin-top: 4px; font-size: 12px; font-weight: 600; letter-spacing: .32em; text-transform: uppercase; }
-.site-header--scrolled .wordmark { transform: scale(.8); }
+.site-header--scrolled .wordmark { transform: scale(.84); }
+@media (max-width: 576px) { .wordmark { height: 60px; } .wordmark__mark { width: 54px; } .wordmark__name { font-size: 26px; } }
+@media (max-width: 374px) { .wordmark { gap: 9px; } .wordmark__mark { width: 44px; } .wordmark__name { font-size: 22px; } }
 
 .site-header__right { display: flex; align-items: center; }
 
 .site-header__navbar { position: relative; top: -3px; margin-right: 24px; transition: opacity .2s; }
 @media (max-width: 992px) { .site-header__navbar { display: none; } }
 .site-header__navbar > ul { display: flex; margin: 0; padding: 0; list-style: none; }
-.site-header__navbar > ul > li { margin-right: 24px; }
+.site-header__navbar > ul > li { margin-right: 30px; }
 .site-header__navbar > ul > li:last-child { margin-right: 0; }
 .site-header__navbar > ul > li > a {
   position: relative;
+  font-size: 20px;
   font-weight: 500;
   line-height: 1.33;
   color: #000;
@@ -170,6 +173,7 @@ body.error404 {
 .site-header__navbar > ul > li > a:hover::after,
 .site-header__navbar > ul > li.is-active > a::after { width: 100%; }
 .site-header__navbar > ul > li.is-active > a { color: var(--accent); }
+@media (max-width: 1150px) { .site-header__navbar > ul > li { margin-right: 20px; } .site-header__navbar > ul > li > a { font-size: 18px; } }
 
 .chevron {
   position: relative;

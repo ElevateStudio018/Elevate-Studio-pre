@@ -1,7 +1,7 @@
 /* Homepage layout study. Builds on style.css (fonts, header, menus, buttons). */
 
 body.home {
-  --header-h: 118px;
+  --header-h: 128px;
   --burger-top: calc(var(--banner-h) + var(--header-h));
 }
 body.home .hamburgermenu { height: auto; }
