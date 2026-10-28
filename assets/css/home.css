@@ -954,6 +954,9 @@ h2, h3 { margin: 0; font-weight: 400; }
 /* ---------- Hero text (T2): centred, clear uppercase headline ---------- */
 .hero { align-items: center; text-align: center; padding-top: calc(var(--header-h) + 80px); padding-bottom: 40px; }
 .hero__inner { max-width: 1100px; }
+/* The eyebrow is part of the h1, so the headline says "Webbyrå i Uppsala" to Google too */
+.hero__h1 { margin: 0; font: inherit; color: inherit; }
+.hero__h1 .hero__header { display: block; }
 .hero__eyebrow { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 0 0 30px; font-size: 14px; font-weight: 600; letter-spacing: .4em; }
 .hero__eyebrow::before, .hero__eyebrow::after { content: ""; width: 40px; height: 1.5px; background: var(--cream, #fdfbf5); }
 .hero__header { margin: 0 0 30px; font-size: 80px; font-weight: 300; line-height: 1.1; letter-spacing: .1em; text-transform: uppercase; }

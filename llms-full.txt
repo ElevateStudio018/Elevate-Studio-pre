@@ -37,6 +37,7 @@
 - Oscar Svanerud, Försäljning & affärsutveckling: +46 76 849 86 68, svanerudo@gmail.com
 
 ## Artiklar
+- [Bygga hemsida själv eller anlita en webbyrå?](https://elevatestudio.nu/insikter/bygga-hemsida-sjalv-eller-webbyra)
 - [Vad kostar en hemsida – och vad betalar du egentligen för?](https://elevatestudio.nu/insikter/vad-kostar-en-hemsida)
 - [Fem saker som får besökare att höra av sig](https://elevatestudio.nu/insikter/fa-besokare-att-hora-av-sig)
 - [Så syns ditt företag när kunder frågar AI](https://elevatestudio.nu/insikter/synas-nar-kunder-fragar-ai)
@@ -122,6 +123,9 @@ Vi är en liten webbyrå i Uppsala som bygger hemsidor som ger förfrågningar �
 ### Fast pris och tydligt avtal
 - Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. Ni får allt på två sidor och godkänner genom att svara på mejlet.
 
+### Webbdesign och webbutveckling i Uppsala
+- Behöver ni en ny hemsida i Uppsala, eller vill ni bygga om den ni har? Vi står för både webbdesign och webbutveckling – från första skissen till en färdig sida som fungerar på mobilen, syns på Google och tar emot förfrågningar. Vill ni synas bättre lokalt hjälper vi också till med SEO i Uppsala med omnejd.
+
 ### Syns när kunder i Uppsala söker
 - När någon söker på en tjänst i Uppsala visar Google först de företag som har en tydlig hemsida, en komplett företagsprofil och bra recensioner. Vi bygger sidan så att Google förstår vad ni gör och var ni finns – och så att AI-tjänster som ChatGPT kan beskriva er rätt när någon frågar efter ett företag i närheten.
 
@@ -161,6 +165,24 @@ En hemsida behöver inte kosta tiotusentals kronor. Hos oss får ni en snabb, mo
 - Pro för 6 000 kr lägger till bokning eller offertflöde, AI-chatt och notiser via e-post och SMS. Större projekt får ett fast pris i en offert.
 
 # Artiklar
+
+## Bygga hemsida själv eller anlita en webbyrå? (28 oktober 2026)
+Det har aldrig varit enklare att skapa en hemsida själv. Med verktyg som Wix, Squarespace och WordPress kan vem som helst få upp en sida på en kväll. Frågan är snarare vad hemsidan ska göra för ditt företag – och vad din tid är värd.
+### När det räcker att bygga hemsidan själv
+- Du behöver bara ett enkelt visitkort på nätet med kontaktuppgifter.
+- Du har tid och tycker att det är roligt att lära dig verktyget.
+- Det är inte så viktigt att synas högt på Google.
+### När en webbyrå lönar sig
+- Hemsidan ska ge förfrågningar, inte bara finnas.
+- Du vill synas när kunder söker på din tjänst på din ort.
+- Du behöver bokning, offertformulär eller en chatt som svarar kunderna.
+- Du vill slippa tekniken och lägga tiden på ditt eget jobb.
+### Det många glömmer när de skapar hemsidan själva
+- Tiden: att bygga, skriva texter och hålla sidan uppdaterad tar ofta mycket längre tid än man tror.
+- Löpande kostnader: byggverktygen tar ofta en månadsavgift så länge sidan finns.
+- Synligheten: en snygg mall syns inte automatiskt på Google – det kräver tydliga tjänstesidor, rätt rubriker och snabba sidor.
+### Så gör vi
+Som webbyrå i Uppsala bygger vi hemsidor till fast pris: Starter kostar 3 000 kr i startavgift och därefter 99–199 kr per år. Du ser ett första utkast efter ungefär en dag, domänen är alltid din och under första året ingår upp till 10 timmars support och ändringar per månad.
 
 ## Vad kostar en hemsida – och vad betalar du egentligen för? (27 oktober 2026)
 Frågan om vad en hemsida kostar får svar som spretar från några hundralappar till hundratusentals kronor. Skillnaden ligger sällan i själva sidan, utan i vad som ingår – och i vad som tillkommer efteråt.

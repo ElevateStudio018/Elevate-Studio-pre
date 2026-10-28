@@ -27,7 +27,7 @@ MAIL_LIVE = False
 SERVICES = [
     {
         "slug": "hemsidor", "faq": [('Vad kostar en hemsida hos er?', 'Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert.'), ('Hur lång tid tar det att bygga en hemsida?', 'Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst.'), ('Kan ni göra om vår gamla hemsida?', 'Ja. Vi kan bygga en ny sida från grunden och flytta över det innehåll som fungerar från den gamla.')],
-        "seo_title": "Hemsidor för företag i Uppsala och hela Sverige", "h1": "Hemsidor för <em>företag</em>", "description": "Vi bygger snabba, mobilanpassade hemsidor för företag och hantverkare – med fast pris från 3 000 kr. Webbyrå i Uppsala, kunder i hela Sverige.",
+        "seo_title": "Hemsidor och webbdesign för företag i Uppsala", "h1": "Hemsidor för <em>företag</em>", "description": "Vi bygger snabba, mobilanpassade hemsidor för företag och hantverkare – med fast pris från 3 000 kr. Webbyrå i Uppsala, kunder i hela Sverige.",
         "name": "Hemsidor", "short": "Hemsidor",
         "card": "Snabba, mobilanpassade hemsidor byggda för att ge förfrågningar.",
         "lead": "Snabba, mobilanpassade hemsidor som visar vad ni gör och gör det enkelt för kunderna att höra av sig.",
@@ -87,7 +87,7 @@ SERVICES = [
     },
     {
         "slug": "seo-och-ai-optimering", "faq": [('Ingår SEO i hemsidan?', 'Ja. Grundläggande sökmotoroptimering och AI-optimering ingår i alla hemsidor vi bygger.'), ('Vad är AI-optimering?', 'Att bygga sidan så att AI-tjänster som ChatGPT kan förstå och beskriva ert företag rätt – med tydliga fakta, vanliga frågor och strukturerad data.')],
-        "seo_title": "SEO och AI-optimering – syns på Google och i AI-sök", "h1": "SEO och <em>AI-optimering</em>", "description": "Sökmotoroptimering och AI-optimering så att kunderna hittar ert företag på Google och när de frågar ChatGPT och andra AI-tjänster.",
+        "seo_title": "SEO i Uppsala och AI-optimering – syns på Google och i AI-sök", "h1": "SEO och <em>AI-optimering</em>", "description": "Sökmotoroptimering och AI-optimering så att kunderna hittar ert företag på Google och när de frågar ChatGPT och andra AI-tjänster.",
         "name": "SEO och AI-optimering", "short": "SEO",
         "card": "Syns på Google och när kunder frågar AI-assistenter.",
         "lead": "Sökmotoroptimering och AI-optimering så att kunderna hittar er – på Google och när de frågar en AI.",
@@ -169,6 +169,28 @@ CASES = [
 ]
 
 ARTICLES = [
+    {
+        "slug": "bygga-hemsida-sjalv-eller-webbyra", "title": "Bygga hemsida själv eller anlita en webbyrå?",
+        "terms": ["Hemsidor", "Guide"], "date": "28 oktober 2026", "image": "home/about-2.jpg",
+        "body": [
+            ("p", "Det har aldrig varit enklare att skapa en hemsida själv. Med verktyg som Wix, Squarespace och WordPress kan vem som helst få upp en sida på en kväll. Frågan är snarare vad hemsidan ska göra för ditt företag – och vad din tid är värd."),
+            ("h2", "När det räcker att bygga hemsidan själv"),
+            ("ul", ["Du behöver bara ett enkelt visitkort på nätet med kontaktuppgifter.",
+                    "Du har tid och tycker att det är roligt att lära dig verktyget.",
+                    "Det är inte så viktigt att synas högt på Google."]),
+            ("h2", "När en webbyrå lönar sig"),
+            ("ul", ["Hemsidan ska ge förfrågningar, inte bara finnas.",
+                    "Du vill synas när kunder söker på din tjänst på din ort.",
+                    "Du behöver bokning, offertformulär eller en chatt som svarar kunderna.",
+                    "Du vill slippa tekniken och lägga tiden på ditt eget jobb."]),
+            ("h2", "Det många glömmer när de skapar hemsidan själva"),
+            ("ul", ["Tiden: att bygga, skriva texter och hålla sidan uppdaterad tar ofta mycket längre tid än man tror.",
+                    "Löpande kostnader: byggverktygen tar ofta en månadsavgift så länge sidan finns.",
+                    "Synligheten: en snygg mall syns inte automatiskt på Google – det kräver tydliga tjänstesidor, rätt rubriker och snabba sidor."]),
+            ("h2", "Så gör vi"),
+            ("p", "Som webbyrå i Uppsala bygger vi hemsidor till fast pris: Starter kostar 3 000 kr i startavgift och därefter 99–199 kr per år. Du ser ett första utkast efter ungefär en dag, domänen är alltid din och under första året ingår upp till 10 timmars support och ändringar per månad."),
+        ],
+    },
     {
         "slug": "vad-kostar-en-hemsida", "title": "Vad kostar en hemsida – och vad betalar du egentligen för?",
         "terms": ["Priser", "Guide"], "date": "27 oktober 2026", "image": "home/post-3.jpg",
@@ -400,6 +422,7 @@ LANDINGS = [
             ("Det här gör en webbyrå åt er", ["Snabba, mobilanpassade hemsidor med tydliga tjänstesidor och kontakt på varje sida.", "Bokningssystem och offertformulär direkt på hemsidan.", "AI-chatt som svarar på kundernas vanliga frågor.", "SEO och AI-optimering så att ni syns på Google och i AI-sök.", "Support och underhåll efter lansering."]),
             ("Så går det till", ["Första mötet: vi lär känna ert företag, era kunder och vad hemsidan ska ge.", "Utkast på en dag: ni ser ett första utkast efter ungefär en dag.", "Finjustering: ni får två korrekturvändor, så att allt blir rätt.", "Lansering: sidan går live, indexeras av Google och börjar ta emot förfrågningar.", "Uppföljning: vi följer upp vad som ger kunder och förbättrar löpande."]),
             ("Fast pris och tydligt avtal", ["Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. Ni får allt på två sidor och godkänner genom att svara på mejlet."]),
+            ("Webbdesign och webbutveckling i Uppsala", ["Behöver ni en ny hemsida i Uppsala, eller vill ni bygga om den ni har? Vi står för både webbdesign och webbutveckling – från första skissen till en färdig sida som fungerar på mobilen, syns på Google och tar emot förfrågningar. Vill ni synas bättre lokalt hjälper vi också till med SEO i Uppsala med omnejd."]),
             ("Syns när kunder i Uppsala söker", ["När någon söker på en tjänst i Uppsala visar Google först de företag som har en tydlig hemsida, en komplett företagsprofil och bra recensioner. Vi bygger sidan så att Google förstår vad ni gör och var ni finns – och så att AI-tjänster som ChatGPT kan beskriva er rätt när någon frågar efter ett företag i närheten."]),
             ("Vi hjälper företag i hela Uppsala län", ["Uppsala, Knivsta, Enköping, Östhammar, Tierp, Heby och Älvkarleby – och gärna Sigtuna, Märsta och Stockholm också. Vi träffas där det passar er eller på distans."]),
         ],
