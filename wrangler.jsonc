@@ -20,6 +20,9 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    // Browsers opening these addresses directly (e.g. the return from Google) must reach the server
+    // part, not the 404 page
+    "run_worker_first": ["/api/*", "/koppla-google", "/admin/api/*"]
   }
 }
