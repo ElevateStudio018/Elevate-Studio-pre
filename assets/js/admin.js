@@ -396,6 +396,18 @@
       return '<label class="field">' + f.label + '<input class="input" name="' + f.name + '" type="' + (f.type || 'text') + '" value="' + esc(v) + '"' + (f.required ? ' required' : '') + (f.placeholder ? ' placeholder="' + esc(f.placeholder) + '"' : '') + '></label>';
     }).join('');
   }
+  /* A suggested text shown in grey in an empty field; Tab puts it in, ready to edit */
+  function tabFill(el, suggest) {
+    var hint = document.createElement('span'); hint.className = 'tabhint'; hint.innerHTML = '<kbd>Tab</kbd> använd förslaget';
+    el.parentNode.insertBefore(hint, el);
+    var refresh = function () { el.placeholder = suggest(); hint.hidden = !!el.value.trim(); };
+    el.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab' || e.shiftKey || el.value.trim()) return;
+      e.preventDefault(); el.value = suggest(); el.setSelectionRange(el.value.length, el.value.length); refresh();
+    });
+    el.addEventListener('input', refresh); refresh();
+    return refresh;
+  }
   function formDialog(title, sub, fields, save, extra) {
     dialog('<form id="fd"><h2>' + title + '</h2>' + (sub ? '<p>' + sub + '</p>' : '') + form(fields) +
       '<div class="dlg__row">' + (extra || '') + '<button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">Spara</button></div></form>', function (d) {
@@ -523,7 +535,7 @@
       form([{ name: 'lead', label: 'Kund', options: leads, value: l ? l.id : '' }]) + '<div class="grid2">' +
       form([{ name: 'at', label: 'Tid', type: 'datetime-local', value: localInput(t.toISOString()), required: true }, { name: 'minutes', label: 'Längd (minuter)', type: 'number', value: 30 },
         { name: 'type', label: 'Typ', options: types, value: 'google_meet' }, { name: 'host', label: 'Värd', options: hosts, value: senderKey(me()) }]) + '</div>' +
-      form([{ name: 'link', label: 'Möteslänk eller adress', placeholder: 'Tomt vid Google Meet – länken skapas automatiskt' }, { name: 'message', label: 'Meddelande till kunden', type: 'textarea' }]) +
+      form([{ name: 'link', label: 'Möteslänk eller adress', placeholder: 'Tomt vid Google Meet – länken skapas automatiskt' }, { name: 'message', label: 'Meddelande till kunden', type: 'textarea', rows: 6 }]) +
       '<label class="check"><input type="checkbox" name="send" checked> Skicka inbjudan till kunden från ' + GMAIL + '</label>' +
       '<div class="dlg__row"><button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">Boka</button></div></form>', function (d) {
       // The link field follows the meeting type: hidden for Google Meet (the link is made when booking)
@@ -539,6 +551,14 @@
         linkField.firstChild.nodeValue = LINK[t][0]; bm.elements.link.placeholder = LINK[t][1];
       };
       bm.elements.type.addEventListener('change', syncLink); syncLink();
+      var JOIN = { google_meet: 'Du ansluter med knappen i mejlet. Det fungerar direkt i webbläsaren, du behöver inte installera något.',
+        teams: 'Du ansluter med Teams-länken i mejlet. Det går bra direkt i webbläsaren.', phone: 'Vi ringer upp dig på utsatt tid.', visit: 'Vi ses på adressen ovan.' };
+      var fillMsg = tabFill(bm.elements.message, function () {
+        var we = bm.elements.host.value ? ['jag', 'mig'] : ['vi', 'oss'];
+        return ['Tack för att du hörde av dig! På mötet går ' + we[0] + ' igenom ert företag, vad hemsidan ska ge er och hur ett upplägg kan se ut. Mötet kostar ingenting.',
+          JOIN[bm.elements.type.value], 'Fundera gärna på två–tre hemsidor ni gillar inför mötet, så träffar ' + we[0] + ' rätt direkt. Passar inte tiden? Svara på det här mejlet så hittar vi en ny.'].join('\n\n');
+      });
+      bm.elements.type.addEventListener('change', fillMsg); bm.elements.host.addEventListener('change', fillMsg);
       $('#bm', d).addEventListener('submit', function (e) {
         e.preventDefault(); var f = e.target, v = function (n) { return f.elements[n].value.trim(); };
         var x = lead(v('lead')); if (!x) return toast('Välj en kund.');
@@ -599,6 +619,15 @@
       });
       var f = $('#cm', d);
       f.elements.body.required = true;
+      var offer = ['quote_sent', 'waiting', 'negotiation'].indexOf(to.status) >= 0;
+      var fillSubject = tabFill(f.elements.subject, function () { return offer ? 'Har du hunnit titta på offerten?' : 'Angående er nya hemsida'; });
+      var fillBody = tabFill(f.elements.body, function () {
+        var me1 = who !== 'Elevate Studio', we = me1 ? 'jag' : 'vi', us = me1 ? 'mig' : 'oss';
+        return offer
+          ? (me1 ? 'Jag' : 'Vi') + ' hör av ' + us + ' om offerten ' + we + ' skickade. Har du hunnit titta på den? Har du frågor eller vill ändra något går det bra att svara på det här mejlet eller ringa ' + us + '.\n\nNär du godkänner offerten sätter ' + we + ' igång direkt, och du får ett första utkast på ungefär en dag.'
+          : 'Tack för att du hörde av dig till Elevate Studio. ' + (me1 ? 'Jag' : 'Vi') + ' har tittat på din förfrågan och berättar gärna hur ' + we + ' kan hjälpa er.\n\nHar du tid för ett kort samtal eller möte de närmaste dagarna? Svara gärna med en tid som passar, så hör ' + we + ' av ' + us + '.';
+      });
+      d.querySelectorAll('[data-who]').forEach(function (b) { b.addEventListener('click', function () { fillBody(); }); });
       f.addEventListener('submit', function (e) {
         e.preventDefault();
         var v = function (n) { return f.elements[n].value.trim(); }, btn = $('button[type=submit]', d);
