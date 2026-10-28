@@ -782,7 +782,7 @@ def build_simple():
                     f'<div class="info-card"><h2 class="info-card__title">{esc(t)}</h2><p>{d}</p></div>'
                     for t, d in value)
                 parts.append(f'<section class="section container"><div class="card-grid">{cards}</div></section>')
-            elif kind == "team":
+            elif kind in ("team", "contacts"):
                 mk = '<svg class="person__logo" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>'
                 ph = '<svg class="person__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" fill="currentColor"/></svg>'
                 ml = '<svg class="person__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2.2V17h16V7.2l-8 5.3z M4.6 7l7.4 4.9L19.4 7z" fill="currentColor"/></svg>'
@@ -801,7 +801,8 @@ def build_simple():
           </ul>
           <p class="person__company">Elevate Studio · Uppsala</p>
         </article>''' for name, role, phone, email in value)
-                parts.append(f'<section class="section container"><div class="people">{people}</div></section>')
+                title = '<h2 class="block__header">Våra <span>kontaktpersoner</span></h2>' if kind == "contacts" else ""
+                parts.append(f'<section class="section container">{title}<div class="people">{people}</div></section>')
             elif kind == "links":
                 links = "".join(f'<li><a href="{href}" class="arrow-link">{esc(label)}</a></li>' for label, href in value)
                 parts.append(f'<section class="section container"><ul class="link-list">{links}</ul></section>')

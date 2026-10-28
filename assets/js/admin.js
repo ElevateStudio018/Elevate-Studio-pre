@@ -29,6 +29,11 @@
       });
     }, function () { throw new Error('Servern svarade inte.'); });
   }
+  // The four admin profiles; who is signed in decides the name in the menu and the default sender
+  var PROFILES = [['carl', 'Carl From', 'carl@elevatestudio.nu'], ['isak', 'Isak Mattsson', 'isak@elevatestudio.nu'],
+    ['oscar', 'Oscar Svanerud', 'svanerudo@gmail.com'], ['', 'Elevate Studio', 'info@elevatestudio.nu']];
+  var profile = function (email) { email = String(email || '').toLowerCase(); return PROFILES.find(function (p) { return p[2] === email; }) || PROFILES[3]; };
+  var me = function () { return profile(st.user && st.user.email)[1]; };
   var senderKey = function (who) { return (TEAM.find(function (t) { return t[1] === who || t[0] === who; }) || [''])[0].toLowerCase(); };
   var st = { user: null, leads: [], view: (location.hash.slice(1).match(/^[a-z]+$/) || ['leads'])[0], status: 'all', q: '', sort: 'created_desc', shown: 40, editing: null };
 
@@ -123,7 +128,7 @@
       NAV.map(function (g) {
         return '<small>' + g[0] + '</small>' + g[1].map(function (v) { return '<button class="nav" data-view="' + v[0] + '">' + ICON[v[2]] + v[1] + '</button>'; }).join('');
       }).join('') + '</nav>' +
-      '<div class="side__foot"><div class="side__me">' + esc(st.user.email) + '</div><a class="nav" href="../index.html">' + ICON.site + 'Till hemsidan</a><button class="nav" id="logout">' + ICON.out + 'Logga ut</button></div></aside>' +
+      '<div class="side__foot"><div class="side__me"><b>' + esc(me()) + '</b><br>' + esc(st.user.email) + '</div><a class="nav" href="../index.html">' + ICON.site + 'Till hemsidan</a><button class="nav" id="logout">' + ICON.out + 'Logga ut</button></div></aside>' +
       '<div><div class="top"><button id="menu" aria-label="Meny">' + ICON.menu + '</button><span class="brand">' + MARK + 'Admin</span></div><main id="main"></main></div></div>';
     root.querySelectorAll('[data-view]').forEach(function (b) {
       b.addEventListener('click', function () { go(b.dataset.view); });
@@ -277,10 +282,10 @@
   }
 
   function openReview(l) {
-    var who = 'Elevate Studio';
+    var who = me();
     dialog('<div class="star">' + ICON.star + '</div><h2>Grattis till affären!</h2><p>Be ' + esc(l.company || l.name) + ' om en recension på Google – nu direkt eller om en vecka.</p>' +
-      '<div class="field">Mejlet skickas från<div class="who">' + TEAM.map(function (t) { return '<button class="chip" data-who="' + t[1] + '">' + t[0] + '</button>'; }).join('') +
-      '<button class="chip is-on" data-who="Elevate Studio">Elevate Studio</button></div></div>' +
+      '<div class="field">Mejlet skickas från<div class="who">' + TEAM.map(function (t) { return '<button class="chip' + (t[1] === who ? ' is-on' : '') + '" data-who="' + t[1] + '">' + t[0] + '</button>'; }).join('') +
+      '<button class="chip' + (who === 'Elevate Studio' ? ' is-on' : '') + '" data-who="Elevate Studio">Elevate Studio</button></div></div>' +
       '<div class="stack"><button class="btn" id="mail"' + (l.email ? '' : ' disabled') + '>' + ICON.mail + 'Skicka mejl för att recensera' + (l.email ? '' : ' (e-post saknas)') + '</button>' +
       '<button class="btn btn--ghost" id="remind">' + ICON.bell + 'Påminn mig om en vecka</button><button class="btn btn--ghost" data-close style="justify-content:center">Inte nu</button></div>',
       function (d) {
@@ -501,7 +506,7 @@
     dialog('<form id="bm"><h2>Boka möte</h2><p>Mötet hamnar på leaden och i kalendern.</p>' +
       form([{ name: 'lead', label: 'Kund', options: leads, value: l ? l.id : '' }]) + '<div class="grid2">' +
       form([{ name: 'at', label: 'Tid', type: 'datetime-local', value: localInput(t.toISOString()), required: true }, { name: 'minutes', label: 'Längd (minuter)', type: 'number', value: 30 },
-        { name: 'type', label: 'Typ', options: types, value: 'google_meet' }, { name: 'host', label: 'Värd', options: hosts, value: '' }]) + '</div>' +
+        { name: 'type', label: 'Typ', options: types, value: 'google_meet' }, { name: 'host', label: 'Värd', options: hosts, value: senderKey(me()) }]) + '</div>' +
       form([{ name: 'link', label: 'Möteslänk eller adress', placeholder: 'Tomt vid Google Meet – länken skapas automatiskt' }, { name: 'message', label: 'Meddelande till kunden', type: 'textarea' }]) +
       '<label class="check"><input type="checkbox" name="send" checked> Skicka inbjudan till kunden från ' + GMAIL + '</label>' +
       '<div class="dlg__row"><button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">Boka</button></div></form>', function (d) {
@@ -551,10 +556,10 @@
   /* Write a mail in the admin; it goes out from the Elevate Gmail in the green design with the sender's card */
   function composeMail(to) {
     if (!to || !to.email) return toast('E-postadress saknas.');
-    var who = 'Elevate Studio';
+    var who = me();
     dialog('<form id="cm"><h2>Nytt mejl</h2><p>Till ' + esc(to.name || '') + ' &lt;' + esc(to.email) + '&gt; · skickas från ' + GMAIL + '</p>' +
-      '<div class="field">Från<div class="who">' + TEAM.map(function (t) { return '<button type="button" class="chip" data-who="' + t[1] + '">' + t[0] + '</button>'; }).join('') +
-      '<button type="button" class="chip is-on" data-who="Elevate Studio">Elevate Studio</button></div></div>' +
+      '<div class="field">Från<div class="who">' + TEAM.map(function (t) { return '<button type="button" class="chip' + (t[1] === who ? ' is-on' : '') + '" data-who="' + t[1] + '">' + t[0] + '</button>'; }).join('') +
+      '<button type="button" class="chip' + (who === 'Elevate Studio' ? ' is-on' : '') + '" data-who="Elevate Studio">Elevate Studio</button></div></div>' +
       form([{ name: 'subject', label: 'Ämne', required: true }, { name: 'body', label: 'Meddelande', type: 'textarea', rows: 8 },
         { name: 'button_label', label: 'Knapptext (valfri)', placeholder: 'Se offerten' }, { name: 'button_url', label: 'Knapplänk (valfri)', type: 'url', placeholder: 'https://' }]) +
       '<p class="small muted" style="margin:-4px 0 0">Mejlet får den gröna designen med avsändarens kontaktkort. Svar kommer till ' + GMAIL + '.</p>' +
@@ -1016,12 +1021,22 @@
       '<label class="field">Nytt lösenord (minst 8 tecken)<input class="input" type="password" name="pw" minlength="8" autocomplete="new-password" required></label>' +
       '<label class="field">Upprepa lösenordet<input class="input" type="password" name="pw2" minlength="8" autocomplete="new-password" required></label>' +
       '<button class="btn" type="submit">Byt lösenord</button><p class="msg ok" id="pw-msg"></p></form>' +
-      '<p class="muted small">Tips: tre vanliga ord ihop med en siffra är lätt att komma ihåg och svårt att gissa. Inga konstiga tecken behövs.</p></section></div>';
+      '<p class="muted small">Tips: tre vanliga ord ihop med en siffra är lätt att komma ihåg och svårt att gissa. Inga konstiga tecken behövs.</p></section></div>' +
+      '<section class="panel" style="margin-top:20px"><h3>Profiler</h3><p class="panel__sub">Var och en loggar in med sin egen e-post och sitt eget lösenord. Du är inloggad som <b>' + esc(me()) + '</b>.</p>' +
+      '<div class="profiles">' + PROFILES.map(function (p) {
+        var mine = p[2] === String(st.user.email).toLowerCase();
+        return '<article class="profile"><div><b>' + esc(p[1]) + '</b><span>' + esc(p[2]) + '</span></div>' +
+          (mine ? '<span class="pill pill--on">Du</span>' : '<button class="btn btn--ghost btn--sm" data-profile="' + esc(p[2]) + '">Skapa inloggning</button>') + '</article>';
+      }).join('') + '</div>' +
+      '<p class="muted small">Har en profil redan en inloggning? Då loggar personen in med sin e-post och byter lösenord här under Konto, eller trycker på Glömt lösenord på inloggningssidan.</p></section>';
     $('#em').addEventListener('submit', function (e) {
       e.preventDefault(); var m = $('#em-msg');
       sb.auth.updateUser({ email: e.target.email.value.trim() }, { emailRedirectTo: location.href.split('#')[0] }).then(function (r) {
         m.textContent = r.error ? r.error.message : 'Klart. Öppna mejlet som skickats till den nya adressen och klicka på länken för att bekräfta.';
       });
+    });
+    document.querySelectorAll('[data-profile]').forEach(function (b) {
+      b.addEventListener('click', function () { createLogin(profile(b.dataset.profile)); });
     });
     $('#pw').addEventListener('submit', function (e) {
       e.preventDefault(); var f = e.target, m = $('#pw-msg');
@@ -1029,6 +1044,35 @@
       sb.auth.updateUser({ password: f.pw.value }).then(function (r) {
         if (r.error) { m.textContent = r.error.message; return; }
         f.reset(); m.textContent = 'Lösenordet är bytt. Använd det nya nästa gång du loggar in.';
+      });
+    });
+  }
+
+  /* A login for a profile: the person types their own password; they confirm through a mail from Supabase */
+  function createLogin(p) {
+    dialog('<form id="cl"><h2>Inloggning för ' + esc(p[1].split(' ')[0]) + '</h2><p>Låt ' + esc(p[1].split(' ')[0]) + ' själv skriva sitt lösenord. Ett mejl skickas för att bekräfta adressen.</p>' +
+      form([{ name: 'email', label: 'E-post', type: 'email', value: p[2], required: true }]) +
+      '<label class="field">Lösenord (minst 8 tecken)<input class="input" type="password" name="pw" minlength="8" autocomplete="new-password" required></label>' +
+      '<label class="field">Upprepa lösenordet<input class="input" type="password" name="pw2" minlength="8" autocomplete="new-password" required></label>' +
+      '<p class="msg" id="cl-msg"></p><div class="dlg__row"><button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">Skapa</button></div></form>', function (d) {
+      $('#cl', d).addEventListener('submit', function (e) {
+        e.preventDefault(); var f = e.target, m = $('#cl-msg', d), btn = $('button[type=submit]', d);
+        if (f.pw.value !== f.pw2.value) { m.textContent = 'Lösenorden är inte likadana.'; return; }
+        btn.disabled = true;
+        // A separate client, so the signed-in session in this window stays as it is
+        var other = window.supabase.createClient(root.dataset.url, root.dataset.key, { auth: { persistSession: false, autoRefreshToken: false, storageKey: 'elevate-new-login' } });
+        other.auth.signUp({ email: f.email.value.trim(), password: f.pw.value, options: { emailRedirectTo: location.origin + '/admin/', data: { full_name: p[1] } } }).then(function (r) {
+          if (r.error) throw r.error;
+          var u = r.data && r.data.user;
+          if (!u || !u.identities || !u.identities.length) return 'exists';
+          return sb.from('user_roles').insert({ user_id: u.id, role: 'admin' }).then(function (x) { return x.error ? 'norole' : 'ok'; });
+        }).then(function (how) {
+          f.pw.value = f.pw2.value = '';
+          if (how === 'exists') { btn.disabled = false; m.textContent = 'Den e-posten har redan en inloggning. Logga in med den, eller tryck på Glömt lösenord på inloggningssidan.'; return; }
+          d.remove();
+          toast(how === 'ok' ? 'Inloggningen är skapad. ' + p[1].split(' ')[0] + ' får ett mejl att bekräfta, sedan går det att logga in.'
+            : 'Kontot är skapat, men databasen lät inte admin ge det behörighet. Säg till, så läggs behörigheten in.');
+        }).catch(function (err) { btn.disabled = false; m.textContent = err.message; });
       });
     });
   }

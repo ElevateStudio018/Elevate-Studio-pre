@@ -357,7 +357,7 @@ SIMPLE_PAGES = {
         "description": "Kontakta Elevate Studio i Uppsala. Ring eller mejla Carl, Isak eller Oscar, skriv till info@elevatestudio.nu eller fyll i formuläret.",
         "sections": [
             ("contacthero", None),
-            ("team", TEAM),
+            ("contacts", TEAM),
             ("form", None),
             ("nextsteps", [("Vi hör av oss", "Vi läser er förfrågan och återkommer så fort vi kan – oftast med ett förslag på tid för ett kort möte."),
                            ("Första mötet", "Vi pratar om ert företag, era kunder och vad hemsidan ska ge. Det kostar ingenting."),

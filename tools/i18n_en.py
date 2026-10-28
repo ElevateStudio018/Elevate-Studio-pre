@@ -331,6 +331,7 @@ EN = {
     "oss": "us",
     "Berätta kort vad ni funderar på, så återkommer vi så fort vi kan. Meddelandet går direkt till info@elevatestudio.nu.": "Tell us briefly what you have in mind, and we'll get back to you as soon as we can. The message goes straight to info@elevatestudio.nu.",
     "Efter att ni": "After you've",
+    "kontaktpersoner": "contact people",
     "hört av er": "been in touch",
     "Vi hör av oss": "We get back to you",
     "Vi läser er förfrågan och återkommer så fort vi kan – oftast med ett förslag på tid för ett kort möte.": "We read your enquiry and get back to you as soon as we can – usually with a suggested time for a short meeting.",
