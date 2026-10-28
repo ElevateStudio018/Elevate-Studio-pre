@@ -31,8 +31,10 @@
   }
   // The four admin profiles; who is signed in decides the name in the menu and the default sender
   var PROFILES = [['carl', 'Carl From', 'carl@elevatestudio.nu'], ['isak', 'Isak Mattsson', 'isak@elevatestudio.nu'],
-    ['oscar', 'Oscar Svanerud', 'svanerudo@gmail.com'], ['', 'Elevate Studio', 'info@elevatestudio.nu']];
+    ['oscar', 'Oscar Svanerud', 'oscar@elevatestudio.nu', ['leads', 'kalender', 'fakturor', 'konto']], ['', 'Elevate Studio', 'info@elevatestudio.nu']];
   var profile = function (email) { email = String(email || '').toLowerCase(); return PROFILES.find(function (p) { return p[2] === email; }) || PROFILES[3]; };
+  // A profile with a list sees only those pages (and no mail campaigns); the others see everything
+  var allowed = function (view) { var only = profile(st.user && st.user.email)[3]; return !only || only.indexOf(view) >= 0; };
   var me = function () { return profile(st.user && st.user.email)[1]; };
   var senderKey = function (who) { return (TEAM.find(function (t) { return t[1] === who || t[0] === who; }) || [''])[0].toLowerCase(); };
   var st = { user: null, leads: [], view: (location.hash.slice(1).match(/^[a-z]+$/) || ['leads'])[0], status: 'all', q: '', sort: 'created_desc', shown: 40, editing: null };
@@ -106,7 +108,7 @@
     return sb.rpc('has_role', { _user_id: user.id, _role: 'admin' }).then(function (r) {
       if (r.error || !r.data) { sb.auth.signOut(); renderLogin('Kontot saknar admin-behörighet.'); return; }
       st.user = user;
-      if (!VIEWS[st.view]) st.view = 'leads';
+      if (!VIEWS[st.view] || !allowed(st.view)) st.view = 'leads';
       renderShell();
       return loadLeads();
     });
@@ -126,7 +128,8 @@
   function renderShell() {
     root.innerHTML = '<div class="shell" id="shell"><aside class="side"><a class="brand" href="../index.html">' + MARK + 'Elevate Studio</a><nav class="side__nav">' +
       NAV.map(function (g) {
-        return '<small>' + g[0] + '</small>' + g[1].map(function (v) { return '<button class="nav" data-view="' + v[0] + '">' + ICON[v[2]] + v[1] + '</button>'; }).join('');
+        var items = g[1].filter(function (v) { return allowed(v[0]); });
+        return !items.length ? '' : '<small>' + g[0] + '</small>' + items.map(function (v) { return '<button class="nav" data-view="' + v[0] + '">' + ICON[v[2]] + v[1] + '</button>'; }).join('');
       }).join('') + '</nav>' +
       '<div class="side__foot"><div class="side__me"><b>' + esc(me()) + '</b><br>' + esc(st.user.email) + '</div><a class="nav" href="../index.html">' + ICON.site + 'Till hemsidan</a><button class="nav" id="logout">' + ICON.out + 'Logga ut</button></div></aside>' +
       '<div><div class="top"><button id="menu" aria-label="Meny">' + ICON.menu + '</button><span class="brand">' + MARK + 'Admin</span></div><main id="main"></main></div></div>';
@@ -152,6 +155,7 @@
 
   function render() {
     root.querySelectorAll('[data-view]').forEach(function (b) { b.classList.toggle('is-on', b.dataset.view === st.view); });
+    if (!allowed(st.view)) st.view = 'leads';
     var fn = PAGES[st.view];
     if (fn) return fn();
     renderLeads();
@@ -404,7 +408,8 @@
   var QUICK = [['newlead', 'Ny lead', 'inbox', true], ['campaign', 'Nytt mejlutskick', 'send'], ['meeting', 'Boka möte', 'cal'], ['offer', 'Ny offert', 'file'],
     ['contact', 'Ny kontakt', 'users'], ['activity', 'Ny aktivitet', 'bell'], ['csv', 'Exportera CSV', 'chart']];
   function quickBar() {
-    return '<div class="quick">' + QUICK.map(function (q) { return '<button class="btn btn--sm' + (q[3] ? '' : ' btn--ghost') + '" data-q="' + q[0] + '">' + ICON[q[2]] + q[1] + '</button>'; }).join('') + '</div>';
+    var limited = !allowed('utskick');
+    return '<div class="quick">' + QUICK.filter(function (q) { return !limited || ['newlead', 'meeting', 'offer', 'activity'].indexOf(q[0]) >= 0; }).map(function (q) { return '<button class="btn btn--sm' + (q[3] ? '' : ' btn--ghost') + '" data-q="' + q[0] + '">' + ICON[q[2]] + q[1] + '</button>'; }).join('') + '</div>';
   }
   function bindQuick() {
     root.querySelectorAll('[data-q]').forEach(function (b) {
@@ -1022,13 +1027,13 @@
       '<label class="field">Upprepa lösenordet<input class="input" type="password" name="pw2" minlength="8" autocomplete="new-password" required></label>' +
       '<button class="btn" type="submit">Byt lösenord</button><p class="msg ok" id="pw-msg"></p></form>' +
       '<p class="muted small">Tips: tre vanliga ord ihop med en siffra är lätt att komma ihåg och svårt att gissa. Inga konstiga tecken behövs.</p></section></div>' +
-      '<section class="panel" style="margin-top:20px"><h3>Profiler</h3><p class="panel__sub">Var och en loggar in med sin egen e-post och sitt eget lösenord. Du är inloggad som <b>' + esc(me()) + '</b>.</p>' +
+      (!allowed('integrationer') ? '' : '<section class="panel" style="margin-top:20px"><h3>Profiler</h3><p class="panel__sub">Var och en loggar in med sin egen e-post och sitt eget lösenord. Du är inloggad som <b>' + esc(me()) + '</b>.</p>' +
       '<div class="profiles">' + PROFILES.map(function (p) {
         var mine = p[2] === String(st.user.email).toLowerCase();
         return '<article class="profile"><div><b>' + esc(p[1]) + '</b><span>' + esc(p[2]) + '</span></div>' +
           (mine ? '<span class="pill pill--on">Du</span>' : '<button class="btn btn--ghost btn--sm" data-profile="' + esc(p[2]) + '">Skapa inloggning</button>') + '</article>';
       }).join('') + '</div>' +
-      '<p class="muted small">Har en profil redan en inloggning? Då loggar personen in med sin e-post och byter lösenord här under Konto, eller trycker på Glömt lösenord på inloggningssidan.</p></section>';
+      '<p class="muted small">Har en profil redan en inloggning? Då loggar personen in med sin e-post och byter lösenord här under Konto, eller trycker på Glömt lösenord på inloggningssidan.</p></section>');
     $('#em').addEventListener('submit', function (e) {
       e.preventDefault(); var m = $('#em-msg');
       sb.auth.updateUser({ email: e.target.email.value.trim() }, { emailRedirectTo: location.href.split('#')[0] }).then(function (r) {

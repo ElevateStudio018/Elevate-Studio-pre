@@ -348,7 +348,7 @@ REVIEWS = [
 TEAM = [
                 ("Carl From", "Försäljning & kundkontakt", "+46 76 022 83 61", "carl@elevatestudio.nu"),
                 ("Isak Mattsson", "Försäljning & AI-utveckling", "+46 70 289 58 75", "isak@elevatestudio.nu"),
-                ("Oscar Svanerud", "Försäljning & affärsutveckling", "+46 76 849 86 68", "svanerudo@gmail.com"),
+                ("Oscar Svanerud", "Försäljning & affärsutveckling", "+46 76 849 86 68", "oscar@elevatestudio.nu"),
             ]
 
 SIMPLE_PAGES = {
