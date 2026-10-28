@@ -32,7 +32,7 @@ def esc(text):
 CHECK = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>'
 
 
-def header(p, crumbs, current, lang="sv"):
+def header(p, crumbs, current):
     def nav_item(key, href, label):
         cls = ' class="is-current"' if key == current else ""
         return f'<li{cls}><a href="{p}{href}">{label}</a></li>'
@@ -133,8 +133,8 @@ def header(p, crumbs, current, lang="sv"):
       </ul>
       <p class="drawer__heading drawer__heading--lang">Språk / Language</p>
       <ul class="drawer__lang">
-        <li><a href="{p}index.html" lang="sv"{' class="is-on" aria-current="true"' if lang == "sv" else ""}>{CHECK if lang == "sv" else ""}Svenska</a></li>
-        <li><a href="{p}english.html" lang="en"{' class="is-on" aria-current="true"' if lang == "en" else ""}>{CHECK if lang == "en" else ""}English</a></li>
+        <li><a href="?lang=sv" lang="sv" data-lang="sv" class="is-on" aria-current="true">{CHECK}Svenska</a></li>
+        <li><a href="?lang=en" lang="en" data-lang="en">English</a></li>
       </ul>
     </div>
     <div class="drawer__contact">
@@ -203,7 +203,7 @@ def footer(p):
           <ul class="site-footer__bottom">
             <li><a href="{p}integritet.html">Integritetspolicy</a></li>
             <li><a href="{p}cookies.html">Cookies</a></li>
-            <li><a href="{p}english.html">In English</a></li>
+            <li><a href="?lang=en" lang="en" data-lang="en">In English</a></li>
             <li><a class="site-footer__admin" href="{p}admin/index.html">Admin</a></li>
             <li class="site-footer__legal">Elevate Studio är ett varumärke som tillhör {PARENT_COMPANY}, org.nr {ORG_NR} · Developed by Isak Mattsson</li>
           </ul>
@@ -223,6 +223,8 @@ def asset_version():
 
 
 VERSION = asset_version()
+# The English texts get their own version, so a new translation is never served from cache.
+I18N_VERSION = hashlib.sha1((ROOT / "tools/i18n_en.py").read_bytes()).hexdigest()[:10]
 
 
 ORG_ID = f"{SITE_URL}/#organisation"
@@ -281,6 +283,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="{robots}">
+  <script src="{p}assets/js/i18n.js?v={VERSION}" data-prefix="{p}" data-v="{I18N_VERSION}"></script>
   <title>{full_title}</title>
   <meta name="description" content="{desc}">
   <link rel="canonical" href="__CANONICAL__">
@@ -308,7 +311,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
 </head>
 <body class="{body_class}">
 
-  {header(p, crumbs, current, lang)}
+  {header(p, crumbs, current)}
 
   {main}
 
@@ -744,6 +747,14 @@ def build_simple():
     p = ""
     current_map = {"kontakt": "kontakt"}
     for slug, page in SIMPLE_PAGES.items():
+        if slug == "english":
+            # The whole site switches language now; the old English page just turns English on.
+            (ROOT / "english.html").write_text(
+                '<!DOCTYPE html>\n<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex">'
+                '<meta http-equiv="refresh" content="0; url=index.html?lang=en"><title>Elevate Studio in English</title>'
+                '<link rel="canonical" href="' + SITE_URL + '/"></head>'
+                '<body><p><a href="index.html?lang=en">Elevate Studio in English</a></p></body></html>\n', encoding="utf-8")
+            continue
         parts = []
         for kind, value in page["sections"]:
             if kind == "text":
@@ -1198,6 +1209,13 @@ def iso_date(text):
     return f"{int(year):04d}-{MONTHS.index(month) + 1:02d}-{int(day):02d}"
 
 
+def i18n_files():
+    """assets/js/i18n-en.js: the English texts for the language switch (from tools/i18n_en.py)."""
+    from i18n_en import EN, PATTERNS
+    data = json.dumps({"t": EN, "p": PATTERNS}, ensure_ascii=False, separators=(",", ":"))
+    (ROOT / "assets/js/i18n-en.js").write_text(f"window.ELEVATE_EN = {data};\n", encoding="utf-8")
+
+
 def site_files(built):
     """sitemap.xml, robots.txt and llms.txt (a plain summary for AI assistants)."""
     today = datetime.date.today().isoformat()
@@ -1313,6 +1331,7 @@ def main():
     built.append(rewrap("index.html", "home", extra_js=("home.js",)))
     built.append(rewrap("404.html", "error404", crumbs=[("Fel 404", "")], robots="noindex"))
     built.extend(site_files(built))
+    i18n_files()
     built.append(rss_feed())
     print(f"Built {len(built)} pages")
 

@@ -4,33 +4,33 @@
   var prefix = document.currentScript.dataset.prefix || '';
   var endpoint = document.currentScript.dataset.endpoint;
   var KB = [
-    { k: ['kost', 'pris', 'billig', 'dyr', 'kronor', 'betala', 'avgift'],
+    { k: ['kost', 'pris', 'billig', 'dyr', 'kronor', 'betala', 'avgift', 'cost', 'price', 'cheap', 'expensive', 'pay', 'fee', 'sek'],
       a: 'Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en årsavgift (99–199 kr/år för Starter, 299–399 kr/år för Pro). Större projekt får ett fast pris i en offert. Alla priser är exkl. moms.',
       link: ['Se priser', 'priser.html'] },
-    { k: ['tid', 'lång', 'snabb', 'färdig', 'vecka', 'månad', 'leverans', 'när'],
+    { k: ['tid', 'lång', 'snabb', 'färdig', 'vecka', 'månad', 'leverans', 'när', 'time', 'long', 'fast', 'quick', 'ready', 'week', 'month', 'deliver', 'when'],
       a: 'Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst.' },
-    { k: ['tjänst', 'erbjud', 'gör ni', 'vad gör', 'hjälp med'],
+    { k: ['tjänst', 'erbjud', 'gör ni', 'vad gör', 'hjälp med', 'service', 'offer', 'what do you', 'help with'],
       a: 'Vi bygger hemsidor och kopplar på bokningssystem, offertsystem och AI-chatt. Vi jobbar också med SEO och AI-optimering, och tar hand om support och underhåll efteråt.',
       link: ['Se alla tjänster', 'tjanster/index.html'] },
-    { k: ['boka', 'bokning', 'kalender'],
+    { k: ['boka', 'bokning', 'kalender', 'book', 'calendar', 'appointment'],
       a: 'Ja, vi kan bygga in bokning så att kunderna väljer en tid direkt på hemsidan – med notiser till er via e-post och SMS.',
       link: ['Om bokningssystem', 'tjanster/bokningssystem.html'] },
-    { k: ['offert', 'förfrågan', 'forfragan'],
+    { k: ['offert', 'förfrågan', 'forfragan', 'quote', 'enquir', 'inquir'],
       a: 'Med ett offertflöde beskriver kunden jobbet steg för steg, så att ni får en komplett förfrågan. Våra egna offerter är på två sidor med fast pris.',
       link: ['Se ett exempel på avtal', 'avtal.html'] },
     { k: ['ai', 'chatt', 'chatbot', 'bot'],
       a: 'Vi bygger AI-chattar som svarar på kundernas vanliga frågor dygnet runt och skickar vidare förfrågningar till er.',
       link: ['Om AI-chatt', 'tjanster/ai-chatt.html'] },
-    { k: ['google', 'seo', 'synas', 'hittar', 'sök'],
+    { k: ['google', 'seo', 'synas', 'hittar', 'sök', 'search', 'found', 'visib', 'rank'],
       a: 'Grundläggande SEO och AI-optimering ingår i alla hemsidor vi bygger, så att ni går att hitta både på Google och i AI-tjänster.',
       link: ['Om SEO och AI-optimering', 'tjanster/seo-och-ai-optimering.html'] },
-    { k: ['support', 'ändr', 'uppdater', 'underhåll', 'efter'],
+    { k: ['support', 'ändr', 'uppdater', 'underhåll', 'efter', 'change', 'update', 'maint', 'after'],
       a: 'Under första året ingår upp till 10 timmars support och redigering per månad – till exempel text- och bildändringar eller nya funktioner.' },
-    { k: ['domän', 'äger', 'hosting', 'webbhotell'],
+    { k: ['domän', 'äger', 'hosting', 'webbhotell', 'domain', 'own'],
       a: 'Domänen är och förblir er. Hosting och eventuella externa avgifter står specificerade i offerten.' },
-    { k: ['var finns', 'var ligger', 'uppsala', 'stockholm', 'ort', 'distans', 'sverige'],
+    { k: ['var finns', 'var ligger', 'uppsala', 'stockholm', 'ort', 'distans', 'sverige', 'where', 'located', 'remote', 'sweden'],
       a: 'Vi finns i Uppsala och jobbar med företag i hela Sverige – möten går lika bra på distans.' },
-    { k: ['kontakt', 'ring', 'telefon', 'mejl', 'mail', 'prata', 'möte'],
+    { k: ['kontakt', 'ring', 'telefon', 'mejl', 'mail', 'prata', 'möte', 'contact', 'call', 'phone', 'email', 'talk', 'meet'],
       a: 'Ring Carl på +46 76 022 83 61 eller mejla info@elevatestudio.nu. Du kan också fylla i formuläret, så hör vi av oss så fort vi kan.',
       link: ['Kontakta oss', 'kontakt.html'] }
   ];
@@ -145,7 +145,7 @@
         .catch(function () { say('Något gick fel. Mejla gärna info@elevatestudio.nu direkt.', 'bot'); });
       return;
     }
-    if (/prata med någon|människa|person/i.test(q)) {
+    if (/prata med någon|människa|person|talk to someone|human/i.test(q)) {
       say('Absolut! Ring Carl på +46 76 022 83 61 eller mejla info@elevatestudio.nu. Vill du att vi hör av oss? Skriv din e-postadress här.', 'bot');
       waitingForEmail = 'Vill bli kontaktad';
       return;

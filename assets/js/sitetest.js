@@ -310,13 +310,13 @@
     e.preventDefault();
     var url = normaliseUrl(input.value);
     if (!url) {
-      input.setCustomValidity('Skriv en giltig adress, till exempel dittforetag.se');
+      input.setCustomValidity(window.ElevateLang ? window.ElevateLang.t('Skriv en giltig adress, till exempel dittforetag.se') : 'Skriv en giltig adress, till exempel dittforetag.se');
       input.reportValidity();
       return;
     }
     input.setCustomValidity('');
     var strategy = form.querySelector('input[name="strategy"]:checked').value;
-    var params = new URLSearchParams({ url: url, strategy: strategy, locale: 'sv' });
+    var params = new URLSearchParams({ url: url, strategy: strategy, locale: window.ElevateLang && window.ElevateLang.lang === 'en' ? 'en' : 'sv' });
     CATEGORIES.forEach(function (c) { params.append('category', c.id); });
     if (KEY) params.append('key', KEY);
 
