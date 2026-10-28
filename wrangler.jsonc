@@ -1,0 +1,10 @@
+// Cloudflare (Workers with static assets): the website is the files in this folder,
+// minus what .assetsignore leaves out. Every push to the production branch is published.
+{
+  "name": "elevate-studio-pre",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": ".",
+    "not_found_handling": "404-page"
+  }
+}

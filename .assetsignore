@@ -1,0 +1,15 @@
+# Not part of the public website (Cloudflare skips these when publishing)
+.git
+.gitignore
+.assetsignore
+.htaccess
+wrangler.jsonc
+README.md
+node_modules
+tools
+supabase
+v2
+mejl
+dist
+*.zip
+/*.png

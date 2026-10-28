@@ -80,18 +80,15 @@ från admin och anmälan till nyhetsbrevet). Nyhetsbreven skrivs och skickas i B
 
 Innan dess sparas leads direkt i databasen och FormSubmit aviserar info@.
 
-## Publicera med Cloudflare Pages (automatiskt vid varje push)
+## Publicera med Cloudflare (automatiskt vid varje push)
 
-Domänens DNS ligger i Cloudflare, så sidan kan publiceras direkt från GitHub:
+Domänens DNS ligger i Cloudflare, så sidan publiceras direkt från GitHub:
 
-1. Cloudflare → **Workers & Pages** → **Create** → **Pages** → **Connect to Git** → välj `ElevateStudio018/Elevate-Studio-pre`.
-2. Inställningar:
-   - Production branch: `main`
-   - Build command: `python3 tools/package.py`
-   - Build output directory: `dist`
-3. **Save and Deploy**. Sidan får en adress som `elevate-studio-pre.pages.dev`.
-4. Projektet → **Custom domains** → lägg till `elevatestudio.nu` och `www.elevatestudio.nu`. Cloudflare byter själv A-posterna; MX/TXT för mejlen hos Loopia lämnas orörda.
+1. Cloudflare → **Workers & Pages** → **Create** → **Import a repository** → `ElevateStudio018/Elevate-Studio-pre`.
+2. Build command: tomt. Deploy command: `npx wrangler deploy` (standard). Tryck **Deploy**.
+3. Projektet → **Settings** → **Domains & Routes** → **Add** → **Custom domain**: `elevatestudio.nu` och `www.elevatestudio.nu`.
+   MX/TXT-posterna för mejlen hos Loopia lämnas orörda.
 
-Varje push till `main` publiceras automatiskt. Andra grenar får en egen förhandsadress.
-Omdirigeringar från gamla adresser finns i `_redirects`, cache-regler i `_headers`.
-För Loopia/Apache används i stället `.htaccess` och zip-filen från `tools/package.py`.
+`wrangler.jsonc` säger att webbplatsen är filerna i repot; `.assetsignore` håller verktyg, serverkod och utkast utanför.
+Omdirigeringar från gamla adresser finns i `_redirects`, cache-regler i `_headers`. Sidorna nås utan `.html` (`/priser`).
+Varje push till `main` publiceras. För Loopia/Apache används i stället `.htaccess` och zip-filen från `tools/package.py`.
