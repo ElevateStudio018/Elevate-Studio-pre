@@ -974,7 +974,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 
 
 /* ---------- Process: five clear steps on one green line ---------- */
-.flow { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 28px; margin: 56px 0 0; padding: 0; list-style: none; counter-reset: none; }
+.flow { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin: 56px 0 0; padding: 0; list-style: none; counter-reset: none; }
 .flow::before { content: ""; position: absolute; top: 23px; left: 24px; right: 24px; height: 2px; background: linear-gradient(90deg, var(--accent, #1d3b2a), #9fc0a8); }
 .flow__step { position: relative; display: flex; flex-direction: column; }
 .flow__head { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }

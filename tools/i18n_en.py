@@ -913,6 +913,7 @@ EN = {
     "Löpande kostnader: byggverktygen tar ofta en månadsavgift så länge sidan finns.": "Running costs: website builders often charge a monthly fee for as long as the site exists.",
     "Synligheten: en snygg mall syns inte automatiskt på Google – det kräver tydliga tjänstesidor, rätt rubriker och snabba sidor.": "Visibility: a nice template doesn't automatically show up on Google – that takes clear service pages, the right headings and fast pages.",
     "Som webbyrå i Uppsala bygger vi hemsidor till fast pris: Starter kostar 3 000 kr i startavgift och därefter 99–199 kr per år. Du ser ett första utkast efter ungefär en dag, domänen är alltid din och under första året ingår upp till 10 timmars support och ändringar per månad.": "As a web agency in Uppsala we build websites at a fixed price: Starter costs SEK 3,000 as a start-up fee and then SEK 99–199 per year. You see a first draft after about a day, the domain is always yours and during the first year up to 10 hours of support and changes per month are included.",
+    "Fyra steg från första mötet till en hemsida som ger förfrågningar. Vi tar hand om det tekniska, ni bidrar med kunskapen om ert företag.": "Four steps from the first meeting to a website that brings in enquiries. We take care of the technical side, you bring the knowledge about your business.",
 }
 
 # Text that is built from parts in JavaScript: (regular expression, replacement)

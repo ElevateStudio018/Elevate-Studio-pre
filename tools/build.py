@@ -485,8 +485,7 @@ def build_services():
     steps = [("Vi lär känna företaget", "Ett kort möte om era tjänster, era kunder och vilka affärer ni vill ha fler av."),
              ("Vi bygger hemsidan", "Mobilanpassad design med tydliga tjänstesidor. Ett första utkast ser ni efter ungefär en dag."),
              ("Vi kopplar på smarta funktioner", "Offertflöde, bokning, AI-chatt och notiser testas före lansering."),
-             ("Hemsidan börjar ge förfrågningar", "Sidan lanseras och indexeras av Google."),
-             ("Vi förbättrar över tid", "Vi följer upp vad som ger kunder och justerar löpande.")]
+             ("Hemsidan börjar ge förfrågningar", "Sidan lanseras och indexeras av Google.")]
     steps_html = "".join(f'<li><span class="step-list__no">{i}</span><h3>{t}</h3><p>{d}</p></li>' for i, (t, d) in enumerate(steps, 1))
     main = f'''<main>
     {page_hero("Vad vi <em>gör</em>", "Hemsidor som ger förfrågningar – och de smarta funktionerna runt omkring. Allt från samma lilla team i Uppsala.")}

@@ -118,7 +118,6 @@ Vi är en liten webbyrå i Uppsala som bygger hemsidor som ger förfrågningar �
 - Utkast på en dag: ni ser ett första utkast efter ungefär en dag.
 - Finjustering: ni får två korrekturvändor, så att allt blir rätt.
 - Lansering: sidan går live, indexeras av Google och börjar ta emot förfrågningar.
-- Uppföljning: vi följer upp vad som ger kunder och förbättrar löpande.
 
 ### Fast pris och tydligt avtal
 - Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. Ni får allt på två sidor och godkänner genom att svara på mejlet.
