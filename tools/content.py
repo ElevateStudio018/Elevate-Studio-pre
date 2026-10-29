@@ -119,6 +119,15 @@ SERVICES = [
 
 CASES = [
     {
+        # A real customer: the site is shown as it is, with no made-up story
+        "slug": "alvhem-stad", "name": "Alvhem Städ", "tags": ["Städfirma", "Kund", "Webb"],
+        "image": "home/alvhem-desktop.jpg", "w": 746, "h": 466, "phone_image": "home/alvhem-phone.jpg",
+        "site": "https://alvhemstad.se/", "site_label": "alvhemstad.se",
+        "lead": "Städfirma i Älvängen utanför Göteborg med hemstädning, storstädning, flyttstädning och kontorsstädning till fasta priser.",
+        "about": "Alvhem Städ AB hjälper privatpersoner och företag med regelbunden hemstädning, storstädning, flyttstädning och kontorsstädning. Fasta priser, RUT-avdrag direkt på fakturan, nöjd kund-garanti och samma städare vid varje tillfälle.",
+        "features": ["Telefonnumret syns högst upp på varje sida", "Tjänster med tydliga priser och RUT-avdrag", "Kontaktformulär där kunden väljer typ av städning och anger yta", "Anpassad för mobilen"],
+    },
+    {
         "slug": "fjallvagen-bildelar", "name": "Fjällvägen Bildelar", "tags": ["E-handel", "Sök", "Webb"],
         "image": "home/case-1.jpg", "w": 746, "h": 480,
         "lead": "En ny e-handel för reservdelar där kunderna hittar rätt del på några klick, oavsett bilmodell.",
