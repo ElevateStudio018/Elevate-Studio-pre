@@ -6,6 +6,7 @@ so add new strings when the Swedish copy changes (tools/i18n_check.js lists what
 """
 
 EN = {
+    "Väldigt nöjd med hemsidan som Elevate Studio byggt åt oss! Snygg design, smidig kontakt och bra hjälp hela vägen. Rekommenderas varmt till företag som behöver en ny hemsida.": "Very happy with the website Elevate Studio built for us! Great design, easy contact and good help all the way. Warmly recommended to companies that need a new website.",
     "Hemsidor vi byggt": "Websites we have built",
     "Hemsidor vi byggt – riktiga kunder, riktiga sajter": "Websites we have built – real customers, real sites",
     "Ett urval av hemsidor vi byggt åt företag. Klicka på en så öppnas den här på sidan, i dator- eller mobilvy.": "A selection of websites we have built for companies. Click one and it opens right here, in desktop or mobile view.",
