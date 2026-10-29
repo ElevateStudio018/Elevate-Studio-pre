@@ -365,15 +365,18 @@ TEAM = [
 
 # Websites we have built and that are live. Add a line here and a screenshot in assets/img/sites/ to show one more.
 SITES = [
-    {"name": "Haninge Byggteam AB", "url": "https://haningebyggteam.se/", "label": "haningebyggteam.se", "what": "Byggfirma i Stockholm", "image": "sites/site-haninge.jpg", "logo": "home/client-haninge.svg"},
-    {"name": "Alvhem Städ", "url": "https://alvhemstad.se/", "label": "alvhemstad.se", "what": "Städfirma i Älvängen", "image": "sites/site-alvhem.jpg", "logo": "home/client-alvhemstad.png", "case": "projekt/alvhem-stad.html"},
-    {"name": "Markmontage BEAB AB", "url": "https://elevatestudio018.github.io/Bugg-test/", "label": "Markmontage BEAB AB", "what": "Mark- och grundarbeten i Kungälv och Göteborg", "image": "sites/site-markmontage.jpg", "logo": "home/client-markmontage.svg"},
+    {"name": "Haninge Byggteam AB", "url": "https://haningebyggteam.se/", "label": "haningebyggteam.se", "what": "Byggfirma i Stockholm", "image": "sites/site-haninge.jpg", "phone": "sites/site-haninge-phone.jpg", "logo": "home/client-haninge.svg",
+     "text": "Haninge Byggteam renoverar kök, badrum och hela villor i Stockholm och på Södertörn. Hemsidan är byggd runt en enda sak: att den som tittar ska be om en offert. Därför ligger knappen Få gratis offert i varje del av sidan, projektgalleriet går att filtrera på kök, badrum, totalrenovering och utomhus, och deras 5,0 i Google-betyg syns redan i toppen."},
+    {"name": "Alvhem Städ", "url": "https://alvhemstad.se/", "label": "alvhemstad.se", "what": "Städfirma i Älvängen", "image": "sites/site-alvhem.jpg", "phone": "sites/site-alvhem-phone.jpg", "logo": "home/client-alvhemstad.png", "case": "projekt/alvhem-stad.html",
+     "text": "Alvhem Städ erbjuder hemstädning, storstädning, flyttstädning och kontorsstädning till fasta priser. Sajten öppnar med en film som visar jobbet, varje städtjänst har en egen sida med pris, och en kalkyl räknar av RUT-avdraget direkt så kunden ser vad det kostar. Uppstartsmötet bokas från vilken sida som helst."},
+    {"name": "Markmontage BEAB AB", "url": "https://elevatestudio018.github.io/Bugg-test/", "label": "Markmontage BEAB AB", "what": "Mark- och grundarbeten i Kungälv och Göteborg", "image": "sites/site-markmontage.jpg", "phone": "sites/site-markmontage-phone.jpg", "logo": "home/client-markmontage.svg",
+     "text": "Markmontage har gjort schakt, dränering, grundläggning och VA-arbeten sedan 2002 med 18 anställda. Hemsidan presenterar sju tjänster på egna sidor, visar utförda uppdrag med egna bilder från arbetsplatserna och förklarar steg för steg hur ett markprojekt går till, från kostnadsfritt hembesök till fast offert."},
 ]
 
 SIMPLE_PAGES = {
     "byggda-hemsidor": {
         "title": "Hemsidor vi byggt", "seo_title": "Hemsidor vi byggt – riktiga kunder, riktiga sajter",
-        "lead": "Ett urval av hemsidor vi byggt åt företag. Klicka på en så öppnas den här på sidan, i dator- eller mobilvy.",
+        "lead": "Dator och mobil, samma sajt. Klicka på ett kort så öppnas hemsidan här på sidan, i dator- eller mobilvy.",
         "description": "Se hemsidor som Elevate Studio har byggt åt riktiga företag: byggfirma, städfirma och markentreprenad. Besök sajterna och se hur de fungerar på dator och mobil.",
         "sections": [
             ("sites", SITES),

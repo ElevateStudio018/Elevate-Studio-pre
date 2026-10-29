@@ -551,7 +551,7 @@ _LAZY_IMG = re.compile(r'<img\b[^>]*\sloading="lazy"[^>]*>')
 _IMG_TAG = re.compile(r'<img\b[^>]*>')
 _SIZES = [  # how wide the picture is shown, by file name, so the browser can pick the right copy
     ("device-phone", "(max-width: 768px) 22vw, 160px"),
-    ("site-", "(max-width: 768px) 90vw, (max-width: 1100px) 45vw, 520px"),
+    ("site-", "(max-width: 768px) 80vw, (max-width: 1100px) 40vw, 360px"),
     ("alvhemstad-phone", "(max-width: 768px) 22vw, 160px"),
     ("alvhemstad-desktop", "(max-width: 768px) 80vw, (max-width: 1334px) 60vw, 810px"),
     ("alvhem-old", "(max-width: 768px) 80vw, (max-width: 1334px) 60vw, 810px"),
@@ -954,9 +954,11 @@ def build_simple():
             elif kind == "sites":
                 cards = "".join(f'''<article class="site-card">
           <a class="site-card__face" href="{s["url"]}" target="_blank" rel="noopener" data-site="{s["url"]}" data-name="{esc(s["name"])}" aria-label="Förhandsvisa {esc(s["name"])}">
-            <span class="site-card__bg" style="background-image:url({p}assets/img/{s["image"].replace(".jpg", "-800.webp")})"></span>
-            <span class="site-card__logo"><img src="{p}assets/img/{s["logo"]}" alt="{esc(s["name"])}" loading="lazy"></span>
-            <span class="site-card__foot"><span class="site-card__name">{esc(s["name"])}</span><span class="site-card__what">{esc(s["what"])}</span><span class="site-card__cta">Förhandsvisa &rarr;</span></span>
+            <span class="site-card__devs">{laptop(p + "assets/img/" + s["image"], s["name"] + " på en dator")}<span class="phone"><img src="{p}assets/img/{s["phone"]}" alt="{esc(s["name"])} på en mobil" loading="lazy"></span></span>
+            <span class="site-card__logo"><img src="{p}assets/img/{s["logo"]}" alt="{esc(s["name"])} logotyp" loading="lazy"></span>
+            <span class="site-card__name">{esc(s["name"])}</span><span class="site-card__what">{esc(s["what"])}</span>
+            <span class="site-card__text">{esc(s["text"])}</span>
+            <span class="btn btn--primary btn--sm"><span>Förhandsvisa &rarr;</span></span>
           </a>
           <p class="site-card__links"><a href="{s["url"]}" target="_blank" rel="noopener">Besök {esc(s["label"])}</a>{f'<a href="{p}{s["case"]}">Läs om projektet</a>' if s.get("case") else ""}</p>
         </article>''' for s in value)

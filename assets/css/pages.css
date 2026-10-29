@@ -638,19 +638,18 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .contact-hero__social { position: relative; margin-top: 28px; }
 .contact-hero__social .contact-hero__k { margin: 0 0 10px; }
 
-/* ---------- Hemsidor vi byggt: the site as the card, the logo on top, click to preview ---------- */
-.sites { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 32px 28px; }
-.site-card__face { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 22px; background: #1d3b2a; color: #fff; text-decoration: none; isolation: isolate; box-shadow: 0 24px 40px -28px rgba(0, 0, 0, .5); }
-.site-card__bg { position: absolute; inset: 0; background: #1d3b2a center top / cover no-repeat; transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
-.site-card__face::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 20, 14, .15) 0%, rgba(10, 20, 14, .1) 45%, rgba(10, 20, 14, .85) 100%); transition: background .3s; }
-.site-card__face:hover .site-card__bg { transform: scale(1.05); }
-.site-card__logo { position: absolute; left: 50%; top: 42%; z-index: 1; display: grid; place-items: center; width: 56%; max-width: 230px; padding: 14px 20px; border-radius: 16px; background: rgba(255, 255, 255, .94); box-shadow: 0 12px 30px -12px rgba(0, 0, 0, .5); transform: translate(-50%, -50%); transition: transform .3s; }
-.site-card__logo img { display: block; width: 100%; height: auto; max-height: 64px; object-fit: contain; }
-.site-card__face:hover .site-card__logo { transform: translate(-50%, -50%) scale(1.04); }
-.site-card__foot { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; display: grid; gap: 2px; padding: 18px 20px; }
-.site-card__name { font-size: 20px; font-weight: 500; }
-.site-card__what { font-size: 14px; opacity: .8; }
-.site-card__cta { margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--lime, #d7e36b); }
+/* ---------- Hemsidor vi byggt: laptop and phone on a cream tile, the logo, a few lines, click to preview ---------- */
+.sites { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px 24px; }
+.site-card__face { display: flex; flex-direction: column; align-items: flex-start; height: 100%; padding: 26px 22px 22px; border-radius: 24px; background: var(--cream-dark, #f6f1e4); color: inherit; text-decoration: none; transition: transform .3s, box-shadow .3s; }
+.site-card__face:hover { transform: translateY(-4px); box-shadow: 0 30px 50px -36px rgba(0, 0, 0, .4); }
+.site-card__devs { position: relative; display: block; width: 100%; aspect-ratio: 16 / 10; margin-bottom: 22px; }
+.site-card__devs .laptop { position: absolute; left: 0; top: 0; width: 86%; filter: drop-shadow(0 18px 24px rgba(0, 0, 0, .22)); }
+.site-card__devs .phone { position: absolute; right: 0; bottom: -6%; width: 25%; border-width: 5px; border-radius: 18px; box-shadow: 0 20px 30px -18px rgba(0, 0, 0, .6); }
+.site-card__logo { display: grid; place-items: center; width: 130px; height: 54px; padding: 6px 10px; margin-bottom: 12px; border-radius: 12px; background: #fff; }
+.site-card__logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.site-card__name { font-size: 22px; font-weight: 500; }
+.site-card__what { font-size: 14px; color: #666; }
+.site-card__text { flex: 1; margin: 10px 0 16px; font-size: 14px; line-height: 1.55; color: #444; }
 .site-card__links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 12px 4px 0; font-size: 14px; }
 .site-card__links a { color: #444; text-decoration: underline; text-underline-offset: 3px; }
 .site-card__links a:hover { color: var(--accent, #1d3b2a); }

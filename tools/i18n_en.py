@@ -6,6 +6,22 @@ so add new strings when the Swedish copy changes (tools/i18n_check.js lists what
 """
 
 EN = {
+    "Haninge Byggteam AB logotyp": "Haninge Byggteam AB logo",
+    "Alvhem Städ logotyp": "Alvhem Städ logo",
+    "Markmontage BEAB AB logotyp": "Markmontage BEAB AB logo",
+    "Dator och mobil, samma sajt. Klicka på ett kort så öppnas hemsidan här på sidan, i dator- eller mobilvy.": "Desktop and mobile, the same site. Click a card and the website opens right here, in desktop or mobile view.",
+    "Haninge Byggteam renoverar kök, badrum och hela villor i Stockholm och på Södertörn. Hemsidan är byggd runt en enda sak: att den som tittar ska be om en offert. Därför ligger knappen Få gratis offert i varje del av sidan, projektgalleriet går att filtrera på kök, badrum, totalrenovering och utomhus, och deras 5,0 i Google-betyg syns redan i toppen.": "Haninge Byggteam renovates kitchens, bathrooms and whole houses in Stockholm and Södertörn. The website is built around one thing: that the visitor asks for a quote. So the Get a free quote button sits in every part of the page, the project gallery filters by kitchen, bathroom, full renovation and outdoors, and their 5.0 Google rating shows right at the top.",
+    "Alvhem Städ erbjuder hemstädning, storstädning, flyttstädning och kontorsstädning till fasta priser. Sajten öppnar med en film som visar jobbet, varje städtjänst har en egen sida med pris, och en kalkyl räknar av RUT-avdraget direkt så kunden ser vad det kostar. Uppstartsmötet bokas från vilken sida som helst.": "Alvhem Städ offers home cleaning, deep cleaning, move-out cleaning and office cleaning at fixed prices. The site opens with a film that shows the work, every service has its own page with a price, and a calculator deducts the Swedish RUT tax reduction right away so the customer sees the cost. The start-up meeting can be booked from any page.",
+    "Markmontage har gjort schakt, dränering, grundläggning och VA-arbeten sedan 2002 med 18 anställda. Hemsidan presenterar sju tjänster på egna sidor, visar utförda uppdrag med egna bilder från arbetsplatserna och förklarar steg för steg hur ett markprojekt går till, från kostnadsfritt hembesök till fast offert.": "Markmontage has done excavation, drainage, foundations and water and sewer work since 2002 with 18 employees. The website presents seven services on their own pages, shows completed jobs with their own photos from the sites and explains step by step how a groundworks project goes, from a free home visit to a fixed quote.",
+    "Besök haningebyggteam.se": "Visit haningebyggteam.se",
+    "Besök alvhemstad.se": "Visit alvhemstad.se",
+    "Besök Markmontage BEAB AB": "Visit Markmontage BEAB AB",
+    "Haninge Byggteam AB på en dator": "Haninge Byggteam AB on a desktop",
+    "Haninge Byggteam AB på en mobil": "Haninge Byggteam AB on a phone",
+    "Alvhem Städ på en dator": "Alvhem Städ on a desktop",
+    "Alvhem Städ på en mobil": "Alvhem Städ on a phone",
+    "Markmontage BEAB AB på en dator": "Markmontage BEAB AB on a desktop",
+    "Markmontage BEAB AB på en mobil": "Markmontage BEAB AB on a phone",
     "Väldigt nöjd med hemsidan som Elevate Studio byggt åt oss! Snygg design, smidig kontakt och bra hjälp hela vägen. Rekommenderas varmt till företag som behöver en ny hemsida.": "Very happy with the website Elevate Studio built for us! Great design, easy contact and good help all the way. Warmly recommended to companies that need a new website.",
     "Hemsidor vi byggt": "Websites we have built",
     "Hemsidor vi byggt – riktiga kunder, riktiga sajter": "Websites we have built – real customers, real sites",
