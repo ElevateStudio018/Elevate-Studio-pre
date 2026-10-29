@@ -6,6 +6,11 @@ so add new strings when the Swedish copy changes (tools/i18n_check.js lists what
 """
 
 EN = {
+    "Alvhem Städ: från": "Alvhem Städ: from",
+    "Dra i reglaget och jämför Alvhem Städs gamla hemsida med den nya vi byggt.": "Drag the slider and compare Alvhem Städ's old website with the new one we built.",
+    "Hemsidor vi": "Websites we have",
+    "byggt": "built",
+    "Riktiga kunder, riktiga sajter. Klicka på ett kort så öppnas hemsidan här på sidan.": "Real customers, real sites. Click a card and the website opens right here.",
     "Haninge Byggteam AB logotyp": "Haninge Byggteam AB logo",
     "Alvhem Städ logotyp": "Alvhem Städ logo",
     "Markmontage BEAB AB logotyp": "Markmontage BEAB AB logo",

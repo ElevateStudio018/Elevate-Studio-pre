@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, CASES, FORM_ENDPOINT, MAIL_FUNCTION, MAIL_LIVE, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
+from content import ARTICLES, SITES, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, CASES, FORM_ENDPOINT, MAIL_FUNCTION, MAIL_LIVE, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -64,6 +64,7 @@ def header(p, crumbs, current):
       <nav class="site-header__navbar" aria-label="Huvudmeny">
         <ul>
           {nav_item("projekt", "projekt/index.html", "Projekt")}
+          {nav_item("kunder", "byggda-hemsidor.html", "Kunder")}
           <li class="has-megamenu{services_cls}">
             <a href="{p}tjanster/index.html" class="js-show-megamenu" aria-expanded="false" aria-controls="megamenu">Vad vi gör {CHEVRON}</a>
           </li>
@@ -101,6 +102,7 @@ def header(p, crumbs, current):
       <p class="drawer__heading drawer__heading--desk">Meny</p>
       <ul class="drawer__main">
         <li><a href="{p}projekt/index.html">Projekt</a></li>
+        <li><a href="{p}byggda-hemsidor.html">Kunder</a></li>
         <li class="has-sub">
           <button type="button" class="drawer__toggle js-toggle-sub" aria-expanded="false">Vad vi gör {CHEVRON}</button>
           <div class="hamburgermenu__sub">
@@ -710,6 +712,7 @@ def compare(p, after, after_alt, label_after="Efter", before=None, before_alt=""
 
 def build_cases():
     p = "../"
+    alv = next((c for c in CASES if c["slug"] == "alvhem-stad"), None)
     cards = "".join(f'''
         <article class="pcard">
           {laptop(p + "assets/img/" + c["image"], c["name"] + (" på en dator" if c.get("site") else " – exempel på hemsida på en dator"))}
@@ -741,10 +744,18 @@ def build_cases():
     <section class="section container">
       <div class="pj-compare">
         <div>
-          <h2 class="block__header">Från <span>före</span> till <span>efter</span></h2>
-          <p>Dra i reglaget och se skillnaden mellan en typisk gammal hemsida och Lindvik Bygg. Mobil först, tydliga tjänster och kontakt på varje sida.</p>
+          <span class="ex-tag">Kund</span>
+          <h2 class="block__header">Alvhem Städ: från <span>före</span> till <span>efter</span></h2>
+          <p>Dra i reglaget och jämför Alvhem Städs gamla hemsida med den nya vi byggt. <a href="{p}projekt/alvhem-stad.html">Läs om projektet</a>.</p>
         </div>
-        {compare(p, p + "assets/img/home/device-desktop.jpg", "Lindvik Bygg")}
+        {compare(p, p + "assets/img/" + alv["image"], "Alvhem Städs nya hemsida", before=p + "assets/img/" + alv["old_image"], before_alt="Alvhem Städs gamla hemsida", video=p + "assets/" + alv["video"], overlay=p + "assets/img/" + alv["overlay"]) if alv else compare(p, p + "assets/img/home/device-desktop.jpg", "Lindvik Bygg")}
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <h2 class="block__header">Hemsidor vi <span>byggt</span></h2>
+        <p class="preamble">Riktiga kunder, riktiga sajter. Klicka på ett kort så öppnas hemsidan här på sidan.</p>
+        {sites_section(p, SITES)}
       </div>
     </section>
     <section class="section section--cream">
@@ -935,9 +946,36 @@ def build_platforms():
                     [("Plattformar", "plattformar/index.html"), (x["name"], "")], None))
 
 
+def sites_section(p, sites):
+    """The sites we have built: laptop and phone on a tile, the logo, a text, and the in-page preview."""
+    cards = "".join(f'''<article class="site-card">
+          <a class="site-card__face" href="{s["url"]}" target="_blank" rel="noopener" data-site="{s["url"]}" data-name="{esc(s["name"])}" aria-label="Förhandsvisa {esc(s["name"])}">
+            <span class="site-card__devs">{laptop(p + "assets/img/" + s["image"], s["name"] + " på en dator")}<span class="phone"><img src="{p}assets/img/{s["phone"]}" alt="{esc(s["name"])} på en mobil" loading="lazy"></span></span>
+            <span class="site-card__logo"><img src="{p}assets/img/{s["logo"]}" alt="{esc(s["name"])} logotyp" loading="lazy"></span>
+            <span class="site-card__name">{esc(s["name"])}</span><span class="site-card__what">{esc(s["what"])}</span>
+            <span class="site-card__text">{esc(s["text"])}</span>
+            <span class="btn btn--primary btn--sm"><span>Förhandsvisa &rarr;</span></span>
+          </a>
+          <p class="site-card__links"><a href="{s["url"]}" target="_blank" rel="noopener">Besök {esc(s["label"])}</a>{f'<a href="{p}{s["case"]}">Läs om projektet</a>' if s.get("case") else ""}</p>
+        </article>''' for s in sites)
+    return f'''<section class="section container"><div class="sites">{cards}</div></section>
+    <div class="site-preview" id="site-preview" hidden>
+      <div class="site-preview__bar container">
+        <div class="site-preview__who"><b id="sp-name"></b><a id="sp-url" href="#" target="_blank" rel="noopener"></a></div>
+        <div class="site-preview__acts">
+          <span class="site-preview__toggle" role="group" aria-label="Visa som"><button type="button" class="is-on" data-view="desk">Dator</button><button type="button" data-view="mob">Mobil</button></span>
+          <a class="btn btn--primary btn--sm" id="sp-open" href="#" target="_blank" rel="noopener"><span>Öppna sajten</span></a>
+          <button type="button" class="site-preview__close" id="sp-close" aria-label="Stäng förhandsvisningen">Stäng</button>
+        </div>
+      </div>
+      <div class="site-preview__stage"><div class="site-preview__frame" id="sp-frame"><iframe id="sp-iframe" title="Förhandsvisning" loading="lazy"></iframe></div>
+        <p class="site-preview__fallback" id="sp-fallback" hidden>Sajten gick inte att visa här. Öppna den i en ny flik i stället.</p></div>
+    </div>'''
+
+
 def build_simple():
     p = ""
-    current_map = {"kontakt": "kontakt"}
+    current_map = {"kontakt": "kontakt", "byggda-hemsidor": "kunder"}
     for slug, page in SIMPLE_PAGES.items():
         if slug == "english":
             # The whole site switches language now; the old English page just turns English on.
@@ -952,29 +990,7 @@ def build_simple():
             if kind == "text":
                 parts.append(f'<section class="section container"><p class="preamble prose">{esc(value)}</p></section>')
             elif kind == "sites":
-                cards = "".join(f'''<article class="site-card">
-          <a class="site-card__face" href="{s["url"]}" target="_blank" rel="noopener" data-site="{s["url"]}" data-name="{esc(s["name"])}" aria-label="Förhandsvisa {esc(s["name"])}">
-            <span class="site-card__devs">{laptop(p + "assets/img/" + s["image"], s["name"] + " på en dator")}<span class="phone"><img src="{p}assets/img/{s["phone"]}" alt="{esc(s["name"])} på en mobil" loading="lazy"></span></span>
-            <span class="site-card__logo"><img src="{p}assets/img/{s["logo"]}" alt="{esc(s["name"])} logotyp" loading="lazy"></span>
-            <span class="site-card__name">{esc(s["name"])}</span><span class="site-card__what">{esc(s["what"])}</span>
-            <span class="site-card__text">{esc(s["text"])}</span>
-            <span class="btn btn--primary btn--sm"><span>Förhandsvisa &rarr;</span></span>
-          </a>
-          <p class="site-card__links"><a href="{s["url"]}" target="_blank" rel="noopener">Besök {esc(s["label"])}</a>{f'<a href="{p}{s["case"]}">Läs om projektet</a>' if s.get("case") else ""}</p>
-        </article>''' for s in value)
-                parts.append(f'''<section class="section container"><div class="sites">{cards}</div></section>
-    <div class="site-preview" id="site-preview" hidden>
-      <div class="site-preview__bar container">
-        <div class="site-preview__who"><b id="sp-name"></b><a id="sp-url" href="#" target="_blank" rel="noopener"></a></div>
-        <div class="site-preview__acts">
-          <span class="site-preview__toggle" role="group" aria-label="Visa som"><button type="button" class="is-on" data-view="desk">Dator</button><button type="button" data-view="mob">Mobil</button></span>
-          <a class="btn btn--primary btn--sm" id="sp-open" href="#" target="_blank" rel="noopener"><span>Öppna sajten</span></a>
-          <button type="button" class="site-preview__close" id="sp-close" aria-label="Stäng förhandsvisningen">Stäng</button>
-        </div>
-      </div>
-      <div class="site-preview__stage"><div class="site-preview__frame" id="sp-frame"><iframe id="sp-iframe" title="Förhandsvisning" loading="lazy"></iframe></div>
-        <p class="site-preview__fallback" id="sp-fallback" hidden>Sajten gick inte att visa här. Öppna den i en ny flik i stället.</p></div>
-    </div>''')
+                parts.append(sites_section(p, value))
             elif kind == "cols":
                 cards = "".join(
                     f'<div class="info-card"><h2 class="info-card__title">{esc(t)}</h2><p>{d}</p></div>'
