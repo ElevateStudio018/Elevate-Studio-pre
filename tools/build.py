@@ -54,7 +54,7 @@ def header(p, crumbs, current):
     </div>'''
     return f'''<header class="site-header" id="site-header">
     <figure class="site-header__site-logo">
-      <a href="{p}index.html" class="wordmark" aria-label="Startsida">
+      <a href="{p}index.html" class="wordmark">
         <svg class="wordmark__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>
         <span class="wordmark__name">Elevate Studio</span>
       </a>
@@ -84,7 +84,7 @@ def header(p, crumbs, current):
             <p class="megamenu__sidebar-header">Syns ni när kunder frågar AI?</p>
             <p class="megamenu__sidebar-text">Allt fler frågar en AI-assistent i stället för att googla. Vi bygger hemsidan så att både Google och AI-tjänster beskriver er rätt.</p>
           </div>
-          <p class="megamenu__sidebar-button"><a href="{p}tjanster/seo-och-ai-optimering.html" class="btn btn--primary"><span>Läs mer</span></a></p>
+          <p class="megamenu__sidebar-button"><a href="{p}tjanster/seo-och-ai-optimering.html" class="btn btn--primary"><span>Mer om SEO och AI</span></a></p>
         </div>
         <ul class="megamenu__menu">{mega_items}</ul>
       </section>
@@ -154,7 +154,7 @@ def footer(p):
       <div class="container">
         <div class="site-footer__row">
           <div class="site-footer__small">
-            <a href="{p}index.html" class="wordmark wordmark--light" aria-label="Startsida">
+            <a href="{p}index.html" class="wordmark wordmark--light">
               <svg class="wordmark__mark" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>
               <span class="wordmark__name">Elevate Studio</span>
             </a>
@@ -222,6 +222,28 @@ def asset_version():
     return digest.hexdigest()[:10]
 
 
+def bundle_css():
+    """style.css, home.css and pages.css joined into one minified file, so a page loads a single
+    stylesheet. Addresses inside url(...) are kept as they are."""
+    kept = []
+
+    def keep(m):
+        kept.append(m.group(0))
+        return f"\x00{len(kept) - 1}\x00"
+    parts = []
+    for name in ("style.css", "home.css", "pages.css"):
+        css = (ROOT / "assets/css" / name).read_text(encoding="utf-8")
+        css = re.sub(r"url\((?:\"[^\"]*\"|'[^']*'|[^)]*)\)", keep, css)
+        css = re.sub(r"/\*[\s\S]*?\*/", "", css)
+        css = re.sub(r"\s+", " ", css)
+        css = re.sub(r"\s*([{};:,>])\s*", r"\1", css).replace(";}", "}")
+        parts.append(css.strip())
+    out = "".join(parts)
+    out = re.sub(r"\x00(\d+)\x00", lambda m: kept[int(m.group(1))], out)
+    (ROOT / "assets/css/site.min.css").write_text(out, encoding="utf-8")
+
+
+bundle_css()
 VERSION = asset_version()
 # The English texts get their own version, so a new translation is never served from cache.
 I18N_VERSION = hashlib.sha1((ROOT / "tools/i18n_en.py").read_bytes()).hexdigest()[:10]
@@ -270,9 +292,9 @@ def auto_description(main):
 
 
 def document(p, title, main, body_class, crumbs=None, current=None, extra_css=(), extra_js=(), description=None, jsonld=(), og_type="website", robots="index, follow", lang="sv"):
-    css = ["style.css", "home.css", "pages.css", *extra_css]
+    css = ["site.min.css", *extra_css]
     links = "\n  ".join(f'<link rel="stylesheet" href="{p}assets/css/{c}?v={VERSION}">' for c in css)
-    scripts = "\n  ".join(f'<script src="{p}assets/js/{j}?v={VERSION}"></script>' for j in ("main.js", *extra_js))
+    scripts = "\n  ".join(f'<script src="{p}assets/js/{j}?v={VERSION}" defer></script>' for j in ("main.js", *extra_js))
     scripts += f'\n  <script src="{p}assets/js/chat.js?v={VERSION}" data-prefix="{p}" data-endpoint="{FORM_ENDPOINT}" defer></script>'
     desc = esc(description or auto_description(main))
     # Keep titles within what Google shows; long titles drop the brand suffix
@@ -349,7 +371,7 @@ def cta(p, title="Ska vi bygga något tillsammans?", text="Berätta kort vad ni 
     return f'''<section class="cta-band">
       <div class="container cta-band__inner">
         <div>
-          <h2 class="cta-band__title">{title}</h2>
+          <p class="cta-band__title">{title}</p>
           <p>{text}</p>
         </div>
         <a href="{p}kontakt.html" class="btn btn--light"><span>Kontakta oss</span></a>
@@ -372,28 +394,28 @@ def case_card(p, c, big):
           </li>'''
 
 
-def post_card(p, a):
+def post_card(p, a, tag="h3"):
     terms = "".join(f"<span>{esc(t)}</span>" for t in a["terms"])
     return f'''<article class="post-card">
             <img src="{p}assets/img/{a["image"]}" alt="{esc(a["title"])}" width="420" height="297" loading="lazy">
             <div class="post-card__content">
               <p class="post-card__terms">{terms}</p>
-              <h3 class="post-card__title"><a class="cover-link" href="{p}insikter/{a["slug"]}.html">{esc(a["title"])}</a></h3>
+              <{tag} class="post-card__title"><a class="cover-link" href="{p}insikter/{a["slug"]}.html">{esc(a["title"])}</a></{tag}>
               <p class="post-card__time">{a["date"]}</p>
             </div>
           </article>'''
 
 
-def platform_card(p, x):
+def platform_card(p, x, tag="h3"):
     return f'''<a class="platform-card" href="{p}plattformar/{x["slug"]}.html">
               <img src="{p}assets/img/home/{x["icon"]}" alt="{esc(x["name"])}" width="60" height="60">
-              <h3>{esc(x["name"])}</h3><span class="arrow-link">Läs mer</span>
+              <{tag} class="platform-card__name">{esc(x["name"])}</{tag}><span class="arrow-link">Läs mer</span>
             </a>'''
 
 
 def service_card(p, s):
     return f'''<article class="info-card info-card--link">
-          <h3 class="info-card__title"><a class="cover-link" href="{p}tjanster/{s["slug"]}.html">{esc(s["name"])}</a></h3>
+          <h2 class="info-card__title"><a class="cover-link" href="{p}tjanster/{s["slug"]}.html">{esc(s["name"])}</a></h2>
           <p>{esc(s["lead"])}</p>
           <span class="arrow-link">Läs mer</span>
         </article>'''
@@ -490,7 +512,59 @@ def finish(text):
         if i >= 0 and (ROOT / (src[i:] + ".webp")).exists():
             return f'src="{src}.webp"'
         return m.group(0)
-    return _IMG_SRC.sub(webp, text)
+    text = _IMG_TAG.sub(responsive, _IMG_SRC.sub(webp, text))
+    # The first picture in the content is usually the largest thing on screen: load it at once
+    i = text.find("<main")
+    m = _LAZY_IMG.search(text, i) if i >= 0 else None
+    if m:
+        text = text[:m.start()] + m.group(0).replace(' loading="lazy"', ' fetchpriority="high"') + text[m.end():]
+    return text
+
+
+_LAZY_IMG = re.compile(r'<img\b[^>]*\sloading="lazy"[^>]*>')
+
+
+_IMG_TAG = re.compile(r'<img\b[^>]*>')
+_SIZES = [  # how wide the picture is shown, by file name, so the browser can pick the right copy
+    ("device-phone", "(max-width: 768px) 30vw, 160px"),
+    ("device-desktop", "(max-width: 768px) calc(100vw - 30px), 640px"),
+    ("about-1", "(max-width: 768px) calc(100vw - 30px), 60vw"),
+    ("about-3", "(max-width: 768px) calc(100vw - 30px), 30vw"),
+    ("svc-", "(max-width: 768px) calc(100vw - 30px), (max-width: 1334px) 48vw, 636px"),
+    ("process-", "(max-width: 992px) calc(100vw - 30px), 45vw"),
+    ("case-", "(max-width: 768px) calc(100vw - 30px), (max-width: 1334px) 30vw, 400px"),
+]
+
+
+def responsive(m):
+    """Adds srcset and sizes to a WebP picture that tools/images.py has made smaller copies of."""
+    tag = m.group(0)
+    if "srcset=" in tag:
+        return tag
+    src = re.search(r'src="([^"]*?)\.webp"', tag)
+    if not src:
+        return tag
+    base = src.group(1)
+    i = base.find("assets/img/")
+    if i < 0:
+        return tag
+    copies = [w for w in (160, 240, 320, 400, 480, 640, 720, 800, 960, 1200) if (ROOT / f"{base[i:]}-{w}.webp").exists()]
+    if not copies:
+        return tag
+    try:
+        from PIL import Image
+        full = Image.open(ROOT / f"{base[i:]}.webp").width
+    except Exception:
+        return tag
+    srcset = ", ".join(f"{base}-{w}.webp {w}w" for w in copies) + f", {base}.webp {full}w"
+    name = base.rsplit("/", 1)[-1]
+    if "article__image" in tag:
+        sizes = "(max-width: 900px) calc(100vw - 30px), 860px"
+    elif 'width="840"' in tag:
+        sizes = "(max-width: 768px) calc(100vw - 30px), 55vw"
+    else:
+        sizes = next((v for k, v in _SIZES if name.startswith(k)), "(max-width: 768px) calc(100vw - 30px), (max-width: 1200px) 45vw, 420px")
+    return tag.replace(src.group(0), f'{src.group(0)} srcset="{srcset}" sizes="{sizes}"', 1)
 
 
 def write(path, text):
@@ -507,7 +581,7 @@ def build_services():
              ("Vi bygger hemsidan", "Mobilanpassad design med tydliga tjänstesidor. Ett första utkast ser ni efter ungefär en dag."),
              ("Vi kopplar på smarta funktioner", "Offertflöde, bokning, AI-chatt och notiser testas före lansering."),
              ("Hemsidan börjar ge förfrågningar", "Sidan lanseras och indexeras av Google.")]
-    steps_html = "".join(f'<li><span class="step-list__no">{i}</span><h3>{t}</h3><p>{d}</p></li>' for i, (t, d) in enumerate(steps, 1))
+    steps_html = "".join(f'<li><span class="step-list__no">{i}</span><p class="step-list__title">{t}</p><p>{d}</p></li>' for i, (t, d) in enumerate(steps, 1))
     main = f'''<main>
     {page_hero("Vad vi <em>gör</em>", "Hemsidor som ger förfrågningar – och de smarta funktionerna runt omkring. Allt från samma lilla team i Uppsala.")}
     <section class="section container">
@@ -589,16 +663,16 @@ def compare(p, after, after_alt, label_after="Efter"):
 def build_cases():
     p = "../"
     cards = "".join(f'''
-        <a class="pcard" href="{c["slug"]}.html">
+        <article class="pcard">
           {laptop(p + "assets/img/" + c["image"], c["name"] + " – exempel på hemsida på en dator")}
           <div class="pcard__body">
             <span class="ex-tag">Exempel</span>
-            <h3>{esc(c["name"])}</h3>
+            <h3><a class="cover-link" href="{c["slug"]}.html">{esc(c["name"])}</a></h3>
             <p>{esc(c["lead"])}</p>
             <ul class="pcard__tags">{"".join(f"<li>{esc(t)}</li>" for t in c["tags"])}</ul>
             <span class="btn btn--primary pcard__btn"><span>Läs mer</span></span>
           </div>
-        </a>''' for c in CASES)
+        </article>''' for c in CASES)
     main = f'''<main>
     <section class="pj-hero">
       <div class="pj-hero__mark">{MARK_SVG}</div>
@@ -664,7 +738,7 @@ def build_cases():
     </section>
     {cta(p)}
   </main>'''
-        yield write(f'projekt/{c["slug"]}.html', document(p, c["name"], main, "subpage",
+        yield write(f'projekt/{c["slug"]}.html', document(p, f'{c["name"]} – exempel på hemsida', main, "subpage",
                     [("Projekt", "projekt/index.html"), (c["name"], "")], "projekt"))
 
 
@@ -682,7 +756,7 @@ def render_body(blocks):
 
 def build_articles():
     p = "../"
-    cards = "".join(post_card(p, a) for a in ARTICLES)
+    cards = "".join(post_card(p, a, "h2") for a in ARTICLES)
     main = f'''<main>
     {page_hero("Senaste <em>nytt</em>", "Guider och tips om hemsidor, synlighet på Google och i AI-sök, bokning, offertflöden och hur ni får fler förfrågningar.")}
     <section class="section section--cream">
@@ -690,7 +764,7 @@ def build_articles():
     </section>
     {cta(p)}
   </main>'''
-    yield write("insikter/index.html", document(p, "Senaste nytt", main, "subpage", [("Senaste nytt", "")], "insikter"))
+    yield write("insikter/index.html", document(p, "Senaste nytt om hemsidor, SEO och AI", main, "subpage", [("Senaste nytt", "")], "insikter"))
 
     for a in ARTICLES:
         more = "".join(post_card(p, o) for o in ARTICLES if o is not a)
@@ -730,7 +804,7 @@ def build_articles():
 
 def build_platforms():
     p = "../"
-    cards = "".join(platform_card(p, x) for x in PLATFORMS)
+    cards = "".join(platform_card(p, x, "h2") for x in PLATFORMS)
     main = f'''<main>
     {page_hero("Våra <em>plattformar</em>", "Verktygen och teknikerna vi bygger med – samma verktyg som användes för att bygga just den här sajten.")}
     <section class="section container">
@@ -744,12 +818,12 @@ def build_platforms():
     </section>
     {cta(p)}
   </main>'''
-    yield write("plattformar/index.html", document(p, "Plattformar", main, "subpage", [("Plattformar", "")], None))
+    yield write("plattformar/index.html", document(p, "Tekniken vi bygger hemsidor med", main, "subpage", [("Plattformar", "")], None))
 
     for x in PLATFORMS:
         uses = "".join(f'<div class="info-card"><h3 class="info-card__title">{esc(t)}</h3><p>{esc(d)}</p></div>' for t, d in x["uses"])
         here = "".join(f"<li>{esc(h)}</li>" for h in x["here"])
-        others = "".join(platform_card(p, o) for o in PLATFORMS if o is not x)
+        others = "".join(platform_card(p, o, "p") for o in PLATFORMS if o is not x)
         main = f'''<main>
     <section class="page-hero page-hero--icon">
       <div class="container">
@@ -778,7 +852,7 @@ def build_platforms():
     </section>
     {cta(p)}
   </main>'''
-        yield write(f'plattformar/{x["slug"]}.html', document(p, x["name"], main, "subpage",
+        yield write(f'plattformar/{x["slug"]}.html', document(p, f'{x["name"]} – så använder vi det i hemsidor | Elevate Studio', main, "subpage",
                     [("Plattformar", "plattformar/index.html"), (x["name"], "")], None))
 
 
@@ -871,9 +945,9 @@ def build_simple():
                 parts.append(f'<section class="section container">{reviews_section()}</section>')
             elif kind == "aboutlinks":
                 parts.append('''<section class="section container about-links">
-      <a class="about-links__item" href="priser.html"><h3>Priser</h3><p>Starter, Pro och Elite – vad som ingår och vad det kostar.</p><span class="arrow-link">Se priser</span></a>
-      <a class="about-links__item" href="avtal.html"><h3>Så ser avtalet ut</h3><p>Ett exempel på vår offert, att läsa eller ladda ner.</p><span class="arrow-link">Se avtalet</span></a>
-      <a class="about-links__item" href="plattformar/index.html"><h3>Tekniken vi använder</h3><p>HTML, CSS, JavaScript, React, Node.js, Python och Playwright.</p><span class="arrow-link">Läs mer</span></a>
+      <article class="about-links__item"><h3><a class="cover-link" href="priser.html">Priser</a></h3><p>Starter, Pro och Elite – vad som ingår och vad det kostar.</p><span class="arrow-link">Se priser</span></article>
+      <article class="about-links__item"><h3><a class="cover-link" href="avtal.html">Så ser avtalet ut</a></h3><p>Ett exempel på vår offert, att läsa eller ladda ner.</p><span class="arrow-link">Se avtalet</span></article>
+      <article class="about-links__item"><h3><a class="cover-link" href="plattformar/index.html">Tekniken vi använder</a></h3><p>HTML, CSS, JavaScript, React, Node.js, Python och Playwright.</p><span class="arrow-link">Se tekniken</span></article>
     </section>''')
             elif kind == "form":
                 parts.append(f'''<section class="standout">
@@ -893,7 +967,7 @@ def build_simple():
     {body}
     {tail}
   </main>'''
-        yield write(f"{slug}.html", document(p, page["title"], main, "subpage", [(page["title"], "")], current_map.get(slug), description=page.get("description"), lang="en" if slug == "english" else "sv"))
+        yield write(f"{slug}.html", document(p, page.get("seo_title", page["title"]), main, "subpage", [(page["title"], "")], current_map.get(slug), description=page.get("description"), lang="en" if slug == "english" else "sv"))
 
 
 def build_test_page():
@@ -955,8 +1029,7 @@ def build_agreement():
     scope = ["Webbdesign och mobilanpassning utifrån verksamhetens behov.",
              "Kontaktfunktion, presentation av verksamhet och projekt samt bildmaterial som kunden tillhandahåller.",
              "Grundläggande sökmotoroptimering (SEO) och AI-optimering (AIO).",
-             "Två korrekturvändor före leverans.",
-             "Upp till 10 timmars support och webbplatsredigering per månad under det första året."]
+             "Två korrekturvändor före leverans."]
     page1 = sheet("WEBBUTVECKLING / OFFERT", f'''
             <div class="agr__meta"><p class="agr__no">OFFERT NR {blank}</p><p>Datum: {blank}&nbsp; | &nbsp;Giltig till: {blank}</p></div>
             <h2>1. Parter</h2>
@@ -979,13 +1052,11 @@ def build_agreement():
               <tbody>
                 <tr><td>Webbutveckling – fast startavgift</td><td>3 000 kr</td></tr>
                 <tr><td>Årsavgift</td><td>99 kr/år</td></tr>
-                <tr><td>Webbredigering och support, upp till 10 tim/mån första året</td><td>Ingår</td></tr>
               </tbody>
               <tfoot><tr><td>Totalt första året</td><td>3 099 kr</td></tr></tfoot>
             </table>
-            <p>Under de första 12 månaderna från leverans ingår upp till 10 timmars redigeringssupport per månad. Supporten kan användas för text- och bildändringar, layoutjusteringar, nya funktioner eller större ombyggnationer av webbplatsen.</p>
-            <p>Nya funktioner och större ombyggnationer utförs inom den tillgängliga månadstiden. Arbete utöver 10 timmar under en månad förutsätter separat överenskommelse. Outnyttjade timmar förs inte över till nästa månad.</p>
-            <p>Efter första året upphör den inkluderade timsupporten. Fortsatt support och utveckling kan avtalas separat. Årsavgiften på 99 kr fortsätter årsvis om inte avtalet sägs upp.</p>
+            <p>Nya funktioner och större ombyggnationer efter leverans offereras separat.</p>
+            <p>Årsavgiften på 99 kr fortsätter årsvis om inte avtalet sägs upp.</p>
             <p>Startavgift och första årsavgift faktureras vid driftsättning. Betalningsvillkor: 30 dagar. Samtliga priser anges exklusive moms.</p>
             <h2>6. Godkännande av offert</h2>
             <p>Beställaren kan acceptera denna offert genom att svara på mejlet med följande text:</p>

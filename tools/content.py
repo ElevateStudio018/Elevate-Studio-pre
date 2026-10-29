@@ -27,7 +27,7 @@ MAIL_LIVE = False
 SERVICES = [
     {
         "slug": "hemsidor", "faq": [('Vad kostar en hemsida hos er?', 'Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert.'), ('Hur lång tid tar det att bygga en hemsida?', 'Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst.'), ('Kan ni göra om vår gamla hemsida?', 'Ja. Vi kan bygga en ny sida från grunden och flytta över det innehåll som fungerar från den gamla.')],
-        "seo_title": "Hemsidor och webbdesign för företag i Uppsala", "h1": "Hemsidor för <em>företag</em>", "description": "Vi bygger snabba, mobilanpassade hemsidor för företag och hantverkare – med fast pris från 3 000 kr. Webbyrå i Uppsala, kunder i hela Sverige.",
+        "seo_title": "Hemsidor för företag i Uppsala – webbdesign till fast pris", "h1": "Hemsidor för <em>företag</em>", "description": "Vi bygger snabba, mobilanpassade hemsidor för företag och hantverkare – med fast pris från 3 000 kr. Webbyrå i Uppsala, kunder i hela Sverige.",
         "name": "Hemsidor", "short": "Hemsidor",
         "card": "Snabba, mobilanpassade hemsidor byggda för att ge förfrågningar.",
         "lead": "Snabba, mobilanpassade hemsidor som visar vad ni gör och gör det enkelt för kunderna att höra av sig.",
@@ -161,7 +161,7 @@ CASES = [
     {
         "slug": "insjons-insamlingsfond", "name": "Insjöns Insamlingsfond", "tags": ["Marknadsföring", "Webb"],
         "image": "home/case-6.jpg", "w": 534, "h": 342,
-        "lead": "En insamlingsorganisation som ville få fler månadsgivare.",
+        "lead": "En insamlingsorganisation som ville få fler månadsgivare – med ett enklare givarflöde och tydliga resultat.",
         "challenge": "Givarna ville känna sig trygga med att pengarna gör nytta, och organisationen ville öka andelen månadsgivare.",
         "solution": "Vi förenklade givarflödet, lyfte fram konkreta resultat och byggde kampanjsidor som marknadsteamet kan skapa själva.",
         "result": "Fler månadsgivare och kampanjer som lanseras på dagar i stället för veckor.",
@@ -355,7 +355,7 @@ TEAM = [
 
 SIMPLE_PAGES = {
     "kontakt": {
-        "title": "Kontakt", "lead": "Låt oss prata om er hemsida.",
+        "title": "Kontakt", "seo_title": "Kontakta oss – webbyrå i Uppsala", "lead": "Låt oss prata om er hemsida.",
         "description": "Kontakta Elevate Studio i Uppsala. Ring eller mejla Carl, Isak eller Oscar, skriv till info@elevatestudio.nu eller fyll i formuläret.",
         "sections": [
             ("contacthero", None),
@@ -368,8 +368,8 @@ SIMPLE_PAGES = {
         ],
     },
     "om": {
-        "title": "Om oss", "lead": "Elevate Studio är ett litet team i Uppsala som bygger hemsidor som ger förfrågningar – för företag i hela Sverige.",
-        "description": "Elevate Studio är en webbyrå i Uppsala och ett varumärke som tillhör PJM Projekteffektivitet AB. Vi bygger hemsidor med bokning, offertflöde och AI-chatt till fast pris.",
+        "title": "Om oss", "seo_title": "Om oss – webbyrån bakom Elevate Studio i Uppsala", "lead": "Elevate Studio är ett litet team i Uppsala som bygger hemsidor som ger förfrågningar – för företag i hela Sverige.",
+        "description": "Elevate Studio är en webbyrå i Uppsala, ett varumärke under PJM Projekteffektivitet AB. Vi bygger hemsidor med bokning, offert och AI-chatt till fast pris.",
         "sections": [
             ("text", "Vi startade Elevate Studio för att det ska vara enkelt för företag att få en hemsida som faktiskt ger kunder. Många företag har en hemsida som ser okej ut men som inte ger några förfrågningar – eller ingen hemsida alls, för att det känns dyrt och krångligt. Vi vill ändra på det: ett fast pris innan vi börjar, ett första utkast redan efter ungefär en dag och samma kontaktperson hela vägen."),
             ("cols", [("Fast pris", "Ni vet vad det kostar innan vi börjar. Allt står i en tydlig offert på två sidor."),
@@ -400,7 +400,7 @@ SIMPLE_PAGES = {
         ],
     },
     "cookies": {
-        "title": "Om cookies", "lead": "Vi använder inga cookies.",
+        "title": "Om cookies", "seo_title": "Om cookies på elevatestudio.nu", "lead": "Vi använder inga cookies.",
         "description": "Elevate Studios webbplats sätter inga cookies och använder inga analys- eller annonsverktyg.",
         "sections": [
             ("cols", [("Inga cookies", "Webbplatsen sätter inga cookies, varken egna eller från andra. Därför finns det heller ingen cookieruta att godkänna."),
@@ -417,7 +417,7 @@ LANDINGS = [
     {
         "slug": "webbyra-uppsala", "title": "Webbyrå Uppsala – hemsidor till fast pris från 3 000 kr",
         "h1": "Webbyrå i <em>Uppsala</em>",
-        "description": "Elevate Studio är en webbyrå i Uppsala som bygger hemsidor för företag till fast pris från 3 000 kr. Första utkastet efter ungefär en dag. Möt oss i Uppsala eller på distans.",
+        "description": "Webbyrå i Uppsala som bygger hemsidor för företag till fast pris från 3 000 kr. Första utkastet efter ungefär en dag. Möt oss i Uppsala eller på distans.",
         "lead": "Vi är en liten webbyrå i Uppsala som bygger hemsidor som ger förfrågningar – för företag i Uppsala, i hela Uppsala län och i resten av Sverige.",
         "sections": [
             ("Lokal webbyrå – samma kontaktperson hela vägen", ["Som företag i Uppsala kan ni träffa oss på plats, men det går lika bra att ses på distans. Ni pratar med samma person från första mötet till uppföljningen varje månad – inga mellanhänder och inga långa mejltrådar."]),
