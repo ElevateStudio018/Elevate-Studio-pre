@@ -1391,8 +1391,9 @@ def site_files(built):
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}\n</urlset>\n', encoding="utf-8")
     bots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Google-Extended", "Applebot-Extended", "Bingbot",
             "anthropic-ai", "Claude-Web", "cohere-ai", "Amazonbot", "meta-externalagent", "DuckAssistBot", "YouBot"]
-    ai = "".join(f"User-agent: {b}\nAllow: /\nDisallow: /admin\n\n" for b in bots)
-    (ROOT / "robots.txt").write_text(f"# Vi välkomnar sökmotorer och AI-assistenter.\n{ai}User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
+    # The admin and the customers' booking pages (/boka/<link>) stay out of search engines
+    ai = "".join(f"User-agent: {b}\nAllow: /\nDisallow: /admin\nDisallow: /boka/\n\n" for b in bots)
+    (ROOT / "robots.txt").write_text(f"# Vi välkomnar sökmotorer och AI-assistenter.\n{ai}User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /boka/\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
     # elevatestudio.nu/admin – the admin panel itself (login, leads, offers, calendar)
     (ROOT / "admin").mkdir(exist_ok=True)
     (ROOT / "admin" / "index.html").write_text(f'''<!DOCTYPE html>
