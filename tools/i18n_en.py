@@ -651,6 +651,7 @@ EN = {
     "Marknadsföring": "Marketing",
     "Projekt och exempel på hemsidor | Elevate Studio": "Projects and website examples | Elevate Studio",
     "Se exempel på hemsidor från Elevate Studio – Lindvik Bygg på dator och mobil, före och efter, och exempel på hur vi arbetar.": "See website examples from Elevate Studio – Lindvik Bygg on desktop and mobile, before and after, and examples of how we work.",
+    "Se hemsidor från Elevate Studio – Alvhem Städ på dator och mobil, före och efter, och exempel på hur vi arbetar.": "See websites by Elevate Studio – Alvhem Städ on a laptop and a phone, before and after, and examples of how we work.",
     "Givarna ville känna sig trygga med att pengarna gör nytta, och organisationen ville öka andelen månadsgivare.": "Donors wanted to feel confident that the money makes a difference, and the organisation wanted to increase the share of monthly donors.",
     "Vi förenklade givarflödet, lyfte fram konkreta resultat och byggde kampanjsidor som marknadsteamet kan skapa själva.": "We simplified the donation flow, highlighted concrete results and built campaign pages the marketing team can create themselves.",
     "Fler månadsgivare och kampanjer som lanseras på dagar i stället för veckor.": "More monthly donors and campaigns launched in days instead of weeks.",

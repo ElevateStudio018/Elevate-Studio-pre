@@ -714,7 +714,7 @@ def build_cases():
     {cta(p)}
   </main>'''
     yield write("projekt/index.html", document(p, "Projekt och exempel på hemsidor", main, "subpage", [("Projekt", "")], "projekt",
-                description="Se exempel på hemsidor från Elevate Studio – Lindvik Bygg på dator och mobil, före och efter, och exempel på hur vi arbetar."))
+                description="Se hemsidor från Elevate Studio – Alvhem Städ på dator och mobil, före och efter, och exempel på hur vi arbetar."))
 
     for i, c in enumerate(CASES):
         nxt = CASES[(i + 1) % len(CASES)]
