@@ -164,8 +164,8 @@ export function timeProposal(o: { name: string; url: string; minutes: number; ty
       hero(`När passar det dig${first ? ", " + first : ""}?`, `${who} har föreslagit ett kort möte om er hemsida. Tryck på en ledig tid så är det bokat.`, [`${o.minutes} min`, o.type]) +
       `<tr><td style="padding:22px 24px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${cols}</tr></table></td></tr>` +
       `<tr><td style="padding:14px 24px 0"><table bgcolor="#12271b" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#12271b;border-radius:16px"><tr>
-        <td style="padding:16px 20px"><div style="font:bold 15px ${SANS};color:#ffffff">Tryck på en tid så är den bokad</div><div style="margin-top:3px;font:13px/1.4 ${SANS};color:#b9c7bd">${esc(o.type)}${o.host ? " med " + esc(o.host.first) : ""} – länken kommer i bekräftelsen</div></td>
-        <td align="right" style="padding:16px 20px 16px 0;white-space:nowrap"><a href="${esc(o.url)}" style="display:inline-block;padding:12px 20px;border-radius:22px;background:#d7e36b;font:bold 14px ${SANS};color:#12271b;text-decoration:none">Se alla tider &rarr;</a></td>
+        <td style="padding:16px 20px"><div style="font:bold 15px ${SANS};color:#ffffff">Tryck på en tid så är mötet bokat direkt</div><div style="margin-top:3px;font:13px/1.4 ${SANS};color:#b9c7bd">${esc(o.type)}${o.host ? " med " + esc(o.host.first) : ""} – länken kommer i bekräftelsen</div></td>
+        <td align="right" style="padding:16px 20px 16px 0;white-space:nowrap"><a href="${esc(o.url)}" style="display:inline-block;padding:12px 20px;border-radius:22px;background:#d7e36b;font:bold 14px ${SANS};color:#12271b;text-decoration:none">Boka mötet här &rarr;</a></td>
       </tr></table></td></tr>` +
       `<tr><td style="padding:12px 24px 0;font:12px/1.6 ${SANS};color:#6b766f">${legend("#eef4ef", "Ledig")} &nbsp; ${legend("#e9ebe6", "Upptagen i vår kalender")} &nbsp; Fler dagar finns på sidan. Alla tider är svensk tid.</td></tr>` +
       (o.message ? para(esc(o.message).replace(/\n/g, "<br>")) : "") +

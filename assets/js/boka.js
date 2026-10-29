@@ -64,7 +64,7 @@
   function book() {
     if (st.busy || !st.at) return;
     st.busy = true;
-    var btn = document.getElementById('book'); btn.disabled = true; btn.textContent = 'Bokar …';
+    var btn = document.getElementById('book') || { disabled: false, textContent: '' }; btn.disabled = true; btn.textContent = 'Bokar …';
     fetch('/api/booking/book', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ t: token, at: st.at }) })
       .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, b: b }; }); })
       .then(function (x) {
@@ -72,9 +72,10 @@
         if (x.ok) return renderDone(x.b);
         if (x.b.error === 'taken' || x.b.error === 'slot') { st.at = 0; return load('Oj, den tiden blev precis upptagen. Välj en annan.'); }
         if (x.b.error === 'link') return fail('link');
+        if (!document.getElementById('msg')) return load('Det gick inte att boka just nu. Välj en tid, så försöker vi igen.');
         document.getElementById('msg').textContent = 'Det gick inte att boka just nu (' + (x.b.error || 'fel') + '). Försök igen om en stund, eller svara på mejlet.';
         btn.disabled = false; btn.textContent = 'Boka tiden';
-      }).catch(function () { st.busy = false; document.getElementById('msg').textContent = 'Servern svarade inte. Försök igen.'; btn.disabled = false; btn.textContent = 'Boka tiden'; });
+      }).catch(function () { st.busy = false; if (!document.getElementById('msg')) return load('Servern svarade inte. Välj en tid, så försöker vi igen.'); document.getElementById('msg').textContent = 'Servern svarade inte. Försök igen.'; btn.disabled = false; btn.textContent = 'Boka tiden'; });
   }
 
   function renderDone(b) {
@@ -104,7 +105,14 @@
   function load(message) {
     fetch('/api/booking/info?t=' + encodeURIComponent(token)).then(function (r) { return r.json(); }).then(function (d) {
       if (!d.ok) return fail(d.error);
-      st.data = d; fillHero(d); init(); render();
+      st.data = d; fillHero(d); init();
+      // A time clicked in the mail is booked right away, no extra step
+      if (preset && st.at === preset && !(d.booked && !st.rebook)) {
+        preset = 0;
+        pick.innerHTML = '<div class="done"><h2>Bokar din tid …</h2><p class="done__sub">Ett ögonblick.</p></div>';
+        return book();
+      }
+      preset = 0; render();
       if (message) document.getElementById('msg').textContent = message;
     }).catch(function () { fail('net'); });
   }
