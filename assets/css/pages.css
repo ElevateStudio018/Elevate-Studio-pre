@@ -645,8 +645,8 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .site-card__devs { position: relative; display: block; width: 100%; aspect-ratio: 16 / 10; margin-bottom: 22px; }
 .site-card__devs .laptop { position: absolute; left: 0; top: 0; width: 86%; filter: drop-shadow(0 18px 24px rgba(0, 0, 0, .22)); }
 .site-card__devs .phone { position: absolute; right: 0; bottom: -6%; width: 25%; border-width: 5px; border-radius: 18px; box-shadow: 0 20px 30px -18px rgba(0, 0, 0, .6); }
-.site-card__logo { display: grid; place-items: center; width: 130px; height: 54px; padding: 6px 10px; margin-bottom: 12px; border-radius: 12px; background: #fff; }
-.site-card__logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.site-card__logo { display: grid; place-items: center; width: 150px; height: 64px; padding: 8px 12px; margin-bottom: 12px; border-radius: 12px; background: #fff; overflow: hidden; }
+.site-card__logo img { display: block; width: auto; height: auto; max-width: 100%; max-height: 48px; }
 .site-card__name { font-size: 22px; font-weight: 500; }
 .site-card__what { font-size: 14px; color: #666; }
 .site-card__text { flex: 1; margin: 10px 0 16px; font-size: 14px; line-height: 1.55; color: #444; }
