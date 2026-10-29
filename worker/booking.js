@@ -130,8 +130,12 @@ export async function bookingLink(req, env) {
   if (input.send === false) return json(out);
   if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) return json({ error: 'not_configured' }, 503);
   const host = TEAM[h];
-  const mail = timeProposal({ name: lead.name || '', url, minutes, type: TYPES[type], host, message: clip(input.message, 2000),
-    picks: picks.map((t) => ({ day: fmt(t, { weekday: 'short', day: 'numeric', month: 'short' }).replace(/\./g, ''), time: fmt(t, { hour: '2-digit', minute: '2-digit' }), url: `${url}?v=${t}` })) });
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+  const mailDays = days.slice(0, 5).map((d) => {
+    const s = slots(d, minutes, busy, now);
+    return { wd: cap(d.wd), d: d.d, mon: d.mon.toLowerCase(), free: s.filter((x) => x.free).length, slots: s.map((x) => ({ time: fmt(x.t, { hour: '2-digit', minute: '2-digit' }), free: x.free, url: `${url}?v=${x.t}` })) };
+  });
+  const mail = timeProposal({ name: lead.name || '', url, minutes, type: TYPES[type], host, message: clip(input.message, 2000), days: mailDays });
   const res = await oneMail(env, auth, lead, { mail, host });
   return res.ok ? json(out) : res;
 }

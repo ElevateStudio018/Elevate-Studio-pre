@@ -138,28 +138,40 @@ export function meetingInvite(o: { name: string; when: string; minutes: number; 
   };
 }
 
-/** The customer picks a time: the question at the top like the booking page, three quick picks like
- * the page's day columns, the button to all times, and the host card. */
-export function timeProposal(o: { name: string; url: string; minutes: number; type: string; host?: Member; message?: string; picks: { day: string; time: string; url: string }[] }) {
+export type MailDay = { wd: string; d: number; mon: string; free: number; slots: { time: string; free: boolean; url: string }[] };
+
+/** The customer picks a time. The mail is the booking page itself: the question at the top, the
+ * working days as columns with every time (busy ones greyed out), the dark bar, then how the
+ * meeting goes and the host card. Every free time is a link that opens the page with that time chosen. */
+export function timeProposal(o: { name: string; url: string; minutes: number; type: string; host?: Member; message?: string; days: MailDay[] }) {
   const who = o.host ? esc(o.host.first) : "Vi";
   const first = o.name ? esc(o.name.trim().split(/\s+/)[0]) : "";
-  const picks = o.picks.length
-    ? `<tr><td style="padding:26px 36px 0">
-  <p style="margin:0 0 10px;font:bold 11px ${SANS};letter-spacing:1.2px;text-transform:uppercase;color:#6b766f">Snabbast att välja</p>
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${o.picks.map((p, i) =>
-    `<td width="${Math.floor(100 / o.picks.length)}%" style="padding:0 ${i < o.picks.length - 1 ? 8 : 0}px 0 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td bgcolor="#eef4ef" align="center" style="background:#eef4ef;border-radius:14px"><a href="${esc(p.url)}" style="display:block;padding:16px 8px;font:14px/1.3 ${SANS};color:#1d3b2a;text-decoration:none">${esc(p.day)}<br><b style="font-size:22px;line-height:1.4">${esc(p.time)}</b></a></td></tr></table></td>`).join("")}</tr></table>
-</td></tr>` : "";
+  const gap = `<tr><td style="height:4px;font-size:0;line-height:0">&nbsp;</td></tr>`;
+  const cols = o.days.slice(0, 5).map((day, i, all) => {
+    const rows = day.slots.map((s) => (s.free
+      ? `<tr><td bgcolor="#eef4ef" style="background:#eef4ef;border-radius:8px;padding:0"><a href="${esc(s.url)}" style="display:block;padding:8px 9px;font:bold 13px ${SANS};color:#1d3b2a;text-decoration:none">${esc(s.time)}</a></td></tr>`
+      : `<tr><td bgcolor="#e9ebe6" style="background:#e9ebe6;border-radius:8px;padding:8px 9px;font:bold 13px ${SANS};color:#a8b0aa;text-decoration:line-through">${esc(s.time)}</td></tr>`) + gap).join("");
+    return `<td width="${Math.floor(100 / all.length)}%" style="vertical-align:top;padding:0 ${i < all.length - 1 ? 3 : 0}px 0 ${i ? 3 : 0}px">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="background:#ffffff;border:1px solid #e3e8e2;border-radius:14px"><tr><td style="padding:10px 7px 6px">
+        <div style="font:bold 12px ${SANS};color:#16241b">${esc(day.wd)}</div><div style="font:bold 17px/1.2 ${SANS};color:#16241b">${day.d} ${esc(day.mon)}</div>
+        <div style="margin:2px 0 8px;font:bold 11px ${SANS};color:${day.free ? "#2a9d8f" : "#a8b0aa"}">${day.free ? day.free + " lediga" : "fullt"}</div>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table></td></tr></table></td>`;
+  }).join("");
+  const legend = (c: string, text: string) => `<span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${c};vertical-align:middle;margin:0 5px 2px 0"></span>${text}`;
   return {
     subject: `Välj en tid som passar dig – möte med ${o.host ? o.host.first : "Elevate Studio"}`,
     html: shell("Välj en tid som passar dig",
-      hero(`När passar det dig${first ? ", " + first : ""}?`, `${who} har föreslagit ett kort möte om er hemsida. Tryck på en tid så är det bokat, och du får en bekräftelse med allt du behöver.`, [`${o.minutes} min`, o.type]) +
-      picks +
-      button(o.url, "Se alla lediga tider") +
-      `<tr><td style="padding:10px 36px 0;font:13px/1.5 ${SANS};color:#6b766f">Grå tider på sidan är upptagna i vår kalender. Länken fungerar i tre veckor.</td></tr>` +
+      hero(`När passar det dig${first ? ", " + first : ""}?`, `${who} har föreslagit ett kort möte om er hemsida. Tryck på en ledig tid så är det bokat.`, [`${o.minutes} min`, o.type]) +
+      `<tr><td style="padding:22px 24px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${cols}</tr></table></td></tr>` +
+      `<tr><td style="padding:14px 24px 0"><table bgcolor="#12271b" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#12271b;border-radius:16px"><tr>
+        <td style="padding:16px 20px"><div style="font:bold 15px ${SANS};color:#ffffff">Tryck på en tid så är den bokad</div><div style="margin-top:3px;font:13px/1.4 ${SANS};color:#b9c7bd">${esc(o.type)}${o.host ? " med " + esc(o.host.first) : ""} – länken kommer i bekräftelsen</div></td>
+        <td align="right" style="padding:16px 20px 16px 0;white-space:nowrap"><a href="${esc(o.url)}" style="display:inline-block;padding:12px 20px;border-radius:22px;background:#d7e36b;font:bold 14px ${SANS};color:#12271b;text-decoration:none">Se alla tider &rarr;</a></td>
+      </tr></table></td></tr>` +
+      `<tr><td style="padding:12px 24px 0;font:12px/1.6 ${SANS};color:#6b766f">${legend("#eef4ef", "Ledig")} &nbsp; ${legend("#e9ebe6", "Upptagen i vår kalender")} &nbsp; Fler dagar finns på sidan. Alla tider är svensk tid.</td></tr>` +
       (o.message ? para(esc(o.message).replace(/\n/g, "<br>")) : "") +
       (o.host ? box(`<div style="font:bold 17px ${SANS};color:#16241b">Så här går mötet till</div><div style="margin-top:6px;font:15px/1.6 ${SANS};color:#3b463f">${who} går igenom ert företag, vad hemsidan ska ge er och hur ett upplägg kan se ut. Det kostar ingenting, och du behöver inte förbereda något.</div>`, "28px 36px 0") + contactCard(o.host, "Du träffar") : ""),
-      "Passar ingen tid? Svara på det här mejlet så hittar vi en."),
-    text: `${first ? "Hej " + first + "!" : "Hej!"}\n\n${o.host ? o.host.first : "Vi"} har föreslagit ett kort möte om er hemsida (${o.minutes} min, ${o.type}). Välj en tid som passar dig här, så bokas mötet direkt:\n${o.url}${o.picks.length ? "\n\nSnabbast att välja: " + o.picks.map((p) => `${p.day} ${p.time}`).join(", ") : ""}${o.message ? "\n\n" + o.message : ""}${o.host ? `\n\nDu träffar ${o.host.name}, ${o.host.role}\n${o.host.phone} · ${o.host.email}` : ""}\n\nElevate Studio\ninfo@elevatestudio.nu\nPassar ingen tid? Svara på det här mejlet så hittar vi en.`,
+      "Passar ingen tid? Svara på det här mejlet så hittar vi en. Länken fungerar i tre veckor."),
+    text: `${first ? "Hej " + first + "!" : "Hej!"}\n\n${o.host ? o.host.first : "Vi"} har föreslagit ett kort möte om er hemsida (${o.minutes} min, ${o.type}). Välj en tid som passar dig här, så bokas mötet direkt:\n${o.url}\n\nLediga tider:\n${o.days.slice(0, 5).map((d) => `${d.wd} ${d.d} ${d.mon}: ${d.slots.filter((s) => s.free).map((s) => s.time).join(", ") || "fullt"}`).join("\n")}${o.message ? "\n\n" + o.message : ""}${o.host ? `\n\nDu träffar ${o.host.name}, ${o.host.role}\n${o.host.phone} · ${o.host.email}` : ""}\n\nElevate Studio\ninfo@elevatestudio.nu\nPassar ingen tid? Svara på det här mejlet så hittar vi en.`,
   };
 }
 
