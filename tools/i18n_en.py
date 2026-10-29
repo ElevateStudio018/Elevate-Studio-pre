@@ -6,6 +6,7 @@ so add new strings when the Swedish copy changes (tools/i18n_check.js lists what
 """
 
 EN = {
+    "Besök Alvhem Städ": "Visit Alvhem Städ",
     "Alvhem Städ: från": "Alvhem Städ: from",
     "Dra i reglaget och jämför Alvhem Städs gamla hemsida med den nya vi byggt.": "Drag the slider and compare Alvhem Städ's old website with the new one we built.",
     "Hemsidor vi": "Websites we have",
