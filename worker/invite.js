@@ -11,7 +11,7 @@ const clip = (v, max) => (typeof v === 'string' && v.trim() ? v.trim().slice(0, 
 const isEmail = (v) => typeof v === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) && v.length <= 255;
 
 // The caller must be signed in to the admin with the admin role; the database checks the same rules.
-async function adminUser(req, env) {
+export async function adminUser(req, env) {
   const token = (req.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
   if (!token) return null;
   const db = (path, init = {}) => fetch(`${env.SUPABASE_URL}${path}`, {
@@ -54,7 +54,7 @@ export async function sendGmail(env, to, built) {
   await WorkerMailer.send(smtp(env), message(env, to, built));
 }
 
-async function oneMail(env, auth, lead, built) {
+export async function oneMail(env, auth, lead, built) {
   let status = 'sent', detail = null;
   try { await sendGmail(env, lead, built); } catch (e) { status = 'failed'; detail = String(e && e.message || e).slice(0, 300); }
   if (lead.id) await auth.db('/rest/v1/outbound_messages', { method: 'POST', body: JSON.stringify({ channel: 'email', recipient: lead.email, subject: built.mail.subject, status, detail, quote_request_id: lead.id, sent_by: auth.user.id }) }).catch(() => {});

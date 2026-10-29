@@ -32,21 +32,30 @@
   // The four admin profiles; who is signed in decides the name in the menu and the default sender
   var PROFILES = [['carl', 'Carl From', 'carl@elevatestudio.nu'], ['isak', 'Isak Mattsson', 'isak@elevatestudio.nu'],
     // Oscar uses his Gmail until oskar@elevatestudio.nu is opened; both addresses (and oscar@) count as him
-    ['oscar', 'Oscar Svanerud', 'svanerudo@gmail.com', ['leads', 'kalender', 'fakturor', 'konto'], ['oskar@elevatestudio.nu', 'oscar@elevatestudio.nu']],
+    ['oscar', 'Oscar Svanerud', 'svanerudo@gmail.com', ['todo', 'leads', 'vunna', 'arkiv', 'kalender', 'fakturor', 'statistik', 'konto'], ['oskar@elevatestudio.nu', 'oscar@elevatestudio.nu']],
     ['', 'Elevate Studio', 'info@elevatestudio.nu']];
   var profile = function (email) { email = String(email || '').toLowerCase(); return PROFILES.find(function (p) { return p[2] === email || (p[4] || []).indexOf(email) >= 0; }) || PROFILES[3]; };
   // A profile with a list sees only those pages (and no mail campaigns); the others see everything
   var allowed = function (view) { var only = profile(st.user && st.user.email)[3]; return !only || only.indexOf(view) >= 0; };
   // Whose lead it is: the leads table has no owner column, so the owner is a tag on the first line of
   // the comment ("[Oscar]"). It is hidden in the comment fields and shown as a badge instead.
-  var OWNER_RE = /^\[(Carl|Isak|Oscar)\]\n?/;
+  var OWNER_RE = /^\[(Carl|Isak|Oscar)\]\n?/, META_RE = /^(web|github): ?(.*)$/;
   var ownerOf = function (l) { var m = OWNER_RE.exec((l && l.admin_notes) || ''); return m ? m[1] : ''; };
-  var noteOf = function (l) { return ((l && l.admin_notes) || '').replace(OWNER_RE, ''); };
-  var withOwner = function (owner, note) { note = (note || '').trim(); return owner ? '[' + owner + ']' + (note ? '\n' + note : '') : (note || null); };
+  // The old website and the new one on GitHub are lines like "web: https://…" at the top of the comment
+  var metaOf = function (l) { var m = {}; ((l && l.admin_notes) || '').replace(OWNER_RE, '').split('\n').forEach(function (line) { var x = META_RE.exec(line.trim()); if (x) m[x[1]] = x[2].trim(); }); return m; };
+  var noteOf = function (l) { return ((l && l.admin_notes) || '').replace(OWNER_RE, '').split('\n').filter(function (line) { return !META_RE.test(line.trim()); }).join('\n').trim(); };
+  var withOwner = function (owner, note, meta) {
+    meta = meta || {}; var lines = [];
+    if (owner) lines.push('[' + owner + ']');
+    if (meta.web) lines.push('web: ' + meta.web.trim());
+    if (meta.github) lines.push('github: ' + meta.github.trim());
+    note = (note || '').trim(); if (note) lines.push(note);
+    return lines.length ? lines.join('\n') : null;
+  };
   var myTag = function () { var p = profile(st.user && st.user.email); return p[3] ? p[1].split(' ')[0] : ''; };
   var me = function () { return profile(st.user && st.user.email)[1]; };
   var senderKey = function (who) { return (TEAM.find(function (t) { return t[1] === who || t[0] === who; }) || [''])[0].toLowerCase(); };
-  var st = { user: null, leads: [], view: (location.hash.slice(1).match(/^[a-z]+$/) || ['leads'])[0], status: 'all', q: '', sort: 'created_desc', shown: 40, editing: null };
+  var st = { user: null, leads: [], view: (location.hash.slice(1).match(/^[a-z]+$/) || ['todo'])[0], stage: 'all', q: '', sort: 'next', shown: 40, period: 90, arch: 'archived' };
 
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var sInfo = function (k) { return STATUS.find(function (s) { return s[0] === k; }) || STATUS[0]; };
@@ -119,7 +128,7 @@
     return sb.rpc('has_role', { _user_id: user.id, _role: 'admin' }).then(function (r) {
       if (r.error || !r.data) { sb.auth.signOut(); renderLogin('Kontot saknar admin-behörighet.'); return; }
       st.user = user;
-      if (!VIEWS[st.view] || !allowed(st.view)) st.view = 'leads';
+      if (!VIEWS[st.view] || !allowed(st.view)) st.view = 'todo';
       renderShell();
       return loadLeads();
     });
@@ -127,12 +136,12 @@
 
   /* ---------- Shell ---------- */
   var NAV = [
-    ['Försäljning', [['leads', 'Leads', 'inbox'], ['kalender', 'Kalender', 'cal'], ['kontakter', 'Kontakter', 'users'], ['fakturor', 'Fakturor', 'file']]],
+    ['Försäljning', [['todo', 'Att göra', 'inbox'], ['leads', 'Alla leads', 'layers'], ['vunna', 'Vunna', 'star'], ['kalender', 'Kalender', 'cal'], ['kontakter', 'Kontakter', 'users'], ['fakturor', 'Fakturor', 'file']]],
     ['Marknadsföring', [['utskick', 'Utskick', 'send'], ['segment', 'Segment', 'layers'], ['besokare', 'Besökare', 'eye'], ['chatten', 'Chatten', 'msg']]],
-    ['Kunder', [['kundportal', 'Kundportal', 'door']]],
-    ['AI & analys', [['ai', 'AI-assistent', 'spark'], ['insikter', 'Insikter', 'chart'], ['ekonomi', 'Ekonomi', 'wallet'], ['minne', 'AI-minne', 'brain']]],
-    ['Inställningar', [['integrationer', 'Integrationer', 'plug'], ['konto', 'Konto', 'user']]]
+    ['Mer', [['statistik', 'Statistik', 'chart'], ['arkiv', 'Arkiv', 'door'], ['konton', 'Konton', 'users'], ['kundportal', 'Kundportal', 'door'], ['ai', 'AI-assistent', 'spark'], ['insikter', 'Insikter', 'chart'],
+      ['ekonomi', 'Ekonomi', 'wallet'], ['minne', 'AI-minne', 'brain'], ['integrationer', 'Integrationer', 'plug'], ['konto', 'Mitt konto', 'user']], true]
   ];
+  var BADGE = { todo: 1, leads: 1, vunna: 1, arkiv: 1 };
   var VIEWS = {};
   NAV.forEach(function (g) { g[1].forEach(function (v) { VIEWS[v[0]] = v[1]; }); });
 
@@ -140,7 +149,10 @@
     root.innerHTML = '<div class="shell" id="shell"><aside class="side"><a class="brand" href="../index.html">' + MARK + 'Elevate Studio</a><nav class="side__nav">' +
       NAV.map(function (g) {
         var items = g[1].filter(function (v) { return allowed(v[0]); });
-        return !items.length ? '' : '<small>' + g[0] + '</small>' + items.map(function (v) { return '<button class="nav" data-view="' + v[0] + '">' + ICON[v[2]] + v[1] + '</button>'; }).join('');
+        if (!items.length) return '';
+        var list = items.map(function (v) { return '<button class="nav" data-view="' + v[0] + '">' + ICON[v[2]] + v[1] + (BADGE[v[0]] ? '<em class="nav__n" data-n="' + v[0] + '" hidden></em>' : '') + '</button>'; }).join('');
+        var inside = items.some(function (v) { return v[0] === st.view; });
+        return g[2] ? '<details class="side__more"' + (inside ? ' open' : '') + '><summary>' + g[0] + '</summary>' + list + '</details>' : '<small>' + g[0] + '</small>' + list;
       }).join('') + '</nav>' +
       '<div class="side__foot"><div class="side__me"><b>' + esc(me()) + '</b><br>' + esc(st.user.email) + '</div><a class="nav" href="../index.html">' + ICON.site + 'Till hemsidan</a><button class="nav" id="logout">' + ICON.out + 'Logga ut</button></div></aside>' +
       '<div><div class="top"><button id="menu" aria-label="Meny">' + ICON.menu + '</button><span class="brand">' + MARK + 'Admin</span></div><main id="main"></main></div></div>';
@@ -161,81 +173,26 @@
       if (r.error) { $('#main').innerHTML = '<p class="empty">Kunde inte hämta leads: ' + esc(r.error.message) + '</p>'; return; }
       st.leads = (r.data || []).filter(function (l) { return !myTag() || ownerOf(l) === myTag(); });
       render();
+      syncBookings();
     });
   }
 
   function render() {
-    root.querySelectorAll('[data-view]').forEach(function (b) { b.classList.toggle('is-on', b.dataset.view === st.view); });
-    if (!allowed(st.view)) st.view = 'leads';
+    root.querySelectorAll('.nav[data-view]').forEach(function (b) { b.classList.toggle('is-on', b.dataset.view === st.view); });
+    if (!allowed(st.view)) st.view = 'todo';
+    syncBadges();
     var fn = PAGES[st.view];
     if (fn) return fn();
-    renderLeads();
+    renderTodo();
   }
 
-  /* ---------- Leads ---------- */
-  function filtered() {
-    var q = st.q.toLowerCase();
-    var rows = st.leads.filter(function (l) {
-      if (st.status !== 'all' && (l.status || 'new') !== st.status) return false;
-      if (!q) return true;
-      return [l.name, l.company, l.email, l.phone, l.service_type, l.admin_notes].some(function (v) { return v && String(v).toLowerCase().indexOf(q) > -1; });
-    });
-    var key = st.sort.indexOf('booking') === 0 ? 'booking_at' : 'created_at', asc = /asc$/.test(st.sort);
-    return rows.sort(function (a, b) {
-      var x = a[key] ? Date.parse(a[key]) : (asc ? Infinity : -Infinity), y = b[key] ? Date.parse(b[key]) : (asc ? Infinity : -Infinity);
-      return asc ? x - y : y - x;
-    });
-  }
-
-  function renderLeads() {
-    var now = Date.now(), week = 7 * 864e5, L = st.leads;
-    var newWeek = L.filter(function (l) { return now - Date.parse(l.created_at) < week; }).length;
-    var open = L.filter(function (l) { return CLOSED.indexOf(l.status || 'new') < 0; }).length;
-    var meetings = L.filter(function (l) { var t = l.booking_at && Date.parse(l.booking_at); return t && t >= now && t - now < week; }).length;
-    var sold30 = L.filter(function (l) { return l.status === 'sold' && l.sold_at && now - Date.parse(l.sold_at) < 30 * 864e5; })
-      .reduce(function (s, l) { return s + Number(l.sold_amount || 0); }, 0);
-    var counts = {}; L.forEach(function (l) { var k = l.status || 'new'; counts[k] = (counts[k] || 0) + 1; });
-    var rows = filtered();
-    $('#main').innerHTML =
-      '<div class="page-h"><div><h1>Leads <span class="serif">&amp; förfrågningar</span></h1><p>Alla som hört av sig. Byt status och skriv kommentarer direkt i listan.</p></div></div>' + quickBar() +
-      '<div class="kpis"><div class="kpi"><small>Nya senaste 7 dagarna</small><b>' + newWeek + '</b></div><div class="kpi"><small>Öppna leads</small><b>' + open +
-      '</b></div><div class="kpi"><small>Möten kommande 7 dagar</small><b>' + meetings + '</b></div><div class="kpi"><small>Sålt senaste 30 dagar</small><b>' + kr(sold30) + '</b></div></div>' +
-      '<div class="bar"><input class="input" id="q" placeholder="Sök namn, företag, mejl, kommentar …" value="' + esc(st.q) + '">' +
-      '<select class="input" id="sort"><option value="created_desc">Nyast först</option><option value="created_asc">Äldst först</option><option value="booking_asc">Möte: närmast</option><option value="booking_desc">Möte: senast</option></select></div>' +
-      '<div class="chips"><button class="chip' + (st.status === 'all' ? ' is-on' : '') + '" data-s="all">Alla <em>' + L.length + '</em></button>' +
-      STATUS.map(function (s) { return '<button class="chip' + (st.status === s[0] ? ' is-on' : '') + '" data-s="' + s[0] + '"><i style="background:' + s[2] + '"></i>' + s[1] + (counts[s[0]] ? ' <em>' + counts[s[0]] + '</em>' : '') + '</button>'; }).join('') + '</div>' +
-      '<div class="list">' + (rows.slice(0, st.shown).map(card).join('') || '<p class="empty">Inga leads här.</p>') + '</div>' +
-      (rows.length > st.shown ? '<button class="btn btn--ghost more" id="more">Visa fler (' + (rows.length - st.shown) + ' kvar)</button>' : '');
-    $('#sort').value = st.sort;
-    $('#q').addEventListener('input', function (e) { st.q = e.target.value; st.shown = 40; var pos = e.target.selectionStart; renderLeads(); var n = $('#q'); n.focus(); n.setSelectionRange(pos, pos); });
-    $('#sort').addEventListener('change', function (e) { st.sort = e.target.value; renderLeads(); });
-    root.querySelectorAll('[data-s]').forEach(function (b) { b.addEventListener('click', function () { st.status = b.dataset.s; st.shown = 40; renderLeads(); }); });
-    if ($('#more')) $('#more').addEventListener('click', function () { st.shown += 40; renderLeads(); });
-    root.querySelectorAll('.lead').forEach(bindCard);
-    bindQuick();
-  }
-
-  function card(l) {
-    var s = sInfo(l.status || 'new');
-    var when = l.booking_at ? dt(l.booking_at) : (l.preferred_time || '–');
-    var editing = st.editing === l.id;
-    return '<article class="lead" data-id="' + l.id + '" style="--c:' + s[2] + '">' +
-      '<div class="lead__top"><div><h3 class="lead__name">' + esc(l.name) + (l.company ? ' <span>· ' + esc(l.company) + '</span>' : '') + (ownerOf(l) ? ' <em class="owner">' + esc(ownerOf(l)) + 's lead</em>' : '') + '</h3>' +
-      '<p class="lead__meta">' + esc(MEETING[l.meeting_type] || l.meeting_type || 'Förfrågan') + ' · ' + dt(l.created_at) + '</p></div>' +
-      '<div class="lead__acts"><button class="btn btn--ghost btn--sm" data-a="detail">Detaljer</button><button class="btn btn--ghost btn--sm" data-a="offer">Skapa offert</button>' +
-      '<select class="status" data-a="status" style="color:' + s[2] + '">' + STATUS.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === s[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></div></div>' +
-      '<div class="lead__grid"><div><span>E-post:</span> ' + (l.email ? '<button type="button" class="link link--inline" data-a="mail">' + esc(l.email) + '</button>' : '–') + '</div>' +
-      '<div><span>Telefon:</span> ' + (l.phone ? '<a href="tel:' + esc(l.phone) + '">' + esc(l.phone) + '</a>' : '–') + '</div>' +
-      '<div><span>Bransch:</span> ' + esc(l.service_type || '–') + '</div><div><span>Tid:</span> ' + esc(when) + '</div>' +
-      (l.followup_at ? '<div><span>Ring upp:</span> ' + dt(l.followup_at) + '</div>' : '') +
-      (l.sold_amount != null ? '<div><span>Såld för:</span> <b>' + kr(l.sold_amount) + '</b></div>' : '') + '</div>' +
-      (editing
-        ? '<div class="note-edit"><textarea class="input" rows="3" data-a="note-text" placeholder="Skriv en kommentar …">' + esc(noteOf(l)) + '</textarea>' +
-          '<div class="note-edit__row"><button class="btn btn--ghost btn--sm" data-a="note-cancel">Avbryt</button><button class="btn btn--sm" data-a="note-save">Spara kommentar</button></div></div>'
-        : '<button class="note' + (noteOf(l) ? '' : ' is-empty') + '" data-a="note">' + ICON.msg + '<span>' + (noteOf(l) ? esc(noteOf(l)) : 'Lägg till kommentar …') + '</span></button>') +
-      '</article>';
-  }
-
+  /* ---------- Leads: one next step per lead ---------- */
+  var OWNER_COLOR = { Carl: '#1d3b2a', Isak: '#2a7f78', Oscar: '#8a6a1f' };
+  var STAGE = { new: 'Ny', contacted: 'Kontakt', meeting_to_book: 'Möte', meeting_booked: 'Möte', meeting_rebook: 'Möte', meeting_held: 'Offert', quote_sent: 'Offert', waiting: 'Offert', negotiation: 'Offert', sold: 'Vunnen', done: 'Vunnen', lost: 'Förlorad', archived: 'Arkiverad' };
+  var STAGES = [['all', 'Alla'], ['Ny', 'Ny'], ['Kontakt', 'Kontakt'], ['Möte', 'Möte'], ['Offert', 'Offert']];
+  var WON = ['sold', 'done'], GONE = ['lost', 'archived'];
+  var isOpen = function (l) { return CLOSED.indexOf(l.status || 'new') < 0; };
+  var openLeads = function () { return st.leads.filter(isOpen); };
   function lead(id) { return st.leads.find(function (l) { return l.id === id; }); }
   function update(id, patch) {
     return sb.from('quote_requests').update(patch).eq('id', id).select().then(function (r) {
@@ -244,29 +201,282 @@
       Object.assign(lead(id), r.data[0]);
     });
   }
+  var BTN = { call: 'Ring', propose: 'Låt kunden välja tid', offer: 'Skapa offert', mail: 'Mejla', remind: 'Påminn', open: 'Öppna', meet: 'Öppna mötet' };
+  // What comes next in each status, what the button does, and how many days it may wait
+  var NEXT = { new: ['Ring upp', 'call', 1], contacted: ['Boka ett möte', 'propose', 2], meeting_to_book: ['Väntar på att kunden väljer tid', 'remind', 3], meeting_rebook: ['Boka om mötet', 'propose', 0],
+    meeting_held: ['Skicka offert', 'offer', 1], quote_sent: ['Följ upp offerten', 'mail', 3], waiting: ['Påminn om offerten', 'mail', 5], negotiation: ['Avsluta affären', 'open', 2] };
+  function nextStep(l) {
+    var s = l.status || 'new', now = Date.now();
+    var bk = l.booking_at ? Date.parse(l.booking_at) : 0, fu = l.followup_at ? Date.parse(l.followup_at) : 0;
+    if (s === 'meeting_booked' && bk) {
+      return bk > now - 36e5 ? { label: 'Möte ' + dt(l.booking_at, { weekday: 'short', hour: '2-digit', minute: '2-digit' }), due: bk, act: 'meet' } : { label: 'Mötet är över – hur gick det?', due: now, act: 'open' };
+    }
+    var n = NEXT[s]; if (!n) return null;
+    var base = Date.parse(l.updated_at || l.created_at) || now;
+    return { label: n[0], due: fu || base + n[2] * 864e5, act: n[1] };
+  }
+  var endOfDay = function (ms) { var d = new Date(ms); d.setHours(23, 59, 59, 999); return d.getTime(); };
+  function bucketOf(due) {
+    var today = endOfDay(Date.now());
+    return due <= today ? 'today' : due <= today + 864e5 ? 'tomorrow' : due <= today + 6 * 864e5 ? 'week' : 'later';
+  }
+  function dueText(due) {
+    var today = endOfDay(Date.now());
+    if (due < today - 864e5) return 'försenat · ' + day(new Date(due).toISOString());
+    if (due <= today) return 'idag';
+    if (due <= today + 864e5) return 'imorgon';
+    return new Date(due).toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'short' });
+  }
 
-  function bindCard(el) {
-    var id = el.dataset.id, l = lead(id);
-    el.addEventListener('click', function (e) {
-      var a = e.target.closest('[data-a]');
-      if (!a) { if (!e.target.closest('a, select, textarea, button')) openLead(l); return; }
-      var act = a.dataset.a;
-      if (act === 'detail') openLead(l);
-      if (act === 'offer') openOffer(l);
-      if (act === 'mail') composeMail(l);
-      if (act === 'note') { st.editing = id; renderLeads(); var t = $('.lead[data-id="' + id + '"] textarea'); if (t) t.focus(); }
-      if (act === 'note-cancel') { st.editing = null; renderLeads(); }
-      if (act === 'note-save') {
-        var text = $('textarea', el).value;
-        update(id, { admin_notes: withOwner(ownerOf(lead(id)), text) }).then(function () { st.editing = null; renderLeads(); toast('Kommentaren är sparad'); })
-          .catch(function (err) { toast(err.message); });
-      }
+  function row(l, opts) {
+    opts = opts || {};
+    var s = sInfo(l.status || 'new'), n = isOpen(l) ? nextStep(l) : null, o = ownerOf(l);
+    var right = n ? '<b>' + esc(n.label) + '</b><small>' + esc(dueText(n.due)) + '</small>'
+      : WON.indexOf(s[0]) >= 0 ? '<b>' + (l.sold_amount != null ? kr(l.sold_amount) : 'Såld') + '</b><small>' + day(l.sold_at || l.created_at) + '</small>'
+      : '<b>' + esc(s[1]) + '</b><small>' + day(l.created_at) + '</small>';
+    var acts = opts.actions != null ? opts.actions : (n ? primary(l, n) : '');
+    return '<article class="row" data-id="' + l.id + '" style="--c:' + s[2] + '">' +
+      '<span class="av"' + (o ? ' style="--c:' + OWNER_COLOR[o] + '"' : ' data-none') + ' title="' + esc(o || 'Ingen ansvarig') + '">' + (o ? o.charAt(0) : 'E') + '</span>' +
+      '<div class="row__who"><b>' + esc(l.name) + '</b><span>' + esc(l.company || l.service_type || MEETING[l.meeting_type] || 'Förfrågan') + '</span></div>' +
+      '<span class="stg"><i></i>' + esc(STAGE[s[0]] || s[1]) + '</span>' +
+      '<div class="row__next">' + right + '</div>' +
+      '<div class="row__acts">' + acts + '<button class="iconbtn iconbtn--sm" data-act="open" aria-label="Öppna">&#8250;</button></div></article>';
+  }
+  function primary(l, n) {
+    if (n.act === 'call') return l.phone ? '<a class="btn btn--sm" href="tel:' + esc(l.phone) + '" data-act="called">' + ICON.phone + 'Ring</a>' : '<button class="btn btn--sm" data-act="open">Öppna</button>';
+    return '<button class="btn btn--sm' + (n.act === 'open' || n.act === 'meet' ? ' btn--ghost' : '') + '" data-act="' + n.act + '">' + esc(BTN[n.act]) + '</button>';
+  }
+  function bindRows() {
+    root.querySelectorAll('.row').forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        var l = lead(el.dataset.id); if (!l) return;
+        var a = e.target.closest('[data-act]');
+        if (!a) { if (!e.target.closest('a, button')) openLead(l); return; }
+        var act = a.dataset.act;
+        if (act === 'called') { markContacted(l); return; }
+        e.preventDefault();
+        if (act === 'open' || act === 'meet') openLead(l);
+        if (act === 'propose') proposeTimes(l);
+        if (act === 'offer') openOffer(l);
+        if (act === 'mail' || act === 'remind') composeMail(l);
+        if (act === 'review') openReview(l);
+        if (act === 'delete') removeLead(l);
+        if (act === 'reopen') update(l.id, { status: 'contacted' }).then(function () { render(); toast('Leaden är öppen igen och ligger under Alla leads'); }).catch(function (err) { toast(err.message); });
+      });
     });
-    $('[data-a="status"]', el).addEventListener('change', function (e) {
-      var v = e.target.value;
-      if (v === 'sold') return openSold(l);
-      update(id, { status: v }).then(function () { renderLeads(); toast('Status: ' + sInfo(v)[1]); }).catch(function (err) { toast(err.message); renderLeads(); });
+  }
+  // Ring from the list: a new lead becomes "kontaktad", with a reminder to call again in two days
+  function markContacted(l) {
+    if ((l.status || 'new') !== 'new') return;
+    var fu = new Date(Date.now() + 2 * 864e5); fu.setHours(9, 0, 0, 0);
+    update(l.id, { status: 'contacted', followup_at: fu.toISOString() }).then(function () { render(); toast('Markerad som kontaktad. Dyker upp igen ' + fu.toLocaleDateString('sv-SE', { weekday: 'long' }) + '.'); }).catch(function () {});
+  }
+  function removeLead(l, after) {
+    if (!confirm('Ta bort ' + l.name + ' för gott? Det går inte att ångra.')) return;
+    sb.from('quote_requests').delete().eq('id', l.id).select().then(function (r) {
+      if (r.error || !r.data || !r.data.length) return toast(r.error ? r.error.message : 'Kunde inte ta bort.');
+      st.leads = st.leads.filter(function (x) { return x.id !== l.id; }); if (after) after(); render(); toast('Leaden är borttagen');
     });
+  }
+  function section(title, rows, empty) {
+    if (!rows.length && !empty) return '';
+    return '<h2 class="sec">' + title + (rows.length ? ' <em>' + rows.length + '</em>' : '') + '</h2>' + (rows.length ? rows.map(function (l) { return row(l); }).join('') : '<p class="empty empty--sm">' + empty + '</p>');
+  }
+  function syncBadges() {
+    var n = { todo: 0, leads: openLeads().length, vunna: 0, arkiv: 0 };
+    openLeads().forEach(function (l) { var x = nextStep(l); if (x && bucketOf(x.due) === 'today') n.todo++; });
+    st.leads.forEach(function (l) { if (WON.indexOf(l.status) >= 0) n.vunna++; if (GONE.indexOf(l.status) >= 0) n.arkiv++; });
+    root.querySelectorAll('[data-n]').forEach(function (e) { e.textContent = n[e.dataset.n] || ''; e.hidden = !n[e.dataset.n]; });
+  }
+
+  /* Att göra: today's list, then tomorrow and the rest of the week */
+  function renderTodo() {
+    var h = new Date().getHours(), greet = h < 10 ? 'God morgon' : h < 17 ? 'Hej' : 'God kväll', first = me().split(' ')[0];
+    var items = openLeads().map(function (l) { return { l: l, n: nextStep(l) }; }).filter(function (x) { return x.n; }).sort(function (a, b) { return a.n.due - b.n.due; });
+    var b = { today: [], tomorrow: [], week: [], later: [] };
+    items.forEach(function (x) { b[bucketOf(x.n.due)].push(x.l); });
+    var eod = endOfDay(Date.now()), sod = eod - 864e5 + 1;
+    var meetings = st.leads.filter(function (l) { var x = l.booking_at && Date.parse(l.booking_at); return x && x >= sod && x <= eod; }).length;
+    var waiting = st.leads.filter(function (l) { return ['quote_sent', 'waiting', 'negotiation'].indexOf(l.status) >= 0; }).length;
+    main().innerHTML = head(greet + ', ' + esc(first), b.today.length ? b.today.length + (b.today.length === 1 ? ' sak' : ' saker') + ' idag. Sen är du klar.' : 'Inget som brådskar idag.', '<button class="btn" id="newlead">+ Ny lead</button>') +
+      '<div class="focus"><div class="f is-hot"><b>' + b.today.length + '</b><span>att göra idag</span></div><button class="f" id="f-cal"><b>' + meetings + '</b><span>möten idag</span></button><button class="f" id="f-off"><b>' + waiting + '</b><span>offerter som väntar svar</span></button></div>' +
+      section('Idag', b.today, 'Inget idag – bra jobbat.') + section('Imorgon', b.tomorrow, '') + section('Senare i veckan', b.week, '') +
+      (b.later.length ? section('Längre fram', b.later.slice(0, 8)) + (b.later.length > 8 ? '<p class="muted small">… och ' + (b.later.length - 8) + ' till under Alla leads.</p>' : '') : '') +
+      (!items.length ? '<p class="empty">Inga öppna leads. Lägg in en med knappen uppe till höger.</p>' : '');
+    $('#newlead').addEventListener('click', newLead);
+    $('#f-cal').addEventListener('click', function () { go('kalender'); });
+    $('#f-off').addEventListener('click', function () { st.stage = 'Offert'; go('leads'); });
+    bindRows();
+  }
+
+  /* Alla leads: the open ones, with search and a stage filter */
+  function filtered() {
+    var q = st.q.toLowerCase();
+    var rows = openLeads().filter(function (l) {
+      if (st.stage !== 'all' && STAGE[l.status || 'new'] !== st.stage) return false;
+      if (!q) return true;
+      return [l.name, l.company, l.email, l.phone, l.service_type, l.admin_notes].some(function (v) { return v && String(v).toLowerCase().indexOf(q) > -1; });
+    });
+    if (st.sort === 'next') return rows.map(function (l) { return [l, (nextStep(l) || { due: Infinity }).due]; }).sort(function (a, b) { return a[1] - b[1]; }).map(function (x) { return x[0]; });
+    var key = st.sort.indexOf('booking') === 0 ? 'booking_at' : 'created_at', asc = /asc$/.test(st.sort);
+    return rows.sort(function (a, b) {
+      var x = a[key] ? Date.parse(a[key]) : (asc ? Infinity : -Infinity), y = b[key] ? Date.parse(b[key]) : (asc ? Infinity : -Infinity);
+      return asc ? x - y : y - x;
+    });
+  }
+  function renderLeads() {
+    var rows = filtered(), counts = {}, all = openLeads();
+    all.forEach(function (l) { var k = STAGE[l.status || 'new']; counts[k] = (counts[k] || 0) + 1; });
+    main().innerHTML = head('Alla leads', 'Alla öppna leads. Klicka på en rad för allt om kunden.',
+      '<button class="btn btn--ghost" id="csv">' + ICON.chart + 'Exportera</button><button class="btn btn--ghost" id="meeting">' + ICON.cal + 'Boka möte</button><button class="btn" id="newlead">+ Ny lead</button>') +
+      '<div class="bar"><input class="input" id="q" placeholder="Sök namn, företag, mejl, kommentar …" value="' + esc(st.q) + '">' +
+      '<select class="input" id="sort"><option value="next">Nästa steg först</option><option value="created_desc">Nyast först</option><option value="created_asc">Äldst först</option><option value="booking_asc">Möte: närmast</option></select></div>' +
+      '<div class="seg">' + STAGES.map(function (s) { var n = s[0] === 'all' ? all.length : counts[s[0]]; return '<button class="seg__b' + (st.stage === s[0] ? ' is-on' : '') + '" data-stage="' + s[0] + '">' + s[1] + (n ? ' <em>' + n + '</em>' : '') + '</button>'; }).join('') + '</div>' +
+      '<div class="list">' + (rows.slice(0, st.shown).map(function (l) { return row(l); }).join('') || '<p class="empty">Inga leads här.</p>') + '</div>' +
+      (rows.length > st.shown ? '<button class="btn btn--ghost more" id="more">Visa fler (' + (rows.length - st.shown) + ' kvar)</button>' : '');
+    $('#sort').value = st.sort;
+    $('#q').addEventListener('input', function (e) { st.q = e.target.value; st.shown = 40; var pos = e.target.selectionStart; renderLeads(); var n = $('#q'); n.focus(); n.setSelectionRange(pos, pos); });
+    $('#sort').addEventListener('change', function (e) { st.sort = e.target.value; renderLeads(); });
+    root.querySelectorAll('[data-stage]').forEach(function (b) { b.addEventListener('click', function () { st.stage = b.dataset.stage; st.shown = 40; renderLeads(); }); });
+    if ($('#more')) $('#more').addEventListener('click', function () { st.shown += 40; renderLeads(); });
+    $('#newlead').addEventListener('click', newLead);
+    $('#meeting').addEventListener('click', function () { bookMeeting(); });
+    $('#csv').addEventListener('click', exportCsv);
+    bindRows();
+  }
+
+  /* Vunna: the sold ones, with the amounts */
+  function renderWon() {
+    var rows = st.leads.filter(function (l) { return WON.indexOf(l.status) >= 0; }).sort(function (a, b) { return Date.parse(b.sold_at || b.created_at) - Date.parse(a.sold_at || a.created_at); });
+    var sum = function (L) { return L.reduce(function (s, l) { return s + Number(l.sold_amount || 0); }, 0); };
+    var year = rows.filter(function (l) { return l.sold_at && Date.now() - Date.parse(l.sold_at) < 365 * 864e5; });
+    main().innerHTML = head('Vunna affärer', rows.length + (rows.length === 1 ? ' affär' : ' affärer') + ' · ' + kr(sum(rows)) + ' totalt' + (year.length ? ' · ' + kr(sum(year)) + ' senaste året' : '')) +
+      '<div class="list">' + (rows.map(function (l) { return row(l, { actions: l.email ? '<button class="btn btn--sm btn--ghost" data-act="review">' + ICON.star + 'Be om recension</button>' : '' }); }).join('') || '<p class="empty">Inga vunna affärer än.</p>') + '</div>';
+    bindRows();
+  }
+
+  /* Arkiv: archived and lost leads, out of the way but never gone */
+  function renderArchive() {
+    var count = function (s) { return st.leads.filter(function (l) { return l.status === s; }).length; };
+    var rows = st.leads.filter(function (l) { return l.status === st.arch; }).sort(function (a, b) { return Date.parse(b.created_at) - Date.parse(a.created_at); });
+    main().innerHTML = head('Arkiv', 'Arkiverade och förlorade leads ligger här, utanför listorna. De kan öppnas igen när som helst.') +
+      '<div class="seg"><button class="seg__b' + (st.arch === 'archived' ? ' is-on' : '') + '" data-arch="archived">Arkiverade <em>' + count('archived') + '</em></button><button class="seg__b' + (st.arch === 'lost' ? ' is-on' : '') + '" data-arch="lost">Förlorade <em>' + count('lost') + '</em></button></div>' +
+      '<div class="list">' + (rows.map(function (l) { return row(l, { actions: '<button class="btn btn--sm btn--ghost" data-act="reopen">Öppna igen</button><button class="btn btn--sm btn--ghost" data-act="delete">Ta bort</button>' }); }).join('') || '<p class="empty">Tomt här.</p>') + '</div>';
+    root.querySelectorAll('[data-arch]').forEach(function (b) { b.addEventListener('click', function () { st.arch = b.dataset.arch; renderArchive(); }); });
+    bindRows();
+  }
+
+  /* Statistik: who closes most, and the funnel */
+  function personRows(days) {
+    var from = days ? Date.now() - days * 864e5 : 0, inP = function (iso) { return !!iso && Date.parse(iso) >= from; };
+    return [['Carl', 'Carl From'], ['Isak', 'Isak Mattsson'], ['Oscar', 'Oscar Svanerud'], ['', 'Ingen ansvarig']].map(function (p) {
+      var L = st.leads.filter(function (l) { return ownerOf(l) === p[0]; });
+      var won = L.filter(function (l) { return WON.indexOf(l.status) >= 0 && inP(l.sold_at || l.created_at); });
+      var lost = L.filter(function (l) { return l.status === 'lost' && inP(l.created_at); }).length;
+      var amount = won.reduce(function (s, l) { return s + Number(l.sold_amount || 0); }, 0);
+      return { who: p[0], name: p[1], leads: L.filter(function (l) { return inP(l.created_at); }).length, meetings: L.filter(function (l) { return inP(l.booking_at); }).length,
+        open: L.filter(isOpen).length, won: won.length, lost: lost, amount: amount, rate: won.length + lost ? Math.round(won.length / (won.length + lost) * 100) : null };
+    }).filter(function (r) { return r.leads || r.won || r.lost || r.open; });
+  }
+  function renderStats() {
+    var rows = personRows(st.period), from = st.period ? Date.now() - st.period * 864e5 : 0, inP = function (iso) { return !!iso && Date.parse(iso) >= from; };
+    var L = st.leads.filter(function (l) { return inP(l.created_at); });
+    var f = [L.length, L.filter(function (l) { return (l.status || 'new') !== 'new'; }).length, L.filter(function (l) { return !!l.booking_at; }).length,
+      L.filter(function (l) { return ['quote_sent', 'waiting', 'negotiation', 'sold', 'done'].indexOf(l.status) >= 0; }).length, L.filter(function (l) { return WON.indexOf(l.status) >= 0; }).length];
+    var won = rows.reduce(function (s, r) { return s + r.won; }, 0), lost = rows.reduce(function (s, r) { return s + r.lost; }, 0), amount = rows.reduce(function (s, r) { return s + r.amount; }, 0);
+    var cell = function (v) { return '<td>' + v + '</td>'; };
+    main().innerHTML = head('Statistik', 'Vem closar mest, och hur tratten ser ut.') +
+      '<div class="seg">' + [[30, '30 dagar'], [90, '90 dagar'], [365, 'Ett år'], [0, 'Allt']].map(function (p) { return '<button class="seg__b' + (st.period === p[0] ? ' is-on' : '') + '" data-period="' + p[0] + '">' + p[1] + '</button>'; }).join('') + '</div>' +
+      '<div class="stats"><section class="st"><h3>Closing rate</h3>' + (rows.length ? rows.map(function (r) {
+        return '<div class="pr"><span class="av"' + (r.who ? ' style="--c:' + OWNER_COLOR[r.who] + '"' : ' data-none') + '>' + (r.who ? r.who.charAt(0) : 'E') + '</span><span>' + esc(r.who || 'Ingen') + '</span><i style="--w:' + (r.rate || 0) + '%"></i><b>' + (r.rate == null ? '–' : r.rate + ' %') + '</b></div>';
+      }).join('') : '<p class="muted">Inga leads i perioden.</p>') + '<p class="muted small" style="margin:10px 0 0">Vunna delat med vunna + förlorade.</p></section>' +
+      '<section class="st"><h3>Tratten</h3><div class="fun">' + f.map(function (n, i) { return '<div style="--o:' + (0.35 + i * 0.16) + ';height:' + (f[0] ? Math.max(20, Math.round(n / f[0] * 100)) : 20) + '%">' + n + '</div>'; }).join('') + '</div><div class="lbls"><span>Leads</span><span>Kontakt</span><span>Möte</span><span>Offert</span><span>Vunna</span></div></section>' +
+      '<section class="st"><h3>Sålt</h3><div class="big">' + kr(amount) + '<small>' + won + (won === 1 ? ' affär' : ' affärer') + (won ? ' · snitt ' + kr(amount / won) : '') + (won + lost ? ' · closing rate ' + Math.round(won / (won + lost) * 100) + ' %' : '') + '</small></div></section></div>' +
+      '<div class="tbl"><table><thead><tr><th>Person</th><th>Leads</th><th>Möten</th><th>Öppna nu</th><th>Vunna</th><th>Förlorade</th><th>Closing rate</th><th>Sålt</th></tr></thead><tbody>' +
+      rows.map(function (r) { return '<tr><td><b>' + esc(r.name) + '</b></td>' + cell(r.leads) + cell(r.meetings) + cell(r.open) + cell(r.won) + cell(r.lost) + cell(r.rate == null ? '–' : r.rate + ' %') + cell(kr(r.amount)) + '</tr>'; }).join('') +
+      '<tr class="tot"><td>Alla</td>' + cell(f[0]) + cell(rows.reduce(function (s, r) { return s + r.meetings; }, 0)) + cell(openLeads().length) + cell(won) + cell(lost) + cell(won + lost ? Math.round(won / (won + lost) * 100) + ' %' : '–') + cell(kr(amount)) + '</tr></tbody></table></div>' +
+      '<p class="muted small" style="margin-top:10px">Ansvarig sätts i leadens fönster. Leads, möten och förlorade räknas på när leaden kom in; vunna på när affären stängdes.</p>';
+    root.querySelectorAll('[data-period]').forEach(function (b) { b.addEventListener('click', function () { st.period = Number(b.dataset.period); renderStats(); }); });
+  }
+
+  /* Konton: the team's logins, opened from here */
+  function renderAccounts() {
+    var rows = PROFILES.slice(0, 3), stats = personRows(0);
+    main().innerHTML = head('Konton', 'Var och en loggar in med sin egen e-post och sitt eget lösenord. Öppna ett konto här så kan personen logga in direkt.') +
+      '<div id="acc-note"></div><div class="cards">' + rows.map(function (p) {
+        var mine = profile(st.user.email) === p, s = stats.find(function (r) { return r.who === p[1].split(' ')[0]; }) || { open: 0, won: 0, rate: null };
+        return '<article class="cardx"><h3>' + esc(p[1]) + '</h3><p>' + esc(p[2]) + '</p><div class="mini"><span><b>' + s.open + '</b> öppna</span><span><b>' + s.won + '</b> vunna</span><span><b>' + (s.rate == null ? '–' : s.rate + ' %') + '</b> closing rate</span></div>' +
+          '<footer>' + (mine ? '<span class="pill pill--on">Du</span>' : '<span></span>') + '<button class="btn btn--sm' + (mine ? ' btn--ghost' : '') + '" data-profile="' + esc(p[2]) + '">' + (mine ? 'Byt lösenord' : 'Öppna konto') + '</button></footer></article>';
+      }).join('') + '</div>';
+    root.querySelectorAll('[data-profile]').forEach(function (b) {
+      b.addEventListener('click', function () { var p = profile(b.dataset.profile); if (p === profile(st.user.email)) go('konto'); else createLogin(p); });
+    });
+    fetch('/api/status').then(function (r) { return r.json(); }).then(function (s) {
+      if (!s.accounts && $('#acc-note')) $('#acc-note').innerHTML = info('Kontona öppnas med ett bekräftelsemejl just nu', 'Lägg in Supabase-projektets service_role-nyckel som Secret med namnet SUPABASE_SERVICE_KEY i Cloudflare (Workers → elevate-studio-pre → Settings → Variables and Secrets). Då öppnas kontona direkt, utan mejl. Hittas i Supabase under Project Settings → API.');
+    }).catch(function () {});
+  }
+
+  /* Let the customer pick the time: a mail with free times from the Google calendar, booked on /boka/… */
+  function proposeTimes(l) {
+    if (!l.email) return toast('E-postadress saknas på leaden.');
+    var hosts = {}; TEAM.forEach(function (m) { hosts[m[0].toLowerCase()] = m[1]; }); hosts[''] = 'Elevate Studio';
+    dialog('<form id="pt"><h2>Låt kunden välja tid</h2><p>' + esc(l.name) + ' får ett mejl med lediga tider från Google-kalendern och bokar själv. Upptagna tider syns inte som lediga. Mötet hamnar i kalendern, på leaden och i din inkorg.</p>' +
+      '<div class="grid3">' + form([{ name: 'host', label: 'Värd', options: hosts, value: senderKey(me()) }, { name: 'minutes', label: 'Längd', options: { 15: '15 min', 30: '30 min', 45: '45 min', 60: '60 min' }, value: '30' },
+        { name: 'type', label: 'Typ', options: { google_meet: 'Google Meet', phone: 'Telefonmöte', teams: 'Microsoft Teams' }, value: 'google_meet' }]) + '</div>' +
+      form([{ name: 'message', label: 'Meddelande i mejlet (valfritt)', type: 'textarea', rows: 5 }]) +
+      '<div class="dlg__row"><button type="button" class="btn btn--ghost" data-close>Avbryt</button><button type="button" class="btn btn--ghost" id="pt-link">Bara skapa länk</button><button class="btn" type="submit">' + ICON.send + 'Skicka mejlet</button></div><p class="msg ok" id="pt-msg"></p></form>', function (d) {
+      var f = $('#pt', d);
+      tabFill(f.elements.message, function () { var we = f.elements.host.value ? 'jag' : 'vi'; return 'Tack för att du hörde av dig! På mötet går ' + we + ' igenom ert företag, vad hemsidan ska ge er och hur ett upplägg kan se ut. Det kostar ingenting. Välj den tid som passar dig bäst.'; });
+      var send = function (mail) {
+        var v = function (n) { return f.elements[n].value.trim(); }, btns = d.querySelectorAll('button'), m = $('#pt-msg', d);
+        btns.forEach(function (b) { b.disabled = true; });
+        sb.auth.getSession().then(function (r) {
+          var token = r.data && r.data.session && r.data.session.access_token;
+          return fetch('/api/booking/link', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+            body: JSON.stringify({ lead_id: l.id, sender: v('host'), minutes: Number(v('minutes')), type: v('type'), message: v('message'), send: mail }) });
+        }).then(function (res) { return res.json().catch(function () { return {}; }).then(function (b) { return { ok: res.ok, b: b }; }); }, function () { return { ok: false, b: { error: 'Servern svarade inte.' } }; })
+          .then(function (x) {
+            if (!x.ok) {
+              btns.forEach(function (b) { b.disabled = false; }); m.className = 'msg';
+              m.textContent = x.b.error === 'not_configured' ? 'Gmail är inte kopplat än (se Integrationer).' : x.b.error === 'auth' ? 'Du behöver logga in igen.' : 'Det gick inte: ' + (x.b.error || 'fel');
+              return;
+            }
+            var s = l.status || 'new', bump = s === 'new' || s === 'contacted' || s === 'meeting_rebook' ? update(l.id, { status: 'meeting_to_book' }).catch(function () {}) : Promise.resolve();
+            bump.then(function () {
+              if (mail) { d.remove(); render(); toast('Mejlet med lediga tider är skickat till ' + l.email); return; }
+              m.className = 'msg ok'; m.innerHTML = 'Länken är skapad – skicka den i ett sms eller en chatt:<br><input class="input" readonly value="' + esc(x.b.url) + '" onclick="this.select()" style="margin-top:8px">';
+              btns.forEach(function (b) { b.disabled = false; }); render();
+            });
+          });
+      };
+      f.addEventListener('submit', function (e) { e.preventDefault(); send(true); });
+      $('#pt-link', d).addEventListener('click', function () { send(false); });
+    });
+  }
+
+  /* Meetings the customers booked themselves land on the leads (the calendar event carries the lead's id) */
+  function syncBookings() {
+    return sb.auth.getSession().then(function (r) {
+      var token = r.data && r.data.session && r.data.session.access_token; if (!token) return null;
+      return fetch('/api/booking/sync', { headers: { Authorization: 'Bearer ' + token } }).then(function (res) { return res.ok ? res.json() : null; });
+    }).then(function (b) {
+      if (!b || !b.rows || !b.rows.length) return;
+      var jobs = [];
+      b.rows.forEach(function (x) {
+        var l = lead(x.lead_id); if (!l) return;
+        if (l.booking_at && Math.abs(Date.parse(l.booking_at) - Date.parse(x.at)) < 6e4) return;
+        var type = x.type === 'phone' ? 'phone' : x.type === 'teams' ? 'teams' : 'google_meet';
+        var host = TEAM.find(function (m) { return m[0].toLowerCase() === x.host; });
+        jobs.push(update(l.id, { booking_at: x.at, status: 'meeting_booked', meeting_type: type }).then(function () {
+          return Promise.all([
+            sb.from('calendar_activities').insert({ title: 'Möte: ' + (l.company || l.name), category: 'meeting', starts_at: x.at, ends_at: new Date(Date.parse(x.at) + x.minutes * 6e4).toISOString(), location: x.link,
+              description: ['Kunden valde tiden själv', host ? 'Värd: ' + host[1] : '', l.email, l.phone].filter(Boolean).join('\n'), link: '/admin', created_by: st.user.id }),
+            sb.from('meeting_invites').insert({ quote_request_id: l.id, booking_at: x.at, duration_min: x.minutes, meet_link: x.link, recipients: [l.email], recipient_name: l.name, subject: 'Möte med Elevate Studio – kunden valde tiden', created_by: st.user.id })
+          ]);
+        }).catch(function () {}));
+      });
+      if (jobs.length) return Promise.all(jobs).then(function () { render(); toast(jobs.length === 1 ? 'En kund har bokat en tid – leaden är uppdaterad.' : jobs.length + ' kunder har bokat tider – leadsen är uppdaterade.'); });
+    }).catch(function () {});
   }
 
   /* ---------- Dialogs ---------- */
@@ -454,9 +664,12 @@
       { name: 'name', label: 'Namn', required: true }, { name: 'company', label: 'Företag' },
       { name: 'email', label: 'E-post', type: 'email', required: true }, { name: 'phone', label: 'Telefon' },
       { name: 'service_type', label: 'Bransch' }, { name: 'status', label: 'Status', options: STATUS.reduce(function (o, s) { o[s[0]] = s[1]; return o; }, {}), value: 'new' },
+      { name: 'web', label: 'Gamla hemsidan (valfritt)', type: 'url', placeholder: 'https://' }, { name: 'github', label: 'Nya hemsidan på GitHub (valfritt)', type: 'url', placeholder: 'https://github.com/ElevateStudio018/…' },
       { name: 'message', label: 'Vad vill de ha?', type: 'textarea' }
     ], function (v) {
-      return sb.from('quote_requests').insert(Object.assign(v, { meeting_type: 'manual', admin_notes: withOwner(myTag(), '') })).select().then(function (r) {
+      var meta = { web: v.web, github: v.github }, who = me().split(' ')[0]; delete v.web; delete v.github;
+      // The one who adds the lead is its owner (Elevate Studio's own login sets none)
+      return sb.from('quote_requests').insert(Object.assign(v, { meeting_type: 'manual', admin_notes: withOwner(/^(Carl|Isak|Oscar)$/.test(who) ? who : '', '', meta) })).select().then(function (r) {
         if (r.error) throw r.error;
         if (r.data && r.data[0]) st.leads.unshift(r.data[0]);
         toast('Leaden är tillagd');
@@ -654,14 +867,16 @@
       '<button class="iconbtn" data-close aria-label="Stäng">' + ICON.x + '</button></div></header>' +
       '<div class="ld__quick">' + (l.phone ? '<a class="btn btn--ghost btn--sm" href="tel:' + esc(l.phone) + '">' + ICON.phone + 'Ring</a>' : '') +
       (l.email ? '<button class="btn btn--ghost btn--sm" id="ld-mail">' + ICON.mail + 'Mejla</button>' : '') +
-      '<button class="btn btn--ghost btn--sm" id="ld-meet">' + ICON.cal + 'Boka möte</button><button class="btn btn--ghost btn--sm" id="ld-offer">' + ICON.file + 'Skapa offert</button>' +
+      '<button class="btn btn--ghost btn--sm" id="ld-propose">' + ICON.cal + 'Låt kunden välja tid</button><button class="btn btn--ghost btn--sm" id="ld-meet">' + ICON.cal + 'Boka möte</button><button class="btn btn--ghost btn--sm" id="ld-offer">' + ICON.file + 'Skapa offert</button>' +
       (l.status === 'sold' ? '<button class="btn btn--sm" id="ld-review">' + ICON.star + 'Be om recension</button>' : '<button class="btn btn--sm" id="ld-sold">' + ICON.star + 'Markera som såld</button>') + '</div>' +
+      ((metaOf(l).web || metaOf(l).github) ? '<p class="ld__links">' + (metaOf(l).web ? '<a href="' + esc(metaOf(l).web) + '" target="_blank" rel="noopener">' + ICON.site + 'Gamla hemsidan</a>' : '') + (metaOf(l).github ? '<a href="' + esc(metaOf(l).github) + '" target="_blank" rel="noopener">' + ICON.site + 'Nya hemsidan på GitHub</a>' : '') + '</p>' : '') +
       '<div class="ld__cols"><div>' +
       '<section class="panel"><h3>Kontaktuppgifter</h3><form id="ld-form"><div class="grid2">' +
       form([{ name: 'name', label: 'Namn', value: l.name, required: true }, { name: 'company', label: 'Företag', value: l.company },
         { name: 'email', label: 'E-post', value: l.email, type: 'email', required: true }, { name: 'phone', label: 'Telefon', value: l.phone },
         { name: 'service_type', label: 'Bransch', value: l.service_type }, { name: 'company_type', label: 'Företagsform', value: l.company_type },
-        { name: 'booking_at', label: 'Bokat möte', value: localInput(l.booking_at), type: 'datetime-local' }, { name: 'followup_at', label: 'Ring upp', value: localInput(l.followup_at), type: 'datetime-local' }]) +
+        { name: 'booking_at', label: 'Bokat möte', value: localInput(l.booking_at), type: 'datetime-local' }, { name: 'followup_at', label: 'Nästa steg senast', value: localInput(l.followup_at), type: 'datetime-local' },
+        { name: 'web', label: 'Gamla hemsidan (valfritt)', value: metaOf(l).web, type: 'url', placeholder: 'https://' }, { name: 'github', label: 'Nya hemsidan på GitHub (valfritt)', value: metaOf(l).github, type: 'url', placeholder: 'https://github.com/ElevateStudio018/…' }]) +
       '</div><div class="ld__save"><button class="btn btn--sm" type="submit">Spara ändringar</button></div></form></section>' +
       ((l.message || l.project_description) ? '<section class="panel"><h3>Meddelande</h3>' + (l.message ? '<div class="box">' + esc(l.message) + '</div>' : '') +
         (l.project_description ? '<p class="panel__sub">Projektbeskrivning</p><div class="box">' + esc(l.project_description) + '</div>' : '') + '</section>' : '') +
@@ -688,35 +903,37 @@
       $('#ld-status', d).addEventListener('change', function (e) {
         var v = e.target.value;
         if (v === 'sold') { d.remove(); return openSold(l); }
-        update(l.id, { status: v }).then(function () { toast('Status: ' + sInfo(v)[1]); d.remove(); render(); openLead(l); }).catch(function (err) { toast(err.message); });
+        update(l.id, { status: v }).then(function () {
+          d.remove(); render();
+          if (v === 'archived' || v === 'lost') return toast(v === 'archived' ? 'Flyttad till Arkiv' : 'Markerad som förlorad – ligger under Arkiv');
+          toast('Status: ' + sInfo(v)[1]); openLead(l);
+        }).catch(function (err) { toast(err.message); });
       });
       $('#ld-form', d).addEventListener('submit', function (e) {
         e.preventDefault(); var g = function (n) { return e.target.elements[n].value.trim(); };
+        var cur = lead(l.id) || l;
         var patch = { name: g('name'), company: g('company') || null, email: g('email'), phone: g('phone') || null,
-          service_type: g('service_type') || null, company_type: g('company_type') || null, booking_at: fromLocal(g('booking_at')), followup_at: fromLocal(g('followup_at')) };
+          service_type: g('service_type') || null, company_type: g('company_type') || null, booking_at: fromLocal(g('booking_at')), followup_at: fromLocal(g('followup_at')),
+          admin_notes: withOwner(ownerOf(cur), noteOf(cur), { web: g('web'), github: g('github') }) };
         update(l.id, patch).then(function () { toast('Ändringarna är sparade'); }).catch(function (err) { toast(err.message); });
       });
       var ownerSel = $('#ld-owner', d);
       if (ownerSel) ownerSel.addEventListener('change', function () {
         var cur = lead(l.id) || l;
-        update(l.id, { admin_notes: withOwner(ownerSel.value, noteOf(cur)) }).then(function () { render(); toast(ownerSel.value ? 'Leaden är markerad som ' + ownerSel.value + 's' : 'Leaden är Elevate Studios'); })
+        update(l.id, { admin_notes: withOwner(ownerSel.value, noteOf(cur), metaOf(cur)) }).then(function () { render(); toast(ownerSel.value ? 'Leaden är markerad som ' + ownerSel.value + 's' : 'Leaden är Elevate Studios'); })
           .catch(function (err) { toast(err.message); });
       });
       $('#ld-note-save', d).addEventListener('click', function () {
-        update(l.id, { admin_notes: withOwner(ownerOf(lead(l.id) || l), $('#ld-note', d).value) }).then(function () { toast('Kommentaren är sparad'); }).catch(function (err) { toast(err.message); });
+        var cur = lead(l.id) || l;
+        update(l.id, { admin_notes: withOwner(ownerOf(cur), $('#ld-note', d).value, metaOf(cur)) }).then(function () { toast('Kommentaren är sparad'); }).catch(function (err) { toast(err.message); });
       });
       $('#ld-offer', d).addEventListener('click', function () { d.remove(); openOffer(l); });
       var lm = $('#ld-mail', d); if (lm) lm.addEventListener('click', function () { d.remove(); composeMail(l); });
       $('#ld-meet', d).addEventListener('click', function () { d.remove(); bookMeeting(l); });
+      $('#ld-propose', d).addEventListener('click', function () { d.remove(); proposeTimes(l); });
       var rv = $('#ld-review', d); if (rv) rv.addEventListener('click', function () { d.remove(); openReview(l); });
       var sd = $('#ld-sold', d); if (sd) sd.addEventListener('click', function () { d.remove(); openSold(l); });
-      $('#ld-del', d).addEventListener('click', function () {
-        if (!confirm('Ta bort ' + l.name + ' för gott? Det går inte att ångra.')) return;
-        sb.from('quote_requests').delete().eq('id', l.id).select().then(function (r) {
-          if (r.error || !r.data || !r.data.length) return toast(r.error ? r.error.message : 'Kunde inte ta bort.');
-          st.leads = st.leads.filter(function (x) { return x.id !== l.id; }); close(); toast('Leaden är borttagen');
-        });
-      });
+      $('#ld-del', d).addEventListener('click', function () { removeLead(l, function () { d.remove(); }); });
       var feed = function (sel, rows, fn) { $(sel, d).innerHTML = rows.length ? rows.map(fn).join('') : '<p class="muted">Inget än.</p>'; };
       var loadNotes = function () {
         sb.from('quote_notes').select('*').eq('quote_request_id', l.id).order('created_at', { ascending: false }).then(function (r) {
@@ -1080,7 +1297,7 @@
 
   /* ---------- Konto ---------- */
   function renderAccount() {
-    main().innerHTML = head('Konto', 'Byt e-post och lösenord för inloggningen.') +
+    main().innerHTML = head('Mitt konto', 'Byt e-post och lösenord för din inloggning. Teamets konton finns under Konton.') +
       '<div class="split split--2"><section class="panel"><h3>E-post</h3><p class="panel__sub">Nu: <b>' + esc(st.user.email) + '</b></p><form id="em">' +
       '<label class="field">Ny e-post<input class="input" type="email" name="email" placeholder="info@elevatestudio.nu" required></label>' +
       '<button class="btn" type="submit">Byt e-post</button><p class="msg ok" id="em-msg"></p></form>' +
@@ -1089,22 +1306,12 @@
       '<label class="field">Nytt lösenord (minst 8 tecken)<input class="input" type="password" name="pw" minlength="8" autocomplete="new-password" required></label>' +
       '<label class="field">Upprepa lösenordet<input class="input" type="password" name="pw2" minlength="8" autocomplete="new-password" required></label>' +
       '<button class="btn" type="submit">Byt lösenord</button><p class="msg ok" id="pw-msg"></p></form>' +
-      '<p class="muted small">Tips: tre vanliga ord ihop med en siffra är lätt att komma ihåg och svårt att gissa. Inga konstiga tecken behövs.</p></section></div>' +
-      (!allowed('integrationer') ? '' : '<section class="panel" style="margin-top:20px"><h3>Profiler</h3><p class="panel__sub">Var och en loggar in med sin egen e-post och sitt eget lösenord. Du är inloggad som <b>' + esc(me()) + '</b>.</p>' +
-      '<div class="profiles">' + PROFILES.map(function (p) {
-        var mine = profile(st.user.email) === p;
-        return '<article class="profile"><div><b>' + esc(p[1]) + '</b><span>' + esc(p[2]) + (p[4] ? ' (sedan ' + esc(p[4][0]) + ')' : '') + '</span></div>' +
-          (mine ? '<span class="pill pill--on">Du</span>' : '<button class="btn btn--ghost btn--sm" data-profile="' + esc(p[2]) + '">Skapa inloggning</button>') + '</article>';
-      }).join('') + '</div>' +
-      '<p class="muted small">Har en profil redan en inloggning? Då loggar personen in med sin e-post och byter lösenord här under Konto, eller trycker på Glömt lösenord på inloggningssidan.</p></section>');
+      '<p class="muted small">Tips: tre vanliga ord ihop med en siffra är lätt att komma ihåg och svårt att gissa.</p></section></div>';
     $('#em').addEventListener('submit', function (e) {
       e.preventDefault(); var m = $('#em-msg');
       sb.auth.updateUser({ email: e.target.email.value.trim() }, { emailRedirectTo: location.href.split('#')[0] }).then(function (r) {
         m.textContent = r.error ? r.error.message : 'Klart. Öppna mejlet som skickats till den nya adressen och klicka på länken för att bekräfta.';
       });
-    });
-    document.querySelectorAll('[data-profile]').forEach(function (b) {
-      b.addEventListener('click', function () { createLogin(profile(b.dataset.profile)); });
     });
     $('#pw').addEventListener('submit', function (e) {
       e.preventDefault(); var f = e.target, m = $('#pw-msg');
@@ -1116,36 +1323,50 @@
     });
   }
 
-  /* A login for a profile: the person types their own password; they confirm through a mail from Supabase */
+  /* A login for a team member: the server opens it right away when the Supabase key is in Cloudflare,
+     otherwise the ordinary sign-up with a confirmation mail */
   function createLogin(p) {
-    dialog('<form id="cl"><h2>Inloggning för ' + esc(p[1].split(' ')[0]) + '</h2><p>Låt ' + esc(p[1].split(' ')[0]) + ' själv skriva sitt lösenord. Ett mejl skickas för att bekräfta adressen.</p>' +
+    var first = p[1].split(' ')[0];
+    dialog('<form id="cl"><h2>Öppna konto för ' + esc(first) + '</h2><p>Skriv lösenordet ' + esc(first) + ' ska logga in med. Det går att byta sedan under Mitt konto.</p>' +
       form([{ name: 'email', label: 'E-post', type: 'email', value: p[2], required: true }]) +
       '<label class="field">Lösenord (minst 8 tecken)<input class="input" type="password" name="pw" minlength="8" autocomplete="new-password" required></label>' +
       '<label class="field">Upprepa lösenordet<input class="input" type="password" name="pw2" minlength="8" autocomplete="new-password" required></label>' +
-      '<p class="msg" id="cl-msg"></p><div class="dlg__row"><button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">Skapa</button></div></form>', function (d) {
+      '<p class="msg" id="cl-msg"></p><div class="dlg__row"><button type="button" class="btn btn--ghost" data-close>Avbryt</button><button class="btn" type="submit">Öppna kontot</button></div></form>', function (d) {
       $('#cl', d).addEventListener('submit', function (e) {
         e.preventDefault(); var f = e.target, m = $('#cl-msg', d), btn = $('button[type=submit]', d);
         if (f.pw.value !== f.pw2.value) { m.textContent = 'Lösenorden är inte likadana.'; return; }
-        btn.disabled = true;
-        // A separate client, so the signed-in session in this window stays as it is
-        var other = window.supabase.createClient(root.dataset.url, root.dataset.key, { auth: { persistSession: false, autoRefreshToken: false, storageKey: 'elevate-new-login' } });
-        other.auth.signUp({ email: f.email.value.trim(), password: f.pw.value, options: { emailRedirectTo: location.origin + '/admin/', data: { full_name: p[1] } } }).then(function (r) {
-          if (r.error) throw r.error;
-          var u = r.data && r.data.user;
-          if (!u || !u.identities || !u.identities.length) return 'exists';
-          return sb.from('user_roles').insert({ user_id: u.id, role: 'admin' }).then(function (x) { return x.error ? 'norole' : 'ok'; });
-        }).then(function (how) {
-          f.pw.value = f.pw2.value = '';
-          if (how === 'exists') { btn.disabled = false; m.textContent = 'Den e-posten har redan en inloggning. Logga in med den, eller tryck på Glömt lösenord på inloggningssidan.'; return; }
-          d.remove();
-          toast(how === 'ok' ? 'Inloggningen är skapad. ' + p[1].split(' ')[0] + ' får ett mejl att bekräfta, sedan går det att logga in.'
-            : 'Kontot är skapat, men databasen lät inte admin ge det behörighet. Säg till, så läggs behörigheten in.');
-        }).catch(function (err) { btn.disabled = false; m.textContent = err.message; });
+        btn.disabled = true; btn.textContent = 'Öppnar …';
+        var email = f.email.value.trim(), pw = f.pw.value;
+        var fallback = function () {
+          // A separate client, so the signed-in session in this window stays as it is
+          var other = window.supabase.createClient(root.dataset.url, root.dataset.key, { auth: { persistSession: false, autoRefreshToken: false, storageKey: 'elevate-new-login' } });
+          other.auth.signUp({ email: email, password: pw, options: { emailRedirectTo: location.origin + '/admin/', data: { full_name: p[1] } } }).then(function (r) {
+            if (r.error) throw r.error;
+            var u = r.data && r.data.user;
+            if (!u || !u.identities || !u.identities.length) return 'exists';
+            return sb.from('user_roles').insert({ user_id: u.id, role: 'admin' }).then(function (x) { return x.error ? 'norole' : 'ok'; });
+          }).then(function (how) {
+            f.pw.value = f.pw2.value = '';
+            if (how === 'exists') { btn.disabled = false; btn.textContent = 'Öppna kontot'; m.textContent = 'Den e-posten har redan en inloggning. Lägg in SUPABASE_SERVICE_KEY i Cloudflare för att sätta nytt lösenord härifrån, eller använd Glömt lösenord på inloggningssidan.'; return; }
+            d.remove();
+            toast(how === 'ok' ? 'Inloggningen är skapad. ' + first + ' får ett mejl att bekräfta, sedan går det att logga in.' : 'Kontot är skapat, men behörigheten kunde inte läggas in. Säg till, så läggs den in.');
+          }).catch(function (err) { btn.disabled = false; btn.textContent = 'Öppna kontot'; m.textContent = err.message; });
+        };
+        sb.auth.getSession().then(function (r) {
+          var token = r.data && r.data.session && r.data.session.access_token;
+          return fetch('/api/accounts/create', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token }, body: JSON.stringify({ email: email, password: pw, name: p[1] }) });
+        }).then(function (res) { return res.json().catch(function () { return {}; }).then(function (b) { return { ok: res.ok, b: b }; }); }, function () { return { ok: false, b: { error: 'net' } }; })
+          .then(function (x) {
+            if (x.ok) { f.pw.value = f.pw2.value = ''; d.remove(); return toast((x.b.how === 'updated' ? 'Kontot är öppnat med det nya lösenordet. ' : 'Kontot är öppnat. ') + first + ' kan logga in direkt.' + (x.b.role ? '' : ' Behörigheten kunde inte läggas in – säg till.')); }
+            if (x.b.error === 'no_service_key' || x.b.error === 'net') return fallback();
+            btn.disabled = false; btn.textContent = 'Öppna kontot'; m.textContent = x.b.error === 'exists' ? 'Kontot finns redan men kunde inte uppdateras.' : 'Det gick inte: ' + x.b.error;
+          });
       });
     });
   }
 
   var PAGES = {
+    todo: renderTodo, leads: renderLeads, vunna: renderWon, arkiv: renderArchive, statistik: renderStats, konton: renderAccounts,
     kalender: renderCalendar, kontakter: renderContacts, fakturor: renderInvoices, utskick: renderCampaigns, segment: renderSegments,
     besokare: renderVisitors, chatten: renderChat, kundportal: renderPortal, ai: renderAI, insikter: renderInsights, ekonomi: renderEconomy,
     minne: renderMemory, integrationer: renderIntegrations, konto: renderAccount

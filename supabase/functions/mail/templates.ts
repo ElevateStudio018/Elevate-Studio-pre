@@ -120,14 +120,15 @@ export function reviewRequest(name: string, reviewUrl: string, sender?: Member) 
 }
 
 /** Meeting invite: white time box, cream button, the host as a contact card. */
-export function meetingInvite(o: { name: string; when: string; minutes: number; type: string; link?: string; message?: string; host?: Member }) {
+export function meetingInvite(o: { name: string; when: string; minutes: number; type: string; link?: string; message?: string; host?: Member; heading?: string; intro?: string; subject?: string }) {
   const label = `font:bold 11px ${SANS};letter-spacing:1.2px;text-transform:uppercase;color:#4f7a60`;
   const isUrl = o.link && /^https?:\/\//.test(o.link);
+  const subject = o.subject || "Mötesinbjudan från Elevate Studio";
   return {
-    subject: "Mötesinbjudan från Elevate Studio",
-    html: shell("Mötesinbjudan från Elevate Studio",
-      heading(o.host ? `Du har blivit inbjuden av ${esc(o.host.first)}` : "Du är inbjuden till ett möte") +
-      para(`${hello(o.name)} Här är din inbjudan till mötet med Elevate Studio.`, "10px 40px 26px") +
+    subject,
+    html: shell(subject,
+      heading(o.heading ? esc(o.heading) : o.host ? `Du har blivit inbjuden av ${esc(o.host.first)}` : "Du är inbjuden till ett möte") +
+      para(`${hello(o.name)} ${o.intro ? esc(o.intro) : "Här är din inbjudan till mötet med Elevate Studio."}`, "10px 40px 26px") +
       `<tr><td style="padding:0 28px"><table bgcolor="#ffffff" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px">
         <tr><td style="padding:20px 22px;border-bottom:1px solid #e6ece8"><div style="${label}">Datum &amp; tid</div><div style="font:bold 18px/1.4 ${SANS};color:#1d3b2a;margin-top:4px">${esc(o.when)}</div></td></tr>
         <tr><td style="padding:18px 22px"><div style="${label}">Möte</div><div style="font:16px ${SANS};color:#1d3b2a;margin-top:4px">${esc(o.type)} · ${o.minutes} minuter${o.link && !isUrl ? "<br>" + esc(o.link) : ""}</div></td></tr>
@@ -136,6 +137,29 @@ export function meetingInvite(o: { name: string; when: string; minutes: number; 
       (isUrl ? button(o.link!, "Anslut till mötet") : "") + (o.host ? contactCard(o.host) : ""),
       "Kalenderinbjudan är bifogad – öppna den för att lägga in mötet i din kalender."),
     text: `${hello(o.name)}\n\nDu är inbjuden till ett möte med Elevate Studio.\n\nTid: ${o.when} (${o.minutes} min)\nTyp: ${o.type}${o.link ? "\nLänk/plats: " + o.link : ""}${o.message ? "\n\n" + o.message : ""}\n\nElevate Studio\ninfo@elevatestudio.nu`,
+  };
+}
+
+/** The customer picks a time: a few quick picks straight from the mail, and the button to the booking page. */
+export function timeProposal(o: { name: string; url: string; minutes: number; type: string; host?: Member; message?: string; picks: { day: string; time: string; url: string }[] }) {
+  const who = o.host ? esc(o.host.first) : "Vi";
+  const picks = o.picks.length
+    ? `<tr><td style="padding:22px 28px 0">
+  <p style="margin:0 0 10px 12px;font:bold 11px ${SANS};letter-spacing:1.2px;text-transform:uppercase;color:#9fc0a8">Snabbast att välja</p>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${o.picks.map((p) =>
+    `<td width="${Math.floor(100 / o.picks.length)}%" style="padding:0 4px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td bgcolor="#ffffff" align="center" style="background:#ffffff;border-radius:12px"><a href="${esc(p.url)}" style="display:block;padding:14px 6px;font:14px/1.3 ${SANS};color:#1d3b2a;text-decoration:none">${esc(p.day)}<br><b style="font-size:20px">${esc(p.time)}</b></a></td></tr></table></td>`).join("")}</tr></table>
+</td></tr>` : "";
+  return {
+    subject: `Välj en tid som passar dig – möte med ${o.host ? o.host.first : "Elevate Studio"}`,
+    html: shell("Välj en tid som passar dig",
+      heading("Välj en tid som passar dig") +
+      para(`${hello(o.name)} ${who} vill gärna ta ${o.minutes} minuter om er hemsida (${esc(o.type)}). Tryck på en tid så bokas mötet direkt, och du får en bekräftelse med allt du behöver.`, "10px 40px 4px") +
+      picks +
+      button(o.url, "Se alla lediga tider") +
+      (o.message ? para(esc(o.message).replace(/\n/g, "<br>"), "18px 40px 4px") : "") +
+      (o.host ? contactCard(o.host) : ""),
+      "Tiderna hämtas från vår kalender, så det som visas är ledigt på riktigt. Länken fungerar i tre veckor."),
+    text: `${hello(o.name)}\n\n${o.host ? o.host.first : "Vi"} vill gärna ta ${o.minutes} minuter om er hemsida (${o.type}). Välj en tid som passar dig här, så bokas mötet direkt:\n${o.url}${o.picks.length ? "\n\nSnabbast att välja: " + o.picks.map((p) => `${p.day} ${p.time}`).join(", ") : ""}${o.message ? "\n\n" + o.message : ""}\n\nElevate Studio\ninfo@elevatestudio.nu`,
   };
 }
 

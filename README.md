@@ -110,3 +110,22 @@ Engångsinställning:
    **Secrets** in: `GOOGLE_CLIENT_ID` och `GOOGLE_CLIENT_SECRET`.
 5. I admin: Integrationer → **Koppla Google**. Logga in med Elevate-kontot och godkänn. Sidan som
    visas efteråt ger en nyckel som läggs in som Secret `GOOGLE_REFRESH_TOKEN`.
+
+## Kunden väljer tid själv
+
+På en lead i admin finns **Låt kunden välja tid**. Kunden får ett mejl med tre förslag och knappen
+*Se alla lediga tider*, som öppnar `elevatestudio.nu/boka/<länk>`. Sidan visar de närmaste tio
+arbetsdagarna 09–17 i halvtimmar; det som är upptaget i Elevates Google Kalender är grått och går
+inte att välja. När kunden trycker på en tid skapas mötet i kalendern (med Meet-länk), kunden får
+en bekräftelse med kalenderfil, värden och info@ får ett mejl, och leaden i admin uppdateras
+nästa gång den öppnas. Länken är signerad och gäller i tre veckor; ingenting lagras för att den
+ska fungera. Nyckeln är Cloudflare-secreten `BOOKING_SECRET` (saknas den används Gmail-lösenordet).
+Serverdelen ligger i `worker/booking.js`, sidan i `boka.html` + `assets/js/boka.js`.
+
+## Teamets konton
+
+Under **Konton** i admin öppnas inloggningar för Carl, Isak och Oscar. Med Supabase-projektets
+`service_role`-nyckel som Secret `SUPABASE_SERVICE_KEY` i Cloudflare (Workers → elevate-studio-pre →
+Settings → Variables and Secrets; nyckeln finns i Supabase under Project Settings → API) öppnas
+kontot direkt med det lösenord som skrivs in, utan bekräftelsemejl, och ett konto som redan finns
+får det nya lösenordet. Utan nyckeln skickar Supabase ett bekräftelsemejl som personen klickar på.

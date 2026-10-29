@@ -1,6 +1,8 @@
 // The website is static files (served by Cloudflare). This small script adds the admin's server parts.
 import { handleInvite, handleMail } from './invite.js';
 import { googleReady, googleConnect, googleCallback } from './google.js';
+import { bookingReady, bookingLink, bookingInfo, bookingBook, bookingSync } from './booking.js';
+import { accountsReady, accountsCreate } from './accounts.js';
 
 const HOME = 'elevatestudio.nu';
 
@@ -21,7 +23,19 @@ export default {
     if (pathname === '/api/mail') return handleMail(req, env);
     if (loose === '/api/google/connect' || loose === '/koppla-google') return googleConnect(req, env);
     if (loose === '/api/google/callback') return googleCallback(req, env);
-    if (pathname === '/api/status') return Response.json({ gmail: !!(env.GMAIL_USER && env.GMAIL_APP_PASSWORD), google: googleReady(env), from: env.GMAIL_USER || null });
+    if (pathname === '/api/booking/link') return bookingLink(req, env);
+    if (pathname === '/api/booking/info') return bookingInfo(req, env);
+    if (pathname === '/api/booking/book') return bookingBook(req, env);
+    if (pathname === '/api/booking/sync') return bookingSync(req, env);
+    if (pathname === '/api/accounts/create') return accountsCreate(req, env);
+    if (pathname === '/api/status') return Response.json({ gmail: !!(env.GMAIL_USER && env.GMAIL_APP_PASSWORD), google: googleReady(env), booking: bookingReady(env), accounts: accountsReady(env), from: env.GMAIL_USER || null });
+    // The customer's booking page: one static page, the link's details are in the address
+    if (pathname.startsWith('/boka/')) {
+      // asked for as /boka (not /boka.html), otherwise the static files answer with a redirect that drops the link
+      const out = withHeaders(await env.ASSETS.fetch(new Request(new URL('/boka', url), req)), url);
+      out.headers.set('x-robots-tag', 'noindex'); out.headers.set('cache-control', 'no-store');
+      return out;
+    }
     return withHeaders(await env.ASSETS.fetch(req), url);
   },
 };

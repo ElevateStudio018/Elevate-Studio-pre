@@ -46,16 +46,46 @@ async function accessToken(env) {
 export async function createMeet(env, o) {
   const token = await accessToken(env);
   const end = new Date(o.start.getTime() + o.minutes * 6e4);
-  const r = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events?conferenceDataVersion=1&sendUpdates=none', {
+  const meet = o.conference !== false;
+  const r = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?conferenceDataVersion=${meet ? 1 : 0}&sendUpdates=none`, {
     method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      summary: o.title, description: o.description || '',
+      summary: o.title, description: o.description || '', location: o.location || undefined,
       start: { dateTime: o.start.toISOString(), timeZone: 'Europe/Stockholm' }, end: { dateTime: end.toISOString(), timeZone: 'Europe/Stockholm' },
       attendees: o.attendee ? [{ email: o.attendee, displayName: o.name || undefined }] : [],
-      conferenceData: { createRequest: { requestId: crypto.randomUUID(), conferenceSolutionKey: { type: 'hangoutsMeet' } } },
+      ...(meet ? { conferenceData: { createRequest: { requestId: crypto.randomUUID(), conferenceSolutionKey: { type: 'hangoutsMeet' } } } } : {}),
+      // Self-booked meetings carry the lead's id, so the admin can match the event to the lead
+      ...(o.props ? { extendedProperties: { private: o.props } } : {}),
     }) });
   const ev = await r.json().catch(() => ({}));
   const link = ev.hangoutLink || ev.conferenceData?.entryPoints?.find((p) => p.entryPointType === 'video')?.uri;
-  if (!r.ok || !link) throw new Error('Google: ' + (ev.error?.message || r.status));
-  return { link, uid: ev.iCalUID, id: ev.id };
+  if (!r.ok || (meet && !link)) throw new Error('Google: ' + (ev.error?.message || r.status));
+  return { link: link || null, uid: ev.iCalUID, id: ev.id };
+}
+
+/** Events in the Elevate calendar between two times (each occurrence of repeating ones). */
+export async function listEvents(env, from, to, extra = {}) {
+  const token = await accessToken(env);
+  const q = new URLSearchParams({ timeMin: from.toISOString(), timeMax: to.toISOString(), singleEvents: 'true', orderBy: 'startTime', maxResults: '2500', ...extra });
+  const r = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?${q}`, { headers: { Authorization: `Bearer ${token}` } });
+  const b = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error('Google: ' + (b.error?.message || r.status));
+  return b.items || [];
+}
+
+/** When the calendar is busy: [start, end] in ms for every event that blocks time (not the ones marked "free"). */
+export async function busyTimes(env, from, to) {
+  const out = [];
+  for (const ev of await listEvents(env, from, to)) {
+    if (ev.status === 'cancelled' || ev.transparency === 'transparent') continue;
+    if (ev.start?.dateTime) out.push([Date.parse(ev.start.dateTime), Date.parse(ev.end.dateTime)]);
+    else if (ev.start?.date) out.push([Date.parse(ev.start.date + 'T00:00:00+01:00') - 36e5, Date.parse(ev.end.date + 'T00:00:00+01:00') + 36e5]);
+  }
+  return out;
+}
+
+export async function deleteEvent(env, id) {
+  const token = await accessToken(env);
+  const r = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events/${encodeURIComponent(id)}?sendUpdates=none`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+  if (!r.ok && r.status !== 404 && r.status !== 410) throw new Error('Google: ' + r.status);
 }
