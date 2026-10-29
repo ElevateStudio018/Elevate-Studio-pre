@@ -134,6 +134,18 @@
     });
   });
 
+  // Films in the laptop mockups: play while on screen, rest when scrolled away
+  var films = document.querySelectorAll('.screen__video');
+  if (films.length && 'IntersectionObserver' in window) {
+    var filmWatch = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else { v.pause(); }
+      });
+    }, { threshold: .15 });
+    films.forEach(function (v) { filmWatch.observe(v); });
+  }
+
   // Before/after: drag the handle (or use the range input with keyboard) to compare
   document.querySelectorAll('[data-compare]').forEach(function (box) {
     var range = box.querySelector('.compare__range');

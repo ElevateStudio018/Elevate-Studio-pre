@@ -533,7 +533,8 @@ _IMG_TAG = re.compile(r'<img\b[^>]*>')
 _SIZES = [  # how wide the picture is shown, by file name, so the browser can pick the right copy
     ("device-phone", "(max-width: 768px) 22vw, 160px"),
     ("alvhem-phone", "(max-width: 768px) 22vw, 160px"),
-    ("alvhem-desktop", "(max-width: 768px) 70vw, 640px"),
+    ("alvhem-desktop", "(max-width: 768px) 80vw, (max-width: 1334px) 60vw, 810px"),
+    ("alvhem-old", "(max-width: 768px) 80vw, (max-width: 1334px) 60vw, 810px"),
     ("device-desktop", "(max-width: 768px) 70vw, 640px"),
     ("about-1", "(max-width: 768px) calc(100vw - 30px), 60vw"),
     ("about-3", "(max-width: 768px) calc(100vw - 30px), 30vw"),
@@ -555,7 +556,7 @@ def responsive(m):
     i = base.find("assets/img/")
     if i < 0:
         return tag
-    copies = [w for w in (160, 240, 320, 400, 480, 640, 720, 800, 960, 1200) if (ROOT / f"{base[i:]}-{w}.webp").exists()]
+    copies = [w for w in (160, 240, 320, 400, 480, 640, 720, 800, 960, 1200, 1400, 1600) if (ROOT / f"{base[i:]}-{w}.webp").exists()]
     if not copies:
         return tag
     try:
@@ -662,11 +663,31 @@ def laptop(src, alt=""):
     return f'<div class="laptop"><div class="laptop__scr"><img src="{src}" alt="{esc(alt)}" loading="lazy"></div><div class="laptop__base"></div></div>'
 
 
-def compare(p, after, after_alt, label_after="Efter"):
-    """Draggable before/after: a plain wireframe of a typical old site against the new one."""
+def screen(src, alt, video, overlay):
+    """A screenshot that becomes a playing film with the page's text laid over it (film and
+    overlay sit on top of the screenshot, which stays as poster and for reduced motion)."""
+    poster = src.rsplit(".", 1)[0] + ".webp"
+    return (f'<div class="screen"><img src="{src}" alt="{esc(alt)}" loading="lazy">'
+            f'<video class="screen__video" autoplay muted loop playsinline preload="metadata" poster="{poster}" aria-hidden="true" tabindex="-1"><source src="{video}" type="video/mp4"></video>'
+            f'<span class="screen__overlay" style="background-image:url({overlay})"></span></div>')
+
+
+def laptop_video(src, alt, video, overlay):
+    """A laptop whose screen plays the site's film under the page's text."""
+    return re.sub(r'<img\b[^>]*>', lambda m: screen(src, alt, video, overlay), laptop(src, alt), count=1)
+
+
+def compare(p, after, after_alt, label_after="Efter", before=None, before_alt="", video=None, overlay=None):
+    """Draggable before/after: a plain wireframe of a typical old site (or a picture of the real
+    old one) against the new one, which can play its film."""
+    if before:
+        before_html = f'<img src="{before}" alt="{esc(before_alt)}" loading="lazy">'
+    else:
+        before_html = '<div class="compare__old"><i class="o1"></i><i class="o2"></i><i class="o3"></i><i class="o3 o3--s"></i><i class="o4"></i></div>'
+    after_html = screen(after, after_alt, video, overlay) if video else f'<img src="{after}" alt="{esc(after_alt)}" loading="lazy">'
     return f'''<div class="compare" data-compare style="--pos:50%">
-        <div class="compare__before" aria-hidden="true"><div class="compare__old"><i class="o1"></i><i class="o2"></i><i class="o3"></i><i class="o3 o3--s"></i><i class="o4"></i></div><span class="compare__lb">Före</span></div>
-        <div class="compare__after"><img src="{after}" alt="{esc(after_alt)}" loading="lazy"><span class="compare__lb compare__lb--after">{label_after}</span></div>
+        <div class="compare__before" aria-hidden="true">{before_html}<span class="compare__lb">Före</span></div>
+        <div class="compare__after">{after_html}<span class="compare__lb compare__lb--after">{label_after}</span></div>
         <div class="compare__handle" aria-hidden="true"><span><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span></div>
         <input class="compare__range" type="range" min="0" max="100" value="50" aria-label="Dra för att jämföra före och efter">
       </div>'''
@@ -728,15 +749,28 @@ def build_cases():
         nxt = CASES[(i + 1) % len(CASES)]
         tags = "".join(f"<li>{esc(t)}</li>" for t in c["tags"])
         if c.get("site"):
+            img, alt = p + "assets/img/" + c["image"], c["name"] + " på en dator"
+            video = (p + "assets/" + c["video"]) if c.get("video") else None
+            overlay = (p + "assets/img/" + c["overlay"]) if c.get("video") else None
+            before = f'''
+    <section class="section container">
+      <div class="pj-compare">
+        <div>
+          <h2 class="block__header">Från <span>före</span> till <span>efter</span></h2>
+          <p>Dra i reglaget och jämför {esc(c["name"])}s gamla hemsida med den nya.</p>
+        </div>
+        {compare(p, img, c["name"] + "s nya hemsida", before=p + "assets/img/" + c["old_image"], before_alt=c["name"] + "s gamla hemsida", video=video, overlay=overlay)}
+      </div>
+    </section>''' if c.get("old_image") else ""
             body = f'''<section class="section container">
       <ul class="tag-row">{tags}</ul>
       <div class="case-devs">
-        {laptop(p + "assets/img/" + c["image"], c["name"] + " på en dator")}
+        {laptop_video(img, alt, video, overlay) if video else laptop(img, alt)}
         <div class="phone"><img src="{p}assets/img/{c["phone_image"]}" alt="{esc(c["name"])} på en mobil" loading="lazy"></div>
       </div>
       <p class="devs-cap"><b>Dator och mobil</b> – samma sajt, anpassad för varje skärm</p>
       <p class="case-visit"><a class="btn btn--primary" href="{c["site"]}" target="_blank" rel="noopener"><span>Besök {esc(c["site_label"])}</span></a></p>
-    </section>
+    </section>{before}
     <section class="section container">
       <div class="card-grid card-grid--2">
         <div class="info-card"><h2 class="info-card__title">Om kunden</h2><p>{esc(c["about"])}</p></div>
@@ -756,7 +790,7 @@ def build_cases():
         <div class="info-card info-card--accent"><h2 class="info-card__title">Resultatet</h2><p>{esc(c["result"])}</p></div>
       </div>
     </section>'''
-        main = f'''<main>
+        main = f'''<main{" class=\"look-ref\"" if c.get("site") else ""}>
     {page_hero(esc(c["name"]), c["lead"], "Kund" if c.get("site") else "Projekt")}
     {body}
     <section class="section container">
