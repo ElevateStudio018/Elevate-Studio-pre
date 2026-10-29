@@ -121,7 +121,7 @@ CASES = [
     {
         # A real customer: the site is shown as it is, with no made-up story
         "slug": "alvhem-stad", "name": "Alvhem Städ", "tags": ["Städfirma", "Kund", "Webb"],
-        "image": "home/alvhem-desktop.jpg", "w": 746, "h": 466, "phone_image": "home/alvhem-phone.jpg",
+        "image": "home/alvhem-desktop.jpg", "w": 746, "h": 466, "phone_image": "home/alvhem-phone.jpg", "old_image": "home/alvhem-old.jpg", "video": "video/alvhem-hero.mp4", "overlay": "home/alvhem-overlay.webp",
         "site": "https://alvhemstad.se/", "site_label": "alvhemstad.se",
         "lead": "Städfirma i Älvängen utanför Göteborg med hemstädning, storstädning, flyttstädning och kontorsstädning till fasta priser.",
         "about": "Alvhem Städ AB hjälper privatpersoner och företag med regelbunden hemstädning, storstädning, flyttstädning och kontorsstädning. Fasta priser, RUT-avdrag direkt på fakturan, nöjd kund-garanti och samma städare vid varje tillfälle.",
