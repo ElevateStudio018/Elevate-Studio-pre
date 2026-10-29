@@ -20,7 +20,7 @@
     var who = d.host ? d.host.first : null;
     document.getElementById('title').textContent = 'När passar det dig' + (d.first ? ', ' + d.first : '') + '?';
     document.getElementById('lead').textContent = (who ? who + ' har föreslagit' : 'Vi har föreslagit') + ' ett kort möte om er hemsida. Tryck på en ledig tid så är det bokat.';
-    document.getElementById('pills').innerHTML = '<span class="pill">' + d.minutes + ' min</span><span class="pill">' + esc(d.type) + '</span>' + (d.host ? '<span class="pill">' + esc(d.host.name) + '</span>' : '');
+    document.getElementById('pills').innerHTML = '<span class="pill">' + d.minutes + ' min</span><span class="pill">' + esc(d.type) + '</span>';
     document.title = 'Välj en tid' + (who ? ' med ' + who : '') + ' – Elevate Studio';
     var host = document.getElementById('host');
     if (d.host) {
@@ -28,7 +28,7 @@
       var ml = '<svg class="host__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2.2V17h16V7.2l-8 5.3z M4.6 7l7.4 4.9L19.4 7z" fill="currentColor"/></svg>';
       var mk = '<svg class="host__logo" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>';
       host.innerHTML = '<div class="host__top"><div><p class="host__kicker">Du träffar</p><h2 class="host__name">' + esc(d.host.name) + '</h2><p class="host__role">' + esc(d.host.role) + '</p></div>' + mk + '</div>' +
-        '<ul class="host__links">' + (d.host.phone ? '<li><a href="tel:' + esc(d.host.phone.replace(/\s/g, '')) + '">' + ph + '<span>' + esc(d.host.phone.replace('+46 ', '0').replace(/^\+46/, '0')) + '</span></a></li>' : '') +
+        '<ul class="host__links">' + (d.host.phone ? '<li><a href="tel:' + esc(d.host.phone.replace(/\s/g, '')) + '">' + ph + '<span>' + esc(d.host.phone.replace('+46 ', '0').replace(/^\+46/, '0').replace(/^(\d{3}) /, '$1-')) + '</span></a></li>' : '') +
         (d.host.email ? '<li><a href="mailto:' + esc(d.host.email) + '">' + ml + '<span>' + esc(d.host.email) + '</span></a></li>' : '') + '</ul><p class="host__company">Elevate Studio · Uppsala</p>';
       host.hidden = false;
     } else { host.hidden = true; }
@@ -42,7 +42,7 @@
     var pages = Math.ceil(days.length / 5), from = st.page * 5, week = days.slice(from, from + 5);
     var day = st.at ? findDay(st.at) : null;
     pick.innerHTML = '<div class="cols">' + week.map(function (x) {
-      return '<div class="col' + (x.free ? '' : ' is-full') + '"><h3>' + esc(x.wd) + ' <b>' + x.d + ' ' + esc(x.mon) + '</b><em>' + (x.free ? x.free + ' lediga' : 'fullt') + '</em></h3><div class="stack">' +
+      return '<div class="col' + (x.free ? '' : ' is-full') + '"><h3>' + esc(cap(x.wd)) + ' <b>' + x.d + ' ' + esc(x.mon.toLowerCase()) + '</b><em>' + (x.free ? x.free + ' lediga' : 'fullt') + '</em></h3><div class="stack">' +
         x.slots.map(function (s) {
           return s.free ? '<button class="chip' + (s.t === st.at ? ' is-on' : '') + '" data-at="' + s.t + '">' + time(s.t) + '</button>'
             : '<button class="chip is-busy" disabled aria-label="' + time(s.t) + ' är upptaget">' + time(s.t) + '</button>';
