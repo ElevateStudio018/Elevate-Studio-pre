@@ -125,7 +125,7 @@ CASES = [
         "site": "https://alvhemstad.se/", "site_label": "alvhemstad.se",
         "lead": "Städfirma i Älvängen utanför Göteborg med hemstädning, storstädning, flyttstädning och kontorsstädning till fasta priser.",
         "about": "Alvhem Städ AB hjälper privatpersoner och företag med regelbunden hemstädning, storstädning, flyttstädning och kontorsstädning. Fasta priser, RUT-avdrag direkt på fakturan, nöjd kund-garanti och samma städare vid varje tillfälle.",
-        "features": ["Telefonnumret syns högst upp på varje sida", "Tjänster med tydliga priser och RUT-avdrag", "Kontaktformulär där kunden väljer typ av städning och anger yta", "Anpassad för mobilen"],
+        "features": ["Film i toppen som visar jobbet", "Egen sida för varje städtjänst, med priser", "Priskalkyl som räknar av RUT-avdraget direkt", "Boka uppstartsmöte från varje sida", "Anpassad för mobilen"],
     },
     {
         "slug": "fjallvagen-bildelar", "name": "Fjällvägen Bildelar", "tags": ["E-handel", "Sök", "Webb"],

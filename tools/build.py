@@ -690,14 +690,14 @@ def build_cases():
       <div class="pj-hero__mark">{MARK_SVG}</div>
       <div class="container pj-hero__row">
         <div>
-          <span class="ex-tag ex-tag--demo">Kund hos oss</span>
+          <span class="ex-tag ex-tag--demo">Så kan det se ut</span>
           <h1 class="pj-hero__title">Hemsidor som känns rätt <em>på alla skärmar</em></h1>
-          <p class="pj-hero__lead">Vi bygger mobilen först och finputsar varje skärmstorlek. Alvhem Städ är kund hos oss – så här ser deras hemsida ut på dator och mobil. Längre ner finns fler exempel på hur vi arbetar.</p>
-          <a class="btn btn--light" href="https://alvhemstad.se/" target="_blank" rel="noopener"><span>Besök alvhemstad.se</span></a>
+          <p class="pj-hero__lead">Vi bygger mobilen först. Lindvik Bygg är en hemsida vi har byggt för att visa hur det kan se ut – på dator och mobil. Längre ner finns exempel på hur vi arbetar.</p>
+          <a class="btn btn--light" href="{LIRK_URL}" target="_blank" rel="noopener"><span>Klicka runt på Lindvik Bygg</span></a>
         </div>
         <div class="pj-hero__devs">
-          {laptop(p + "assets/img/home/alvhem-desktop.jpg", "Alvhem Städ på en dator")}
-          <div class="phone"><img src="{p}assets/img/home/alvhem-phone.jpg" alt="Alvhem Städ på en mobil" loading="lazy"></div>
+          {laptop(p + "assets/img/home/device-desktop.jpg", "Lindvik Bygg på en dator")}
+          <div class="phone"><img src="{p}assets/img/home/device-phone.jpg" alt="Lindvik Bygg på en mobil" loading="lazy"></div>
         </div>
           <p class="devs-cap"><b>Dator och mobil</b> – samma sajt, anpassad för varje skärm</p>
       </div>
@@ -1259,18 +1259,18 @@ def projects_section():
       <div class="container">
         <div class="hp-proj__hero hp-proj__hero--trio">
           <div class="hp-proj__head">
-            <span class="ex-tag ex-tag--demo">Kund hos oss</span>
+            <span class="ex-tag ex-tag--demo">Så kan det se ut</span>
             <h2 class="hp-proj__title">Hemsidor som känns rätt <em>på alla skärmar</em></h2>
-            <p class="hp-proj__lead">Vi bygger mobilen först och finputsar varje skärmstorlek. Alvhem Städ är kund hos oss – så här ser deras hemsida ut på dator och mobil.</p>
+            <p class="hp-proj__lead">Vi bygger mobilen först och finputsar varje skärmstorlek. Lindvik Bygg är en hemsida vi har byggt för att visa hur det kan se ut – på dator och mobil.</p>
             <div class="hp-proj__btns">
               <a class="btn btn--light" href="projekt/index.html"><span>Se alla projekt</span></a>
-              <a class="arrow-link hp-proj__link" href="https://alvhemstad.se/" target="_blank" rel="noopener">Besök alvhemstad.se</a>
+              <a class="arrow-link hp-proj__link" href="{LIRK_URL}" target="_blank" rel="noopener">Klicka runt på Lindvik Bygg</a>
             </div>
           </div>
           <div class="hp-proj__trio">
-            <div class="phone hp-proj__phone hp-proj__phone--l"><img src="assets/img/home/alvhem-phone.jpg" alt="Alvhem Städ på en mobil" loading="lazy"></div>
-            {laptop("assets/img/home/alvhem-desktop.jpg", "Alvhem Städ på en dator")}
-            <div class="phone hp-proj__phone hp-proj__phone--r" aria-hidden="true"><img src="assets/img/home/alvhem-phone.jpg" alt="" loading="lazy"></div>
+            <div class="phone hp-proj__phone hp-proj__phone--l"><img src="assets/img/home/device-phone.jpg" alt="Lindvik Bygg på en mobil" loading="lazy"></div>
+            {laptop("assets/img/home/device-desktop.jpg", "Lindvik Bygg på en dator")}
+            <div class="phone hp-proj__phone hp-proj__phone--r" aria-hidden="true"><img src="assets/img/home/device-phone.jpg" alt="" loading="lazy"></div>
           </div>
         </div>
         <div class="hp-proj__divider">
