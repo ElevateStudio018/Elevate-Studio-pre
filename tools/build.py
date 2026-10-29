@@ -953,14 +953,26 @@ def build_simple():
                 parts.append(f'<section class="section container"><p class="preamble prose">{esc(value)}</p></section>')
             elif kind == "sites":
                 cards = "".join(f'''<article class="site-card">
-          <a class="site-card__shot" href="{s["url"]}" target="_blank" rel="noopener" aria-label="Besök {esc(s["name"])}">{laptop(p + "assets/img/" + s["image"], s["name"] + " på en dator")}</a>
-          <div class="site-card__body">
-            <h2 class="site-card__name">{esc(s["name"])}</h2>
-            <p class="site-card__what">{esc(s["what"])}</p>
-            <p class="site-card__links"><a class="btn btn--primary btn--sm" href="{s["url"]}" target="_blank" rel="noopener"><span>Besök {esc(s["label"])}</span></a>{f'<a class="site-card__more" href="{p}{s["case"]}">Läs om projektet</a>' if s.get("case") else ""}</p>
-          </div>
+          <a class="site-card__face" href="{s["url"]}" target="_blank" rel="noopener" data-site="{s["url"]}" data-name="{esc(s["name"])}" aria-label="Förhandsvisa {esc(s["name"])}">
+            <span class="site-card__bg" style="background-image:url({p}assets/img/{s["image"].replace(".jpg", "-800.webp")})"></span>
+            <span class="site-card__logo"><img src="{p}assets/img/{s["logo"]}" alt="{esc(s["name"])}" loading="lazy"></span>
+            <span class="site-card__foot"><span class="site-card__name">{esc(s["name"])}</span><span class="site-card__what">{esc(s["what"])}</span><span class="site-card__cta">Förhandsvisa &rarr;</span></span>
+          </a>
+          <p class="site-card__links"><a href="{s["url"]}" target="_blank" rel="noopener">Besök {esc(s["label"])}</a>{f'<a href="{p}{s["case"]}">Läs om projektet</a>' if s.get("case") else ""}</p>
         </article>''' for s in value)
-                parts.append(f'<section class="section container"><div class="sites">{cards}</div></section>')
+                parts.append(f'''<section class="section container"><div class="sites">{cards}</div></section>
+    <div class="site-preview" id="site-preview" hidden>
+      <div class="site-preview__bar container">
+        <div class="site-preview__who"><b id="sp-name"></b><a id="sp-url" href="#" target="_blank" rel="noopener"></a></div>
+        <div class="site-preview__acts">
+          <span class="site-preview__toggle" role="group" aria-label="Visa som"><button type="button" class="is-on" data-view="desk">Dator</button><button type="button" data-view="mob">Mobil</button></span>
+          <a class="btn btn--primary btn--sm" id="sp-open" href="#" target="_blank" rel="noopener"><span>Öppna sajten</span></a>
+          <button type="button" class="site-preview__close" id="sp-close" aria-label="Stäng förhandsvisningen">Stäng</button>
+        </div>
+      </div>
+      <div class="site-preview__stage"><div class="site-preview__frame" id="sp-frame"><iframe id="sp-iframe" title="Förhandsvisning" loading="lazy"></iframe></div>
+        <p class="site-preview__fallback" id="sp-fallback" hidden>Sajten gick inte att visa här. Öppna den i en ny flik i stället.</p></div>
+    </div>''')
             elif kind == "cols":
                 cards = "".join(
                     f'<div class="info-card"><h2 class="info-card__title">{esc(t)}</h2><p>{d}</p></div>'

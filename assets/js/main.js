@@ -192,3 +192,30 @@
     });
   }
 })();
+
+/* Hemsidor vi byggt: a card opens the site in a frame on top of the page */
+(function () {
+  var box = document.getElementById('site-preview');
+  if (!box) return;
+  var frame = document.getElementById('sp-frame'), ifr = document.getElementById('sp-iframe'), fb = document.getElementById('sp-fallback'), timer;
+  function open(url, name) {
+    document.getElementById('sp-name').textContent = name;
+    var u = document.getElementById('sp-url'); u.textContent = url.replace(/^https?:\/\//, '').replace(/\/$/, ''); u.href = url;
+    document.getElementById('sp-open').href = url;
+    fb.hidden = true; ifr.src = url; box.hidden = false; document.body.classList.add('has-preview');
+    clearTimeout(timer); timer = setTimeout(function () { try { if (!ifr.contentWindow || ifr.contentWindow.length === undefined) return; } catch (e) { /* cross-origin: fine, it loaded */ } }, 4000);
+    ifr.onerror = function () { fb.hidden = false; };
+  }
+  function close() { box.hidden = true; ifr.src = 'about:blank'; document.body.classList.remove('has-preview'); }
+  document.querySelectorAll('[data-site]').forEach(function (a) {
+    a.addEventListener('click', function (e) { if (e.metaKey || e.ctrlKey || e.shiftKey) return; e.preventDefault(); open(a.dataset.site, a.dataset.name); });
+  });
+  document.getElementById('sp-close').addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !box.hidden) close(); });
+  box.querySelectorAll('[data-view]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      box.querySelectorAll('[data-view]').forEach(function (x) { x.classList.toggle('is-on', x === b); });
+      frame.classList.toggle('is-mob', b.dataset.view === 'mob');
+    });
+  });
+})();

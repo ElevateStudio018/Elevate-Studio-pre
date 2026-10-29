@@ -364,15 +364,15 @@ TEAM = [
 
 # Websites we have built and that are live. Add a line here and a screenshot in assets/img/sites/ to show one more.
 SITES = [
-    {"name": "Haninge Byggteam AB", "url": "https://haningebyggteam.se/", "label": "haningebyggteam.se", "what": "Byggfirma i Stockholm", "image": "sites/site-haninge.jpg"},
-    {"name": "Alvhem Städ", "url": "https://alvhemstad.se/", "label": "alvhemstad.se", "what": "Städfirma i Älvängen", "image": "sites/site-alvhem.jpg", "case": "projekt/alvhem-stad.html"},
-    {"name": "Markmontage BEAB AB", "url": "https://elevatestudio018.github.io/Bugg-test/", "label": "Markmontage BEAB AB", "what": "Mark- och grundarbeten i Kungälv och Göteborg", "image": "sites/site-markmontage.jpg"},
+    {"name": "Haninge Byggteam AB", "url": "https://haningebyggteam.se/", "label": "haningebyggteam.se", "what": "Byggfirma i Stockholm", "image": "sites/site-haninge.jpg", "logo": "home/client-haninge.svg"},
+    {"name": "Alvhem Städ", "url": "https://alvhemstad.se/", "label": "alvhemstad.se", "what": "Städfirma i Älvängen", "image": "sites/site-alvhem.jpg", "logo": "home/client-alvhemstad.png", "case": "projekt/alvhem-stad.html"},
+    {"name": "Markmontage BEAB AB", "url": "https://elevatestudio018.github.io/Bugg-test/", "label": "Markmontage BEAB AB", "what": "Mark- och grundarbeten i Kungälv och Göteborg", "image": "sites/site-markmontage.jpg", "logo": "home/client-markmontage.svg"},
 ]
 
 SIMPLE_PAGES = {
     "byggda-hemsidor": {
         "title": "Hemsidor vi byggt", "seo_title": "Hemsidor vi byggt – riktiga kunder, riktiga sajter",
-        "lead": "Ett urval av hemsidor vi byggt åt företag. Klicka in och titta – det är så här det ser ut när det är klart.",
+        "lead": "Ett urval av hemsidor vi byggt åt företag. Klicka på en så öppnas den här på sidan, i dator- eller mobilvy.",
         "description": "Se hemsidor som Elevate Studio har byggt åt riktiga företag: byggfirma, städfirma och markentreprenad. Besök sajterna och se hur de fungerar på dator och mobil.",
         "sections": [
             ("sites", SITES),
