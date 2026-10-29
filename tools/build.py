@@ -187,6 +187,7 @@ def footer(p):
                 <li><a href="{p}insikter/index.html">Senaste nytt</a></li>
                 <li><a href="{p}plattformar/index.html">Tekniken vi använder</a></li>
                 <li><a href="{p}webbyra-uppsala.html">Webbyrå i Uppsala</a></li>
+                <li><a href="{p}webbyra-stockholm.html">Webbyrå i Stockholm</a></li>
                 <li><a href="{p}hemsida-for-hantverkare.html">Hemsida för hantverkare</a></li>
                 <li><a href="{p}billig-hemsida.html">Billig hemsida</a></li>
               </ul>
