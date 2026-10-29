@@ -19,7 +19,8 @@
   function fillHero(d) {
     var who = d.host ? d.host.first : null;
     document.getElementById('title').textContent = 'När passar det dig' + (d.first ? ', ' + d.first : '') + '?';
-    document.getElementById('lead').textContent = (who ? who + ' har föreslagit' : 'Vi har föreslagit') + ' ett kort möte om er hemsida. Tryck på en ledig tid så är det bokat.';
+    document.getElementById('lead').textContent = d.demo ? 'Förhandsvisning av bokningssidan: tiderna är de som är lediga i kalendern just nu, men inget bokas när du trycker.'
+      : (who ? who + ' har föreslagit' : 'Vi har föreslagit') + ' ett kort möte om er hemsida. Tryck på en ledig tid så är det bokat.';
     document.getElementById('pills').innerHTML = '<span class="pill">' + d.minutes + ' min</span><span class="pill">' + esc(d.type) + '</span>';
     document.title = 'Välj en tid' + (who ? ' med ' + who : '') + ' – Elevate Studio';
     var host = document.getElementById('host');
@@ -30,8 +31,9 @@
       host.innerHTML = '<div class="host__top"><div><p class="host__kicker">Du träffar</p><h2 class="host__name">' + esc(d.host.name) + '</h2><p class="host__role">' + esc(d.host.role) + '</p></div>' + mk + '</div>' +
         '<ul class="host__links">' + (d.host.phone ? '<li><a href="tel:' + esc(d.host.phone.replace(/\s/g, '')) + '">' + ph + '<span>' + esc(d.host.phone.replace('+46 ', '0').replace(/^\+46/, '0').replace(/^(\d{3}) /, '$1-')) + '</span></a></li>' : '') +
         (d.host.email ? '<li><a href="mailto:' + esc(d.host.email) + '">' + ml + '<span>' + esc(d.host.email) + '</span></a></li>' : '') + '</ul><p class="host__company">Elevate Studio · Uppsala</p>';
-      host.hidden = false;
-    } else { host.hidden = true; }
+      document.getElementById('about-text').textContent = d.host.first + ' går igenom ert företag, vad hemsidan ska ge er och hur ett upplägg kan se ut. Det kostar ingenting, och du behöver inte förbereda något.';
+      document.getElementById('about').hidden = false;
+    } else { document.getElementById('about').hidden = true; }
   }
 
   function findDay(at) { return st.data.days.find(function (x) { return x.slots.some(function (s) { return s.t === at; }); }); }
@@ -77,6 +79,13 @@
 
   function renderDone(b) {
     var d = st.data;
+    if (d.demo) {
+      var w = cap(new Date(b.at).toLocaleString('sv-SE', { timeZone: TZ, weekday: 'long', day: 'numeric', month: 'long' })) + ', ' + time(b.at) + '–' + time(b.at + b.minutes * 6e4);
+      pick.innerHTML = '<div class="done"><div class="done__check">' + CHECK + '</div><h2>Klart, mötet är bokat!</h2><p class="done__sub">Så här ser sidan ut för kunden efter bokningen. Det här är en förhandsvisning – inget bokades.</p>' +
+        '<div class="done__card"><b>' + w + '</b><span>' + esc(d.type) + (d.host ? ' med ' + esc(d.host.name) : '') + '</span></div><div class="done__row"><button class="ghost" id="rebook">Tillbaka till tiderna</button></div></div>';
+      document.getElementById('rebook').addEventListener('click', function () { st.at = 0; load(); });
+      return;
+    }
     var when = cap(new Date(b.at).toLocaleString('sv-SE', { timeZone: TZ, weekday: 'long', day: 'numeric', month: 'long' })) + ', ' + time(b.at) + '–' + time(b.at + b.minutes * 6e4);
     pick.innerHTML = '<div class="done"><div class="done__check">' + CHECK + '</div><h2>' + (b.already ? 'Du har redan bokat' : b.rebooked ? 'Mötet är ombokat' : 'Klart, mötet är bokat!') + '</h2>' +
       '<p class="done__sub">' + (b.already ? 'Det här mötet är inlagt i vår kalender.' : b.mailed === false ? 'Mötet ligger i vår kalender.' : 'En bekräftelse' + (b.link ? ' med länken' : '') + ' är på väg till ' + esc(b.email || d.email) + '.') + '</p>' +

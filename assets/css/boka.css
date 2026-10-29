@@ -15,9 +15,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .hero p { max-width: 560px; margin: 0; opacity: .82; }
 .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .pill { padding: 8px 14px; border-radius: 999px; background: rgba(253, 251, 245, .12); font-size: 14px; font-weight: 600; }
-.in--split { display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start; }
+/* Under the times: how the meeting goes, and the host */
+.about { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: stretch; max-width: 1180px; margin: 8px auto 48px; padding: 0 24px; }
+.about__text { display: flex; flex-direction: column; justify-content: center; }
+.about__text { padding: 26px 30px; border: 1px solid var(--line); border-radius: 22px; background: #fff; }
+.about__text h2 { margin: 0 0 6px; font-size: 20px; font-weight: 600; }
+.about__text p { margin: 0; color: var(--muted); }
 /* Who the customer meets: the same card as the team on the contact page */
-.host { display: flex; flex-direction: column; padding: 26px 28px 20px; border: 1px solid rgba(253, 251, 245, .1); border-radius: 18px; background: #12271b; box-shadow: 0 24px 40px -32px rgba(0, 0, 0, .7); }
+.host { display: flex; flex-direction: column; padding: 26px 28px 20px; border: 1px solid rgba(253, 251, 245, .1); border-radius: 18px; background: #12271b; color: var(--cream); box-shadow: 0 24px 40px -32px rgba(0, 0, 0, .7); }
 .host__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 22px; }
 .host__kicker { margin: 0 0 8px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #9fc0a8; }
 .host__name { margin: 0 0 4px; font-size: 24px; font-weight: 500; line-height: 1.15; color: #fff; }
@@ -73,7 +78,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .note { margin: 14px 0 0; font-size: 13px; color: var(--muted); }
 
 @media (max-width: 900px) {
-  .in--split { grid-template-columns: 1fr; gap: 22px; }
+  .about { grid-template-columns: 1fr; gap: 12px; margin: 0 auto 28px; padding: 0 12px; }
+  .about__text { padding: 20px; }
   .host { padding: 20px 20px 16px; }
   .host__name { font-size: 21px; }
   .hero { padding: 22px 16px 96px; }

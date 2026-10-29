@@ -136,17 +136,21 @@ export async function bookingLink(req, env) {
   return res.ok ? json(out) : res;
 }
 
+// A preview of the page for the team (/boka/demo): a sample customer, the calendar's real free times, nothing booked
+const DEMO = { l: 'demo', e: '', n: 'Anna', h: 'carl', m: 30, t: 'google_meet', c: 0, x: Infinity };
+const demoOr = async (env, token) => (token === 'demo' ? DEMO : verify(env, token));
+
 /* ---------- The booking page: what to show ---------- */
 export async function bookingInfo(req, env) {
-  const p = await verify(env, new URL(req.url).searchParams.get('t'));
+  const p = await demoOr(env, new URL(req.url).searchParams.get('t'));
   if (!p) return json({ error: 'link' }, 404);
   const host = TEAM[p.h] || null;
   const now = Date.now();
   const days = offeredDays(now);
   const { busy, live } = await busyOrNone(env, now, days[days.length - 1].close);
-  const booked = await existing(env, p);
-  return json({ ok: true, name: p.n, email: p.e, first: (p.n || '').trim().split(/\s+/)[0] || '', host: host && { first: host.first, name: host.name, role: host.role, phone: host.phone, email: host.email },
-    minutes: p.m, type: TYPES[p.t] || 'Möte', live, booked, expires: p.x,
+  const booked = p === DEMO ? null : await existing(env, p);
+  return json({ ok: true, demo: p === DEMO, name: p.n, email: p.e, first: (p.n || '').trim().split(/\s+/)[0] || '', host: host && { first: host.first, name: host.name, role: host.role, phone: host.phone, email: host.email },
+    minutes: p.m, type: TYPES[p.t] || 'Möte', live, booked, expires: p.x === Infinity ? null : p.x,
     days: days.map((d) => { const s = slots(d, p.m, busy, now); return { date: d.date, wd: d.wd, d: d.d, mon: d.mon, long: d.long, free: s.filter((x) => x.free).length, slots: s }; }) });
 }
 
@@ -154,11 +158,12 @@ export async function bookingInfo(req, env) {
 export async function bookingBook(req, env) {
   if (req.method !== 'POST') return json({ error: 'method' }, 405);
   let input; try { input = await req.json(); } catch { return json({ error: 'json' }, 400); }
-  const p = await verify(env, input.t);
+  const p = await demoOr(env, input.t);
   if (!p) return json({ error: 'link' }, 404);
   const start = Number(input.at), now = Date.now();
   const day = offeredDays(now).find((d) => start >= d.open && start < d.close);
   if (!day || (start - day.open) % (STEP * 6e4) !== 0 || start + p.m * 6e4 > day.close || start < now + NOTICE) return json({ error: 'slot' }, 409);
+  if (p === DEMO) return json({ ok: true, demo: true, at: start, minutes: p.m, type: TYPES[p.t], link: null, mailed: false });
   const end = start + p.m * 6e4;
   const prior = await existing(env, p);
   const { busy } = await busyOrNone(env, start - 864e5, end + 864e5);
