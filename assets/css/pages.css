@@ -470,9 +470,6 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 /* ---------- Projects (laptop mockups, before/after) ---------- */
 .ex-tag { display: inline-block; padding: 4px 10px; border-radius: 20px; background: var(--cream-dark, #f6f1e4); color: var(--accent, #1d3b2a); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .ex-tag--demo { background: var(--cream, #fdfbf5); color: var(--accent, #1d3b2a); }
-.laptop__scr { overflow: hidden; aspect-ratio: 16 / 10; border: 10px solid #1a1a1a; border-bottom-width: 14px; border-radius: 14px 14px 0 0; background: #000; }
-.laptop__scr img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
-.laptop__base { height: 14px; margin: 0 -6%; border-radius: 0 0 14px 14px; background: linear-gradient(#d9d9d9, #b5b5b5); }
 .phone { overflow: hidden; aspect-ratio: 9 / 19.5; border: 8px solid #1a1a1a; border-radius: 28px; background: #000; }
 .phone img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .pj-hero { position: relative; overflow: hidden; padding: 88px 0 104px; background: var(--accent, #1d3b2a); color: var(--cream, #fdfbf5); }
@@ -507,7 +504,6 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .pgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .pcard { display: flex; flex-direction: column; overflow: hidden; border-radius: 22px; background: #fff; color: #111; text-decoration: none; transition: transform .2s, box-shadow .2s; }
 .pcard:hover { transform: translateY(-4px); box-shadow: 0 24px 40px -30px rgba(18, 39, 27, .55); }
-.pcard .laptop { padding: 28px 40px 0; background: var(--cream-dark, #f6f1e4); }
 .pcard__body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 10px; padding: 24px 26px 28px; }
 .pcard__body h3 { margin: 0; font-size: 26px; font-weight: 500; }
 .pcard__body p { margin: 0; font-size: 15px; color: #555; }
@@ -541,10 +537,6 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 @media (max-width: 768px) { .land { gap: 40px; } .land__sec h2 { font-size: 26px; } .land__list { font-size: 17px; } }
 
 /* ---------- Devices: read clearly as a laptop and a phone ---------- */
-.laptop { position: relative; z-index: 1; }
-.laptop__scr { border-color: #111; box-shadow: 0 0 0 2px #b9bec4, 0 34px 60px -34px rgba(0, 0, 0, .65); }
-.laptop__base { position: relative; height: 16px; background: linear-gradient(#f1f2f4, #c3c8cd 65%, #8f959b); box-shadow: 0 22px 30px -16px rgba(0, 0, 0, .55); }
-.laptop__base::before { content: ""; position: absolute; top: 0; left: 50%; width: 16%; height: 6px; margin-left: -8%; border-radius: 0 0 8px 8px; background: #a6abb1; }
 .phone { border-color: #111; box-shadow: 0 0 0 2px #b9bec4, 0 30px 50px -20px rgba(0, 0, 0, .6); }
 .phone::before { content: ""; position: absolute; top: 6px; left: 50%; z-index: 2; width: 34%; height: 11px; margin-left: -17%; border-radius: 8px; background: #111; }
 .hp-proj__devs::before, .pj-hero__devs::before { content: ""; position: absolute; inset: -12% -8% -18% -4%; z-index: 0; background: radial-gradient(closest-side, rgba(253, 251, 245, .2), rgba(253, 251, 245, 0)); pointer-events: none; }
@@ -558,7 +550,6 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .case-devs + .devs-cap b { color: #111; }
 .case-visit { margin: 28px 0 0 90px; }
 /* A screen that plays the site's film under its text: screenshot as poster, film, then the text layer */
-.laptop__scr { position: relative; }
 .screen { position: absolute; inset: 0; }
 .screen > img, .screen > video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .screen__overlay { position: absolute; inset: 0; background-position: top center; background-size: cover; background-repeat: no-repeat; pointer-events: none; }
@@ -602,9 +593,6 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 }
 
 /* Devices, clearer: silver lid and frame with a black bezel inside, like a real laptop/phone */
-.laptop__scr { padding: 7px 7px 9px; border: 9px solid #d7dbdf; border-bottom-width: 12px; background: #0d0d0d; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .25), 0 0 0 1px #9ba1a7, 0 40px 70px -36px rgba(0, 0, 0, .7); }
-.laptop__scr img { border-radius: 3px; }
-.laptop__base { height: 18px; margin: 0 -8%; background: linear-gradient(#f4f5f7, #d0d4d8 55%, #9aa0a6); }
 .phone { padding: 5px; border: 7px solid #d7dbdf; background: #0d0d0d; box-shadow: 0 0 0 1px #9ba1a7, 0 30px 50px -20px rgba(0, 0, 0, .6); }
 .phone img { border-radius: 20px; }
 .phone::before { top: 9px; }
@@ -622,18 +610,7 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .social--light a:hover { background: rgba(29, 59, 42, .06); border-color: var(--accent, #1d3b2a); }
 
 /* ---------- Laptop, modern: thin dark bezel, rounded lid, camera, slim aluminium base ---------- */
-.laptop { filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .28)); }
-.laptop__scr { position: relative; padding: 10px 10px 12px; border: 2px solid #3a3d41; border-bottom: 0; border-radius: 18px 18px 0 0; background: #0b0c0d; box-shadow: inset 0 0 0 1px #17191b, inset 0 1px 0 rgba(255, 255, 255, .08); }
-.laptop__scr::before { content: ""; position: absolute; top: 3px; left: 50%; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: #1f3c2b; box-shadow: 0 0 0 1px #2c2f33, inset 0 0 2px #7ee0a8; }
-.laptop__scr img, .laptop__scr .screen { border-radius: 6px 6px 2px 2px; }
-.laptop__base { position: relative; height: 12px; margin: 0 -7%; border-radius: 0 0 12px 12px / 0 0 100% 100%; background: linear-gradient(#e9ebee, #c9cdd2 50%, #8d939a); box-shadow: 0 1px 0 #6f757c, 0 18px 26px -18px rgba(0, 0, 0, .6); }
-.laptop__base::before { content: ""; position: absolute; top: 0; left: 50%; width: 18%; height: 5px; margin-left: -9%; border-radius: 0 0 8px 8px; background: linear-gradient(#a9aeb4, #c9cdd2); }
-.laptop__base::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: rgba(255, 255, 255, .7); }
-.pcard .laptop { padding: 28px 40px 0; }
 @media (max-width: 768px) {
-  .laptop__scr { padding: 6px 6px 8px; border-radius: 12px 12px 0 0; }
-  .laptop__base { height: 9px; }
-  .laptop { filter: drop-shadow(0 16px 20px rgba(0, 0, 0, .25)); }
 }
 .contact-hero__social { position: relative; margin-top: 28px; }
 .contact-hero__social .contact-hero__k { margin: 0 0 10px; }
@@ -645,8 +622,8 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .site-card__devs { position: relative; display: block; width: 100%; aspect-ratio: 16 / 10; margin-bottom: 22px; }
 .site-card__devs .laptop { position: absolute; left: 0; top: 0; width: 86%; filter: drop-shadow(0 18px 24px rgba(0, 0, 0, .22)); }
 .site-card__devs .phone { position: absolute; right: 0; bottom: -6%; width: 25%; border-width: 5px; border-radius: 18px; box-shadow: 0 20px 30px -18px rgba(0, 0, 0, .6); }
-.site-card__logo { display: grid; place-items: center; width: 150px; height: 64px; padding: 8px 12px; margin-bottom: 12px; border-radius: 12px; background: #fff; overflow: hidden; }
-.site-card__logo img { display: block; width: auto; height: auto; max-width: 100%; max-height: 48px; }
+.site-card__logo { display: block; height: 56px; margin-bottom: 12px; }
+.site-card__logo img { display: block; width: auto; height: 100%; max-width: 180px; object-fit: contain; object-position: left; }
 .site-card__name { font-size: 22px; font-weight: 500; }
 .site-card__what { font-size: 14px; color: #666; }
 .site-card__text { flex: 1; margin: 10px 0 16px; font-size: 14px; line-height: 1.55; color: #444; }
@@ -674,4 +651,19 @@ body.has-preview { overflow: hidden; }
 @media (max-width: 600px) {
   .site-preview__toggle { display: none; }
   .site-card__logo { width: 62%; }
+}
+
+/* ---------- Laptop, like a new MacBook: thin black bezel, rounded screen corners, a notch, a slim aluminium base ---------- */
+.laptop { position: relative; z-index: 1; filter: drop-shadow(0 28px 36px rgba(0, 0, 0, .26)); }
+.laptop__scr { position: relative; overflow: hidden; aspect-ratio: 16 / 10.4; padding: 2.6% 2.6% 3%; border-radius: 4.2% / 6.2%; border-bottom-left-radius: 0; border-bottom-right-radius: 0; background: #0a0a0b; box-shadow: inset 0 0 0 1px #2a2c30, inset 0 1px 0 rgba(255, 255, 255, .1); }
+.laptop__scr::before { content: ""; position: absolute; top: 0; left: 50%; width: 15%; height: 2.4%; min-height: 6px; transform: translateX(-50%); border-radius: 0 0 8px 8px; background: #0a0a0b; z-index: 2; }
+.laptop__scr::after { content: ""; position: absolute; top: .9%; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: #1b2a36; box-shadow: inset 0 0 1px #6aa0c8; z-index: 3; }
+.laptop__scr img, .laptop__scr .screen { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 6px; }
+.laptop__base { position: relative; height: 9px; margin: 0 -5%; border-radius: 0 0 14px 14px / 0 0 100% 100%; background: linear-gradient(#f3f4f6, #d3d7dc 55%, #a7adb4); box-shadow: 0 1px 0 #7f868e; }
+.laptop__base::before { content: ""; position: absolute; top: 0; left: 50%; width: 16%; height: 4px; transform: translateX(-50%); border-radius: 0 0 6px 6px; background: linear-gradient(#b4b9bf, #d3d7dc); }
+.laptop__base::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: rgba(255, 255, 255, .8); }
+.pcard .laptop { padding: 28px 40px 0; background: var(--cream-dark, #f6f1e4); }
+@media (max-width: 768px) {
+  .laptop { filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .22)); }
+  .laptop__base { height: 6px; }
 }
