@@ -22,6 +22,16 @@
     document.getElementById('lead').textContent = (who ? who + ' har föreslagit' : 'Vi har föreslagit') + ' ett kort möte om er hemsida. Tryck på en ledig tid så är det bokat.';
     document.getElementById('pills').innerHTML = '<span class="pill">' + d.minutes + ' min</span><span class="pill">' + esc(d.type) + '</span>' + (d.host ? '<span class="pill">' + esc(d.host.name) + '</span>' : '');
     document.title = 'Välj en tid' + (who ? ' med ' + who : '') + ' – Elevate Studio';
+    var host = document.getElementById('host');
+    if (d.host) {
+      var ph = '<svg class="host__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" fill="currentColor"/></svg>';
+      var ml = '<svg class="host__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2.2V17h16V7.2l-8 5.3z M4.6 7l7.4 4.9L19.4 7z" fill="currentColor"/></svg>';
+      var mk = '<svg class="host__logo" viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>';
+      host.innerHTML = '<div class="host__top"><div><p class="host__kicker">Du träffar</p><h2 class="host__name">' + esc(d.host.name) + '</h2><p class="host__role">' + esc(d.host.role) + '</p></div>' + mk + '</div>' +
+        '<ul class="host__links">' + (d.host.phone ? '<li><a href="tel:' + esc(d.host.phone.replace(/\s/g, '')) + '">' + ph + '<span>' + esc(d.host.phone.replace('+46 ', '0').replace(/^\+46/, '0')) + '</span></a></li>' : '') +
+        (d.host.email ? '<li><a href="mailto:' + esc(d.host.email) + '">' + ml + '<span>' + esc(d.host.email) + '</span></a></li>' : '') + '</ul><p class="host__company">Elevate Studio · Uppsala</p>';
+      host.hidden = false;
+    } else { host.hidden = true; }
   }
 
   function findDay(at) { return st.data.days.find(function (x) { return x.slots.some(function (s) { return s.t === at; }); }); }

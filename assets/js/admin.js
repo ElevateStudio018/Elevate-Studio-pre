@@ -202,6 +202,20 @@
     });
   }
   var BTN = { call: 'Ring', propose: 'Låt kunden välja tid', offer: 'Skapa offert', mail: 'Mejla', remind: 'Påminn', open: 'Öppna', meet: 'Öppna mötet' };
+  // The five steps of a lead's journey; a tap on a step moves the lead there
+  var STEPS = ['Ny', 'Kontakt', 'Möte', 'Offert', 'Vunnen'], STEP_STATUS = ['new', 'contacted', 'meeting_to_book', 'quote_sent', 'sold'];
+  function steps(l) {
+    var cur = STEPS.indexOf(STAGE[l.status || 'new']); if (cur < 0) return '';
+    return '<div class="steps">' + STEPS.map(function (s, i) {
+      return (i ? '<i' + (i <= cur ? ' class="on"' : '') + '></i>' : '') + '<button type="button" class="step' + (i < cur ? ' done' : i === cur ? ' cur' : '') + '" data-step="' + i + '" title="' + (i === cur ? 'Här är leaden nu' : 'Flytta till ' + s) + '"><span>' + (i < cur ? '&#10003;' : i + 1) + '</span><small>' + s + '</small></button>';
+    }).join('') + '</div>';
+  }
+  function moveTo(l, i) {
+    if (i === 4) return openSold(l);
+    var status = i === 2 && l.booking_at && Date.parse(l.booking_at) > Date.now() ? 'meeting_booked' : STEP_STATUS[i];
+    if (status === (l.status || 'new')) return openLead(l);
+    update(l.id, { status: status }).then(function () { render(); toast('Flyttad till ' + STEPS[i]); }).catch(function (err) { toast(err.message); });
+  }
   // What comes next in each status, what the button does, and how many days it may wait
   var NEXT = { new: ['Ring upp', 'call', 1], contacted: ['Boka ett möte', 'propose', 2], meeting_to_book: ['Väntar på att kunden väljer tid', 'remind', 3], meeting_rebook: ['Boka om mötet', 'propose', 0],
     meeting_held: ['Skicka offert', 'offer', 1], quote_sent: ['Följ upp offerten', 'mail', 3], waiting: ['Påminn om offerten', 'mail', 5], negotiation: ['Avsluta affären', 'open', 2] };
@@ -238,7 +252,7 @@
     return '<article class="row" data-id="' + l.id + '" style="--c:' + s[2] + '">' +
       '<span class="av"' + (o ? ' style="--c:' + OWNER_COLOR[o] + '"' : ' data-none') + ' title="' + esc(o || 'Ingen ansvarig') + '">' + (o ? o.charAt(0) : 'E') + '</span>' +
       '<div class="row__who"><b>' + esc(l.name) + '</b><span>' + esc(l.company || l.service_type || MEETING[l.meeting_type] || 'Förfrågan') + '</span></div>' +
-      '<span class="stg"><i></i>' + esc(STAGE[s[0]] || s[1]) + '</span>' +
+      (isOpen(l) ? steps(l) : '<span class="stg"><i></i>' + esc(STAGE[s[0]] || s[1]) + '</span>') +
       '<div class="row__next">' + right + '</div>' +
       '<div class="row__acts">' + acts + '<button class="iconbtn iconbtn--sm" data-act="open" aria-label="Öppna">&#8250;</button></div></article>';
   }
@@ -251,7 +265,9 @@
       el.addEventListener('click', function (e) {
         var l = lead(el.dataset.id); if (!l) return;
         var a = e.target.closest('[data-act]');
-        if (!a) { if (!e.target.closest('a, button')) openLead(l); return; }
+        if (!a && !e.target.closest('[data-step]')) { if (!e.target.closest('a, button')) openLead(l); return; }
+        var step = e.target.closest('[data-step]');
+        if (step) { e.preventDefault(); return moveTo(l, Number(step.dataset.step)); }
         var act = a.dataset.act;
         if (act === 'called') { markContacted(l); return; }
         e.preventDefault();
@@ -300,13 +316,24 @@
     var waiting = st.leads.filter(function (l) { return ['quote_sent', 'waiting', 'negotiation'].indexOf(l.status) >= 0; }).length;
     main().innerHTML = head(greet + ', ' + esc(first), b.today.length ? b.today.length + (b.today.length === 1 ? ' sak' : ' saker') + ' idag. Sen är du klar.' : 'Inget som brådskar idag.', '<button class="btn" id="newlead">+ Ny lead</button>') +
       '<div class="focus"><div class="f is-hot"><b>' + b.today.length + '</b><span>att göra idag</span></div><button class="f" id="f-cal"><b>' + meetings + '</b><span>möten idag</span></button><button class="f" id="f-off"><b>' + waiting + '</b><span>offerter som väntar svar</span></button></div>' +
+      teamStrip() +
       section('Idag', b.today, 'Inget idag – bra jobbat.') + section('Imorgon', b.tomorrow, '') + section('Senare i veckan', b.week, '') +
       (b.later.length ? section('Längre fram', b.later.slice(0, 8)) + (b.later.length > 8 ? '<p class="muted small">… och ' + (b.later.length - 8) + ' till under Alla leads.</p>' : '') : '') +
       (!items.length ? '<p class="empty">Inga öppna leads. Lägg in en med knappen uppe till höger.</p>' : '');
     $('#newlead').addEventListener('click', newLead);
     $('#f-cal').addEventListener('click', function () { go('kalender'); });
     $('#f-off').addEventListener('click', function () { st.stage = 'Offert'; go('leads'); });
+    if ($('#team')) $('#team').addEventListener('click', function () { go('statistik'); });
     bindRows();
+  }
+
+  // The team's closing rate the last 90 days, one chip per person; opens the statistics
+  function teamStrip() {
+    var rows = personRows(90).filter(function (r) { return r.who && (r.won || r.lost || r.open); });
+    if (!rows.length) return '';
+    return '<button class="team" id="team" title="Öppna statistiken">' + rows.map(function (r) {
+      return '<span class="team__p"><span class="av" style="--c:' + OWNER_COLOR[r.who] + '">' + r.who.charAt(0) + '</span>' + esc(r.who) + ' <b>' + (r.rate == null ? '–' : r.rate + ' %') + '</b>' + (r.amount ? ' · ' + kr(r.amount) : '') + '</span>';
+    }).join('') + '<span class="team__lbl">closing rate · 90 dagar</span></button>';
   }
 
   /* Alla leads: the open ones, with search and a stage filter */
@@ -1000,11 +1027,10 @@
     var first = new Date(m), gridStart = new Date(first); gridStart.setDate(1 - ((first.getDay() + 6) % 7));
     var gridEnd = new Date(gridStart.getTime() + 42 * 864e5);
     var title = m.toLocaleDateString('sv-SE', { month: 'long', year: 'numeric' });
-    main().innerHTML = head('Kalender', 'Möten, uppringningar och påminnelser. Klicka på en dag för att lägga till.', '<button class="btn" id="add">+ Ny aktivitet</button>') +
-      '<div class="calm"><div class="calm__bar"><button class="iconbtn" id="prev" aria-label="Föregående månad">&#8249;</button><h2>' + title.charAt(0).toUpperCase() + title.slice(1) + '</h2>' +
-      '<button class="iconbtn" id="next" aria-label="Nästa månad">&#8250;</button><button class="btn btn--ghost btn--sm" id="today">Idag</button>' +
-      '<span class="calm__legend">' + [['lead', 'Kundmöte'], ['followup', 'Ring upp'], ['meeting', 'Möte'], ['reminder', 'Påminnelse'], ['task', 'Uppgift']].map(function (x) { return '<span><i class="dot" style="background:' + CAT_COLOR[x[0]] + '"></i>' + x[1] + '</span>'; }).join('') + '</span></div>' +
-      '<div class="calm__grid" id="grid"><p class="empty" style="grid-column:1/-1">Hämtar …</p></div></div><section class="panel" style="margin-top:14px"><h3>Kommande 14 dagar</h3><div class="cal" id="cal"></div></section>';
+    main().innerHTML = head('Kalender', 'Kundmöten, uppringningar och det du lägger in själv. Klicka på en dag för att lägga till något.', '<button class="btn" id="add">+ Ny aktivitet</button>') +
+      '<div class="calw"><div class="calm"><div class="calm__bar"><h2>' + title.charAt(0).toUpperCase() + title.slice(1) + '</h2>' +
+      '<button class="btn btn--ghost btn--sm" id="today">Idag</button><button class="iconbtn" id="prev" aria-label="Föregående månad">&#8249;</button><button class="iconbtn" id="next" aria-label="Nästa månad">&#8250;</button></div>' +
+      '<div class="calm__grid" id="grid"><p class="empty" style="grid-column:1/-1">Hämtar …</p></div></div><section class="panel calw__side"><h3>Kommande två veckor</h3><div class="cal" id="cal"></div></section></div>';
     $('#add').addEventListener('click', function () { newActivity(); });
     $('#prev').addEventListener('click', function () { st.month = new Date(m.getFullYear(), m.getMonth() - 1, 1); render(); });
     $('#next').addEventListener('click', function () { st.month = new Date(m.getFullYear(), m.getMonth() + 1, 1); render(); });
@@ -1027,8 +1053,8 @@
       for (var i = 0; i < 42; i++) {
         var d = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + i), ev = byDay[d.toDateString()] || [];
         cells += '<div class="calm__day' + (d.getMonth() !== m.getMonth() ? ' is-out' : '') + (d.getTime() === now.getTime() ? ' is-today' : '') + '" data-day="' + d.toISOString() + '"><b>' + d.getDate() + '</b>' +
-          ev.slice(0, 3).map(function (e) { return '<button class="calm__ev" data-n="' + e.n + '" style="--c:' + e.color + '"><time>' + hm(e) + '</time> ' + esc(e.title) + '</button>'; }).join('') +
-          (ev.length > 3 ? '<span class="calm__more">+' + (ev.length - 3) + ' till</span>' : '') + '</div>';
+          ev.slice(0, 2).map(function (e) { return '<button class="calm__ev" data-n="' + e.n + '" style="--c:' + e.color + '" title="' + esc(e.tag) + '"><time>' + hm(e) + '</time> ' + esc(e.title) + '</button>'; }).join('') +
+          (ev.length > 2 ? '<span class="calm__more">+' + (ev.length - 2) + ' till</span>' : '') + '</div>';
       }
       $('#grid').innerHTML = cells;
       var soon = items.filter(function (x) { var t = Date.parse(x.at); return t >= now.getTime() && t < now.getTime() + 14 * 864e5; });

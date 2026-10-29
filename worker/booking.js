@@ -145,7 +145,7 @@ export async function bookingInfo(req, env) {
   const days = offeredDays(now);
   const { busy, live } = await busyOrNone(env, now, days[days.length - 1].close);
   const booked = await existing(env, p);
-  return json({ ok: true, name: p.n, email: p.e, first: (p.n || '').trim().split(/\s+/)[0] || '', host: host && { first: host.first, name: host.name, role: host.role },
+  return json({ ok: true, name: p.n, email: p.e, first: (p.n || '').trim().split(/\s+/)[0] || '', host: host && { first: host.first, name: host.name, role: host.role, phone: host.phone, email: host.email },
     minutes: p.m, type: TYPES[p.t] || 'Möte', live, booked, expires: p.x,
     days: days.map((d) => { const s = slots(d, p.m, busy, now); return { date: d.date, wd: d.wd, d: d.d, mon: d.mon, long: d.long, free: s.filter((x) => x.free).length, slots: s }; }) });
 }
