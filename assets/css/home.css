@@ -462,7 +462,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 .polaroid__photo { aspect-ratio: 1; overflow: hidden; background: #e9e2d0; }
 .polaroid__photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .polaroid__text { padding: 14px 4px 0; }
-.polaroid__no { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #7a847e; }
+.polaroid__no { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #5d6a63; }
 .polaroid h3 { margin: 0 0 6px; font-family: var(--serif); font-style: italic; font-size: 22px; font-weight: 400; line-height: 1.2; letter-spacing: 0; color: var(--accent, #1d3b2a); }
 .polaroid p { margin: 0; font-size: 14px; line-height: 1.5; color: #555; }
 @media (max-width: 1200px) { .process__head { gap: 48px; } }
@@ -532,7 +532,7 @@ h2, h3 { margin: 0; font-weight: 400; }
   background: #fff;
 }
 .platform-card img { display: block; width: auto; height: 60px; margin-bottom: 54px; }
-.platform-card h3 { margin: 0 0 24px; font-size: 36px; font-weight: 500; line-height: 1.1; }
+.platform-card h3, .platform-card__name { margin: 0 0 24px; font-size: 36px; font-weight: 500; line-height: 1.1; }
 .platform-card { transition: border-color .25s, transform .25s; }
 .platform-card:hover { border-color: var(--accent, #1d3b2a); transform: translateY(-4px); }
 @media (max-width: 1200px) {
@@ -705,7 +705,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 .standout__intro p { margin: 0; }
 .standout__intro a { color: #000; font-weight: 400; }
 .standout__form { flex: 1 1 0; }
-.standout__header { margin: 0 0 40px; font-size: 28px; line-height: 1.1; }
+.standout__header { margin: 0 0 40px; font-size: 28px; font-weight: 400; line-height: 1.1; }
 .standout__fields { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 16px; }
 .standout__wide { grid-column: 1 / -1; }
 .standout input,
@@ -727,7 +727,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 .standout input:focus-visible,
 .standout textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .standout__consent { margin: 34px 0 24px; font-size: 16px; line-height: 27px; }
-.standout__consent a { color: var(--accent); text-decoration: none; }
+.standout__consent a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 .standout__status { margin: 16px 0 0; font-weight: 500; }
 @media (max-width: 1200px) { .standout__intro { flex-basis: 45%; } }
 @media (max-width: 768px) {
@@ -763,6 +763,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 .site-footer__slogan em { font-family: var(--serif); font-style: italic; letter-spacing: 0; font-variation-settings: "opsz" 24, "SOFT" 0, "WONK" 0; }
 .site-footer__subheader {
   margin: 0 0 24px;
+  font-weight: 400;
   font-family: var(--serif);
   font-style: italic;
   font-size: 20px;
@@ -796,7 +797,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 .site-footer__newsletter button svg { width: 16px; height: 16px; transition: transform .2s; }
 .site-footer__newsletter button:hover svg { transform: translateX(3px); }
 .site-footer__fine { margin: 0; font-size: 14px; line-height: 1.6; }
-.site-footer__fine a { color: var(--cream, #fdfbf5); }
+.site-footer__fine a { color: var(--cream, #fdfbf5); text-decoration: underline; text-underline-offset: 3px; }
 .site-footer__cols { display: flex; gap: 20px; }
 .site-footer__cols > :nth-child(1) { flex: 0 1 calc(40% - 20px); }
 .site-footer__cols > :nth-child(2),
@@ -1018,7 +1019,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 .pscroll__panel.is-on { opacity: 1; transform: none; visibility: visible; transition: opacity .7s cubic-bezier(.22, 1, .36, 1), transform .9s cubic-bezier(.22, 1, .36, 1); }
 .pscroll__panel .flow__img { width: 100%; height: min(54vh, 560px); aspect-ratio: auto; object-fit: cover; border-radius: 22px; margin: 0 0 26px; transform: scale(.97); transition: transform 1.2s cubic-bezier(.22, 1, .36, 1); }
 .pscroll__panel.is-on .flow__img { transform: none; }
-.pscroll__no { margin: 0 0 8px; font-size: 14px; font-weight: 700; letter-spacing: .14em; color: #4f7a60; }
+.pscroll__no { margin: 0 0 8px; font-size: 14px; font-weight: 700; letter-spacing: .14em; color: #3d6650; }
 .pscroll__panel .flow__title { font-size: 30px; margin-bottom: 12px; }
 .pscroll__panel .flow__text { font-size: 19px; max-width: 560px; }
 @media (prefers-reduced-motion: reduce) {

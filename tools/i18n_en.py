@@ -64,6 +64,17 @@ EN = {
     "Elevate Studio · AI-chatt": "Elevate Studio · AI chat",
     "Starter kostar 3 000 kr och Pro 6 000 kr i startavgift. Elite görs efter offert.": "Starter costs SEK 3,000 and Pro SEK 6,000 in start-up fee. Elite is quoted.",
     "Ni ser ett första utkast efter ungefär en dag.": "You see a first draft after about a day.",
+    "Mer om SEO och AI": "More about SEO and AI",
+    "Se tekniken": "See the technology",
+    "Nya funktioner och större ombyggnationer efter leverans offereras separat.": "New features and larger rebuilds after delivery are quoted separately.",
+    "Årsavgiften på 99 kr fortsätter årsvis om inte avtalet sägs upp.": "The annual fee of SEK 99 continues yearly unless the agreement is terminated.",
+    "En insamlingsorganisation som ville få fler månadsgivare – med ett enklare givarflöde och tydliga resultat.": "A fundraising organisation that wanted more monthly donors – with a simpler giving flow and clear results.",
+    "Om cookies på elevatestudio.nu | Elevate Studio": "About cookies on elevatestudio.nu | Elevate Studio",
+    "Kontakta oss – webbyrå i Uppsala | Elevate Studio": "Contact us – web agency in Uppsala | Elevate Studio",
+    "Om oss – webbyrån bakom Elevate Studio i Uppsala": "About us – the web agency behind Elevate Studio in Uppsala",
+    "Hemsidor för företag i Uppsala – webbdesign till fast pris": "Websites for businesses in Uppsala – web design at a fixed price",
+    "Senaste nytt om hemsidor, SEO och AI | Elevate Studio": "Latest news on websites, SEO and AI | Elevate Studio",
+    "Tekniken vi bygger hemsidor med | Elevate Studio": "The technology we build websites with | Elevate Studio",
     "Möte om en ny hemsida – tre personer kring ett bord med laptops": "Meeting about a new website – three people around a table with laptops",
     "Integritetspolicy": "Privacy policy",
     "Cookies": "Cookies",
@@ -932,6 +943,8 @@ EN = {
 
 # Text that is built from parts in JavaScript: (regular expression, replacement)
 PATTERNS = [
+    ("^(.+) – exempel på hemsida \\| Elevate Studio$", "$1 – example website | Elevate Studio"),
+    ("^(.+) – så använder vi det i hemsidor \\| Elevate Studio$", "$1 – how we use it in websites | Elevate Studio"),
     ("^(.+) – exempel på hemsida på en dator$", "$1 – example website on a laptop"),
     ("^(.+) – exempel på hemsida$", "$1 – example website"),
     ("^Tack! Vi svarar dig på (.+) så fort vi kan\\.$", "Thanks! We'll reply to $1 as soon as we can."),
