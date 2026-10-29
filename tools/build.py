@@ -598,7 +598,7 @@ def build_services():
     {cta(p)}
   </main>'''
     yield write("tjanster/index.html", document(p, "Tjänster – hemsidor, bokning, offert, AI-chatt och SEO", main, "subpage", [("Vad vi gör", "tjanster/index.html")], "tjanster",
-                description="Elevate Studio bygger hemsidor för företag i alla storlekar och kopplar på bokningssystem, offertsystem, AI-chatt, SEO och support. Fast pris, webbyrå i Uppsala."))
+                description="Elevate Studio bygger hemsidor för företag i alla storlekar och kopplar på bokning, offertsystem, AI-chatt, SEO och support. Fast pris, webbyrå i Uppsala."))
 
     for s in SERVICES:
         includes = "".join(f'<div class="info-card"><h3 class="info-card__title">{esc(t)}</h3><p>{esc(d)}</p></div>' for t, d in s["includes"])
