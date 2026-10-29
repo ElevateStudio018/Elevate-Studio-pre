@@ -140,26 +140,52 @@ export function meetingInvite(o: { name: string; when: string; minutes: number; 
   };
 }
 
-/** The customer picks a time: a few quick picks straight from the mail, and the button to the booking page. */
+/** The customer picks a time. A light mail in the booking page's look: the question, three quick
+ * picks like the page's day columns, the button, and the host as the dark card from the contact page.
+ * No pictures are needed for it to look right. */
 export function timeProposal(o: { name: string; url: string; minutes: number; type: string; host?: Member; message?: string; picks: { day: string; time: string; url: string }[] }) {
   const who = o.host ? esc(o.host.first) : "Vi";
+  const first = o.name ? esc(o.name.trim().split(/\s+/)[0]) : "";
   const picks = o.picks.length
-    ? `<tr><td style="padding:22px 28px 0">
-  <p style="margin:0 0 10px 12px;font:bold 11px ${SANS};letter-spacing:1.2px;text-transform:uppercase;color:#9fc0a8">Snabbast att välja</p>
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${o.picks.map((p) =>
-    `<td width="${Math.floor(100 / o.picks.length)}%" style="padding:0 4px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td bgcolor="#ffffff" align="center" style="background:#ffffff;border-radius:12px"><a href="${esc(p.url)}" style="display:block;padding:14px 6px;font:14px/1.3 ${SANS};color:#1d3b2a;text-decoration:none">${esc(p.day)}<br><b style="font-size:20px">${esc(p.time)}</b></a></td></tr></table></td>`).join("")}</tr></table>
+    ? `<tr><td style="padding:26px 36px 0">
+  <p style="margin:0 0 10px;font:bold 11px ${SANS};letter-spacing:1.2px;text-transform:uppercase;color:#6b766f">Snabbast att välja</p>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${o.picks.map((p, i) =>
+    `<td width="${Math.floor(100 / o.picks.length)}%" style="padding:0 ${i < o.picks.length - 1 ? 8 : 0}px 0 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td bgcolor="#eef4ef" align="center" style="background:#eef4ef;border-radius:14px"><a href="${esc(p.url)}" style="display:block;padding:16px 8px;font:14px/1.3 ${SANS};color:#1d3b2a;text-decoration:none">${esc(p.day)}<br><b style="font-size:22px;line-height:1.4">${esc(p.time)}</b></a></td></tr></table></td>`).join("")}</tr></table>
+</td></tr>` : "";
+  const host = o.host ? `<tr><td style="padding:32px 36px 0">
+  <table bgcolor="#12271b" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#12271b;border-radius:18px"><tr><td style="padding:26px 28px 22px">
+    <p style="margin:0 0 10px;font:bold 11px ${SANS};letter-spacing:1.2px;text-transform:uppercase;color:#9fc0a8">Du träffar</p>
+    <div style="font:24px/1.15 ${SANS};color:#ffffff">${esc(o.host.name)}</div>
+    <div style="margin-top:4px;font:14px ${SANS};color:#c6d5ca">${esc(o.host.role)}</div>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:20px">
+      <tr><td style="padding:4px 14px 4px 0;font:11px ${SANS};letter-spacing:1px;text-transform:uppercase;color:#9fc0a8">Telefon</td><td style="padding:4px 0"><a href="tel:${esc(o.host.phone.replace(/\s/g, ""))}" style="font:bold 16px ${SANS};color:#ffffff;text-decoration:none">${esc(o.host.phone)}</a></td></tr>
+      <tr><td style="padding:4px 14px 4px 0;font:11px ${SANS};letter-spacing:1px;text-transform:uppercase;color:#9fc0a8">E-post</td><td style="padding:4px 0"><a href="mailto:${esc(o.host.email)}" style="font:bold 16px ${SANS};color:#ffffff;text-decoration:none">${esc(o.host.email)}</a></td></tr>
+    </table>
+    <div style="margin-top:18px;padding-top:12px;border-top:1px solid rgba(253,251,245,.16);font:11px ${SANS};letter-spacing:1.2px;text-transform:uppercase;color:#8fa898">Elevate Studio · Uppsala</div>
+  </td></tr></table>
 </td></tr>` : "";
   return {
     subject: `Välj en tid som passar dig – möte med ${o.host ? o.host.first : "Elevate Studio"}`,
-    html: shell("Välj en tid som passar dig",
-      heading("Välj en tid som passar dig") +
-      para(`${hello(o.name)} ${who} vill gärna ta ${o.minutes} minuter om er hemsida (${esc(o.type)}). Tryck på en tid så bokas mötet direkt, och du får en bekräftelse med allt du behöver.`, "10px 40px 4px") +
-      picks +
-      button(o.url, "Se alla lediga tider") +
-      (o.message ? para(esc(o.message).replace(/\n/g, "<br>"), "18px 40px 4px") : "") +
-      (o.host ? contactCard(o.host) : ""),
-      "Tiderna hämtas från vår kalender, så det som visas är ledigt på riktigt. Länken fungerar i tre veckor."),
-    text: `${hello(o.name)}\n\n${o.host ? o.host.first : "Vi"} vill gärna ta ${o.minutes} minuter om er hemsida (${o.type}). Välj en tid som passar dig här, så bokas mötet direkt:\n${o.url}${o.picks.length ? "\n\nSnabbast att välja: " + o.picks.map((p) => `${p.day} ${p.time}`).join(", ") : ""}${o.message ? "\n\n" + o.message : ""}\n\nElevate Studio\ninfo@elevatestudio.nu`,
+    html: `<!DOCTYPE html><html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>Välj en tid som passar dig</title></head>
+<body bgcolor="#eef1ea" style="margin:0;padding:0;background:#eef1ea">
+<table bgcolor="#eef1ea" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef1ea"><tr><td align="center" style="padding:32px 12px">
+<table bgcolor="#ffffff" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#ffffff;border-radius:18px;overflow:hidden">
+<tr><td bgcolor="#1d3b2a" style="padding:20px 36px;background:#1d3b2a;font:bold 15px ${SANS};color:#fdfbf5">Elevate Studio</td></tr>
+<tr><td style="padding:34px 36px 0;font:16px ${SANS};color:#6b766f">${first ? "Hej " + first + "!" : "Hej!"}</td></tr>
+<tr><td style="padding:6px 36px 0;font:bold 32px/1.15 ${SANS};color:#16241b">När passar det dig?</td></tr>
+<tr><td style="padding:14px 36px 0;font:16px/1.6 ${SANS};color:#3b463f">${who} vill gärna ta ${o.minutes} minuter om er hemsida, ${esc(o.type)}. Tryck på en tid så bokas mötet direkt, och du får en bekräftelse med allt du behöver.</td></tr>
+${picks}
+<tr><td style="padding:22px 36px 0">
+  <table role="presentation" cellpadding="0" cellspacing="0"><tr><td bgcolor="#1d3b2a" align="center" style="background:#1d3b2a;border-radius:26px">
+    <a href="${esc(o.url)}" style="display:inline-block;padding:16px 30px;font:bold 16px ${SANS};color:#ffffff;text-decoration:none">Se alla lediga tider &rarr;</a>
+  </td></tr></table>
+  <p style="margin:12px 0 0;font:13px/1.5 ${SANS};color:#6b766f">Grå tider på sidan är upptagna i vår kalender. Länken fungerar i tre veckor.</p>
+</td></tr>
+${o.message ? `<tr><td style="padding:26px 36px 0;font:16px/1.6 ${SANS};color:#3b463f">${esc(o.message).replace(/\n/g, "<br>")}</td></tr>` : ""}
+${host}
+<tr><td style="padding:28px 36px 30px;font:13px/1.6 ${SANS};color:#6b766f"><b style="color:#16241b">Elevate Studio</b><br><a href="mailto:info@elevatestudio.nu" style="color:#1d3b2a;text-decoration:none">info@elevatestudio.nu</a> · <a href="https://elevatestudio.nu" style="color:#1d3b2a;text-decoration:none">elevatestudio.nu</a><br>Passar ingen tid? Svara på det här mejlet så hittar vi en.</td></tr>
+</table></td></tr></table></body></html>`,
+    text: `${first ? "Hej " + first + "!" : "Hej!"}\n\n${o.host ? o.host.first : "Vi"} vill gärna ta ${o.minutes} minuter om er hemsida (${o.type}). Välj en tid som passar dig här, så bokas mötet direkt:\n${o.url}${o.picks.length ? "\n\nSnabbast att välja: " + o.picks.map((p) => `${p.day} ${p.time}`).join(", ") : ""}${o.message ? "\n\n" + o.message : ""}${o.host ? `\n\nDu träffar ${o.host.name}, ${o.host.role}\n${o.host.phone} · ${o.host.email}` : ""}\n\nElevate Studio\ninfo@elevatestudio.nu\nPassar ingen tid? Svara på det här mejlet så hittar vi en.`,
   };
 }
 
