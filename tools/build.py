@@ -202,6 +202,7 @@ def footer(p):
                 <li><a href="{p}kontakt.html"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.5 6 10 6 10s6-5.5 6-10a6 6 0 0 0-6-6zm0 8.5A2.5 2.5 0 1 1 6 3.5a2.5 2.5 0 0 1 0 5z" fill="#fff"/></svg> Uppsala</a></li>
                 <li><a href="{p}om.html">Om oss</a></li>
                 <li><a href="{p}priser.html">Priser</a></li>
+                <li><a href="{p}byggda-hemsidor.html">Hemsidor vi byggt</a></li>
                 <li><a href="{p}avtal.html">Exempel på webbavtal</a></li>
                 <li><a href="{p}insikter/index.html">Senaste nytt</a></li>
                 <li><a href="{p}plattformar/index.html">Tekniken vi använder</a></li>
@@ -550,6 +551,7 @@ _LAZY_IMG = re.compile(r'<img\b[^>]*\sloading="lazy"[^>]*>')
 _IMG_TAG = re.compile(r'<img\b[^>]*>')
 _SIZES = [  # how wide the picture is shown, by file name, so the browser can pick the right copy
     ("device-phone", "(max-width: 768px) 22vw, 160px"),
+    ("site-", "(max-width: 768px) 90vw, (max-width: 1100px) 45vw, 520px"),
     ("alvhemstad-phone", "(max-width: 768px) 22vw, 160px"),
     ("alvhemstad-desktop", "(max-width: 768px) 80vw, (max-width: 1334px) 60vw, 810px"),
     ("alvhem-old", "(max-width: 768px) 80vw, (max-width: 1334px) 60vw, 810px"),
@@ -949,6 +951,16 @@ def build_simple():
         for kind, value in page["sections"]:
             if kind == "text":
                 parts.append(f'<section class="section container"><p class="preamble prose">{esc(value)}</p></section>')
+            elif kind == "sites":
+                cards = "".join(f'''<article class="site-card">
+          <a class="site-card__shot" href="{s["url"]}" target="_blank" rel="noopener" aria-label="Besök {esc(s["name"])}">{laptop(p + "assets/img/" + s["image"], s["name"] + " på en dator")}</a>
+          <div class="site-card__body">
+            <h2 class="site-card__name">{esc(s["name"])}</h2>
+            <p class="site-card__what">{esc(s["what"])}</p>
+            <p class="site-card__links"><a class="btn btn--primary btn--sm" href="{s["url"]}" target="_blank" rel="noopener"><span>Besök {esc(s["label"])}</span></a>{f'<a class="site-card__more" href="{p}{s["case"]}">Läs om projektet</a>' if s.get("case") else ""}</p>
+          </div>
+        </article>''' for s in value)
+                parts.append(f'<section class="section container"><div class="sites">{cards}</div></section>')
             elif kind == "cols":
                 cards = "".join(
                     f'<div class="info-card"><h2 class="info-card__title">{esc(t)}</h2><p>{d}</p></div>'

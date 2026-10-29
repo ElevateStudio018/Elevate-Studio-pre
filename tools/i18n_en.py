@@ -6,6 +6,18 @@ so add new strings when the Swedish copy changes (tools/i18n_check.js lists what
 """
 
 EN = {
+    "Hemsidor vi byggt": "Websites we have built",
+    "Hemsidor vi byggt – riktiga kunder, riktiga sajter": "Websites we have built – real customers, real sites",
+    "Ett urval av hemsidor vi byggt åt företag. Klicka in och titta – det är så här det ser ut när det är klart.": "A selection of websites we have built for companies. Click through and have a look – this is what it looks like when it is done.",
+    "Se hemsidor som Elevate Studio har byggt åt riktiga företag: byggfirma, städfirma och markentreprenad. Besök sajterna och se hur de fungerar på dator och mobil.": "See websites Elevate Studio has built for real companies: a builder, a cleaning company and a groundworks contractor. Visit the sites and see how they work on desktop and mobile.",
+    "Varje hemsida är byggd från grunden för företaget bakom den: egna texter, egna bilder och kontakt eller offert på varje sida. Vill ni se hur er egen skulle kunna se ut? Hör av er, så gör vi ett första utkast.": "Every website is built from scratch for the company behind it: its own copy, its own photos and contact or quote on every page. Want to see what yours could look like? Get in touch and we will make a first draft.",
+    "Byggfirma i Stockholm": "Builder in Stockholm",
+    "Städfirma i Älvängen": "Cleaning company in Älvängen",
+    "Mark- och grundarbeten i Kungälv och Göteborg": "Groundworks in Kungälv and Gothenburg",
+    "Läs om projektet": "Read about the project",
+    "Våra kunder": "Our customers",
+    "Kunder": "Customers",
+    "Se hemsidor vi byggt": "See websites we have built",
     "Projekt": "Projects",
     "Vad vi gör": "What we do",
     "Priser": "Prices",

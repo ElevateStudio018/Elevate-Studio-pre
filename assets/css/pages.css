@@ -637,3 +637,14 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 }
 .contact-hero__social { position: relative; margin-top: 28px; }
 .contact-hero__social .contact-hero__k { margin: 0 0 10px; }
+
+/* ---------- Hemsidor vi byggt ---------- */
+.sites { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px 32px; }
+.site-card__shot { display: block; padding: 24px 28px 0; border-radius: 22px; background: var(--cream-dark, #f6f1e4); overflow: hidden; }
+.site-card__shot .laptop { transition: transform .3s; }
+.site-card__shot:hover .laptop { transform: translateY(-6px); }
+.site-card__body { padding: 18px 4px 0; }
+.site-card__name { margin: 0 0 4px; font-size: 24px; font-weight: 500; }
+.site-card__what { margin: 0 0 14px; color: #555; }
+.site-card__links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 0; }
+.site-card__more { font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }

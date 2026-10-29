@@ -362,7 +362,23 @@ TEAM = [
                 ("Oscar Svanerud", "Försäljning & affärsutveckling", "+46 76 849 86 68", "svanerudo@gmail.com"),
             ]
 
+# Websites we have built and that are live. Add a line here and a screenshot in assets/img/sites/ to show one more.
+SITES = [
+    {"name": "Haninge Byggteam AB", "url": "https://haningebyggteam.se/", "label": "haningebyggteam.se", "what": "Byggfirma i Stockholm", "image": "sites/site-haninge.jpg"},
+    {"name": "Alvhem Städ", "url": "https://alvhemstad.se/", "label": "alvhemstad.se", "what": "Städfirma i Älvängen", "image": "sites/site-alvhem.jpg", "case": "projekt/alvhem-stad.html"},
+    {"name": "Markmontage BEAB AB", "url": "https://elevatestudio018.github.io/Bugg-test/", "label": "Markmontage BEAB AB", "what": "Mark- och grundarbeten i Kungälv och Göteborg", "image": "sites/site-markmontage.jpg"},
+]
+
 SIMPLE_PAGES = {
+    "byggda-hemsidor": {
+        "title": "Hemsidor vi byggt", "seo_title": "Hemsidor vi byggt – riktiga kunder, riktiga sajter",
+        "lead": "Ett urval av hemsidor vi byggt åt företag. Klicka in och titta – det är så här det ser ut när det är klart.",
+        "description": "Se hemsidor som Elevate Studio har byggt åt riktiga företag: byggfirma, städfirma och markentreprenad. Besök sajterna och se hur de fungerar på dator och mobil.",
+        "sections": [
+            ("sites", SITES),
+            ("text", "Varje hemsida är byggd från grunden för företaget bakom den: egna texter, egna bilder och kontakt eller offert på varje sida. Vill ni se hur er egen skulle kunna se ut? Hör av er, så gör vi ett första utkast."),
+        ],
+    },
     "kontakt": {
         "title": "Kontakt", "seo_title": "Kontakta oss – webbyrå i Uppsala", "lead": "Låt oss prata om er hemsida.",
         "description": "Kontakta Elevate Studio i Uppsala. Ring eller mejla Carl, Isak eller Oscar, skriv till info@elevatestudio.nu eller fyll i formuläret.",
