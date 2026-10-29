@@ -265,7 +265,7 @@ def organisation_ld():
         "url": f"{SITE_URL}/",
         "logo": f"{SITE_URL}/assets/img/brand/favicon-512.png",
         "image": f"{SITE_URL}/assets/img/brand/og.jpg",
-        "description": "Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor med bokning, offertflöde, AI-chatt, SEO och AI-optimering till fast pris.",
+        "description": "Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor med bokning, offertflöde, AI-chatt, SEO och AI-optimering till fast pris – för företag i alla storlekar i hela Sverige.",
         "email": "info@elevatestudio.nu",
         "telephone": TEAM[0][2],
         "address": {"@type": "PostalAddress", "addressLocality": "Uppsala", "addressRegion": "Uppsala län", "addressCountry": "SE"},
@@ -598,7 +598,7 @@ def build_services():
     {cta(p)}
   </main>'''
     yield write("tjanster/index.html", document(p, "Tjänster – hemsidor, bokning, offert, AI-chatt och SEO", main, "subpage", [("Vad vi gör", "tjanster/index.html")], "tjanster",
-                description="Elevate Studio bygger hemsidor för företag och kopplar på bokningssystem, offertsystem, AI-chatt, SEO och support. Fast pris, webbyrå i Uppsala."))
+                description="Elevate Studio bygger hemsidor för företag i alla storlekar och kopplar på bokningssystem, offertsystem, AI-chatt, SEO och support. Fast pris, webbyrå i Uppsala."))
 
     for s in SERVICES:
         includes = "".join(f'<div class="info-card"><h3 class="info-card__title">{esc(t)}</h3><p>{esc(d)}</p></div>' for t, d in s["includes"])
@@ -1366,7 +1366,7 @@ def site_files(built):
     faq = "\n".join(f"- **{q}** {html.unescape(re.sub(r'<[^>]+>', '', a))}" for q, a in FAQ)
     llms = f"""# Elevate Studio
 
-> Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor som ger förfrågningar – med bokning, offertflöde, AI-chatt, SEO och AI-optimering. Fast pris, och kunden pratar alltid med samma person. Arbetar med företag i hela Sverige.
+> Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor som ger förfrågningar – med bokning, offertflöde, AI-chatt, SEO och AI-optimering. Fast pris, och kunden pratar alltid med samma person. Arbetar med företag i alla storlekar i hela Sverige, små som stora.
 
 ## Tjänster
 {services}

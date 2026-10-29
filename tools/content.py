@@ -27,7 +27,7 @@ MAIL_LIVE = False
 SERVICES = [
     {
         "slug": "hemsidor", "faq": [('Vad kostar en hemsida hos er?', 'Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert.'), ('Hur lång tid tar det att bygga en hemsida?', 'Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst.'), ('Kan ni göra om vår gamla hemsida?', 'Ja. Vi kan bygga en ny sida från grunden och flytta över det innehåll som fungerar från den gamla.')],
-        "seo_title": "Hemsidor för företag i Uppsala – webbdesign till fast pris", "h1": "Hemsidor för <em>företag</em>", "description": "Vi bygger snabba, mobilanpassade hemsidor för företag och hantverkare – med fast pris från 3 000 kr. Webbyrå i Uppsala, kunder i hela Sverige.",
+        "seo_title": "Hemsidor för företag i Uppsala – webbdesign till fast pris", "h1": "Hemsidor för <em>företag</em>", "description": "Vi bygger snabba, mobilanpassade hemsidor för företag i alla storlekar – med fast pris från 3 000 kr. Webbyrå i Uppsala, kunder i hela Sverige.",
         "name": "Hemsidor", "short": "Hemsidor",
         "card": "Snabba, mobilanpassade hemsidor byggda för att ge förfrågningar.",
         "lead": "Snabba, mobilanpassade hemsidor som visar vad ni gör och gör det enkelt för kunderna att höra av sig.",
@@ -71,7 +71,7 @@ SERVICES = [
         "image": "home/svc-bokning.jpg", "alt": "Person som arbetar vid ett skrivbord med laptop",
     },
     {
-        "slug": "offertsystem", "faq": [('Vad är ett offertsystem på hemsidan?', 'Ett formulär där kunden beskriver jobbet steg för steg, så att ni får alla uppgifter ni behöver för att kunna lämna ett pris.'), ('Passar det för hantverkare?', 'Ja. Offertflöden passar särskilt bra för hantverkare och andra tjänsteföretag som behöver veta mer om jobbet innan de kan ge ett pris.')],
+        "slug": "offertsystem", "faq": [('Vad är ett offertsystem på hemsidan?', 'Ett formulär där kunden beskriver jobbet steg för steg, så att ni får alla uppgifter ni behöver för att kunna lämna ett pris.'), ('Vilka passar offertsystemet för?', 'Alla företag som behöver veta mer om jobbet innan de kan ge ett pris – till exempel byggföretag, konsulter, byråer och industriföretag.')],
         "seo_title": "Offertsystem och offertformulär för hemsidan", "h1": "Offertsystem för <em>hemsidan</em>", "description": "Ett offertformulär där kunden beskriver jobbet steg för steg, så att ni får kompletta förfrågningar. Perfekt för hantverkare och tjänsteföretag.",
         "name": "Offertsystem", "short": "Offert",
         "card": "Kunden beskriver jobbet steg för steg – ni får en komplett förfrågan.",
@@ -326,7 +326,7 @@ ORG_NR = "556969-4358"
 FAQ = [
     ("Vad kostar en hemsida?", 'Ni får ett fast pris innan vi börjar. Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. <a href="priser.html">Se våra priser</a> eller <a href="avtal.html">ett exempel på hur ett avtal ser ut</a>.'),
     ("Hur lång tid tar det?", "Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst."),
-    ("Bygger ni hemsidor för hantverkare?", "Ja. Vi bygger hemsidor för snickare, elektriker, rörmokare, målare, byggföretag och andra hantverkare – ofta med ett offertformulär så att kunderna kan beskriva jobbet direkt."),
+    ("Bygger ni hemsidor för alla typer av företag?", "Ja. Vi bygger hemsidor för företag i alla storlekar – från enmansföretag till större bolag med flera avdelningar och system som ska kopplas ihop. Större projekt får ett fast pris i en offert."),
     ("Jobbar ni bara i Uppsala?", "Nej. Vi finns i Uppsala men bygger hemsidor åt företag i hela Sverige. Möten går lika bra på distans."),
     ("Vad behöver vi bidra med?", "Kunskapen om ert företag: vad ni gör, vilka kunder ni vill ha och de bilder och texter ni redan har. Ni får två korrekturvändor innan sidan lanseras, så att allt blir rätt."),
     ("Ingår support efter lansering?", "Ja. Under första året ingår upp till 10 timmars support och redigering per månad – till exempel text- och bildändringar, layoutjusteringar eller nya funktioner."),
@@ -368,7 +368,7 @@ SIMPLE_PAGES = {
         ],
     },
     "om": {
-        "title": "Om oss", "seo_title": "Om oss – webbyrån bakom Elevate Studio i Uppsala", "lead": "Elevate Studio är ett litet team i Uppsala som bygger hemsidor som ger förfrågningar – för företag i hela Sverige.",
+        "title": "Om oss", "seo_title": "Om oss – webbyrån bakom Elevate Studio i Uppsala", "lead": "Elevate Studio är ett litet team i Uppsala som bygger hemsidor som ger förfrågningar – för företag i alla storlekar, i hela Sverige.",
         "description": "Elevate Studio är en webbyrå i Uppsala, ett varumärke under PJM Projekteffektivitet AB. Vi bygger hemsidor med bokning, offert och AI-chatt till fast pris.",
         "sections": [
             ("text", "Vi startade Elevate Studio för att det ska vara enkelt för företag att få en hemsida som faktiskt ger kunder. Många företag har en hemsida som ser okej ut men som inte ger några förfrågningar – eller ingen hemsida alls, för att det känns dyrt och krångligt. Vi vill ändra på det: ett fast pris innan vi börjar, ett första utkast redan efter ungefär en dag och samma kontaktperson hela vägen."),
