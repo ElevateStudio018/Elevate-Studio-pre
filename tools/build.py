@@ -396,8 +396,9 @@ def case_card(p, c, big):
 
 def post_card(p, a, tag="h3"):
     terms = "".join(f"<span>{esc(t)}</span>" for t in a["terms"])
+    lazy = "" if tag == "h2" else ' loading="lazy"'
     return f'''<article class="post-card">
-            <img src="{p}assets/img/{a["image"]}" alt="{esc(a["title"])}" width="420" height="297" loading="lazy">
+            <img src="{p}assets/img/{a["image"]}" alt="{esc(a["title"])}" width="420" height="297"{lazy}>
             <div class="post-card__content">
               <p class="post-card__terms">{terms}</p>
               <{tag} class="post-card__title"><a class="cover-link" href="{p}insikter/{a["slug"]}.html">{esc(a["title"])}</a></{tag}>
@@ -526,13 +527,13 @@ _LAZY_IMG = re.compile(r'<img\b[^>]*\sloading="lazy"[^>]*>')
 
 _IMG_TAG = re.compile(r'<img\b[^>]*>')
 _SIZES = [  # how wide the picture is shown, by file name, so the browser can pick the right copy
-    ("device-phone", "(max-width: 768px) 30vw, 160px"),
-    ("device-desktop", "(max-width: 768px) calc(100vw - 30px), 640px"),
+    ("device-phone", "(max-width: 768px) 22vw, 160px"),
+    ("device-desktop", "(max-width: 768px) 70vw, 640px"),
     ("about-1", "(max-width: 768px) calc(100vw - 30px), 60vw"),
     ("about-3", "(max-width: 768px) calc(100vw - 30px), 30vw"),
-    ("svc-", "(max-width: 768px) calc(100vw - 30px), (max-width: 1334px) 48vw, 636px"),
+    ("svc-", "(max-width: 768px) calc(100vw - 30px), (max-width: 1334px) 32vw, 420px"),
     ("process-", "(max-width: 992px) calc(100vw - 30px), 45vw"),
-    ("case-", "(max-width: 768px) calc(100vw - 30px), (max-width: 1334px) 30vw, 400px"),
+    ("case-", "(max-width: 768px) 80vw, (max-width: 1334px) 30vw, 400px"),
 ]
 
 
