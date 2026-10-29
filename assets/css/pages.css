@@ -611,3 +611,29 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 /* Cards that link from their title (the cover link spreads over the card) */
 .about-links__item, .pcard { position: relative; }
 .about-links__item h3 a, .pcard__body h3 a { color: inherit; text-decoration: none; }
+
+/* ---------- Social links (footer and contact page) ---------- */
+.social { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.social a { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 6px 14px 6px 10px; border: 1px solid rgba(253, 251, 245, .25); border-radius: 999px; font-size: 14px; text-decoration: none; color: inherit; transition: background .2s, border-color .2s; }
+.social a:hover { background: rgba(253, 251, 245, .1); border-color: rgba(253, 251, 245, .6); }
+.social svg { width: 20px; height: 20px; flex: none; }
+.site-footer__subheader--follow { margin-top: 24px; }
+.social--light a { border-color: rgba(29, 59, 42, .2); color: var(--accent, #1d3b2a); }
+.social--light a:hover { background: rgba(29, 59, 42, .06); border-color: var(--accent, #1d3b2a); }
+
+/* ---------- Laptop, modern: thin dark bezel, rounded lid, camera, slim aluminium base ---------- */
+.laptop { filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .28)); }
+.laptop__scr { position: relative; padding: 10px 10px 12px; border: 2px solid #3a3d41; border-bottom: 0; border-radius: 18px 18px 0 0; background: #0b0c0d; box-shadow: inset 0 0 0 1px #17191b, inset 0 1px 0 rgba(255, 255, 255, .08); }
+.laptop__scr::before { content: ""; position: absolute; top: 3px; left: 50%; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: #1f3c2b; box-shadow: 0 0 0 1px #2c2f33, inset 0 0 2px #7ee0a8; }
+.laptop__scr img, .laptop__scr .screen { border-radius: 6px 6px 2px 2px; }
+.laptop__base { position: relative; height: 12px; margin: 0 -7%; border-radius: 0 0 12px 12px / 0 0 100% 100%; background: linear-gradient(#e9ebee, #c9cdd2 50%, #8d939a); box-shadow: 0 1px 0 #6f757c, 0 18px 26px -18px rgba(0, 0, 0, .6); }
+.laptop__base::before { content: ""; position: absolute; top: 0; left: 50%; width: 18%; height: 5px; margin-left: -9%; border-radius: 0 0 8px 8px; background: linear-gradient(#a9aeb4, #c9cdd2); }
+.laptop__base::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: rgba(255, 255, 255, .7); }
+.pcard .laptop { padding: 28px 40px 0; }
+@media (max-width: 768px) {
+  .laptop__scr { padding: 6px 6px 8px; border-radius: 12px 12px 0 0; }
+  .laptop__base { height: 9px; }
+  .laptop { filter: drop-shadow(0 16px 20px rgba(0, 0, 0, .25)); }
+}
+.contact-hero__social { position: relative; margin-top: 28px; }
+.contact-hero__social .contact-hero__k { margin: 0 0 10px; }

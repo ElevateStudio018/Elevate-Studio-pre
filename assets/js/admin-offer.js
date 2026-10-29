@@ -226,5 +226,112 @@ function quotePdfFilename(name) {
   return `elevate-offert-${safeName}-${stamp}.pdf`;
 }
 
-window.ElevateOffer = { buildQuotePdf, quotePdfFilename, DEFAULT_SCOPE, PACKAGE_FEES };
+
+/* Invoice PDF – one sheet in the same look as the offer. */
+async function buildInvoicePdf(input) {
+  const doc = new jsPDF({ unit: "pt", format: "a4" });
+  const font = await useSiteFont(doc);
+  const body = 1.65 * U;
+  const lh = body * 1.65;
+  const gap = 1.3 * U;
+  let y = 0;
+  const set = (size, weight = "normal", color = INK) => { doc.setFont(font, weight); doc.setFontSize(size); doc.setTextColor(...color); };
+  const para = (text, weight = "normal", color = INK) => {
+    set(body, weight, color);
+    for (const r of doc.splitTextToSize(text, RIGHT - X)) { doc.text(r, X, y); y += lh; }
+    y += gap;
+  };
+  const h2 = (text, first = false) => {
+    if (!first) y += 4.2 * U - gap;
+    set(2.1 * U, "bold", GREEN);
+    doc.text(text, X, y);
+    y += 2.1 * U * 0.5 + 1.8 * U + body;
+  };
+  const top = 7.6 * U + 3.5 * U + 1.4 * U + 1.55 * U * 1.3 + 6.4 * U;
+  doc.setFillColor(...GREEN);
+  doc.rect(0, 0, W, top, "F");
+  const mw = 6.4 * U;
+  drawMark(doc, X, (top - mw * 0.7185) / 2, mw);
+  const textX = X + mw + 2.6 * U;
+  set(3.5 * U, "bold", [255, 255, 255]);
+  doc.text("ELEVATE STUDIO", textX, 7.6 * U + 3.5 * U * 0.78, { charSpace: 0.4 });
+  set(1.55 * U, "normal", [255, 255, 255]);
+  doc.text("WEBBUTVECKLING / FAKTURA", textX, 7.6 * U + 3.5 * U + 1.4 * U + 1.55 * U * 0.9, { charSpace: 0.2 });
+  set(3.5 * U, "bold", [255, 255, 255]);
+  doc.text("FAKTURA", RIGHT, 7.6 * U + 3.5 * U * 0.78, { align: "right", charSpace: 0.4 });
+  const footY = H - 5.6 * U;
+  doc.setDrawColor(201, 214, 205);
+  doc.setLineWidth(0.75);
+  doc.line(X, footY - 2 * U - 1.3 * U, RIGHT, footY - 2 * U - 1.3 * U);
+  set(1.3 * U, "normal", [111, 125, 116]);
+  doc.text("ELEVATE STUDIO  |  FAKTURA", X, footY);
+  doc.text(`Sida 1 av 1`, RIGHT, footY, { align: "right" });
+  y = top + 4.6 * U + body;
+
+  // Number, dates and the two parties side by side
+  set(2 * U, "bold", GREEN);
+  doc.text(`FAKTURA NR ${input.invoiceNo}`, X, y);
+  set(1.6 * U);
+  doc.text(`Fakturadatum: ${input.date}   |   Förfallodatum: ${input.dueDate}${input.offerNo ? "   |   Offert nr " + input.offerNo : ""}`, X + 24 * U, y);
+  y += 2.6 * U + 2 * U + body;
+  const colW = (RIGHT - X) / 2;
+  const block = (x, title, lines) => {
+    let yy = y;
+    set(1.3 * U, "bold", [111, 125, 116]);
+    doc.text(title.toUpperCase(), x, yy, { charSpace: 0.6 });
+    yy += lh;
+    lines.filter(Boolean).forEach((s, i) => { set(body, i === 0 ? "bold" : "normal"); doc.text(String(s), x, yy); yy += lh; });
+    return yy;
+  };
+  const y1 = block(X, "Faktura till", [input.customer, input.customerRep, input.customerAddress, input.customerOrg ? "Org.nr " + input.customerOrg : ""]);
+  const y2 = block(X + colW, "Från", ["Elevate Studio", input.sellerOrg ? "Org.nr " + input.sellerOrg : "", input.sellerAddress, "info@elevatestudio.nu", "076-022 83 61"]);
+  y = Math.max(y1, y2) + gap;
+
+  h2("Specifikation");
+  const tSize = 1.6 * U;
+  const padY = 2.2 * U;
+  const padX = 2 * U;
+  const col2 = RIGHT - (RIGHT - X) * 0.32;
+  const rowH = tSize * 1.65 + padY * 2;
+  let ty = y - body;
+  const row = (a, b, kind) => {
+    if (kind !== "body") { doc.setFillColor(...SOFT); doc.rect(X, ty, RIGHT - X, rowH, "F"); }
+    if (kind !== "foot") { doc.setDrawColor(223, 230, 225); doc.setLineWidth(0.75); doc.line(X, ty + rowH, RIGHT, ty + rowH); }
+    set(tSize, kind === "body" ? "normal" : "bold", kind === "body" ? INK : GREEN);
+    const base = ty + rowH / 2 + tSize * 0.35;
+    doc.text(a, X + padX, base);
+    doc.text(b, col2 + padX, base);
+    ty += rowH;
+  };
+  row("Post", "Belopp (exkl. moms)", "head");
+  let net = 0;
+  for (const it of input.items) { row(it.label, kr(it.amount), "body"); net += it.amount; }
+  const vat = input.vat ? Math.round(net * 0.25) : 0;
+  row("Summa exkl. moms", kr(net), "body");
+  row(input.vat ? "Moms 25 %" : "Moms", input.vat ? kr(vat) : "Momsfri", "body");
+  row("Att betala", kr(net + vat), "foot");
+  y = ty + 3.4 * U + body;
+
+  h2("Betalning");
+  const pay = [input.bankgiro ? "Bankgiro: " + input.bankgiro : "", input.swish ? "Swish: " + input.swish : "", input.account ? "Konto: " + input.account : ""].filter(Boolean);
+  if (pay.length) para(pay.join("   |   "), "bold", GREEN);
+  para(`Ange fakturanummer ${input.invoiceNo} som referens vid betalning. Betalning ska vara oss tillhanda senast ${input.dueDate}.`);
+  para("Betalningsvillkor: 30 dagar. Vid försenad betalning utgår dröjsmålsränta enligt räntelagen samt lagstadgad påminnelseavgift." + (input.vat ? "" : " Företaget är inte momsregistrerat, därför tillkommer ingen moms."));
+  if (input.note) { y += gap; para(input.note); }
+  const qTop = y - body + (2.2 * U - gap);
+  const qH = 2.4 * U * 2 + lh;
+  doc.setFillColor(...SOFT);
+  doc.rect(X, qTop, RIGHT - X, qH, "F");
+  doc.setFillColor(...GREEN);
+  doc.rect(X, qTop, 0.6 * U, qH, "F");
+  set(body, "bold", GREEN);
+  doc.text("Tack för förtroendet. Hör av dig om något i fakturan behöver justeras: info@elevatestudio.nu", X + 3.2 * U, qTop + 2.4 * U + (lh - body) / 2 + body * 0.8);
+  return doc;
+}
+function invoicePdfFilename(name, no) {
+  const safeName = (name || "kund").trim().replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-+|-+$/g, "").toLowerCase() || "kund";
+  return `elevate-faktura-${no || ""}-${safeName}.pdf`.replace(/--+/g, "-");
+}
+
+window.ElevateOffer = { buildQuotePdf, quotePdfFilename, buildInvoicePdf, invoicePdfFilename, DEFAULT_SCOPE, PACKAGE_FEES };
 })();

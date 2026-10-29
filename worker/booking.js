@@ -77,11 +77,20 @@ function offeredDays(now) {
   return days;
 }
 /** Start times on the grid for one day, marked free when the calendar has nothing there. */
+// Times we keep for ourselves: school hours on weekdays are mostly taken, the late afternoon is
+// mostly open. Same answer for the same time every time, so the mail and the page agree.
+const SCHOOL_END = 15;        // local hour when the school day is over
+function held(t) {
+  const { h, mi } = parts(t);
+  let x = Math.floor(t / 18e5) >>> 0; x = Math.imul(x ^ (x >>> 16), 2246822507) >>> 0; x = Math.imul(x ^ (x >>> 13), 3266489909) >>> 0; x ^= x >>> 16;
+  const roll = (x >>> 0) / 4294967296;
+  return h + mi / 60 < SCHOOL_END ? roll < 0.82 : roll < 0.3;
+}
 function slots(day, minutes, busy, now) {
   const out = [];
   for (let t = day.open; t + minutes * 6e4 <= day.close; t += STEP * 6e4) {
     const end = t + minutes * 6e4;
-    const free = t >= now + NOTICE && !busy.some(([a, b]) => t < b && end > a);
+    const free = t >= now + NOTICE && !held(t) && !busy.some(([a, b]) => t < b && end > a);
     out.push({ t, free });
   }
   return out;
@@ -166,7 +175,7 @@ export async function bookingBook(req, env) {
   if (!p) return json({ error: 'link' }, 404);
   const start = Number(input.at), now = Date.now();
   const day = offeredDays(now).find((d) => start >= d.open && start < d.close);
-  if (!day || (start - day.open) % (STEP * 6e4) !== 0 || start + p.m * 6e4 > day.close || start < now + NOTICE) return json({ error: 'slot' }, 409);
+  if (!day || (start - day.open) % (STEP * 6e4) !== 0 || start + p.m * 6e4 > day.close || start < now + NOTICE || held(start)) return json({ error: 'slot' }, 409);
   if (p === DEMO) return json({ ok: true, demo: true, at: start, minutes: p.m, type: TYPES[p.t], link: null, mailed: false });
   const end = start + p.m * 6e4;
   const prior = await existing(env, p);

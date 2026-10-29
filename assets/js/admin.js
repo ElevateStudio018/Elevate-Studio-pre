@@ -590,6 +590,40 @@
       });
   }
 
+  // Invoice in the same look as the offer. Our own details (org.nr, bankgiro, swish) are remembered in the browser.
+  function openInvoice(l) {
+    var O = window.ElevateOffer, today = new Date(), iso = function (x) { return x.toISOString().slice(0, 10); };
+    var mem = {}; try { mem = JSON.parse(localStorage.getItem('elevate.invoice') || '{}'); } catch (e) { mem = {}; }
+    var fees = O.PACKAGE_FEES[l.selected_package] || O.PACKAGE_FEES.starter;
+    var start = l.sold_amount != null && Number(l.sold_amount) ? Number(l.sold_amount) : (l.selected_package === 'elite' && l.estimated_start_cost ? l.estimated_start_cost : fees.start);
+    var no = iso(today).slice(2, 4) + String(Date.now()).slice(-5);
+    var f = function (id, label, val, type) { return '<label class="field">' + label + '<input class="input" id="' + id + '" type="' + (type || 'text') + '" value="' + esc(val == null ? '' : val) + '"></label>'; };
+    var m = metaOf(l), offerNo = (m && m.offer) || '';
+    dialog('<h2>Skapa faktura</h2><p>Samma stil som webbavtalet, ifylld för ' + esc(l.company || l.name) + '. Uppgifterna om oss sparas i din webbläsare.</p>' +
+      '<div class="grid3">' + f('i-no', 'Fakturanr', no) + f('i-date', 'Fakturadatum', iso(today), 'date') + f('i-due', 'Förfallodatum', iso(new Date(today.getTime() + 30 * 864e5)), 'date') + '</div>' +
+      '<div class="grid3">' + f('i-cust', 'Kund', l.company || l.name) + f('i-crep', 'Referens hos kunden', l.name) + f('i-corg', 'Kundens org.nr', l.org_number || '') + '</div>' +
+      '<div class="grid2">' + f('i-caddr', 'Kundens adress', l.address || '') + f('i-offer', 'Offert nr (om det finns)', offerNo) + '</div>' +
+      '<label class="field">Rader, en per rad: text; belopp exkl. moms<textarea class="input" id="i-rows" rows="4">Webbutveckling – fast startavgift; ' + start + '\nÅrsavgift, första året; ' + fees.yearly + '</textarea></label>' +
+      '<label class="check"><input type="checkbox" id="i-vat"' + (mem.vat === false ? '' : ' checked') + '> Lägg på moms 25 %</label>' +
+      '<div class="grid3">' + f('i-sorg', 'Vårt org.nr', mem.sellerOrg) + f('i-bg', 'Bankgiro', mem.bankgiro) + f('i-swish', 'Swish', mem.swish) + '</div>' +
+      '<div class="grid2">' + f('i-acct', 'Kontonummer (om inget bankgiro)', mem.account) + f('i-saddr', 'Vår adress', mem.sellerAddress) + '</div>' +
+      '<label class="field">Meddelande på fakturan (valfritt)<textarea class="input" id="i-note" rows="2"></textarea></label>' +
+      '<div class="dlg__row"><button class="btn btn--ghost" data-close>Avbryt</button><button class="btn" id="i-go">Ladda ner faktura</button></div>',
+      function (d) {
+        $('#i-go', d).addEventListener('click', function (e) {
+          var b = e.target; b.disabled = true; b.textContent = 'Skapar …';
+          var v = function (id) { return $('#' + id, d).value.trim(); };
+          var items = v('i-rows').split('\n').map(function (s) { var p = s.split(';'); return { label: (p[0] || '').trim(), amount: Number(String(p[1] || '').replace(/[^\d.,-]/g, '').replace(',', '.')) || 0 }; }).filter(function (x) { return x.label; });
+          var own = { sellerOrg: v('i-sorg'), bankgiro: v('i-bg'), swish: v('i-swish'), account: v('i-acct'), sellerAddress: v('i-saddr'), vat: $('#i-vat', d).checked };
+          try { localStorage.setItem('elevate.invoice', JSON.stringify(own)); } catch (err) { /* fine */ }
+          O.buildInvoicePdf({ invoiceNo: v('i-no'), date: v('i-date'), dueDate: v('i-due'), offerNo: v('i-offer'), customer: v('i-cust'), customerRep: v('i-crep'), customerOrg: v('i-corg'), customerAddress: v('i-caddr'),
+            items: items, vat: own.vat, sellerOrg: own.sellerOrg, bankgiro: own.bankgiro, swish: own.swish, account: own.account, sellerAddress: own.sellerAddress, note: v('i-note') })
+            .then(function (doc) { doc.save(O.invoicePdfFilename(v('i-cust'), v('i-no'))); d.remove(); toast('Fakturan är nedladdad'); })
+            .catch(function (err) { toast(err.message); b.disabled = false; b.textContent = 'Ladda ner faktura'; });
+        });
+      });
+  }
+
   /* ---------- Shared helpers for the pages ---------- */
   var CUSTOMER = { lead: 'Lead', prospect: 'Blivande kund', active: 'Aktiv kund', paused: 'Pausad', former: 'Tidigare kund', internal: 'Intern' };
   var CATEGORY = { meeting: 'Möte', call: 'Samtal', task: 'Uppgift', deadline: 'Deadline', reminder: 'Påminnelse', personal: 'Personligt', other: 'Övrigt' };
@@ -894,7 +928,7 @@
       '<button class="iconbtn" data-close aria-label="Stäng">' + ICON.x + '</button></div></header>' +
       '<div class="ld__quick">' + (l.phone ? '<a class="btn btn--ghost btn--sm" href="tel:' + esc(l.phone) + '">' + ICON.phone + 'Ring</a>' : '') +
       (l.email ? '<button class="btn btn--ghost btn--sm" id="ld-mail">' + ICON.mail + 'Mejla</button>' : '') +
-      '<button class="btn btn--ghost btn--sm" id="ld-propose">' + ICON.cal + 'Låt kunden välja tid</button><button class="btn btn--ghost btn--sm" id="ld-meet">' + ICON.cal + 'Boka möte</button><button class="btn btn--ghost btn--sm" id="ld-offer">' + ICON.file + 'Skapa offert</button>' +
+      '<button class="btn btn--ghost btn--sm" id="ld-propose">' + ICON.cal + 'Låt kunden välja tid</button><button class="btn btn--ghost btn--sm" id="ld-meet">' + ICON.cal + 'Boka möte</button><button class="btn btn--ghost btn--sm" id="ld-offer">' + ICON.file + 'Skapa offert</button><button class="btn btn--ghost btn--sm" id="ld-invoice">' + ICON.file + 'Skapa faktura</button>' +
       (l.status === 'sold' ? '<button class="btn btn--sm" id="ld-review">' + ICON.star + 'Be om recension</button>' : '<button class="btn btn--sm" id="ld-sold">' + ICON.star + 'Markera som såld</button>') + '</div>' +
       ((metaOf(l).web || metaOf(l).github) ? '<p class="ld__links">' + (metaOf(l).web ? '<a href="' + esc(metaOf(l).web) + '" target="_blank" rel="noopener">' + ICON.site + 'Gamla hemsidan</a>' : '') + (metaOf(l).github ? '<a href="' + esc(metaOf(l).github) + '" target="_blank" rel="noopener">' + ICON.site + 'Nya hemsidan på GitHub</a>' : '') + '</p>' : '') +
       '<div class="ld__cols"><div>' +
@@ -955,6 +989,7 @@
         update(l.id, { admin_notes: withOwner(ownerOf(cur), $('#ld-note', d).value, metaOf(cur)) }).then(function () { toast('Kommentaren är sparad'); }).catch(function (err) { toast(err.message); });
       });
       $('#ld-offer', d).addEventListener('click', function () { d.remove(); openOffer(l); });
+      $('#ld-invoice', d).addEventListener('click', function () { d.remove(); openInvoice(l); });
       var lm = $('#ld-mail', d); if (lm) lm.addEventListener('click', function () { d.remove(); composeMail(l); });
       $('#ld-meet', d).addEventListener('click', function () { d.remove(); bookMeeting(l); });
       $('#ld-propose', d).addEventListener('click', function () { d.remove(); proposeTimes(l); });
@@ -1119,7 +1154,7 @@
     var sum = function (f) { return sold.filter(f).reduce(function (s, l) { return s + Number(l.sold_amount || 0); }, 0); };
     main().innerHTML = head('Fakturor', 'Sålda affärer och deras fakturor.') +
       kpis([['Sålt totalt', kr(sum(function () { return true; }))], ['Affärer', sold.length], ['Fakturerat', kr(sum(function (l) { return l.stripe_invoice_id; }))], ['Betalt', kr(sum(function (l) { return l.stripe_invoice_status === 'paid'; }))]]) +
-      info('Skicka fakturor', 'Att skapa och skicka fakturor via Stripe kräver en server (den gamla admin gjorde det via Lovable). Tills dess: skapa offerten här, fakturera från ert bokföringsprogram och markera affären som såld.') +
+      info('Fakturera', 'Öppna affären och tryck på Skapa faktura, så får du en PDF i samma stil som webbavtalet. Mejla den till kunden och markera som betald när pengarna kommit.') +
       '<div id="it">' + table([['Kund', function (l) { return '<b>' + esc(l.company || l.name) + '</b>'; }], ['Såld', function (l) { return day(l.sold_at); }],
         ['Belopp', function (l) { return l.sold_amount != null ? kr(l.sold_amount) : '–'; }],
         ['Faktura', function (l) { return l.stripe_invoice_status ? '<span class="tag">' + esc(l.stripe_invoice_status) + '</span>' : '<span class="muted">Ingen</span>'; }],

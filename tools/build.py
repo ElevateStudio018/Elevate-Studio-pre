@@ -146,6 +146,25 @@ def header(p, crumbs, current):
   </nav>'''
 
 
+SOCIAL = {
+    "Instagram": "https://www.instagram.com/elevate.studio018/",
+    "TikTok": "https://www.tiktok.com/@elevate.studio88",
+    "Facebook": "https://www.facebook.com/profile.php?id=61592020254252",
+}
+SOCIAL_ICON = {
+    "Instagram": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM17.5 5.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" fill="currentColor"/></svg>',
+    "TikTok": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2h3a5 5 0 0 0 4 4v3a8 8 0 0 1-4-1.3V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V2z" fill="currentColor"/></svg>',
+    "Facebook": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H8v4h2v8h4v-8h3l1-4h-4V8z" fill="currentColor"/></svg>',
+}
+
+
+def social_links(cls="social"):
+    """Instagram, TikTok and Facebook as icon links."""
+    return f'<ul class="{cls}">' + "".join(
+        f'<li><a href="{u}" target="_blank" rel="noopener" aria-label="Elevate Studio på {n}" title="{n}">{SOCIAL_ICON[n]}<span>{n}</span></a></li>'
+        for n, u in SOCIAL.items()) + "</ul>"
+
+
 def footer(p):
     services = "".join(f'<li><a href="{p}tjanster/{s["slug"]}.html">{esc(s["name"])}</a></li>' for s in SERVICES)
     return f'''<footer>
@@ -199,6 +218,8 @@ def footer(p):
                 <li><a href="tel:+46760228361">Ring 076-022 83 61</a></li>
                 <li><a href="{p}testa.html">Testa din sajt</a></li>
               </ul>
+              <p class="site-footer__subheader site-footer__subheader--follow">Följ oss</p>
+              {social_links("social social--footer")}
             </div>
           </div>
           <ul class="site-footer__bottom">
@@ -271,7 +292,7 @@ def organisation_ld():
         "address": {"@type": "PostalAddress", "addressLocality": "Uppsala", "addressRegion": "Uppsala län", "addressCountry": "SE"},
         "areaServed": [{"@type": "City", "name": c} for c in UPPSALA_AREA] + [{"@type": "Country", "name": "Sverige"}],
         "hasMap": MAPS_URL,
-        "sameAs": [MAPS_URL],
+        "sameAs": [MAPS_URL] + list(SOCIAL.values()),
         "knowsAbout": ["Webbdesign", "Hemsidor för företag", "Sökmotoroptimering (SEO)", "AI-optimering", "Bokningssystem", "Offertsystem", "AI-chatt", "Webbutveckling"],
         "slogan": "Hemsidor som ger förfrågningar",
         "priceRange": "3 000–6 000 kr",
@@ -971,6 +992,7 @@ def build_simple():
           <li><a href="mailto:info@elevatestudio.nu"><span class="contact-hero__k">Mejla oss</span><span class="contact-hero__v">info@elevatestudio.nu</span></a></li>
           <li><a href="#formular"><span class="contact-hero__k">Skriv till oss</span><span class="contact-hero__v">Fyll i formuläret</span></a></li>
         </ul>
+        <div class="contact-hero__social"><p class="contact-hero__k">Följ oss</p>{social_links("social")}</div>
       </div>
     </section>''')
             elif kind == "nextsteps":
