@@ -265,7 +265,7 @@ def organisation_ld():
         "url": f"{SITE_URL}/",
         "logo": f"{SITE_URL}/assets/img/brand/favicon-512.png",
         "image": f"{SITE_URL}/assets/img/brand/og.jpg",
-        "description": "Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor med bokning, offertflöde, AI-chatt, SEO och AI-optimering till fast pris.",
+        "description": "Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor med bokning, offertflöde, AI-chatt, SEO och AI-optimering till fast pris – för företag i alla storlekar i hela Sverige.",
         "email": "info@elevatestudio.nu",
         "telephone": TEAM[0][2],
         "address": {"@type": "PostalAddress", "addressLocality": "Uppsala", "addressRegion": "Uppsala län", "addressCountry": "SE"},
@@ -532,6 +532,8 @@ _LAZY_IMG = re.compile(r'<img\b[^>]*\sloading="lazy"[^>]*>')
 _IMG_TAG = re.compile(r'<img\b[^>]*>')
 _SIZES = [  # how wide the picture is shown, by file name, so the browser can pick the right copy
     ("device-phone", "(max-width: 768px) 22vw, 160px"),
+    ("alvhem-phone", "(max-width: 768px) 22vw, 160px"),
+    ("alvhem-desktop", "(max-width: 768px) 70vw, 640px"),
     ("device-desktop", "(max-width: 768px) 70vw, 640px"),
     ("about-1", "(max-width: 768px) calc(100vw - 30px), 60vw"),
     ("about-3", "(max-width: 768px) calc(100vw - 30px), 30vw"),
@@ -601,7 +603,7 @@ def build_services():
     {cta(p)}
   </main>'''
     yield write("tjanster/index.html", document(p, "Tjänster – hemsidor, bokning, offert, AI-chatt och SEO", main, "subpage", [("Vad vi gör", "tjanster/index.html")], "tjanster",
-                description="Elevate Studio bygger hemsidor för företag och kopplar på bokningssystem, offertsystem, AI-chatt, SEO och support. Fast pris, webbyrå i Uppsala."))
+                description="Elevate Studio bygger hemsidor för företag i alla storlekar och kopplar på bokning, offertsystem, AI-chatt, SEO och support. Fast pris, webbyrå i Uppsala."))
 
     for s in SERVICES:
         includes = "".join(f'<div class="info-card"><h3 class="info-card__title">{esc(t)}</h3><p>{esc(d)}</p></div>' for t, d in s["includes"])
@@ -674,9 +676,9 @@ def build_cases():
     p = "../"
     cards = "".join(f'''
         <article class="pcard">
-          {laptop(p + "assets/img/" + c["image"], c["name"] + " – exempel på hemsida på en dator")}
+          {laptop(p + "assets/img/" + c["image"], c["name"] + (" på en dator" if c.get("site") else " – exempel på hemsida på en dator"))}
           <div class="pcard__body">
-            <span class="ex-tag">Exempel</span>
+            <span class="ex-tag">{"Kund" if c.get("site") else "Exempel"}</span>
             <h3><a class="cover-link" href="{c["slug"]}.html">{esc(c["name"])}</a></h3>
             <p>{esc(c["lead"])}</p>
             <ul class="pcard__tags">{"".join(f"<li>{esc(t)}</li>" for t in c["tags"])}</ul>
@@ -688,14 +690,14 @@ def build_cases():
       <div class="pj-hero__mark">{MARK_SVG}</div>
       <div class="container pj-hero__row">
         <div>
-          <span class="ex-tag ex-tag--demo">Så kan det se ut</span>
+          <span class="ex-tag ex-tag--demo">Kund hos oss</span>
           <h1 class="pj-hero__title">Hemsidor som känns rätt <em>på alla skärmar</em></h1>
-          <p class="pj-hero__lead">Vi bygger mobilen först. Lindvik Bygg är en hemsida vi har byggt för att visa hur det kan se ut – på dator och mobil. Längre ner finns exempel på hur vi arbetar.</p>
-          <a class="btn btn--light" href="{LIRK_URL}" target="_blank" rel="noopener"><span>Klicka runt på Lindvik Bygg</span></a>
+          <p class="pj-hero__lead">Vi bygger mobilen först och finputsar varje skärmstorlek. Alvhem Städ är kund hos oss – så här ser deras hemsida ut på dator och mobil. Längre ner finns fler exempel på hur vi arbetar.</p>
+          <a class="btn btn--light" href="https://alvhemstad.se/" target="_blank" rel="noopener"><span>Besök alvhemstad.se</span></a>
         </div>
         <div class="pj-hero__devs">
-          {laptop(p + "assets/img/home/device-desktop.jpg", "Lindvik Bygg på en dator")}
-          <div class="phone"><img src="{p}assets/img/home/device-phone.jpg" alt="Lindvik Bygg på en mobil" loading="lazy"></div>
+          {laptop(p + "assets/img/home/alvhem-desktop.jpg", "Alvhem Städ på en dator")}
+          <div class="phone"><img src="{p}assets/img/home/alvhem-phone.jpg" alt="Alvhem Städ på en mobil" loading="lazy"></div>
         </div>
           <p class="devs-cap"><b>Dator och mobil</b> – samma sajt, anpassad för varje skärm</p>
       </div>
@@ -714,20 +716,35 @@ def build_cases():
         <h2 class="block__header">Exempel på <span>projekt</span></h2>
         <div class="pgrid">{cards}
         </div>
-        <p class="fiction-note">Kunderna i exemplen är påhittade och visar hur vi arbetar.</p>
+        <p class="fiction-note">Alvhem Städ är kund hos oss. Övriga exempel är påhittade och visar hur vi arbetar.</p>
       </div>
     </section>
     {cta(p)}
   </main>'''
     yield write("projekt/index.html", document(p, "Projekt och exempel på hemsidor", main, "subpage", [("Projekt", "")], "projekt",
-                description="Se exempel på hemsidor från Elevate Studio – Lindvik Bygg på dator och mobil, före och efter, och exempel på hur vi arbetar."))
+                description="Se hemsidor från Elevate Studio – Alvhem Städ på dator och mobil, före och efter, och exempel på hur vi arbetar."))
 
     for i, c in enumerate(CASES):
         nxt = CASES[(i + 1) % len(CASES)]
         tags = "".join(f"<li>{esc(t)}</li>" for t in c["tags"])
-        main = f'''<main>
-    {page_hero(esc(c["name"]), c["lead"], "Projekt")}
+        if c.get("site"):
+            body = f'''<section class="section container">
+      <ul class="tag-row">{tags}</ul>
+      <div class="case-devs">
+        {laptop(p + "assets/img/" + c["image"], c["name"] + " på en dator")}
+        <div class="phone"><img src="{p}assets/img/{c["phone_image"]}" alt="{esc(c["name"])} på en mobil" loading="lazy"></div>
+      </div>
+      <p class="devs-cap"><b>Dator och mobil</b> – samma sajt, anpassad för varje skärm</p>
+      <p class="case-visit"><a class="btn btn--primary" href="{c["site"]}" target="_blank" rel="noopener"><span>Besök {esc(c["site_label"])}</span></a></p>
+    </section>
     <section class="section container">
+      <div class="card-grid card-grid--2">
+        <div class="info-card"><h2 class="info-card__title">Om kunden</h2><p>{esc(c["about"])}</p></div>
+        <div class="info-card info-card--accent"><h2 class="info-card__title">Det här finns på hemsidan</h2><ul class="check-list">{"".join(f"<li>{esc(f)}</li>" for f in c["features"])}</ul></div>
+      </div>
+    </section>'''
+        else:
+            body = f'''<section class="section container">
       <ul class="tag-row">{tags}</ul>
       {compare(p, "../assets/img/" + c["image"], c["name"])}
       <p class="fiction-note">Påhittat exempelprojekt som visar hur vi arbetar.</p>
@@ -738,7 +755,10 @@ def build_cases():
         <div class="info-card"><h2 class="info-card__title">Lösningen</h2><p>{esc(c["solution"])}</p></div>
         <div class="info-card info-card--accent"><h2 class="info-card__title">Resultatet</h2><p>{esc(c["result"])}</p></div>
       </div>
-    </section>
+    </section>'''
+        main = f'''<main>
+    {page_hero(esc(c["name"]), c["lead"], "Kund" if c.get("site") else "Projekt")}
+    {body}
     <section class="section container">
       <a class="next-card" href="{nxt["slug"]}.html">
         <span class="next-card__label">Nästa projekt</span>
@@ -748,7 +768,7 @@ def build_cases():
     </section>
     {cta(p)}
   </main>'''
-        yield write(f'projekt/{c["slug"]}.html', document(p, f'{c["name"]} – exempel på hemsida', main, "subpage",
+        yield write(f'projekt/{c["slug"]}.html', document(p, f'{c["name"]} – {"kund hos Elevate Studio" if c.get("site") else "exempel på hemsida"}', main, "subpage",
                     [("Projekt", "projekt/index.html"), (c["name"], "")], "projekt"))
 
 
@@ -1231,26 +1251,26 @@ def projects_section():
     """Start page: the demo site in laptop and phone, then example projects in laptops (J10)."""
     cards = "".join(f'''
           <a class="hp-proj__card" href="projekt/{c["slug"]}.html">
-            {laptop("assets/img/" + c["image"], c["name"] + " – exempel på hemsida på en dator")}
-            <div class="hp-proj__meta"><h3>{esc(c["name"])}</h3><span class="ex-tag">Exempel</span></div>
+            {laptop("assets/img/" + c["image"], c["name"] + (" på en dator" if c.get("site") else " – exempel på hemsida på en dator"))}
+            <div class="hp-proj__meta"><h3>{esc(c["name"])}</h3><span class="ex-tag">{"Kund" if c.get("site") else "Exempel"}</span></div>
             <span class="btn btn--light hp-proj__btn"><span>Läs mer</span></span>
           </a>''' for c in CASES[:3])
     return f'''<section class="block hp-proj" id="projekt">
       <div class="container">
         <div class="hp-proj__hero hp-proj__hero--trio">
           <div class="hp-proj__head">
-            <span class="ex-tag ex-tag--demo">Så kan det se ut</span>
+            <span class="ex-tag ex-tag--demo">Kund hos oss</span>
             <h2 class="hp-proj__title">Hemsidor som känns rätt <em>på alla skärmar</em></h2>
-            <p class="hp-proj__lead">Vi bygger mobilen först och finputsar varje skärmstorlek. Lindvik Bygg är en hemsida vi har byggt för att visa hur det kan se ut – på dator och mobil.</p>
+            <p class="hp-proj__lead">Vi bygger mobilen först och finputsar varje skärmstorlek. Alvhem Städ är kund hos oss – så här ser deras hemsida ut på dator och mobil.</p>
             <div class="hp-proj__btns">
               <a class="btn btn--light" href="projekt/index.html"><span>Se alla projekt</span></a>
-              <a class="arrow-link hp-proj__link" href="{LIRK_URL}" target="_blank" rel="noopener">Klicka runt på Lindvik Bygg</a>
+              <a class="arrow-link hp-proj__link" href="https://alvhemstad.se/" target="_blank" rel="noopener">Besök alvhemstad.se</a>
             </div>
           </div>
           <div class="hp-proj__trio">
-            <div class="phone hp-proj__phone hp-proj__phone--l"><img src="assets/img/home/device-phone.jpg" alt="Lindvik Bygg på en mobil" loading="lazy"></div>
-            {laptop("assets/img/home/device-desktop.jpg", "Lindvik Bygg på en dator")}
-            <div class="phone hp-proj__phone hp-proj__phone--r" aria-hidden="true"><img src="assets/img/home/device-phone.jpg" alt="" loading="lazy"></div>
+            <div class="phone hp-proj__phone hp-proj__phone--l"><img src="assets/img/home/alvhem-phone.jpg" alt="Alvhem Städ på en mobil" loading="lazy"></div>
+            {laptop("assets/img/home/alvhem-desktop.jpg", "Alvhem Städ på en dator")}
+            <div class="phone hp-proj__phone hp-proj__phone--r" aria-hidden="true"><img src="assets/img/home/alvhem-phone.jpg" alt="" loading="lazy"></div>
           </div>
         </div>
         <div class="hp-proj__divider">
@@ -1259,7 +1279,7 @@ def projects_section():
         </div>
         <div class="hp-proj__grid">{cards}
         </div>
-        <p class="hp-proj__note">Kunderna i exemplen är påhittade och visar hur vi arbetar.</p>
+        <p class="hp-proj__note">Alvhem Städ är kund hos oss. Övriga exempel är påhittade och visar hur vi arbetar.</p>
       </div>
     </section>'''
 
@@ -1367,7 +1387,7 @@ def site_files(built):
     faq = "\n".join(f"- **{q}** {html.unescape(re.sub(r'<[^>]+>', '', a))}" for q, a in FAQ)
     llms = f"""# Elevate Studio
 
-> Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor som ger förfrågningar – med bokning, offertflöde, AI-chatt, SEO och AI-optimering. Fast pris, och kunden pratar alltid med samma person. Arbetar med företag i hela Sverige.
+> Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor som ger förfrågningar – med bokning, offertflöde, AI-chatt, SEO och AI-optimering. Fast pris, och kunden pratar alltid med samma person. Arbetar med företag i alla storlekar i hela Sverige, små som stora.
 
 ## Tjänster
 {services}

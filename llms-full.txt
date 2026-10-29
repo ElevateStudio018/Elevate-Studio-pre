@@ -1,6 +1,6 @@
 # Elevate Studio
 
-> Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor som ger förfrågningar – med bokning, offertflöde, AI-chatt, SEO och AI-optimering. Fast pris, och kunden pratar alltid med samma person. Arbetar med företag i hela Sverige.
+> Webbyrå i Uppsala som bygger snabba, mobilanpassade hemsidor som ger förfrågningar – med bokning, offertflöde, AI-chatt, SEO och AI-optimering. Fast pris, och kunden pratar alltid med samma person. Arbetar med företag i alla storlekar i hela Sverige, små som stora.
 
 ## Tjänster
 - [Hemsidor](https://elevatestudio.nu/tjanster/hemsidor): Snabba, mobilanpassade hemsidor som visar vad ni gör och gör det enkelt för kunderna att höra av sig.
@@ -20,7 +20,7 @@
 ## Vanliga frågor
 - **Vad kostar en hemsida?** Ni får ett fast pris innan vi börjar. Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. Se våra priser eller ett exempel på hur ett avtal ser ut.
 - **Hur lång tid tar det?** Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst.
-- **Bygger ni hemsidor för hantverkare?** Ja. Vi bygger hemsidor för snickare, elektriker, rörmokare, målare, byggföretag och andra hantverkare – ofta med ett offertformulär så att kunderna kan beskriva jobbet direkt.
+- **Bygger ni hemsidor för alla typer av företag?** Ja. Vi bygger hemsidor för företag i alla storlekar – från enmansföretag till större bolag med flera avdelningar och system som ska kopplas ihop. Större projekt får ett fast pris i en offert.
 - **Jobbar ni bara i Uppsala?** Nej. Vi finns i Uppsala men bygger hemsidor åt företag i hela Sverige. Möten går lika bra på distans.
 - **Vad behöver vi bidra med?** Kunskapen om ert företag: vad ni gör, vilka kunder ni vill ha och de bilder och texter ni redan har. Ni får två korrekturvändor innan sidan lanseras, så att allt blir rätt.
 - **Ingår support efter lansering?** Ja. Under första året ingår upp till 10 timmars support och redigering per månad – till exempel text- och bildändringar, layoutjusteringar eller nya funktioner.
@@ -80,7 +80,7 @@ En vag förfrågan betyder ofta flera mejl fram och tillbaka innan ni kan räkna
 - Notiser via e-post och SMS: Ni får besked direkt när en ny förfrågan kommer in.
 - Status och historik: Se vilka förfrågningar som är besvarade och vilka som väntar.
 - **Vad är ett offertsystem på hemsidan?** Ett formulär där kunden beskriver jobbet steg för steg, så att ni får alla uppgifter ni behöver för att kunna lämna ett pris.
-- **Passar det för hantverkare?** Ja. Offertflöden passar särskilt bra för hantverkare och andra tjänsteföretag som behöver veta mer om jobbet innan de kan ge ett pris.
+- **Vilka passar offertsystemet för?** Alla företag som behöver veta mer om jobbet innan de kan ge ett pris – till exempel byggföretag, konsulter, byråer och industriföretag.
 
 ## SEO och AI-optimering
 Det spelar ingen roll hur bra hemsidan är om ingen hittar den. Vi bygger sidan så att Google och AI-tjänster förstår vad ni gör, var ni finns och vilka frågor ni kan svara på. Grundläggande SEO och AI-optimering ingår i alla hemsidor vi bygger.
