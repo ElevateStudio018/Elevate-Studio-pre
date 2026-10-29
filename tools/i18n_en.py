@@ -55,6 +55,8 @@ EN = {
     "Hemsida för hantverkare": "Websites for tradespeople",
     "Billig hemsida": "Affordable website",
     "Ring oss": "Call us",
+    "Ring 076-022 83 61": "Call +46 76 022 83 61",
+    "Möte om en ny hemsida – tre personer kring ett bord med laptops": "Meeting about a new website – three people around a table with laptops",
     "Integritetspolicy": "Privacy policy",
     "Cookies": "Cookies",
     "In English": "In English",
@@ -923,6 +925,8 @@ EN = {
 
 # Text that is built from parts in JavaScript: (regular expression, replacement)
 PATTERNS = [
+    ("^(.+) – exempel på hemsida på en dator$", "$1 – example website on a laptop"),
+    ("^(.+) – exempel på hemsida$", "$1 – example website"),
     ("^Tack! Vi svarar dig på (.+) så fort vi kan\\.$", "Thanks! We'll reply to $1 as soon as we can."),
     ("^Säkerhet (.*)$", "Security $1"),
     ("^(-?\\d+) poäng$", "$1 points"),

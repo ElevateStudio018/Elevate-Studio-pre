@@ -21,8 +21,9 @@
     "directory": ".",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
-    // Browsers opening these addresses directly (e.g. the return from Google) must reach the server
-    // part, not the 404 page
-    "run_worker_first": ["/api/*", "/koppla-google", "/admin/api/*"]
+    // The server part runs first for every page, so it can send old http:// and www. addresses on to
+    // https://elevatestudio.nu (one address for search engines) and reach the Google links directly.
+    // Files under /assets and the old addresses in _redirects are served as before, without it.
+    "run_worker_first": ["/*", "!/assets/*", "!/om-oss", "!/integritetspolicy", "!/branscher", "!/sa-fungerar-det", "!/vara-hemsidor", "!/tjanster/hemsida-for-hantverkare", "!/tjanster/seo-for-hantverkare", "!/tjanster/underhall-och-support", "!/tjanster/start", "!/auth", "!/kalender", "!/kontakter", "!/fakturor", "!/utskick", "!/segment", "!/besokare", "!/chatt-insikter", "!/kundportal", "!/cfo", "!/minne", "!/integrationer", "!/ai", "!/ai/*", "!/portal", "!/portal/*"]
   }
 }
