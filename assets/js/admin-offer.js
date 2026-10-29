@@ -313,7 +313,7 @@ async function buildInvoicePdf(input) {
   y = ty + 3.4 * U + body;
 
   h2("Betalning");
-  const pay = [input.bankgiro ? "Bankgiro: " + input.bankgiro : "", input.swish ? "Swish: " + input.swish : "", input.account ? "Konto: " + input.account : ""].filter(Boolean);
+  const pay = [input.account ? "Bankkonto: " + input.account : "", input.bankgiro ? "Bankgiro: " + input.bankgiro : ""].filter(Boolean);
   if (pay.length) para(pay.join("   |   "), "bold", GREEN);
   para(`Ange fakturanummer ${input.invoiceNo} som referens vid betalning. Betalning ska vara oss tillhanda senast ${input.dueDate}.`);
   para("Betalningsvillkor: 30 dagar. Vid försenad betalning utgår dröjsmålsränta enligt räntelagen samt lagstadgad påminnelseavgift." + (input.vat ? "" : " Företaget är inte momsregistrerat, därför tillkommer ingen moms."));

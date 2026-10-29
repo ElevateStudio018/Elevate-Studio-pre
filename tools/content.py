@@ -120,15 +120,6 @@ SERVICES = [
 CASES = [
     {
         # A real customer: the site is shown as it is, with no made-up story
-        "slug": "haninge-byggteam", "name": "Haninge Byggteam AB", "tags": ["Byggfirma", "Kund", "Webb"],
-        "image": "home/haninge-desktop.jpg", "w": 746, "h": 466, "phone_image": "home/haninge-phone.jpg",
-        "site": "https://haningebyggteam.se/", "site_label": "haningebyggteam.se",
-        "lead": "Byggfirma i Stockholm och Södertörn med totalrenoveringar, kök, badrum, tillbyggnader och altaner.",
-        "about": "Haninge Byggteam AB hjälper privatpersoner och företag i Stockholm med allt från mindre renoveringar till större byggprojekt: totalrenoveringar, köksrenoveringar, badrum, tillbyggnader och altanbyggen. Kostnadsfritt hembesök och fast offert innan arbetet börjar.",
-        "features": ["Få gratis offert från varje sida", "Projektgalleri som går att filtrera på kök, badrum, totalrenovering och utomhus", "Så arbetar vi, steg för steg", "Vanliga frågor och kundomdömen", "Anpassad för mobilen"],
-    },
-    {
-        # A real customer: the site is shown as it is, with no made-up story
         "slug": "alvhem-stad", "name": "Alvhem Städ", "tags": ["Städfirma", "Kund", "Webb"],
         "image": "home/alvhemstad-desktop.jpg", "w": 746, "h": 466, "phone_image": "home/alvhemstad-phone.jpg", "old_image": "home/alvhem-old.jpg", "video": "video/alvhem-hero.mp4", "overlay": "home/alvhem-overlay.webp",
         "site": "https://alvhemstad.se/", "site_label": "alvhemstad.se",

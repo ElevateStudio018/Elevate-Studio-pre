@@ -605,8 +605,8 @@
       '<div class="grid2">' + f('i-caddr', 'Kundens adress', l.address || '') + f('i-offer', 'Offert nr (om det finns)', offerNo) + '</div>' +
       '<label class="field">Rader, en per rad: text; belopp exkl. moms<textarea class="input" id="i-rows" rows="4">Webbutveckling – fast startavgift; ' + start + '\nÅrsavgift, första året; ' + fees.yearly + '</textarea></label>' +
       '<label class="check"><input type="checkbox" id="i-vat"' + (mem.vat === false ? '' : ' checked') + '> Lägg på moms 25 %</label>' +
-      '<div class="grid3">' + f('i-sorg', 'Vårt org.nr', mem.sellerOrg) + f('i-bg', 'Bankgiro', mem.bankgiro) + f('i-swish', 'Swish', mem.swish) + '</div>' +
-      '<div class="grid2">' + f('i-acct', 'Kontonummer (om inget bankgiro)', mem.account) + f('i-saddr', 'Vår adress', mem.sellerAddress) + '</div>' +
+      '<div class="grid3">' + f('i-sorg', 'Vårt org.nr', mem.sellerOrg) + f('i-acct', 'Bankkonto (clearing + kontonummer)', mem.account) + f('i-bg', 'Bankgiro (om ni har)', mem.bankgiro) + '</div>' +
+      f('i-saddr', 'Vår adress', mem.sellerAddress) +
       '<label class="field">Meddelande på fakturan (valfritt)<textarea class="input" id="i-note" rows="2"></textarea></label>' +
       '<div class="dlg__row"><button class="btn btn--ghost" data-close>Avbryt</button><button class="btn" id="i-go">Ladda ner faktura</button></div>',
       function (d) {
@@ -614,10 +614,10 @@
           var b = e.target; b.disabled = true; b.textContent = 'Skapar …';
           var v = function (id) { return $('#' + id, d).value.trim(); };
           var items = v('i-rows').split('\n').map(function (s) { var p = s.split(';'); return { label: (p[0] || '').trim(), amount: Number(String(p[1] || '').replace(/[^\d.,-]/g, '').replace(',', '.')) || 0 }; }).filter(function (x) { return x.label; });
-          var own = { sellerOrg: v('i-sorg'), bankgiro: v('i-bg'), swish: v('i-swish'), account: v('i-acct'), sellerAddress: v('i-saddr'), vat: $('#i-vat', d).checked };
+          var own = { sellerOrg: v('i-sorg'), bankgiro: v('i-bg'), account: v('i-acct'), sellerAddress: v('i-saddr'), vat: $('#i-vat', d).checked };
           try { localStorage.setItem('elevate.invoice', JSON.stringify(own)); } catch (err) { /* fine */ }
           O.buildInvoicePdf({ invoiceNo: v('i-no'), date: v('i-date'), dueDate: v('i-due'), offerNo: v('i-offer'), customer: v('i-cust'), customerRep: v('i-crep'), customerOrg: v('i-corg'), customerAddress: v('i-caddr'),
-            items: items, vat: own.vat, sellerOrg: own.sellerOrg, bankgiro: own.bankgiro, swish: own.swish, account: own.account, sellerAddress: own.sellerAddress, note: v('i-note') })
+            items: items, vat: own.vat, sellerOrg: own.sellerOrg, bankgiro: own.bankgiro, account: own.account, sellerAddress: own.sellerAddress, note: v('i-note') })
             .then(function (doc) { doc.save(O.invoicePdfFilename(v('i-cust'), v('i-no'))); d.remove(); toast('Fakturan är nedladdad'); })
             .catch(function (err) { toast(err.message); b.disabled = false; b.textContent = 'Ladda ner faktura'; });
         });

@@ -16,7 +16,7 @@ HERO_WIDTHS = (800, 1200, 1400, 1600, 1920)
 # Smaller copies for cards and phones (name-320.webp etc.), made when the photo is clearly wider
 WIDTHS = (160, 240, 320, 400, 480, 640, 720, 800, 960, 1200, 1400, 1600)
 # Screenshots of websites keep more detail than photos need
-SHARP = ("device-", "alvhem", "haninge-")
+SHARP = ("device-", "alvhem")
 
 
 def main():
