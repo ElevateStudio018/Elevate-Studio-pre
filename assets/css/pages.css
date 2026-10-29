@@ -608,3 +608,129 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .cta-band__phone { border: 1px solid rgba(253, 251, 245, .7); background: transparent; color: var(--cream, #fdfbf5); }
 .cta-band__phone:hover { background: var(--cream, #fdfbf5); color: var(--accent, #1d3b2a); }
 @media (max-width: 768px) { .cta-band { padding: 48px 0 64px; } .cta-band__inner { padding: 44px 24px; border-radius: 24px; } }
+
+/* ---------- The reference look across the site: glow cards and frosted glass ---------- */
+/* Deep green cards with a smooth light in each lower corner, fine grain on top, and frosted
+   (milky, blurred) glass for the small panels, pills and buttons that sit on them. */
+:root {
+  --glow-card: radial-gradient(56% 64% at 0% 112%, var(--glow-teal, #3fc1b0) 0%, rgba(63, 193, 176, .7) 30%, rgba(63, 193, 176, .25) 52%, transparent 76%), radial-gradient(56% 64% at 100% 112%, var(--glow-lime, #d7e36b) 0%, rgba(215, 227, 107, .7) 30%, rgba(215, 227, 107, .25) 52%, transparent 76%), linear-gradient(180deg, #0e1f15 0%, #163222 100%);
+  --glow-card-teal: radial-gradient(56% 64% at 0% 112%, #2a7f78 0%, rgba(42, 127, 120, .7) 30%, rgba(42, 127, 120, .25) 52%, transparent 76%), radial-gradient(56% 64% at 100% 112%, #8fd27a 0%, rgba(143, 210, 122, .7) 30%, rgba(143, 210, 122, .25) 52%, transparent 76%), linear-gradient(180deg, #0e1f15 0%, #163222 100%);
+  --frost-bg: rgba(214, 226, 218, .55);
+  --frost-edge: rgba(255, 255, 255, .4);
+  --frost-ink: #12261a;
+  --arrow-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12h15M13 6l6 6-6 6' fill='none' stroke='%2312261a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.gcard, .info-card, .person, .about-ceo__card, .about-links__item, .next-steps li, .page-faq, .mini-faq .faq__list, .pcard, .platform-card, .plans-note, .post-card,
+.insights__big, .insights__small, .about__card, .test-teaser__row,
+.page-hero:not(.sitetest-hero):not(.agr-hero) > .container {
+  position: relative; overflow: hidden; color: var(--cream, #fdfbf5); background: var(--glow-card);
+}
+.gcard::after, .info-card::after, .person::after, .about-ceo__card::after, .about-links__item::after, .next-steps li::after, .page-faq::after, .mini-faq .faq__list::after, .pcard::after, .platform-card::after, .plans-note::after, .post-card::after,
+.insights__big::after, .insights__small::after, .about__card::after, .test-teaser__row::after,
+.page-hero:not(.sitetest-hero):not(.agr-hero) > .container::after {
+  content: ""; position: absolute; inset: 0; background: var(--noise) 0 0 / 180px auto; opacity: .22; mix-blend-mode: soft-light; pointer-events: none;
+}
+.gcard > *, .info-card > *, .person > *, .about-ceo__card > *, .about-links__item > *, .next-steps li > *, .page-faq > *, .mini-faq .faq__list > *, .pcard > *, .platform-card > *, .plans-note > *, .post-card > *,
+.insights__big > *, .insights__small > *, .about__card > *, .test-teaser__row > *,
+.page-hero:not(.sitetest-hero):not(.agr-hero) > .container > * { position: relative; z-index: 1; }
+.gcard { border-radius: 24px; }
+.gcard--teal, .info-card--accent { background: var(--glow-card-teal); }
+
+/* Frosted glass */
+.frost, .frost-pill, .page-hero:not(.sitetest-hero):not(.agr-hero) .page-hero__eyebrow, .person__links a, .about-ceo__role, .next-steps__no, .ex-tag, .post-card__terms span,
+.plans-note .arrow-link, .gcard--links .link-list a, .test-teaser .sitetest__form,
+.page-faq .faq__item, .mini-faq .faq__item {
+  border: 1px solid var(--frost-edge); background: var(--frost-bg); color: var(--frost-ink);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+}
+.frost { border-radius: 18px; box-shadow: 0 20px 40px rgba(0, 0, 0, .25); }
+.frost-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1.2; }
+/* The round arrow in a card's top right corner */
+.info-card--link::before, .about-links__item::before, .platform-card::before {
+  content: ""; position: absolute; top: 18px; right: 18px; z-index: 2; width: 44px; height: 44px; border-radius: 50%; pointer-events: none;
+  border: 1px solid var(--frost-edge); background: var(--frost-bg) var(--arrow-ink) center / 20px no-repeat;
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 10px 24px rgba(0, 0, 0, .25);
+}
+
+/* Light text and lime links on the cards */
+.info-card p, .about-links__item p, .next-steps p, .pcard__body p, .plans-note p, .test-teaser p { color: rgba(253, 251, 245, .86); }
+.info-card__title, .about-links__item h3, .next-steps h3, .pcard__body h3, .platform-card h3, .plans-note__title, .post-card__title, .insights__big-title, .insights__small-title, .test-teaser h2, .gcard--links .section__title { color: #fff; }
+.info-card a, .person__company a { color: var(--glow-lime, #d7e36b); }
+.info-card .cover-link, .post-card .cover-link, .insights__big .cover-link, .insights__small .cover-link { color: inherit; }
+.info-card .arrow-link, .about-links__item .arrow-link, .platform-card .arrow-link { color: #fff; }
+.info-card .arrow-link::after, .about-links__item .arrow-link::after, .platform-card .arrow-link::after { filter: brightness(0) invert(1); }
+.info-card { border-color: transparent; }
+.info-card--link { transition: transform .25s, box-shadow .25s; }
+.info-card--link:hover { border-color: transparent; background: var(--glow-card); transform: translateY(-4px); box-shadow: 0 28px 50px -30px rgba(18, 39, 27, .6); }
+.info-card--link .info-card__title, .about-links__item h3, .platform-card h3 { padding-right: 56px; }
+.info-card--accent { border-color: transparent; }
+
+/* Page top as a card */
+.page-hero:not(.sitetest-hero):not(.agr-hero) { padding: 16px 0 40px; background: var(--cream); }
+.page-hero:not(.sitetest-hero):not(.agr-hero) > .container { width: calc(100% - 30px); max-width: 1304px; padding: 64px 64px 72px; border-radius: 28px; }
+.page-hero:not(.sitetest-hero):not(.agr-hero) .page-hero__eyebrow { display: inline-flex; align-items: center; margin: 0 0 28px; padding: 8px 14px; border-radius: 999px; font-size: 13px; letter-spacing: .08em; }
+.page-hero:not(.sitetest-hero):not(.agr-hero) .page-hero__title { color: #fff; }
+.page-hero:not(.sitetest-hero):not(.agr-hero) .page-hero__lead { color: rgba(253, 251, 245, .88); }
+.page-hero__icon { width: 96px; height: 96px; padding: 14px; border-radius: 22px; background: #fff; box-sizing: border-box; }
+.page-hero + .breadcrumb-wrap, .page-hero + .section { padding-top: 80px; }
+
+/* Service pages: the photo rises out of a card, the other services are frosted pills */
+.gcard--pic { padding: 28px 28px 0; }
+.gcard--pic > img { display: block; width: 100%; height: auto; border-radius: 16px 16px 0 0; box-shadow: 0 -20px 50px rgba(0, 0, 0, .35); }
+.gcard--pic .gcard__tag { position: absolute; top: 48px; left: 48px; z-index: 2; }
+.gcard--links { padding: 44px 48px; }
+.gcard--links .section__title { margin: 0 0 24px; }
+.gcard--links .link-list { gap: 12px; }
+.gcard--links .link-list a, .plans-note .arrow-link { display: inline-flex; align-items: center; padding: 10px 18px; border-radius: 999px; font-size: 16px; }
+
+/* Team, company, steps, questions */
+.person__links a { width: fit-content; padding: 8px 14px 8px 12px; border-radius: 999px; font-size: 15px; }
+.person__ic { color: var(--frost-ink); }
+.person__logo { color: rgba(253, 251, 245, .6); }
+.about-ceo__role { display: inline-flex; margin-top: 12px; padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 600; opacity: 1; }
+.next-steps__no { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; font-size: 22px; }
+.page-faq, .mini-faq .faq__list { padding: 20px; border-radius: 24px; }
+.page-faq .faq__item[open], .mini-faq .faq__item[open] { background: rgba(214, 226, 218, .72); box-shadow: inset 4px 0 0 var(--glow-lime, #d7e36b); }
+.page-faq .faq__item summary, .mini-faq .faq__item summary { color: var(--frost-ink); }
+.page-faq .faq__item p, .mini-faq .faq__item p { color: #2b3a31; }
+
+/* Projects, platforms, prices note */
+.pcard .laptop { background: transparent; }
+.pcard__tags { color: rgba(253, 251, 245, .7); }
+.pcard .pcard__btn { background: var(--cream, #fdfbf5); color: var(--accent, #1d3b2a); }
+.pcard:hover .pcard__btn { background: #fff; }
+.ex-tag { font-weight: 600; }
+.platform-card { border-color: transparent; }
+.platform-card:hover { border-color: transparent; transform: translateY(-4px); }
+.platform-card img { width: auto; height: 84px; padding: 12px; border-radius: 18px; background: #fff; box-sizing: border-box; }
+.plans-note .arrow-link::after { filter: none; }
+
+/* News cards */
+.post-card:hover { background: var(--glow-card); color: var(--cream, #fdfbf5); transform: translateY(-4px); transition: transform .25s; }
+.post-card__time, .post-card:hover .post-card__time { color: rgba(253, 251, 245, .7); }
+.post-card__terms span { margin: 0 8px 8px 0; padding: 3px 12px 3px 10px; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 22px; }
+.post-card__terms span::before, .post-card:hover .post-card__terms span::before { background: var(--frost-ink); }
+.page-hero .post-card__terms span { background: var(--frost-bg); }
+.insights__big, .insights__small { padding: 24px; border-radius: 24px; }
+.insights__big img, .insights__small img { border-radius: 16px; }
+.insights__big img { height: 360px; }
+.insights__big:hover .insights__big-title, .insights__small:hover .insights__small-title { text-decoration-color: var(--glow-lime, #d7e36b); }
+
+/* Site test teaser as a card with a frosted form */
+.test-teaser { padding: 40px 0 100px; background: var(--cream); }
+.test-teaser__row { padding: 56px 64px; border-radius: 28px; }
+.test-teaser .sitetest__form { box-shadow: 0 20px 40px rgba(0, 0, 0, .25); }
+.test-teaser .sitetest__field input { color: var(--frost-ink); }
+.test-teaser .sitetest__field input::placeholder { color: rgba(18, 38, 26, .6); }
+.standout__intro { background: var(--glow-card); }
+
+@media (max-width: 768px) {
+  .page-hero:not(.sitetest-hero):not(.agr-hero) > .container { padding: 40px 24px 44px; border-radius: 22px; }
+  .test-teaser__row { padding: 36px 24px; border-radius: 22px; }
+  .insights__big, .insights__small { padding: 14px; }
+  .gcard--links { padding: 28px 24px; }
+  .gcard--pic { padding: 16px 16px 0; }
+  .gcard--pic .gcard__tag { top: 30px; left: 30px; }
+}
+/* Stacked under the text on phones, the photo card keeps its own height */
+@media (max-width: 768px) { .columns-2 > .gcard { flex-basis: auto; } }

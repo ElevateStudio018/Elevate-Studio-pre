@@ -539,7 +539,10 @@ def build_services():
         <p class="preamble">{esc(s["intro"])}</p>
         <a href="../kontakt.html" class="btn btn--primary"><span>Boka ett samtal</span></a>
       </div>
-      <img class="rounded" src="../assets/img/{s["image"]}" alt="{esc(s["alt"])}" width="632" height="474" loading="lazy">
+      <div class="gcard gcard--pic">
+        <img class="rounded" src="../assets/img/{s["image"]}" alt="{esc(s["alt"])}" width="632" height="474" loading="lazy">
+        <span class="frost frost-pill gcard__tag">{esc(s["name"])}</span>
+      </div>
     </section>
     <section class="section section--cream">
       <div class="container">
@@ -561,8 +564,10 @@ def build_services():
       {faq_html}
     </section>
     <section class="section container">
-      <h2 class="h3 section__title">Fler tjänster</h2>
-      <ul class="link-list">{others}</ul>
+      <div class="gcard gcard--links">
+        <h2 class="h3 section__title">Fler tjänster</h2>
+        <ul class="link-list">{others}</ul>
+      </div>
     </section>
     {cta(p)}
   </main>'''
