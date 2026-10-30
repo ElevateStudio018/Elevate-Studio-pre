@@ -150,3 +150,20 @@ export async function sheetLeads(req, env, fallback) {
     return json(out);
   } catch (e) { return e.status === 403 ? fail(e) : json(fallback || []); }
 }
+
+// Which Google services answer with the connected account: yes/no only, no data (for checking the setup)
+export async function googleCheck(env) {
+  const out = { connected: false };
+  let token;
+  try { token = await accessToken(env); out.connected = true; } catch (e) { out.error = String(e.message || e).slice(0, 120); return json(out); }
+  const ti = await fetch(`https://oauth2.googleapis.com/tokeninfo?access_token=${token}`).then((r) => r.json()).catch(() => ({}));
+  const scopes = String(ti.scope || '');
+  out.scopes = { calendar: /calendar/.test(scopes), searchConsole: /webmasters/.test(scopes), business: /business\.manage/.test(scopes), sheets: /spreadsheets/.test(scopes) };
+  const test = async (url) => { try { await gget(token, url); return 'ok'; } catch (e) { return String(e.message || e).slice(0, 160); } };
+  [out.searchConsole, out.sheets, out.business] = await Promise.all([
+    test('https://www.googleapis.com/webmasters/v3/sites'),
+    test(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?fields=properties.title`),
+    test('https://mybusinessaccountmanagement.googleapis.com/v1/accounts'),
+  ]);
+  return json(out);
+}
