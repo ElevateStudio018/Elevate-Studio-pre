@@ -1044,15 +1044,15 @@ h2, h3 { margin: 0; font-weight: 400; }
 
 /* ---------- Book a meeting from the start page: the same day columns as in the mail ---------- */
 .book-mini { padding: 40px 0; }
-.book-bars { display: flex; align-items: center; gap: 36px; padding: 32px 40px; border-radius: 22px; background: #fff; box-shadow: 0 20px 40px -30px rgba(0, 0, 0, .35); }
+.book-bars { display: flex; align-items: center; gap: 36px; padding: 32px 40px; border-radius: 22px; background: var(--accent, #1d3b2a); color: var(--cream, #fdfbf5); box-shadow: 0 20px 40px -30px rgba(0, 0, 0, .45); }
 .book-bars__text { flex: 1; min-width: 0; }
-.book-bars__text h2 { margin: 0 0 4px; font-size: 30px; font-weight: 500; color: var(--ink, #16241b); }
-.book-bars__text p { margin: 0; color: #4f5a53; }
+.book-bars__text h2 { margin: 0 0 4px; font-size: 30px; font-weight: 500; color: #fff; }
+.book-bars__text p { margin: 0; color: rgba(253, 251, 245, .85); }
 .book-bars__chart { display: flex; align-items: flex-end; gap: 6px; height: 80px; flex: none; }
-.book-bars__bar { width: 30px; height: var(--h, 40%); border-radius: 6px; background: #cfdcd2; transition: height .5s cubic-bezier(.22, 1, .36, 1); }
-.book-bars__bar.is-top { background: var(--accent, #1d3b2a); }
-.book-bars__go { display: inline-flex; align-items: center; gap: 8px; flex: none; padding: 13px 22px; border-radius: 999px; background: var(--accent, #1d3b2a); color: var(--cream, #fdfbf5); font-weight: 600; text-decoration: none; }
-.book-bars__go:hover { background: #12271b; }
+.book-bars__bar { width: 30px; height: var(--h, 40%); border-radius: 6px; background: rgba(253, 251, 245, .28); transition: height .5s cubic-bezier(.22, 1, .36, 1); }
+.book-bars__bar.is-top { background: var(--cream, #fdfbf5); }
+.book-bars__go { display: inline-flex; align-items: center; gap: 8px; flex: none; padding: 13px 22px; border-radius: 999px; background: var(--cream, #fdfbf5); color: var(--accent, #1d3b2a); font-weight: 600; text-decoration: none; }
+.book-bars__go:hover { background: #fff; }
 @media (max-width: 640px) { .book-bars { flex-wrap: wrap; gap: 18px; padding: 24px; } .book-bars__text { flex-basis: 100%; } .book-bars__text h2 { font-size: 24px; } .book-bars__chart { height: 56px; } .book-bars__bar { width: 24px; } .book-bars__go { margin-left: auto; } }
 
 /* ---------- Mobile hero: the same design as on desktop, the text sized for a phone ---------- */
