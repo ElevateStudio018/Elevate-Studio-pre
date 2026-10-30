@@ -467,8 +467,7 @@ def featured_posts(p, articles):
               <p class="post-card__time">{big["date"]}</p>
             </div>
           </article>
-          <div class="insights__rail"><div class="insights__side" id="insights-side">{side}</div>
-          <div class="insights__nav"><button type="button" class="insights__btn" data-dir="-1" aria-label="Föregående artiklar">&#8249;</button><button type="button" class="insights__btn" data-dir="1" aria-label="Nästa artiklar">&#8250;</button></div></div>
+          <div class="insights__rail"><div class="insights__side" id="insights-side">{side}</div></div>
         </div>'''
 
 
