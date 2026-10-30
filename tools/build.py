@@ -1658,6 +1658,7 @@ def inline_critical(built):
         f = ROOT / path
         s = f.read_text(encoding="utf-8")
         page_css = per_page.get(path, css)
+        page_css = re.sub(r"@font-face\{[^}]*\}", "", page_css)  # fonts are loaded by main.js after the page (no request chain)
         s2 = link.sub(lambda m: "<style>" + page_css.replace("url(../", "url(" + m.group(1) + "assets/") + "</style>", s)
         s2 = tag.sub(lambda m: "<script" + m.group(1) + ">" + i18n + "</script>", s2)
         if s2 != s:
