@@ -380,3 +380,5 @@ button.f:hover { border-color: var(--g); }
 .row__who .mine { background: var(--g); color: #fff; }
 .row__who .whose { background: color-mix(in srgb, var(--c) 14%, #fff); color: var(--c); }
 .row__who .free { background: #f3e9c9; color: #7a5b0f; }
+.tbl tr.is-dim { opacity: .55; }
+.tbl tr.is-dim .tag { background: #f3e9c9; color: #7a5b0f; }

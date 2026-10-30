@@ -6,6 +6,11 @@ so add new strings when the Swedish copy changes (tools/i18n_check.js lists what
 """
 
 EN = {
+    "Tryck på en tid så är mötet bokat": "Tap a time and the meeting is booked",
+    "Google Meet med Carl – länken kommer i bekräftelsen": "Google Meet with Carl – the link comes in the confirmation",
+    "Se alla tider →": "See all times →",
+    "Ledig": "Free",
+    "Upptagen i vår kalender. Alla tider är svensk tid.": "Taken in our calendar. All times are Swedish time.",
     "och Markmontage BEAB AB är kunder hos oss. Övriga namn är påhittade exempel.": "and Markmontage BEAB AB are clients of ours. The other names are fictional examples.",
     "Boka ett kort möte": "Book a short meeting",
     "När passar det": "When suits",

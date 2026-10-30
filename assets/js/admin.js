@@ -140,7 +140,7 @@
   var NAV = [
     ['Försäljning', [['todo', 'Att göra', 'inbox'], ['leads', 'Alla leads', 'layers'], ['vunna', 'Vunna', 'star'], ['kalender', 'Kalender', 'cal'], ['kontakter', 'Kontakter', 'users'], ['fakturor', 'Fakturor', 'file']]],
     ['Marknadsföring', [['utskick', 'Utskick', 'send'], ['segment', 'Segment', 'layers'], ['besokare', 'Besökare', 'eye'], ['chatten', 'Chatten', 'msg']]],
-    ['Mer', [['statistik', 'Statistik', 'chart'], ['arkiv', 'Arkiv', 'door'], ['konton', 'Konton', 'users'], ['kundportal', 'Kundportal', 'door'], ['ai', 'AI-assistent', 'spark'], ['insikter', 'Insikter', 'chart'],
+    ['Mer', [['statistik', 'Statistik', 'chart'], ['arkiv', 'Arkiv', 'door'], ['konton', 'Konton', 'users'], ['import', 'Importera leads', 'inbox'], ['kundportal', 'Kundportal', 'door'], ['ai', 'AI-assistent', 'spark'], ['insikter', 'Insikter', 'chart'],
       ['ekonomi', 'Ekonomi', 'wallet'], ['minne', 'AI-minne', 'brain'], ['integrationer', 'Integrationer', 'plug'], ['konto', 'Mitt konto', 'user']], true]
   ];
   var BADGE = { todo: 1, leads: 1, vunna: 1, arkiv: 1 };
@@ -435,6 +435,54 @@
   }
 
   /* Konton: the team's logins, opened from here */
+  /* Importera leads: the three Google Sheets tabs, turned into admin/import.json by the build. Only the
+     Elevate account imports, because it is the one that sees everyone's leads and can tell what is already in. */
+  function renderImport() {
+    if (myTag()) { main().innerHTML = head('Importera leads', 'Listorna från Google Sheets.') + info('Logga in som Elevate Studio', 'Importen jämför mot allas leads för att inte lägga in dubbletter, så den görs från Elevate-kontot (info@elevatestudio.nu).'); return; }
+    main().innerHTML = head('Importera leads', 'Isaks, Carls och Oscars listor från Google Sheets. Det som redan finns i admin hoppas över.') + '<p class="empty">Hämtar listan …</p>';
+    var digits = function (s) { return String(s || '').replace(/\D/g, '').replace(/^46/, '0'); };
+    var key = function (s) { return String(s || '').toLowerCase().replace(/\b(ab|i|&|och)\b/g, ' ').replace(/[^a-z0-9åäö]+/g, ' ').trim(); };
+    var existing = function (x) {
+      return st.leads.find(function (l) {
+        return (x.email && l.email && l.email.toLowerCase() === x.email.toLowerCase()) || (x.phone && l.phone && digits(l.phone) === digits(x.phone)) ||
+          (key(x.company) && (key(l.company) === key(x.company) || key(l.name) === key(x.company)));
+      });
+    };
+    sb.auth.getSession().then(function (s) { return fetch('/api/leads/import', { headers: { Authorization: 'Bearer ' + (s.data.session ? s.data.session.access_token : '') } }); }).then(function (r) { if (!r.ok) throw new Error(); return r.json(); }).then(function (list) {
+      var rows = list.map(function (x) { return { x: x, dup: existing(x) }; });
+      var fresh = rows.filter(function (r) { return !r.dup; });
+      main().innerHTML = head('Importera leads', 'Isaks, Carls och Oscars listor från Google Sheets. Det som redan finns i admin hoppas över.',
+        fresh.length ? '<button class="btn" id="imp-go">Lägg in ' + fresh.length + ' nya leads</button>' : '') +
+        kpis([['I listorna', list.length], ['Nya', fresh.length], ['Finns redan', rows.length - fresh.length]]) +
+        '<div class="tablewrap"><table class="tbl"><thead><tr><th></th><th>Företag</th><th>Ansvarig</th><th>Status</th><th>Kontakt</th><th>Ny sajt</th><th>Kommentar</th></tr></thead><tbody>' +
+        rows.map(function (r, i) {
+          var x = r.x;
+          return '<tr class="' + (r.dup ? 'is-dim' : '') + '"><td>' + (r.dup ? '<span class="tag">Finns: ' + esc(r.dup.company || r.dup.name) + '</span>' : '<input type="checkbox" class="imp" data-i="' + i + '" checked>') + '</td>' +
+            '<td><b>' + esc(x.company) + '</b>' + (x.service_type ? '<br><span class="muted">' + esc(x.service_type) + '</span>' : '') + '</td>' +
+            '<td><span class="av" style="--c:' + OWNER_COLOR[x.owner] + '">' + x.owner.charAt(0) + '</span> ' + esc(x.owner) + '</td><td>' + esc(STAGE[x.status] || x.status) + '</td>' +
+            '<td>' + esc([x.email, x.phone, x.web].filter(Boolean).join(' · ')) + '</td><td>' + (x.github ? '<a href="' + esc(x.github) + '" target="_blank" rel="noopener">' + esc(x.github.split('/').pop()) + '</a>' : '') + '</td>' +
+            '<td class="muted" style="max-width:360px;white-space:normal">' + esc(x.note) + '</td></tr>';
+        }).join('') + '</tbody></table></div>';
+      var go = $('#imp-go'); if (!go) return;
+      go.addEventListener('click', function () {
+        var picks = Array.prototype.map.call(document.querySelectorAll('.imp:checked'), function (c) { return rows[Number(c.dataset.i)].x; });
+        if (!picks.length) return toast('Inget markerat');
+        go.disabled = true; go.textContent = 'Lägger in …';
+        var done = 0, failed = 0;
+        var next = function (i) {
+          if (i >= picks.length) { toast(done + ' leads inlagda' + (failed ? ', ' + failed + ' misslyckades' : '')); loadLeads().then(function () { renderImport(); }); return; }
+          var x = picks[i];
+          var note = [x.note, x.first_contact ? 'Första kontakt: ' + x.first_contact : '', x.maps ? 'Google Maps: ' + x.maps : ''].filter(Boolean).join('\n');
+          sb.from('quote_requests').insert({ name: x.company, company: x.company, email: x.email || '', phone: x.phone || null, service_type: x.service_type || null, status: x.status || 'contacted',
+            meeting_type: 'manual', message: 'Importerad från ' + x.owner + 's lista', admin_notes: withOwner(x.owner, note, { web: x.web, github: x.github }) }).select()
+            .then(function (r) { if (r.error) { failed++; console.warn(x.company, r.error.message); } else done++; next(i + 1); })
+            .catch(function () { failed++; next(i + 1); });
+        };
+        next(0);
+      });
+    }).catch(function () { main().innerHTML = head('Importera leads') + info('Kunde inte hämta listan', 'Servern svarade inte, eller så är du inte inloggad.'); });
+  }
+
   function renderAccounts() {
     var rows = PROFILES.slice(0, 3), stats = personRows(0);
     main().innerHTML = head('Konton', 'Var och en loggar in med sin egen e-post och sitt eget lösenord. Öppna ett konto här så kan personen logga in direkt.') +
@@ -479,7 +527,7 @@
             var s = l.status || 'new', bump = s === 'new' || s === 'contacted' || s === 'meeting_rebook' ? update(l.id, { status: 'meeting_to_book' }).catch(function () {}) : Promise.resolve();
             bump.then(function () {
               if (mail) { d.remove(); render(); toast('Mejlet med lediga tider är skickat till ' + l.email); return; }
-              m.className = 'msg ok'; m.innerHTML = 'Länken är skapad – skicka den i ett sms eller en chatt:<br><input class="input" readonly value="' + esc(x.b.url) + '" onclick="this.select()" style="margin-top:8px">';
+              m.className = 'msg ok'; m.innerHTML = 'Länken är skapad – skicka den i ett sms eller en chatt:<br><input class="input" readonly value="' + esc(x.b.url) + '" data-select style="margin-top:8px">';
               btns.forEach(function (b) { b.disabled = false; }); render();
             });
           });
@@ -637,6 +685,7 @@
   var CATEGORY = { meeting: 'Möte', call: 'Samtal', task: 'Uppgift', deadline: 'Deadline', reminder: 'Påminnelse', personal: 'Personligt', other: 'Övrigt' };
   var SCOPE = { foretag: 'Företaget', operativt: 'Hur vi jobbar', profil: 'Personligt' };
   var main = function () { return $('#main'); };
+  document.addEventListener('focusin', function (e) { if (e.target.matches && e.target.matches('input[data-select]')) e.target.select(); });
   function head(title, sub, actions) {
     return '<div class="page-h"><div><h1>' + title + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div>' + (actions ? '<div class="page-h__acts">' + actions + '</div>' : '') + '</div>';
   }
@@ -1435,7 +1484,7 @@
   }
 
   var PAGES = {
-    todo: renderTodo, leads: renderLeads, vunna: renderWon, arkiv: renderArchive, statistik: renderStats, konton: renderAccounts,
+    todo: renderTodo, leads: renderLeads, vunna: renderWon, arkiv: renderArchive, statistik: renderStats, konton: renderAccounts, import: renderImport,
     kalender: renderCalendar, kontakter: renderContacts, fakturor: renderInvoices, utskick: renderCampaigns, segment: renderSegments,
     besokare: renderVisitors, chatten: renderChat, kundportal: renderPortal, ai: renderAI, insikter: renderInsights, ekonomi: renderEconomy,
     minne: renderMemory, integrationer: renderIntegrations, konto: renderAccount

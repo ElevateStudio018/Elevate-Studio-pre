@@ -220,19 +220,20 @@
   });
 })();
 
-/* Start page: the next free times from the booking calendar, each one books on /boka */
+/* Start page: the booking calendar as in the mail, five days with every time; a free time books on /boka */
 (function () {
-  var box = document.getElementById('book-home-times');
+  var box = document.getElementById('book-home-cols');
   if (!box) return;
-  var list = box.querySelector('.book-home__list');
-  fetch(box.dataset.info).then(function (r) { return r.json(); }).then(function (d) {
-    var out = [];
-    (d.days || []).forEach(function (day) { day.slots.forEach(function (s) { if (s.free && out.length < 6) out.push({ t: s.t, day: day }); }); });
-    if (!out.length) { list.innerHTML = '<li class="book-home__empty">Inga lediga tider just nu – <a href="kontakt">hör av dig</a> så hittar vi en.</li>'; return; }
-    var cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
-    list.innerHTML = out.map(function (x) {
-      var time = new Date(x.t).toLocaleTimeString('sv-SE', { timeZone: 'Europe/Stockholm', hour: '2-digit', minute: '2-digit' });
-      return '<li><a href="boka?v=' + x.t + '"><b>' + time + '</b><span>' + cap(x.day.wd) + ' ' + x.day.d + ' ' + x.day.mon.toLowerCase() + '</span></a></li>';
+  var cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
+  fetch(document.getElementById('book-home-times').dataset.info).then(function (r) { return r.json(); }).then(function (d) {
+    var days = (d.days || []).slice(0, 5);
+    if (!days.length) { box.innerHTML = '<p class="book-home__empty">Inga tider just nu – <a href="kontakt">hör av dig</a> så hittar vi en.</p>'; return; }
+    box.innerHTML = days.map(function (day) {
+      return '<div class="book-home__col' + (day.free ? '' : ' is-full') + '"><h3>' + cap(day.wd) + '<b>' + day.d + ' ' + day.mon.toLowerCase() + '</b><em>' + (day.free ? day.free + ' lediga' : 'fullt') + '</em></h3><div class="book-home__stack">' +
+        day.slots.map(function (s) {
+          var time = new Date(s.t).toLocaleTimeString('sv-SE', { timeZone: 'Europe/Stockholm', hour: '2-digit', minute: '2-digit' });
+          return s.free ? '<a class="book-home__slot" href="boka?v=' + s.t + '">' + time + '</a>' : '<span class="book-home__slot is-busy" aria-label="' + time + ' är upptaget">' + time + '</span>';
+        }).join('') + '</div></div>';
     }).join('');
-  }).catch(function () { list.innerHTML = '<li class="book-home__empty"><a href="boka">Se lediga tider</a></li>'; });
+  }).catch(function () { box.innerHTML = '<p class="book-home__empty"><a href="boka">Se lediga tider</a></p>'; });
 })();
