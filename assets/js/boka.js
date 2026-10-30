@@ -3,9 +3,9 @@
 (function () {
   var TZ = 'Europe/Stockholm';
   var pick = document.getElementById('pick');
-  var token = decodeURIComponent((location.pathname.split('/boka/')[1] || '').replace(/\/+$/, ''));
+  var token = decodeURIComponent((location.pathname.split('/boka/')[1] || '').replace(/\/+$/, '')) || 'public';
   var preset = Number(new URLSearchParams(location.search).get('v')) || 0;
-  var st = { data: null, page: 0, at: 0, busy: false, rebook: false };
+  var st = { data: null, page: 0, at: 0, busy: false, rebook: false, who: { name: '', email: '', company: '', phone: '' } };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var time = function (ms) { return new Date(ms).toLocaleTimeString('sv-SE', { timeZone: TZ, hour: '2-digit', minute: '2-digit' }); };
   var cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
@@ -20,6 +20,7 @@
     var who = d.host ? d.host.first : null;
     document.getElementById('title').textContent = 'När passar det dig' + (d.first ? ', ' + d.first : '') + '?';
     document.getElementById('lead').textContent = d.demo ? 'Förhandsvisning av bokningssidan: tiderna är de som är lediga i kalendern just nu, men inget bokas när du trycker.'
+      : d.public ? 'Välj en tid som passar dig, så tar vi ett kort möte om er hemsida. Det kostar ingenting och du behöver inte förbereda något.'
       : (who ? who + ' har föreslagit' : 'Vi har föreslagit') + ' ett kort möte om er hemsida. Tryck på en ledig tid så är det bokat.';
     document.getElementById('pills').innerHTML = '<span class="pill">' + d.minutes + ' min</span><span class="pill">' + esc(d.type) + '</span>';
     document.title = 'Välj en tid' + (who ? ' med ' + who : '') + ' – Elevate Studio';
@@ -54,7 +55,9 @@
       '<div class="legend"><span><i></i>Ledig</span>' + (d.live ? '<span><i class="b"></i>Upptagen i vår kalender</span>' : '') + '<span><i class="s"></i>Vald</span></div>' +
       '<div class="sheet"><p>' + (day ? '<b>' + cap(day.long) + ' · ' + time(st.at) + '–' + time(st.at + d.minutes * 6e4) + '</b>' : '<b>Välj en tid i listan</b>') +
       '<small>' + esc(d.type) + (d.host ? ' med ' + esc(d.host.first) : '') + (d.type === 'Google Meet' ? ' – länken kommer i bekräftelsen' : '') + '</small></p>' +
+      (d.public && day ? '<form class="who" id="who" autocomplete="on"><label><span>Namn</span><input id="w-name" type="text" required autocomplete="name" value="' + esc(st.who.name) + '"></label><label><span>E-post</span><input id="w-email" type="email" required autocomplete="email" value="' + esc(st.who.email) + '"></label><label><span>Företag</span><input id="w-company" type="text" autocomplete="organization" value="' + esc(st.who.company) + '"></label><label><span>Telefon</span><input id="w-phone" type="tel" autocomplete="tel" value="' + esc(st.who.phone) + '"></label><input id="w-web" type="text" name="web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"></form>' : '') +
       '<button class="cta" id="book"' + (day ? '' : ' disabled') + '>' + (st.rebook ? 'Boka om till den här tiden' : 'Boka tiden') + '</button></div><p class="msg" id="msg"></p>';
+    if (d.public && day) ['name', 'email', 'company', 'phone'].forEach(function (k) { document.getElementById('w-' + k).addEventListener('input', function (e) { st.who[k] = e.target.value; }); });
     pick.querySelectorAll('[data-at]').forEach(function (b) { b.addEventListener('click', function () { st.at = Number(b.dataset.at); render(); }); });
     document.getElementById('prev').addEventListener('click', function () { st.page--; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
     document.getElementById('next').addEventListener('click', function () { st.page++; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
@@ -63,15 +66,23 @@
 
   function book() {
     if (st.busy || !st.at) return;
+    var body = { t: token, at: st.at };
+    if (st.data.public) {
+      var f = document.getElementById('who');
+      if (f && !f.reportValidity()) return;
+      body.name = st.who.name.trim(); body.email = st.who.email.trim(); body.company = st.who.company.trim(); body.phone = st.who.phone.trim(); body.web = f ? document.getElementById('w-web').value : '';
+      if (!body.name || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(body.email)) { document.getElementById('msg').textContent = 'Fyll i namn och en riktig e-postadress så vi kan skicka bekräftelsen.'; return; }
+    }
     st.busy = true;
     var btn = document.getElementById('book') || { disabled: false, textContent: '' }; btn.disabled = true; btn.textContent = 'Bokar …';
-    fetch('/api/booking/book', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ t: token, at: st.at }) })
+    fetch('/api/booking/book', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, b: b }; }); })
       .then(function (x) {
         st.busy = false;
         if (x.ok) return renderDone(x.b);
         if (x.b.error === 'taken' || x.b.error === 'slot') { st.at = 0; return load('Oj, den tiden blev precis upptagen. Välj en annan.'); }
         if (x.b.error === 'link') return fail('link');
+        if (x.b.error === 'who') { document.getElementById('msg').textContent = 'Fyll i namn och en riktig e-postadress så vi kan skicka bekräftelsen.'; btn.disabled = false; btn.textContent = 'Boka tiden'; return; }
         if (!document.getElementById('msg')) return load('Det gick inte att boka just nu. Välj en tid, så försöker vi igen.');
         document.getElementById('msg').textContent = 'Det gick inte att boka just nu (' + (x.b.error || 'fel') + '). Försök igen om en stund, eller svara på mejlet.';
         btn.disabled = false; btn.textContent = 'Boka tiden';
@@ -116,6 +127,5 @@
       if (message) document.getElementById('msg').textContent = message;
     }).catch(function () { fail('net'); });
   }
-  if (!token) return fail('link');
   load();
 })();

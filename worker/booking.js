@@ -151,7 +151,10 @@ export async function bookingLink(req, env) {
 
 // A preview of the page for the team (/boka/demo): a sample customer, the calendar's real free times, nothing booked
 const DEMO = { l: 'demo', e: '', n: 'Anna', h: 'carl', m: 30, t: 'google_meet', c: 0, x: Infinity };
-const demoOr = async (env, token) => (token === 'demo' ? DEMO : verify(env, token));
+// Booking straight from the website, no link: the customer fills in name and e-mail when booking
+const PUBLIC = { l: 'public', e: '', n: '', h: 'carl', m: 30, t: 'google_meet', c: 'public', x: Infinity };
+const demoOr = async (env, token) => (token === 'demo' ? DEMO : token === 'public' ? PUBLIC : verify(env, token));
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 /* ---------- The booking page: what to show ---------- */
 export async function bookingInfo(req, env) {
@@ -161,8 +164,8 @@ export async function bookingInfo(req, env) {
   const now = Date.now();
   const days = offeredDays(now);
   const { busy, live } = await busyOrNone(env, now, days[days.length - 1].close);
-  const booked = p === DEMO ? null : await existing(env, p);
-  return json({ ok: true, demo: p === DEMO, name: p.n, email: p.e, first: (p.n || '').trim().split(/\s+/)[0] || '', host: host && { first: host.first, name: host.name, role: host.role, phone: host.phone, email: host.email },
+  const booked = p === DEMO || p === PUBLIC ? null : await existing(env, p);
+  return json({ ok: true, demo: p === DEMO, public: p === PUBLIC, name: p.n, email: p.e, first: (p.n || '').trim().split(/\s+/)[0] || '', host: host && { first: host.first, name: host.name, role: host.role, phone: host.phone, email: host.email },
     minutes: p.m, type: TYPES[p.t] || 'Möte', live, booked, expires: p.x === Infinity ? null : p.x,
     days: days.map((d) => { const s = slots(d, p.m, busy, now); return { date: d.date, wd: d.wd, d: d.d, mon: d.mon, long: d.long, free: s.filter((x) => x.free).length, slots: s }; }) });
 }
@@ -171,14 +174,24 @@ export async function bookingInfo(req, env) {
 export async function bookingBook(req, env) {
   if (req.method !== 'POST') return json({ error: 'method' }, 405);
   let input; try { input = await req.json(); } catch { return json({ error: 'json' }, 400); }
-  const p = await demoOr(env, input.t);
+  let p = await demoOr(env, input.t);
   if (!p) return json({ error: 'link' }, 404);
+  let extra = '';
+  if (p === PUBLIC) {
+    // Straight from the website: who is booking?
+    if (clip(input.web, 10)) return json({ error: 'spam' }, 400);
+    const n = clip(input.name, 120), e = (clip(input.email, 200) || '').toLowerCase();
+    if (!n || !EMAIL.test(e)) return json({ error: 'who' }, 400);
+    const company = clip(input.company, 120), phone = clip(input.phone, 40);
+    extra = `${company ? '\nFöretag: ' + company : ''}${phone ? '\nTelefon: ' + phone : ''}`;
+    p = { ...PUBLIC, n, e, c: 'public:' + e };
+  }
   const start = Number(input.at), now = Date.now();
   const day = offeredDays(now).find((d) => start >= d.open && start < d.close);
   if (!day || (start - day.open) % (STEP * 6e4) !== 0 || start + p.m * 6e4 > day.close || start < now + NOTICE || held(start)) return json({ error: 'slot' }, 409);
   if (p === DEMO) return json({ ok: true, demo: true, at: start, minutes: p.m, type: TYPES[p.t], link: null, mailed: false });
   const end = start + p.m * 6e4;
-  const prior = await existing(env, p);
+  const prior = p.l === 'public' ? null : await existing(env, p);
   const { busy } = await busyOrNone(env, start - 864e5, end + 864e5);
   if (busy.some(([a, b]) => start < b && end > a && !(prior && Math.abs(a - prior.at) < 6e4))) return json({ error: 'taken' }, 409);
 
@@ -188,7 +201,7 @@ export async function bookingBook(req, env) {
     if (prior) await deleteEvent(env, prior.id).catch(() => {});
     try {
       const ev = await createMeet(env, { start: new Date(start), minutes: p.m, title: `Möte: ${p.n || p.e} och Elevate Studio`,
-        description: `${type} · kunden valde tiden själv via länk${host ? '\nVärd: ' + host.name : ''}\n${p.e}`, attendee: p.e, name: p.n, conference: p.t === 'google_meet',
+        description: `${type} · ${p.l === 'public' ? 'bokat direkt på hemsidan' : 'kunden valde tiden själv via länk'}${host ? '\nVärd: ' + host.name : ''}\n${p.e}${extra}`, attendee: p.e, name: p.n, conference: p.t === 'google_meet',
         props: { elevate_self: '1', elevate_lead: String(p.l), elevate_link: String(p.c), elevate_host: p.h, elevate_type: p.t, elevate_minutes: String(p.m) } });
       link = ev.link; uid = ev.uid;
     } catch (e) { return json({ error: String(e.message || e).slice(0, 300) }, 502); }
@@ -206,8 +219,8 @@ export async function bookingBook(req, env) {
     const cal = ics({ start: new Date(start), minutes: p.m, title: 'Möte med Elevate Studio', location: link || undefined, description: type, attendee: p.e, uid, organizer: uid ? env.GMAIL_USER : undefined });
     try { await timed(sendGmail(env, { name: p.n, email: p.e }, { mail, cal, host }), 15000); mailed = true; } catch { /* the booking stands; the page shows the details */ }
     // The host and the shared inbox hear about it right away
-    const notice = personalMail({ name: host ? host.first : 'Elevate', subject: `Bokat av kunden: ${p.n || p.e} – ${when}`,
-      body: `${p.n || p.e} valde en tid via länken.\n\nTid: ${when} (${p.m} min)\nTyp: ${type}${link ? '\nLänk: ' + link : ''}\nMejl: ${p.e}\n\nMötet ligger i Google Kalender och syns på leaden i admin.`,
+    const notice = personalMail({ name: host ? host.first : 'Elevate', subject: `${p.l === 'public' ? 'Nytt möte bokat på hemsidan' : 'Bokat av kunden'}: ${p.n || p.e} – ${when}`,
+      body: `${p.n || p.e} ${p.l === 'public' ? 'bokade ett möte direkt på hemsidan.' : 'valde en tid via länken.'}\n\nTid: ${when} (${p.m} min)\nTyp: ${type}${link ? '\nLänk: ' + link : ''}\nMejl: ${p.e}${extra}\n\n${p.l === 'public' ? 'Mötet ligger i Google Kalender. Lägg gärna upp personen som lead i admin.' : 'Mötet ligger i Google Kalender och syns på leaden i admin.'}`,
       host, button_label: 'Öppna admin', button_url: `${new URL(req.url).origin}/admin/` });
     for (const to of new Set([host?.email, env.GMAIL_USER].filter(Boolean))) {
       try { await timed(sendGmail(env, { email: to }, { mail: notice }), 10000); } catch { /* not the customer's problem */ }

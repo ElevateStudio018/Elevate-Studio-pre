@@ -665,3 +665,6 @@ body.has-preview { overflow: hidden; }
   .laptop { filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .22)); }
   .laptop__base { height: 6px; }
 }
+.cta-band__btns { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; }
+.btn--ghost-light { border: 1px solid rgba(253, 251, 245, .5); color: #fff; }
+.btn--ghost-light:hover { background: rgba(253, 251, 245, .12); }

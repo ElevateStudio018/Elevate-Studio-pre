@@ -397,7 +397,7 @@ def cta(p, title="Ska vi bygga något tillsammans?", text="Berätta kort vad ni 
           <p class="cta-band__title">{title}</p>
           <p>{text}</p>
         </div>
-        <a href="{p}kontakt.html" class="btn btn--light"><span>Kontakta oss</span></a>
+        <p class="cta-band__btns"><a href="{p}boka.html" class="btn btn--light"><span>Boka ett möte</span></a><a href="{p}kontakt.html" class="btn btn--ghost-light"><span>Kontakta oss</span></a></p>
       </div>
     </section>'''
 
