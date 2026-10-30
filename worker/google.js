@@ -1,7 +1,9 @@
 // Google Calendar for the Elevate Gmail: a booked meeting becomes an event in its calendar with a
 // Google Meet link made automatically. Connected once through /api/google/connect; the keys are
 // Cloudflare settings (GOOGLE_CLIENT_ID, secrets GOOGLE_CLIENT_SECRET and GOOGLE_REFRESH_TOKEN).
-const SCOPE = 'https://www.googleapis.com/auth/calendar.events';
+// Calendar for meetings; Search Console, Business Profile and Sheets for the admin (worker/gapi.js)
+const SCOPE = ['https://www.googleapis.com/auth/calendar.events', 'https://www.googleapis.com/auth/webmasters.readonly',
+  'https://www.googleapis.com/auth/business.manage', 'https://www.googleapis.com/auth/spreadsheets.readonly'].join(' ');
 const redirectUri = (req) => `${new URL(req.url).origin}/api/google/callback`;
 
 export const googleReady = (env) => !!(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET && env.GOOGLE_REFRESH_TOKEN);
@@ -14,7 +16,7 @@ const page = (title, body) => new Response(`<!doctype html><meta charset="utf-8"
 export function googleConnect(req, env) {
   if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET) return page('Google är inte förberett', '<p>GOOGLE_CLIENT_ID och GOOGLE_CLIENT_SECRET saknas i Cloudflare.</p>');
   const q = new URLSearchParams({ client_id: env.GOOGLE_CLIENT_ID, redirect_uri: redirectUri(req), response_type: 'code', scope: SCOPE,
-    access_type: 'offline', prompt: 'consent', login_hint: env.GMAIL_USER || '' });
+    access_type: 'offline', prompt: 'consent', include_granted_scopes: 'true', login_hint: env.GMAIL_USER || '' });
   return Response.redirect(`https://accounts.google.com/o/oauth2/v2/auth?${q}`, 302);
 }
 
@@ -33,7 +35,7 @@ export async function googleCallback(req, env) {
 <p>Dela den inte med någon. Stäng sidan när den är inlagd. Därefter får varje Google Meet-möte en länk automatiskt.</p>`);
 }
 
-async function accessToken(env) {
+export async function accessToken(env) {
   const r = await fetch('https://oauth2.googleapis.com/token', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({ client_id: env.GOOGLE_CLIENT_ID, client_secret: env.GOOGLE_CLIENT_SECRET, refresh_token: env.GOOGLE_REFRESH_TOKEN, grant_type: 'refresh_token' }) });
   const t = await r.json().catch(() => ({}));

@@ -1,6 +1,7 @@
 // The website is static files (served by Cloudflare). This small script adds the admin's server parts.
 import { handleInvite, handleMail } from './invite.js';
 import { googleReady, googleConnect, googleCallback } from './google.js';
+import { crux, safeBrowsing, searchConsole, reviews, sheetLeads } from './gapi.js';
 import { bookingReady, bookingLink, bookingInfo, bookingBook, bookingSync } from './booking.js';
 import { accountsReady, accountsCreate } from './accounts.js';
 import { adminUser } from './invite.js';
@@ -40,7 +41,11 @@ export default {
       return new Response(r.body, { status: r.status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
     }
     // The lead lists from Google Sheets, for the admin's import page; signed-in admins only
-    if (pathname === '/api/leads/import') return (await adminUser(req, env)) ? Response.json(leadImport, { headers: { 'Cache-Control': 'no-store' } }) : Response.json({ error: 'auth' }, { status: 401 });
+    if (pathname === '/api/leads/import') return sheetLeads(req, env, leadImport);
+    if (pathname === '/api/crux') return crux(req, env);
+    if (pathname === '/api/safe') return safeBrowsing(req, env);
+    if (pathname === '/api/gsc') return searchConsole(req, env);
+    if (pathname === '/api/reviews') return reviews(req, env);
     if (pathname === '/api/status') return Response.json({ gmail: !!(env.GMAIL_USER && env.GMAIL_APP_PASSWORD), google: googleReady(env), booking: bookingReady(env), accounts: accountsReady(env), from: env.GMAIL_USER || null });
     // The customer's booking page: one static page, the link's details are in the address
     if (pathname.startsWith('/boka/')) {

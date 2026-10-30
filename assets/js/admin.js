@@ -139,7 +139,7 @@
   /* ---------- Shell ---------- */
   var NAV = [
     ['Försäljning', [['todo', 'Att göra', 'inbox'], ['leads', 'Alla leads', 'layers'], ['vunna', 'Vunna', 'star'], ['kalender', 'Kalender', 'cal'], ['kontakter', 'Kontakter', 'users'], ['fakturor', 'Fakturor', 'file']]],
-    ['Marknadsföring', [['utskick', 'Utskick', 'send'], ['segment', 'Segment', 'layers'], ['besokare', 'Besökare', 'eye'], ['chatten', 'Chatten', 'msg']]],
+    ['Marknadsföring', [['utskick', 'Utskick', 'send'], ['segment', 'Segment', 'layers'], ['besokare', 'Besökare', 'eye'], ['sokord', 'Sökord på Google', 'chart'], ['recensioner', 'Recensioner', 'star'], ['chatten', 'Chatten', 'msg']]],
     ['Mer', [['statistik', 'Statistik', 'chart'], ['arkiv', 'Arkiv', 'door'], ['konton', 'Konton', 'users'], ['import', 'Importera leads', 'inbox'], ['kundportal', 'Kundportal', 'door'], ['ai', 'AI-assistent', 'spark'], ['insikter', 'Insikter', 'chart'],
       ['ekonomi', 'Ekonomi', 'wallet'], ['minne', 'AI-minne', 'brain'], ['integrationer', 'Integrationer', 'plug'], ['konto', 'Mitt konto', 'user']], true]
   ];
@@ -1331,6 +1331,67 @@
     });
   }
 
+  /* ---------- Google: Search Console and the Business Profile reviews (worker/gapi.js) ---------- */
+  function gapi(path, opts) {
+    return sb.auth.getSession().then(function (s) {
+      opts = opts || {}; opts.headers = Object.assign({ Authorization: 'Bearer ' + (s.data.session ? s.data.session.access_token : ''), 'Content-Type': 'application/json' }, opts.headers || {});
+      return fetch(path, opts);
+    }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, status: r.status, d: d }; }); });
+  }
+  function googleHelp(r, what) {
+    var e = r.d || {};
+    if (e.error === 'scope' || e.error === 'google') return info('Koppla Google igen', 'Google-kopplingen saknar behörighet för ' + what + '. Öppna <a href="/api/google/connect" target="_blank" rel="noopener">elevatestudio.nu/api/google/connect</a>, logga in som elevate.studio018@gmail.com, godkänn och lägg in den nya nyckeln som GOOGLE_REFRESH_TOKEN i Cloudflare.' + (e.message ? '<br><small>' + esc(e.message) + '</small>' : ''));
+    if (e.error === 'nosite') return info('Sajten finns inte i Search Console', 'Lägg till elevatestudio.nu i Google Search Console med samma Google-konto som är kopplat.');
+    if (e.error === 'nolocation') return info('Ingen företagsprofil hittades', 'Google-kontot som är kopplat måste vara ägare eller förvaltare av Elevate Studios företagsprofil.');
+    return info('Kunde inte hämta', esc(e.message || ('Fel ' + r.status)));
+  }
+
+  function renderSearch() {
+    var days = st.gscDays || 28;
+    main().innerHTML = head('Sökord på Google', 'Vad folk söker på när elevatestudio.nu visas i Google, och hur ofta de klickar.',
+      '<span class="seg" id="gdays">' + [7, 28, 90].map(function (d) { return '<button class="seg__b' + (d === days ? ' is-on' : '') + '" data-d="' + d + '">' + d + ' dagar</button>'; }).join('') + '</span>') + '<p class="empty">Hämtar från Search Console …</p>';
+    $('#gdays').addEventListener('click', function (e) { var b = e.target.closest('[data-d]'); if (b) { st.gscDays = Number(b.dataset.d); renderSearch(); } });
+    gapi('/api/gsc?days=' + days).then(function (r) {
+      var box = main(); box.querySelector('.empty') && box.querySelector('.empty').remove();
+      if (!r.ok) { box.insertAdjacentHTML('beforeend', googleHelp(r, 'Search Console')); return; }
+      var d = r.d, t = d.total || { clicks: 0, impressions: 0, ctr: 0, position: 0 };
+      var pct = function (x) { return (x * 100).toFixed(1).replace('.', ',') + ' %'; }, pos = function (x) { return x ? x.toFixed(1).replace('.', ',') : '–'; };
+      var max = Math.max.apply(null, d.days.map(function (x) { return x.impressions; }).concat([1]));
+      var table = function (title, rows, label) {
+        return '<section class="panel"><h3>' + title + '</h3>' + (rows.length ? '<div class="tbl"><table><thead><tr><th>' + label + '</th><th>Klick</th><th>Visningar</th><th>CTR</th><th>Position</th></tr></thead><tbody>' +
+          rows.map(function (x) { var k = x.keys[0]; return '<tr><td>' + (label === 'Sida' ? '<a href="' + esc(k) + '" target="_blank" rel="noopener">' + esc(k.replace(/^https:\/\/elevatestudio\.nu/, '') || '/') + '</a>' : esc(k)) + '</td><td>' + x.clicks + '</td><td>' + x.impressions + '</td><td>' + pct(x.ctr) + '</td><td>' + pos(x.position) + '</td></tr>'; }).join('') +
+          '</tbody></table></div>' : '<p class="empty">Ingen data än. Google behöver några dagar efter att sajten lagts till.</p>') + '</section>';
+      };
+      box.insertAdjacentHTML('beforeend', kpis([['Klick', t.clicks], ['Visningar', t.impressions], ['Klickfrekvens', pct(t.ctr || 0)], ['Snittposition', pos(t.position)]]) +
+        '<section class="panel"><h3>Visningar per dag <small>' + d.start + ' – ' + d.end + '</small></h3><div class="cols">' + d.days.map(function (x) { return '<div title="' + x.keys[0] + ': ' + x.impressions + ' visningar, ' + x.clicks + ' klick"><i style="--h:' + Math.round(x.impressions / max * 100) + '%"></i><span>' + x.keys[0].slice(5) + '</span></div>'; }).join('') + '</div></section>' +
+        table('Sökord', d.queries, 'Sökord') + table('Sidor', d.pages, 'Sida') + '<p class="muted">Källa: Google Search Console (' + esc(d.site) + '). Siffrorna släpar två dagar.</p>');
+    });
+  }
+
+  function renderReviews() {
+    main().innerHTML = head('Recensioner', 'Recensionerna på Elevate Studios Google-profil. Svara direkt härifrån.') + '<p class="empty">Hämtar recensioner …</p>';
+    gapi('/api/reviews').then(function (r) {
+      var box = main(); box.querySelector('.empty') && box.querySelector('.empty').remove();
+      if (!r.ok) { box.insertAdjacentHTML('beforeend', googleHelp(r, 'företagsprofilen')); return; }
+      var d = r.d, stars = function (n) { return '★★★★★'.slice(0, n || 0) + '<span style="opacity:.25">' + '★★★★★'.slice(n || 0) + '</span>'; };
+      box.insertAdjacentHTML('beforeend', kpis([['Snittbetyg', d.average ? String(d.average).replace('.', ',') : '–'], ['Antal recensioner', d.count], ['Utan svar', d.reviews.filter(function (x) { return !x.reply; }).length]]) +
+        '<div class="cards" id="rv">' + (d.reviews.map(function (x) {
+          return '<article class="cardx"><h3>' + esc(x.name || 'Anonym') + ' <span style="color:#c99a1a">' + stars(x.stars) + '</span></h3><p>' + esc(x.text || '(Bara betyg, ingen text)') + '</p>' +
+            '<p class="muted">' + day(x.at) + '</p>' +
+            '<label class="fld"><span>' + (x.reply ? 'Ert svar' : 'Svara') + '</span><textarea rows="3" data-reply="' + esc(x.id) + '" placeholder="Tack för fina ord …">' + esc(x.reply || '') + '</textarea></label>' +
+            '<footer><button class="btn btn--sm" data-send="' + esc(x.id) + '">' + (x.reply ? 'Uppdatera svaret' : 'Publicera svaret') + '</button></footer></article>';
+        }).join('') || '<p class="empty">Inga recensioner än.</p>') + '</div>');
+      $('#rv') && $('#rv').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-send]'); if (!b) return;
+        var text = box.querySelector('[data-reply="' + b.dataset.send + '"]').value;
+        b.disabled = true;
+        gapi('/api/reviews', { method: 'POST', body: JSON.stringify({ id: b.dataset.send, reply: text }) }).then(function (res) {
+          b.disabled = false; toast(res.ok ? (text.trim() ? 'Svaret är publicerat på Google' : 'Svaret är borttaget') : 'Kunde inte spara: ' + ((res.d && res.d.message) || res.status));
+        });
+      });
+    });
+  }
+
   /* ---------- Chatten ---------- */
   function renderChat() {
     main().innerHTML = head('Chatten', 'Vad besökarna frågar chatten – senaste 90 dagarna.');
@@ -1547,7 +1608,7 @@
   var PAGES = {
     todo: renderTodo, leads: renderLeads, vunna: renderWon, arkiv: renderArchive, statistik: renderStats, konton: renderAccounts, import: renderImport,
     kalender: renderCalendar, kontakter: renderContacts, fakturor: renderInvoices, utskick: renderCampaigns, segment: renderSegments,
-    besokare: renderVisitors, chatten: renderChat, kundportal: renderPortal, ai: renderAI, insikter: renderInsights, ekonomi: renderEconomy,
+    besokare: renderVisitors, sokord: renderSearch, recensioner: renderReviews, chatten: renderChat, kundportal: renderPortal, ai: renderAI, insikter: renderInsights, ekonomi: renderEconomy,
     minne: renderMemory, integrationer: renderIntegrations, konto: renderAccount
   };
 

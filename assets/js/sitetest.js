@@ -209,7 +209,8 @@
     return '<div class="sitetest__verdict"><b class="sitetest__avg sitetest__avg--' + (avg >= 90 ? 'good' : avg >= 50 ? 'ok' : 'bad') + '">' + avg + '</b><div><strong>' + text + '</strong><span>Snittbetyg av ' + s.length + ' tester</span></div></div>';
   }
 
-  function render(data, sec, url, strategy, psiProblem) {
+  function render(data, sec, url, strategy, psiProblem, extra) {
+    extra = extra || {};
     var lr = data && data.lighthouseResult;
     var audits = lr ? lr.audits : {};
     var cats = lr ? lr.categories : {};
@@ -256,6 +257,29 @@
         fix: info[1], service: 'support-och-underhall' });
     });
 
+    var safe = extra.safe;
+    if (safe && safe.safe === false) {
+      var TH = { MALWARE: 'skadlig kod', SOCIAL_ENGINEERING: 'bedrägeri (nätfiske)', UNWANTED_SOFTWARE: 'oönskad programvara', POTENTIALLY_HARMFUL_APPLICATION: 'skadliga appar' };
+      issues.unshift({ level: 'bad', cat: 'Säkerhet', value: 'Google Safe Browsing', title: 'Google varnar besökare för sidan',
+        what: 'Sajten finns på Googles lista för ' + safe.threats.map(function (t) { return TH[t] || t; }).join(', ') + '. Chrome och Google visar en röd varning, och de flesta besökare vänder.',
+        fix: 'Vi rensar sajten, täpper till hålet och begär en ny granskning hos Google så att varningen tas bort.', service: 'support-och-underhall' });
+    }
+    // Real visitors: Google's figures from Chrome users over the last 28 days
+    var cx = extra.crux, real = [];
+    if (cx && !cx.none && !cx.error) {
+      var sec2 = function (ms) { return ms == null ? '–' : (ms / 1000).toFixed(1).replace('.', ',') + ' s'; };
+      var lvl = function (v, good, poor) { return v == null ? 'ok' : v <= good ? 'good' : v <= poor ? 'ok' : 'bad'; };
+      if (cx.lcp) real.push(['Största innehåll', sec2(cx.lcp.p75), lvl(cx.lcp.p75, 2500, 4000), cx.lcp.good]);
+      if (cx.inp) real.push(['Svar på klick', cx.inp.p75 == null ? '–' : cx.inp.p75 + ' ms', lvl(cx.inp.p75, 200, 500), cx.inp.good]);
+      if (cx.cls) real.push(['Layoutskift', cx.cls.p75 == null ? '–' : String(cx.cls.p75).replace('.', ','), lvl(Number(cx.cls.p75), 0.1, 0.25), cx.cls.good]);
+      if (cx.fcp) real.push(['Första innehåll', sec2(cx.fcp.p75), lvl(cx.fcp.p75, 1800, 3000), cx.fcp.good]);
+      if (cx.ttfb) real.push(['Serverns svarstid', sec2(cx.ttfb.p75), lvl(cx.ttfb.p75, 800, 1800), cx.ttfb.good]);
+    }
+    var realHtml = real.length ? '<h2 class="sitetest__h2">Riktiga besökare <span>(senaste 28 dagarna' + (cx.scope === 'origin' ? ', hela sajten' : '') + ')</span></h2><div class="metrics">' +
+      real.map(function (m) { return '<div class="metric metric--' + m[2] + '"><span>' + m[0] + '</span><b>' + esc(m[1]) + '</b>' + (m[3] != null ? '<small>' + Math.round(m[3] * 100) + ' % fick en snabb upplevelse</small>' : '') + '</div>'; }).join('') + '</div>'
+      : (cx && cx.none ? '<p class="sitetest__real-none">Sajten har för få besökare för Googles statistik över riktiga besökare. Siffrorna ovan kommer från ett labbtest.</p>' : '');
+    var safeHtml = safe && safe.safe ? '<p class="sitetest__safe">✓ Google Safe Browsing: inga varningar för skadlig kod eller bedrägeri.</p>' : '';
+
     var issueHtml = issues.length ? issues.map(function (i) {
       return '<li class="issue issue--' + i.level + '">' +
         '<div class="issue__head"><span class="issue__cat">' + i.cat + '</span>' +
@@ -279,7 +303,7 @@
         '<div><p class="sitetest__tested">Testad sida' + (lr ? ' (' + (strategy === 'mobile' ? 'mobil' : 'dator') + ')' : '') + '</p>' +
         '<p class="sitetest__url">' + esc(url) + '</p>' + verdict(cats, secScan) + '<div class="scores">' + rings.join('') + '</div></div>' +
       '</div>' +
-      (metrics ? '<h2 class="sitetest__h2">Laddtider</h2><div class="metrics">' + metrics + '</div>' : '') +
+      (metrics ? '<h2 class="sitetest__h2">Laddtider</h2><div class="metrics">' + metrics + '</div>' : '') + realHtml + safeHtml +
       '<h2 class="sitetest__h2">Det här kan förbättras <span>(' + issues.length + ')</span></h2>' +
       '<ol class="issues">' + issueHtml + '</ol>' +
       '<div class="sitetest__cta"><div><h2>Vill du att vi fixar det här?</h2><p>Vi går igenom resultatet med dig och ger ett förslag med fast pris.</p></div>' +
@@ -291,7 +315,7 @@
     bindLeadForm();
     var report = { url: url, device: strategy === 'mobile' ? 'mobil' : 'dator', summary: summary, date: new Date().toLocaleDateString('sv-SE'),
       metrics: METRICS.filter(function (m) { return audits[m.id]; }).map(function (m) { return [m.label, audits[m.id].displayValue || '–']; }),
-      issues: issues, shot: shot || '' };
+      issues: issues, shot: shot || '', real: real.map(function (m) { return [m[0], m[1]]; }), safe: safe ? safe.safe : null };
     if (window.elevateTrack) window.elevateTrack('sitetest', url, (summary || 'Inget resultat') + ' · ' + report.device);
     document.getElementById('sitetest-pdf').addEventListener('click', function () { downloadPdf(report); });
     document.getElementById('sitetest-send').addEventListener('click', function () {
@@ -306,6 +330,7 @@
     return 'Hej! Vi testade ' + r.url + ' (' + r.device + ', ' + r.date + ') i Testa din sajt och vill ha hjälp att åtgärda resultatet.\n\n' +
       'Betyg: ' + (r.summary || '–') + '\n' +
       (r.metrics.length ? 'Laddtider: ' + r.metrics.map(function (m) { return m[0] + ' ' + m[1]; }).join(', ') + '\n' : '') +
+      (r.real && r.real.length ? 'Riktiga besökare: ' + r.real.map(function (m) { return m[0] + ' ' + m[1]; }).join(', ') + '\n' : '') +
       (r.issues.length ? '\nDet här kan förbättras:\n' + r.issues.map(function (i, n) { return (n + 1) + '. ' + i.cat + ': ' + i.title + (i.value ? ' (' + i.value + ')' : ''); }).join('\n') : '');
   }
 
@@ -394,6 +419,17 @@
       });
       y += gap;
     }
+    if (r.real && r.real.length) {
+      h2('Riktiga besökare (senaste 28 dagarna)');
+      r.real.forEach(function (m, i) {
+        need(lh + 4);
+        if (i % 2 === 0) { doc.setFillColor.apply(doc, SOFT); doc.rect(X, y - body * 1.15, RIGHT - X, lh + 2, 'F'); }
+        set(body, 'normal', INK); doc.text(m[0], X + 1.2 * U, y); set(body, 'bold', INK); doc.text(String(m[1]), RIGHT - 1.2 * U, y, { align: 'right' });
+        y += lh + 2;
+      });
+      y += gap;
+    }
+    if (r.safe === true) para('Google Safe Browsing: inga varningar för skadlig kod eller bedrägeri.', 'normal', GREEN);
     h2('Det här kan förbättras (' + r.issues.length + ')');
     if (!r.issues.length) para('Inga större problem hittades. Sajten klarar testerna bra.');
     r.issues.forEach(function (it, i) {
@@ -478,15 +514,19 @@
     var psi = runPsi(true);
     var security = runSecurity(url).then(function (d) { return { data: d }; }).catch(function () { return { failed: true }; });
 
-    Promise.all([psi, security]).then(function (out) {
+    // Real visitors (Chrome UX Report) and Google's blacklists (Safe Browsing), via our server
+    var getJson = function (path) { return fetch(path + '?' + new URLSearchParams({ url: url, strategy: strategy })).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
+    var extras = Promise.all([getJson('/api/crux'), getJson('/api/safe')]);
+
+    Promise.all([psi, security, extras]).then(function (out) {
       stopProgress();
-      var p = out[0], sec = out[1];
+      var p = out[0], sec = out[1], extra = { crux: out[2][0], safe: out[2][1] };
       if (!p.data && !sec.data) {
         showError(p.fatal ? 'Vi kunde inte ladda ' + esc(url) + '. Kontrollera att adressen stämmer och att sidan är öppen för besökare.'
           : 'Testtjänsterna svarar inte just nu. Lämna din e-post så kör vi testet åt dig och mejlar resultatet.' + leadForm(url));
         bindLeadForm();
       } else {
-        render(p.data || null, sec.data || null, url, strategy, p.data ? '' : p.problem);
+        render(p.data || null, sec.data || null, url, strategy, p.data ? '' : p.problem, extra);
       }
       button.disabled = false;
     });

@@ -733,3 +733,6 @@ body.has-preview { overflow: hidden; }
 .btn--outline-light { border: 1px solid rgba(253, 251, 245, .7); background: transparent; color: var(--cream); }
 .btn--outline-light:hover { background: var(--cream); color: var(--accent); }
 @media (max-width: 640px) { .sitetest__actions, .sitetest__actions .btn { width: 100%; } }
+.metric small { display: block; margin-top: 4px; font-size: 12px; color: #5f6862; }
+.sitetest__safe { margin: 18px 0 0; padding: 12px 16px; border-radius: 12px; background: #e7f2ea; color: #1d3b2a; font-weight: 600; }
+.sitetest__real-none { margin: 18px 0 0; color: #5f6862; }
