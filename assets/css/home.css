@@ -343,7 +343,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 
 /* ---------- Insights: featured article + two smaller ---------- */
 /* News: three cards per page, scroll sideways, a pager under */
-.news__track { display: flex; gap: 28px; margin: 0 -4px; padding: 4px 4px 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+.news__track { display: flex; gap: 28px; margin: 0 -4px; padding: 4px 4px 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .news__track::-webkit-scrollbar { display: none; }
 .news__card { position: relative; flex: 0 0 calc((100% - 56px) / 3); display: flex; flex-direction: column; border-radius: 16px; background: #fff; overflow: hidden; box-shadow: 0 18px 40px -30px rgba(0, 0, 0, .35); scroll-snap-align: start; transition: transform .3s; }
 .news__card:hover { transform: translateY(-4px); }
@@ -594,7 +594,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 .review__mark { display: block; width: 42px; height: 31px; margin: 0 auto 32px; }
 .reviews { position: relative; max-width: 900px; margin: 0 auto; }
 .reviews__track { display: flex; overflow: hidden; }
-.reviews--many .reviews__track { overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+.reviews--many .reviews__track { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .reviews--many .reviews__track::-webkit-scrollbar { display: none; }
 .reviews__track .review__card { flex: 0 0 100%; margin: 0; scroll-snap-align: center; }
 .review__nav { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
@@ -1036,14 +1036,14 @@ h2, h3 { margin: 0; font-weight: 400; }
 /* ---------- Book a meeting from the start page: the same day columns as in the mail ---------- */
 .book-home { padding: 80px 0; background: var(--cream-dark, #f6f1e4); color: var(--accent, #1d3b2a); }
 .book-home__inner { display: grid; grid-template-columns: .8fr 1.5fr; gap: 48px; align-items: start; }
-.book-home__eyebrow { margin: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+.book-home__eyebrow { margin: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #4f5a53; }
 .book-home__text p { max-width: 460px; font-size: 18px; color: #3b463f; }
 .book-home__text .btn { margin-top: 10px; }
 .book-home__cols { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
 .book-home__col { padding: 12px 10px 10px; border: 1px solid rgba(29, 59, 42, .14); border-radius: 18px; background: #fff; }
 .book-home__col h3 { margin: 0 0 8px; font-size: 13px; font-weight: 600; }
 .book-home__col h3 b { display: block; font-size: 20px; font-weight: 600; }
-.book-home__col h3 em { display: block; font-size: 11px; font-style: normal; font-weight: 700; color: #2a9d8f; }
+.book-home__col h3 em { display: block; font-size: 11px; font-style: normal; font-weight: 700; color: #1d7368; }
 .book-home__col.is-full h3 em { color: #aab3ad; }
 .book-home__stack { display: grid; gap: 4px; }
 .book-home__slot { display: block; height: 34px; line-height: 34px; padding: 0 9px; border-radius: 8px; background: #eef4ef; color: var(--accent, #1d3b2a); font-size: 13px; font-weight: 600; text-decoration: none; transition: background .15s; }
@@ -1054,7 +1054,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 .book-home__bar span { font-size: 13px; opacity: .75; }
 .book-home__go { padding: 11px 20px; border-radius: 22px; background: #d7e36b; color: #12271b; font-weight: 700; font-size: 14px; text-decoration: none; white-space: nowrap; }
 .book-home__wait, .book-home__empty { grid-column: 1 / -1; margin: 0; color: #6b766f; }
-.book-home__note { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 12px 0 0; font-size: 12px; color: #6b766f; }
+.book-home__note { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 12px 0 0; font-size: 12px; color: #4f5a53; }
 .book-home__dot { width: 10px; height: 10px; border-radius: 3px; background: #eef4ef; border: 1px solid rgba(29, 59, 42, .14); }
 .book-home__dot--busy { margin-left: 10px; background: #e9ebe6; }
 @media (max-width: 992px) { .book-home__inner { grid-template-columns: 1fr; gap: 28px; } }
