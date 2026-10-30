@@ -830,15 +830,23 @@ def build_cases():
                     [("Projekt", "projekt/index.html"), (c["name"], "")], "projekt"))
 
 
+def rich(value):
+    """Escapes the text but keeps plain links written as <a href="…">text</a>."""
+    parts = re.split(r'(<a href="[^"]+">|</a>)', value)
+    # links are written from the site's root; article pages sit one folder down
+    fix = lambda x: re.sub(r'href="(?!https?:|/|\.\./|#)', 'href="../', x)
+    return "".join(fix(x) if re.fullmatch(r'<a href="[^"]+">|</a>', x) else esc(x) for x in parts)
+
+
 def render_body(blocks):
     out = []
     for kind, value in blocks:
         if kind == "p":
-            out.append(f"<p>{esc(value)}</p>")
+            out.append(f"<p>{rich(value)}</p>")
         elif kind == "h2":
             out.append(f"<h2>{esc(value)}</h2>")
         elif kind == "ul":
-            out.append("<ul>" + "".join(f"<li>{esc(v)}</li>" for v in value) + "</ul>")
+            out.append("<ul>" + "".join(f"<li>{rich(v)}</li>" for v in value) + "</ul>")
     return "\n        ".join(out)
 
 
@@ -855,7 +863,7 @@ def build_articles():
     yield write("insikter/index.html", document(p, "Senaste nytt om hemsidor, SEO och AI", main, "subpage", [("Senaste nytt", "")], "insikter"))
 
     for a in ARTICLES:
-        more = "".join(post_card(p, o) for o in ARTICLES if o is not a)
+        more = "".join(post_card(p, o) for o in [o for o in ARTICLES if o is not a][:3])
         terms = "".join(f"<span>{esc(t)}</span>" for t in a["terms"])
         main = f'''<main>
     <section class="page-hero">
