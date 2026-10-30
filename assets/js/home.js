@@ -88,7 +88,9 @@
       requestAnimationFrame(function () { queued = false; update(); });
     }, { passive: true });
     window.addEventListener('resize', update);
-    update();
+    // First measurement after the page has loaded, so building the timeline never forces a layout
+    var first = function () { requestAnimationFrame(update); };
+    if (document.readyState === 'complete') first(); else window.addEventListener('load', first);
   }
 
   // Fade-up reveal for cards

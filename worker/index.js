@@ -45,11 +45,11 @@ export default {
     // The customer's booking page: one static page, the link's details are in the address
     if (pathname.startsWith('/boka/')) {
       // asked for as /boka (not /boka.html), otherwise the static files answer with a redirect that drops the link
-      const out = withHeaders(await env.ASSETS.fetch(new Request(new URL('/boka', url), req)), url);
+      const out = withHeaders(await env.ASSETS.fetch(new Request(new URL('/boka', url), req)), url, req);
       out.headers.set('x-robots-tag', 'noindex'); out.headers.set('cache-control', 'no-store');
       return out;
     }
-    return withHeaders(await env.ASSETS.fetch(req), url);
+    return withHeaders(await env.ASSETS.fetch(req), url, req);
   },
 };
 
@@ -61,7 +61,7 @@ const CSP = [
   "frame-src https:", "frame-ancestors 'none'", "base-uri 'self'", "form-action 'self' https://formsubmit.co", "object-src 'none'", "upgrade-insecure-requests",
 ].join('; ');
 
-function withHeaders(res, url) {
+function withHeaders(res, url, req) {
   const type = res.headers.get('content-type') || '';
   const out = new Response(res.body, res);
   if (type.startsWith('text/html') && !/charset/i.test(type)) out.headers.set('content-type', 'text/html; charset=utf-8');
@@ -78,6 +78,13 @@ function withHeaders(res, url) {
     // no-transform: Cloudflare leaves the page as it is (no injected analytics script that slows the first view)
     const cc = out.headers.get('cache-control') || 'public, max-age=0, must-revalidate';
     if (!/no-transform/.test(cc)) out.headers.set('cache-control', cc + ', no-transform');
+    // With no-transform Cloudflare does not compress either, so the page is gzipped here
+    const ae = (req && req.headers.get('accept-encoding')) || '';
+    if (out.status === 200 && out.body && /gzip/.test(ae) && !out.headers.get('content-encoding')) {
+      const headers = new Headers(out.headers);
+      headers.set('content-encoding', 'gzip'); headers.delete('content-length'); headers.append('vary', 'Accept-Encoding');
+      return new Response(out.body.pipeThrough(new CompressionStream('gzip')), { status: 200, headers, encodeBody: 'manual' });
+    }
   }
   return out;
 }
