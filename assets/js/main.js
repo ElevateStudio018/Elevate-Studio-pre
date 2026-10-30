@@ -239,13 +239,14 @@
   }).catch(function () { box.innerHTML = '<p class="book-home__empty"><a href="boka">Se lediga tider</a></p>'; });
 })();
 
-/* News on the start page: the pager scrolls the track one page at a time and follows the scroll */
+/* Contact form opened from Testa din sajt: the whole test result goes into the message */
 (function () {
-  var track = document.getElementById('news-track'), pager = document.getElementById('news-pager');
-  if (!track || !pager) return;
-  var dots = pager.querySelectorAll('.news__dot');
-  var perPage = function () { var card = track.querySelector('.news__card'); return card ? Math.max(1, Math.round(track.clientWidth / card.offsetWidth)) : 3; };
-  dots.forEach(function (d) { d.addEventListener('click', function () { var card = track.querySelector('.news__card'); track.scrollTo({ left: Number(d.dataset.page) * perPage() * (card.offsetWidth + 28), behavior: 'smooth' }); }); });
-  var sync = function () { var card = track.querySelector('.news__card'); if (!card) return; var page = Math.round(track.scrollLeft / (perPage() * (card.offsetWidth + 28))); dots.forEach(function (d, i) { d.classList.toggle('is-on', i === page); }); };
-  track.addEventListener('scroll', sync, { passive: true });
+  if (!/[?&]fran=test\b/.test(location.search)) return;
+  var form = document.getElementById('formular'); if (!form) return;
+  var text; try { text = sessionStorage.getItem('es.sitetest'); } catch (e) { text = null; }
+  if (!text) return;
+  var msg = form.querySelector('textarea[name="meddelande"]'), sel = form.querySelector('select[name="tjanst"]');
+  if (msg) { msg.value = text; msg.rows = 12; }
+  if (sel) sel.value = 'Hemsidor';
+  form.dataset.subject = 'Offertförfrågan från Testa din sajt';
 })();

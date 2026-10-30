@@ -1280,7 +1280,7 @@
       var fmtSecs = function (s) { return s >= 60 ? Math.floor(s / 60) + ' min ' + (s % 60) + ' s' : s + ' s'; };
       var SRC = { direct: 'Direkt', google: 'Google', bing: 'Bing', duckduckgo: 'DuckDuckGo', social: 'Sociala medier', ai: 'AI-assistenter', referral: 'Andra sajter' };
       var DEV = { mobile: 'Mobil', desktop: 'Dator', tablet: 'Surfplatta', unknown: 'Okänt' };
-      var EV = { form: 'Formulär skickat', booking: 'Möte bokat', booking_link: 'Bokat via länk', chat: 'Chatten öppnad', call: 'Ringde', mail: 'Mejlade', cta_boka: 'Klick: Boka möte', cta_kontakt: 'Klick: Kontakt' };
+      var EV = { form: 'Formulär skickat', booking: 'Möte bokat', booking_link: 'Bokat via länk', chat: 'Chatten öppnad', call: 'Ringde', mail: 'Mejlade', cta_boka: 'Klick: Boka möte', cta_kontakt: 'Klick: Kontakt', sitetest: 'Testade en sajt', sitetest_pdf: 'Laddade ner testet (PDF)', sitetest_send: 'Skickade testet till oss' };
       // per day, and per hour of day
       var perDay = []; for (var i = Math.min(days, 30) - 1; i >= 0; i--) { var d = new Date(Date.now() - i * 864e5); var key = d.toDateString(); perDay.push([d.toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' }), sessions.filter(function (s) { return new Date(s.start).toDateString() === key; }).length]); }
       var maxDay = Math.max.apply(null, perDay.map(function (p) { return p[1]; }).concat([1]));
@@ -1310,6 +1310,14 @@
         bars('Operativsystem', countBy(sessions, function (s) { return s.first.os; }), sessions.length) + bars('Språk', countBy(sessions, function (s) { return s.first.language; }), sessions.length) +
         bars('Skärmstorlek', countBy(sessions, function (s) { return s.first.screen_w ? s.first.screen_w + '×' + s.first.screen_h : ''; }, 10), sessions.length) +
         '</div>' +
+        (function () {
+          var tests = events.filter(function (x) { return x.source === 'event:sitetest'; });
+          return '<section class="panel" id="sitetests"><h3>Testade hemsidor <small>(' + tests.length + ')</small></h3><p class="panel__sub">Varje sajt som någon har testat i Testa din sajt, med resultatet de fick.</p>' +
+            (tests.length ? '<div class="tbl"><table><thead><tr><th>När</th><th>Sajt</th><th>Resultat</th><th>Var</th></tr></thead><tbody>' + tests.map(function (t) {
+              var u = t.utm_medium || '', href = /^https?:\/\//.test(u) ? u : 'https://' + u;
+              return '<tr><td>' + dt(t.created_at) + '</td><td><a href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(u.replace(/^https?:\/\//, '').replace(/\/$/, '')) + '</a></td><td>' + esc(t.utm_campaign || '–') + '</td><td>' + esc([t.city, t.country].filter(Boolean).join(', ') || '–') + '</td></tr>';
+            }).join('') + '</tbody></table></div>' : '<p class="empty">Ingen har testat någon sajt under perioden.</p>') + '</section>';
+        })() +
         '<section class="panel"><h3>Alla besök</h3><p class="panel__sub">Varje rad är ett besök. Klicka för att se vilka sidor som lästes, hur länge, och vad som hände.</p><div class="visits" id="visits">' +
         sessions.slice(0, 300).map(function (s, idx) {
           var f = s.first;

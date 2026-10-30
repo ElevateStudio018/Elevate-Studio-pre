@@ -1,7 +1,7 @@
 /* The customer's booking page (/boka/<link>): dark top with the question, then one column per
    working day with every time as a row. Busy times are hatched. Times are in Swedish time. */
 @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/HankenGrotesk-latin.woff2") format("woff2"); }
-:root { --g: #1d3b2a; --g2: #12271b; --cream: #fdfbf5; --lime: #d7e36b; --teal: #3fc1b0; --ink: #16241b; --muted: #6b766f; --line: rgba(29, 59, 42, .14); }
+:root { --g: #1d3b2a; --g2: #12271b; --cream: #fdfbf5; --lime: #fdfbf5; --teal: #3fc1b0; --ink: #16241b; --muted: #6b766f; --line: rgba(29, 59, 42, .14); }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body { min-height: 100vh; background: #f4f6f1; color: var(--ink); font: 16px/1.5 "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
@@ -58,14 +58,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .sheet { position: sticky; bottom: 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 22px; border-radius: 20px; background: var(--g2); color: #fff; box-shadow: 0 30px 50px -20px rgba(0, 0, 0, .5); }
 .sheet p { margin: 0; }
 .sheet small { display: block; opacity: .72; }
-.cta { height: 48px; padding: 0 24px; border: 0; border-radius: 24px; background: var(--lime); color: var(--g2); font-weight: 700; white-space: nowrap; }
-.cta:hover { background: #e3ec85; }
+.cta { height: 48px; padding: 0 24px; border: 0; border-radius: 24px; background: var(--g); color: var(--cream); font-weight: 700; white-space: nowrap; }
+.cta:hover { background: var(--g2); }
 .cta:disabled { opacity: .4; cursor: default; }
 .msg { min-height: 1.5em; margin: 12px 0 0; text-align: center; font-size: 14px; color: #a54848; }
 
 /* Booked */
 .done { display: flex; flex-direction: column; align-items: flex-start; padding: 32px 36px; border: 1px solid var(--line); border-radius: 26px; background: #fff; box-shadow: 0 20px 40px -30px rgba(29, 59, 42, .35); }
-.done__check { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 18px; border-radius: 50%; background: var(--lime); color: var(--g2); }
+.done__check { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 18px; border-radius: 50%; background: var(--g); color: var(--cream); }
 .done__check svg { width: 30px; height: 30px; }
 .done h2 { margin: 0; font-size: 34px; font-weight: 500; }
 .done__sub { margin: 4px 0 0; color: var(--muted); }
@@ -98,7 +98,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .who { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; width: 100%; order: 1; }
 .who label { display: grid; gap: 4px; font-size: 12px; color: rgba(255, 255, 255, .75); }
 .who input { height: 40px; padding: 0 12px; border: 1px solid rgba(255, 255, 255, .22); border-radius: 10px; background: rgba(255, 255, 255, .08); color: #fff; font: inherit; font-size: 15px; }
-.who input:focus { outline: 2px solid var(--lime); outline-offset: 1px; border-color: transparent; }
+.who input:focus { outline: 2px solid var(--g); outline-offset: 1px; border-color: transparent; }
 .sheet .cta { order: 2; }
 .sheet > p { order: 0; }
 @media (max-width: 700px) { .who { grid-template-columns: 1fr 1fr; } }

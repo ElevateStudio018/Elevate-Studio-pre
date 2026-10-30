@@ -561,10 +561,10 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 /* Customer pages in the reference look: the page top and the cards are deep green with light in
    the lower corners and fine grain, the small label is frosted glass */
 :root {
-  --glow-lime: #d7e36b;
+  --glow-lime: #fdfbf5;
   --glow-teal: #3fc1b0;
   --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  --glow-card: radial-gradient(56% 64% at 0% 112%, var(--glow-teal) 0%, rgba(63, 193, 176, .7) 30%, rgba(63, 193, 176, .25) 52%, transparent 76%), radial-gradient(56% 64% at 100% 112%, var(--glow-lime) 0%, rgba(215, 227, 107, .7) 30%, rgba(215, 227, 107, .25) 52%, transparent 76%), linear-gradient(180deg, #0e1f15 0%, #163222 100%);
+  --glow-card: radial-gradient(56% 64% at 0% 112%, var(--glow-teal) 0%, rgba(63, 193, 176, .7) 30%, rgba(63, 193, 176, .25) 52%, transparent 76%), radial-gradient(56% 64% at 100% 112%, var(--glow-teal) 0%, rgba(63, 193, 176, .7) 30%, rgba(63, 193, 176, .25) 52%, transparent 76%), linear-gradient(180deg, #0e1f15 0%, #163222 100%);
   --glow-card-teal: radial-gradient(56% 64% at 0% 112%, #2a7f78 0%, rgba(42, 127, 120, .7) 30%, rgba(42, 127, 120, .25) 52%, transparent 76%), radial-gradient(56% 64% at 100% 112%, #8fd27a 0%, rgba(143, 210, 122, .7) 30%, rgba(143, 210, 122, .25) 52%, transparent 76%), linear-gradient(180deg, #0e1f15 0%, #163222 100%);
   --frost-bg: rgba(214, 226, 218, .55);
   --frost-edge: rgba(255, 255, 255, .4);
@@ -674,15 +674,15 @@ body.has-preview { overflow: hidden; }
 .sitetest-hero { padding: 70px 0 170px; background: var(--accent, #1d3b2a); color: #fff; text-align: center; }
 .sitetest-hero .page-hero__eyebrow { color: rgba(253, 251, 245, .8); letter-spacing: .3em; }
 .sitetest-hero .page-hero__title { color: #fff; }
-.sitetest-hero .page-hero__title em { color: #d7e36b; }
+.sitetest-hero .page-hero__title em { color: #fdfbf5; }
 .sitetest-hero .page-hero__lead { max-width: 620px; margin: 0 auto 34px; color: rgba(253, 251, 245, .85); }
 .sitetest__form { flex-wrap: nowrap; align-items: center; gap: 8px; max-width: 760px; margin: 0 auto; padding: 8px; border-radius: 999px; background: #fff; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .5); }
 .sitetest__field input { height: 56px; border: 0; background: transparent; font-size: 18px; }
 .sitetest__field input:focus-visible { outline: none; }
 .sitetest__device { flex: none; background: #eef1ec; }
 .sitetest__device span { padding: 10px 14px; color: var(--accent, #1d3b2a); }
-.sitetest__form .btn { flex: none; height: 56px; padding: 0 28px; background: #d7e36b; color: #12271b; }
-.sitetest__form .btn:hover { background: #e3ec85; }
+.sitetest__form .btn { flex: none; height: 56px; padding: 0 28px; background: #fdfbf5; color: #12271b; }
+.sitetest__form .btn:hover { background: #ffffff; }
 .sitetest { position: relative; margin-top: -120px; }
 .sitetest__progress, .sitetest__error, .sitetest__results { max-width: 1100px; margin-left: auto; margin-right: auto; }
 .sitetest__progress { background: #fff; color: var(--ink, #16241b); box-shadow: 0 40px 80px -50px rgba(0, 0, 0, .45); }
@@ -729,3 +729,7 @@ body.has-preview { overflow: hidden; }
 .sitetest__lead { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .sitetest__lead label { flex: 1 1 240px; }
 .sitetest__lead input { width: 100%; height: 48px; padding: 0 16px; border: 1px solid rgba(29, 59, 42, .2); border-radius: 999px; background: #fff; font: inherit; }
+.sitetest__actions { display: flex; flex-wrap: wrap; gap: 12px; flex-shrink: 0; }
+.btn--outline-light { border: 1px solid rgba(253, 251, 245, .7); background: transparent; color: var(--cream); }
+.btn--outline-light:hover { background: var(--cream); color: var(--accent); }
+@media (max-width: 640px) { .sitetest__actions, .sitetest__actions .btn { width: 100%; } }

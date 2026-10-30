@@ -269,8 +269,6 @@
     var summary = rings.length ? CATEGORIES.filter(function (c) { return cats[c.id]; })
       .map(function (c) { return c.label + ' ' + (typeof cats[c.id].score === 'number' ? Math.round(cats[c.id].score * 100) : '–'); })
       .concat(secScan ? ['Säkerhet ' + secScan.grade] : []).join(', ') : '';
-    var mail = 'mailto:info@elevatestudio.nu?subject=' + encodeURIComponent('Hjälp med ' + url) +
-      '&body=' + encodeURIComponent('Hej! Vi testade ' + url + ' (' + summary + ') och vill ha hjälp att åtgärda resultatet.');
     var notice = psiProblem ? '<div class="sitetest__notice"><b>Prestandadelen kunde inte köras just nu.</b> ' + psiProblem +
       ' Säkerhetstestet nedan är komplett. Vill du ha hela testet? Lämna din e-post så kör vi det åt dig och mejlar resultatet.' +
       leadForm(url) + '</div>' : '';
@@ -285,12 +283,85 @@
       '<h2 class="sitetest__h2">Det här kan förbättras <span>(' + issues.length + ')</span></h2>' +
       '<ol class="issues">' + issueHtml + '</ol>' +
       '<div class="sitetest__cta"><div><h2>Vill du att vi fixar det här?</h2><p>Vi går igenom resultatet med dig och ger ett förslag med fast pris.</p></div>' +
-      '<a class="btn btn--light" href="' + mail + '"><span>Skicka resultatet till oss</span></a></div>' +
+      '<div class="sitetest__actions"><button type="button" class="btn btn--light" id="sitetest-pdf"><span>Ladda ner som PDF</span></button>' +
+      '<a class="btn btn--outline-light" id="sitetest-send" href="' + prefix + 'kontakt.html?fran=test#formular"><span>Skicka via offertförfrågan</span></a></div></div>' +
       '<p class="sitetest__source">Mätningen görs med ' + (lr ? 'Google PageSpeed Insights (Lighthouse) och ' : '') +
       'MDN HTTP Observatory. Resultatet kan variera något mellan körningar.</p>';
     results.hidden = false;
     bindLeadForm();
+    var report = { url: url, device: strategy === 'mobile' ? 'mobil' : 'dator', summary: summary, date: new Date().toLocaleDateString('sv-SE'),
+      metrics: METRICS.filter(function (m) { return audits[m.id]; }).map(function (m) { return [m.label, audits[m.id].displayValue || '–']; }),
+      issues: issues, shot: shot || '' };
+    if (window.elevateTrack) window.elevateTrack('sitetest', url, (summary || 'Inget resultat') + ' · ' + report.device);
+    document.getElementById('sitetest-pdf').addEventListener('click', function () { downloadPdf(report); });
+    document.getElementById('sitetest-send').addEventListener('click', function () {
+      try { sessionStorage.setItem('es.sitetest', reportText(report)); } catch (e) { /* the form still opens */ }
+      if (window.elevateTrack) window.elevateTrack('sitetest_send', url);
+    });
     results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // The whole result as plain text, for the quote request form
+  function reportText(r) {
+    return 'Hej! Vi testade ' + r.url + ' (' + r.device + ', ' + r.date + ') i Testa din sajt och vill ha hjälp att åtgärda resultatet.\n\n' +
+      'Betyg: ' + (r.summary || '–') + '\n' +
+      (r.metrics.length ? 'Laddtider: ' + r.metrics.map(function (m) { return m[0] + ' ' + m[1]; }).join(', ') + '\n' : '') +
+      (r.issues.length ? '\nDet här kan förbättras:\n' + r.issues.map(function (i, n) { return (n + 1) + '. ' + i.cat + ': ' + i.title + (i.value ? ' (' + i.value + ')' : ''); }).join('\n') : '');
+  }
+
+  // The whole result as a PDF, made in the browser (jsPDF is loaded the first time it is needed)
+  function loadJsPdf() {
+    if (window.jspdf) return Promise.resolve(window.jspdf);
+    return new Promise(function (ok, fail) {
+      var sc = document.createElement('script');
+      sc.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js';
+      sc.onload = function () { ok(window.jspdf); }; sc.onerror = fail;
+      document.head.appendChild(sc);
+    });
+  }
+  function downloadPdf(r) {
+    var btn = document.getElementById('sitetest-pdf'); btn.disabled = true;
+    loadJsPdf().then(function (lib) {
+      var doc = new lib.jsPDF({ unit: 'pt', format: 'a4' }), W = 595, M = 48, y = 0;
+      var green = [29, 59, 42], ink = [34, 34, 34], grey = [100, 106, 101];
+      var page = function () { doc.addPage(); y = M; };
+      var need = function (h) { if (y + h > 800) page(); };
+      var text = function (str, size, color, style, gap) {
+        doc.setFont('helvetica', style || 'normal'); doc.setFontSize(size); doc.setTextColor.apply(doc, color);
+        doc.splitTextToSize(String(str), W - 2 * M).forEach(function (line) { need(size + 4); doc.text(line, M, y); y += size + 4; });
+        y += gap || 0;
+      };
+      doc.setFillColor.apply(doc, green); doc.rect(0, 0, W, 96, 'F');
+      doc.setTextColor(253, 251, 245); doc.setFont('helvetica', 'bold'); doc.setFontSize(22); doc.text('Testa din sajt', M, 48);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.text('Elevate Studio · elevatestudio.nu', M, 70);
+      y = 130;
+      text(r.url, 16, ink, 'bold', 2);
+      text('Testad ' + r.date + ' (' + r.device + ')', 10, grey, 'normal', 14);
+      if (r.shot) { try { need(230); doc.addImage(r.shot, 'JPEG', M, y, 130, 230); doc.setDrawColor(220); doc.rect(M, y, 130, 230); } catch (e) { /* no picture */ } }
+      var x0 = r.shot ? M + 150 : M, yy = y;
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor.apply(doc, green); doc.text('Betyg', x0, yy); yy += 20;
+      (r.summary || '–').split(', ').forEach(function (s) { doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, ink); doc.text(s, x0, yy); yy += 16; });
+      if (r.metrics.length) { yy += 10; doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor.apply(doc, green); doc.text('Laddtider', x0, yy); yy += 20;
+        r.metrics.forEach(function (m) { doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, ink); doc.text(m[0] + ': ' + m[1], x0, yy); yy += 16; }); }
+      y = Math.max(r.shot ? y + 250 : y, yy + 20);
+      text('Det här kan förbättras (' + r.issues.length + ')', 15, green, 'bold', 8);
+      if (!r.issues.length) text('Inga större problem hittades.', 11, ink);
+      r.issues.forEach(function (i, n) {
+        need(70);
+        text((n + 1) + '. ' + i.title + (i.value ? '  (' + i.value + ')' : ''), 12, ink, 'bold', 0);
+        text(i.cat, 9, grey, 'normal', 2);
+        if (i.what) text(i.what, 10, grey, 'normal', 2);
+        text('Så fixar vi det: ' + i.fix, 10, green, 'normal', 12);
+      });
+      need(80); y += 10;
+      text('Vill du att vi fixar det här? Hör av dig så går vi igenom resultatet och ger ett förslag med fast pris.', 11, ink, 'bold', 4);
+      text('info@elevatestudio.nu · elevatestudio.nu/kontakt', 10, grey);
+      text('Mätningen görs med Google PageSpeed Insights (Lighthouse) och MDN HTTP Observatory. Resultatet kan variera något mellan körningar.', 8, grey);
+      var host = r.url.replace(/^https?:\/\//, '').replace(/[^a-z0-9.-]+/gi, '-').replace(/-+$/, '');
+      doc.save('testa-din-sajt-' + host + '.pdf');
+      if (window.elevateTrack) window.elevateTrack('sitetest_pdf', r.url);
+    }).catch(function () { alert('PDF:en kunde inte skapas just nu. Försök igen om en stund.'); })
+      .then(function () { btn.disabled = false; });
   }
 
   // When Google's quota is used up the visitor can leave an e-mail; we run the test and reply.

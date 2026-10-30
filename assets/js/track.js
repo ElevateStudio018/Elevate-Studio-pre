@@ -22,13 +22,13 @@
   addEventListener('pagehide', leave);
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') leave(); });
   // What visitors do: forms sent, a time booked, the chat opened, a call or mail link tapped
-  document.addEventListener('elevate:event', function (e) { send({ ev: e.detail && e.detail.name || 'event', label: e.detail && e.detail.label || '' }); });
+  document.addEventListener('elevate:event', function (e) { var d = e.detail || {}, x = { ev: d.name || 'event', label: d.label || '' }; if (d.title) x.title = d.title; send(x); });
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href^="tel:"], a[href^="mailto:"], a[href$="/boka"], a[href="boka"], a[href$="/kontakt"], a[href="kontakt"]');
     if (!a) return;
     var h = a.getAttribute('href');
     send({ ev: /^tel:/.test(h) ? 'call' : /^mailto:/.test(h) ? 'mail' : /boka/.test(h) ? 'cta_boka' : 'cta_kontakt', label: (a.textContent || '').trim().slice(0, 60) });
   }, true);
-  var ev = function (name, label) { document.dispatchEvent(new CustomEvent('elevate:event', { detail: { name: name, label: label || '' } })); };
+  var ev = function (name, label, title) { document.dispatchEvent(new CustomEvent('elevate:event', { detail: { name: name, label: label || '', title: title || '' } })); };
   window.elevateTrack = ev;
 })();
