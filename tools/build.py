@@ -541,7 +541,7 @@ def finish(text):
     # The first picture in the content is usually the largest thing on screen: load it at once
     i = text.find("<main")
     m = _LAZY_IMG.search(text, i) if i >= 0 else None
-    if m:
+    if m and 'fetchpriority=' not in text[i:m.start()]:
         text = text[:m.start()] + m.group(0).replace(' loading="lazy"', ' fetchpriority="high"') + text[m.end():]
     return text
 

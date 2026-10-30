@@ -281,6 +281,7 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .sitetest__cta { display: flex; align-items: center; justify-content: space-between; gap: 32px; margin-top: 48px; padding: 44px 48px; border-radius: 28px; background: var(--accent); color: var(--cream); }
 .sitetest__cta h2 { margin: 0 0 8px; font-size: 34px; font-weight: 400; color: #fff; }
 .sitetest__cta p { margin: 0; }
+.sitetest__cta .btn { flex-shrink: 0; max-width: 100%; white-space: normal; text-align: center; }
 .sitetest__source { margin: 20px 0 0; font-size: 14px; color: #6b6b6b; }
 .sitetest__about { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 @media (max-width: 992px) {

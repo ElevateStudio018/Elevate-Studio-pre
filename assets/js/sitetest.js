@@ -190,6 +190,7 @@
   }
 
   function ring(score, label) {
+    if (typeof score !== 'number') return '<div class="score score--na"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="score__bg"/></svg><span class="score__value">–</span><span class="score__label">' + label + '</span></div>';
     var pct = Math.round(score * 100);
     var c = 2 * Math.PI * 52;
     return '<div class="score score--' + grade(score) + '">' +
@@ -200,7 +201,7 @@
 
   // One sentence on top of the rings: the average and what it means
   function verdict(cats, secScan) {
-    var s = CATEGORIES.filter(function (c) { return cats[c.id]; }).map(function (c) { return Math.round((cats[c.id].score || 0) * 100); });
+    var s = CATEGORIES.filter(function (c) { return cats[c.id] && typeof cats[c.id].score === 'number'; }).map(function (c) { return Math.round(cats[c.id].score * 100); });
     if (secScan && typeof secScan.score === 'number') s.push(Math.max(0, Math.min(100, secScan.score)));
     if (!s.length) return '';
     var avg = Math.round(s.reduce(function (a, b) { return a + b; }, 0) / s.length);
@@ -221,7 +222,7 @@
     });
 
     var rings = CATEGORIES.filter(function (c) { return cats[c.id]; })
-      .map(function (c) { return ring(cats[c.id].score || 0, c.label); });
+      .map(function (c) { return ring(cats[c.id].score, c.label); });
     var secScan = sec && sec.scan;
     if (secScan && typeof secScan.score === 'number') {
       rings.push(ring(Math.max(0, Math.min(100, secScan.score)) / 100, 'Säkerhet ' + esc(secScan.grade || '')));
@@ -266,7 +267,7 @@
 
     var shot = audits['final-screenshot'] && audits['final-screenshot'].details && audits['final-screenshot'].details.data;
     var summary = rings.length ? CATEGORIES.filter(function (c) { return cats[c.id]; })
-      .map(function (c) { return c.label + ' ' + Math.round((cats[c.id].score || 0) * 100); })
+      .map(function (c) { return c.label + ' ' + (typeof cats[c.id].score === 'number' ? Math.round(cats[c.id].score * 100) : '–'); })
       .concat(secScan ? ['Säkerhet ' + secScan.grade] : []).join(', ') : '';
     var mail = 'mailto:info@elevatestudio.nu?subject=' + encodeURIComponent('Hjälp med ' + url) +
       '&body=' + encodeURIComponent('Hej! Vi testade ' + url + ' (' + summary + ') och vill ha hjälp att åtgärda resultatet.');

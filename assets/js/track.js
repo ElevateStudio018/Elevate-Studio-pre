@@ -16,7 +16,8 @@
     try { fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true }); } catch (e) { /* nothing to do */ }
   }
   send();
-  addEventListener('scroll', function () { var h = document.documentElement.scrollHeight - innerHeight; if (h > 0) maxScroll = Math.max(maxScroll, Math.min(100, Math.round((scrollY / h) * 100))); }, { passive: true });
+  var ticking = false;
+  addEventListener('scroll', function () { if (ticking) return; ticking = true; requestAnimationFrame(function () { ticking = false; var h = document.documentElement.scrollHeight - innerHeight; if (h > 0) maxScroll = Math.max(maxScroll, Math.min(100, Math.round((scrollY / h) * 100))); }); }, { passive: true });
   function leave() { if (sent) return; sent = true; send({ ev: 'leave', secs: Math.round((Date.now() - started) / 1000), scroll: maxScroll }); }
   addEventListener('pagehide', leave);
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') leave(); });
