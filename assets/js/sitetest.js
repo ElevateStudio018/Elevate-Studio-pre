@@ -319,49 +319,104 @@
       document.head.appendChild(sc);
     });
   }
+  // Same look as the web agreement: green header with the mark, Hanken Grotesk, green headings, footer with page numbers
+  var MARK = 'M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z';
+  function b64(url) {
+    return fetch(url).then(function (res) { if (!res.ok) throw new Error('font'); return res.arrayBuffer(); }).then(function (ab) {
+      var u = new Uint8Array(ab), bin = ''; for (var i = 0; i < u.length; i += 32768) bin += String.fromCharCode.apply(null, u.subarray(i, i + 32768)); return btoa(bin);
+    });
+  }
   function downloadPdf(r) {
     var btn = document.getElementById('sitetest-pdf'); btn.disabled = true;
     loadJsPdf().then(function (lib) {
-      var doc = new lib.jsPDF({ unit: 'pt', format: 'a4' }), W = 595, M = 48, y = 0;
-      var green = [29, 59, 42], ink = [34, 34, 34], grey = [100, 106, 101];
-      var page = function () { doc.addPage(); y = M; };
-      var need = function (h) { if (y + h > 800) page(); };
-      var text = function (str, size, color, style, gap) {
-        doc.setFont('helvetica', style || 'normal'); doc.setFontSize(size); doc.setTextColor.apply(doc, color);
-        doc.splitTextToSize(String(str), W - 2 * M).forEach(function (line) { need(size + 4); doc.text(line, M, y); y += size + 4; });
-        y += gap || 0;
-      };
-      doc.setFillColor.apply(doc, green); doc.rect(0, 0, W, 96, 'F');
-      doc.setTextColor(253, 251, 245); doc.setFont('helvetica', 'bold'); doc.setFontSize(22); doc.text('Testa din sajt', M, 48);
-      doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.text('Elevate Studio · elevatestudio.nu', M, 70);
-      y = 130;
-      text(r.url, 16, ink, 'bold', 2);
-      text('Testad ' + r.date + ' (' + r.device + ')', 10, grey, 'normal', 14);
-      if (r.shot) { try { need(230); doc.addImage(r.shot, 'JPEG', M, y, 130, 230); doc.setDrawColor(220); doc.rect(M, y, 130, 230); } catch (e) { /* no picture */ } }
-      var x0 = r.shot ? M + 150 : M, yy = y;
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor.apply(doc, green); doc.text('Betyg', x0, yy); yy += 20;
-      (r.summary || '–').split(', ').forEach(function (s) { doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, ink); doc.text(s, x0, yy); yy += 16; });
-      if (r.metrics.length) { yy += 10; doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor.apply(doc, green); doc.text('Laddtider', x0, yy); yy += 20;
-        r.metrics.forEach(function (m) { doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, ink); doc.text(m[0] + ': ' + m[1], x0, yy); yy += 16; }); }
-      y = Math.max(r.shot ? y + 250 : y, yy + 20);
-      text('Det här kan förbättras (' + r.issues.length + ')', 15, green, 'bold', 8);
-      if (!r.issues.length) text('Inga större problem hittades.', 11, ink);
-      r.issues.forEach(function (i, n) {
-        need(70);
-        text((n + 1) + '. ' + i.title + (i.value ? '  (' + i.value + ')' : ''), 12, ink, 'bold', 0);
-        text(i.cat, 9, grey, 'normal', 2);
-        if (i.what) text(i.what, 10, grey, 'normal', 2);
-        text('Så fixar vi det: ' + i.fix, 10, green, 'normal', 12);
-      });
-      need(80); y += 10;
-      text('Vill du att vi fixar det här? Hör av dig så går vi igenom resultatet och ger ett förslag med fast pris.', 11, ink, 'bold', 4);
-      text('info@elevatestudio.nu · elevatestudio.nu/kontakt', 10, grey);
-      text('Mätningen görs med Google PageSpeed Insights (Lighthouse) och MDN HTTP Observatory. Resultatet kan variera något mellan körningar.', 8, grey);
-      var host = r.url.replace(/^https?:\/\//, '').replace(/[^a-z0-9.-]+/gi, '-').replace(/-+$/, '');
-      doc.save('testa-din-sajt-' + host + '.pdf');
-      if (window.elevateTrack) window.elevateTrack('sitetest_pdf', r.url);
+      var doc = new lib.jsPDF({ unit: 'pt', format: 'a4' });
+      return Promise.all([b64(prefix + 'assets/fonts/HankenGrotesk-Regular.ttf'), b64(prefix + 'assets/fonts/HankenGrotesk-Bold.ttf')]).then(function (f) {
+        doc.addFileToVFS('HG-R.ttf', f[0]); doc.addFont('HG-R.ttf', 'Hanken', 'normal');
+        doc.addFileToVFS('HG-B.ttf', f[1]); doc.addFont('HG-B.ttf', 'Hanken', 'bold'); return 'Hanken';
+      }).catch(function () { return 'helvetica'; }).then(function (font) { drawPdf(doc, font, r); });
     }).catch(function () { alert('PDF:en kunde inte skapas just nu. Försök igen om en stund.'); })
       .then(function () { btn.disabled = false; });
+  }
+  function drawPdf(doc, font, r) {
+    var W = 595.28, H = 841.89, U = W / 100, X = 9.4 * U, RIGHT = W - X;
+    var GREEN = [29, 59, 42], INK = [31, 42, 36], SOFT = [231, 239, 233], MUTED = [111, 125, 116];
+    var body = 1.65 * U, lh = body * 1.65, gap = 1.3 * U, y = 0, top = 0, FOOT = H - 5.6 * U;
+    var set = function (size, weight, color) { doc.setFont(font, weight || 'normal'); doc.setFontSize(size); doc.setTextColor.apply(doc, color || INK); };
+    var mark = function (x, yy, w) {
+      var sc = w / 1884.3, pts = MARK.replace(/[MLZ]/g, ' ').trim().split(/\s+/).map(Number), ls = [];
+      for (var i = 2; i < pts.length; i += 2) ls.push([(pts[i] - pts[i - 2]) * sc, (pts[i + 1] - pts[i - 1]) * sc]);
+      doc.setFillColor(255, 255, 255); doc.lines(ls, x + pts[0] * sc, yy + pts[1] * sc, [1, 1], 'F', true);
+    };
+    var sheet = function (first) {
+      if (!first) doc.addPage();
+      top = 7.6 * U + 3.5 * U + 1.4 * U + 1.55 * U * 1.3 + 6.4 * U;
+      doc.setFillColor.apply(doc, GREEN); doc.rect(0, 0, W, top, 'F');
+      var mw = 6.4 * U; mark(X, (top - mw * 0.7185) / 2, mw);
+      var tx = X + mw + 2.6 * U;
+      set(3.5 * U, 'bold', [255, 255, 255]); doc.text('ELEVATE STUDIO', tx, 7.6 * U + 3.5 * U * 0.78, { charSpace: 0.4 });
+      set(1.55 * U, 'normal', [255, 255, 255]); doc.text('WEBBANALYS / TESTA DIN SAJT', tx, 7.6 * U + 3.5 * U + 1.4 * U + 1.55 * U * 0.9, { charSpace: 0.2 });
+      y = top + 4.6 * U + body;
+    };
+    var need = function (h) { if (y + h > FOOT - 4 * U) sheet(false); };
+    var para = function (text, weight, color, size) {
+      set(size || body, weight, color);
+      doc.splitTextToSize(String(text), RIGHT - X).forEach(function (row) { need(lh); doc.text(row, X, y); y += (size || body) * 1.65; });
+      y += gap;
+    };
+    var h2 = function (text) { need(8 * U); y += 2.9 * U; set(2.1 * U, 'bold', GREEN); doc.text(text, X, y); y += 1.05 * U + 1.8 * U + body; };
+
+    sheet(true);
+    set(2 * U, 'bold', GREEN); doc.text('TESTAD SIDA', X, y);
+    set(1.6 * U, 'normal', MUTED); doc.text('Datum: ' + r.date + '   ·   ' + (r.device === 'mobil' ? 'Mobil' : 'Dator'), RIGHT, y, { align: 'right' });
+    y += 2.4 * U; set(2.6 * U, 'bold', INK); doc.text(doc.splitTextToSize(r.url, RIGHT - X)[0], X, y); y += 3 * U;
+
+    // Scores as soft boxes, like the price table in the agreement
+    var parts = (r.summary || '').split(', ').filter(Boolean);
+    if (parts.length) {
+      h2('Betyg');
+      var n = parts.length, bw = (RIGHT - X - (n - 1) * 1.2 * U) / n, bh = 9 * U;
+      parts.forEach(function (pt, i) {
+        var m = pt.match(/^(.*) (\S+)$/) || [pt, pt, ''], bx = X + i * (bw + 1.2 * U), v = m[2], num = Number(v);
+        doc.setFillColor.apply(doc, SOFT); doc.roundedRect(bx, y - body, bw, bh, 6, 6, 'F');
+        var col = isNaN(num) ? GREEN : num >= 90 ? [26, 127, 75] : num >= 50 ? [176, 112, 0] : [192, 57, 43];
+        set(3.4 * U, 'bold', col); doc.text(v, bx + bw / 2, y + 2.6 * U, { align: 'center' });
+        set(1.3 * U, 'normal', MUTED); doc.text(m[1], bx + bw / 2, y + 5.6 * U, { align: 'center' });
+      });
+      y += bh + gap;
+    }
+    if (r.metrics.length) {
+      h2('Laddtider');
+      r.metrics.forEach(function (m, i) {
+        need(lh + 4);
+        if (i % 2 === 0) { doc.setFillColor.apply(doc, SOFT); doc.rect(X, y - body * 1.15, RIGHT - X, lh + 2, 'F'); }
+        set(body, 'normal', INK); doc.text(m[0], X + 1.2 * U, y); set(body, 'bold', INK); doc.text(String(m[1]), RIGHT - 1.2 * U, y, { align: 'right' });
+        y += lh + 2;
+      });
+      y += gap;
+    }
+    h2('Det här kan förbättras (' + r.issues.length + ')');
+    if (!r.issues.length) para('Inga större problem hittades. Sajten klarar testerna bra.');
+    r.issues.forEach(function (it, i) {
+      need(10 * U);
+      para((i + 1) + '. ' + it.title + (it.value ? '  (' + it.value + ')' : ''), 'bold', INK);
+      y -= gap * 0.6; para(it.cat.toUpperCase(), 'normal', MUTED, 1.25 * U);
+      if (it.what) para(it.what, 'normal', [70, 82, 75], 1.45 * U);
+      para('Så fixar vi det: ' + it.fix, 'normal', GREEN, 1.5 * U);
+    });
+    h2('Nästa steg');
+    para('Vi går gärna igenom resultatet med er och ger ett förslag med fast pris. Hör av er så bokar vi ett kort möte.');
+    para('info@elevatestudio.nu  ·  elevatestudio.nu/kontakt', 'bold', GREEN);
+    para('Mätningen görs med Google PageSpeed Insights (Lighthouse) och MDN HTTP Observatory. Resultatet kan variera något mellan körningar.', 'normal', MUTED, 1.3 * U);
+
+    var pages = doc.getNumberOfPages();
+    for (var pg = 1; pg <= pages; pg++) {
+      doc.setPage(pg);
+      doc.setDrawColor(201, 214, 205); doc.setLineWidth(0.75); doc.line(X, FOOT - 3.3 * U, RIGHT, FOOT - 3.3 * U);
+      set(1.3 * U, 'normal', MUTED); doc.text('ELEVATE STUDIO  |  WEBBANALYS', X, FOOT); doc.text('Sida ' + pg + ' av ' + pages, RIGHT, FOOT, { align: 'right' });
+    }
+    var host = r.url.replace(/^https?:\/\//, '').replace(/[^a-z0-9.-]+/gi, '-').replace(/-+$/, '');
+    doc.save('webbanalys-' + host + '.pdf');
+    if (window.elevateTrack) window.elevateTrack('sitetest_pdf', r.url);
   }
 
   // When Google's quota is used up the visitor can leave an e-mail; we run the test and reply.
