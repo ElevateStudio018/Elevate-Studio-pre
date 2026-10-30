@@ -118,7 +118,7 @@
       if (!d.ok) return fail(d.error);
       st.data = d; fillHero(d); init();
       // A time clicked in the mail is booked right away, no extra step
-      if (preset && st.at === preset && !(d.booked && !st.rebook)) {
+      if (preset && st.at === preset && !d.public && !(d.booked && !st.rebook)) {
         preset = 0;
         pick.innerHTML = '<div class="done"><h2>Bokar din tid …</h2><p class="done__sub">Ett ögonblick.</p></div>';
         return book();

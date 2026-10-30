@@ -6,6 +6,15 @@ so add new strings when the Swedish copy changes (tools/i18n_check.js lists what
 """
 
 EN = {
+    "och Markmontage BEAB AB är kunder hos oss. Övriga namn är påhittade exempel.": "and Markmontage BEAB AB are clients of ours. The other names are fictional examples.",
+    "Boka ett kort möte": "Book a short meeting",
+    "När passar det": "When suits",
+    "dig?": "you?",
+    "30 minuter om er hemsida: vad den ska ge er och hur ett upplägg kan se ut. Det kostar ingenting, och du behöver inte förbereda något. Välj en tid så är det bokat.": "30 minutes about your website: what it should give you and what a setup could look like. It costs nothing, and you do not need to prepare anything. Pick a time and it is booked.",
+    "Se alla lediga tider": "See all free times",
+    "Nästa lediga tider": "Next free times",
+    "Hämtar tider …": "Loading times …",
+    "Google Meet eller telefon. Alla tider är svensk tid.": "Google Meet or phone. All times are Swedish time.",
     "Äg din domän och din e-post själv": "Own your domain and your e-mail yourself",
     "Äg din domän och din e-post själv | Elevate Studio": "Own your domain and your e-mail yourself | Elevate Studio",
     "Domänen är företagets adress på nätet. Står den på byrån som byggde sidan, eller på en anställd som slutat, kan ni en dag stå utan både hemsida och e-post. Så här ser ni till att den är er.": "The domain is your business's address online. If it is registered to the agency that built the site, or to an employee who has left, you can one day be left without both website and e-mail. Here is how to make sure it is yours.",

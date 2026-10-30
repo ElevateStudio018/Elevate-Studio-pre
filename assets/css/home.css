@@ -1027,3 +1027,22 @@ h2, h3 { margin: 0; font-weight: 400; }
 @media (prefers-reduced-motion: reduce) {
   .pscroll__panel, .pscroll__panel.is-on, .pscroll__panel .flow__img, .pscroll__line i, .pscroll__dot { transition: none; }
 }
+
+/* ---------- Book a meeting from the start page ---------- */
+.book-home { padding: 80px 0; background: var(--accent, #1d3b2a); color: var(--cream, #fdfbf5); }
+.book-home__inner { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; }
+.book-home__eyebrow { margin: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; opacity: .75; }
+.book-home .block__header { color: #fff; }
+.book-home__text p { max-width: 520px; font-size: 18px; opacity: .9; }
+.book-home__text .btn { margin-top: 10px; }
+.book-home__times { padding: 28px 28px 22px; border-radius: 24px; background: rgba(253, 251, 245, .07); border: 1px solid rgba(253, 251, 245, .14); }
+.book-home__hint { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+.book-home__list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.book-home__list a { display: grid; gap: 2px; padding: 14px 16px; border-radius: 14px; background: var(--cream, #fdfbf5); color: var(--accent, #1d3b2a); text-decoration: none; transition: transform .2s, background .2s; }
+.book-home__list a:hover { background: #d7e36b; transform: translateY(-2px); }
+.book-home__list a b { font-size: 20px; font-weight: 600; }
+.book-home__list a span { font-size: 13px; opacity: .75; }
+.book-home__wait, .book-home__empty { grid-column: 1 / -1; margin: 0; opacity: .7; }
+.book-home__note { margin: 16px 0 0; font-size: 13px; opacity: .65; }
+@media (max-width: 992px) { .book-home__inner { grid-template-columns: 1fr; gap: 32px; } }
+@media (max-width: 480px) { .book-home__list { grid-template-columns: 1fr; } }

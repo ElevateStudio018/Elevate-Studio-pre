@@ -219,3 +219,20 @@
     });
   });
 })();
+
+/* Start page: the next free times from the booking calendar, each one books on /boka */
+(function () {
+  var box = document.getElementById('book-home-times');
+  if (!box) return;
+  var list = box.querySelector('.book-home__list');
+  fetch(box.dataset.info).then(function (r) { return r.json(); }).then(function (d) {
+    var out = [];
+    (d.days || []).forEach(function (day) { day.slots.forEach(function (s) { if (s.free && out.length < 6) out.push({ t: s.t, day: day }); }); });
+    if (!out.length) { list.innerHTML = '<li class="book-home__empty">Inga lediga tider just nu – <a href="kontakt">hör av dig</a> så hittar vi en.</li>'; return; }
+    var cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
+    list.innerHTML = out.map(function (x) {
+      var time = new Date(x.t).toLocaleTimeString('sv-SE', { timeZone: 'Europe/Stockholm', hour: '2-digit', minute: '2-digit' });
+      return '<li><a href="boka?v=' + x.t + '"><b>' + time + '</b><span>' + cap(x.day.wd) + ' ' + x.day.d + ' ' + x.day.mon.toLowerCase() + '</span></a></li>';
+    }).join('');
+  }).catch(function () { list.innerHTML = '<li class="book-home__empty"><a href="boka">Se lediga tider</a></li>'; });
+})();
