@@ -1658,6 +1658,9 @@ def inline_critical(built):
         f = ROOT / path
         s = f.read_text(encoding="utf-8")
         page_css = per_page.get(path, css)
+        # sizes that depend on where a picture sits, not only on which picture it is
+        s = re.sub(r'(<article class="insights__small">\s*<img [^>]*?sizes=")[^"]*', r'\1(max-width: 768px) 120px, 200px', s)
+        s = re.sub(r'(<div class="laptop__scr"><img src="assets/img/home/alvhemstad-desktop[^>]*?sizes=")[^"]*', r'\1(max-width: 768px) 50vw, 360px', s)
         page_css = re.sub(r"@font-face\{[^}]*\}", "", page_css)  # fonts are loaded by main.js after the page (no request chain)
         s2 = link.sub(lambda m: "<style>" + page_css.replace("url(../", "url(" + m.group(1) + "assets/") + "</style>", s)
         s2 = tag.sub(lambda m: "<script" + m.group(1) + ">" + i18n + "</script>", s2)
