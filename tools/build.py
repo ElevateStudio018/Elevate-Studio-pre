@@ -64,7 +64,6 @@ def header(p, crumbs, current):
       <nav class="site-header__navbar" aria-label="Huvudmeny">
         <ul>
           {nav_item("projekt", "projekt/index.html", "Projekt")}
-          {nav_item("kunder", "byggda-hemsidor.html", "Kunder")}
           <li class="has-megamenu{services_cls}">
             <a href="{p}tjanster/index.html" class="js-show-megamenu" aria-expanded="false" aria-controls="megamenu">Vad vi gör {CHEVRON}</a>
           </li>
@@ -102,7 +101,6 @@ def header(p, crumbs, current):
       <p class="drawer__heading drawer__heading--desk">Meny</p>
       <ul class="drawer__main">
         <li><a href="{p}projekt/index.html">Projekt</a></li>
-        <li><a href="{p}byggda-hemsidor.html">Kunder</a></li>
         <li class="has-sub">
           <button type="button" class="drawer__toggle js-toggle-sub" aria-expanded="false">Vad vi gör {CHEVRON}</button>
           <div class="hamburgermenu__sub">
