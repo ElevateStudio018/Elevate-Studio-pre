@@ -268,11 +268,14 @@
     ['Fraunces', 'Fraunces-latin-ext', EXT, { weight: '400', style: 'italic', display: 'swap' }]
   ];
   var go = function () {
-    faces.forEach(function (f) {
+    faces.filter(function (f) { return f[2] === LATIN; }).forEach(function (f) {
       var d = f[3]; d.unicodeRange = f[2];
-      var face = new FontFace(f[0], 'url(' + base + 'assets/fonts/' + f[1] + '.woff2) format("woff2")', d);
-      document.fonts.add(face);
-      if (f[2] === LATIN) face.load().catch(function () {});
+      // fetched at low priority, so the fonts never count as critical requests
+      fetch(base + 'assets/fonts/' + f[1] + '.woff2', { priority: 'low' }).then(function (r) { return r.arrayBuffer(); }).then(function (buf) {
+        var face = new FontFace(f[0], buf, d);
+        document.fonts.add(face);
+        return face.load();
+      }).catch(function () {});
     });
   };
   if (document.readyState === 'complete') go(); else addEventListener('load', go);
