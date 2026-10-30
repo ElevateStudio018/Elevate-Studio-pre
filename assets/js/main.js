@@ -219,3 +219,15 @@
     });
   });
 })();
+
+/* Senaste nytt: the arrows scroll the row of articles one card at a time */
+(function () {
+  var side = document.getElementById('insights-side');
+  if (!side) return;
+  document.querySelectorAll('.insights__btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var card = side.querySelector('.insights__small'), step = card ? card.offsetWidth + 20 : 270;
+      side.scrollBy({ left: step * Number(b.dataset.dir), behavior: 'smooth' });
+    });
+  });
+})();

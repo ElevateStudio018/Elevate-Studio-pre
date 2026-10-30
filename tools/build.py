@@ -449,7 +449,7 @@ def featured_posts(p, articles):
     """Homepage insights: the newest article large, the next two stacked beside it."""
     def terms(a):
         return "".join(f"<span>{esc(x)}</span>" for x in a["terms"])
-    big, *rest = articles[:3]
+    big, *rest = articles  # the newest large, every other one in a row you scroll sideways
     side = "".join(f'''<article class="insights__small">
             <img src="{p}assets/img/{a["image"]}" alt="{esc(a["title"])}" width="420" height="297" loading="lazy">
             <div>
@@ -467,7 +467,8 @@ def featured_posts(p, articles):
               <p class="post-card__time">{big["date"]}</p>
             </div>
           </article>
-          <div class="insights__side">{side}</div>
+          <div class="insights__rail"><div class="insights__side" id="insights-side">{side}</div>
+          <div class="insights__nav"><button type="button" class="insights__btn" data-dir="-1" aria-label="Föregående artiklar">&#8249;</button><button type="button" class="insights__btn" data-dir="1" aria-label="Nästa artiklar">&#8250;</button></div></div>
         </div>'''
 
 
