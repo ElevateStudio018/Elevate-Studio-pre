@@ -17,7 +17,8 @@
   }
   // The first beacon waits for the page to finish loading, so reading the window size never forces a layout
   var first = function () { base.vw = innerWidth; base.vh = innerHeight; send(); };
-  if (document.readyState === 'complete') setTimeout(first, 0); else addEventListener('load', function () { setTimeout(first, 0); });
+  var later = function () { (window.requestIdleCallback || setTimeout)(first, { timeout: 3000 }); };
+  if (document.readyState === 'complete') later(); else addEventListener('load', later);
   var ticking = false;
   addEventListener('scroll', function () { if (ticking) return; ticking = true; requestAnimationFrame(function () { ticking = false; var h = document.documentElement.scrollHeight - innerHeight; if (h > 0) maxScroll = Math.max(maxScroll, Math.min(100, Math.round((scrollY / h) * 100))); }); }, { passive: true });
   function leave() { if (sent) return; sent = true; send({ ev: 'leave', secs: Math.round((Date.now() - started) / 1000), scroll: maxScroll }); }

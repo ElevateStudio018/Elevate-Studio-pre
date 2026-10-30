@@ -88,9 +88,9 @@
       requestAnimationFrame(function () { queued = false; update(); });
     }, { passive: true });
     window.addEventListener('resize', update);
-    // First measurement after the page has loaded, so building the timeline never forces a layout
-    var first = function () { requestAnimationFrame(update); };
-    if (document.readyState === 'complete') first(); else window.addEventListener('load', first);
+    // Start state without measuring anything (step 1 lit); the first scroll takes over from there
+    navItems[0].classList.add('is-on'); panels[0].classList.add('is-on'); current = 0;
+    for (var k0 = 1; k0 < steps.length; k0++) panels[k0].setAttribute('aria-hidden', 'true');
   }
 
   // Fade-up reveal for cards
