@@ -217,6 +217,7 @@ def footer(p):
               <ul class="site-footer__links">
                 <li><a href="mailto:info@elevatestudio.nu">info@elevatestudio.nu</a></li>
                 <li><a href="tel:+46760228361">Ring 076-022 83 61</a></li>
+                <li><span class="site-footer__addr">Elevate Studio, Uppsala, Sverige</span></li>
                 <li><a href="{p}testa.html">Testa din sajt</a></li>
               </ul>
               <p class="site-footer__subheader site-footer__subheader--follow">Följ oss</p>
@@ -321,7 +322,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
     scripts += f'\n  <script src="{p}assets/js/chat.js?v={VERSION}" data-prefix="{p}" data-endpoint="{FORM_ENDPOINT}" defer></script>'
     desc = esc(description or auto_description(main))
     # Keep titles within what Google shows; long titles drop the brand suffix
-    full_title = esc(title if "Elevate Studio" in title or len(title) > 48 else f"{title} | Elevate Studio")
+    full_title = esc(title if "Elevate Studio" in title or len(title) > 43 else f"{title} | Elevate Studio")
     graph = [organisation_ld(), {"@type": "WebSite", "@id": f"{SITE_URL}/#webbplats", "url": f"{SITE_URL}/", "name": "Elevate Studio", "inLanguage": "sv-SE", "publisher": {"@id": ORG_ID}}]
     if crumbs:
         trail = [("Start", "index.html")] + [(label, href or "__SELF__") for label, href in crumbs]
@@ -342,6 +343,9 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
   <title>{full_title}</title>
   <meta name="description" content="{desc}">
   <link rel="canonical" href="__CANONICAL__">
+  <link rel="alternate" hreflang="sv" href="__CANONICAL__">
+  <link rel="alternate" hreflang="en" href="__CANONICAL__?lang=en">
+  <link rel="alternate" hreflang="x-default" href="__CANONICAL__">
   <meta property="og:type" content="{og_type}">
   <meta property="og:site_name" content="Elevate Studio">
   <meta property="og:locale" content="sv_SE">
@@ -452,7 +456,7 @@ def featured_posts(p, articles):
         first = re.sub(r"<[^>]+>", "", first)
         return first if len(first) <= 120 else first[:117].rsplit(" ", 1)[0] + "…"
     cards = "".join(f'''<article class="news__card">
-            <img src="{p}assets/img/{a["image"]}" alt="{esc(a["title"])}" width="840" height="594" loading="lazy">
+            <img src="{p}assets/img/{a["image"]}" alt="{esc(a["title"])}" width="840" height="436" loading="lazy">
             <div class="news__body">
               <p class="news__meta"><span class="news__date">{iso_date(a["date"])}</span>{"".join(f'<span class="news__tag">{esc(x)}</span>' for x in a["terms"][:1])}</p>
               <h3 class="news__title"><a class="cover-link" href="{p}insikter/{a["slug"]}.html">{esc(a["title"])}</a></h3>
@@ -964,7 +968,7 @@ def sites_section(p, sites):
     return f'''<section class="section container"><div class="sites">{cards}</div></section>
     <div class="site-preview" id="site-preview" hidden>
       <div class="site-preview__bar container">
-        <div class="site-preview__who"><b id="sp-name"></b><a id="sp-url" href="#" target="_blank" rel="noopener"></a></div>
+        <div class="site-preview__who"><b id="sp-name"></b><a id="sp-url" href="#" target="_blank" rel="noopener">adress</a></div>
         <div class="site-preview__acts">
           <span class="site-preview__toggle" role="group" aria-label="Visa som"><button type="button" class="is-on" data-view="desk">Dator</button><button type="button" data-view="mob">Mobil</button></span>
           <a class="btn btn--primary btn--sm" id="sp-open" href="#" target="_blank" rel="noopener"><span>Öppna sajten</span></a>
@@ -1466,8 +1470,8 @@ def site_files(built):
     bots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Google-Extended", "Applebot-Extended", "Bingbot",
             "anthropic-ai", "Claude-Web", "cohere-ai", "Amazonbot", "meta-externalagent", "DuckAssistBot", "YouBot"]
     # The admin and the customers' booking pages (/boka/<link>) stay out of search engines
-    ai = "".join(f"User-agent: {b}\nAllow: /\nDisallow: /admin\nDisallow: /boka/\n\n" for b in bots)
-    (ROOT / "robots.txt").write_text(f"# Vi välkomnar sökmotorer och AI-assistenter.\n{ai}User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /boka/\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
+    # One group for everyone, search engines and AI crawlers alike; only the admin and the customers' private booking links stay out
+    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /boka/\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
     # elevatestudio.nu/admin – the admin panel itself (login, leads, offers, calendar)
     (ROOT / "admin").mkdir(exist_ok=True)
     (ROOT / "admin" / "index.html").write_text(f'''<!DOCTYPE html>
@@ -1583,7 +1587,35 @@ def main():
         f = ROOT / name
         if f.exists():
             f.write_text(pretty(f.read_text(encoding="utf-8")), encoding="utf-8")
+    minify_js(built)
     print(f"Built {len(built)} pages")
+
+
+def minify_js(built):
+    """Every script in assets/js gets a .min.js copy (esbuild when it is around, otherwise a plain copy so the
+    file is never stale), and the pages point at the copies."""
+    import shutil, subprocess
+    js = ROOT / "assets/js"
+    esbuild = shutil.which("esbuild") or next((str(c) for c in [pathlib.Path("/tmp/claude-0/-home-user/6c69fc61-5f7f-5a28-8aab-e07dcbeef98c/scratchpad/wr/node_modules/.bin/esbuild"), ROOT / "node_modules/.bin/esbuild"] if c.exists()), None)
+    names = []
+    for f in sorted(js.glob("*.js")):
+        if f.name.endswith(".min.js"):
+            continue
+        out = js / (f.stem + ".min.js")
+        if esbuild:
+            r = subprocess.run([esbuild, str(f), "--minify", "--target=es2017", "--log-level=error", f"--outfile={out}"], capture_output=True, text=True)
+            if r.returncode:
+                shutil.copyfile(f, out)
+        else:
+            shutil.copyfile(f, out)
+        names.append(f.stem)
+    pat = re.compile(r'(assets/js/)(' + "|".join(re.escape(n) for n in names) + r')\.js(\?v=)')
+    for path in set(built):
+        f = ROOT / path
+        if f.suffix == ".html" and f.exists():
+            s = f.read_text(encoding="utf-8"); s2 = pat.sub(r"\1\2.min.js\3", s)
+            if s2 != s:
+                f.write_text(s2, encoding="utf-8")
 
 
 if __name__ == "__main__":

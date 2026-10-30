@@ -5,7 +5,7 @@
   var form = document.getElementById('sitetest-form');
   if (!form) return;
 
-  var API = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
+  var API = '/api/psi';
   var KEY = form.dataset.apiKey || '';
   var prefix = form.dataset.prefix || '';
   var input = form.querySelector('input[name="url"]');
