@@ -4,6 +4,7 @@ import { googleReady, googleConnect, googleCallback } from './google.js';
 import { bookingReady, bookingLink, bookingInfo, bookingBook, bookingSync } from './booking.js';
 import { accountsReady, accountsCreate } from './accounts.js';
 import { adminUser } from './invite.js';
+import { track } from './track.js';
 import leadImport from './import.json';
 
 const HOME = 'elevatestudio.nu';
@@ -29,6 +30,7 @@ export default {
     if (pathname === '/api/booking/info') return bookingInfo(req, env);
     if (pathname === '/api/booking/book') return bookingBook(req, env);
     if (pathname === '/api/booking/sync') return bookingSync(req, env);
+    if (pathname === '/api/track') return track(req, env);
     if (pathname === '/api/accounts/create') return accountsCreate(req, env);
     // PageSpeed for Testa din sajt: the server adds the Google API key (PSI_API_KEY secret) so the test is not rate-limited
     if (pathname === '/api/psi') {

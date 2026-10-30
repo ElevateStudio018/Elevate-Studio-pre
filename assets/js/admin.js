@@ -32,7 +32,7 @@
   // The four admin profiles; who is signed in decides the name in the menu and the default sender
   var PROFILES = [['carl', 'Carl From', 'carl@elevatestudio.nu'], ['isak', 'Isak Mattsson', 'isak@elevatestudio.nu'],
     // Oscar uses his Gmail until oskar@elevatestudio.nu is opened; both addresses (and oscar@) count as him
-    ['oscar', 'Oscar Svanerud', 'svanerudo@gmail.com', ['todo', 'leads', 'vunna', 'arkiv', 'kalender', 'fakturor', 'statistik', 'konto'], ['oskar@elevatestudio.nu', 'oscar@elevatestudio.nu']],
+    ['oscar', 'Oscar Svanerud', 'svanerudo@gmail.com', ['todo', 'leads', 'vunna', 'arkiv', 'kalender', 'fakturor', 'statistik', 'besokare', 'konto'], ['oskar@elevatestudio.nu', 'oscar@elevatestudio.nu']],
     ['', 'Elevate Studio', 'info@elevatestudio.nu']];
   var profile = function (email) { email = String(email || '').toLowerCase(); return PROFILES.find(function (p) { return p[2] === email || (p[4] || []).indexOf(email) >= 0; }) || PROFILES[3]; };
   // A profile with a list sees only those pages (and no mail campaigns); the others see everything
@@ -1254,19 +1254,72 @@
   }
 
   /* ---------- Besökare ---------- */
+  /* ---------- Besökare: everything the beacon collects, as a dashboard and as a list of every visit ---------- */
   function renderVisitors() {
-    main().innerHTML = head('Besökare', 'Besök de senaste 30 dagarna (utan botar).') +
-      info('Bra att veta', 'Siffrorna kommer från den gamla sidans besöksräknare. Nya hemsidan har inga cookies och ingen spårning, så när den går live slutar siffrorna växa.');
-    fetchRows(sb.from('site_visits').select('path,device_type,source,referrer_host,is_bot,created_at,session_id').gte('created_at', since(30)).order('created_at', { ascending: false }).limit(10000), function (all) {
-      var v = all.filter(function (x) { return !x.is_bot; });
-      var sessions = {}; v.forEach(function (x) { if (x.session_id) sessions[x.session_id] = 1; });
-      var today = new Date().toDateString(), mobile = v.filter(function (x) { return x.device_type === 'mobile'; }).length;
-      var perDay = []; for (var i = 13; i >= 0; i--) { var d = new Date(Date.now() - i * 864e5).toDateString(); perDay.push([new Date(d).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' }), v.filter(function (x) { return new Date(x.created_at).toDateString() === d; }).length]); }
-      var max = Math.max.apply(null, perDay.map(function (p) { return p[1]; }).concat([1]));
-      main().insertAdjacentHTML('beforeend', kpis([['Sidvisningar', v.length], ['Unika besök', Object.keys(sessions).length], ['Idag', v.filter(function (x) { return new Date(x.created_at).toDateString() === today; }).length], ['Mobil', v.length ? Math.round(mobile / v.length * 100) + ' %' : '–']]) +
-        '<section class="panel"><h3>Senaste 14 dagarna</h3><div class="cols">' + perDay.map(function (p) { return '<div title="' + p[1] + '"><i style="--h:' + Math.round(p[1] / max * 100) + '%"></i><span>' + p[0] + '</span></div>'; }).join('') + '</div></section>' +
-        '<div class="split">' + bars('Mest besökta sidor', countBy(v, function (x) { return x.path; })) + bars('Källor', countBy(v, function (x) { return x.referrer_host || x.source || 'Direkt'; }), v.length) +
-        bars('Enheter', countBy(v, function (x) { return { mobile: 'Mobil', desktop: 'Dator', tablet: 'Surfplatta' }[x.device_type] || x.device_type; }), v.length) + '</div>');
+    var days = st.visitDays || 30;
+    main().innerHTML = head('Besökare', 'Vilka som kommer in, varifrån, vad de läser, hur länge och vad de gör.',
+      '<span class="seg" id="vdays">' + [7, 30, 90].map(function (d) { return '<button class="seg__b' + (d === days ? ' is-on' : '') + '" data-d="' + d + '">' + d + ' dagar</button>'; }).join('') + '</span>');
+    $('#vdays').addEventListener('click', function (e) { var b = e.target.closest('[data-d]'); if (b) { st.visitDays = Number(b.dataset.d); renderVisitors(); } });
+    fetchRows(sb.from('site_visits').select('*').gte('created_at', since(days)).order('created_at', { ascending: false }).limit(20000), function (all) {
+      var rows = all.filter(function (x) { return !x.is_bot; });
+      var views = rows.filter(function (x) { return !/^event:/.test(x.source || ''); });
+      var events = rows.filter(function (x) { return /^event:/.test(x.source || ''); });
+      var leaves = events.filter(function (x) { return x.source === 'event:leave'; });
+      var conv = events.filter(function (x) { return /^event:(form|booking|booking_link|chat)$/.test(x.source); });
+      // sessions: the views and events with the same id, in time order
+      var S = {}; rows.slice().reverse().forEach(function (x) { (S[x.session_id] = S[x.session_id] || []).push(x); });
+      var sessions = Object.keys(S).map(function (k) {
+        var list = S[k].slice().sort(function (a, b) { return Date.parse(a.created_at) - Date.parse(b.created_at); }), v = list.filter(function (x) { return !/^event:/.test(x.source || ''); }), first = v[0] || list[0];
+        var secs = list.filter(function (x) { return x.source === 'event:leave'; }).reduce(function (s, x) { return s + (Number(x.utm_medium) || 0); }, 0);
+        return { id: k, first: first, views: v, secs: secs, events: list.filter(function (x) { return /^event:/.test(x.source || '') && x.source !== 'event:leave'; }),
+          start: first.created_at, converted: list.some(function (x) { return /^event:(form|booking|booking_link|chat)$/.test(x.source || ''); }) };
+      }).sort(function (a, b) { return Date.parse(b.start) - Date.parse(a.start); });
+      var bounce = sessions.filter(function (s) { return s.views.length <= 1; }).length;
+      var avgSecs = sessions.length ? Math.round(sessions.reduce(function (a, s) { return a + s.secs; }, 0) / sessions.length) : 0;
+      var live = rows.filter(function (x) { return Date.parse(x.created_at) > Date.now() - 5 * 6e4; }).reduce(function (o, x) { o[x.session_id] = 1; return o; }, {});
+      var fmtSecs = function (s) { return s >= 60 ? Math.floor(s / 60) + ' min ' + (s % 60) + ' s' : s + ' s'; };
+      var SRC = { direct: 'Direkt', google: 'Google', bing: 'Bing', duckduckgo: 'DuckDuckGo', social: 'Sociala medier', ai: 'AI-assistenter', referral: 'Andra sajter' };
+      var DEV = { mobile: 'Mobil', desktop: 'Dator', tablet: 'Surfplatta', unknown: 'Okänt' };
+      var EV = { form: 'Formulär skickat', booking: 'Möte bokat', booking_link: 'Bokat via länk', chat: 'Chatten öppnad', call: 'Ringde', mail: 'Mejlade', cta_boka: 'Klick: Boka möte', cta_kontakt: 'Klick: Kontakt' };
+      // per day, and per hour of day
+      var perDay = []; for (var i = Math.min(days, 30) - 1; i >= 0; i--) { var d = new Date(Date.now() - i * 864e5); var key = d.toDateString(); perDay.push([d.toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' }), sessions.filter(function (s) { return new Date(s.start).toDateString() === key; }).length]); }
+      var maxDay = Math.max.apply(null, perDay.map(function (p) { return p[1]; }).concat([1]));
+      var perHour = []; for (var h = 0; h < 24; h++) perHour.push([h + ':00', views.filter(function (x) { return new Date(x.created_at).getHours() === h; }).length]);
+      var maxHour = Math.max.apply(null, perHour.map(function (p) { return p[1]; }).concat([1]));
+      // time per page: the leave events carry seconds, keyed by path
+      var timeOn = {}; leaves.forEach(function (x) { (timeOn[x.path] = timeOn[x.path] || []).push(Number(x.utm_medium) || 0); });
+      var pages = countBy(views, function (x) { return x.path; }, 15).map(function (p) { var ts = timeOn[p[0]] || []; return [p[0], p[1], ts.length ? Math.round(ts.reduce(function (a, b) { return a + b; }, 0) / ts.length) : null]; });
+      var entries = countBy(sessions, function (s) { return s.views[0] ? s.views[0].path : ''; }, 10);
+      var exits = countBy(sessions, function (s) { return s.views.length ? s.views[s.views.length - 1].path : ''; }, 10);
+      var chart = function (title, pairs, max, cls) { return '<section class="panel"><h3>' + title + '</h3><div class="cols ' + (cls || '') + '">' + pairs.map(function (p) { return '<div title="' + p[0] + ': ' + p[1] + '"><i style="--h:' + Math.round(p[1] / max * 100) + '%"></i><span>' + p[0] + '</span></div>'; }).join('') + '</div></section>'; };
+      main().insertAdjacentHTML('beforeend',
+        kpis([['Besök', sessions.length], ['Sidvisningar', views.length], ['Just nu', Object.keys(live).length], ['Snitt tid per besök', fmtSecs(avgSecs)], ['Sidor per besök', sessions.length ? (views.length / sessions.length).toFixed(1) : '–'],
+          ['Avvisningar', sessions.length ? Math.round(bounce / sessions.length * 100) + ' %' : '–'], ['Konverteringar', conv.length], ['Konverteringsgrad', sessions.length ? (conv.length / sessions.length * 100).toFixed(1) + ' %' : '–']]) +
+        (rows.length ? '' : info('Inget att visa än', 'Statistiken fylls på så fort hemsidan börjar skicka in besök. Det kräver att SUPABASE_SERVICE_KEY finns som hemlighet i Cloudflare.')) +
+        chart('Besök per dag', perDay, maxDay) + chart('Sidvisningar per timme på dygnet', perHour, maxHour, 'cols--24') +
+        '<div class="split">' +
+        '<section class="panel"><h3>Mest lästa sidor</h3>' + (pages.length ? '<div class="tbl"><table><thead><tr><th>Sida</th><th>Visningar</th><th>Snitt tid</th></tr></thead><tbody>' + pages.map(function (p) { return '<tr><td>' + esc(p[0]) + '</td><td>' + p[1] + '</td><td>' + (p[2] == null ? '–' : fmtSecs(p[2])) + '</td></tr>'; }).join('') + '</tbody></table></div>' : '<p class="empty">Ingen data.</p>') + '</section>' +
+        bars('Varifrån besöken kommer', countBy(sessions, function (s) { return SRC[s.first.source] || s.first.source; }), sessions.length) +
+        bars('Hänvisande sajter', countBy(views, function (x) { return x.referrer_host; }, 12), null) +
+        bars('Kampanjer (utm)', countBy(views, function (x) { return x.utm_source ? x.utm_source + (x.utm_campaign ? ' · ' + x.utm_campaign : '') : ''; }, 12), null) +
+        bars('Vad besökarna gör', countBy(events.filter(function (x) { return x.source !== 'event:leave'; }), function (x) { return EV[x.source.slice(6)] || x.source.slice(6); }), null) +
+        bars('Konverteringar per källa', countBy(sessions.filter(function (s) { return s.converted; }), function (s) { return SRC[s.first.source] || s.first.source; }), conv.length) +
+        bars('Ingångssidor', entries, sessions.length) + bars('Sista sidan i besöket', exits, sessions.length) +
+        bars('Länder', countBy(sessions, function (s) { return s.first.country; }), sessions.length) + bars('Städer', countBy(sessions, function (s) { return s.first.city; }, 12), sessions.length) +
+        bars('Enheter', countBy(sessions, function (s) { return DEV[s.first.device_type] || s.first.device_type; }), sessions.length) + bars('Webbläsare', countBy(sessions, function (s) { return s.first.browser; }), sessions.length) +
+        bars('Operativsystem', countBy(sessions, function (s) { return s.first.os; }), sessions.length) + bars('Språk', countBy(sessions, function (s) { return s.first.language; }), sessions.length) +
+        bars('Skärmstorlek', countBy(sessions, function (s) { return s.first.screen_w ? s.first.screen_w + '×' + s.first.screen_h : ''; }, 10), sessions.length) +
+        '</div>' +
+        '<section class="panel"><h3>Alla besök</h3><p class="panel__sub">Varje rad är ett besök. Klicka för att se vilka sidor som lästes, hur länge, och vad som hände.</p><div class="visits" id="visits">' +
+        sessions.slice(0, 300).map(function (s, idx) {
+          var f = s.first;
+          return '<details class="visit' + (s.converted ? ' is-conv' : '') + '"><summary><span class="visit__when">' + dt(s.start) + '</span><span class="visit__where">' + esc([f.city, f.country].filter(Boolean).join(', ') || 'Okänd plats') + '</span>' +
+            '<span class="visit__how">' + esc((DEV[f.device_type] || f.device_type) + ' · ' + (f.browser || '') + ' · ' + (f.os || '')) + '</span><span class="visit__src">' + esc(SRC[f.source] || f.source || '') + (f.referrer_host ? ' · ' + esc(f.referrer_host) : '') + '</span>' +
+            '<span class="visit__n">' + s.views.length + ' sidor · ' + fmtSecs(s.secs) + (s.events.length ? ' · <b>' + s.events.map(function (e) { return EV[e.source.slice(6)] || e.source.slice(6); }).join(', ') + '</b>' : '') + '</span></summary>' +
+            '<ol class="visit__pages">' + s.views.map(function (v) { var lv = leaves.find(function (l) { return l.session_id === s.id && l.path === v.path && Date.parse(l.created_at) >= Date.parse(v.created_at); }); return '<li><time>' + new Date(v.created_at).toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + '</time><a href="' + esc(v.path) + '" target="_blank" rel="noopener">' + esc(v.path) + '</a>' + (lv ? '<small>' + fmtSecs(Number(lv.utm_medium) || 0) + ' · läste ' + (Number(lv.utm_campaign) || 0) + ' %</small>' : '') + '</li>'; }).join('') +
+            s.events.map(function (e) { return '<li class="visit__ev"><time>' + new Date(e.created_at).toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + '</time><b>' + esc(EV[e.source.slice(6)] || e.source.slice(6)) + '</b>' + (e.utm_medium ? '<small>' + esc(e.utm_medium) + '</small>' : '') + '</li>'; }).join('') + '</ol>' +
+            '<p class="visit__meta">' + esc([f.language, f.timezone, f.screen_w ? 'skärm ' + f.screen_w + '×' + f.screen_h : '', f.viewport_w ? 'fönster ' + f.viewport_w + '×' + f.viewport_h : '', f.utm_source ? 'utm: ' + [f.utm_source, f.utm_medium, f.utm_campaign].filter(Boolean).join(' / ') : ''].filter(Boolean).join(' · ')) + '</p></details>';
+        }).join('') + (sessions.length > 300 ? '<p class="muted">Visar de 300 senaste besöken.</p>' : '') + '</div></section>');
     });
   }
 

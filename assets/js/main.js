@@ -106,6 +106,7 @@
         status.hidden = false;
         status.textContent = text;
         status.classList.toggle('form-status--error', !ok);
+        if (ok && window.elevateTrack) window.elevateTrack('form', form.dataset.subject || 'formulär');
       };
       button.disabled = true;
       show('Skickar …', true);

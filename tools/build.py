@@ -318,7 +318,7 @@ def auto_description(main):
 def document(p, title, main, body_class, crumbs=None, current=None, extra_css=(), extra_js=(), description=None, jsonld=(), og_type="website", robots="index, follow", lang="sv"):
     css = ["site.min.css", *extra_css]
     links = "\n  ".join(f'<link rel="stylesheet" href="{p}assets/css/{c}?v={VERSION}">' for c in css)
-    scripts = "\n  ".join(f'<script src="{p}assets/js/{j}?v={VERSION}" defer></script>' for j in ("main.js", *extra_js))
+    scripts = "\n  ".join(f'<script src="{p}assets/js/{j}?v={VERSION}" defer></script>' for j in ("main.js", "track.js", *extra_js))
     scripts += f'\n  <script src="{p}assets/js/chat.js?v={VERSION}" data-prefix="{p}" data-endpoint="{FORM_ENDPOINT}" defer></script>'
     desc = esc(description or auto_description(main))
     # Keep titles within what Google shows; long titles drop the brand suffix

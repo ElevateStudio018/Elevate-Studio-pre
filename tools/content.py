@@ -681,14 +681,14 @@ SIMPLE_PAGES = {
         "description": "Så hanterar Elevate Studio personuppgifter från kontaktformulär och nyhetsbrev.",
         "sections": [
             ("cols", [("När du kontaktar oss", "Personuppgiftsansvarig är PJM Projekteffektivitet AB (org.nr 556969-4358), som Elevate Studio är ett varumärke för. Det du skriver i våra formulär – namn, e-post, telefon, företag och meddelande – skickas till info@elevatestudio.nu och sparas i vårt kundregister. Mejl från oss, som bekräftelser och nyhetsbrev, skickas från info@elevatestudio.nu via e-posttjänsten Brevo. Anmäler du dig till nyhetsbrevet sparas din e-post i Brevo tills du avslutar prenumerationen, vilket du kan göra med en länk i varje utskick. Vi använder uppgifterna bara för att svara dig och skicka det du har bett om, och sparar dem inte längre än vi behöver."),
-                      ("Ingen spårning", "Webbplatsen sätter inga cookies och använder inga analys- eller annonsverktyg. Vi följer inte vad du gör här."),
+                      ("Anonym besöksstatistik", "Webbplatsen sätter inga cookies. Vi för anonym statistik över vilka sidor som besöks, hur länge och varifrån besökaren kom, för att kunna förbättra sidan. Ingen IP-adress sparas och statistiken går inte att koppla till en person. Vi använder inga annonsverktyg."),
                       ("Dina rättigheter", "Du har rätt att få veta vilka uppgifter vi har om dig, och att få dem rättade eller raderade. Mejla info@elevatestudio.nu så hjälper vi dig. Du kan också vända dig till Integritetsskyddsmyndigheten (IMY).")]),
             ("links", [("Om cookies", "cookies.html"), ("Kontakta oss", "kontakt.html")]),
         ],
     },
     "cookies": {
         "title": "Om cookies", "seo_title": "Om cookies på elevatestudio.nu", "lead": "Vi använder inga cookies.",
-        "description": "Elevate Studios webbplats sätter inga cookies och använder inga analys- eller annonsverktyg.",
+        "description": "Elevate Studios webbplats sätter inga cookies. Besöksstatistiken är anonym och sparar ingen IP-adress.",
         "sections": [
             ("cols", [("Inga cookies", "Webbplatsen sätter inga cookies, varken egna eller från andra. Därför finns det heller ingen cookieruta att godkänna."),
                       ("Ingen statistik eller annonsering", "Vi använder inga analysverktyg som Google Analytics och inga annonsspårare."),

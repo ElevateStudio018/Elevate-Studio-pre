@@ -79,7 +79,7 @@
       .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, b: b }; }); })
       .then(function (x) {
         st.busy = false;
-        if (x.ok) return renderDone(x.b);
+        if (x.ok) { if (window.elevateTrack) window.elevateTrack(st.data.public ? 'booking' : 'booking_link', x.b.type || ''); return renderDone(x.b); }
         if (x.b.error === 'taken' || x.b.error === 'slot') { st.at = 0; return load('Oj, den tiden blev precis upptagen. Välj en annan.'); }
         if (x.b.error === 'link') return fail('link');
         if (x.b.error === 'who') { document.getElementById('msg').textContent = 'Fyll i namn och en riktig e-postadress så vi kan skicka bekräftelsen.'; btn.disabled = false; btn.textContent = 'Boka tiden'; return; }
