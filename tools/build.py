@@ -1107,14 +1107,14 @@ def build_test_page():
         <p class="page-hero__lead">Skriv in din adress så testar vi sidan i en riktig webbläsare på cirka 30 sekunder. Du får betyg för prestanda, tillgänglighet, bästa praxis och SEO – och konkreta förslag på hur allt kan åtgärdas.</p>
         <form class="sitetest__form" id="sitetest-form" data-api-key="{esc(PSI_API_KEY)}" data-form-endpoint="{FORM_ENDPOINT}" data-prefix="{p}" novalidate>
           <label class="sitetest__field"><span class="sr-only">Webbadress</span>
-            <input type="text" name="url" inputmode="url" autocomplete="url" placeholder="dittforetag.se" required>
+            <input type="text" name="url" inputmode="url" autocomplete="url" placeholder="https://dittforetag.se" required>
           </label>
           <fieldset class="sitetest__device">
             <legend class="sr-only">Enhet</legend>
             <label><input type="radio" name="strategy" value="mobile" checked><span>Mobil</span></label>
             <label><input type="radio" name="strategy" value="desktop"><span>Dator</span></label>
           </fieldset>
-          <button type="submit" class="btn btn--primary"><span>Starta djuptest</span></button>
+          <button type="submit" class="btn btn--primary"><span>Starta test</span></button>
         </form>
       </div>
     </section>

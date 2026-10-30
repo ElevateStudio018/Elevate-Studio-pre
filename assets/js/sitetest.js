@@ -198,6 +198,16 @@
       '<span class="score__value">' + pct + '</span><span class="score__label">' + label + '</span></div>';
   }
 
+  // One sentence on top of the rings: the average and what it means
+  function verdict(cats, secScan) {
+    var s = CATEGORIES.filter(function (c) { return cats[c.id]; }).map(function (c) { return Math.round((cats[c.id].score || 0) * 100); });
+    if (secScan && typeof secScan.score === 'number') s.push(Math.max(0, Math.min(100, secScan.score)));
+    if (!s.length) return '';
+    var avg = Math.round(s.reduce(function (a, b) { return a + b; }, 0) / s.length);
+    var text = avg >= 90 ? 'Riktigt bra. Bara finputs kvar.' : avg >= 75 ? 'Bra grund, några saker att fixa.' : avg >= 50 ? 'Det finns tydliga vinster att hämta.' : 'Sidan tappar besökare. Här finns mycket att vinna.';
+    return '<div class="sitetest__verdict"><b class="sitetest__avg sitetest__avg--' + (avg >= 90 ? 'good' : avg >= 50 ? 'ok' : 'bad') + '">' + avg + '</b><div><strong>' + text + '</strong><span>Snittbetyg av ' + s.length + ' tester</span></div></div>';
+  }
+
   function render(data, sec, url, strategy, psiProblem) {
     var lr = data && data.lighthouseResult;
     var audits = lr ? lr.audits : {};
@@ -251,7 +261,7 @@
         (i.value ? '<span class="issue__value">' + esc(i.value) + '</span>' : '') + '</div>' +
         '<h3>' + esc(i.title) + '</h3>' +
         (i.what ? '<p class="issue__what">' + esc(i.what) + '</p>' : '') +
-        '<p class="issue__fix"><b>Så fixar vi det:</b> ' + esc(i.fix) + ' <a href="' + prefix + 'tjanster/' + i.service + '.html">' + SERVICE_NAMES[i.service] + ' →</a></p></li>';
+        '<p class="issue__fix"><b>Så fixar vi det:</b> ' + esc(i.fix) + '</p><a class="issue__go" href="' + prefix + 'tjanster/' + i.service + '.html">Vi fixar det →</a></li>';
     }).join('') : '<li class="issue issue--good"><h3>Inga större problem hittades</h3><p>Sajten klarar testerna bra. Vi hjälper gärna till med nästa steg, till exempel konvertering och innehåll.</p></li>';
 
     var shot = audits['final-screenshot'] && audits['final-screenshot'].details && audits['final-screenshot'].details.data;
@@ -268,7 +278,7 @@
       '<div class="sitetest__summary' + (shot ? '' : ' sitetest__summary--noshot') + '">' +
         (shot ? '<img class="sitetest__shot" src="' + shot + '" alt="Skärmbild av den testade sidan">' : '') +
         '<div><p class="sitetest__tested">Testad sida' + (lr ? ' (' + (strategy === 'mobile' ? 'mobil' : 'dator') + ')' : '') + '</p>' +
-        '<p class="sitetest__url">' + esc(url) + '</p><div class="scores">' + rings.join('') + '</div></div>' +
+        '<p class="sitetest__url">' + esc(url) + '</p>' + verdict(cats, secScan) + '<div class="scores">' + rings.join('') + '</div></div>' +
       '</div>' +
       (metrics ? '<h2 class="sitetest__h2">Laddtider</h2><div class="metrics">' + metrics + '</div>' : '') +
       '<h2 class="sitetest__h2">Det här kan förbättras <span>(' + issues.length + ')</span></h2>' +
