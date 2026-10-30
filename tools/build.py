@@ -315,6 +315,11 @@ def auto_description(main):
     return text
 
 
+HERO_PRELOAD = ('\n  <link rel="preload" as="image" href="assets/img/home/hero-800.webp" fetchpriority="high" imagesizes="100vw" '
+                'imagesrcset="assets/img/home/hero-800.webp 800w, assets/img/home/hero-1200.webp 1200w, assets/img/home/hero-1400.webp 1400w, '
+                'assets/img/home/hero-1600.webp 1600w, assets/img/home/hero-1920.webp 1920w, assets/img/home/hero.webp 2400w">')
+
+
 def document(p, title, main, body_class, crumbs=None, current=None, extra_css=(), extra_js=(), description=None, jsonld=(), og_type="website", robots="index, follow", lang="sv"):
     css = ["site.min.css", *extra_css]
     links = "\n  ".join(f'<link rel="stylesheet" href="{p}assets/css/{c}?v={VERSION}">' for c in css)
@@ -364,7 +369,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
   <link rel="icon" href="{p}assets/img/brand/favicon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="{p}assets/img/brand/apple-touch-icon.png">
   <link rel="preload" href="{p}assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="{p}assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{p}assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>{HERO_PRELOAD if body_class == "home" else ""}
   {links}
   <script type="application/ld+json">{ld}</script>
 </head>
