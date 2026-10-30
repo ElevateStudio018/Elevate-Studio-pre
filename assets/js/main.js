@@ -223,20 +223,23 @@
 
 /* Start page: the booking calendar as in the mail, five days with every time; a free time books on /boka */
 (function () {
-  var box = document.getElementById('book-home-cols');
+  // Start page: one bar per day, as tall as the number of free meeting times that day (fetched after load)
+  var box = document.getElementById('book-bars');
   if (!box) return;
-  var cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
-  fetch(document.getElementById('book-home-times').dataset.info).then(function (r) { return r.json(); }).then(function (d) {
-    var days = (d.days || []).slice(0, 5);
-    if (!days.length) { box.innerHTML = '<p class="book-home__empty">Inga tider just nu – <a href="kontakt">hör av dig</a> så hittar vi en.</p>'; return; }
-    box.innerHTML = days.map(function (day) {
-      return '<div class="book-home__col' + (day.free ? '' : ' is-full') + '"><h3>' + cap(day.wd) + '<b>' + day.d + ' ' + day.mon.toLowerCase() + '</b><em>' + (day.free ? day.free + ' lediga' : 'fullt') + '</em></h3><div class="book-home__stack">' +
-        day.slots.map(function (s) {
-          var time = new Date(s.t).toLocaleTimeString('sv-SE', { timeZone: 'Europe/Stockholm', hour: '2-digit', minute: '2-digit' });
-          return s.free ? '<a class="book-home__slot" href="boka?v=' + s.t + '">' + time + '</a>' : '<span class="book-home__slot is-busy" aria-label="' + time + ' är upptaget">' + time + '</span>';
-        }).join('') + '</div></div>';
-    }).join('');
-  }).catch(function () { box.innerHTML = '<p class="book-home__empty"><a href="boka">Se lediga tider</a></p>'; });
+  var run = function () {
+    fetch(box.dataset.info).then(function (r) { return r.json(); }).then(function (d) {
+      var days = (d.days || []).slice(0, 5); if (!days.length) return;
+      var max = Math.max.apply(null, days.map(function (x) { return x.free || 0; }).concat([1]));
+      var top = days.reduce(function (m, x) { return (x.free || 0) > (m.free || 0) ? x : m; }, days[0]);
+      box.innerHTML = days.map(function (x) {
+        var label = x.wd + ' ' + x.d + ' ' + x.mon.toLowerCase() + ': ' + (x.free ? x.free + ' lediga tider' : 'fullt');
+        return '<span class="book-bars__bar' + (x === top && x.free ? ' is-top' : '') + '" style="--h:' + Math.max(12, Math.round((x.free || 0) / max * 100)) + '%" title="' + label + '"><i class="sr-only">' + label + '</i></span>';
+      }).join('');
+      var note = document.getElementById('book-bars-note');
+      if (note && top.free) note.textContent = 'Flest lediga tider ' + top.wd.toLowerCase() + ' ' + top.d + ' ' + top.mon.toLowerCase() + '.';
+    }).catch(function () { /* the bars stay as they are */ });
+  };
+  if (document.readyState === 'complete') setTimeout(run, 300); else addEventListener('load', function () { setTimeout(run, 300); });
 })();
 
 /* Contact form opened from Testa din sajt: the whole test result goes into the message */

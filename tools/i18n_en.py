@@ -21,6 +21,7 @@ EN = {
     "Upptagen i vår kalender. Alla tider är svensk tid.": "Taken in our calendar. All times are Swedish time.",
     "och Markmontage BEAB AB är kunder hos oss. Övriga namn är påhittade exempel.": "and Markmontage BEAB AB are clients of ours. The other names are fictional examples.",
     "Boka ett kort möte": "Book a short meeting",
+    "Lediga tider de närmaste dagarna.": "Free times over the next few days.",
     "Se lediga tider": "See available times",
     "Boka ett kort möte.": "Book a short meeting.",
     "30 minuter via Google Meet, kostnadsfritt.": "30 minutes on Google Meet, free of charge.",
