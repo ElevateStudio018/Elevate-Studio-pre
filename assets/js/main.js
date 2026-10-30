@@ -75,7 +75,7 @@
   // Shrink header on scroll
   function onScroll() { header.classList.toggle('site-header--scrolled', window.scrollY > 10); }
   window.addEventListener('scroll', onScroll, { passive: true });
-  requestAnimationFrame(onScroll);
+  // no first call: the page opens at the top, and a restored scroll position fires a scroll event anyway
 
   // Forms. With the mail function live (data-mail), leads and newsletter sign-ups go there and
   // every mail is sent from info@elevatestudio.nu. Otherwise FormSubmit notifies info@ and the
