@@ -174,7 +174,7 @@
     prev.addEventListener('click', function () { track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }); });
     next.addEventListener('click', function () { track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }); });
     track.addEventListener('scroll', sync, { passive: true });
-    sync();
+    prev.disabled = true; if (counter) counter.textContent = 1; // start state without reading the layout
   });
 
   // Reviews animate: the card rises in on scroll, and each review slides in when you step to it

@@ -56,7 +56,7 @@ export default {
 // Pages state their character set in the header too, browsers remember to use https, and the admin
 // stays out of search results (the _headers rules may not reach responses that pass through this script)
 const CSP = [
-  "default-src 'self'", "script-src 'self' https://cdn.jsdelivr.net https://static.cloudflareinsights.com", "style-src 'self' 'unsafe-inline'", "img-src 'self' data: https:", "font-src 'self' data:",
+  "default-src 'self'", "script-src 'self' 'sha256-qy/ECUrMDX3jcwkwvV75XmX3ns2/21LgIaxrHyjO+pY=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com", "style-src 'self' 'unsafe-inline'", "img-src 'self' data: https:", "font-src 'self' data:",
   "media-src 'self'", "connect-src 'self' https://halecxdjclrklyufbept.supabase.co https://formsubmit.co https://www.googleapis.com https://observatory-api.mdn.mozilla.net https://cdn.jsdelivr.net https://cloudflareinsights.com",
   "frame-src https:", "frame-ancestors 'none'", "base-uri 'self'", "form-action 'self' https://formsubmit.co", "object-src 'none'", "upgrade-insecure-requests",
 ].join('; ');

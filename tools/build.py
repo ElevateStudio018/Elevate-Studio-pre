@@ -557,12 +557,12 @@ _SIZES = [  # how wide the picture is shown, by file name, so the browser can pi
     ("device-phone", "(max-width: 768px) 22vw, 160px"),
     ("site-", "(max-width: 768px) 80vw, (max-width: 1100px) 40vw, 360px"),
     ("alvhemstad-phone", "(max-width: 768px) 22vw, 160px"),
-    ("alvhemstad-desktop", "(max-width: 768px) 80vw, (max-width: 1334px) 60vw, 810px"),
+    ("alvhemstad-desktop", "(max-width: 768px) 50vw, (max-width: 1334px) 60vw, 810px"),
     ("alvhem-old", "(max-width: 768px) 80vw, (max-width: 1334px) 60vw, 810px"),
-    ("device-desktop", "(max-width: 768px) 70vw, 640px"),
+    ("device-desktop", "(max-width: 768px) 48vw, 640px"),
     ("about-1", "(max-width: 768px) calc(100vw - 30px), 60vw"),
     ("about-3", "(max-width: 768px) calc(100vw - 30px), 30vw"),
-    ("svc-", "(max-width: 768px) calc(100vw - 30px), (max-width: 1334px) 32vw, 420px"),
+    ("svc-", "(max-width: 768px) 62vw, (max-width: 1334px) 32vw, 420px"),
     ("process-", "(max-width: 992px) calc(100vw - 30px), 45vw"),
     ("case-", "(max-width: 768px) 80vw, (max-width: 1334px) 30vw, 400px"),
 ]
@@ -1619,6 +1619,33 @@ def minify_js(built):
             s = f.read_text(encoding="utf-8"); s2 = pat.sub(r"\1\2.min.js\3", s)
             if s2 != s:
                 f.write_text(s2, encoding="utf-8")
+    inline_critical(built)
+
+
+def inline_critical(built):
+    """The shared CSS and the small language script go straight into each page, so nothing blocks the first
+    paint. The script's hash is written into the Content-Security-Policy in worker/index.js."""
+    import base64, hashlib
+    css = (ROOT / "assets/css/site.min.css").read_text(encoding="utf-8")
+    i18n = (ROOT / "assets/js/i18n.min.js").read_text(encoding="utf-8").strip()
+    assert "</script" not in i18n and "</style" not in css
+    sha = "sha256-" + base64.b64encode(hashlib.sha256(i18n.encode()).digest()).decode()
+    link = re.compile(r'<link rel="stylesheet" href="((?:\.\./)*)assets/css/site\.min\.css\?v=[^"]*">')
+    tag = re.compile(r'<script src="(?:\.\./)*assets/js/i18n\.min\.js\?v=[^"]*"([^>]*)></script>')
+    for path in set(built):
+        f = ROOT / path
+        if f.suffix != ".html" or not f.exists() or path.startswith("admin"):
+            continue
+        s = f.read_text(encoding="utf-8")
+        s2 = link.sub(lambda m: "<style>" + css.replace("url(../", "url(" + m.group(1) + "assets/") + "</style>", s)
+        s2 = tag.sub(lambda m: "<script" + m.group(1) + ">" + i18n + "</script>", s2)
+        if s2 != s:
+            f.write_text(s2, encoding="utf-8")
+    w = ROOT / "worker/index.js"
+    src = w.read_text(encoding="utf-8")
+    src2 = re.sub(r"\"script-src 'self'( 'sha256-[^']*')?", lambda m: f"\"script-src 'self' '{sha}'", src, count=1)
+    if src2 != src:
+        w.write_text(src2, encoding="utf-8")
 
 
 if __name__ == "__main__":
