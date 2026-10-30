@@ -368,9 +368,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
   <link rel="icon" href="{p}assets/img/brand/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="icon" href="{p}assets/img/brand/favicon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="{p}assets/img/brand/apple-touch-icon.png">
-{HERO_PRELOAD if body_class == "home" else ""}  <link rel="preload" href="{p}assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="{p}assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-  {links}
+{HERO_PRELOAD if body_class == "home" else ""}{"" if body_class == "home" else '  <link rel="preload" href="{p}assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>\n'}{"" if body_class == "home" else '  <link rel="preload" href="{p}assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>\n'}  {links}
   <script type="application/ld+json">{ld}</script>
 </head>
 <body class="{body_class}">

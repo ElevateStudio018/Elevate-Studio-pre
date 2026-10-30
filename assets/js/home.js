@@ -36,9 +36,9 @@
   });
 
   // Process: on desktop the five steps become a timeline that follows the scroll – the section
-  // stays in place, the next step lights up and its picture and text fade in. Mobile keeps the list.
+  // stays in place, the next step lights up and its picture and text fade in. Same on mobile, scaled down.
   var flow = document.querySelector('.process .flow');
-  if (flow && window.matchMedia('(min-width: 993px)').matches) {
+  if (flow) {
     var steps = Array.prototype.slice.call(flow.querySelectorAll('.flow__step'));
     var wrap = document.createElement('div');
     wrap.className = 'pscroll';
