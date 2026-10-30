@@ -73,6 +73,11 @@ function withHeaders(res, url) {
   out.headers.set('x-frame-options', 'DENY');
   out.headers.set('referrer-policy', 'strict-origin-when-cross-origin');
   out.headers.set('permissions-policy', 'camera=(), microphone=(), geolocation=()');
-  if (type.startsWith('text/html')) out.headers.set('content-security-policy', CSP);
+  if (type.startsWith('text/html')) {
+    out.headers.set('content-security-policy', CSP);
+    // no-transform: Cloudflare leaves the page as it is (no injected analytics script that slows the first view)
+    const cc = out.headers.get('cache-control') || 'public, max-age=0, must-revalidate';
+    if (!/no-transform/.test(cc)) out.headers.set('cache-control', cc + ', no-transform');
+  }
   return out;
 }

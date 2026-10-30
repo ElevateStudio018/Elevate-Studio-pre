@@ -1625,6 +1625,23 @@ def minify_js(built):
     inline_critical(built)
 
 
+def purge_css(css, pages):
+    """Each page's own subset of the shared CSS (tools/purge_css.js with PurgeCSS). Falls back to the whole file."""
+    import json as _json, shutil, subprocess
+    mods = [pathlib.Path("/tmp/claude-0/-home-user/6c69fc61-5f7f-5a28-8aab-e07dcbeef98c/scratchpad/wr/node_modules/purgecss"), ROOT / "node_modules/purgecss"]
+    mod = next((str(m) for m in mods if m.exists()), None)
+    if not mod or not shutil.which("node"):
+        return {}
+    js = [str(f) for f in sorted((ROOT / "assets/js").glob("*.js")) if not f.name.endswith(".min.js") and not f.name.startswith(("admin", "i18n-en"))]
+    r = subprocess.run(["node", str(ROOT / "tools/purge_css.js")], input=_json.dumps({"css": css, "pages": [str(ROOT / p) for p in pages], "js": js}),
+                       capture_output=True, text=True, env={**__import__("os").environ, "PURGECSS": mod})
+    if r.returncode:
+        print("purge_css failed, using the whole CSS:", r.stderr[:300])
+        return {}
+    got = _json.loads(r.stdout)
+    return {p: got[str(ROOT / p)] for p in pages if str(ROOT / p) in got}
+
+
 def inline_critical(built):
     """The shared CSS and the small language script go straight into each page, so nothing blocks the first
     paint. The script's hash is written into the Content-Security-Policy in worker/index.js."""
@@ -1635,12 +1652,13 @@ def inline_critical(built):
     sha = "sha256-" + base64.b64encode(hashlib.sha256(i18n.encode()).digest()).decode()
     link = re.compile(r'<link rel="stylesheet" href="((?:\.\./)*)assets/css/site\.min\.css\?v=[^"]*">')
     tag = re.compile(r'<script src="(?:\.\./)*assets/js/i18n\.min\.js\?v=[^"]*"([^>]*)></script>')
-    for path in set(built):
+    pages = sorted(p for p in set(built) if p.endswith(".html") and (ROOT / p).exists() and not p.startswith("admin"))
+    per_page = purge_css(css, pages)
+    for path in pages:
         f = ROOT / path
-        if f.suffix != ".html" or not f.exists() or path.startswith("admin"):
-            continue
         s = f.read_text(encoding="utf-8")
-        s2 = link.sub(lambda m: "<style>" + css.replace("url(../", "url(" + m.group(1) + "assets/") + "</style>", s)
+        page_css = per_page.get(path, css)
+        s2 = link.sub(lambda m: "<style>" + page_css.replace("url(../", "url(" + m.group(1) + "assets/") + "</style>", s)
         s2 = tag.sub(lambda m: "<script" + m.group(1) + ">" + i18n + "</script>", s2)
         if s2 != s:
             f.write_text(s2, encoding="utf-8")
