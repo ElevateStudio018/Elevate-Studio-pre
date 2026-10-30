@@ -315,7 +315,7 @@ def auto_description(main):
     return text
 
 
-HERO_PRELOAD = ('  <link rel="preload" as="image" href="assets/img/home/hero-800.webp" fetchpriority="high" imagesizes="100vw" '
+HERO_PRELOAD = ('  <link rel="preload" as="image" media="(min-width: 641px)" href="assets/img/home/hero-800.webp" fetchpriority="high" imagesizes="100vw" '
                 'imagesrcset="assets/img/home/hero-800.webp 800w, assets/img/home/hero-1200.webp 1200w, assets/img/home/hero-1400.webp 1400w, '
                 'assets/img/home/hero-1600.webp 1600w, assets/img/home/hero-1920.webp 1920w, assets/img/home/hero.webp 2400w">\n')
 
