@@ -1446,7 +1446,14 @@ def iso_date(text):
 def i18n_files():
     """assets/js/i18n-en.js: the English texts for the language switch (from tools/i18n_en.py)."""
     from i18n_en import EN, PATTERNS
-    data = json.dumps({"t": EN, "p": PATTERNS}, ensure_ascii=False, separators=(",", ":"))
+    # The news cards show a cut first paragraph; cut the translation the same way
+    cut = lambda s: s if len(s) <= 120 else s[:117].rsplit(" ", 1)[0] + "…"
+    derived = {}
+    for a in ARTICLES:
+        first = re.sub(r"<[^>]+>", "", next((v for k, v in a["body"] if k == "p"), ""))
+        if first in EN and len(first) > 120:
+            derived[cut(first)] = cut(EN[first])
+    data = json.dumps({"t": {**derived, **EN}, "p": PATTERNS}, ensure_ascii=False, separators=(",", ":"))
     (ROOT / "assets/js/i18n-en.js").write_text(f"window.ELEVATE_EN = {data};\n", encoding="utf-8")
 
 
