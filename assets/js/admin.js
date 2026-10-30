@@ -52,7 +52,9 @@
     note = (note || '').trim(); if (note) lines.push(note);
     return lines.length ? lines.join('\n') : null;
   };
-  var myTag = function () { var p = profile(st.user && st.user.email); return p[3] ? p[1].split(' ')[0] : ''; };
+  // Carl, Isak and Oscar see their own leads and the ones nobody has taken yet; the Elevate account sees everyone's
+  var myTag = function () { var p = profile(st.user && st.user.email); return p[0] ? p[1].split(' ')[0] : ''; };
+  var canSee = function (l) { var m = myTag(); return !m || !ownerOf(l) || ownerOf(l) === m; };
   var me = function () { return profile(st.user && st.user.email)[1]; };
   var senderKey = function (who) { return (TEAM.find(function (t) { return t[1] === who || t[0] === who; }) || [''])[0].toLowerCase(); };
   var st = { user: null, leads: [], view: (location.hash.slice(1).match(/^[a-z]+$/) || ['todo'])[0], stage: 'all', q: '', sort: 'next', shown: 40, period: 90, arch: 'archived' };
@@ -171,7 +173,7 @@
     $('#main').innerHTML = '<p class="empty">Hämtar leads …</p>';
     return sb.from('quote_requests').select('*').order('created_at', { ascending: false }).limit(2000).then(function (r) {
       if (r.error) { $('#main').innerHTML = '<p class="empty">Kunde inte hämta leads: ' + esc(r.error.message) + '</p>'; return; }
-      st.leads = (r.data || []).filter(function (l) { return !myTag() || ownerOf(l) === myTag(); });
+      st.leads = (r.data || []).filter(canSee);
       render();
       syncBookings();
     });
@@ -210,11 +212,16 @@
       return (i ? '<i' + (i <= cur ? ' class="on"' : '') + '></i>' : '') + '<button type="button" class="step' + (i < cur ? ' done' : i === cur ? ' cur' : '') + '" data-step="' + i + '" title="' + (i === cur ? 'Här är leaden nu' : 'Flytta till ' + s) + '"><span>' + (i < cur ? '&#10003;' : i + 1) + '</span><small>' + s + '</small></button>';
     }).join('') + '</div>';
   }
+  // The first thing Carl, Isak or Oscar does with an unassigned lead makes it theirs
+  function claim(l) {
+    var m = myTag(); if (!m || ownerOf(l)) return Promise.resolve(l);
+    return update(l.id, { admin_notes: withOwner(m, noteOf(l), metaOf(l)) }).then(function (x) { toast('Leaden är nu din'); return x || l; });
+  }
   function moveTo(l, i) {
     if (i === 4) return openSold(l);
     var status = i === 2 && l.booking_at && Date.parse(l.booking_at) > Date.now() ? 'meeting_booked' : STEP_STATUS[i];
     if (status === (l.status || 'new')) return openLead(l);
-    update(l.id, { status: status }).then(function () { render(); toast('Flyttad till ' + STEPS[i]); }).catch(function (err) { toast(err.message); });
+    claim(l).then(function () { return update(l.id, { status: status }); }).then(function () { render(); toast('Flyttad till ' + STEPS[i]); }).catch(function (err) { toast(err.message); });
   }
   // What comes next in each status, what the button does, and how many days it may wait
   var NEXT = { new: ['Ring upp', 'call', 1], contacted: ['Boka ett möte', 'propose', 2], meeting_to_book: ['Väntar på att kunden väljer tid', 'remind', 3], meeting_rebook: ['Boka om mötet', 'propose', 0],
@@ -250,8 +257,8 @@
       : '<b>' + esc(s[1]) + '</b><small>' + day(l.created_at) + '</small>';
     var acts = opts.actions != null ? opts.actions : (n ? primary(l, n) : '');
     return '<article class="row" data-id="' + l.id + '" style="--c:' + s[2] + '">' +
-      '<span class="av"' + (o ? ' style="--c:' + OWNER_COLOR[o] + '"' : ' data-none') + ' title="' + esc(o || 'Ingen ansvarig') + '">' + (o ? o.charAt(0) : 'E') + '</span>' +
-      '<div class="row__who"><b>' + esc(l.name) + '</b><span>' + esc(l.company || l.service_type || MEETING[l.meeting_type] || 'Förfrågan') + '</span></div>' +
+      '<span class="av"' + (o ? ' style="--c:' + OWNER_COLOR[o] + '"' : ' data-none') + ' title="' + esc(o || 'Ingen ansvarig') + '">' + (o ? o.charAt(0) : '?') + '</span>' +
+      '<div class="row__who"><b>' + esc(l.name) + (o && o === myTag() ? ' <em class="mine">Min</em>' : o ? ' <em class="whose" style="--c:' + OWNER_COLOR[o] + '">' + esc(o) + 's</em>' : ' <em class="free">Ej tilldelad</em>') + '</b><span>' + esc(l.company || l.service_type || MEETING[l.meeting_type] || 'Förfrågan') + '</span></div>' +
       (isOpen(l) ? steps(l) : '<span class="stg"><i></i>' + esc(STAGE[s[0]] || s[1]) + '</span>') +
       '<div class="row__next">' + right + '</div>' +
       '<div class="row__acts">' + acts + '<button class="iconbtn iconbtn--sm" data-act="open" aria-label="Öppna">&#8250;</button></div></article>';
@@ -283,6 +290,7 @@
   }
   // Ring from the list: a new lead becomes "kontaktad", with a reminder to call again in two days
   function markContacted(l) {
+    claim(l);
     if ((l.status || 'new') !== 'new') return;
     var fu = new Date(Date.now() + 2 * 864e5); fu.setHours(9, 0, 0, 0);
     update(l.id, { status: 'contacted', followup_at: fu.toISOString() }).then(function () { render(); toast('Markerad som kontaktad. Dyker upp igen ' + fu.toLocaleDateString('sv-SE', { weekday: 'long' }) + '.'); }).catch(function () {});
@@ -730,7 +738,7 @@
     ], function (v) {
       var meta = { web: v.web, github: v.github }, who = me().split(' ')[0]; delete v.web; delete v.github;
       // The one who adds the lead is its owner (Elevate Studio's own login sets none)
-      return sb.from('quote_requests').insert(Object.assign(v, { meeting_type: 'manual', admin_notes: withOwner(/^(Carl|Isak|Oscar)$/.test(who) ? who : '', '', meta) })).select().then(function (r) {
+      return sb.from('quote_requests').insert(Object.assign(v, { meeting_type: 'manual', admin_notes: withOwner(/^(Carl|Isak|Oscar)$/.test(who) ? who : myTag(), '', meta) })).select().then(function (r) {
         if (r.error) throw r.error;
         if (r.data && r.data[0]) st.leads.unshift(r.data[0]);
         toast('Leaden är tillagd');

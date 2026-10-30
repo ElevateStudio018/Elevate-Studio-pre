@@ -375,3 +375,8 @@ button.f:hover { border-color: var(--g); }
   .row .steps { grid-column: 2 / -1; }
   .calm__ev::before { display: none; }
 }
+/* Whose lead: Min (yours), the colleague's name, or not taken yet */
+.row__who em { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-style: normal; font-weight: 700; letter-spacing: .02em; vertical-align: 2px; }
+.row__who .mine { background: var(--g); color: #fff; }
+.row__who .whose { background: color-mix(in srgb, var(--c) 14%, #fff); color: var(--c); }
+.row__who .free { background: #f3e9c9; color: #7a5b0f; }
