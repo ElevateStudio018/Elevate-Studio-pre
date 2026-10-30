@@ -41,15 +41,25 @@
 - [Vad kostar en hemsida – och vad betalar du egentligen för?](https://elevatestudio.nu/insikter/vad-kostar-en-hemsida)
 - [Fem saker som får besökare att höra av sig](https://elevatestudio.nu/insikter/fa-besokare-att-hora-av-sig)
 - [Så syns ditt företag när kunder frågar AI](https://elevatestudio.nu/insikter/synas-nar-kunder-fragar-ai)
-- [Fem saker att fixa på hemsidan i januari](https://elevatestudio.nu/insikter/fem-saker-att-fixa-pa-hemsidan-2026)
-- [Google-företagsprofil: det viktigaste ni kan göra gratis](https://elevatestudio.nu/insikter/google-foretagsprofil-for-sma-foretag)
-- [Vad är AI-optimering, och varför pratar alla om det?](https://elevatestudio.nu/insikter/vad-ar-ai-optimering)
-- [Bokningssystem för hantverkare: slipp telefonen i bilen](https://elevatestudio.nu/insikter/bokningssystem-for-hantverkare)
-- [Mobilen först: så ser kunderna faktiskt er hemsida](https://elevatestudio.nu/insikter/mobilen-forst-sa-ser-kunderna-er-hemsida)
-- [Sommarkoll på hemsidan innan semestern](https://elevatestudio.nu/insikter/sommarkoll-pa-hemsidan)
-- [Texter som kunder faktiskt läser](https://elevatestudio.nu/insikter/skriv-texter-som-kunder-faktiskt-laser)
-- [Offertflöde: få in rätt förfrågningar, inte bara fler](https://elevatestudio.nu/insikter/offertflode-ratt-forfragningar)
+- [Före och efter: Alvhem Städs nya hemsida](https://elevatestudio.nu/insikter/fore-och-efter-alvhem-stad)
+- [Vad händer med hemsidan efter lansering?](https://elevatestudio.nu/insikter/vad-hander-efter-lansering)
 - [Snabb hemsida slår snygg hemsida](https://elevatestudio.nu/insikter/darfor-ar-en-snabb-hemsida-viktigare-an-en-snygg)
+- [Hemsida för byggfirma: rätt sorts jobb](https://elevatestudio.nu/insikter/hemsida-for-byggfirma)
+- [Offertflöde: få in rätt förfrågningar, inte bara fler](https://elevatestudio.nu/insikter/offertflode-ratt-forfragningar)
+- [Hemsida för städfirma: det som ska finnas](https://elevatestudio.nu/insikter/hemsida-for-stadfirma)
+- [Texter som kunder faktiskt läser](https://elevatestudio.nu/insikter/skriv-texter-som-kunder-faktiskt-laser)
+- [Vad ska stå på kontaktsidan?](https://elevatestudio.nu/insikter/vad-ska-sta-pa-kontaktsidan)
+- [Sommarkoll på hemsidan innan semestern](https://elevatestudio.nu/insikter/sommarkoll-pa-hemsidan)
+- [Så får ni fler recensioner på Google](https://elevatestudio.nu/insikter/fa-fler-recensioner-pa-google)
+- [Mobilen först: så ser kunderna faktiskt er hemsida](https://elevatestudio.nu/insikter/mobilen-forst-sa-ser-kunderna-er-hemsida)
+- [Egna bilder slår bildbanker, varje gång](https://elevatestudio.nu/insikter/egna-bilder-slar-bildbanker)
+- [Bokningssystem för hantverkare: slipp telefonen i bilen](https://elevatestudio.nu/insikter/bokningssystem-for-hantverkare)
+- [AI-chatt på hemsidan: vad den kan, och vad den inte ska göra](https://elevatestudio.nu/insikter/ai-chatt-pa-hemsidan-vad-den-kan)
+- [Vad är AI-optimering, och varför pratar alla om det?](https://elevatestudio.nu/insikter/vad-ar-ai-optimering)
+- [Därför ska hemsidan ha en sida med vanliga frågor](https://elevatestudio.nu/insikter/darfor-ska-hemsidan-ha-vanliga-fragor)
+- [Google-företagsprofil: det viktigaste ni kan göra gratis](https://elevatestudio.nu/insikter/google-foretagsprofil-for-sma-foretag)
+- [Äg din domän och din e-post själv](https://elevatestudio.nu/insikter/aga-din-doman-och-e-post)
+- [Fem saker att fixa på hemsidan i januari](https://elevatestudio.nu/insikter/fem-saker-att-fixa-pa-hemsidan-2026)
 
 # Tjänster i detalj
 
@@ -259,6 +269,245 @@ I vanlig sökning handlar det om att hamna högt i en lista. I ett AI-svar finns
 - Håll kontaktuppgifter, öppettider och tjänster uppdaterade, både på sajten och i Googles företagsprofil.
 Det mesta som gör dig synlig för AI gör dig också bättre på Google. Därför ingår både sökmotoroptimering (SEO) och AI-optimering i alla hemsidor vi bygger.
 
+## Före och efter: Alvhem Städs nya hemsida (6 oktober 2026)
+Alvhem Städ i Älvängen hade en hemsida som fanns, men som inte gjorde något. Vi byggde en ny från grunden. Här är vad som ändrades och varför.
+### Det som var problemet
+Tjänsterna låg samlade på en sida, priserna saknades och enda sättet att komma i kontakt var ett formulär längst ner. Den som sökte på ”flyttstädning Älvängen” hittade ingen sida om just det.
+### Det vi gjorde
+- Film i toppen som visar jobbet.
+- En egen sida för varje städtjänst, med pris.
+- En priskalkyl som räknar av RUT-avdraget direkt.
+- Bokning av uppstartsmöte från varje sida.
+- Allt anpassat för mobilen först.
+### Se det själv
+På <a href="projekt/alvhem-stad">projektsidan</a> kan ni dra i ett reglage och jämföra den gamla sidan med den nya. Fler sajter vi byggt finns under <a href="byggda-hemsidor">Hemsidor vi byggt</a>.
+
+## Vad händer med hemsidan efter lansering? (29 september 2026)
+Många hemsidor är som bäst dagen de lanseras och sedan händer ingenting på tre år. Priserna är gamla, personalen har bytts ut och den senaste nyheten är från lanseringen. Så här håller ni sidan levande utan att det tar tid.
+### En gång i månaden, tio minuter
+- Lägg upp ett nytt jobb med en bild.
+- Kolla att priser och öppettider stämmer.
+- Läs recensionerna på Google och svara.
+### En gång om året
+- Byt ut bilder som börjat kännas gamla.
+- Testa hastigheten och att allt fungerar i mobilen.
+- Läs igenom texterna: stämmer det fortfarande med vad ni gör?
+### Det ni inte ska behöva tänka på
+Säkerhetsuppdateringar, certifikat, säkerhetskopior och att servern är uppe. Det ska någon annan sköta. En sida byggd utan tunga tillägg har dessutom väldigt lite som kan gå sönder.
+### Så funkar det hos oss
+Drift och en låg årsavgift ingår, och ändringar gör vi åt er. Läs mer om <a href="tjanster/support-och-underhall">support och underhåll</a> och vad som ingår i <a href="priser">priserna</a>.
+
+## Snabb hemsida slår snygg hemsida (15 september 2026)
+En hemsida som laddar långsamt tappar besökare innan de sett en enda bild, hur vacker den än är. Hastighet är dessutom en av de saker Google väger in när resultaten rankas. Här är vad som brukar göra sidor långsamma, och vad som går att göra.
+### De vanligaste bovarna
+- Bilder rakt från mobilkameran, flera megabyte styck, som visas i frimärksstorlek.
+- Tillägg och skript som laddas på varje sida men bara används på en.
+- Typsnitt och bibliotek som hämtas från flera olika ställen.
+- Ett webbhotell som delas med hundratals andra sajter.
+### Vad som går att göra
+Bilder ska skalas ner till den storlek de visas i och sparas i ett modernt format. Skript som inte behövs ska bort. Sidan ska ligga på en server nära besökarna. Mycket av det här går att fixa på en befintlig sida, resten kräver att sidan byggs om.
+### Mät innan ni gissar
+Kör sidan genom <a href="testa">Testa din sajt</a>. Ni får ett betyg för prestanda och en lista på vad som drar ner det. Betyget för mobilen är det som räknas.
+### Så bygger vi
+De hemsidor vi bygger är statiska sidor utan tunga tillägg, med bilder i rätt storlek och snabb leverans över hela världen. Det är en av anledningarna till att vi kan hålla <a href="priser">fasta priser</a>: det finns inget som går sönder och behöver lappas.
+
+## Hemsida för byggfirma: rätt sorts jobb (25 augusti 2026)
+En byggfirma lever på förtroende och på att få rätt förfrågningar: tillräckligt stora jobb, i rätt område, från kunder som är redo att börja. Hemsidan ska sortera fram dem.
+### Visa jobben, inte verktygen
+Ett galleri med färdiga projekt, gärna filtrerat på kök, badrum, totalrenovering och utomhus, är det som säljer. Före och efter från samma vinkel. Ort och ungefärlig tid för varje projekt.
+### Berätta hur det går till
+- Kontakt: kunden berättar om projektet.
+- Kostnadsfritt hembesök: ni tittar på plats.
+- Fast offert innan arbetet börjar.
+- Genomgång när jobbet är klart.
+### Offert på varje sida
+Knappen ”Få gratis offert” ska finnas i toppen, i varje tjänstesektion och längst ner. Den som bestämt sig ska aldrig behöva leta.
+### Ett riktigt exempel
+<a href="byggda-hemsidor">Haninge Byggteam AB</a> i Stockholm fick en hemsida byggd runt just det: offertknapp i varje del av sidan, ett projektgalleri med filter, ”Så arbetar vi” i fyra steg och deras 5,0 i Google-betyg redan i toppen.
+
+## Offertflöde: få in rätt förfrågningar, inte bara fler (11 augusti 2026)
+Fler förfrågningar låter bra tills hälften av dem gäller jobb ni inte gör, i områden ni inte åker till. Ett bra offertformulär sorterar innan ni lyfter luren, och ger er det underlag ni behöver för att svara snabbt.
+### Fråga om det som avgör
+- Vilken tjänst det gäller, som ett val i en lista, inte fritext.
+- Var jobbet ska göras, så ni direkt ser om det är inom ert område.
+- När kunden vill ha det gjort.
+- Gärna en bild. Ett foto på badrummet säger mer än tre stycken text.
+### Men inte mer än så
+Varje extra fält gör att färre skickar. Namn, telefon, tjänst, ort och ett fritextfält räcker nästan alltid. Resten tar ni i samtalet.
+### Svara innan konkurrenten
+Den som frågar tre firmor väljer ofta den som svarar först. Ett automatiskt svar direkt, ”Tack, vi ringer dig i dag eller i morgon”, köper er tid. Sedan ska förfrågan ligga någonstans där ni ser den: inte bara i en inkorg som fylls på med annat.
+Vårt <a href="tjanster/offertsystem">offertsystem</a> ger er en lista med alla förfrågningar, status på varje, och en offert som PDF när ni är redo att skicka den.
+
+## Hemsida för städfirma: det som ska finnas (28 juli 2026)
+Den som letar städfirma vill veta tre saker: vad det kostar, om RUT-avdraget dras direkt och hur man kommer igång. En hemsida för en städfirma ska svara på det innan besökaren hunnit scrolla.
+### En sida per tjänst
+Hemstädning, storstädning, flyttstädning och kontorsstädning är fyra olika sökningar. Varje tjänst behöver en egen sida med pris, vad som ingår och en knapp för att boka. Då hittar Google rätt sida för rätt sökning.
+### Priset, med RUT
+Skriv timpriset efter RUT-avdrag, och vad det blir för en vanlig lägenhet. En kalkyl där kunden fyller i kvadratmeter och ser priset direkt tar bort det vanligaste skälet att inte höra av sig.
+### Förtroende
+- Samma städare varje gång, om ni erbjuder det.
+- Försäkring och nöjd kund-garanti, i klartext.
+- Recensioner från Google, och riktiga bilder på teamet.
+### Ett riktigt exempel
+Så byggde vi hemsidan för <a href="projekt/alvhem-stad">Alvhem Städ</a> i Älvängen: film i toppen, en sida per städtjänst med pris, en kalkyl som räknar av RUT direkt och bokning av uppstartsmöte från varje sida.
+
+## Texter som kunder faktiskt läser (14 juli 2026)
+Den vanligaste texten på svenska företags hemsidor börjar med ”Vi är ett företag med lång erfarenhet och hög kvalitet”. Ingen kund har någonsin valt en firma på grund av den meningen. Så här skriver ni i stället.
+### Börja med kundens fråga
+Besökaren har ett problem: ett badrum som ska renoveras, ett kontor som ska städas. Börja där. ”Ska ni renovera badrummet? Vi gör allt från rivning till kakel, i Uppsala med omnejd, till fast pris.” Nu vet kunden att hen är på rätt sida.
+### Korta meningar, konkreta ord
+- Skriv ”vi kommer inom två dagar” i stället för ”snabb service”.
+- Skriv ”fast pris innan vi börjar” i stället för ”konkurrenskraftiga priser”.
+- Skriv ”Anna svarar i telefon” i stället för ”personlig service”.
+- En tanke per mening. Stryk varje ord som inte behövs.
+### Rubriker som går att skumma
+De flesta läser inte, de skummar. Rubrikerna ska därför berätta hela historien själva: Vad vi gör, Var vi jobbar, Vad det kostar, Så kommer ni igång. Den som bara läser rubrikerna ska ändå förstå vad ni erbjuder.
+### Avsluta med nästa steg
+Varje sida ska sluta med en sak att göra: ring, boka, skicka en förfrågan. En knapp, inte tre. Vi skriver texterna till de hemsidor vi bygger tillsammans med kunden, utifrån hur de själva pratar om jobbet. Läs mer om <a href="tjanster/hemsidor">hur vi bygger hemsidor</a>.
+
+## Vad ska stå på kontaktsidan? (23 juni 2026)
+Kontaktsidan är ofta den näst mest besökta sidan efter startsidan, och den som flest lämnar utan att göra något. Oftast för att den gör det svårt. Så här gör ni den enkel.
+### Tre sätt att höra av sig, synliga direkt
+- Telefonnummer som går att trycka på, med namnet på den som svarar.
+- E-postadress på er egen domän.
+- Ett kort formulär: namn, telefon, vad det gäller. Inget mer.
+### Säg när ni svarar
+”Vi svarar samma dag på vardagar” tar bort osäkerheten. Har ni telefontid, skriv ut den. Har ni inte det, skriv ”ring när som helst, vi ringer tillbaka om vi inte kan svara”.
+### Visa var ni finns
+Ort och område ni jobbar i, gärna en karta om kunder besöker er. Och ett foto på den som svarar. Folk ringer hellre Anna än ”kundtjänst”.
+### Ta bort det som stör
+Inga obligatoriska fält för organisationsnummer, inga captcha-pussel, inga tio val i en lista. Varje hinder kostar förfrågningar. Titta på vår egen <a href="kontakt">kontaktsida</a>: ring, mejla eller skriv, tre knappar och ett formulär.
+
+## Sommarkoll på hemsidan innan semestern (9 juni 2026)
+Under semestern jobbar hemsidan åt er när ni inte gör det. Men bara om den säger rätt saker. Här är det som brukar behöva ändras innan ni stänger.
+### Skriv ut när ni är tillbaka
+En rad högst upp på startsidan räcker: ”Vi har semester 13 juli till 3 augusti och svarar på alla förfrågningar när vi är tillbaka.” Den som skickar en förfrågan vet då varför det dröjer, och väljer inte bort er.
+### Låt formuläret svara åt er
+Ett automatiskt svar på förfrågningar, med samma information och ett nummer för akuta ärenden om ni har ett, gör att kunden känner sig sedd. Har ni en <a href="tjanster/ai-chatt">AI-chatt</a> svarar den på vanliga frågor även när ni ligger i hängmattan.
+### Passa på att samla in jobb för hösten
+- Lägg till en rad om att ni tar emot bokningar för augusti och september.
+- Lyft de tjänster som säljer bäst på hösten.
+- Lägg upp bilder på vårens jobb medan de är färska.
+### Efter semestern
+Ta bort semesterraden första dagen tillbaka. En hemsida som i september fortfarande säger att ni har semester ser ut som att ingen bryr sig om den.
+
+## Så får ni fler recensioner på Google (26 maj 2026)
+Recensioner avgör ofta vem som får samtalet när kunden jämför tre firmor på kartan. De flesta nöjda kunder skriver ändå ingen, inte för att de inte vill, utan för att ingen bad dem. Så här ber ni.
+### Be direkt efter jobbet
+Samma dag eller dagen efter, när kunden fortfarande är glad över resultatet. Ett kort mejl eller sms: ”Tack för förtroendet! Skulle du vilja skriva några rader om hur det gick? Det betyder mycket för oss.” Och en länk som går rakt till rutan där man skriver, inte till er profil i allmänhet.
+### Gör det lätt
+- En länk, ett klick. Ingen inloggning utöver det Google-konto de redan har.
+- Föreslå vad de kan skriva om: vad som gjordes, hur kontakten var, om det blev som de tänkt.
+- Be inte alla samma vecka. Google tycker bättre om en jämn ström än en klump.
+### Svara på varje recension
+Ett ”Tack Anna, kul att altanen blev som ni ville!” visar nästa kund att ni bryr er. Får ni en dålig recension, svara lugnt och sakligt och erbjud att lösa det. Den som läser bedömer svaret mer än klagomålet.
+I det <a href="tjanster/offertsystem">offertsystem</a> vi bygger finns ett färdigt recensionsmejl som skickas med ett klick när jobbet är klart.
+
+## Mobilen först: så ser kunderna faktiskt er hemsida (12 maj 2026)
+De flesta som besöker ett lokalt företags hemsida gör det från mobilen, ofta på väg någonstans. Ändå designas många sidor på en stor skärm och krymps sedan ner. Resultatet är små knappar, text som inte går att läsa och menyer som inte går att öppna.
+### Så testar ni på två minuter
+- Öppna hemsidan i mobilen utan att zooma. Går texten att läsa?
+- Går det att trycka på telefonnumret och på knappen för att skicka en förfrågan med tummen?
+- Syns vad ni gör och var ni finns innan man scrollar?
+- Laddar sidan på mobilnät, inte bara på wifi?
+### Vad mobilen först betyder när vi bygger
+Vi ritar mobilversionen först och låter datorversionen växa ur den. Det tvingar fram prioriteringar: det viktigaste högst upp, en sak per skärm, stora tryckytor. Datorversionen blir sedan en luftigare variant av samma sida, inte en annan sida.
+### Google mäter mobilversionen
+Google bedömer er sida utifrån hur den fungerar i mobilen, inte på datorn. En sida som är långsam eller svårläst i mobilen hamnar längre ner i resultaten, hur bra den än ser ut på en stor skärm.
+På <a href="projekt/">projektsidan</a> kan ni se samma hemsida på dator och mobil, sida vid sida.
+
+## Egna bilder slår bildbanker, varje gång (28 april 2026)
+Den leende kvinnan med headset finns på tusen hemsidor. Besökaren känner igen henne och slutar lita på sidan. Ett suddigt foto på er riktiga bil utanför ett riktigt jobb säger mer än alla bildbanker i världen.
+### Bilder som fungerar
+- Ni själva, på jobbet, i arbetskläder.
+- Före och efter på riktiga jobb, tagna från samma vinkel.
+- Verkstaden, lagret, bilarna, verktygen.
+- Kunder som godkänt att vara med, gärna med ett citat.
+### Så tar ni dem med mobilen
+Dagsljus, inte blixt. Håll telefonen stilla och ta tre bilder av varje motiv. Torka av linsen. Ta liggande bilder till datorn och stående till mobilen. Det räcker långt. En fotograf en halvdag om året är en bra investering för resten.
+### Storleken spelar roll
+Bilder rakt från mobilen är för stora för webben och gör sidan långsam. Vi skalar ner och sparar alla bilder i rätt storlek när vi bygger, så att de laddar snabbt även på mobilnät. Se våra <a href="byggda-hemsidor">byggda hemsidor</a> för exempel på sajter med kundernas egna bilder.
+
+## Bokningssystem för hantverkare: slipp telefonen i bilen (14 april 2026)
+De flesta hantverkare får sina förfrågningar i telefon, mitt i ett jobb. Samtal missas, lappar försvinner och kunden ringer nästa firma. Ett bokningssystem på hemsidan låter kunden välja tid själv, dygnet runt, och ni ser allt samlat.
+### Vad som ska gå att boka
+- Ett kostnadsfritt hembesök eller platsbesök, i tider ni själva bestämmer.
+- Ett kort telefonmöte för att gå igenom ett projekt.
+- För vissa branscher själva jobbet: fönsterputs, städning, service.
+### Det som gör att det funkar i praktiken
+- Kalendern visar bara tider ni faktiskt är lediga, kopplad till den kalender ni redan använder.
+- Kunden får en bekräftelse direkt, med tid och adress, och en påminnelse dagen innan.
+- Ni får ett mejl eller sms per bokning, med namn, telefonnummer och vad det gäller.
+- Det går att boka från varje sida, inte bara kontaktsidan.
+### Vad det innebär för kunden
+Den som sitter med ett läckande tak klockan nio på kvällen vill inte vänta till morgonen. Kan hen boka ett besök direkt är chansen stor att ni får jobbet, oavsett vem som har bäst pris.
+Vi bygger <a href="tjanster/bokningssystem">bokningssystem</a> som en del av hemsidan, till fast pris. Det kopplas till er kalender och fungerar i mobilen.
+
+## AI-chatt på hemsidan: vad den kan, och vad den inte ska göra (24 mars 2026)
+En chatt på hemsidan som svarar direkt låter bra, men en dåligt gjord chatt skrämmer bort fler än den hjälper. Här är vad en bra AI-chatt gör, och var gränsen går.
+### Det här ska den klara
+- Svara på frågor om era tjänster, områden, priser och tider, utifrån det som står på hemsidan.
+- Ställa en följdfråga när det behövs: vilken typ av jobb, var, när.
+- Lämna över: ta namn och telefonnummer och skicka till er, eller öppna bokningen.
+- Säga att den inte vet, och hänvisa till telefon, i stället för att gissa.
+### Det här ska den inte göra
+- Lova priser eller tider som inte står någonstans.
+- Låtsas vara en människa.
+- Tjata. Ett litet ”Frågor?” i hörnet räcker, inga popups.
+### Så bygger vi den
+Vår <a href="tjanster/ai-chatt">AI-chatt</a> tränas på er hemsida och det ni berättar om jobbet. Den svarar på svenska, lämnar över till er när intresset är tillräckligt stort, och ni ser varje samtal i efterhand.
+
+## Vad är AI-optimering, och varför pratar alla om det? (10 mars 2026)
+Allt fler frågar en AI-assistent i stället för att googla: ”Vilken elektriker i Uppsala kan komma den här veckan?” Svaret bygger på det som finns att läsa om företagen på nätet. AI-optimering, ibland kallat AIO, handlar om att göra ert företag lätt att förstå och återge för de här tjänsterna.
+### Vad AI-tjänsterna faktiskt läser
+- Text på hemsidan, i klartext. Inte text i bilder.
+- Strukturerad data: en osynlig beskrivning av företaget som anger namn, ort, tjänster och telefonnummer på ett sätt maskiner förstår.
+- Er Google-profil och recensionerna där.
+- Vanliga frågor med raka svar.
+### Så skriver ni för både människor och AI
+Skriv som ni skulle svara i telefon. ”Vi bygger altaner i Uppsala och Knivsta, de flesta jobb tar en till två veckor, och vi ger alltid fast pris.” Den meningen kan en AI återge ordagrant. ”Vi levererar kundanpassade lösningar med hög kvalitet” kan den inte göra något av.
+### Det är samma jobb som vanlig SEO
+Tydliga tjänstesidor, orten utskriven, snabb sida och en komplett Google-profil. Det som gör att Google hittar er gör att AI-tjänsterna gör det också. Skillnaden är att AI:n gärna vill ha fullständiga meningar och svar på frågor, inte bara nyckelord.
+Grundläggande SEO och AI-optimering ingår i alla hemsidor vi bygger. Läs mer om <a href="tjanster/seo-och-ai-optimering">hur vi gör</a>.
+
+## Därför ska hemsidan ha en sida med vanliga frågor (23 februari 2026)
+De frågor ni får i telefon varje vecka är samma frågor folk skriver in på Google och ställer till AI-assistenter. Svarar hemsidan på dem sparar ni samtal, och ni syns där frågorna ställs.
+### Vilka frågor
+- Vad kostar det? Ge ett spann eller ett exempel, inte ”kontakta oss för offert”.
+- Var jobbar ni? Skriv ut orterna.
+- Hur lång tid tar det? Hur snabbt kan ni komma?
+- Vad behöver kunden göra själv innan ni kommer?
+- Har ni F-skatt, försäkring, garanti?
+### Så skriver ni svaren
+Kort fråga som rubrik, ett till tre meningar som svar. Skriv det ni faktiskt säger i telefon. Undvik att svara ”det beror på” utan att säga vad det beror på.
+### Det syns på Google
+Frågor och svar kan märkas upp så att Google visar dem direkt i sökresultatet, och AI-tjänster plockar gärna svar som är skrivna så här. Det ingår i den <a href="tjanster/seo-och-ai-optimering">SEO och AI-optimering</a> vi gör på alla sidor vi bygger.
+
+## Google-företagsprofil: det viktigaste ni kan göra gratis (9 februari 2026)
+När någon söker på en tjänst och en ort visar Google först kartan med tre företag. Att hamna där kostar inget, men kräver att er företagsprofil är komplett och levande. Så här gör ni.
+### Fyll i allt
+- Rätt kategori först, till exempel Byggfirma eller Städfirma, och gärna fler kategorier för det ni också gör.
+- Område ni jobbar i, öppettider och telefonnummer som stämmer med hemsidan.
+- Länk till hemsidan, helst till startsidan.
+- Egna bilder: verkstaden, bilarna, teamet, färdiga jobb.
+### Recensioner väger tyngst
+Antalet recensioner och hur nya de är påverkar placeringen mer än något annat ni kan styra själva. Be varje nöjd kund om en recension, direkt efter avslutat jobb, med en länk som går rakt till rutan där de skriver. Svara på alla recensioner, även de korta.
+### Håll profilen levande
+Lägg upp ett inlägg då och då: ett nytt jobb, en ny tjänst, ett tips. Det behöver inte vara långt. Google ser att profilen sköts, och kunder ser att ni finns.
+### Hemsidan och profilen ska säga samma sak
+Samma företagsnamn, samma adress, samma telefonnummer. Och hemsidan ska ha tydliga sidor för de tjänster ni angett i profilen. Det är så Google kopplar ihop dem. Läs mer om hur vi jobbar med <a href="tjanster/seo-och-ai-optimering">SEO och AI-optimering</a>.
+
+## Äg din domän och din e-post själv (26 januari 2026)
+Domänen är företagets adress på nätet. Står den på byrån som byggde sidan, eller på en anställd som slutat, kan ni en dag stå utan både hemsida och e-post. Så här ser ni till att den är er.
+### Kolla vem som står som ägare
+Logga in hos den där domänen köptes, ofta Loopia, One.com eller Binero. Står företaget som ägare med en e-postadress ni läser? Om ni inte vet var den är köpt, fråga den som byggde sidan. Svaret ska komma snabbt och utan förbehåll.
+### E-posten ska följa domänen
+- Använd adresser på er egen domän, som info@ertforetag.se, inte en gratisadress.
+- Ha minst två personer som kan logga in på domänen och e-posten.
+- Skriv ner var domänen är registrerad och när den förnyas.
+### Så gör vi
+I vårt <a href="avtal">avtal</a> står det svart på vitt: beställaren äger sin domän. Vi hjälper till att köpa och koppla den, men den registreras alltid på er.
+
 ## Fem saker att fixa på hemsidan i januari (12 januari 2026)
 Januari är den lugnaste månaden för många företag, och den bästa att lägga en timme på hemsidan. Här är fem saker som nästan alltid går att förbättra, i den ordning de brukar ge mest.
 ### 1. Kolla att telefonnumret går att trycka på
@@ -276,112 +525,3 @@ En långsam sida tappar besökare innan den ens har laddat. Stora bilder är den
 Nöjda kunder från hösten har inte glömt er än. Ett kort mejl med länk till er Google-profil räcker. Recensionerna syns både på Google och, om ni lägger in dem, på hemsidan.
 ### Vill ni ha hjälp?
 Vi går igenom hemsidan gratis och säger vad som är värt att ändra. Och behöver ni en ny: <a href="priser">våra priser</a> är fasta, från 3 000 kr.
-
-## Google-företagsprofil: det viktigaste ni kan göra gratis (9 februari 2026)
-När någon söker på en tjänst och en ort visar Google först kartan med tre företag. Att hamna där kostar inget, men kräver att er företagsprofil är komplett och levande. Så här gör ni.
-### Fyll i allt
-- Rätt kategori först, till exempel Byggfirma eller Städfirma, och gärna fler kategorier för det ni också gör.
-- Område ni jobbar i, öppettider och telefonnummer som stämmer med hemsidan.
-- Länk till hemsidan, helst till startsidan.
-- Egna bilder: verkstaden, bilarna, teamet, färdiga jobb.
-### Recensioner väger tyngst
-Antalet recensioner och hur nya de är påverkar placeringen mer än något annat ni kan styra själva. Be varje nöjd kund om en recension, direkt efter avslutat jobb, med en länk som går rakt till rutan där de skriver. Svara på alla recensioner, även de korta.
-### Håll profilen levande
-Lägg upp ett inlägg då och då: ett nytt jobb, en ny tjänst, ett tips. Det behöver inte vara långt. Google ser att profilen sköts, och kunder ser att ni finns.
-### Hemsidan och profilen ska säga samma sak
-Samma företagsnamn, samma adress, samma telefonnummer. Och hemsidan ska ha tydliga sidor för de tjänster ni angett i profilen. Det är så Google kopplar ihop dem. Läs mer om hur vi jobbar med <a href="tjanster/seo-och-ai-optimering">SEO och AI-optimering</a>.
-
-## Vad är AI-optimering, och varför pratar alla om det? (10 mars 2026)
-Allt fler frågar en AI-assistent i stället för att googla: ”Vilken elektriker i Uppsala kan komma den här veckan?” Svaret bygger på det som finns att läsa om företagen på nätet. AI-optimering, ibland kallat AIO, handlar om att göra ert företag lätt att förstå och återge för de här tjänsterna.
-### Vad AI-tjänsterna faktiskt läser
-- Text på hemsidan, i klartext. Inte text i bilder.
-- Strukturerad data: en osynlig beskrivning av företaget som anger namn, ort, tjänster och telefonnummer på ett sätt maskiner förstår.
-- Er Google-profil och recensionerna där.
-- Vanliga frågor med raka svar.
-### Så skriver ni för både människor och AI
-Skriv som ni skulle svara i telefon. ”Vi bygger altaner i Uppsala och Knivsta, de flesta jobb tar en till två veckor, och vi ger alltid fast pris.” Den meningen kan en AI återge ordagrant. ”Vi levererar kundanpassade lösningar med hög kvalitet” kan den inte göra något av.
-### Det är samma jobb som vanlig SEO
-Tydliga tjänstesidor, orten utskriven, snabb sida och en komplett Google-profil. Det som gör att Google hittar er gör att AI-tjänsterna gör det också. Skillnaden är att AI:n gärna vill ha fullständiga meningar och svar på frågor, inte bara nyckelord.
-Grundläggande SEO och AI-optimering ingår i alla hemsidor vi bygger. Läs mer om <a href="tjanster/seo-och-ai-optimering">hur vi gör</a>.
-
-## Bokningssystem för hantverkare: slipp telefonen i bilen (14 april 2026)
-De flesta hantverkare får sina förfrågningar i telefon, mitt i ett jobb. Samtal missas, lappar försvinner och kunden ringer nästa firma. Ett bokningssystem på hemsidan låter kunden välja tid själv, dygnet runt, och ni ser allt samlat.
-### Vad som ska gå att boka
-- Ett kostnadsfritt hembesök eller platsbesök, i tider ni själva bestämmer.
-- Ett kort telefonmöte för att gå igenom ett projekt.
-- För vissa branscher själva jobbet: fönsterputs, städning, service.
-### Det som gör att det funkar i praktiken
-- Kalendern visar bara tider ni faktiskt är lediga, kopplad till den kalender ni redan använder.
-- Kunden får en bekräftelse direkt, med tid och adress, och en påminnelse dagen innan.
-- Ni får ett mejl eller sms per bokning, med namn, telefonnummer och vad det gäller.
-- Det går att boka från varje sida, inte bara kontaktsidan.
-### Vad det innebär för kunden
-Den som sitter med ett läckande tak klockan nio på kvällen vill inte vänta till morgonen. Kan hen boka ett besök direkt är chansen stor att ni får jobbet, oavsett vem som har bäst pris.
-Vi bygger <a href="tjanster/bokningssystem">bokningssystem</a> som en del av hemsidan, till fast pris. Det kopplas till er kalender och fungerar i mobilen.
-
-## Mobilen först: så ser kunderna faktiskt er hemsida (12 maj 2026)
-De flesta som besöker ett lokalt företags hemsida gör det från mobilen, ofta på väg någonstans. Ändå designas många sidor på en stor skärm och krymps sedan ner. Resultatet är små knappar, text som inte går att läsa och menyer som inte går att öppna.
-### Så testar ni på två minuter
-- Öppna hemsidan i mobilen utan att zooma. Går texten att läsa?
-- Går det att trycka på telefonnumret och på knappen för att skicka en förfrågan med tummen?
-- Syns vad ni gör och var ni finns innan man scrollar?
-- Laddar sidan på mobilnät, inte bara på wifi?
-### Vad mobilen först betyder när vi bygger
-Vi ritar mobilversionen först och låter datorversionen växa ur den. Det tvingar fram prioriteringar: det viktigaste högst upp, en sak per skärm, stora tryckytor. Datorversionen blir sedan en luftigare variant av samma sida, inte en annan sida.
-### Google mäter mobilversionen
-Google bedömer er sida utifrån hur den fungerar i mobilen, inte på datorn. En sida som är långsam eller svårläst i mobilen hamnar längre ner i resultaten, hur bra den än ser ut på en stor skärm.
-På <a href="projekt/">projektsidan</a> kan ni se samma hemsida på dator och mobil, sida vid sida.
-
-## Sommarkoll på hemsidan innan semestern (9 juni 2026)
-Under semestern jobbar hemsidan åt er när ni inte gör det. Men bara om den säger rätt saker. Här är det som brukar behöva ändras innan ni stänger.
-### Skriv ut när ni är tillbaka
-En rad högst upp på startsidan räcker: ”Vi har semester 13 juli till 3 augusti och svarar på alla förfrågningar när vi är tillbaka.” Den som skickar en förfrågan vet då varför det dröjer, och väljer inte bort er.
-### Låt formuläret svara åt er
-Ett automatiskt svar på förfrågningar, med samma information och ett nummer för akuta ärenden om ni har ett, gör att kunden känner sig sedd. Har ni en <a href="tjanster/ai-chatt">AI-chatt</a> svarar den på vanliga frågor även när ni ligger i hängmattan.
-### Passa på att samla in jobb för hösten
-- Lägg till en rad om att ni tar emot bokningar för augusti och september.
-- Lyft de tjänster som säljer bäst på hösten.
-- Lägg upp bilder på vårens jobb medan de är färska.
-### Efter semestern
-Ta bort semesterraden första dagen tillbaka. En hemsida som i september fortfarande säger att ni har semester ser ut som att ingen bryr sig om den.
-
-## Texter som kunder faktiskt läser (14 juli 2026)
-Den vanligaste texten på svenska företags hemsidor börjar med ”Vi är ett företag med lång erfarenhet och hög kvalitet”. Ingen kund har någonsin valt en firma på grund av den meningen. Så här skriver ni i stället.
-### Börja med kundens fråga
-Besökaren har ett problem: ett badrum som ska renoveras, ett kontor som ska städas. Börja där. ”Ska ni renovera badrummet? Vi gör allt från rivning till kakel, i Uppsala med omnejd, till fast pris.” Nu vet kunden att hen är på rätt sida.
-### Korta meningar, konkreta ord
-- Skriv ”vi kommer inom två dagar” i stället för ”snabb service”.
-- Skriv ”fast pris innan vi börjar” i stället för ”konkurrenskraftiga priser”.
-- Skriv ”Anna svarar i telefon” i stället för ”personlig service”.
-- En tanke per mening. Stryk varje ord som inte behövs.
-### Rubriker som går att skumma
-De flesta läser inte, de skummar. Rubrikerna ska därför berätta hela historien själva: Vad vi gör, Var vi jobbar, Vad det kostar, Så kommer ni igång. Den som bara läser rubrikerna ska ändå förstå vad ni erbjuder.
-### Avsluta med nästa steg
-Varje sida ska sluta med en sak att göra: ring, boka, skicka en förfrågan. En knapp, inte tre. Vi skriver texterna till de hemsidor vi bygger tillsammans med kunden, utifrån hur de själva pratar om jobbet. Läs mer om <a href="tjanster/hemsidor">hur vi bygger hemsidor</a>.
-
-## Offertflöde: få in rätt förfrågningar, inte bara fler (11 augusti 2026)
-Fler förfrågningar låter bra tills hälften av dem gäller jobb ni inte gör, i områden ni inte åker till. Ett bra offertformulär sorterar innan ni lyfter luren, och ger er det underlag ni behöver för att svara snabbt.
-### Fråga om det som avgör
-- Vilken tjänst det gäller, som ett val i en lista, inte fritext.
-- Var jobbet ska göras, så ni direkt ser om det är inom ert område.
-- När kunden vill ha det gjort.
-- Gärna en bild. Ett foto på badrummet säger mer än tre stycken text.
-### Men inte mer än så
-Varje extra fält gör att färre skickar. Namn, telefon, tjänst, ort och ett fritextfält räcker nästan alltid. Resten tar ni i samtalet.
-### Svara innan konkurrenten
-Den som frågar tre firmor väljer ofta den som svarar först. Ett automatiskt svar direkt, ”Tack, vi ringer dig i dag eller i morgon”, köper er tid. Sedan ska förfrågan ligga någonstans där ni ser den: inte bara i en inkorg som fylls på med annat.
-Vårt <a href="tjanster/offertsystem">offertsystem</a> ger er en lista med alla förfrågningar, status på varje, och en offert som PDF när ni är redo att skicka den.
-
-## Snabb hemsida slår snygg hemsida (15 september 2026)
-En hemsida som laddar långsamt tappar besökare innan de sett en enda bild, hur vacker den än är. Hastighet är dessutom en av de saker Google väger in när resultaten rankas. Här är vad som brukar göra sidor långsamma, och vad som går att göra.
-### De vanligaste bovarna
-- Bilder rakt från mobilkameran, flera megabyte styck, som visas i frimärksstorlek.
-- Tillägg och skript som laddas på varje sida men bara används på en.
-- Typsnitt och bibliotek som hämtas från flera olika ställen.
-- Ett webbhotell som delas med hundratals andra sajter.
-### Vad som går att göra
-Bilder ska skalas ner till den storlek de visas i och sparas i ett modernt format. Skript som inte behövs ska bort. Sidan ska ligga på en server nära besökarna. Mycket av det här går att fixa på en befintlig sida, resten kräver att sidan byggs om.
-### Mät innan ni gissar
-Kör sidan genom <a href="testa">Testa din sajt</a>. Ni får ett betyg för prestanda och en lista på vad som drar ner det. Betyget för mobilen är det som räknas.
-### Så bygger vi
-De hemsidor vi bygger är statiska sidor utan tunga tillägg, med bilder i rätt storlek och snabb leverans över hela världen. Det är en av anledningarna till att vi kan hålla <a href="priser">fasta priser</a>: det finns inget som går sönder och behöver lappas.
