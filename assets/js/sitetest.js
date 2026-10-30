@@ -5,7 +5,7 @@
   var form = document.getElementById('sitetest-form');
   if (!form) return;
 
-  var API = '/api/psi';
+  var API = '/api/psi', GOOGLE = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
   var KEY = form.dataset.apiKey || '';
   var prefix = form.dataset.prefix || '';
   var input = form.querySelector('input[name="url"]');
@@ -323,7 +323,8 @@
     button.disabled = true;
     startProgress();
     var runPsi = function (retry) {
-      return fetch(API + '?' + params.toString())
+      // Our server first (it adds the Google API key when one is set); if Google says no, the visitor's own browser asks Google directly
+      return fetch(API + '?' + params.toString()).then(function (res) { return res.status === 429 ? fetch(GOOGLE + '?' + params.toString()) : res; })
         .then(function (res) { return res.json().then(function (body) { return { status: res.status, body: body }; }); })
         .then(function (r) {
           if (r.status === 429) {
