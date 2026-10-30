@@ -237,3 +237,14 @@
     }).join('');
   }).catch(function () { box.innerHTML = '<p class="book-home__empty"><a href="boka">Se lediga tider</a></p>'; });
 })();
+
+/* News on the start page: the pager scrolls the track one page at a time and follows the scroll */
+(function () {
+  var track = document.getElementById('news-track'), pager = document.getElementById('news-pager');
+  if (!track || !pager) return;
+  var dots = pager.querySelectorAll('.news__dot');
+  var perPage = function () { var card = track.querySelector('.news__card'); return card ? Math.max(1, Math.round(track.clientWidth / card.offsetWidth)) : 3; };
+  dots.forEach(function (d) { d.addEventListener('click', function () { var card = track.querySelector('.news__card'); track.scrollTo({ left: Number(d.dataset.page) * perPage() * (card.offsetWidth + 28), behavior: 'smooth' }); }); });
+  var sync = function () { var card = track.querySelector('.news__card'); if (!card) return; var page = Math.round(track.scrollLeft / (perPage() * (card.offsetWidth + 28))); dots.forEach(function (d, i) { d.classList.toggle('is-on', i === page); }); };
+  track.addEventListener('scroll', sync, { passive: true });
+})();

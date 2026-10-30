@@ -446,28 +446,25 @@ def service_card(p, s):
 
 
 def featured_posts(p, articles):
-    """Homepage insights: the newest article large, the next two stacked beside it."""
-    def terms(a):
-        return "".join(f"<span>{esc(x)}</span>" for x in a["terms"])
-    big, *rest = articles  # the newest large, every other one in a row you scroll sideways
-    side = "".join(f'''<article class="insights__small">
-            <img src="{p}assets/img/{a["image"]}" alt="{esc(a["title"])}" width="420" height="297" loading="lazy">
-            <div>
-              <p class="post-card__terms">{terms(a)}</p>
-              <h3 class="insights__small-title"><a class="cover-link" href="{p}insikter/{a["slug"]}.html">{esc(a["title"])}</a></h3>
-              <p class="post-card__time">{a["date"]}</p>
+    """Homepage news: three cards per page, swipe or use the pager for the rest."""
+    def excerpt(a):
+        first = next((v for k, v in a["body"] if k == "p"), "")
+        first = re.sub(r"<[^>]+>", "", first)
+        return first if len(first) <= 120 else first[:117].rsplit(" ", 1)[0] + "…"
+    cards = "".join(f'''<article class="news__card">
+            <img src="{p}assets/img/{a["image"]}" alt="{esc(a["title"])}" width="840" height="594" loading="lazy">
+            <div class="news__body">
+              <p class="news__meta"><span class="news__date">{iso_date(a["date"])}</span>{"".join(f'<span class="news__tag">{esc(x)}</span>' for x in a["terms"][:1])}</p>
+              <h3 class="news__title"><a class="cover-link" href="{p}insikter/{a["slug"]}.html">{esc(a["title"])}</a></h3>
+              <p class="news__excerpt">{esc(excerpt(a))}</p>
+              <span class="news__more">Läs mer <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </div>
-          </article>''' for a in rest)
-    return f'''<div class="insights__grid">
-          <article class="insights__big">
-            <img src="{p}assets/img/{big["image"]}" alt="{esc(big["title"])}" width="840" height="594" loading="lazy">
-            <div>
-              <p class="post-card__terms">{terms(big)}</p>
-              <h3 class="insights__big-title"><a class="cover-link" href="{p}insikter/{big["slug"]}.html">{esc(big["title"])}</a></h3>
-              <p class="post-card__time">{big["date"]}</p>
-            </div>
-          </article>
-          <div class="insights__rail"><div class="insights__side" id="insights-side">{side}</div></div>
+          </article>''' for a in articles)
+    pages = -(-len(articles) // 3)
+    dots = "".join(f'<button type="button" class="news__dot{" is-on" if i == 0 else ""}" data-page="{i}" aria-label="Sida {i + 1}"></button>' for i in range(pages))
+    return f'''<div class="news">
+          <div class="news__track" id="news-track">{cards}</div>
+          <div class="news__pager" id="news-pager">{dots}</div>
         </div>'''
 
 
