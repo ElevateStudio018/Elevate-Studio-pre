@@ -6,6 +6,8 @@ so add new strings when the Swedish copy changes (tools/i18n_check.js lists what
 """
 
 EN = {
+    "Hemsida för hantverkare – med offertformulär": "Website for tradespeople – with a quote form",
+    "Offertsystem och offertformulär för hemsidan": "Quote system and quote form for the website",
     "Tryck på en tid så är mötet bokat": "Tap a time and the meeting is booked",
     "Google Meet med Carl – länken kommer i bekräftelsen": "Google Meet with Carl – the link comes in the confirmation",
     "Se alla tider →": "See all times →",
