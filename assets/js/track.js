@@ -15,13 +15,13 @@
     try { if (navigator.sendBeacon) { navigator.sendBeacon('/api/track', new Blob([body], { type: 'application/json' })); return; } } catch (e) { /* fall through */ }
     try { fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true }); } catch (e) { /* nothing to do */ }
   }
-  // The first beacon waits for the page to finish loading, so reading the window size never forces a layout
-  var first = function () { base.vw = innerWidth; base.vh = innerHeight; send(); };
+  // The first beacon waits for the page to finish loading; the window size is read only when leaving
+  var first = function () { send(); };
   var later = function () { (window.requestIdleCallback || setTimeout)(first, { timeout: 3000 }); };
   if (document.readyState === 'complete') later(); else addEventListener('load', later);
   var ticking = false;
   addEventListener('scroll', function () { if (ticking) return; ticking = true; requestAnimationFrame(function () { ticking = false; var h = document.documentElement.scrollHeight - innerHeight; if (h > 0) maxScroll = Math.max(maxScroll, Math.min(100, Math.round((scrollY / h) * 100))); }); }, { passive: true });
-  function leave() { if (sent) return; sent = true; send({ ev: 'leave', secs: Math.round((Date.now() - started) / 1000), scroll: maxScroll }); }
+  function leave() { if (sent) return; sent = true; send({ vw: innerWidth, vh: innerHeight, ev: 'leave', secs: Math.round((Date.now() - started) / 1000), scroll: maxScroll }); }
   addEventListener('pagehide', leave);
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') leave(); });
   // What visitors do: forms sent, a time booked, the chat opened, a call or mail link tapped
