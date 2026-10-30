@@ -557,7 +557,7 @@ _LAZY_IMG = re.compile(r'<img\b[^>]*\sloading="lazy"[^>]*>')
 
 _IMG_TAG = re.compile(r'<img\b[^>]*>')
 _SIZES = [  # how wide the picture is shown, by file name, so the browser can pick the right copy
-    ("device-phone", "(max-width: 768px) 22vw, 160px"),
+    ("device-phone", "(max-width: 768px) 15vw, 160px"),
     ("site-", "(max-width: 768px) 80vw, (max-width: 1100px) 40vw, 360px"),
     ("alvhemstad-phone", "(max-width: 768px) 22vw, 160px"),
     ("alvhemstad-desktop", "(max-width: 768px) 50vw, (max-width: 1334px) 60vw, 810px"),
@@ -567,7 +567,7 @@ _SIZES = [  # how wide the picture is shown, by file name, so the browser can pi
     ("about-3", "(max-width: 768px) calc(100vw - 30px), 30vw"),
     ("svc-", "(max-width: 768px) 62vw, (max-width: 1334px) 32vw, 420px"),
     ("process-", "(max-width: 992px) calc(100vw - 30px), 45vw"),
-    ("case-", "(max-width: 768px) 80vw, (max-width: 1334px) 30vw, 400px"),
+    ("case-", "(max-width: 768px) 55vw, (max-width: 1334px) 30vw, 400px"),
 ]
 
 
