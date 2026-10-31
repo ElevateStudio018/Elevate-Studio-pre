@@ -38,7 +38,11 @@ function analysePage(html) {
   const hrefs = [...html.matchAll(/<a\b[^>]*\shref=["']([^"'#]+)["']/gi)].map((m) => m[1]);
   // a form that can be filled in: an e-mail or text field and a send button
   // the form must contain its own field and send button (buttons in the menu do not count)
-  const form = [...html.matchAll(/<form\b[\s\S]*?<\/form>/gi)].some((m) => /type=["']email["']|<textarea\b/i.test(m[0]) && /type=["']submit["']|<button\b/i.test(m[0]));
+  // a contact form has a message box or more than one field; the newsletter box in the footer has only an e-mail field
+  const form = [...html.matchAll(/<form\b[\s\S]*?<\/form>/gi)].some((m) => {
+    const fields = (m[0].match(/<(input|textarea|select)\b(?![^>]*type=["'](hidden|submit|button)["'])/gi) || []).length;
+    return (/<textarea\b/i.test(m[0]) || fields >= 2) && /type=["']submit["']|<button\b/i.test(m[0]);
+  });
   return { title, titleLen: title.length, desc, descLen: desc.length, h1, imgs: imgs.length, noAlt, hrefs, form };
 }
 
