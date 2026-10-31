@@ -2,7 +2,9 @@
 # Facts used: Starter 3 000 kr + 99-199 kr/year, Pro 6 000 kr + 299-399 kr/year, Elite by quote, all excl. VAT;
 # first draft after about a day; two proof-reading rounds; up to 10 support hours a month the first year
 # (Starter); based in Uppsala, meetings in person or online. Nothing else is promised.
-from landings_branscher import BRANSCHER
+from landings_branscher import BRANSCHER as _B1
+from landings_branscher2 import BRANSCHER2
+BRANSCHER = _B1 + BRANSCHER2
 
 PRICE = ("Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. "
          "Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.")
@@ -76,6 +78,45 @@ ORTER = [
          faq=[("Kan en webbyrå i Uppsala bygga hemsida åt ett företag i Göteborg?", "Ja. Hela arbetet går att göra på distans, från första mötet till lansering. Vi har byggt hemsidor åt kunder i andra delar av landet, och det fungerar utan problem."), ("Hur lokalt kan ni optimera för Göteborg?", "Vi bygger sidor som nämner både tjänst och ort, ger dem rätt rubriker och kopplar dem till er Google-företagsprofil. Det hjälper er att synas på sökningar som kommer från just Göteborg.")]),
 ]
 
+ORTER += [
+    dict(slug="webbyra-norrtalje", name="Norrtälje", km="ungefär 85 km", area="Norrtälje kommun", sub="Norrtälje, Rimbo och Hallstavik",
+         feel="Norrtälje med omnejd har ett företagsliv som sträcker sig från hantverkare och handel till besöksnäring i skärgården. Många av kunderna söker lokalt, och för säsongsbetonade verksamheter är en hemsida som är klar i tid extra viktig.",
+         faq=[("Kan ni bygga hemsida åt ett företag i Norrtälje?", "Ja. Vi bygger för hela landet och möter gärna på plats eller på distans."), ("Kan ni göra en säsongsanpassad hemsida?", "Ja. Hemsidan kan uppdateras med öppettider, erbjudanden och bilder inför varje säsong.")]),
+    dict(slug="webbyra-sodertalje", name="Södertälje", km="ungefär 110 km", area="Södertälje kommun", sub="Södertälje, Nykvarn och Salem",
+         feel="Södertälje har ett brett näringsliv med både industri, handel och småföretag. Många verkar i en region där konkurrensen är hård, och en snabb, tydlig hemsida är ett sätt att sticka ut.",
+         faq=[("Jobbar ni med företag i Södertälje?", "Ja, helt på distans eller med ett första möte på plats. Vi bygger hemsidor åt företag i hela landet."), ("Hur lång tid tar det att få en hemsida klar?", "Första utkastet är oftast klart på ungefär en dag. Hur lång tid hela sidan tar beror på hur snabbt vi får text och bilder.")]),
+    dict(slug="webbyra-tierp", name="Tierp", km="ungefär 50 km", area="Tierps kommun", sub="Tierp, Söderfors och Karlholmsbruk",
+         feel="Tierp ligger norr om Uppsala med ett företagsliv som präglas av hantverk, lantbruk, tjänster och mindre industri. Många företagare är ensamma eller har få anställda, och för dem är en hemsida som sköter sig själv värdefull.",
+         faq=[("Kan ni komma till Tierp?", "Ja. Tierp ligger inte långt från Uppsala, så vi kan ses på plats. Distansmöten fungerar också bra."), ("Vi är en enmansfirma. Är en hemsida lönsam?", "Ofta ja. De flesta kunder söker upp er på nätet innan de ringer, och en tydlig sida gör att ni inte tappar dem.")]),
+    dict(slug="webbyra-osthammar", name="Östhammar", km="ungefär 65 km", area="Östhammars kommun", sub="Östhammar, Öregrund och Gimo",
+         feel="Östhammars kommun har en lång kust, en levande besöksnäring och många hantverkare och småföretag. Här bor många deltidsboende och turister som söker lokalt, och en hemsida som visar öppettider, tjänster och hur man bokar gör skillnad under säsong.",
+         faq=[("Kan ni bygga hemsida åt ett företag i Östhammar?", "Ja. Vi arbetar med företag i hela landet och möter gärna på plats i Uppsalaregionen."), ("Är det viktigt med öppettider på hemsidan?", "Mycket. Besökare kollar ofta öppettider på mobilen innan de kommer. Vi ser till att de är tydliga och enkla att uppdatera.")]),
+    dict(slug="webbyra-heby", name="Heby", km="ungefär 40 km", area="Heby kommun", sub="Heby, Morgongåva och Östervåla",
+         feel="Heby kommun ligger nära Uppsala med företag inom lantbruk, hantverk, handel och tjänster. Många av dem når kunder i både Heby, Uppsala och Västerås, och en hemsida som syns på orten och i närliggande städer är en fördel.",
+         faq=[("Jobbar ni med företag i Heby?", "Ja. Heby ligger nära Uppsala, så vi kan ses på plats, hos er eller hos oss."), ("Kan ni bygga hemsida åt ett lantbruksföretag?", "Ja. Vi bygger hemsidor för företag i alla branscher, och anpassar innehållet efter er verksamhet.")]),
+    dict(slug="webbyra-alvkarleby", name="Älvkarleby", km="ungefär 55 km", area="Älvkarleby kommun", sub="Älvkarleby, Skutskär och Marma",
+         feel="Älvkarleby kommun ligger vid Dalälven, med både industri, hantverk, handel och besöksverksamhet. Många företag arbetar mot kunder i Gävle, Uppsala och närområdet, och en tydlig, snabb hemsida hjälper dem att nå rätt kunder.",
+         faq=[("Kan ni göra en hemsida åt ett företag i Älvkarleby?", "Ja, med möten på plats eller på distans. Vi bygger för företag i hela Sverige."), ("Vad kostar det?", "Starter kostar 3 000 kr i startavgift, Pro 6 000 kr. Alla priser anges exklusive moms.")]),
+    dict(slug="webbyra-sala", name="Sala", km="ungefär 50 km", area="Sala kommun", sub="Sala, Möklinta och Västerfärnebo",
+         feel="Sala är en stad med ett varierat företagsliv: hantverk, handel, tjänster och en stark besöksnäring kring silvergruvan. Företag här har ofta kunder både i Sala och i Västerås och Uppsala, och en hemsida som är lätt att hitta på alla orter är värdefull.",
+         faq=[("Jobbar ni med företag i Sala?", "Ja. Vi finns i Uppsala och möter gärna på plats i Sala eller på distans."), ("Kan ni hjälpa ett turistföretag?", "Ja. Vi bygger sidor med öppettider, bokning och information som passar besöksnäringen.")]),
+    dict(slug="webbyra-linkoping", name="Linköping", km="ungefär 28 mil", area="Linköpings kommun", sub="Linköping, Mjölby och Åtvidaberg",
+         feel="Linköping är en stor stad med universitet, teknik- och tjänsteföretag och många småföretag. Konkurrensen om kunder är stor, och en välbyggd, snabb hemsida är ett billigt sätt att höja nivån. Vi sitter i Uppsala och arbetar helt på distans med kunder i hela landet.",
+         faq=[("Kan en webbyrå i Uppsala jobba med företag i Linköping?", "Ja. Hela arbetet går att göra på distans, från första mötet till lansering."), ("Hur lokalt kan ni optimera?", "Vi bygger sidor som nämner både tjänst och ort, med rätt rubriker och en komplett Google-företagsprofil.")]),
+    dict(slug="webbyra-norrkoping", name="Norrköping", km="ungefär 25 mil", area="Norrköpings kommun", sub="Norrköping, Finspång och Söderköping",
+         feel="Norrköping har ett varierat näringsliv med industri, handel, kultur och tjänsteföretag. Många verksamheter söker kunder både lokalt och regionalt, och en hemsida som är snabb och tydlig gör att ni syns på rätt sökningar. Vi arbetar helt på distans med kunder i hela Sverige.",
+         faq=[("Är det svårt att jobba på distans?", "Nej. Vi har möte på video, ni granskar utkast online och ändringar tar vi via mejl eller samtal."), ("Kan vi träffas personligen?", "Ja, om det passar. De flesta kunder utanför Uppsala väljer distansmöten.")]),
+    dict(slug="webbyra-jonkoping", name="Jönköping", km="ungefär 37 mil", area="Jönköpings kommun", sub="Jönköping, Huskvarna och Nässjö",
+         feel="Jönköping är en handels- och logistikstad med många företag av alla storlekar. Läget vid Vättern och de goda kommunikationerna gör att kunder ofta kommer från ett stort område, och en hemsida som svarar på det de söker gör skillnad. Vi bygger för företag i hela landet.",
+         faq=[("Bygger ni hemsidor åt företag i Jönköping?", "Ja, på distans. Vi har byggt hemsidor åt kunder i flera delar av landet."), ("Kan ni göra sidor för flera orter?", "Ja. Vi kan bygga sidor som nämner flera orter, vilket hjälper er att synas där era kunder finns.")]),
+    dict(slug="webbyra-malmo", name="Malmö", km="ungefär 62 mil", area="Malmö stad", sub="Malmö, Lund och Staffanstorp",
+         feel="Malmö är en av landets största städer, med tusentals företag och en tuff konkurrens om uppmärksamheten. En snabb, välbyggd hemsida med tydligt innehåll är ett av de billigaste sätten att skilja sig från mängden. Vi sitter i Uppsala och arbetar helt på distans med kunder i hela landet.",
+         faq=[("Kan en webbyrå i Uppsala bygga hemsida åt ett företag i Malmö?", "Ja. Hela arbetet går att göra på distans, och avståndet påverkar inte priset."), ("Vad kostar det?", "Starter från 3 000 kr och Pro från 6 000 kr i startavgift, exklusive moms.")]),
+    dict(slug="webbyra-helsingborg", name="Helsingborg", km="ungefär 59 mil", area="Helsingborgs stad", sub="Helsingborg, Ängelholm och Höganäs",
+         feel="Helsingborg är en hamn- och handelsstad med många tjänsteföretag, hantverkare och butiker. Kunderna söker ofta lokalt, och för att synas där behöver hemsidan visa tydligt vad ni gör och var ni verkar. Vi bygger för företag i hela landet, helt på distans.",
+         faq=[("Jobbar ni med företag i Helsingborg?", "Ja. Vi sitter i Uppsala men bygger hemsidor åt företag i hela landet."), ("Hur lång tid tar det?", "Första utkastet brukar vara klart på ungefär en dag.")]),
+]
+
 
 def town_page(t, others):
     n = t["name"]
@@ -98,7 +139,7 @@ TOPICS = [
     dict(slug="seo-byra", title="SEO-byrå – sökmotoroptimering från 3 000 kr", h1="SEO-byrå i <em>Uppsala</em>",
          description="SEO-byrå i Uppsala: sökmotoroptimering som ingår i varje hemsida, från 3 000 kr. Teknisk SEO, innehåll, lokal SEO och AI-optimering utan krångel.",
          lead="Sökmotoroptimering handlar om att göra det lätt för Google, och för kunderna, att förstå vad ni gör. Vi bygger det direkt i hemsidan, så ni slipper betala för det separat.",
-         label="SEO-byrå", short="Sökmotoroptimering som ingår i varje hemsida.",
+         label="SEO-byrå i Uppsala", short="Sökmotoroptimering som ingår i varje hemsida.",
          sections=[
              ("Vad är SEO?", ["¶ SEO, sökmotoroptimering, är allt som gör att en hemsida syns bättre i sökresultaten på Google och andra sökmotorer. Det handlar om tre saker: att sidan är tekniskt i ordning, att innehållet svarar på det folk söker och att andra sajter och tjänster visar att ni är relevanta.", "¶ Bra SEO är inget trick. Det är grundläggande hantverk: rätt rubriker, tydliga texter, en snabb sida och en struktur som en sökmotor kan läsa."]),
              ("Det här gör vi", ["¶ Det här ingår som grund när vi bygger en hemsida, och kan också göras för en befintlig sajt:", "Teknisk SEO: snabb laddning, mobilanpassning, rätt rubrikstruktur, sitemap, canonical-länkar och säkerhetsrubriker", "Sidtitlar och beskrivningar som matchar det kunderna söker på, och som lockar till klick", "Strukturerad data så att Google förstår företaget, tjänsterna och eventuella vanliga frågor", "Bilder i moderna format med beskrivande text, så de laddar snabbt och kan hittas", "Intern länkning så att besökare och sökmotorer hittar mellan sidorna", "Lokal SEO: sidor för orter, kopplad Google-företagsprofil och tydliga kontaktuppgifter", "AI-optimering så att AI-assistenter som ChatGPT och Gemini kan hitta och återge er information"]),
@@ -111,7 +152,7 @@ TOPICS = [
     dict(slug="ai-optimering", title="AI-optimering (AIO) – syns i ChatGPT och Gemini", h1="AI-optimering – syns i <em>ChatGPT och Gemini</em>",
          description="AI-optimering (AIO) gör att ChatGPT, Gemini och andra AI-assistenter kan hitta och återge ert företag. Ingår i våra hemsidor från 3 000 kr.",
          lead="Allt fler frågar en AI-assistent i stället för att googla. Vi bygger hemsidor som är lätta för både sökmotorer och AI-assistenter att förstå.",
-         label="AI-optimering", short="Så syns ni när kunder frågar en AI.",
+         label="AI-optimering för företag", short="Så syns ni när kunder frågar en AI.",
          sections=[
              ("Vad är AI-optimering?", ["¶ AI-optimering, ibland kallat AIO, GEO eller AI-synlighet, handlar om att göra det lätt för AI-assistenter som ChatGPT, Gemini, Claude och Perplexity att hitta, förstå och återge information om ert företag.", "¶ När en kund frågar en AI vilka företag som bygger hemsidor i Uppsala, eller vad en hemsida brukar kosta, hämtar assistenten information från sajter på nätet. Det gäller att er sajt går att läsa och tydligt svarar på frågan."]),
              ("Det här gör vi", ["¶ Vi bygger in det här i alla hemsidor:", "Tydliga, korta svar på vanliga frågor, som AI-assistenter lätt kan citera", "Strukturerad data som beskriver företaget, tjänsterna, priserna och er kontaktinformation", "En sida som laddar snabbt och är lätt för robotar att läsa, utan innehåll som är gömt i skript", "Filerna llms.txt och robots.txt, så AI-tjänster vet vad de får läsa och var informationen finns", "Konkreta uppgifter: pris, område, kontaktväg och öppettider, i stället för allmänna formuleringar", "Texter skrivna som svar på frågor, med tydliga rubriker"]),
@@ -165,6 +206,48 @@ TOPICS = [
          faq=[("Behöver jag en hemsida när jag startar företag?", "Det är inget krav, men de flesta kunder letar upp er på nätet innan de hör av sig. En enkel, snabb hemsida gör att ni inte tappar dem."), ("Kan ni hjälpa mig med domän och e-post?", "Ja. Vi ordnar både domänen och e-post med ert företagsnamn."), ("Vad kostar det att komma igång?", "Starter kostar 3 000 kr i startavgift plus 99–199 kr om året, exklusive moms.")]),
 ]
 
+TOPICS += [
+    dict(slug="ai-chatt-pa-hemsidan", title="AI-chatt på hemsidan – svara kunder dygnet runt", h1="AI-chatt på <em>hemsidan</em>",
+         description="AI-chatt på hemsidan svarar på vanliga frågor dygnet runt och hänvisar vidare till bokning och offert. Ingår i Pro från 6 000 kr. Byggd av en webbyrå i Uppsala.",
+         lead="Kunder frågar när det passar dem, inte när ni har öppet. En AI-chatt på hemsidan svarar på det som ofta frågas och för kunden vidare till kontakt eller bokning.",
+         label="AI-chatt på hemsidan", short="Svara på kundernas frågor dygnet runt.",
+         sections=[
+             ("Vad en AI-chatt gör", ["¶ En AI-chatt är en liten funktion på hemsidan där besökaren kan skriva en fråga och få ett svar direkt. Den är byggd för att svara på det som kunder oftast undrar: vad kostar det, hur lång tid tar det, vilka områden täcker ni, och hur bokar jag.", "¶ Den ersätter inte er. Den tar de vanliga frågorna så att ni kan lägga tiden på det som kräver en människa."]),
+             ("Det här kan den hjälpa till med", ["¶ Vi anpassar chatten efter er verksamhet. Typiska användningar är:", "Svara på frågor om tjänster, priser och leveranstid", "Förklara hur ett offertflöde eller en bokning går till", "Hänvisa till rätt sida, formulär eller telefonnummer", "Svara utanför kontorstid, till exempel på kvällar och helger", "Fånga upp frågor som ni inte har svar på, så att ni ser vad kunderna undrar över"]),
+             ("Det här ska den inte göra", ["¶ En chatt ska hålla sig till det den vet. Den ska inte hitta på svar, lova priser som inte finns eller ge råd i frågor som kräver en expert, som juridik eller medicin. Vi bygger den så att den hänvisar vidare när den inte vet."]),
+             ("Så fungerar det för kunden", ["¶ Besökaren ser en liten knapp på sidan. Där kan de skriva en fråga eller välja bland vanliga frågor. Svaret kommer direkt, och om det behövs får de en länk till bokning eller ett formulär."]),
+             ("Så får ni nytta av det", ["¶ Chatten ger er två fördelar. Besökarna får snabbare svar, och ni får en bild av vad kunderna faktiskt undrar över. Frågor som många ställer kan ni svara på redan på hemsidan."]),
+             price_sec("en AI-chatt", 1),
+         ],
+         faq=[("Vad kostar en AI-chatt?", "AI-chatten ingår i Pro-paketet, som kostar 6 000 kr i startavgift plus 299–399 kr om året, exklusive moms."), ("Kan chatten hitta på svar?", "Vi bygger den så att den håller sig till era uppgifter och hänvisar vidare när den inte vet."), ("Ersätter chatten kundtjänst?", "Nej. Den tar de vanliga frågorna, så att ni kan fokusera på det som kräver en människa.")]),
+    dict(slug="redesign-av-hemsida", title="Ny hemsida eller redesign – vad ska ni välja?", h1="Redesign av <em>hemsida</em>",
+         description="Ny hemsida eller förbättra den gamla? Vi går igenom när redesign lönar sig, vad det kostar och hur det går till. Fast pris från 3 000 kr.",
+         lead="Många har en hemsida som fungerar men inte ger några kunder. Ska ni laga den eller bygga en ny? Här går vi igenom hur ni avgör det.",
+         label="Redesign av hemsida", short="När lönar det sig att bygga om?",
+         sections=[
+             ("När är det dags?", ["¶ Det finns några tydliga tecken på att hemsidan behöver göras om:", "Den är långsam, särskilt på mobilen", "Den ser inte ut som er verksamhet gör idag", "Det är svårt att ändra text och bilder", "Besökarna hör inte av sig, trots att de kommer", "Den syns inte på Google, eller syns på fel sökord", "Den är inte mobilanpassad", "¶ Är flera av punkterna sanna är en redesign ofta bättre än att försöka laga."]),
+             ("Laga eller bygga nytt?", ["¶ Det går ofta att förbättra en befintlig hemsida, till exempel genom att byta bilder, snabba upp den eller skriva om texter. Men om grunden är gammal, tung eller svår att ändra blir varje förbättring dyr och ger lite.", "¶ Vi tittar på er nuvarande sida, och säger ärligt vad vi rekommenderar. Ofta är det snabbare och billigare att bygga en ny från grunden, till ett fast pris."]),
+             ("Det här brukar förbättras", ["¶ När vi bygger om en hemsida förbättras vanligtvis:", "Hastigheten, så besökarna inte lämnar sidan", "Mobilupplevelsen, där de flesta besökarna är", "Innehållet, med tydligare tjänster och svar på kundernas frågor", "Kontaktvägarna, med formulär, bokning eller offert på rätt ställen", "SEO och AI-synlighet, så att ni lättare hittas", "Möjligheten att själv ändra, med support från oss"]),
+             ("Så skyddar vi er synlighet", ["¶ Har ni redan en hemsida som syns på Google är det viktigt att inte tappa det vid en ombyggnad. Vi gör omdirigeringar från de gamla adresserna till de nya, behåller sidor som fungerar och kontrollerar resultatet efteråt."]),
+             ("Hur lång tid tar det?", ["¶ Ett första utkast brukar vara klart på ungefär en dag. Sedan går vi igenom två rundor av ändringar innan lansering. Hur lång tid det tar totalt beror främst på hur snabbt vi får text och bilder."]),
+             price_sec("en redesign", 2),
+         ],
+         faq=[("Kan ni bygga om vår befintliga hemsida?", "Ja. Vi tittar på er nuvarande sida och bygger en ny, med samma innehåll där det fungerar och bättre där det inte gör det."), ("Förlorar vi vår plats på Google vid en ombyggnad?", "Inte om det görs rätt. Vi omdirigerar de gamla adresserna och kontrollerar resultatet efteråt."), ("Behåller vi vår domän?", "Ja. Vi kopplar den nya hemsidan till er befintliga domän.")]),
+    dict(slug="hemsida-for-enskild-firma", title="Hemsida för enskild firma – från 3 000 kr", h1="Hemsida för <em>enskild firma</em>",
+         description="Hemsida för enskild firma och egenföretagare: snabb, billig och enkel att komma igång med. Fast pris från 3 000 kr. Vi tar hand om domän och SEO.",
+         lead="Som egenföretagare har du inte tid att bli webbutvecklare. Vi bygger en hemsida som fungerar från dag ett, så att du kan fokusera på det du är bra på.",
+         label="Hemsida för enskild firma", short="Enkel hemsida för dig som jobbar själv.",
+         sections=[
+             ("Behöver en enskild firma en hemsida?", ["¶ De flesta kunder söker upp ett företag på nätet innan de hör av sig, även om de blivit rekommenderade. En enkel, tydlig hemsida gör att du ser seriös ut och att kunden kan hitta dina uppgifter direkt.", "¶ Det handlar inte om en stor sida. Det räcker med några tydliga avsnitt: vad du gör, för vem, vad det kostar och hur man når dig."]),
+             ("Det här får du", ["¶ Starter-paketet är gjort för egenföretagare:", "En snygg, snabb och mobilanpassad hemsida", "Presentation av dig och dina tjänster", "Kontaktformulär och telefonnummer som syns", "Grundläggande SEO och AI-optimering", "Domän, hosting och säkerhet", "Upp till 10 timmars support och redigering per månad första året"]),
+             ("Du behöver inget tekniskt", ["¶ Du behöver inte kunna något om domäner, servrar eller kod. Du berättar om din verksamhet, och vi bygger och sköter resten. När något ska ändras kan du höra av dig."]),
+             ("Växa med dina behov", ["¶ När du får fler kunder kan hemsidan byggas ut med offertflöde, bokning och AI-chatt i Pro. Du behöver inte börja om, utan lägger till."]),
+             ("Vad behöver du ha redo?", ["¶ Det här är bra att ha:", "Ditt företagsnamn och kontaktuppgifter", "En kort text om vad du gör", "Några bilder, gärna egna", "Dina viktigaste tjänster", "Ett telefonnummer och en e-postadress som du svarar på"]),
+             price_sec("enskild firma", 0),
+         ],
+         faq=[("Vad kostar en hemsida för en enskild firma?", "Starter kostar 3 000 kr i startavgift plus 99–199 kr om året, exklusive moms."), ("Måste jag ha en egen domän?", "Det rekommenderas. Det ser seriösare ut, och vi hjälper dig att välja och koppla den."), ("Kan jag ändra sidan själv?", "Du kan höra av dig så ändrar vi, och i Starter ingår upp till 10 timmars support och redigering per månad första året.")]),
+]
+
 
 def generate():
     out = []
@@ -174,16 +257,17 @@ def generate():
     for t in TOPICS: labels[t["slug"]] = t["label"]
     labels.update({"webbyra-uppsala": "Webbyrå Uppsala", "webbyra-stockholm": "Webbyrå Stockholm", "hemsida-for-hantverkare": "Hemsida för hantverkare", "billig-hemsida": "Billig hemsida"})
     topic_slugs = [t["slug"] for t in TOPICS]
+    NT = len(topic_slugs)
     for i, b in enumerate(BRANSCHER):
         near = [slugs[(i + k) % len(slugs)] for k in (1, 2, 3)]
-        rel = near + [topic_slugs[i % 5], topic_slugs[(i + 2) % 5], "webbyra-uppsala"]
+        rel = near + [topic_slugs[i % NT], topic_slugs[(i + 2) % NT], "webbyra-uppsala"]
         out.append(branch_page(b, i, [(s, labels[s]) for s in rel]))
     towns = [t["slug"] for t in ORTER]
     for i, t in enumerate(ORTER):
-        rel = [towns[(i + k) % len(towns)] for k in (1, 2)] + ["webbyra-uppsala", "webbyra-stockholm", topic_slugs[i % 5], "hemsida-for-hantverkare"]
+        rel = [towns[(i + k) % len(towns)] for k in (1, 2)] + ["webbyra-uppsala", "webbyra-stockholm", topic_slugs[i % NT], "hemsida-for-hantverkare"]
         out.append(town_page(t, [(s, labels[s]) for s in rel]))
     for i, t in enumerate(TOPICS):
-        rel = [slugs[(i * 3 + k) % len(slugs)] for k in range(3)] + [topic_slugs[(i + 1) % 5], topic_slugs[(i + 2) % 5], "webbyra-uppsala"]
+        rel = [slugs[(i * 3 + k) % len(slugs)] for k in range(3)] + [topic_slugs[(i + 1) % NT], topic_slugs[(i + 2) % NT], "webbyra-uppsala"]
         d = dict(t); d.update(kind="amne", related=[(s, labels[s]) for s in rel], faq=list(t["faq"]) + FAQ_SHARED)
         out.append(d)
     return out
