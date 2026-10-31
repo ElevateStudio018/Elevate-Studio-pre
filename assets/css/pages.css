@@ -808,3 +808,9 @@ body.has-preview { overflow: hidden; }
 .deep__near { margin: 10px 0 0; color: #4f5a53; }
 @media (max-width: 900px) { .deep__rings { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 560px) { .deep__rings { grid-template-columns: repeat(2, 1fr); } .deep__cards { grid-template-columns: 1fr; } }
+.deep__live { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 6px; padding: 8px 16px; border-radius: 999px; background: var(--accent, #1d3b2a); color: var(--cream, #fdfbf5); font-weight: 700; font-size: 15px; letter-spacing: .02em; }
+.deep__dot { width: 10px; height: 10px; border-radius: 50%; background: #7fe0a8; animation: deep-pulse 1.2s ease-in-out infinite; }
+@keyframes deep-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.7); } }
+.deep__run { border: 2px solid var(--accent, #1d3b2a); }
+.deep__run .sitetest__h2 { font-size: 30px; margin: 0 0 12px; }
+@media (prefers-reduced-motion: reduce) { .deep__dot { animation: none; } }

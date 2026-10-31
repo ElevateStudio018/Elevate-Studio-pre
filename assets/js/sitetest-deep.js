@@ -18,14 +18,14 @@
   var CAT_NAMES = { performance: 'Prestanda', accessibility: 'Tillgänglighet', 'best-practices': 'Bästa praxis', seo: 'SEO' };
   var HEADERS_WANTED = { 'content-security-policy': 'Säkerhetspolicy (CSP)', 'strict-transport-security': 'HSTS', 'x-content-type-options': 'X-Content-Type-Options', 'x-frame-options': 'X-Frame-Options', 'referrer-policy': 'Referrer-Policy', 'permissions-policy': 'Permissions-Policy' };
   var STEPS = [
-    'Hämtar sajtkartan och säkerhetsrubriker',
-    'Läser varje sida: titlar, rubriker, text och länkar',
-    'Letar efter sökord i titlar och beskrivningar',
-    'Kontrollerar alla interna och externa länkar',
-    'Kontrollerar alla bilder och deras storlek',
-    'Kontrollerar mejl (SPF, DKIM, DMARC) och certifikat',
+    'Hämtar listan över alla sidor',
+    'Kollar varje sida: titlar, rubriker, text och bilder',
+    'Letar efter sökord på sidorna',
+    'Kollar alla länkar, både interna och externa',
+    'Kollar alla bilder och deras storlek',
+    'Kollar mejl, säkerhet och certifikat',
     'Kör Googles test på de viktigaste sidorna',
-    'Sammanställer resultatet'
+    'Sammanställer allt till en rapport'
   ];
 
   // What is wrong, and how we fix it. The key is the same id the checks use.
@@ -130,7 +130,7 @@
   // ---------- progress, shown in the panel while the test runs ----------
   var panel = null;
   function progressPanel() {
-    box.innerHTML = '<section class="sitetest__more deep__run"><h2 class="sitetest__h2">Djupanalys av hela sajten</h2>' +
+    box.innerHTML = '<section class="sitetest__more deep__run"><p class="deep__live"><span class="deep__dot" aria-hidden="true"></span>Djupanalysen kör nu</p><h2 class="sitetest__h2">Vi går igenom hela sajten</h2>' +
       '<p class="deep__now" id="deep-now">Startar …</p>' +
       '<div class="deep__bar"><i id="deep-bar"></i></div>' +
       '<ol class="deep__steps">' + STEPS.map(function (s, i) { return '<li data-i="' + i + '">' + esc(s) + '<em></em></li>'; }).join('') + '</ol>' +
@@ -424,7 +424,7 @@
     if (quickExtra) quickExtra.hidden = true;
     box.hidden = false;
     progressPanel();
-    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.scrollTo({ top: box.getBoundingClientRect().top + window.scrollY - 110, behavior: 'smooth' });
     run(base, Date.now(), function (done) {
       btn.disabled = false;
       if (label) label.textContent = idle;

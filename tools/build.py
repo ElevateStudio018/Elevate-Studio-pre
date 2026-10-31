@@ -1133,6 +1133,7 @@ def build_test_page():
         </form>
       </div>
     </section>
+    <div class="sitetest__more-wrap container" id="sitetest-deep" hidden></div>
     <section class="section container sitetest">
       <div class="sitetest__progress" id="sitetest-progress" hidden aria-live="polite">
         <div class="sitetest__progress-head"><p class="sitetest__step">Startar …</p><span class="sitetest__time">0 s</span></div>
@@ -1142,7 +1143,6 @@ def build_test_page():
       <div class="sitetest__error" id="sitetest-error" hidden role="alert"></div>
       <div class="sitetest__results" id="sitetest-results" hidden></div>
       <div class="sitetest__more-wrap container" id="sitetest-extra" hidden></div>
-      <div class="sitetest__more-wrap container" id="sitetest-deep" hidden></div>
       <div class="sitetest__about">
         <div class="info-card"><h2 class="info-card__title">Prestanda</h2><p>Hur snabbt sidan visas och blir klickbar, särskilt på mobil.</p></div>
         <div class="info-card"><h2 class="info-card__title">Tillgänglighet</h2><p>Om alla kan använda sidan – kontraster, rubriker, etiketter och mer.</p></div>
