@@ -2,6 +2,7 @@
 // links (internal and external), pictures and headers. Each batch stays well below the Worker's outgoing-request
 // limit. Everything is read from the pages' own HTML and headers; a finding is only reported when they show it.
 import { json, normalise, prepare, getOne, fetchText, analysePage } from './sitecheck.js';
+import { withHeaders } from './headers.js';
 
 // Checks analysePage does not do
 function deepPage(html) {
@@ -82,7 +83,9 @@ export async function crawl(req, env) {
 
   if (op === 'headers') {
     // Security headers and caching for the start page and one stylesheet
-    const home = await getOne(origin + '/', { method: 'GET', signal: AbortSignal.timeout(8000) }).catch(() => null);
+    const raw = await getOne(origin + '/', { method: 'GET', signal: AbortSignal.timeout(8000) }).catch(() => null);
+    // the same headers the visitor gets (our own answers pass through withHeaders)
+    const home = raw ? withHeaders(raw, new URL(origin + '/'), req) : null;
     const css = await getOne(origin + '/assets/css/site.min.css', { method: 'HEAD', signal: AbortSignal.timeout(6000) }).catch(() => null);
     const pick = (r, names) => { const o = {}; names.forEach((n) => { o[n] = r ? r.headers.get(n) : null; }); return o; };
     return json({

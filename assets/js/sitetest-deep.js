@@ -147,7 +147,6 @@
       if (d.deprecated) t('practice', 'deprecated', 'Föråldrade HTML-taggar (font, center m.fl.)');
       if (d.blockingScripts) t('perf', 'blocking', 'Skript i sidhuvudet blockerar visningen (saknar defer eller async)');
       if (d.imgNoSize) t('perf', 'img-size', 'Bilder utan width och height, ger layoutskift');
-      if (d.imgNoLazy) t('perf', 'img-lazy', 'Bilder som laddas direkt utan lazy loading eller fetchpriority');
       if (d.bytes > 150 * 1024) t('perf', 'heavy', 'Stor HTML-fil (över 150 KB, ' + kb(d.bytes) + ')');
       if (d.inlineStyles > 200) t('perf', 'inline-styles', 'Många inline-stilar (' + d.inlineStyles + ')');
       if (d.inlineScripts > 5) t('perf', 'inline-scripts', 'Många inline-skript (' + d.inlineScripts + ')');
