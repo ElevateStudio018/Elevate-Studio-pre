@@ -75,20 +75,36 @@
     var issues = [];
     ok.forEach(function (p) {
       var where = esc(p.url.replace(/^https?:\/\/[^/]+/, '') || '/');
-      if (!p.titleLen) issues.push(where + ': sidan saknar titel');
+      if (!p.titleLen) issues.push('!' + where + ': sidan saknar titel');
       else if (p.titleLen > 60) issues.push(where + ': titeln är för lång (' + p.titleLen + ' tecken, max 60)');
       else if (p.titleLen < 25) issues.push(where + ': titeln är för kort (' + p.titleLen + ' tecken)');
-      if (!p.descLen) issues.push(where + ': saknar metabeskrivning');
+      if (!p.descLen) issues.push('!' + where + ': saknar metabeskrivning');
       else if (p.descLen > 160) issues.push(where + ': beskrivningen är för lång (' + p.descLen + ' tecken, max 160)');
       else if (p.descLen < 70) issues.push(where + ': beskrivningen är för kort (' + p.descLen + ' tecken)');
-      if (p.h1 === 0) issues.push(where + ': saknar rubrik (h1)');
+      if (p.h1 === 0) issues.push('!' + where + ': saknar rubrik (h1)');
       if (p.h1 > 1) issues.push(where + ': har ' + p.h1 + ' rubriker h1, en räcker');
       if (p.noAlt) issues.push(where + ': ' + p.noAlt + ' bilder saknar bildtext (alt)');
     });
-    (d.duplicateTitles || []).forEach(function (t) { issues.push('Samma titel på flera sidor: "' + esc(t) + '"'); });
-    (d.broken || []).forEach(function (b) { issues.push('Trasig länk: ' + esc(b.url.replace(/^https?:\/\/[^/]+/, '') || '/') + ' (status ' + (b.status || 'inget svar') + ') på sidan ' + esc(b.from.replace(/^https?:\/\/[^/]+/, '') || '/')); });
+    (d.duplicateTitles || []).forEach(function (t) { issues.push('!Samma titel på flera sidor: "' + esc(t) + '"'); });
+    (d.broken || []).forEach(function (b) { issues.push('!Trasig länk: ' + esc(b.url.replace(/^https?:\/\/[^/]+/, '') || '/') + ' (status ' + (b.status || 'inget svar') + ') på sidan ' + esc(b.from.replace(/^https?:\/\/[^/]+/, '') || '/')); });
     var f = d.form || {};
-    issues.push(f.found ? '' : 'Hittar inget formulär med e-postfält och skicka-knapp på ' + esc((f.page || '').replace(/^https?:\/\/[^/]+/, '') || 'startsidan'));
+    issues.push(f.found ? '' : '!Hittar inget formulär med e-postfält och skicka-knapp på ' + esc((f.page || '').replace(/^https?:\/\/[^/]+/, '') || 'startsidan'));
+    // Technical checks on each page (a leading "!" marks the ones to fix first)
+    ok.forEach(function (p) {
+      var where = esc(p.url.replace(/^https?:\/\/[^/]+/, '') || '/');
+      if (p.noindex) issues.push('!' + where + ': är markerad noindex, Google visar inte sidan. Gäller det inte en avsiktlig sida bör den tas bort');
+      if (p.mixed) issues.push('!' + where + ': laddar innehåll över http i stället för https, webbläsare varnar för det');
+      if (p.ldBad) issues.push(where + ': strukturerad data (JSON-LD) går inte att läsa, Google ignorerar den');
+      if (!p.lang) issues.push(where + ': språket är inte angivet (lang), skärmläsare och Google gissar');
+      if (!p.viewport) issues.push('!' + where + ': saknar viewport-inställning, sidan skalas fel på mobil');
+      if (!p.canonical) issues.push(where + ': saknar canonical-länk');
+      if (!p.ogImage) issues.push(where + ': saknar bild för delning i sociala medier (og:image)');
+    });
+    var files = d.files || {};
+    if (files.sitemap && !files.sitemap.found) issues.push('!Sajtkartan (sitemap.xml) hittades inte');
+    if (files.robots && !files.robots.found) issues.push('Filen robots.txt hittades inte');
+    if (files.robots && files.robots.blocksAll) issues.push('!robots.txt blockerar hela sajten för sökmotorer');
+    if (files.notFound && !files.notFound.ok) issues.push('!En okänd adress svarar ' + esc(files.notFound.status || 'inget') + ' i stället för 404. Då kan Google tro att tomma sidor är riktiga');
     issues = issues.filter(Boolean);
     var rows = pages.map(function (p) {
       return '<tr><td>' + esc(p.url.replace(/^https?:\/\/[^/]+/, '') || '/') + '</td><td>' + (p.ok ? esc(p.titleLen) : '–') + '</td><td>' + (p.ok ? esc(p.descLen) : '–') + '</td><td>' + (p.ok ? esc(p.h1) : '–') + '</td><td>' + (p.ok ? esc(p.noAlt) + ' av ' + esc(p.imgs) : '–') + '</td><td>' + (p.ok ? (p.form ? 'Finns' : '–') : esc(p.status || 'inget svar')) + '</td></tr>';
@@ -96,7 +112,12 @@
     var summary = '<p class="sitetest__note">Kontaktformulär: ' + (d.form && d.form.found ? 'hittat på ' + esc((d.form.page || '').replace(/^https?:\/\/[^/]+/, '') || '/') + '.' : 'hittades inte på kontaktsidan.') + ' Kontrollerade ' + esc(d.checked.pages) + ' sidor av ' + esc(d.checked.sitemapPages) + ' i sajtkartan och ' + esc(d.checked.links) + ' interna länkar.' +
       (d.checked.sitemapPages > d.checked.pages ? ' Resten av sajten kontrolleras inte i det här testet.' : '') + '</p>';
     var table = '<div class="sitetest__tbl"><table><thead><tr><th>Sida</th><th>Titel (tecken)</th><th>Beskrivning (tecken)</th><th>Rubrik h1</th><th>Bilder utan text</th><th>Kontaktformulär</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
-    var list = issues.length ? '<ul class="sitetest__list">' + issues.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' : '<p class="sitetest__note">Inga SEO-fel hittades på de sidor vi kontrollerade.</p>';
+    var crit = issues.filter(function (i) { return i.charAt(0) === '!'; }).map(function (i) { return i.slice(1); });
+    var minor = issues.filter(function (i) { return i.charAt(0) !== '!'; });
+    var list = issues.length
+      ? (crit.length ? '<h3 class="sitetest__h3">Åtgärda först (' + crit.length + ')</h3><ul class="sitetest__list">' + crit.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' : '') +
+        (minor.length ? '<h3 class="sitetest__h3">Övrigt (' + minor.length + ')</h3><ul class="sitetest__list">' + minor.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' : '')
+      : '<p class="sitetest__note">Inga SEO-fel hittades på de sidor vi kontrollerade.</p>';
     return summary + table + list;
   }
   function mailReport(d) {
