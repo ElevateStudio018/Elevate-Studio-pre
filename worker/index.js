@@ -1,6 +1,7 @@
 // The website is static files (served by Cloudflare). This small script adds the admin's server parts.
 import { handleInvite, handleMail } from './invite.js';
 import { googleReady, googleConnect, googleCallback } from './google.js';
+import { subscribe, brevoReady } from './newsletter.js';
 import { crux, safeBrowsing, searchConsole, reviews, sheetLeads, googleCheck } from './gapi.js';
 import { bookingReady, bookingLink, bookingInfo, bookingBook, bookingSync } from './booking.js';
 import { accountsReady, accountsCreate } from './accounts.js';
@@ -42,12 +43,13 @@ export default {
     }
     // The lead lists from Google Sheets, for the admin's import page; signed-in admins only
     if (pathname === '/api/leads/import') return sheetLeads(req, env, leadImport);
+    if (pathname === '/api/newsletter') return subscribe(req, env);
     if (pathname === '/api/crux') return crux(req, env);
     if (pathname === '/api/safe') return safeBrowsing(req, env);
     if (pathname === '/api/gsc') return searchConsole(req, env);
     if (pathname === '/api/google/check') return googleCheck(env);
     if (pathname === '/api/reviews') return reviews(req, env);
-    if (pathname === '/api/status') return Response.json({ gmail: !!(env.GMAIL_USER && env.GMAIL_APP_PASSWORD), google: googleReady(env), booking: bookingReady(env), accounts: accountsReady(env), from: env.GMAIL_USER || null });
+    if (pathname === '/api/status') return Response.json({ gmail: !!(env.GMAIL_USER && env.GMAIL_APP_PASSWORD), google: googleReady(env), booking: bookingReady(env), accounts: accountsReady(env), brevo: brevoReady(env), from: env.GMAIL_USER || null });
     // The customer's booking page: one static page, the link's details are in the address
     if (pathname.startsWith('/boka/')) {
       // asked for as /boka (not /boka.html), otherwise the static files answer with a redirect that drops the link

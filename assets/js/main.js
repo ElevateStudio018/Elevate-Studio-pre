@@ -125,7 +125,10 @@
         data.sida = location.href;
         return send(form.action, data);
       };
-      var go = form.dataset.mail && (news || lead)
+      // Newsletter: straight into the Brevo list through our own server; if that is not set up yet, the old routes below take over
+      var viaBrevo = news ? send('/api/newsletter', { email: data.email }) : null;
+      var go = news ? viaBrevo.catch(function () { return form.dataset.mail ? send(form.dataset.mail, { action: 'subscribe', email: data.email }, form.dataset.key).catch(viaFormSubmit) : viaFormSubmit(); })
+        : form.dataset.mail && (news || lead)
         ? send(form.dataset.mail, news ? { action: 'subscribe', email: data.email } : Object.assign({ action: 'lead' }, lead), form.dataset.key).catch(viaFormSubmit)
         : viaFormSubmit();
       var timer = setTimeout(function () { show('Det tar längre tid än vanligt … mejla oss gärna på info@elevatestudio.nu om inget händer.', false); }, 12000);
