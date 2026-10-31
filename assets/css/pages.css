@@ -814,3 +814,10 @@ body.has-preview { overflow: hidden; }
 .deep__run { border: 2px solid var(--accent, #1d3b2a); }
 .deep__run .sitetest__h2 { font-size: 30px; margin: 0 0 12px; }
 @media (prefers-reduced-motion: reduce) { .deep__dot { animation: none; } }
+/* Djupanalys result: design 5, number in a thick ring and a plain status under */
+.deep__ringbox { text-align: center; }
+.deep__ringname { margin: 10px 0 0; font-weight: 600; font-size: 14px; }
+.deep__ringstatus { margin: 2px 0 0; font-size: 13px; color: #5f6862; }
+.deep__ringstatus--good { color: #2f7d4f; }
+.deep__ringstatus--ok { color: #a26c07; }
+.deep__ringstatus--bad { color: #b42318; font-weight: 600; }
