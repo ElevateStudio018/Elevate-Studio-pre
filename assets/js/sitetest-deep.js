@@ -129,24 +129,24 @@
 
   // ---------- progress, shown in the panel while the test runs ----------
   var panel = null;
+  // Same look as the quick test: the same white progress box, bar, step text and time
+  var startedAt = 0, timer = null;
   function progressPanel() {
-    box.innerHTML = '<section class="deep__run">' +
-      '<p class="deep__tag">Djupanalys · hela sajten</p>' +
-      '<p class="deep__pctbig" id="deep-pct">0 %</p>' +
-      '<div class="deep__line"><i id="deep-line"></i></div>' +
-      '<h2 class="deep__title" id="deep-title">Startar …</h2>' +
-      '<p class="deep__now" id="deep-now">Sidan börjar köras. Det tar 1 till 3 minuter.</p>' +
-      '<p class="sitetest__note">Vi läser sajten precis som en sökmotor gör. Inga uppgifter sparas.</p></section>';
-    panel = box.querySelector('.deep__run');
+    box.innerHTML = '<div class="sitetest__progress" style="display:block" id="deep-progress">' +
+      '<div class="sitetest__progress-head"><p class="sitetest__step" id="deep-title">Startar …</p><span class="sitetest__time" id="deep-time">0 s</span></div>' +
+      '<div class="sitetest__bar"><i id="deep-line"></i></div>' +
+      '<p class="sitetest__note" id="deep-now">Djupanalys av hela sajten. Det tar oftast 1 till 3 minuter. Stäng inte sidan.</p></div>';
+    panel = box.querySelector('#deep-progress');
+    startedAt = Date.now();
+    clearInterval(timer);
+    timer = setInterval(function () { var t = panel && panel.querySelector('#deep-time'); if (t) t.textContent = Math.round((Date.now() - startedAt) / 1000) + ' s'; }, 500);
   }
   function setStep(i, detail) {
     if (!panel) return;
     var pct = Math.round(i / STEPS.length * 100);
-    panel.querySelector('#deep-pct').textContent = pct + ' %';
     panel.querySelector('#deep-line').style.width = pct + '%';
-    panel.querySelector('#deep-title').textContent = i < STEPS.length ? STEPS[i] : 'Klart';
-    var left = STEPS.length - i;
-    panel.querySelector('#deep-now').textContent = 'Steg ' + Math.min(i + 1, STEPS.length) + ' av ' + STEPS.length + (left > 0 ? '. Kvar: ' + left + ' steg.' : '.') + (detail ? ' ' + detail + '.' : '');
+    panel.querySelector('#deep-title').textContent = (i < STEPS.length ? STEPS[i] : 'Klart') + ' (' + Math.min(i + 1, STEPS.length) + ' av ' + STEPS.length + ')';
+    panel.querySelector('#deep-now').textContent = 'Djupanalys av hela sajten.' + (detail ? ' ' + detail + '.' : '');
     if (near) near.textContent = STEPS[i] + (detail ? ' (' + detail + ')' : '') + ' …';
   }
 
@@ -212,9 +212,11 @@
         });
     }).then(function () {
       setStep(7);
+      clearInterval(timer);
       show(R, t0);
       finish(true);
     }).catch(function (e) {
+      clearInterval(timer);
       if (panel) panel.querySelector('#deep-now').textContent = 'Djupanalysen kunde inte slutföras: ' + (e.message || 'okänt fel') + '. Försök igen om en stund.';
       finish(false);
     });
