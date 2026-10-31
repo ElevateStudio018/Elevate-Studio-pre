@@ -40,7 +40,7 @@ body.subpage main { padding-top: var(--header-h); }
 }
 
 /* Sections */
-.section { padding: 120px 0 0; }
+.section { padding-top: 120px; padding-bottom: 0; }
 .section:last-of-type { padding-bottom: 120px; }
 .section--cream,
 .section--accent { padding: 112px 0; margin-top: 120px; }
