@@ -80,7 +80,7 @@ def parse_jobs():
         searches = searches.split(";"); needs = needs.split(";"); mistakes = mistakes.split(";")
         faq = [(f"Vad ska en {noun}s hemsida innehålla?", f"Det viktigaste är: {'; '.join(x[0].lower() + x[1:] for x in needs[:4])}. Vi anpassar listan efter just er verksamhet."),
                (f"Hur får {plural} fler kunder via hemsidan?", f"Genom en egen sida för varje tjänst, rubriker som liknar det kunderna söker på, till exempel {searches[0]} och {searches[1]}, och en enkel väg att ta kontakt eller boka."),
-               (f"Vad kostar en hemsida för {plural}?", "Starter kostar 3 000 kr i startavgift plus 99–199 kr om året. Pro, med offertflöde, bokning och AI-chatt, kostar 6 000 kr plus 299–399 kr om året. Alla priser anges exklusive moms.")]
+               (f"Vad kostar en hemsida för {plural}?", "Starter kostar 5 000 kr i startavgift plus 99–199 kr om året. Pro, med offertflöde, bokning och AI-chatt, kostar 9 000 kr plus 299–399 kr om året. Alla priser anges exklusive moms.")]
         out.append(dict(slug=f"hemsida-for-{slug}", noun=noun, firm=noun, plural=plural, em=em, intro=intro, searches=searches, needs=needs, trust=trust,
                         mistakes=mistakes, tool=TOOLS[tool], faq=faq))
     return out
@@ -224,8 +224,8 @@ def town_page2(t, others, idx, price_sec, FAQ_SHARED):
         ("Det första steget", ["¶ Boka ett kort möte, gratis och utan krav. Vi går igenom vad ni vill få ut av hemsidan, tittar på er nuvarande sida om ni har en och säger ärligt vad vi rekommenderar. Ni kan också börja med att testa er sajt i Testa din sajt, ett gratis test som visar hastighet, tillgänglighet och SEO."]),
     ]
     faq = [(f"Jobbar ni med företag i {n}?", f"Ja. Vi sitter i Uppsala men bygger hemsidor åt företag i hela Sverige, bland annat i {lan} län. Möten sker på distans, eller på plats när det passar."),
-           (f"Vad kostar en hemsida för ett företag i {n}?", "Starter kostar 3 000 kr i startavgift och Pro 6 000 kr, exklusive moms. Orten påverkar inte priset.")] + FAQ_SHARED
-    return dict(slug=f"webbyra-{slug}", title=f"Webbyrå {n} – hemsidor från 3 000 kr", h1=f"Webbyrå för företag i <em>{n}</em>",
-                description=f"Webbyrå för företag i {n}: snabba hemsidor med SEO, bokning och offertflöde till fast pris från 3 000 kr. Arbetar på distans eller på plats.",
-                lead=f"Vi bygger hemsidor åt företag i {n} och {lan} län: snabba, mobilanpassade och med fast pris från 3 000 kr. Ni pratar med samma person hela vägen.",
+           (f"Vad kostar en hemsida för ett företag i {n}?", "Starter kostar 5 000 kr i startavgift och Pro 9 000 kr, exklusive moms. Orten påverkar inte priset.")] + FAQ_SHARED
+    return dict(slug=f"webbyra-{slug}", title=f"Webbyrå {n} – hemsidor från 5 000 kr", h1=f"Webbyrå för företag i <em>{n}</em>",
+                description=f"Webbyrå för företag i {n}: snabba hemsidor med SEO, bokning och offertflöde till fast pris från 5 000 kr. Arbetar på distans eller på plats.",
+                lead=f"Vi bygger hemsidor åt företag i {n} och {lan} län: snabba, mobilanpassade och med fast pris från 5 000 kr. Ni pratar med samma person hela vägen.",
                 sections=sections, faq=faq, kind="ort", label=f"Webbyrå {n}", short=f"Hemsidor för företag i {n}, {lan} län.", related=others, area=n, lan=lan)

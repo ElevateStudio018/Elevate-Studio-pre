@@ -11,14 +11,14 @@
 - [Support och underhåll](https://elevatestudio.nu/tjanster/support-och-underhall): Vi tar hand om ändringar, uppdateringar och uppföljning så att ni kan fokusera på ert jobb.
 
 ## Priser (exkl. moms)
-- Starter: 3 000 kr i startavgift + 99–199 kr/år. Webbdesign och mobilanpassning, kontaktfunktion, grundläggande SEO och AI-optimering, två korrekturvändor, upp till 10 timmars support per månad första året.
-- Pro: 6 000 kr i startavgift + 299–399 kr/år. Allt i Starter plus offertflöde eller bokning, AI-chatt, notiser via e-post och SMS samt förfrågningar med status och historik.
+- Starter: 5 000 kr i startavgift + 99–199 kr/år. Webbdesign och mobilanpassning, kontaktfunktion, grundläggande SEO och AI-optimering, två korrekturvändor, upp till 10 timmars support per månad första året.
+- Pro: 9 000 kr i startavgift + 299–399 kr/år. Allt i Starter plus offertflöde eller bokning, AI-chatt, notiser via e-post och SMS samt förfrågningar med status och historik.
 - Elite: pris efter offert för större sajter, integrationer och egna funktioner.
 - Leverans: ett första utkast efter ungefär en dag; lansering när texter, bilder och åtkomst är på plats. Kunden äger sin domän.
 - [Priser](https://elevatestudio.nu/priser) · [Exempel på webbavtal](https://elevatestudio.nu/avtal)
 
 ## Vanliga frågor
-- **Vad kostar en hemsida?** Ni får ett fast pris innan vi börjar. Starter kostar 3 000 kr och Pro 6 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. Se våra priser eller ett exempel på hur ett avtal ser ut.
+- **Vad kostar en hemsida?** Ni får ett fast pris innan vi börjar. Starter kostar 5 000 kr och Pro 9 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. Se våra priser eller ett exempel på hur ett avtal ser ut.
 - **Hur lång tid tar det?** Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst.
 - **Bygger ni hemsidor för alla typer av företag?** Ja. Vi bygger hemsidor för företag i alla storlekar – från enmansföretag till större bolag med flera avdelningar och system som ska kopplas ihop. Större projekt får ett fast pris i en offert.
 - **Jobbar ni bara i Uppsala?** Nej. Vi finns i Uppsala men bygger hemsidor åt företag i hela Sverige. Möten går lika bra på distans.
