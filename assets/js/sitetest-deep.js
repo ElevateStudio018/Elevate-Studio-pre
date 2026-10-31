@@ -421,9 +421,10 @@
     if (label) label.textContent = 'Djupanalys körs …';
     if (quickResults) quickResults.hidden = true;
     if (quickExtra) quickExtra.hidden = true;
+    var qp = document.getElementById('sitetest-progress'); if (qp) qp.hidden = true;
     box.hidden = false;
     progressPanel();
-    window.scrollTo({ top: box.getBoundingClientRect().top + window.scrollY - 110, behavior: 'smooth' });
+    window.scrollTo({ top: box.getBoundingClientRect().top + window.scrollY - 24, behavior: 'smooth' });
     run(base, Date.now(), function (done) {
       btn.disabled = false;
       if (label) label.textContent = idle;

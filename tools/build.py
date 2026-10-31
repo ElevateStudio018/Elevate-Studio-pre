@@ -1133,8 +1133,8 @@ def build_test_page():
         </form>
       </div>
     </section>
-    <div class="sitetest__more-wrap container" id="sitetest-deep" hidden></div>
     <section class="section container sitetest">
+      <div class="sitetest__more-wrap" id="sitetest-deep" hidden></div>
       <div class="sitetest__progress" id="sitetest-progress" hidden aria-live="polite">
         <div class="sitetest__progress-head"><p class="sitetest__step">Startar …</p><span class="sitetest__time">0 s</span></div>
         <div class="sitetest__bar"><i></i></div>
