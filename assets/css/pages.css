@@ -91,17 +91,8 @@ main > .page-hero + .section--cream { margin-top: 0; }
 /* Lists */
 .link-list { display: flex; flex-wrap: wrap; gap: 16px 40px; margin: 0; padding: 0; list-style: none; font-size: 20px; }
 .check-list { display: grid; gap: 20px; max-width: 860px; margin: 0; padding: 0; list-style: none; font-size: 20px; line-height: 1.5; }
-.check-list li { position: relative; padding-left: 44px; }
-.check-list li::before {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 0;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--cream) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3 3 7-7' fill='none' stroke='%231d3b2a' stroke-width='2.2'/%3E%3C/svg%3E") center / 16px no-repeat;
-}
+.check-list li { position: relative; padding-left: 28px; }
+.check-list li::before { content: ""; position: absolute; top: .7em; left: 4px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent, #1d3b2a); }
 .step-list { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; margin: 0; padding: 0; list-style: none; }
 .step-list li { padding-top: 24px; border-top: 2px solid var(--accent); }
 .step-list h3, .step-list .step-list__title { margin: 12px 0 8px; font-size: 24px; font-weight: 500; }
@@ -393,11 +384,9 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .plan__text { margin: 0 0 26px; padding-bottom: 26px; border-bottom: 1px solid rgba(253, 251, 245, .16); font-size: 16px; opacity: .9; }
 .plan--featured .plan__text { border-color: #ece5d3; opacity: 1; color: #555; }
 .plan__list { flex: 1; display: grid; align-content: start; gap: 12px; margin: 0 0 34px; padding: 0; list-style: none; }
-.plan__list li { position: relative; padding-left: 30px; font-size: 15px; }
-.plan__list li::before { content: ""; position: absolute; left: 0; top: 2px; width: 18px; height: 18px; border-radius: 50%; background: var(--cream, #fdfbf5); }
-.plan__list li::after { content: ""; position: absolute; left: 6px; top: 6px; width: 4px; height: 8px; border: solid var(--accent, #1d3b2a); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.plan__list li { position: relative; padding-left: 22px; font-size: 15px; }
+.plan__list li::before { content: ""; position: absolute; left: 4px; top: .6em; width: 6px; height: 6px; border-radius: 50%; background: var(--cream, #fdfbf5); }
 .plan--featured .plan__list li::before { background: var(--accent, #1d3b2a); }
-.plan--featured .plan__list li::after { border-color: #fff; }
 .plan .btn { align-self: flex-start; }
 .plan__btn { background: var(--cream, #fdfbf5); color: var(--accent, #1d3b2a); }
 .plan__btn:hover { background: #fff; }
@@ -530,9 +519,8 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .land__sec { max-width: 900px; }
 .land__sec h2 { margin: 0 0 18px; font-size: 34px; font-weight: 500; line-height: 1.2; }
 .land__list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; font-size: 19px; }
-.land__list li { position: relative; padding-left: 32px; }
-.land__list li::before { content: ""; position: absolute; left: 0; top: 4px; width: 20px; height: 20px; border-radius: 50%; background: var(--accent, #1d3b2a); }
-.land__list li::after { content: ""; position: absolute; left: 7px; top: 8px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.land__list li { position: relative; padding-left: 24px; }
+.land__list li::before { content: ""; position: absolute; left: 4px; top: .7em; width: 7px; height: 7px; border-radius: 50%; background: var(--accent, #1d3b2a); }
 .page-faq { display: grid; gap: 12px; max-width: 900px; }
 .page-faq .faq__item { border: 1px solid #ece5d3; }
 @media (max-width: 768px) { .land { gap: 40px; } .land__sec h2 { font-size: 26px; } .land__list { font-size: 17px; } }

@@ -4,7 +4,8 @@
 # (Starter); based in Uppsala, meetings in person or online. Nothing else is promised.
 from landings_branscher import BRANSCHER as _B1
 from landings_branscher2 import BRANSCHER2
-BRANSCHER = _B1 + BRANSCHER2
+from landings_mass import parse_jobs, CITIES, town_page2
+BRANSCHER = _B1 + BRANSCHER2 + parse_jobs()
 
 PRICE = ("Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. "
          "Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.")
@@ -256,6 +257,8 @@ def generate():
     for t in ORTER: labels[t["slug"]] = f"Webbyrå {t['name']}"
     for t in TOPICS: labels[t["slug"]] = t["label"]
     labels.update({"webbyra-uppsala": "Webbyrå Uppsala", "webbyra-stockholm": "Webbyrå Stockholm", "hemsida-for-hantverkare": "Hemsida för hantverkare", "billig-hemsida": "Billig hemsida"})
+    for c in CITIES:
+        cc = c.split("|"); labels[f"webbyra-{cc[0]}"] = f"Webbyrå {cc[1]}"
     topic_slugs = [t["slug"] for t in TOPICS]
     NT = len(topic_slugs)
     for i, b in enumerate(BRANSCHER):
@@ -266,6 +269,21 @@ def generate():
     for i, t in enumerate(ORTER):
         rel = [towns[(i + k) % len(towns)] for k in (1, 2)] + ["webbyra-uppsala", "webbyra-stockholm", topic_slugs[i % NT], "hemsida-for-hantverkare"]
         out.append(town_page(t, [(s, labels[s]) for s in rel]))
+    LAN = {"Knivsta": "Uppsala", "Enköping": "Uppsala", "Märsta": "Stockholm", "Tierp": "Uppsala", "Östhammar": "Uppsala", "Heby": "Uppsala", "Älvkarleby": "Uppsala", "Sala": "Västmanland",
+           "Västerås": "Västmanland", "Örebro": "Örebro", "Gävle": "Gävleborg", "Göteborg": "Västra Götaland", "Norrtälje": "Stockholm", "Södertälje": "Stockholm", "Linköping": "Östergötland",
+           "Norrköping": "Östergötland", "Jönköping": "Jönköping", "Malmö": "Skåne", "Helsingborg": "Skåne"}
+    for d in out:
+        if d.get("kind") == "ort" and not d.get("lan"): d["lan"] = LAN.get(d.get("area"), "")
+    ctowns = [c.split("|") for c in CITIES]
+    for i, c in enumerate(CITIES):
+        slug, name, lan = c.split("|")[:3]
+        same = [f"webbyra-{x[0]}" for x in ctowns if x[2] == lan and x[0] != slug]
+        near = (same + [f"webbyra-{ctowns[(i + k) % len(ctowns)][0]}" for k in (1, 2, 3)])[:3]
+        labels[f"webbyra-{slug}"] = f"Webbyrå {name}"
+        rel = near + ["webbyra-uppsala", topic_slugs[i % NT], "hemsida-for-hantverkare"]
+        out.append(town_page2(c, [(x, labels.get(x, x)) for x in rel], i, price_sec, FAQ_SHARED))
+    for d in out:
+        for x in d.get("related", []): pass
     for i, t in enumerate(TOPICS):
         rel = [slugs[(i * 3 + k) % len(slugs)] for k in range(3)] + [topic_slugs[(i + 1) % NT], topic_slugs[(i + 2) % NT], "webbyra-uppsala"]
         d = dict(t); d.update(kind="amne", related=[(s, labels[s]) for s in rel], faq=list(t["faq"]) + FAQ_SHARED)

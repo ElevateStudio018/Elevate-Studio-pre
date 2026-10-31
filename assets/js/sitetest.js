@@ -278,7 +278,7 @@
     var realHtml = real.length ? '<h2 class="sitetest__h2">Riktiga besökare <span>(senaste 28 dagarna' + (cx.scope === 'origin' ? ', hela sajten' : '') + ')</span></h2><div class="metrics">' +
       real.map(function (m) { return '<div class="metric metric--' + m[2] + '"><span>' + m[0] + '</span><b>' + esc(m[1]) + '</b>' + (m[3] != null ? '<small>' + Math.round(m[3] * 100) + ' % fick en snabb upplevelse</small>' : '') + '</div>'; }).join('') + '</div>'
       : (cx && cx.none ? '<p class="sitetest__real-none">Sajten har för få besökare för Googles statistik över riktiga besökare. Siffrorna ovan kommer från ett labbtest.</p>' : '');
-    var safeHtml = safe && safe.safe ? '<p class="sitetest__safe">✓ Google Safe Browsing: inga varningar för skadlig kod eller bedrägeri.</p>' : '';
+    var safeHtml = safe && safe.safe ? '<p class="sitetest__safe">Google Safe Browsing: inga varningar för skadlig kod eller bedrägeri.</p>' : '';
 
     var issueHtml = issues.length ? issues.map(function (i) {
       return '<li class="issue issue--' + i.level + '">' +

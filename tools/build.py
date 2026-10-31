@@ -1280,8 +1280,15 @@ def build_hubs():
         for kind, title in kinds:
             items = [L for L in LANDINGS if L.get("kind") == kind]
             if slug == "orter":
-                items = [dict(slug="webbyra-uppsala", label="Webbyrå Uppsala", short="Vår hemort. Möt oss på plats eller på distans."), dict(slug="webbyra-stockholm", label="Webbyrå Stockholm", short="Med bas i Uppsala, en kort resa från Stockholm.")] + items
-            body += f'<h2 class="land__h">{title}</h2><ul class="land__grid">' + "".join(f'<li><a href="{p}{x["slug"]}.html"><b>{esc(x["label"])}</b></a><span>{esc(x["short"])}</span></li>' for x in items) + "</ul>"
+                items = [dict(slug="webbyra-uppsala", label="Webbyrå Uppsala", lan="Uppsala", short="Vår hemort. Möt oss på plats eller på distans."), dict(slug="webbyra-stockholm", label="Webbyrå Stockholm", lan="Stockholm", short="Med bas i Uppsala, en kort resa från Stockholm.")] + items
+            if slug == "orter":
+                by = {}
+                for x in items:
+                    by.setdefault(x.get("lan") or "Övriga", []).append(x)
+                for lan in sorted(by, key=lambda k: (k == "Övriga", k)):
+                    body += f'<h2 class="land__h">{esc(lan)}{"" if lan == "Övriga" else " län"}</h2><ul class="land__grid">' + "".join(f'<li><a href="{p}{x["slug"]}.html"><b>{esc(x["label"])}</b></a><span>{esc(x["short"])}</span></li>' for x in sorted(by[lan], key=lambda y: y["label"])) + "</ul>"
+            else:
+                body += f'<h2 class="land__h">{title}</h2><ul class="land__grid">' + "".join(f'<li><a href="{p}{x["slug"]}.html"><b>{esc(x["label"])}</b></a><span>{esc(x["short"])}</span></li>' for x in items) + "</ul>"
         main = f'''<main>
     {page_hero(h1, lead)}
     <section class="section container land">{body}</section>
