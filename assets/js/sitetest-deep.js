@@ -130,7 +130,8 @@
   // ---------- progress, shown in the panel while the test runs ----------
   var panel = null;
   function progressPanel() {
-    box.innerHTML = '<section class="sitetest__more deep__run">' +
+    box.innerHTML = '<section class="deep__run">' +
+      '<p class="deep__tag">Djupanalys · hela sajten</p>' +
       '<p class="deep__pctbig" id="deep-pct">0 %</p>' +
       '<div class="deep__line"><i id="deep-line"></i></div>' +
       '<h2 class="deep__title" id="deep-title">Startar …</h2>' +
