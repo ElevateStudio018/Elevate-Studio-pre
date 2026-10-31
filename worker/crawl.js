@@ -22,7 +22,7 @@ function deepPage(html) {
   // a field counts as labelled if it sits inside a <label>, has aria-label, or a <label for> points at its id
   const labelled = (html.match(/<label[\s\S]*?<\/label>/gi) || []).join('');
   f.unlabeledInputs = [...html.matchAll(/<input\b([^>]*)>/gi)]
-    .filter((m) => !/type=["'](hidden|submit|button|checkbox|radio)["']/i.test(m[1]) && !/aria-label=/i.test(m[1]) && !labelled.includes(m[0]) &&
+    .filter((m) => !/type=["'](hidden|submit|button|checkbox|radio)["']/i.test(m[1]) && !/aria-label=|aria-hidden=["']true|name=["']_honey["']/i.test(m[1]) && !labelled.includes(m[0]) &&
       !(m[1].match(/\bid=["']([^"']+)["']/i) && new RegExp('for=["\']' + m[1].match(/\bid=["']([^"']+)["']/i)[1] + '["\']', 'i').test(html))).length;
   f.blankTarget = [...html.matchAll(/<a\b([^>]*target=["']_blank["'][^>]*)>/gi)].filter((m) => !/rel=["'][^"']*noopener/i.test(m[1])).length;
   f.deprecated = (html.match(/<(font|center|marquee|frameset|applet)\b/gi) || []).length;
