@@ -312,6 +312,13 @@
       '<p class="sitetest__source">Mätningen görs med ' + (lr ? 'Google PageSpeed Insights (Lighthouse) och ' : '') +
       'MDN HTTP Observatory. Resultatet kan variera något mellan körningar.</p>';
     results.hidden = false;
+    // The extra checks (other device, whole site, competitors) start from the same numbers
+    if (lr) {
+      var sc = {};
+      CATEGORIES.forEach(function (c) { sc[c.id] = cats[c.id] ? cats[c.id].score : null; });
+      document.dispatchEvent(new CustomEvent('sitetest:done', { detail: { url: url, strategy: strategy, cats: sc,
+        lcp: audits['largest-contentful-paint'] ? audits['largest-contentful-paint'].displayValue : '–' } }));
+    }
     bindLeadForm();
     var report = { url: url, device: strategy === 'mobile' ? 'mobil' : 'dator', summary: summary, date: new Date().toLocaleDateString('sv-SE'),
       metrics: METRICS.filter(function (m) { return audits[m.id]; }).map(function (m) { return [m.label, audits[m.id].displayValue || '–']; }),

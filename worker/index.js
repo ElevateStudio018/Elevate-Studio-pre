@@ -2,6 +2,7 @@
 import { handleInvite, handleMail } from './invite.js';
 import { googleReady, googleConnect, googleCallback } from './google.js';
 import { subscribe, brevoReady } from './newsletter.js';
+import { siteCheck } from './sitecheck.js';
 import { crux, safeBrowsing, searchConsole, reviews, sheetLeads, googleCheck } from './gapi.js';
 import { bookingReady, bookingLink, bookingInfo, bookingBook, bookingSync } from './booking.js';
 import { accountsReady, accountsCreate } from './accounts.js';
@@ -44,6 +45,7 @@ export default {
     // The lead lists from Google Sheets, for the admin's import page; signed-in admins only
     if (pathname === '/api/leads/import') return sheetLeads(req, env, leadImport);
     if (pathname === '/api/newsletter') return subscribe(req, env);
+    if (pathname === '/api/sitecheck') return siteCheck(req, env);
     if (pathname === '/api/crux') return crux(req, env);
     if (pathname === '/api/safe') return safeBrowsing(req, env);
     if (pathname === '/api/gsc') return searchConsole(req, env);

@@ -1140,6 +1140,7 @@ def build_test_page():
       </div>
       <div class="sitetest__error" id="sitetest-error" hidden role="alert"></div>
       <div class="sitetest__results" id="sitetest-results" hidden></div>
+      <div class="sitetest__more-wrap container" id="sitetest-extra" hidden></div>
       <div class="sitetest__about">
         <div class="info-card"><h2 class="info-card__title">Prestanda</h2><p>Hur snabbt sidan visas och blir klickbar, särskilt på mobil.</p></div>
         <div class="info-card"><h2 class="info-card__title">Tillgänglighet</h2><p>Om alla kan använda sidan – kontraster, rubriker, etiketter och mer.</p></div>
@@ -1148,7 +1149,7 @@ def build_test_page():
     </section>
     {cta(p, "Vill du hellre att vi tittar åt dig?", "Vi gör gärna en personlig genomgång av din sajt och berättar vad som ger mest effekt.")}
   </main>'''
-    yield write("testa.html", document(p, "Testa din sajt", main, "subpage", [("Testa din sajt", "")], None, extra_js=("sitetest.js",)))
+    yield write("testa.html", document(p, "Testa din sajt", main, "subpage", [("Testa din sajt", "")], None, extra_js=("sitetest.js", "sitetest-extra.js")))
 
 
 AGREEMENT_PDF = "assets/docs/webbavtal-exempel-elevate-studio.pdf"

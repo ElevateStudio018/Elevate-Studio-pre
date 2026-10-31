@@ -735,3 +735,29 @@ body.has-preview { overflow: hidden; }
 .land__grid span { font-size: 15px; line-height: 1.5; color: #4f5a53; }
 @media (max-width: 900px) { .land__more, .land__grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .land__more, .land__grid { grid-template-columns: 1fr; } }
+/* Extra checks under the main test */
+.sitetest__more-wrap { padding: 8px 0 80px; }
+.sitetest__more { margin: 56px 0 0; padding: 36px; border-radius: 22px; background: #fff; box-shadow: 0 18px 40px -30px rgba(0, 0, 0, .3); }
+.sitetest__more .sitetest__h2 { margin: 0 0 18px; }
+.sitetest__h3 { margin: 26px 0 10px; font-size: 20px; font-weight: 600; color: var(--accent, #1d3b2a); }
+.sitetest__tbl { overflow-x: auto; margin: 0 0 16px; }
+.sitetest__tbl table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.sitetest__tbl th, .sitetest__tbl td { padding: 10px 12px; border-bottom: 1px solid rgba(29, 59, 42, .12); text-align: left; vertical-align: top; }
+.sitetest__tbl th { font-size: 13px; color: #5f6862; font-weight: 600; }
+.sitetest__tbl td.good, .sitetest__tbl span.good { color: #1a7f4b; font-weight: 700; }
+.sitetest__tbl td.ok, .sitetest__tbl span.ok { color: #9a6700; font-weight: 700; }
+.sitetest__tbl td.bad, .sitetest__tbl span.bad { color: #b42318; font-weight: 700; }
+.sitetest__note { margin: 0 0 12px; color: #4f5a53; font-size: 15px; line-height: 1.55; }
+.sitetest__note b.up { color: #1a7f4b; }
+.sitetest__note b.down { color: #b42318; }
+.sitetest__warn { color: #b42318; font-weight: 600; }
+.sitetest__list { margin: 0 0 16px; padding: 0 0 0 20px; font-size: 15px; line-height: 1.6; color: #2b3a32; }
+.sitetest__list li { margin-bottom: 6px; }
+.sitetest__mail { list-style: none; padding: 0; }
+.sitetest__mail li { padding: 10px 14px; border-radius: 12px; background: #f6f1e4; margin-bottom: 8px; }
+.sitetest__mail li.good { background: #e6f4ec; }
+.sitetest__mail li.bad { background: #fdecea; }
+.sitetest__comp { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+.sitetest__comp input { height: 48px; padding: 0 14px; border: 1px solid rgba(29, 59, 42, .25); border-radius: 12px; font: inherit; }
+.sitetest__cmp table td:first-child { font-weight: 600; }
+@media (max-width: 640px) { .sitetest__more { padding: 22px; } .sitetest__comp { grid-template-columns: 1fr; } }
