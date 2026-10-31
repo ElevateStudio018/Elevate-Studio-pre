@@ -40,7 +40,8 @@ function analysePage(html) {
   // the form must contain its own field and send button (buttons in the menu do not count)
   // a contact form has a message box or more than one field; the newsletter box in the footer has only an e-mail field
   const form = [...html.matchAll(/<form\b[\s\S]*?<\/form>/gi)].some((m) => {
-    const fields = (m[0].match(/<(input|textarea|select)\b(?![^>]*type=["'](hidden|submit|button)["'])/gi) || []).length;
+    // the hidden trap field (name _honey) and buttons do not count
+    const fields = (m[0].match(/<(input|textarea|select)\b(?![^>]*type=["'](hidden|submit|button)["'])(?![^>]*name=["']_honey["'])/gi) || []).length;
     return (/<textarea\b/i.test(m[0]) || fields >= 2) && /type=["']submit["']|<button\b/i.test(m[0]);
   });
   return { title, titleLen: title.length, desc, descLen: desc.length, h1, imgs: imgs.length, noAlt, hrefs, form };
