@@ -769,3 +769,7 @@ LANDINGS = [
                 ("Äger vi hemsidans domän?", "Ja. Domänen är och förblir er.")],
     },
 ]
+
+# 30 extra landing pages (trades, towns, topics), generated in landings_gen.py
+from landings_gen import generate as _generate_landings  # noqa: E402
+LANDINGS = LANDINGS + _generate_landings()

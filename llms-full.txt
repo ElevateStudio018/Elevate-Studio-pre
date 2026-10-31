@@ -210,6 +210,1507 @@ En hemsida behöver inte kosta tiotusentals kronor. Hos oss får ni en snabb, mo
 ### Behöver ni mer?
 - Pro för 6 000 kr lägger till bokning eller offertflöde, AI-chatt och notiser via e-post och SMS. Större projekt får ett fast pris i en offert.
 
+## Hemsida för elektriker
+Vi bygger snabba, mobilanpassade hemsidor för elektriker som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter elektriker
+En elektriker säljer trygghet. Kunden ska känna att jobbet blir rätt gjort, att priset är tydligt och att någon faktiskt svarar. Hemsidan är ofta det första kunden ser, och den avgör om det blir ett samtal till er eller till nästa firma i sökresultatet.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- elektriker Uppsala
+- installera laddbox hemma
+- byta elcentral pris
+- elfel i huset – vem ringer jag
+- elinstallation nybyggd villa
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för elektriker innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- En egen sida för varje tjänst: elinstallation, elcentral, laddboxar, belysning, felsökning
+- Ett offertformulär där kunden kan beskriva jobbet och bifoga en bild på centralen eller uttaget
+- Tydlig information om försäkring och behörighet, om ni har det
+- Vilka orter och kommuner ni arbetar i
+- Bilder och korta beskrivningar av utförda jobb
+- Ett telefonnummer som syns på varje sida, även på mobilen
+
+### Det som får kunden att höra av sig
+Eljobb känns viktiga för kunden eftersom det handlar om säkerhet i hemmet. Skriv därför öppet hur ni arbetar: hur ett platsbesök går till, vad som står i offerten och vad kunden kan förvänta sig efter att jobbet är klart. Om ni erbjuder ROT-avdrag på arbeten i bostaden ska det stå på sidan, så slipper kunden fråga.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Alla tjänster ligger på en enda lång sida, så Google vet inte vad ni vill synas på
+- Bara en telefonlänk, ingen väg för den som hellre skriver
+- Inga bilder, eller bilder som ser ut som bildbank
+- Ingen information om hur lång tid det tar att få svar
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Ett offertformulär som ställer rätt frågor sparar tid åt er: typ av jobb, ort, bostadstyp och en bild. Då kan ni ge ett första svar utan att ringa tillbaka tre gånger. För platsbesök fungerar bokning direkt på sidan bra, och en AI-chatt kan svara på det som ofta frågas, som hur lång tid det tar att installera en laddbox.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För elektriker bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- elektriker Uppsala
+- installera laddbox hemma
+- byta elcentral pris
+- elfel i huset – vem ringer jag
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Första mötet: vi går igenom vad ni gör, vilka ni vill nå och vilka frågor kunderna brukar ställa.
+- Utkast på ungefär en dag: ni får se en riktig hemsida och inte bara en skiss.
+- Två korrekturvändor: ni ändrar text, bilder och detaljer tills det känns rätt.
+- Lansering: hemsidan går live och Google får veta att den finns.
+
+### Vad kostar det?
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För elektriker räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för rörmokare
+Vi bygger snabba, mobilanpassade hemsidor för rörmokare och VVS-firmor som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter rörmokare och VVS-firmor
+När det läcker eller värmen försvinner vill kunden ha hjälp nu. Den som söker efter en rörmokare sitter ofta med mobilen i handen och har bråttom. Hemsidan ska därför vara snabb, tydlig och göra det enkelt att ta kontakt direkt.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- rörmokare Uppsala
+- akut VVS
+- byta badrumsgolv
+- installera värmepump
+- läckande kran vem ringer jag
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för rörmokare innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Ett telefonnummer högst upp som går att trycka på från mobilen
+- Egna sidor för tjänsterna: badrumsrenovering, avloppsstopp, värmepumpar, vattenskador
+- Vilka tider ni är nåbara och om ni tar akuta uppdrag
+- Ett formulär för mindre ärenden som inte är akuta
+- Information om offert, pris och hur ni tar betalt
+- Omdömen och bilder från utförda jobb när ni har dem
+
+### Det som får kunden att höra av sig
+Kunden vill veta att ni dyker upp och att priset inte exploderar. Förklara hur ni prissätter, om ni jobbar på löpande räkning eller fast pris och vad som ingår i en offert. Ju mer konkret ni är, desto lägre är tröskeln att ringa.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Hemsidan laddar långsamt på mobilnätet, och den akuta kunden hinner ringa någon annan
+- Telefonnumret är en bild eller går inte att trycka på
+- Det står inte om ni tar akuta jobb eller bara planerade
+- Ingen information om vilka områden ni kör till
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Två vägar passar en VVS-firma: ett snabbt samtal för akuta ärenden och ett offertformulär för planerade jobb som badrumsrenovering. Med en AI-chatt kan ni dessutom svara på frågor utanför kontorstid, till exempel vad man ska göra tills rörmokaren kommer.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För rörmokare och VVS-firmor bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- rörmokare Uppsala
+- akut VVS
+- byta badrumsgolv
+- installera värmepump
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Vi börjar med ett kort samtal om verksamheten, tjänsterna och målgruppen.
+- Därefter bygger vi ett första utkast, oftast klart på ungefär en dag.
+- Ni får granska och komma med ändringar i två omgångar.
+- När ni är nöjda publicerar vi sidan och ser till att den kan hittas.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För rörmokare och VVS-firmor räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för målare
+Vi bygger snabba, mobilanpassade hemsidor för målare och målerifirmor som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter målare och målerifirmor
+Ett målningsjobb syns, och hemsidan ska göra det också. Före- och efterbilder säljer bättre än många ord. En målare som visar riktiga jobb på en snabb, ren sida får fler förfrågningar än en som bara skriver att kvaliteten är hög.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- målare Uppsala
+- måla om lägenhet pris
+- fasadmålning villa
+- tapetsera vardagsrum
+- målare ROT-avdrag
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för målare innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Ett galleri med före- och efterbilder, uppdelat på invändigt, utvändigt och fasad
+- Tjänstesidor för fasadmålning, tapetsering, spackling och renovering
+- Information om hur offert och prissättning går till
+- En tydlig förklaring av ROT-avdrag om ni erbjuder det
+- Ett formulär där kunden kan skicka bilder på rummet
+- Vilka orter ni arbetar i
+
+### Det som får kunden att höra av sig
+Kunden släpper in er i sitt hem. Visa därför vem ni är: namn, bild och några rader om hur ni arbetar. Beskriv hur ni skyddar golv och möbler, hur ni planerar tiden och vad som händer om något oväntat dyker upp bakom en tapet.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Bilderna är små, mörka eller utan sammanhang
+- Det går inte att se vad jobbet kostar eller hur en offert tas fram
+- Allt står på startsidan i stället för på egna sidor per tjänst
+- Formuläret ber om för mycket information på en gång
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Låt kunden skicka bilder via offertformuläret, så kan ni bedöma jobbet i förväg. Ett bokningssystem för besiktning gör att ni slipper pingpong om tider. En AI-chatt kan svara på vanliga frågor som hur lång tid ett rum tar att måla.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För målare och målerifirmor bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- målare Uppsala
+- måla om lägenhet pris
+- fasadmålning villa
+- tapetsera vardagsrum
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Steg ett är ett möte där vi lär känna er och er målgrupp.
+- Steg två är ett utkast som ni kan klicka runt i, ofta redan nästa dag.
+- Steg tre är två rundor av ändringar enligt era önskemål.
+- Steg fyra är lansering, och därefter finns vi kvar för support.
+
+### Så mycket kostar det
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För målare och målerifirmor räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för snickare
+Vi bygger snabba, mobilanpassade hemsidor för snickare och byggfirmor som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter snickare och byggfirmor
+Snickare arbetar ofta med stora och långa projekt: altaner, tillbyggnader, kök och renoveringar. Kunden planerar, jämför och väntar innan beslutet. Hemsidan ska stå för förtroendet under hela den processen.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- snickare Uppsala
+- bygga altan pris
+- tillbyggnad villa
+- köksrenovering snickare
+- bygglov hjälp
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för snickare innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Projektsidor med bilder och en kort beskrivning av vad som byggdes
+- Tjänstesidor: altan, tillbyggnad, kök, badrum, fönster och dörrar
+- Information om hur ni går från första kontakt till färdigt hus
+- Hur lång tid projekt brukar ta och hur ni planerar
+- Ett offertformulär som frågar efter mått, plats och önskemål
+- Kontaktuppgifter och områden ni arbetar i
+
+### Det som får kunden att höra av sig
+Större byggen kräver mycket förtroende. Förklara hur ni hanterar ändringar under projektet, hur ni kommunicerar och hur ni försäkrar arbetet. Visa gärna steg för steg hur ett projekt ser ut, från första samtal till slutbesiktning.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Projekten visas utan förklaring, bara bilder utan text
+- Hemsidan nämner inte hur långt i förväg man måste kontakta er
+- Inga svar på vanliga frågor om bygglov och tidsplan
+- Formulär utan fält för bilder eller ritningar
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Ett offertflöde där kunden kan ladda upp skisser och mått, gör första samtalet mycket mer konkret. Med bokning kan kunden boka ett platsbesök direkt, och en AI-chatt svarar på det som ofta kommer först: hur lång leveranstid, vad kostar en altan och behövs bygglov.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För snickare och byggfirmor bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- snickare Uppsala
+- bygga altan pris
+- tillbyggnad villa
+- köksrenovering snickare
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Första mötet: vi går igenom vad ni gör, vilka ni vill nå och vilka frågor kunderna brukar ställa.
+- Utkast på ungefär en dag: ni får se en riktig hemsida och inte bara en skiss.
+- Två korrekturvändor: ni ändrar text, bilder och detaljer tills det känns rätt.
+- Lansering: hemsidan går live och Google får veta att den finns.
+
+### Vad kostar det?
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För snickare och byggfirmor räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för städfirma
+Vi bygger snabba, mobilanpassade hemsidor för städfirmor som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter städfirmor
+Städning är en tjänst kunden beställer återkommande, och förtroendet byggs på tydlighet: vad ingår, vad kostar det och vem kommer hem till mig. Vi har byggt hemsidan åt Alvhem Städ, och lärdomarna därifrån gäller de flesta städfirmor.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- städfirma Uppsala
+- flyttstädning pris
+- hemstädning RUT-avdrag
+- storstädning
+- kontorsstädning företag
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för städfirma innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- En sida per tjänst: hemstädning, storstädning, flyttstädning, kontorsstädning
+- Tydliga priser eller prisexempel, och hur RUT-avdraget räknas
+- En kalkylator eller ett formulär där kunden fyller i bostadsyta
+- Bokning av tid direkt på sidan
+- Information om vem som kommer och hur ni arbetar
+- Områden ni städar i
+
+### Det som får kunden att höra av sig
+Den som beställer städning släpper in en främling i hemmet. Berätta hur ni arbetar, om kunden får samma städare varje gång och vilka rutiner ni har för nycklar och försäkring. Det är de svaren kunden letar efter.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Priserna går inte att hitta, så kunden går vidare till en konkurrent
+- RUT-avdraget förklaras inte eller förklaras otydligt
+- Bokning kräver samtal, trots att kunden helst bokar på kvällen
+- Alla tjänster samsas på samma sida
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+För en städfirma är bokning och en prisberäkning de mest användbara funktionerna. Kunden räknar själv ut vad flyttstädningen kostar, bokar en tid och får en bekräftelse. En AI-chatt kan svara på frågor om vad som ingår och hur avdraget fungerar.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För städfirmor bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- städfirma Uppsala
+- flyttstädning pris
+- hemstädning RUT-avdrag
+- storstädning
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Vi börjar med ett kort samtal om verksamheten, tjänsterna och målgruppen.
+- Därefter bygger vi ett första utkast, oftast klart på ungefär en dag.
+- Ni får granska och komma med ändringar i två omgångar.
+- När ni är nöjda publicerar vi sidan och ser till att den kan hittas.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För städfirmor räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för takläggare
+Vi bygger snabba, mobilanpassade hemsidor för takläggare som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter takläggare
+Ett tak byts sällan, och kunden vill göra rätt. De flesta söker efter information långt innan de ringer. Den takfirma som svarar på frågorna på sin hemsida är också den som kunden litar på när det är dags att ta in offerter.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- takläggare Uppsala
+- byta tak pris
+- takläggning plåt
+- taktvätt
+- taktegel eller plåttak
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för takläggare innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Sidor för takbyte, omläggning, plåttak, tegel, taktvätt och reparationer
+- En enkel jämförelse mellan takmaterial och vad som passar vilket hus
+- Bilder från utförda takjobb
+- Information om garanti, försäkring och säkerhet på arbetsplatsen
+- Ett offertformulär med fält för husets yta, takvinkel och material
+- Vilka orter ni arbetar i
+
+### Det som får kunden att höra av sig
+Ett takbyte är en stor investering. Förklara vad som ingår, hur ni skyddar huset under arbetet, vilken garanti ni ger och hur ni hanterar väder. Det är de detaljerna som gör att kunden väljer er framför lägsta pris.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Hemsidan tar inte upp skillnaden mellan olika takmaterial
+- Det står ingenting om garanti eller försäkring
+- Offertformuläret saknar fält för husets storlek
+- Hemsidan syns inte på sökningar som taktvätt, som ger många kunder
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Ett offertformulär som frågar rätt saker ger er ett bättre underlag redan från start. Med en AI-chatt kan ni svara på frågor om materialval och tidsplan, och bokningen gör det enkelt att få in platsbesök i kalendern.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För takläggare bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- takläggare Uppsala
+- byta tak pris
+- takläggning plåt
+- taktvätt
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Steg ett är ett möte där vi lär känna er och er målgrupp.
+- Steg två är ett utkast som ni kan klicka runt i, ofta redan nästa dag.
+- Steg tre är två rundor av ändringar enligt era önskemål.
+- Steg fyra är lansering, och därefter finns vi kvar för support.
+
+### Så mycket kostar det
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För takläggare räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för markentreprenad
+Vi bygger snabba, mobilanpassade hemsidor för markentreprenörer och grundläggare som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter markentreprenörer och grundläggare
+Mark- och grundarbeten säljs ofta till andra företag och byggare, men också till privatpersoner som ska bygga eller anlägga. Hemsidan ska visa vad ni kan, vilka maskiner ni har och hur ni samarbetar. Vi har byggt sidan åt Markmontage BEAB AB, och tänket är detsamma för de flesta markfirmor.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- markentreprenad Uppsala
+- grundläggning villa
+- schaktning pris
+- dränering hus
+- markarbeten ROT
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för markentreprenör innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Tjänstesidor för schaktning, grundläggning, dränering, ledningsarbeten och plattor
+- En maskinlista eller en beskrivning av vad ni kan utföra
+- Referensprojekt med bilder och kort text
+- Information om hur ni arbetar mot byggare och privatkunder
+- Ett offertformulär med fält för plats, ytor och önskad start
+- Kontaktuppgifter som går direkt till rätt person
+
+### Det som får kunden att höra av sig
+Byggare och privatkunder vill veta att ni håller tiden och förstår helheten. Visa hur ni planerar ett uppdrag, hur ni kommunicerar under tiden och vilka erfarenheter ni har av liknande jobb. Det räcker ofta med några tydliga rader per referens.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Hemsidan förklarar inte vad ni gör för vem
+- Det saknas bilder från riktiga arbeten
+- Formuläret ställer inga frågor om plats och omfattning
+- Sidan är inte anpassad för mobil, trots att kunderna ofta kollar från bygget
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Ett offertflöde som frågar efter plats, ytor och starttid gör det lättare att prioritera rätt uppdrag. Bokning av platsbesök sparar telefontid, och en AI-chatt kan svara på frågor om vilka tjänster ni utför.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För markentreprenörer och grundläggare bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- markentreprenad Uppsala
+- grundläggning villa
+- schaktning pris
+- dränering hus
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Första mötet: vi går igenom vad ni gör, vilka ni vill nå och vilka frågor kunderna brukar ställa.
+- Utkast på ungefär en dag: ni får se en riktig hemsida och inte bara en skiss.
+- Två korrekturvändor: ni ändrar text, bilder och detaljer tills det känns rätt.
+- Lansering: hemsidan går live och Google får veta att den finns.
+
+### Vad kostar det?
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För markentreprenörer och grundläggare räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för trädgårdsfirma
+Vi bygger snabba, mobilanpassade hemsidor för trädgårdsfirmor och anläggare som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter trädgårdsfirmor och anläggare
+Trädgårdsjobb är säsongsbundet, och kunderna börjar söka tidigt på våren. En hemsida som är klar och välfylld i februari fångar förfrågningarna innan konkurrenterna hunnit vakna. Det är också en tjänst där bilderna gör stor skillnad.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- trädgårdsfirma Uppsala
+- trädgårdsskötsel pris
+- anlägga uteplats
+- beskära fruktträd
+- plantering och stenläggning
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för trädgårdsfirma innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Sidor för skötsel, plantering, stenläggning, beskärning och anläggning
+- Ett bildgalleri uppdelat per typ av jobb
+- Information om abonnemang och återkommande skötsel
+- Ett formulär där kunden kan beskriva trädgården och bifoga bilder
+- Vilka områden ni arbetar i
+- Säsongsinformation: när bör man boka vad
+
+### Det som får kunden att höra av sig
+Kunden vill veta vem som kommer, hur ofta och vad det kostar. Berätta hur ni planerar jobbet, om kunden får en fast kontaktperson och hur ni arbetar för att trädgården ska vara fin över tid och inte bara efter första besöket.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Bilderna visar bara färdiga trädgårdar, aldrig hur arbetet går till
+- Ingen information om säsong och bokningstider
+- Skötselabonnemang nämns inte alls
+- Hemsidan uppdateras aldrig, så den ser övergiven ut
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Ett bokningssystem passar återkommande skötsel och besiktning. Offertformuläret ger er bilder och mått från början. En AI-chatt kan svara på frågor om säsong och tider, och ni kan enkelt lägga ut nya bilder under säsongen.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För trädgårdsfirmor och anläggare bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- trädgårdsfirma Uppsala
+- trädgårdsskötsel pris
+- anlägga uteplats
+- beskära fruktträd
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Vi börjar med ett kort samtal om verksamheten, tjänsterna och målgruppen.
+- Därefter bygger vi ett första utkast, oftast klart på ungefär en dag.
+- Ni får granska och komma med ändringar i två omgångar.
+- När ni är nöjda publicerar vi sidan och ser till att den kan hittas.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För trädgårdsfirmor och anläggare räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för bilverkstad
+Vi bygger snabba, mobilanpassade hemsidor för bilverkstäder som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter bilverkstäder
+Den som behöver en verkstad vill snabbt veta om ni kan hjälpa till med just deras bil och när. Hemsidan ska svara på det direkt och göra det enkelt att boka en tid, utan att kunden behöver vänta i telefonkö.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- bilverkstad Uppsala
+- däckskifte boka tid
+- service bil pris
+- bilbesiktning förberedelse
+- AC-service bil
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för bilverkstad innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Tjänstesidor för service, däck, bromsar, AC, felsökning och reparationer
+- Bokning av tid direkt på sidan
+- Vilka bilmärken ni arbetar med
+- Öppettider och adress med karta
+- Information om garantier och hur ni redovisar kostnader
+- Ett enkelt sätt att fråga om pris för ett specifikt jobb
+
+### Det som får kunden att höra av sig
+Kunden är rädd för överraskningar på fakturan. Förklara hur ni går till väga: hur ni offererar innan jobbet påbörjas, hur ni meddelar om något extra behövs och vilken garanti ni ger. Det gör stor skillnad för beslutet.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Det går bara att boka via telefon, och telefonen är upptagen
+- Hemsidan visar inte vilka bilmärken ni arbetar med
+- Öppettiderna går inte att hitta
+- Inga svar på frågan vad servicen kostar
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Bokning direkt på sidan är den största vinsten för en verkstad. Kunden väljer tid och typ av jobb, och ni får en tydlig order. En AI-chatt kan svara på frågor om däckskifte, öppettider och vad som ingår i en service.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För bilverkstäder bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- bilverkstad Uppsala
+- däckskifte boka tid
+- service bil pris
+- bilbesiktning förberedelse
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Steg ett är ett möte där vi lär känna er och er målgrupp.
+- Steg två är ett utkast som ni kan klicka runt i, ofta redan nästa dag.
+- Steg tre är två rundor av ändringar enligt era önskemål.
+- Steg fyra är lansering, och därefter finns vi kvar för support.
+
+### Så mycket kostar det
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För bilverkstäder räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för frisör
+Vi bygger snabba, mobilanpassade hemsidor för frisörer och salonger som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter frisörer och salonger
+En frisörsalong lever på bokningar. Varje tom stol är förlorad intäkt, och varje missad bokning är oftast en kund som tog nästa salong i sökresultatet. Hemsidan ska göra bokningen så enkel att den görs på tio sekunder.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- frisör Uppsala
+- boka klippning online
+- balayage
+- herrfrisör
+- barnklippning
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för frisör innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Bokning direkt på sidan, med val av behandling och tid
+- En prislista som är lätt att hitta
+- Presentation av frisörerna med bild och specialitet
+- Bildgalleri med riktiga resultat
+- Adress, öppettider och vägbeskrivning
+- Regler för avbokning och sen ankomst
+
+### Det som får kunden att höra av sig
+Kunden väljer salong efter känsla. Visa personerna bakom stolarna, berätta vad ni är bra på och låt bilderna visa stilen. En hemsida som speglar salongens atmosfär gör att rätt kunder söker sig till er.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Bokning sker bara via Instagram eller telefon
+- Prislistan saknas eller är dold
+- Bilderna är hämtade från bildbanker och visar inte salongen
+- Hemsidan är långsam och krånglig på mobil, där de flesta bokar
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Online-bokning med bekräftelse och påminnelse minskar uteblivna kunder. Ett offertflöde är mindre viktigt här, men en AI-chatt kan svara på frågor om behandlingar och priser medan ni arbetar.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För frisörer och salonger bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- frisör Uppsala
+- boka klippning online
+- balayage
+- herrfrisör
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Första mötet: vi går igenom vad ni gör, vilka ni vill nå och vilka frågor kunderna brukar ställa.
+- Utkast på ungefär en dag: ni får se en riktig hemsida och inte bara en skiss.
+- Två korrekturvändor: ni ändrar text, bilder och detaljer tills det känns rätt.
+- Lansering: hemsidan går live och Google får veta att den finns.
+
+### Vad kostar det?
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För frisörer och salonger räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för skönhetssalong
+Vi bygger snabba, mobilanpassade hemsidor för skönhetssalonger och hudterapeuter som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter skönhetssalonger och hudterapeuter
+Skönhetsbranschen är personlig. Kunden vill känna igen sig, få svar på sina frågor innan besöket och kunna boka när det passar. En hemsida som är lugn, ren och tydlig skapar redan från början rätt känsla.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- hudvård Uppsala
+- ansiktsbehandling pris
+- nagelvård
+- fransar och bryn
+- vaxning
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för skönhetssalong innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- En sida per behandling med kort förklaring, tid och pris
+- Bokning av tid direkt på sidan
+- Presentation av dig och din utbildning
+- Bilder som visar salongen och resultat
+- Information om hur du förbereder dig inför besöket
+- Presentkort eller erbjudanden, om ni har det
+
+### Det som får kunden att höra av sig
+Behandlingar kräver förtroende. Berätta vilka produkter och metoder ni använder, hur ni arbetar med hygien och vad kunden kan vänta sig. En lugn och informativ text väger tungt när kunden jämför.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Alla behandlingar står på en lång prislista utan förklaring
+- Ingen information om förberedelser eller efterbehandling
+- Bokning går bara via ett direktmeddelande
+- Texten är full av branschord som kunden inte förstår
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Bokning med bekräftelse och påminnelse är grunden. Med en AI-chatt kan kunden få svar på frågor som vilken behandling som passar och hur lång tid den tar, även när ni är upptagna med en kund.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För skönhetssalonger och hudterapeuter bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- hudvård Uppsala
+- ansiktsbehandling pris
+- nagelvård
+- fransar och bryn
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Vi börjar med ett kort samtal om verksamheten, tjänsterna och målgruppen.
+- Därefter bygger vi ett första utkast, oftast klart på ungefär en dag.
+- Ni får granska och komma med ändringar i två omgångar.
+- När ni är nöjda publicerar vi sidan och ser till att den kan hittas.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För skönhetssalonger och hudterapeuter räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för restaurang
+Vi bygger snabba, mobilanpassade hemsidor för restauranger och caféer som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter restauranger och caféer
+De flesta bestämmer vart de ska äta med mobilen i handen. De vill se meny, öppettider, adress och en knapp för att boka bord, på under en halv minut. Hemsidan ska svara på allt det, utan att kunden behöver zooma eller leta.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- restaurang Uppsala
+- lunchmeny idag
+- boka bord
+- afterwork
+- catering företag
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för restaurang innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Meny som är text, inte en bild eller en PDF som är svår att läsa på mobil
+- Öppettider och adress som syns direkt
+- Bordsbokning eller en enkel bokningsförfrågan
+- Lunchmeny som är lätt att uppdatera
+- Information om allergier och specialkost
+- Förfrågan för catering och sällskap
+
+### Det som får kunden att höra av sig
+Maten är beviset, men bilderna och beskrivningen får gästen att komma. Visa lokalen, berätta om era råvaror och låt kunden känna stämningen innan besöket. Små detaljer som parkering och barnstol gör också skillnad.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Menyn finns bara som en PDF som är svår att läsa på mobilen
+- Öppettiderna är gamla eller saknas
+- Det går inte att boka bord utan att ringa
+- Allergi- och kostinformation saknas
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+En bokningsfunktion för bord och sällskap avlastar telefonen under kvällen. Ett förfrågningsformulär passar catering och större sällskap, och en AI-chatt kan svara på frågor om meny, allergier och öppettider.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För restauranger och caféer bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- restaurang Uppsala
+- lunchmeny idag
+- boka bord
+- afterwork
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Steg ett är ett möte där vi lär känna er och er målgrupp.
+- Steg två är ett utkast som ni kan klicka runt i, ofta redan nästa dag.
+- Steg tre är två rundor av ändringar enligt era önskemål.
+- Steg fyra är lansering, och därefter finns vi kvar för support.
+
+### Så mycket kostar det
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För restauranger och caféer räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för redovisningsbyrå
+Vi bygger snabba, mobilanpassade hemsidor för redovisningsbyråer och ekonomikonsulter som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter redovisningsbyråer och ekonomikonsulter
+Den som letar efter hjälp med bokföring och bokslut vill veta att byrån är trygg, begriplig och fungerar med deras sätt att arbeta. Hemsidan är ofta första mötet. Den ska vara lugn, tydlig och undvika branschjargong.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- redovisningsbyrå Uppsala
+- bokföring enskild firma
+- bokslut aktiebolag
+- lön och fakturering
+- starta aktiebolag hjälp
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för redovisningsbyrå innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Tjänstesidor för bokföring, bokslut, lön, deklaration och rådgivning
+- Prisinformation eller prisexempel per företagstyp
+- Vem som är kontaktperson och hur samarbetet går till
+- Svar på vanliga frågor från nya företagare
+- Ett enkelt sätt att boka ett första samtal
+- Information om vilka program och system ni arbetar i
+
+### Det som får kunden att höra av sig
+Ekonomi är känsligt. Kunden vill veta vem de pratar med, hur ni hanterar deras uppgifter och hur samarbetet ser ut över tid. Skriv enkelt, undvik fackspråk och förklara vad kunden gör själv och vad ni gör åt dem.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Hemsidan använder så mycket branschspråk att nya företagare inte förstår
+- Ingen information om pris, så kunden ber om en offert i onödan
+- Det syns inte vilka kunder byrån passar för
+- Kontaktformuläret frågar efter mer än kunden vill ge
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Bokning av ett första samtal är den viktigaste funktionen. Ett offertformulär hjälper er att få rätt uppgifter från start. En AI-chatt kan svara på vanliga frågor, som vad som ingår i löpande bokföring.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För redovisningsbyråer och ekonomikonsulter bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- redovisningsbyrå Uppsala
+- bokföring enskild firma
+- bokslut aktiebolag
+- lön och fakturering
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Första mötet: vi går igenom vad ni gör, vilka ni vill nå och vilka frågor kunderna brukar ställa.
+- Utkast på ungefär en dag: ni får se en riktig hemsida och inte bara en skiss.
+- Två korrekturvändor: ni ändrar text, bilder och detaljer tills det känns rätt.
+- Lansering: hemsidan går live och Google får veta att den finns.
+
+### Vad kostar det?
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För redovisningsbyråer och ekonomikonsulter räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för advokat
+Vi bygger snabba, mobilanpassade hemsidor för advokater och juridiska konsulter som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter advokater och juridiska konsulter
+Juridik är något kunden helst slipper, och den som söker hjälp är ofta orolig. Hemsidan ska ge lugn, tydlighet och en enkel väg till första kontakten. Den ska visa kompetens utan att skrämma.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- advokat Uppsala
+- juridisk hjälp företag
+- avtal granskning
+- arvskifte hjälp
+- tvist hyresgäst
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för advokat innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Sidor för era områden, till exempel företagsjuridik, familjerätt eller fastighet
+- Presentation av juristerna, med erfarenhet och inriktning
+- Hur första kontakten går till och vad den kostar
+- Information om arvoden och hur ni fakturerar
+- Svar på vanliga frågor inom varje område
+- Ett sätt att boka ett första samtal
+
+### Det som får kunden att höra av sig
+Kunden vill förstå processen. Förklara hur ett ärende går till, vad som händer efter första samtalet och vad det kan kosta. Skriv respektfullt och konkret, och lova inte resultat som ni inte kan garantera.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Texten är full av juridiska termer utan förklaring
+- Det framgår inte vad första samtalet kostar
+- Alla rättsområden ligger på en och samma sida
+- Kontaktvägarna är gömda
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Bokning av ett första samtal är viktigast. Ett formulär kan samla in grundfakta, så att första mötet blir effektivt. En AI-chatt kan ge allmän information och hänvisa till bokning, men aldrig ge rättsliga råd.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För advokater och juridiska konsulter bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- advokat Uppsala
+- juridisk hjälp företag
+- avtal granskning
+- arvskifte hjälp
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Vi börjar med ett kort samtal om verksamheten, tjänsterna och målgruppen.
+- Därefter bygger vi ett första utkast, oftast klart på ungefär en dag.
+- Ni får granska och komma med ändringar i två omgångar.
+- När ni är nöjda publicerar vi sidan och ser till att den kan hittas.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För advokater och juridiska konsulter räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för fastighetsmäklare
+Vi bygger snabba, mobilanpassade hemsidor för fastighetsmäklare som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter fastighetsmäklare
+Mäklare konkurrerar med ett känt varumärke, skarpa bilder och personliga relationer. En egen hemsida ger er kontroll över hur ni presenteras, och möjlighet att fånga både säljare och köpare direkt, utan en portal emellan.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- mäklare Uppsala
+- värdering bostad
+- sälja lägenhet
+- mäklararvode
+- bostadsrätt eller villa
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för fastighetsmäklare innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Presentation av mäklaren, med bild och erfarenhet
+- En enkel värderingsförfrågan
+- Information om hur en försäljning går till, steg för steg
+- Områdessidor, som vilka bostadsområden ni arbetar i
+- Länkar till era objekt
+- Ett sätt att boka ett samtal eller en värdering
+
+### Det som får kunden att höra av sig
+Säljare väljer en person. Visa vem du är, hur du arbetar och vad kunden kan vänta sig av processen. Konkreta förklaringar av hur du prissätter, marknadsför och förhandlar väger tyngre än allmänna löften.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Sidan är bara en kopia av mäklarkedjans mall
+- Det finns ingen enkel väg att begära en värdering
+- Områdena ni arbetar i är inte beskrivna
+- Hemsidan är långsam på mobil
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+En värderingsförfrågan fungerar som ett offertformulär. Bokning gör det enkelt för säljaren att boka ett första möte, och en AI-chatt kan svara på frågor om processen, utan att ge juridisk eller ekonomisk rådgivning.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För fastighetsmäklare bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- mäklare Uppsala
+- värdering bostad
+- sälja lägenhet
+- mäklararvode
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Steg ett är ett möte där vi lär känna er och er målgrupp.
+- Steg två är ett utkast som ni kan klicka runt i, ofta redan nästa dag.
+- Steg tre är två rundor av ändringar enligt era önskemål.
+- Steg fyra är lansering, och därefter finns vi kvar för support.
+
+### Så mycket kostar det
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För fastighetsmäklare räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för personlig tränare
+Vi bygger snabba, mobilanpassade hemsidor för personliga tränare och gym som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter personliga tränare och gym
+Träning är en personlig tjänst. Kunden väljer en person de tror på. Hemsidan ska visa vem du är, hur du arbetar och vad kunden kan förvänta sig, och göra det enkelt att ta första steget.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- personlig tränare Uppsala
+- styrketräning nybörjare
+- viktnedgång träningsupplägg
+- online personlig tränare
+- PT-pass pris
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för personlig tränare innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- En presentation med bild, bakgrund och inriktning
+- Paket och priser, som provpass, klippkort eller månadsupplägg
+- Bokning av provpass direkt på sidan
+- Berättelser om hur ett upplägg går till
+- Svar på frågor om träningsmål, skador och nivå
+- Var ni tränar och vilka tider som finns
+
+### Det som får kunden att höra av sig
+Kunden vill veta att du förstår deras mål och att träningen blir rätt för dem. Beskriv hur första passet går till, hur du anpassar upplägget och hur ni följer upp. Visa riktiga resultat bara om kunden har gett sitt godkännande.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Det är oklart vad ett första samtal innebär
+- Priserna saknas eller går inte att hitta
+- Hemsidan visar bara bilder, utan förklaring av upplägget
+- Bokning kräver ett direktmeddelande
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Bokning av provpass är den viktigaste funktionen. Ett formulär kan fråga efter mål och bakgrund, så ni är förberedda. En AI-chatt kan svara på frågor om upplägg och priser.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För personliga tränare och gym bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- personlig tränare Uppsala
+- styrketräning nybörjare
+- viktnedgång träningsupplägg
+- online personlig tränare
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Första mötet: vi går igenom vad ni gör, vilka ni vill nå och vilka frågor kunderna brukar ställa.
+- Utkast på ungefär en dag: ni får se en riktig hemsida och inte bara en skiss.
+- Två korrekturvändor: ni ändrar text, bilder och detaljer tills det känns rätt.
+- Lansering: hemsidan går live och Google får veta att den finns.
+
+### Vad kostar det?
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För personliga tränare och gym räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för fotograf
+Vi bygger snabba, mobilanpassade hemsidor för fotografer som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter fotografer
+En fotograf säljs av sina bilder. Hemsidan är portföljen, och den får inte stå i vägen. Den ska ladda snabbt, visa bilderna stort och göra det lätt att fråga om pris och datum.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- fotograf Uppsala
+- bröllopsfotograf
+- porträttfotografering
+- företagsfoto
+- familjefotografering pris
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för fotograf innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- Ett bildgalleri per typ av uppdrag: bröllop, porträtt, företag, familj
+- Snabbt laddade bilder i modernt format, så sidan inte blir tung
+- Priser eller paket
+- Ett formulär där kunden anger typ av uppdrag och datum
+- Information om hur en fotografering går till
+- Omdömen från kunder när ni har dem
+
+### Det som får kunden att höra av sig
+Kunden vill veta hur dagen kommer att kännas. Berätta om din stil, hur du arbetar och vad som ingår: antal bilder, leveranstid, redigering. Det ger trygghet och minskar frågorna.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Bildgalleriet laddar för långsamt för att kunden ska orka vänta
+- Det går inte att se vad en fotografering kostar
+- Alla bilder ligger blandade, utan uppdelning
+- Datumet för ett uppdrag kan inte skickas med i förfrågan
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Ett förfrågningsformulär med datum och typ av uppdrag ger er en bra start. Bokning kan användas för studiosessioner. Bilderna optimeras automatiskt så att sidan blir snabb utan att kvaliteten tappas.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För fotografer bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- fotograf Uppsala
+- bröllopsfotograf
+- porträttfotografering
+- företagsfoto
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Vi börjar med ett kort samtal om verksamheten, tjänsterna och målgruppen.
+- Därefter bygger vi ett första utkast, oftast klart på ungefär en dag.
+- Ni får granska och komma med ändringar i två omgångar.
+- När ni är nöjda publicerar vi sidan och ser till att den kan hittas.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För fotografer räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för flyttfirma
+Vi bygger snabba, mobilanpassade hemsidor för flyttfirmor som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
+
+### Så söker kunderna efter flyttfirmor
+Den som ska flytta har mycket att tänka på och väljer ofta snabbt. Hemsidan ska ge ett pris eller en tydlig väg till ett pris, och visa att ni är pålitliga. Det avgör vem som får uppdraget.
+Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
+- flyttfirma Uppsala
+- flytthjälp pris
+- flyttstädning och flytt
+- packhjälp
+- magasinering
+En hemsida som svarar på de frågorna, med rätt rubriker och en egen sida per tjänst, har mycket större chans att dyka upp än en som bara har en startsida.
+
+### Det här ska en hemsida för flyttfirma innehålla
+Det här är den grundläggande listan vi utgår från, och som vi sedan anpassar efter just er verksamhet:
+- En enkel offertförfrågan med fält för från- och tilladress, våning, hiss och volym
+- Tjänstesidor: flytt, packhjälp, städning, magasinering, bärhjälp
+- Priser eller prisexempel
+- Information om försäkring och vad som gäller vid skada
+- Vilka områden och orter ni kör till
+- Ett bokningsflöde där kunden kan välja datum
+
+### Det som får kunden att höra av sig
+Kunden lämnar över sina saker. Förklara hur ni skyddar möbler, vad försäkringen täcker och hur ni arbetar. Visa att ni är pålitliga genom konkreta rutiner, inte stora ord.
+
+### Vanliga misstag på hemsidor i branschen
+Vi ser ofta samma problem när vi tittar på hemsidor för företag i er bransch:
+- Offertformuläret saknar fält för hiss och våning, så ni måste ringa tillbaka
+- Det står inte om ni har försäkring
+- Ingen information om vilka orter ni täcker
+- Priserna går inte att få en uppfattning om
+Allt det går att undvika om hemsidan byggs utifrån vad kunden vill veta, och inte utifrån vad företaget vill säga.
+
+### Funktioner som sparar tid för er
+Ett smart offertformulär som frågar rätt saker sparar mest tid. Bokning av datum ger en tydlig bild av kalendern, och en AI-chatt kan svara på frågor om packhjälp och städning.
+Allt detta är funktioner vi bygger in i Pro-paketet: offertflöde, bokning, AI-chatt och notiser via e-post och SMS. Ni får status och historik på alla förfrågningar, så ingenting försvinner.
+
+### Så syns ni på Google
+Att bygga en snygg hemsida räcker inte. Den måste också kunna hittas. Därför ingår grundläggande SEO och AI-optimering i alla våra hemsidor, med bland annat rätt rubriker, beskrivande sidtitlar, snabb laddning, mobilanpassning och strukturerad data som hjälper Google och AI-assistenter att förstå vad ni gör.
+För flyttfirmor bygger vi sidorna kring de sökningar kunderna faktiskt gör. Det är till exempel:
+- flyttfirma Uppsala
+- flytthjälp pris
+- flyttstädning och flytt
+- packhjälp
+Vi kan inte lova en viss placering. Ingen seriös byrå kan det. Det vi kan lova är att grunden är rätt gjord, att sidan är snabb och att innehållet svarar på det folk frågar. Hur ni syns kan ni sedan följa i vårt gratis test, Testa din sajt, och i Google Search Console.
+
+### Så går det till
+Ni pratar med samma person från första mötet till lansering. Det är en liten webbyrå där ingen behöver förklara sin verksamhet två gånger.
+- Steg ett är ett möte där vi lär känna er och er målgrupp.
+- Steg två är ett utkast som ni kan klicka runt i, ofta redan nästa dag.
+- Steg tre är två rundor av ändringar enligt era önskemål.
+- Steg fyra är lansering, och därefter finns vi kvar för support.
+
+### Så mycket kostar det
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För flyttfirmor räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Webbyrå för företag i Knivsta
+Vi bygger hemsidor åt företag i Knivsta och Knivsta kommun: snabba, mobilanpassade och med fast pris från 3 000 kr. Ni pratar med samma person hela vägen.
+
+### Webbyrå för företag i Knivsta
+Knivsta ligger bara en kort bit söder om Uppsala och är en av de kommuner som växer snabbast i regionen, med många småföretag, hantverkare och egenföretagare. Många av dem jobbar mot kunder i både Uppsala och Stockholm.
+Vi är en liten webbyrå i Uppsala, ungefär 20 km från Knivsta, och bygger hemsidor som får kunder att höra av sig. Vi arbetar med företag i Knivsta kommun och i hela Sverige: Knivsta, Alsike och Vassunda och allt däremellan.
+De flesta av våra möten sker på distans, men om ni vill träffas på plats kommer vi gärna. Ni pratar med samma person från första samtalet till lansering.
+
+### Det här får ni
+En hemsida som ska göra ett jobb för er, inte bara se bra ut. Vi bygger efter den här listan:
+- Snabb, mobilanpassad design som laddar direkt, även på svag mobiltäckning
+- En egen sida för varje tjänst, så att ni syns på sökningar som matchar det ni gör
+- Kontaktväg på varje sida: telefon, formulär och, om ni vill, bokning direkt
+- Offertflöde som frågar rätt saker, så ni får bra förfrågningar
+- AI-chatt som svarar på vanliga frågor medan ni jobbar
+- Grundläggande SEO och AI-optimering, så Google och AI-assistenter förstår vad ni gör
+- Support och underhåll efter lansering
+
+### Lokal SEO för Knivsta
+När kunder letar efter ett företag nära sig söker de ofta på tjänsten tillsammans med orten, till exempel hemsida Knivsta eller webbyrå Knivsta. För att synas där behöver hemsidan visa tydligt vad ni gör och var ni verkar.
+Vi gör det genom att:
+- Skriva sidtitlar och rubriker som nämner både tjänst och Knivsta där det är relevant
+- Lägga in strukturerad data som berättar för Google vilket företag ni är och vilka områden ni täcker
+- Hjälpa er att skapa och fylla i en komplett Google-företagsprofil
+- Se till att sidan är snabb och fungerar på mobilen, eftersom de flesta lokala sökningar sker där
+Det går inte att lova en viss placering, men grunden blir rätt gjord från start. Efteråt kan ni följa resultatet i Testa din sajt och i Google Search Console.
+
+### Hur samarbetet fungerar på distans
+Det är enklare än många tror. Vi ses på video, ni berättar om företaget, och vi bygger ett första utkast som ni kan klicka runt i direkt. Ändringar tar vi i två omgångar via mejl eller samtal.
+Det går också bra att ringa. Vi svarar oftast samma dag, och i Starter ingår upp till 10 timmars support och redigering per månad under det första året.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För företag i Knivsta räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+### Vad är det första ni ska göra?
+Boka ett kort möte, gratis och utan krav. Vi går igenom vad ni vill få ut av hemsidan, tittar på er nuvarande sida om ni har en och säger ärligt vad vi rekommenderar. Ni kan också börja med att testa er nuvarande sajt i Testa din sajt, ett gratis test som visar hastighet, tillgänglighet och SEO.
+
+## Webbyrå för företag i Enköping
+Vi bygger hemsidor åt företag i Enköping och Enköpings kommun: snabba, mobilanpassade och med fast pris från 3 000 kr. Ni pratar med samma person hela vägen.
+
+### Webbyrå för företag i Enköping
+Enköping är en stad med ett brett näringsliv: hantverkare, handel, tjänsteföretag och lantbruksnära verksamheter. Många av kunderna söker lokalt först, vilket gör en tydlig lokal hemsida extra värdefull.
+Vi är en liten webbyrå i Uppsala, ungefär 65 km från Enköping, och bygger hemsidor som får kunder att höra av sig. Vi arbetar med företag i Enköpings kommun och i hela Sverige: Enköping, Grillby och Fjärdhundra och allt däremellan.
+De flesta av våra möten sker på distans, men om ni vill träffas på plats kommer vi gärna. Ni pratar med samma person från första samtalet till lansering.
+
+### Det här får ni
+En hemsida som ska göra ett jobb för er, inte bara se bra ut. Vi bygger efter den här listan:
+- Snabb, mobilanpassad design som laddar direkt, även på svag mobiltäckning
+- En egen sida för varje tjänst, så att ni syns på sökningar som matchar det ni gör
+- Kontaktväg på varje sida: telefon, formulär och, om ni vill, bokning direkt
+- Offertflöde som frågar rätt saker, så ni får bra förfrågningar
+- AI-chatt som svarar på vanliga frågor medan ni jobbar
+- Grundläggande SEO och AI-optimering, så Google och AI-assistenter förstår vad ni gör
+- Support och underhåll efter lansering
+
+### Lokal SEO för Enköping
+När kunder letar efter ett företag nära sig söker de ofta på tjänsten tillsammans med orten, till exempel hemsida Enköping eller webbyrå Enköping. För att synas där behöver hemsidan visa tydligt vad ni gör och var ni verkar.
+Vi gör det genom att:
+- Skriva sidtitlar och rubriker som nämner både tjänst och Enköping där det är relevant
+- Lägga in strukturerad data som berättar för Google vilket företag ni är och vilka områden ni täcker
+- Hjälpa er att skapa och fylla i en komplett Google-företagsprofil
+- Se till att sidan är snabb och fungerar på mobilen, eftersom de flesta lokala sökningar sker där
+Det går inte att lova en viss placering, men grunden blir rätt gjord från start. Efteråt kan ni följa resultatet i Testa din sajt och i Google Search Console.
+
+### Hur samarbetet fungerar på distans
+Det är enklare än många tror. Vi ses på video, ni berättar om företaget, och vi bygger ett första utkast som ni kan klicka runt i direkt. Ändringar tar vi i två omgångar via mejl eller samtal.
+Det går också bra att ringa. Vi svarar oftast samma dag, och i Starter ingår upp till 10 timmars support och redigering per månad under det första året.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För företag i Enköping räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+### Vad är det första ni ska göra?
+Boka ett kort möte, gratis och utan krav. Vi går igenom vad ni vill få ut av hemsidan, tittar på er nuvarande sida om ni har en och säger ärligt vad vi rekommenderar. Ni kan också börja med att testa er nuvarande sajt i Testa din sajt, ett gratis test som visar hastighet, tillgänglighet och SEO.
+
+## Webbyrå för företag i Märsta
+Vi bygger hemsidor åt företag i Märsta och Sigtuna kommun: snabba, mobilanpassade och med fast pris från 3 000 kr. Ni pratar med samma person hela vägen.
+
+### Webbyrå för företag i Märsta
+Märsta och Sigtuna ligger vid Arlanda och Mälaren, med både logistik, hantverk, handel och turism. Företag här når kunder från Stockholm och Uppsala, och en hemsida som är snabb och lätt att hitta är en tydlig fördel.
+Vi är en liten webbyrå i Uppsala, ungefär 40 km från Märsta, och bygger hemsidor som får kunder att höra av sig. Vi arbetar med företag i Sigtuna kommun och i hela Sverige: Märsta, Sigtuna och Rosersberg och allt däremellan.
+De flesta av våra möten sker på distans, men om ni vill träffas på plats kommer vi gärna. Ni pratar med samma person från första samtalet till lansering.
+
+### Det här får ni
+En hemsida som ska göra ett jobb för er, inte bara se bra ut. Vi bygger efter den här listan:
+- Snabb, mobilanpassad design som laddar direkt, även på svag mobiltäckning
+- En egen sida för varje tjänst, så att ni syns på sökningar som matchar det ni gör
+- Kontaktväg på varje sida: telefon, formulär och, om ni vill, bokning direkt
+- Offertflöde som frågar rätt saker, så ni får bra förfrågningar
+- AI-chatt som svarar på vanliga frågor medan ni jobbar
+- Grundläggande SEO och AI-optimering, så Google och AI-assistenter förstår vad ni gör
+- Support och underhåll efter lansering
+
+### Lokal SEO för Märsta
+När kunder letar efter ett företag nära sig söker de ofta på tjänsten tillsammans med orten, till exempel hemsida Märsta eller webbyrå Märsta. För att synas där behöver hemsidan visa tydligt vad ni gör och var ni verkar.
+Vi gör det genom att:
+- Skriva sidtitlar och rubriker som nämner både tjänst och Märsta där det är relevant
+- Lägga in strukturerad data som berättar för Google vilket företag ni är och vilka områden ni täcker
+- Hjälpa er att skapa och fylla i en komplett Google-företagsprofil
+- Se till att sidan är snabb och fungerar på mobilen, eftersom de flesta lokala sökningar sker där
+Det går inte att lova en viss placering, men grunden blir rätt gjord från start. Efteråt kan ni följa resultatet i Testa din sajt och i Google Search Console.
+
+### Hur samarbetet fungerar på distans
+Det är enklare än många tror. Vi ses på video, ni berättar om företaget, och vi bygger ett första utkast som ni kan klicka runt i direkt. Ändringar tar vi i två omgångar via mejl eller samtal.
+Det går också bra att ringa. Vi svarar oftast samma dag, och i Starter ingår upp till 10 timmars support och redigering per månad under det första året.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För företag i Märsta räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+### Vad är det första ni ska göra?
+Boka ett kort möte, gratis och utan krav. Vi går igenom vad ni vill få ut av hemsidan, tittar på er nuvarande sida om ni har en och säger ärligt vad vi rekommenderar. Ni kan också börja med att testa er nuvarande sajt i Testa din sajt, ett gratis test som visar hastighet, tillgänglighet och SEO.
+
+## Webbyrå för företag i Västerås
+Vi bygger hemsidor åt företag i Västerås och Västerås stad: snabba, mobilanpassade och med fast pris från 3 000 kr. Ni pratar med samma person hela vägen.
+
+### Webbyrå för företag i Västerås
+Västerås är en större stad med många företag i alla storlekar, från industri och teknik till hantverkare och konsulter. Konkurrensen om uppmärksamheten är stor, och en hemsida som är snabb och tydlig är ofta det som avgör vem som får samtalet.
+Vi är en liten webbyrå i Uppsala, ungefär 85 km från Västerås, och bygger hemsidor som får kunder att höra av sig. Vi arbetar med företag i Västerås stad och i hela Sverige: Västerås, Hallstahammar och Köping och allt däremellan.
+De flesta av våra möten sker på distans, men om ni vill träffas på plats kommer vi gärna. Ni pratar med samma person från första samtalet till lansering.
+
+### Det här får ni
+En hemsida som ska göra ett jobb för er, inte bara se bra ut. Vi bygger efter den här listan:
+- Snabb, mobilanpassad design som laddar direkt, även på svag mobiltäckning
+- En egen sida för varje tjänst, så att ni syns på sökningar som matchar det ni gör
+- Kontaktväg på varje sida: telefon, formulär och, om ni vill, bokning direkt
+- Offertflöde som frågar rätt saker, så ni får bra förfrågningar
+- AI-chatt som svarar på vanliga frågor medan ni jobbar
+- Grundläggande SEO och AI-optimering, så Google och AI-assistenter förstår vad ni gör
+- Support och underhåll efter lansering
+
+### Lokal SEO för Västerås
+När kunder letar efter ett företag nära sig söker de ofta på tjänsten tillsammans med orten, till exempel hemsida Västerås eller webbyrå Västerås. För att synas där behöver hemsidan visa tydligt vad ni gör och var ni verkar.
+Vi gör det genom att:
+- Skriva sidtitlar och rubriker som nämner både tjänst och Västerås där det är relevant
+- Lägga in strukturerad data som berättar för Google vilket företag ni är och vilka områden ni täcker
+- Hjälpa er att skapa och fylla i en komplett Google-företagsprofil
+- Se till att sidan är snabb och fungerar på mobilen, eftersom de flesta lokala sökningar sker där
+Det går inte att lova en viss placering, men grunden blir rätt gjord från start. Efteråt kan ni följa resultatet i Testa din sajt och i Google Search Console.
+
+### Hur samarbetet fungerar på distans
+Det är enklare än många tror. Vi ses på video, ni berättar om företaget, och vi bygger ett första utkast som ni kan klicka runt i direkt. Ändringar tar vi i två omgångar via mejl eller samtal.
+Det går också bra att ringa. Vi svarar oftast samma dag, och i Starter ingår upp till 10 timmars support och redigering per månad under det första året.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För företag i Västerås räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+### Vad är det första ni ska göra?
+Boka ett kort möte, gratis och utan krav. Vi går igenom vad ni vill få ut av hemsidan, tittar på er nuvarande sida om ni har en och säger ärligt vad vi rekommenderar. Ni kan också börja med att testa er nuvarande sajt i Testa din sajt, ett gratis test som visar hastighet, tillgänglighet och SEO.
+
+## Webbyrå för företag i Örebro
+Vi bygger hemsidor åt företag i Örebro och Örebro kommun: snabba, mobilanpassade och med fast pris från 3 000 kr. Ni pratar med samma person hela vägen.
+
+### Webbyrå för företag i Örebro
+Örebro är ett stort handels- och logistikcentrum med många företag som söker kunder över hela Mellansverige. Vi sitter i Uppsala, men arbetar helt på distans med kunder i hela landet, och det fungerar enkelt: möten på video, utkast på skärmen och ändringar via mejl.
+Vi är en liten webbyrå i Uppsala, ungefär 190 km från Örebro, och bygger hemsidor som får kunder att höra av sig. Vi arbetar med företag i Örebro kommun och i hela Sverige: Örebro, Kumla och Lindesberg och allt däremellan.
+De flesta av våra möten sker på distans, men om ni vill träffas på plats kommer vi gärna. Ni pratar med samma person från första samtalet till lansering.
+
+### Det här får ni
+En hemsida som ska göra ett jobb för er, inte bara se bra ut. Vi bygger efter den här listan:
+- Snabb, mobilanpassad design som laddar direkt, även på svag mobiltäckning
+- En egen sida för varje tjänst, så att ni syns på sökningar som matchar det ni gör
+- Kontaktväg på varje sida: telefon, formulär och, om ni vill, bokning direkt
+- Offertflöde som frågar rätt saker, så ni får bra förfrågningar
+- AI-chatt som svarar på vanliga frågor medan ni jobbar
+- Grundläggande SEO och AI-optimering, så Google och AI-assistenter förstår vad ni gör
+- Support och underhåll efter lansering
+
+### Lokal SEO för Örebro
+När kunder letar efter ett företag nära sig söker de ofta på tjänsten tillsammans med orten, till exempel hemsida Örebro eller webbyrå Örebro. För att synas där behöver hemsidan visa tydligt vad ni gör och var ni verkar.
+Vi gör det genom att:
+- Skriva sidtitlar och rubriker som nämner både tjänst och Örebro där det är relevant
+- Lägga in strukturerad data som berättar för Google vilket företag ni är och vilka områden ni täcker
+- Hjälpa er att skapa och fylla i en komplett Google-företagsprofil
+- Se till att sidan är snabb och fungerar på mobilen, eftersom de flesta lokala sökningar sker där
+Det går inte att lova en viss placering, men grunden blir rätt gjord från start. Efteråt kan ni följa resultatet i Testa din sajt och i Google Search Console.
+
+### Hur samarbetet fungerar på distans
+Det är enklare än många tror. Vi ses på video, ni berättar om företaget, och vi bygger ett första utkast som ni kan klicka runt i direkt. Ändringar tar vi i två omgångar via mejl eller samtal.
+Det går också bra att ringa. Vi svarar oftast samma dag, och i Starter ingår upp till 10 timmars support och redigering per månad under det första året.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För företag i Örebro räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+### Vad är det första ni ska göra?
+Boka ett kort möte, gratis och utan krav. Vi går igenom vad ni vill få ut av hemsidan, tittar på er nuvarande sida om ni har en och säger ärligt vad vi rekommenderar. Ni kan också börja med att testa er nuvarande sajt i Testa din sajt, ett gratis test som visar hastighet, tillgänglighet och SEO.
+
+## Webbyrå för företag i Gävle
+Vi bygger hemsidor åt företag i Gävle och Gävle kommun: snabba, mobilanpassade och med fast pris från 3 000 kr. Ni pratar med samma person hela vägen.
+
+### Webbyrå för företag i Gävle
+Gävle har ett varierat näringsliv med både industri, handel, hantverk och tjänsteföretag. Många av dem verkar i både stadens och omlandets marknad, och kunderna söker ofta lokalt, vilket gör att en hemsida som nämner orten och tjänsten blir extra användbar.
+Vi är en liten webbyrå i Uppsala, ungefär 95 km från Gävle, och bygger hemsidor som får kunder att höra av sig. Vi arbetar med företag i Gävle kommun och i hela Sverige: Gävle, Sandviken och Hofors och allt däremellan.
+De flesta av våra möten sker på distans, men om ni vill träffas på plats kommer vi gärna. Ni pratar med samma person från första samtalet till lansering.
+
+### Det här får ni
+En hemsida som ska göra ett jobb för er, inte bara se bra ut. Vi bygger efter den här listan:
+- Snabb, mobilanpassad design som laddar direkt, även på svag mobiltäckning
+- En egen sida för varje tjänst, så att ni syns på sökningar som matchar det ni gör
+- Kontaktväg på varje sida: telefon, formulär och, om ni vill, bokning direkt
+- Offertflöde som frågar rätt saker, så ni får bra förfrågningar
+- AI-chatt som svarar på vanliga frågor medan ni jobbar
+- Grundläggande SEO och AI-optimering, så Google och AI-assistenter förstår vad ni gör
+- Support och underhåll efter lansering
+
+### Lokal SEO för Gävle
+När kunder letar efter ett företag nära sig söker de ofta på tjänsten tillsammans med orten, till exempel hemsida Gävle eller webbyrå Gävle. För att synas där behöver hemsidan visa tydligt vad ni gör och var ni verkar.
+Vi gör det genom att:
+- Skriva sidtitlar och rubriker som nämner både tjänst och Gävle där det är relevant
+- Lägga in strukturerad data som berättar för Google vilket företag ni är och vilka områden ni täcker
+- Hjälpa er att skapa och fylla i en komplett Google-företagsprofil
+- Se till att sidan är snabb och fungerar på mobilen, eftersom de flesta lokala sökningar sker där
+Det går inte att lova en viss placering, men grunden blir rätt gjord från start. Efteråt kan ni följa resultatet i Testa din sajt och i Google Search Console.
+
+### Hur samarbetet fungerar på distans
+Det är enklare än många tror. Vi ses på video, ni berättar om företaget, och vi bygger ett första utkast som ni kan klicka runt i direkt. Ändringar tar vi i två omgångar via mejl eller samtal.
+Det går också bra att ringa. Vi svarar oftast samma dag, och i Starter ingår upp till 10 timmars support och redigering per månad under det första året.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För företag i Gävle räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+### Vad är det första ni ska göra?
+Boka ett kort möte, gratis och utan krav. Vi går igenom vad ni vill få ut av hemsidan, tittar på er nuvarande sida om ni har en och säger ärligt vad vi rekommenderar. Ni kan också börja med att testa er nuvarande sajt i Testa din sajt, ett gratis test som visar hastighet, tillgänglighet och SEO.
+
+## Webbyrå för företag i Göteborg
+Vi bygger hemsidor åt företag i Göteborg och Göteborgs stad: snabba, mobilanpassade och med fast pris från 3 000 kr. Ni pratar med samma person hela vägen.
+
+### Webbyrå för företag i Göteborg
+Göteborg är Sveriges andra största stad med tusentals företag, från små hantverksfirmor till stora koncerner. Konkurrensen i sökresultaten är hård, och en snabb, välbyggd hemsida med rätt innehåll gör stor skillnad. Vi bygger för företag i hela landet och jobbar helt på distans med kunder i Göteborg.
+Vi är en liten webbyrå i Uppsala, ungefär 45 mil från Göteborg, och bygger hemsidor som får kunder att höra av sig. Vi arbetar med företag i Göteborgs stad och i hela Sverige: Göteborg, Mölndal och Partille och allt däremellan.
+De flesta av våra möten sker på distans, men om ni vill träffas på plats kommer vi gärna. Ni pratar med samma person från första samtalet till lansering.
+
+### Det här får ni
+En hemsida som ska göra ett jobb för er, inte bara se bra ut. Vi bygger efter den här listan:
+- Snabb, mobilanpassad design som laddar direkt, även på svag mobiltäckning
+- En egen sida för varje tjänst, så att ni syns på sökningar som matchar det ni gör
+- Kontaktväg på varje sida: telefon, formulär och, om ni vill, bokning direkt
+- Offertflöde som frågar rätt saker, så ni får bra förfrågningar
+- AI-chatt som svarar på vanliga frågor medan ni jobbar
+- Grundläggande SEO och AI-optimering, så Google och AI-assistenter förstår vad ni gör
+- Support och underhåll efter lansering
+
+### Lokal SEO för Göteborg
+När kunder letar efter ett företag nära sig söker de ofta på tjänsten tillsammans med orten, till exempel hemsida Göteborg eller webbyrå Göteborg. För att synas där behöver hemsidan visa tydligt vad ni gör och var ni verkar.
+Vi gör det genom att:
+- Skriva sidtitlar och rubriker som nämner både tjänst och Göteborg där det är relevant
+- Lägga in strukturerad data som berättar för Google vilket företag ni är och vilka områden ni täcker
+- Hjälpa er att skapa och fylla i en komplett Google-företagsprofil
+- Se till att sidan är snabb och fungerar på mobilen, eftersom de flesta lokala sökningar sker där
+Det går inte att lova en viss placering, men grunden blir rätt gjord från start. Efteråt kan ni följa resultatet i Testa din sajt och i Google Search Console.
+
+### Hur samarbetet fungerar på distans
+Det är enklare än många tror. Vi ses på video, ni berättar om företaget, och vi bygger ett första utkast som ni kan klicka runt i direkt. Ändringar tar vi i två omgångar via mejl eller samtal.
+Det går också bra att ringa. Vi svarar oftast samma dag, och i Starter ingår upp till 10 timmars support och redigering per månad under det första året.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För företag i Göteborg räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+### Vad är det första ni ska göra?
+Boka ett kort möte, gratis och utan krav. Vi går igenom vad ni vill få ut av hemsidan, tittar på er nuvarande sida om ni har en och säger ärligt vad vi rekommenderar. Ni kan också börja med att testa er nuvarande sajt i Testa din sajt, ett gratis test som visar hastighet, tillgänglighet och SEO.
+
+## SEO-byrå i Uppsala
+Sökmotoroptimering handlar om att göra det lätt för Google, och för kunderna, att förstå vad ni gör. Vi bygger det direkt i hemsidan, så ni slipper betala för det separat.
+
+### Vad är SEO?
+SEO, sökmotoroptimering, är allt som gör att en hemsida syns bättre i sökresultaten på Google och andra sökmotorer. Det handlar om tre saker: att sidan är tekniskt i ordning, att innehållet svarar på det folk söker och att andra sajter och tjänster visar att ni är relevanta.
+Bra SEO är inget trick. Det är grundläggande hantverk: rätt rubriker, tydliga texter, en snabb sida och en struktur som en sökmotor kan läsa.
+
+### Det här gör vi
+Det här ingår som grund när vi bygger en hemsida, och kan också göras för en befintlig sajt:
+- Teknisk SEO: snabb laddning, mobilanpassning, rätt rubrikstruktur, sitemap, canonical-länkar och säkerhetsrubriker
+- Sidtitlar och beskrivningar som matchar det kunderna söker på, och som lockar till klick
+- Strukturerad data så att Google förstår företaget, tjänsterna och eventuella vanliga frågor
+- Bilder i moderna format med beskrivande text, så de laddar snabbt och kan hittas
+- Intern länkning så att besökare och sökmotorer hittar mellan sidorna
+- Lokal SEO: sidor för orter, kopplad Google-företagsprofil och tydliga kontaktuppgifter
+- AI-optimering så att AI-assistenter som ChatGPT och Gemini kan hitta och återge er information
+
+### Så mäter vi
+Vi mäter det som går att mäta. Hastighet, tillgänglighet, bästa praxis och SEO kontrollerar vi med Googles eget testverktyg, och ni kan göra samma test själva i Testa din sajt. Sökord, klick och visningar följer vi i Google Search Console.
+Vi sätter inga luddiga mål. Vi tittar på vilka sökord som ger visningar, vilka sidor som får klick och var det finns luckor att fylla.
+
+### Hur lång tid tar det?
+SEO är inte en strömbrytare. Google behöver ofta några veckor för att hitta och bedöma en ny sida, och resultaten växer över månader. Det som går fort är grunden: en korrekt byggd, snabb sida är på plats redan vid lansering.
+Var misstänksam mot den som lovar förstaplats på Google om en vecka. Det finns ingen seriös byrå som kan lova det.
+
+### Innehåll som drar trafik
+Bra innehåll är det som skiljer en hemsida som syns från en som inte gör det. Vi skriver sidor och artiklar som svarar på de frågor som era kunder faktiskt ställer. Det ger trafik från Google och visar att ni kan ert område.
+Vi publicerar själva två artiklar i månaden på vår egen sajt, och kan hjälpa er att planera vilka ämnen som passar er bransch.
+
+### Så mycket kostar det
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För SEO räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## AI-optimering – syns i ChatGPT och Gemini
+Allt fler frågar en AI-assistent i stället för att googla. Vi bygger hemsidor som är lätta för både sökmotorer och AI-assistenter att förstå.
+
+### Vad är AI-optimering?
+AI-optimering, ibland kallat AIO, GEO eller AI-synlighet, handlar om att göra det lätt för AI-assistenter som ChatGPT, Gemini, Claude och Perplexity att hitta, förstå och återge information om ert företag.
+När en kund frågar en AI vilka företag som bygger hemsidor i Uppsala, eller vad en hemsida brukar kosta, hämtar assistenten information från sajter på nätet. Det gäller att er sajt går att läsa och tydligt svarar på frågan.
+
+### Det här gör vi
+Vi bygger in det här i alla hemsidor:
+- Tydliga, korta svar på vanliga frågor, som AI-assistenter lätt kan citera
+- Strukturerad data som beskriver företaget, tjänsterna, priserna och er kontaktinformation
+- En sida som laddar snabbt och är lätt för robotar att läsa, utan innehåll som är gömt i skript
+- Filerna llms.txt och robots.txt, så AI-tjänster vet vad de får läsa och var informationen finns
+- Konkreta uppgifter: pris, område, kontaktväg och öppettider, i stället för allmänna formuleringar
+- Texter skrivna som svar på frågor, med tydliga rubriker
+
+### Varför spelar det roll?
+Fler söker via AI. Det betyder att en del av kunderna aldrig besöker en sökresultatsida, utan får ett svar direkt. Står ni inte med i svaret, kan kunden aldrig ha hört om er.
+Det bästa är att det mesta som gör en sida bra för AI också är bra för människor: tydliga svar, snabb laddning, ordning och konkret information. Det är inte ett separat projekt, utan en del av att göra hemsidan ordentligt.
+
+### Vad vi inte kan lova
+AI-assistenter väljer själva vad de återger, och ingen kan styra det. Vi kan göra era sidor så lätta att läsa och citera som möjligt. Vi kan inte garantera att ni nämns.
+Var försiktig med den som säljer garanterad synlighet i AI. Det är ett område som utvecklas snabbt, och de flesta löften går inte att hålla.
+
+### Så kommer ni igång
+AI-optimering ingår i alla våra hemsidor, även Starter. Har ni redan en hemsida kan vi göra en genomgång och föreslå vad som bör ändras. Börja gärna med att testa er sajt i Testa din sajt, som visar SEO, tillgänglighet och mer.
+
+### Vad kostar det?
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För AI-optimering räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida med bokningssystem
+Låt kunderna boka direkt i stället för att ringa. Bokningen sker på hemsidan, och ni får tiden i er kalender.
+
+### Därför bokning på hemsidan
+Många vill inte ringa. De vill se lediga tider, välja en och få en bekräftelse. Särskilt kvällstid, när ni inte svarar i telefon, är bokning på hemsidan skillnaden mellan en kund och ingen alls.
+För er innebär det färre samtal, färre missförstånd och en kalender som fylls på av sig själv.
+
+### Så fungerar det
+Så här fungerar bokningssystemet vi bygger:
+- Kunden ser lediga tider och väljer en som passar
+- Upptagna tider kan hållas borta från bokningen
+- Kunden fyller i namn och kontaktuppgifter
+- Både kunden och ni får en bekräftelse, med en kalenderinbjudan där det behövs
+- Ni får notiser via e-post och SMS
+- Bokningar sparas med status och historik
+
+### Passar för många branscher
+Bokning passar alla som säljer tid: frisörer, verkstäder, konsulter, tränare, behandlare, hantverkare som gör platsbesök och rådgivare av olika slag. Vi anpassar tidslängd, öppettider och vilka uppgifter som behövs efter er verksamhet.
+
+### Kombinera med offertflöde och AI-chatt
+Bokning blir ännu bättre tillsammans med andra funktioner. Offertformuläret samlar in underlag innan mötet, och en AI-chatt kan svara på frågor och hänvisa vidare till bokning. Allt ingår i Pro-paketet.
+
+### Exempel på hur bokningen kan se ut
+Upplägget anpassas efter hur ni arbetar. Några exempel:
+- Frisör eller behandlare: kunden väljer behandling, då styr tidslängden vilka tider som visas
+- Verkstad: kunden väljer typ av jobb och en tid att lämna in bilen
+- Konsult eller rådgivare: korta möten på 30 minuter, med en länk till videomöte i bekräftelsen
+- Hantverkare: ett platsbesök, där kunden anger adress och vad jobbet gäller
+- Städfirma: bokning av städning eller flyttstädning med datum och bostadsyta
+Gemensamt är att kunden får en bekräftelse direkt och att ni får all information samlad på ett ställe.
+
+### Det här kan vi inte lova
+Bokningssystemet är byggt för att boka tid och möten. Det är inget kassasystem och tar inte betalt. Behöver ni det kan vi titta på en lösning inom Elite, med ett fast pris.
+
+### Priser och upplägg
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För ett bokningssystem räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Offertformulär på hemsidan
+Ett bra offertformulär ger er rätt underlag från första förfrågan, så ni slipper ringa tillbaka tre gånger för att förstå vad kunden vill ha.
+
+### Vad ett bra offertformulär gör
+Ett vanligt kontaktformulär ger er ett namn och ett meddelande. Ett bra offertformulär ställer de frågor ni behöver för att kunna svara: vilken tjänst, var, hur stort, när och med vilket budgetspann.
+Det sparar tid för er och gör att kunden känner att ni förstått behovet innan ni ens har pratat.
+
+### Så bygger vi det
+Vi anpassar formuläret efter er bransch. Det kan innehålla:
+- Val av tjänst, så att förfrågan hamnar rätt
+- Fält för ort, storlek, tidpunkt och andra detaljer som påverkar priset
+- Möjlighet att bifoga en bild eller ritning
+- Frågor som sorterar bort sådant ni inte vill ha
+- Tydlig bekräftelse till kunden och notis till er via e-post och SMS
+- Status och historik, så att varje förfrågan går att följa upp
+
+### Mindre är ibland mer
+Ett formulär som är för långt får färre svar. Vi hittar en balans där ni får det ni måste ha, och kunden kan fylla i på en minut även på mobilen. Resten tar ni i ett samtal.
+
+### Koppla till bokning
+Ni kan låta kunden boka ett kort möte direkt efter att formuläret skickats. Då går det från första intresse till bokad tid utan väntetid.
+
+### Exempel på frågor per bransch
+Frågorna ska passa verksamheten. Några exempel:
+- Elektriker: typ av jobb, bostadstyp, ort och en bild på centralen eller uttaget
+- Målare: vilka rum eller vilken fasad, ungefärlig yta och önskad tidpunkt
+- Flyttfirma: från- och tilladress, våning, hiss, volym och datum
+- Snickare: typ av projekt, mått, plats och om det finns ritningar
+- Städfirma: tjänst, bostadsyta, antal rum och önskat datum
+Vi sätter ihop frågorna tillsammans med er, så att formuläret ger det ni behöver och inget mer.
+
+### Spamskydd
+Formulär drar till sig skräp. Vi bygger in skydd mot automatiska utskick, så att ni inte drunknar i falska förfrågningar.
+
+### Så mycket kostar det
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För ett offertformulär räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
+## Hemsida för nystartat företag
+När ni startar företag finns det mycket att tänka på. Hemsidan ska inte bli ännu en sak som tar tid. Vi tar hand om allt det tekniska och ger er en sida som fungerar från dag ett.
+
+### Vad ni behöver från start
+Ett nytt företag behöver inte en stor hemsida. Det behöver en sida som berättar vad ni gör, för vem och hur man tar kontakt. Allt annat kan komma senare.
+Starter-paketet är gjort för det: en snygg, snabb och mobilanpassad hemsida med presentation, tjänster, kontaktformulär och grundläggande SEO. Fast pris från 3 000 kr.
+
+### Det här tar vi hand om
+Ni behöver inte kunna något tekniskt. Vi ordnar:
+- Domän, till exempel ert företagsnamn.se
+- Hosting och säkerhet, så sidan är snabb och krypterad
+- Företagsmejl på er egen domän
+- Design och texter som passar er verksamhet
+- Grundläggande SEO och AI-optimering
+- Support efter lansering, upp till 10 timmar i månaden under första året
+
+### Vad ska stå på sidan?
+Vad ni gör, för vem och varför just ni. Kontaktuppgifter. Några tydliga tjänster. En eller två bilder som visar vem ni är. Det räcker långt, och mycket av det är det kunder söker efter.
+
+### Domän och e-post
+En egen domän och en egen e-postadress gör att ni ser seriösa ut. Vi hjälper er att välja namn och ordna det praktiska. Äger ni redan domänen, hjälper vi er att koppla den.
+
+### Checklista inför lansering
+Det här är bra att ha på plats när sidan går live:
+- Företagsnamn, organisationsnummer och kontaktuppgifter
+- En kort text om vad ni gör och för vem
+- De tre till fem tjänster ni vill att kunderna ska hitta
+- Några bilder, gärna egna i stället för bildbank
+- Ett telefonnummer och en e-postadress som ni faktiskt svarar på
+- En Google-företagsprofil, så att ni syns på kartan och i lokala sökningar
+Saknar ni något av det, hjälper vi er att komma på det. Första utkastet kan vara klart redan efter en dag, även om vissa bitar fylls på senare.
+
+### Växa i er egen takt
+Börja enkelt. När ni har fler kunder, kan hemsidan byggas ut med offertflöde, bokning och AI-chatt i Pro-paketet. Ni behöver inte bygga om, utan lägger till.
+
+### Vad kostar det?
+Hos oss kostar en Starter-hemsida 3 000 kr i startavgift plus 99–199 kr om året. Pro, där hemsidan också tar emot offertförfrågningar, bokningar och frågor åt er, kostar 6 000 kr plus 299–399 kr om året. Större projekt med egna system får ett fast pris i en offert innan vi börjar. Alla priser anges exklusive moms.
+För nystartade företag räcker oftast Starter om ni vill ha en tydlig företagspresentation, och Pro om hemsidan också ska ta emot förfrågningar eller bokningar. Vi hjälper er att välja rätt nivå på första mötet, och ni vet alltid kostnaden innan vi sätter igång.
+I Starter ingår upp till 10 timmars support och redigering per månad under det första året. Se hela avtalet på sidan Exempel på webbavtal.
+
 # Artiklar
 
 ## Bygga hemsida själv eller anlita en webbyrå? (28 oktober 2026)

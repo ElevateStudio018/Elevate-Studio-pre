@@ -210,6 +210,8 @@ def footer(p):
                 <li><a href="{p}webbyra-stockholm.html">Webbyrå i Stockholm</a></li>
                 <li><a href="{p}hemsida-for-hantverkare.html">Hemsida för hantverkare</a></li>
                 <li><a href="{p}billig-hemsida.html">Billig hemsida</a></li>
+                <li><a href="{p}branscher.html">Hemsidor för alla branscher</a></li>
+                <li><a href="{p}orter.html">Webbyrå – orter</a></li>
               </ul>
             </div>
             <div>
@@ -1220,8 +1222,24 @@ def build_landings():
     for L in LANDINGS:
         secs = ""
         for h, items in L["sections"]:
-            body = f'<p class="preamble">{esc(items[0])}</p>' if len(items) == 1 else '<ul class="land__list">' + "".join(f"<li>{esc(x)}</li>" for x in items) + "</ul>"
+            if len(items) == 1 and not items[0].startswith("¶ "):
+                body = f'<p class="preamble">{esc(items[0])}</p>'
+            else:
+                body, run = "", []
+                for x in items:
+                    if x.startswith("¶ "):
+                        if run:
+                            body += '<ul class="land__list">' + "".join(f"<li>{esc(y)}</li>" for y in run) + "</ul>"; run = []
+                        body += f'<p class="land__p">{esc(x[2:])}</p>'
+                    else:
+                        run.append(x)
+                if run:
+                    body += '<ul class="land__list">' + "".join(f"<li>{esc(y)}</li>" for y in run) + "</ul>"
             secs += f'<div class="land__sec"><h2>{esc(h)}</h2>{body}</div>'
+        more = ""
+        if L.get("related"):
+            more = '<section class="section container"><h2 class="block__header">Fler <span>sidor</span></h2><ul class="land__more">' + "".join(f'<li><a href="{p}{s}.html">{esc(lbl)}</a></li>' for s, lbl in L["related"]) + \
+                   f'<li><a href="{p}{"orter" if L.get("kind") == "ort" else "branscher"}.html">Se alla sidor</a></li></ul></section>'
         faq_html, faq_ld = faq_block(L["faq"], "lfaq")
         main = f'''<main>
     {page_hero(L["h1"], L["lead"])}
@@ -1237,13 +1255,45 @@ def build_landings():
       <h2 class="block__header">Vanliga <span>frågor</span></h2>
       {faq_html}
     </section>
+    {more}
     {cta(p)}
   </main>'''
         service = {"@type": "Service", "name": re.sub(r"<[^>]+>", "", L["h1"]), "description": L["description"], "provider": {"@id": ORG_ID},
-                   "areaServed": [{"@type": "City", "name": "Uppsala"}, {"@type": "Country", "name": "Sverige"}], "url": "__CANONICAL__",
+                   "areaServed": [{"@type": "City", "name": "Uppsala"}] + ([{"@type": "City", "name": L["area"]}] if L.get("area") else []) + [{"@type": "Country", "name": "Sverige"}], "url": "__CANONICAL__",
                    "offers": {"@type": "Offer", "price": "3000", "priceCurrency": "SEK", "description": "Starter – startavgift, exkl. moms"}}
         yield write(f'{L["slug"]}.html', document(p, L["title"], main, "subpage", [(re.sub(r"<[^>]+>", "", L["h1"]), "")], None,
                     description=L["description"], jsonld=[service, faq_ld]))
+
+
+def build_hubs():
+    p = ""
+    groups = {
+        "branscher": ("Hemsidor för <em>alla branscher</em>", "Hemsidor för olika branscher: elektriker, rörmokare, målare, frisörer, restauranger, advokater med flera. Fast pris från 3 000 kr.",
+                      "Varje bransch har sina egna frågor, kunder och sökord. Här är sidorna där vi går igenom vad en bra hemsida ska innehålla för just er verksamhet.",
+                      [("bransch", "Hemsidor för branscher"), ("amne", "Tjänster och funktioner")], "Hemsidor för alla branscher"),
+        "orter": ("Webbyrå för företag <em>i hela Sverige</em>", "Webbyrå i Uppsala som bygger hemsidor för företag i Uppsala, Stockholm, Västerås, Örebro, Gävle, Göteborg med flera orter. Fast pris från 3 000 kr.",
+                  "Vi sitter i Uppsala och bygger hemsidor åt företag i hela landet. Möten på plats eller på distans, och samma kontaktperson hela vägen.",
+                  [("ort", "Orter")], "Webbyrå – orter"),
+    }
+    for slug, (h1, desc, lead, kinds, crumb) in groups.items():
+        body = ""
+        for kind, title in kinds:
+            items = [L for L in LANDINGS if L.get("kind") == kind]
+            if slug == "orter":
+                items = [dict(slug="webbyra-uppsala", label="Webbyrå Uppsala", short="Vår hemort. Möt oss på plats eller på distans."), dict(slug="webbyra-stockholm", label="Webbyrå Stockholm", short="Med bas i Uppsala, en kort resa från Stockholm.")] + items
+            body += f'<h2 class="land__h">{title}</h2><ul class="land__grid">' + "".join(f'<li><a href="{p}{x["slug"]}.html"><b>{esc(x["label"])}</b></a><span>{esc(x["short"])}</span></li>' for x in items) + "</ul>"
+        main = f'''<main>
+    {page_hero(h1, lead)}
+    <section class="section container land">{body}</section>
+    <section class="section container">
+      <div class="plans-note">
+        <div><h2 class="plans-note__title">Fast pris från 3 000 kr</h2><p>Se vad som ingår i Starter, Pro och Elite, och hur avtalet ser ut.</p></div>
+        <div class="plans-note__links"><a class="arrow-link" href="{p}priser.html">Se priser</a><a class="arrow-link" href="{p}avtal.html">Exempel på avtal</a></div>
+      </div>
+    </section>
+    {cta(p)}
+  </main>'''
+        yield write(f"{slug}.html", document(p, re.sub(r"<[^>]+>", "", h1) + " – Elevate Studio", main, "subpage", [(crumb, "")], None, description=desc))
 
 
 def build_prices():
@@ -1534,7 +1584,7 @@ def site_files(built):
     for x in SERVICES:
         parts.append(f"\n## {x['name']}\n{x['intro']}\n" + "".join(f"- {t}: {d}\n" for t, d in x["includes"]) + "".join(f"- **{q}** {a}\n" for q, a in x["faq"]))
     for L in LANDINGS:
-        parts.append(f"\n## {re.sub(r'<[^>]+>', '', L['h1'])}\n{L['lead']}\n" + "".join(f"\n### {h}\n" + "\n".join(f"- {i}" for i in items) + "\n" for h, items in L["sections"]))
+        parts.append(f"\n## {re.sub(r'<[^>]+>', '', L['h1'])}\n{L['lead']}\n" + "".join(f"\n### {h}\n" + "\n".join((i[2:] if i.startswith("¶ ") else f"- {i}") for i in items) + "\n" for h, items in L["sections"]))
     parts.append("\n# Artiklar\n")
     for a in ARTICLES:
         body = "\n".join(v if k == "p" else (f"### {v}" if k == "h2" else "\n".join(f"- {i}" for i in v)) for k, v in a["body"])
@@ -1561,7 +1611,7 @@ def platforms_section():
 
 def main():
     built = []
-    for gen in (build_services, build_cases, build_articles, build_platforms, build_simple, build_test_page, build_agreement, build_prices, build_landings):
+    for gen in (build_services, build_cases, build_articles, build_platforms, build_simple, build_test_page, build_agreement, build_prices, build_landings, build_hubs):
         built.extend(gen())
     # Keep the homepage lists in sync with the data (regions between build markers).
     index = ROOT / "index.html"
