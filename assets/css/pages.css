@@ -835,3 +835,10 @@ body.has-preview { overflow: hidden; }
 .deep__run { text-align: center; }
 .deep__run .deep__live { display: inline-flex; }
 .deep__run .sitetest__note { text-align: center; }
+/* Djupanalys progress, flat design */
+.deep__run { text-align: center; padding: 48px 40px; }
+.deep__pctbig { font-size: 64px; font-weight: 600; line-height: 1; margin: 0; color: var(--accent, #1d3b2a); }
+.deep__line { height: 4px; background: var(--line, #e6e1d3); margin: 18px auto 22px; max-width: 520px; border-radius: 2px; overflow: hidden; }
+.deep__line i { display: block; height: 100%; width: 0; background: var(--accent, #1d3b2a); border-radius: 2px; transition: width .6s ease; }
+.deep__run .deep__title { font-size: 28px; font-weight: 400; margin: 0; }
+.deep__run .deep__now { margin: 12px 0 0; color: #5f6862; }

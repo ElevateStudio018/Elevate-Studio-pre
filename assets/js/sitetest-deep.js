@@ -130,28 +130,22 @@
   // ---------- progress, shown in the panel while the test runs ----------
   var panel = null;
   function progressPanel() {
-    var c = 2 * Math.PI * 52;
     box.innerHTML = '<section class="sitetest__more deep__run">' +
+      '<p class="deep__pctbig" id="deep-pct">0 %</p>' +
+      '<div class="deep__line"><i id="deep-line"></i></div>' +
       '<h2 class="deep__title" id="deep-title">Startar …</h2>' +
-      '<div class="deep__ringwrap"><div class="deep__ring"><svg viewBox="0 0 120 120" aria-hidden="true">' +
-      '<circle cx="60" cy="60" r="52" class="deep__track"/>' +
-      '<circle cx="60" cy="60" r="52" class="deep__fill" id="deep-ring" stroke-dasharray="' + c.toFixed(1) + '" stroke-dashoffset="' + c.toFixed(1) + '"/></svg>' +
-      '<span id="deep-pct">0 %</span></div></div>' +
       '<p class="deep__now" id="deep-now">Sidan börjar köras. Det tar 1 till 3 minuter.</p>' +
-      '<ol class="deep__tl">' + STEPS.map(function (s) { return '<li><span>' + esc(s) + '</span><em></em></li>'; }).join('') + '</ol>' +
       '<p class="sitetest__note">Vi läser sajten precis som en sökmotor gör. Inga uppgifter sparas.</p></section>';
     panel = box.querySelector('.deep__run');
   }
   function setStep(i, detail) {
     if (!panel) return;
-    var lis = panel.querySelectorAll('.deep__tl li');
-    lis.forEach(function (li, k) { li.className = k < i ? 'is-done' : k === i ? 'is-now' : ''; });
     var pct = Math.round(i / STEPS.length * 100);
-    var c = 2 * Math.PI * 52;
-    panel.querySelector('#deep-ring').setAttribute('stroke-dashoffset', (c * (1 - pct / 100)).toFixed(1));
     panel.querySelector('#deep-pct').textContent = pct + ' %';
+    panel.querySelector('#deep-line').style.width = pct + '%';
     panel.querySelector('#deep-title').textContent = i < STEPS.length ? STEPS[i] : 'Klart';
-    panel.querySelector('#deep-now').textContent = (detail ? detail + '. ' : '') + 'Steg ' + Math.min(i + 1, STEPS.length) + ' av ' + STEPS.length + '.';
+    var left = STEPS.length - i;
+    panel.querySelector('#deep-now').textContent = 'Steg ' + Math.min(i + 1, STEPS.length) + ' av ' + STEPS.length + (left > 0 ? '. Kvar: ' + left + ' steg.' : '.') + (detail ? ' ' + detail + '.' : '');
     if (near) near.textContent = STEPS[i] + (detail ? ' (' + detail + ')' : '') + ' …';
   }
 
