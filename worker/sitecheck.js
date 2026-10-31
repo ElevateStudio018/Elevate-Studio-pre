@@ -2,9 +2,9 @@
 // text, duplicate titles, broken internal links, contact form), mail authentication (SPF, DKIM, DMARC, MX) and
 // the certificate's expiry date. Public, no key needed. Stays below the 50 outgoing requests a Worker may make.
 const UA = 'Mozilla/5.0 (compatible; ElevateStudioTest/1.0; +https://elevatestudio.nu)';
-const json = (data, status = 200) => Response.json(data, { status, headers: { 'Cache-Control': 'no-store' } });
+export const json = (data, status = 200) => Response.json(data, { status, headers: { 'Cache-Control': 'no-store' } });
 
-function normalise(raw) {
+export function normalise(raw) {
   try {
     const u = new URL(/^https?:\/\//i.test(raw) ? raw : 'https://' + raw);
     return u.hostname.includes('.') ? u : null;
@@ -13,13 +13,14 @@ function normalise(raw) {
 
 // A Worker cannot always fetch its own address, so our own site is read from the static files directly
 let HOST = '', ASSETS = null;
-function getOne(url, opts) {
+export function prepare(req, env) { HOST = new URL(req.url).hostname; ASSETS = env.ASSETS || null; }
+export function getOne(url, opts) {
   const u = new URL(url);
   if (HOST && u.hostname === HOST && ASSETS) return ASSETS.fetch(new Request(url, { method: opts.method || 'GET', redirect: 'follow' }));
   return fetch(url, { ...opts, redirect: 'follow', headers: { 'user-agent': UA, ...(opts.headers || {}) } });
 }
 
-async function fetchText(url, ms = 8000) {
+export async function fetchText(url, ms = 8000) {
   const r = await getOne(url, { headers: { accept: 'text/html,application/xml,*/*' }, signal: AbortSignal.timeout(ms) }).catch(() => null);
   if (!r) return { status: 0, text: '' };
   const text = r.ok ? await r.text().catch(() => '') : '';
@@ -28,7 +29,7 @@ async function fetchText(url, ms = 8000) {
 
 const unescape = (s) => String(s || '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;|&#x27;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim();
 
-function analysePage(html) {
+export function analysePage(html) {
   const title = unescape((html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1]);
   const desc = unescape((html.match(/<meta[^>]+name=["']description["'][^>]*content=["']([^"']*)["']/i) ||
     html.match(/<meta[^>]+content=["']([^"']*)["'][^>]+name=["']description["']/i) || [])[1]);
@@ -94,7 +95,7 @@ async function certCheck(domain) {
 export async function siteCheck(req, env) {
   const u = normalise(new URL(req.url).searchParams.get('url') || '');
   if (!u) return json({ error: 'url' }, 400);
-  HOST = new URL(req.url).hostname; ASSETS = env.ASSETS || null;
+  prepare(req, env);
   const origin = u.origin, domain = u.hostname.replace(/^www\./, '');
 
   // 1. Pages from the sitemap, the most important (shortest paths) first, always including the contact page if there is one
