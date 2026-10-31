@@ -11,8 +11,16 @@ function normalise(raw) {
   } catch { return null; }
 }
 
+// A Worker cannot always fetch its own address, so our own site is read from the static files directly
+let HOST = '', ASSETS = null;
+function getOne(url, opts) {
+  const u = new URL(url);
+  if (HOST && u.hostname === HOST && ASSETS) return ASSETS.fetch(new Request(url, { method: opts.method || 'GET', redirect: 'follow' }));
+  return fetch(url, { ...opts, redirect: 'follow', headers: { 'user-agent': UA, ...(opts.headers || {}) } });
+}
+
 async function fetchText(url, ms = 8000) {
-  const r = await fetch(url, { headers: { 'user-agent': UA, accept: 'text/html,application/xml,*/*' }, redirect: 'follow', signal: AbortSignal.timeout(ms) }).catch(() => null);
+  const r = await getOne(url, { headers: { accept: 'text/html,application/xml,*/*' }, signal: AbortSignal.timeout(ms) }).catch(() => null);
   if (!r) return { status: 0, text: '' };
   const text = r.ok ? await r.text().catch(() => '') : '';
   return { status: r.status, text };
@@ -69,6 +77,7 @@ async function certCheck(domain) {
 export async function siteCheck(req, env) {
   const u = normalise(new URL(req.url).searchParams.get('url') || '');
   if (!u) return json({ error: 'url' }, 400);
+  HOST = new URL(req.url).hostname; ASSETS = env.ASSETS || null;
   const origin = u.origin, domain = u.hostname.replace(/^www\./, '');
 
   // 1. Pages from the sitemap, the most important (shortest paths) first, always including the contact page if there is one
@@ -98,7 +107,7 @@ export async function siteCheck(req, env) {
   }));
   const linkList = [...links.entries()].slice(0, 15);
   const linkResults = await Promise.all(linkList.map(async ([href, from]) => {
-    const r = await fetch(href, { method: 'HEAD', headers: { 'user-agent': UA }, redirect: 'follow', signal: AbortSignal.timeout(6000) }).catch(() => null);
+    const r = await getOne(href, { method: 'HEAD', signal: AbortSignal.timeout(6000) }).catch(() => null);
     return { href, from, status: r ? r.status : 0 };
   }));
   const broken = linkResults.filter((l) => !l.status || l.status >= 400).map((l) => ({ url: l.href, from: l.from, status: l.status }));
