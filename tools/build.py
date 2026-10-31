@@ -1128,7 +1128,8 @@ def build_test_page():
             <label><input type="radio" name="strategy" value="mobile" checked><span>Mobil</span></label>
             <label><input type="radio" name="strategy" value="desktop"><span>Dator</span></label>
           </fieldset>
-          <button type="submit" class="btn btn--primary"><span>Starta test</span></button>
+          <button type="submit" class="btn btn--primary"><span>Snabbtest</span></button>
+          <button type="button" class="btn btn--light sitetest__deep-btn" id="sitetest-deep-btn"><span>Djupanalys (några minuter)</span></button>
         </form>
       </div>
     </section>

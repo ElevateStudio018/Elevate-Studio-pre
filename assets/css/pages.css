@@ -768,3 +768,11 @@ body.has-preview { overflow: hidden; }
 .deep__item summary span { color: #5f6862; margin-left: 8px; }
 .deep__item .sitetest__list { margin: 10px 0 0; }
 #deep-go { margin-top: 6px; }
+.sitetest__deep-btn { margin-left: 8px; background: var(--accent, #1d3b2a); color: var(--cream, #fdfbf5); }
+.sitetest__deep-btn:hover { background: #12271b; }
+.deep__scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 0 0 24px; }
+.deep__scores div { padding: 16px; border-radius: 16px; background: #f6f1e4; text-align: center; }
+.deep__scores b { display: block; font-size: 30px; font-weight: 600; color: var(--accent, #1d3b2a); }
+.deep__scores span { font-size: 14px; color: #5f6862; }
+.deep__google summary b { color: #8a4b00; }
+@media (max-width: 640px) { .deep__scores { grid-template-columns: repeat(2, 1fr); } .sitetest__deep-btn { margin: 8px 0 0; width: 100%; } }
