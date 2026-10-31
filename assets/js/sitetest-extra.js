@@ -91,11 +91,11 @@
     issues.push(f.found ? '' : 'Hittar inget formulär med e-postfält och skicka-knapp på ' + esc((f.page || '').replace(/^https?:\/\/[^/]+/, '') || 'startsidan'));
     issues = issues.filter(Boolean);
     var rows = pages.map(function (p) {
-      return '<tr><td>' + esc(p.url.replace(/^https?:\/\/[^/]+/, '') || '/') + '</td><td>' + (p.ok ? esc(p.titleLen) : '–') + '</td><td>' + (p.ok ? esc(p.descLen) : '–') + '</td><td>' + (p.ok ? esc(p.h1) : '–') + '</td><td>' + (p.ok ? esc(p.noAlt) + ' av ' + esc(p.imgs) : '–') + '</td><td>' + (p.ok ? (p.form ? 'Ja' : 'Nej') : esc(p.status || 'inget svar')) + '</td></tr>';
+      return '<tr><td>' + esc(p.url.replace(/^https?:\/\/[^/]+/, '') || '/') + '</td><td>' + (p.ok ? esc(p.titleLen) : '–') + '</td><td>' + (p.ok ? esc(p.descLen) : '–') + '</td><td>' + (p.ok ? esc(p.h1) : '–') + '</td><td>' + (p.ok ? esc(p.noAlt) + ' av ' + esc(p.imgs) : '–') + '</td><td>' + (p.ok ? (p.form ? 'Finns' : '–') : esc(p.status || 'inget svar')) + '</td></tr>';
     }).join('');
-    var summary = '<p class="sitetest__note">Kontrollerade ' + esc(d.checked.pages) + ' sidor av ' + esc(d.checked.sitemapPages) + ' i sajtkartan och ' + esc(d.checked.links) + ' interna länkar.' +
+    var summary = '<p class="sitetest__note">Kontaktformulär: ' + (d.form && d.form.found ? 'hittat på ' + esc((d.form.page || '').replace(/^https?:\/\/[^/]+/, '') || '/') + '.' : 'hittades inte på kontaktsidan.') + ' Kontrollerade ' + esc(d.checked.pages) + ' sidor av ' + esc(d.checked.sitemapPages) + ' i sajtkartan och ' + esc(d.checked.links) + ' interna länkar.' +
       (d.checked.sitemapPages > d.checked.pages ? ' Resten av sajten kontrolleras inte i det här testet.' : '') + '</p>';
-    var table = '<div class="sitetest__tbl"><table><thead><tr><th>Sida</th><th>Titel (tecken)</th><th>Beskrivning (tecken)</th><th>Rubrik h1</th><th>Bilder utan text</th><th>Formulär</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+    var table = '<div class="sitetest__tbl"><table><thead><tr><th>Sida</th><th>Titel (tecken)</th><th>Beskrivning (tecken)</th><th>Rubrik h1</th><th>Bilder utan text</th><th>Kontaktformulär</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
     var list = issues.length ? '<ul class="sitetest__list">' + issues.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' : '<p class="sitetest__note">Inga SEO-fel hittades på de sidor vi kontrollerade.</p>';
     return summary + table + list;
   }
