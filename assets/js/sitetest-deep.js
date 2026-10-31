@@ -422,6 +422,7 @@
     input.setCustomValidity('');
     btn.disabled = true;
     if (label) label.textContent = 'Djupanalys körs …';
+    window.__deepActive = true;
     if (quickResults) quickResults.hidden = true;
     if (quickExtra) quickExtra.hidden = true;
     var qp = document.getElementById('sitetest-progress'); if (qp) qp.hidden = true;
@@ -436,5 +437,6 @@
   });
 
   // a quick test replaces the deep result, and the other way round
-  form.addEventListener('submit', function () { box.hidden = true; box.innerHTML = ''; panel = null; });
+  // A quick test takes over again: the deep result and its progress go, and the quick test is free to show its result
+  form.addEventListener('submit', function () { window.__deepActive = false; box.hidden = true; box.innerHTML = ''; panel = null; clearInterval(timer); });
 })();

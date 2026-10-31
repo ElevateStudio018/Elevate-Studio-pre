@@ -163,6 +163,7 @@
   }
 
   var timer = null;
+  // While the deep analysis runs (or has run), a quick test that is still going must not put its result back
   function startProgress() {
     var start = Date.now();
     progress.hidden = false;
@@ -184,6 +185,7 @@
   }
 
   function showError(message) {
+    if (window.__deepActive) return;
     errorBox.innerHTML = '<h2>Testet kunde inte genomföras</h2><div>' + message + '</div>' +
       '<p><a class="btn btn--primary" href="' + prefix + 'kontakt.html"><span>Be oss göra en manuell genomgång</span></a></p>';
     errorBox.hidden = false;
@@ -210,6 +212,7 @@
   }
 
   function render(data, sec, url, strategy, psiProblem, extra) {
+    if (window.__deepActive) return;
     extra = extra || {};
     var lr = data && data.lighthouseResult;
     var audits = lr ? lr.audits : {};
