@@ -132,7 +132,6 @@
   function progressPanel() {
     var c = 2 * Math.PI * 52;
     box.innerHTML = '<section class="sitetest__more deep__run">' +
-      '<p class="deep__live"><span class="deep__dot" aria-hidden="true"></span>Djupanalysen kör nu</p>' +
       '<h2 class="deep__title" id="deep-title">Startar …</h2>' +
       '<div class="deep__ringwrap"><div class="deep__ring"><svg viewBox="0 0 120 120" aria-hidden="true">' +
       '<circle cx="60" cy="60" r="52" class="deep__track"/>' +
