@@ -961,18 +961,20 @@ def build_platforms():
                     [("Plattformar", "plattformar/index.html"), (x["name"], "")], None))
 
 
-def sites_section(p, sites):
+def sites_section(p, sites, preview=True):
     """The sites we have built: laptop and phone on a tile, the logo, a text, and the in-page preview."""
     cards = "".join(f'''<article class="site-card">
           <a class="site-card__face" href="{s["url"]}" target="_blank" rel="noopener" data-site="{s["url"]}" data-name="{esc(s["name"])}" aria-label="Förhandsvisa {esc(s["name"])}">
             <span class="site-card__devs">{laptop(p + "assets/img/" + s["image"], s["name"] + " på en dator")}<span class="phone"><img src="{p}assets/img/{s["phone"]}" alt="{esc(s["name"])} på en mobil" loading="lazy"></span></span>
-            <span class="site-card__logo"><img src="{p}assets/img/{s["logo"]}" alt="{esc(s["name"])} logotyp" loading="lazy"></span>
+            {f'<span class="site-card__logo"><img src="{p}assets/img/{s["logo"]}" alt="{esc(s["name"])} logotyp" loading="lazy"></span>' if s.get("logo") else ""}
             <span class="site-card__name">{esc(s["name"])}</span><span class="site-card__what">{esc(s["what"])}</span>
             <span class="site-card__text">{esc(s["text"])}</span>
             <span class="btn btn--primary btn--sm"><span>Förhandsvisa &rarr;</span></span>
           </a>
           <p class="site-card__links"><a href="{s["url"]}" target="_blank" rel="noopener">Besök {esc(s["label"])}</a>{f'<a href="{p}{s["case"]}">Läs om projektet</a>' if s.get("case") else ""}</p>
         </article>''' for s in sites)
+    if not preview:
+        return f'<section class="section container"><div class="sites">{cards}</div></section>'
     return f'''<section class="section container"><div class="sites">{cards}</div></section>
     <div class="site-preview" id="site-preview" hidden>
       <div class="site-preview__bar container">
@@ -1006,6 +1008,10 @@ def build_simple():
                 parts.append(f'<section class="section container"><p class="preamble prose">{esc(value)}</p></section>')
             elif kind == "sites":
                 parts.append(sites_section(p, value))
+            elif kind == "sites2":
+                parts.append(sites_section(p, value, preview=False))
+            elif kind == "h2":
+                parts.append(f'<section class="section container"><h2 class="block__header">{esc(value)}</h2></section>')
             elif kind == "cols":
                 cards = "".join(
                     f'<div class="info-card"><h2 class="info-card__title">{esc(t)}</h2><p>{d}</p></div>'

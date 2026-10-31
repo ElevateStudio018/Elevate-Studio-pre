@@ -631,6 +631,10 @@ SITES = [
      "text": "Markmontage har gjort schakt, dränering, grundläggning och VA-arbeten sedan 2002 med 18 anställda. Hemsidan presenterar sju tjänster på egna sidor, visar utförda uppdrag med egna bilder från arbetsplatserna och förklarar steg för steg hur ett markprojekt går till, från kostnadsfritt hembesök till fast offert."},
 ]
 
+import json as _json, pathlib as _pl
+# Sites made as proposals for companies (not customers): screenshots and texts from tools/proposals.json
+PROPOSALS = _json.loads((_pl.Path(__file__).parent / "proposals.json").read_text(encoding="utf-8"))
+
 SIMPLE_PAGES = {
     "byggda-hemsidor": {
         "title": "Hemsidor vi byggt", "seo_title": "Hemsidor vi byggt – riktiga kunder, riktiga sajter",
@@ -638,6 +642,9 @@ SIMPLE_PAGES = {
         "description": "Se hemsidor som Elevate Studio har byggt åt riktiga företag: byggfirma, städfirma och markentreprenad. Besök sajterna och se hur de fungerar på dator och mobil.",
         "sections": [
             ("sites", SITES),
+            ("h2", "Förslag vi har tagit fram"),
+            ("text", "Det här är hemsidor vi har byggt som förslag och exempel för olika företag. De är inte beställda av företagen, utan visar hur vi arbetar i olika branscher. Klicka på ett kort för att se hur hemsidan fungerar på dator och mobil."),
+            ("sites2", PROPOSALS),
             ("text", "Varje hemsida är byggd från grunden för företaget bakom den: egna texter, egna bilder och kontakt eller offert på varje sida. Vill ni se hur er egen skulle kunna se ut? Hör av er, så gör vi ett första utkast."),
         ],
     },
