@@ -88,6 +88,7 @@
     'links|broken-int': 'Vi rättar länken till rätt adress, eller lägger en omdirigering från den gamla adressen.',
     'links|redir': 'Vi uppdaterar länken så att den pekar direkt på slutadressen, så att besökaren och Google slipper ett steg.',
     'links|broken-ext': 'Vi byter länken mot en fungerande adress eller tar bort den.',
+    'links|ext-unknown': 'Kontrollera länken manuellt i en webbläsare. Om den fungerar behöver inget göras.',
     'links|img-broken': 'Vi laddar upp bilden på nytt eller byter ut den mot en som fungerar.'
   };
   var SEVERE = { 'seo|title-missing': 1, 'seo|h1-missing': 1, 'seo|noindex': 1, 'seo|robots-block': 1, 'practice|mixed': 1, 'security|spf': 1, 'security|dmarc': 1, 'security|cert': 1, 'links|broken-int': 1, 'links|broken-ext': 1, 'links|img-broken': 1, 'practice|hdr-content-security-policy': 1 };
@@ -227,7 +228,7 @@
       if (!F[k]) F[k] = { cat: cat, id: id, label: label, where: [], google: !!extra };
       F[k].where.push(where);
     };
-    var ok = R.ok, pageBad = { seo: {}, access: {}, practice: {}, perf: {} };
+    var ok = R.ok, pageBad = { seo: {}, access: {}, practice: {}, perf: {} }, extBroken = {}, extSeen = {};
     ok.forEach(function (p) {
       var a = p.a, d = p.d, u = p.url, lab = path(u);
       var t = function (cat, id, label) { pageBad[cat][u] = 1; add(cat, id, label, lab); };
@@ -280,9 +281,13 @@
       });
       p.links.external.forEach(function (h) {
         var s = R.extStatus[h] || {};
-        if (!s.status || s.status >= 400) add('links', 'broken-ext', 'Trasig extern länk', path(p.url) + ' → ' + esc(h) + ' (' + (s.status || 'inget svar') + ')');
+        if (s.status === 429 || s.status === 403 || s.status === 999) { extSeen[h] = extSeen[h] || { status: s.status, pages: [] }; extSeen[h].pages.push(p.url); }
+        else if (!s.status || s.status >= 400) { extBroken[h] = extBroken[h] || { status: s.status, pages: [] }; extBroken[h].pages.push(p.url); }
       });
     });
+    // one line per external address, with the number of pages that link to it
+    Object.keys(extBroken).forEach(function (h) { add('links', 'broken-ext', 'Trasig extern länk', esc(h) + ' (' + (extBroken[h].status || 'inget svar') + ') från ' + extBroken[h].pages.length + ' sidor'); });
+    Object.keys(extSeen).forEach(function (h) { add('links', 'ext-unknown', 'Extern länk som inte går att kontrollera automatiskt', esc(h) + ' svarar ' + extSeen[h].status + ', webbplatsen blockerar robotar. Länken är oftast fungerande.'); });
     var imgTotal = Object.keys(R.imgStatus).length;
     Object.keys(R.imgStatus).forEach(function (src) {
       var im = R.imgStatus[src], where = path(src);
