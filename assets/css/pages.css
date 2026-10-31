@@ -832,3 +832,6 @@ body.has-preview { overflow: hidden; }
 .deep__tl li.is-now::before { background: var(--accent, #1d3b2a); box-shadow: 0 0 0 5px rgba(29, 59, 42, .15); }
 .deep__tl li.is-done span::after { content: " ✓"; }
 .deep__now { text-align: center; color: #4f5a53; margin: 0; font-size: 16px; }
+.deep__run { text-align: center; }
+.deep__run .deep__live { display: inline-flex; }
+.deep__run .sitetest__note { text-align: center; }
