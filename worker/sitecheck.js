@@ -37,7 +37,8 @@ function analysePage(html) {
   const noAlt = imgs.filter((t) => !/\balt\s*=/i.test(t)).length;
   const hrefs = [...html.matchAll(/<a\b[^>]*\shref=["']([^"'#]+)["']/gi)].map((m) => m[1]);
   // a form that can be filled in: an e-mail or text field and a send button
-  const form = /<form\b/i.test(html) && /type=["']email["']|<textarea\b/i.test(html) && /type=["']submit["']|<button\b/i.test(html);
+  // the form must contain its own field and send button (buttons in the menu do not count)
+  const form = [...html.matchAll(/<form\b[\s\S]*?<\/form>/gi)].some((m) => /type=["']email["']|<textarea\b/i.test(m[0]) && /type=["']submit["']|<button\b/i.test(m[0]));
   return { title, titleLen: title.length, desc, descLen: desc.length, h1, imgs: imgs.length, noAlt, hrefs, form };
 }
 
