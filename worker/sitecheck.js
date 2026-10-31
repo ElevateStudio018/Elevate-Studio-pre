@@ -44,7 +44,18 @@ function analysePage(html) {
     const fields = (m[0].match(/<(input|textarea|select)\b(?![^>]*type=["'](hidden|submit|button)["'])(?![^>]*name=["']_honey["'])/gi) || []).length;
     return (/<textarea\b/i.test(m[0]) || fields >= 2) && /type=["']submit["']|<button\b/i.test(m[0]);
   });
-  return { title, titleLen: title.length, desc, descLen: desc.length, h1, imgs: imgs.length, noAlt, hrefs, form };
+  const attr = (name, re) => (html.match(re) || [])[1] || '';
+  const lang = attr('lang', /<html[^>]*\blang=["']([^"']+)["']/i);
+  const viewport = /<meta[^>]+name=["']viewport["']/i.test(html);
+  const canonical = attr('canonical', /<link[^>]+rel=["']canonical["'][^>]*href=["']([^"']+)["']/i);
+  const ogImage = /<meta[^>]+property=["']og:image["']/i.test(html);
+  const noindex = /<meta[^>]+name=["']robots["'][^>]*noindex/i.test(html);
+  const ldBlocks = [...html.matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)].map((m) => m[1]);
+  const ldBad = ldBlocks.filter((b) => { try { JSON.parse(b); return false; } catch { return true; } }).length;
+  // http:// resources on a page that is https (mixed content)
+  const mixed = [...html.matchAll(/(?:src|href)=["']http:\/\/[^"']+["']/gi)].length;
+  return { title, titleLen: title.length, desc, descLen: desc.length, h1, imgs: imgs.length, noAlt, hrefs, form,
+    lang, viewport, canonical, ogImage, noindex, ld: ldBlocks.length, ldBad, mixed };
 }
 
 async function dns(name, type) {
@@ -92,13 +103,14 @@ export async function siteCheck(req, env) {
   if (!urls.length) urls = [origin + '/'];
   urls = [...new Set(urls)].sort((a, b) => a.length - b.length);
   const contact = urls.find((x) => /\/kontakt|\/contact/i.test(x));
-  const chosen = [...new Set([urls[0], ...(contact ? [contact] : []), ...urls.slice(1)])].slice(0, 8);
+  const chosen = [...new Set([urls[0], ...(contact ? [contact] : []), ...urls.slice(1)])].slice(0, 12);
   const fetched = await Promise.all(chosen.map((x) => fetchText(x)));
   const pages = chosen.map((url, i) => {
     const r = fetched[i];
     if (!r.text) return { url, status: r.status || 0, ok: false };
     const a = analysePage(r.text);
-    return { url, status: r.status, ok: true, title: a.title, titleLen: a.titleLen, desc: a.desc, descLen: a.descLen, h1: a.h1, imgs: a.imgs, noAlt: a.noAlt, form: a.form, hrefs: a.hrefs };
+    return { url, status: r.status, ok: true, title: a.title, titleLen: a.titleLen, desc: a.desc, descLen: a.descLen, h1: a.h1, imgs: a.imgs, noAlt: a.noAlt, form: a.form, hrefs: a.hrefs,
+      lang: a.lang, viewport: a.viewport, canonical: a.canonical, ogImage: a.ogImage, noindex: a.noindex, ld: a.ld, ldBad: a.ldBad, mixed: a.mixed };
   });
 
   // 2. Duplicate titles and broken internal links (HEAD, up to 15 links)
@@ -111,7 +123,7 @@ export async function siteCheck(req, env) {
     if (abs.origin !== origin || links.has(abs.href)) return;
     links.set(abs.href, p.url);
   }));
-  const linkList = [...links.entries()].slice(0, 15);
+  const linkList = [...links.entries()].slice(0, 12);
   const linkResults = await Promise.all(linkList.map(async ([href, from]) => {
     const r = await getOne(href, { method: 'HEAD', signal: AbortSignal.timeout(6000) }).catch(() => null);
     return { href, from, status: r ? r.status : 0 };
@@ -122,7 +134,15 @@ export async function siteCheck(req, env) {
   const formPage = pages.find((p) => p.url === contact) || pages[0];
   const formCheck = { page: formPage && formPage.url, found: !!(formPage && formPage.form) };
 
-  // 4. Mail and certificate
+  // 4. Site level: robots.txt, the sitemap itself, and what an unknown address answers (it should be 404)
+  const [robots, missing] = await Promise.all([fetchText(origin + '/robots.txt'), getOne(origin + '/finns-inte-' + Date.now(), { method: 'GET', signal: AbortSignal.timeout(6000) }).catch(() => null)]);
+  const site_ = {
+    sitemap: { found: sm.status === 200, entries: urls.length },
+    robots: { found: robots.status === 200, blocksAll: /^\s*Disallow:\s*\/\s*$/mi.test(robots.text || '') },
+    notFound: { status: missing ? missing.status : 0, ok: !!missing && missing.status === 404 },
+  };
+
+  // 5. Mail and certificate
   const [mail, cert] = await Promise.all([mailCheck(domain), certCheck(domain)]);
 
   return json({
@@ -132,6 +152,7 @@ export async function siteCheck(req, env) {
     duplicateTitles: dupTitles,
     broken,
     form: formCheck,
+    files: site_,
     mail,
     cert,
   });
