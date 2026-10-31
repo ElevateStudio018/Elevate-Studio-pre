@@ -41,10 +41,10 @@
   }
 
   // ---------- the run ----------
-  function run(base) {
+  function run(base, finish) {
     var status = document.getElementById('deep-status');
     var t0 = Date.now();
-    var say = function (t) { status.textContent = t + ' (' + Math.round((Date.now() - t0) / 1000) + ' s)'; };
+    var say = function (t) { var line = t + ' (' + Math.round((Date.now() - t0) / 1000) + ' s)'; status.textContent = line; near.textContent = line; };
     var R = { base: base };
     say('Hämtar sajtkartan och säkerhetsrubriker …');
     post('list', {}, base).then(function (list) {
@@ -95,10 +95,10 @@
       say('Sammanställer resultatet …');
       show(R, t0);
       status.textContent = '';
-      btn.disabled = false;
+      finish(true);
     }).catch(function (e) {
       status.textContent = 'Djupanalysen kunde inte slutföras: ' + (e.message || 'okänt fel') + '. Försök igen om en stund.';
-      btn.disabled = false;
+      finish(false);
     });
   }
 
@@ -258,15 +258,30 @@
     box.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  // Right by the button: what is happening now, so the visitor sees that the test runs
+  var near = document.createElement('p');
+  near.className = 'sitetest__note deep__near';
+  near.setAttribute('role', 'status');
+  btn.parentNode.insertBefore(near, btn.nextSibling);
+  var label = btn.querySelector('span');
+  var idle = label ? label.textContent : '';
+
   btn.addEventListener('click', function () {
     var base = normalise(input.value);
-    if (!base) { input.setCustomValidity('Skriv en giltig adress, till exempel dittforetag.se'); input.reportValidity(); return; }
+    if (!base) { near.textContent = 'Skriv in en giltig adress ovanför, till exempel dittforetag.se.'; input.focus(); return; }
     input.setCustomValidity('');
     btn.disabled = true;
+    if (label) label.textContent = 'Kör djupanalys …';
+    near.textContent = 'Startar. Resultatet visas längst ner på sidan och kan ta några minuter.';
     box.hidden = false;
+    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
     box.innerHTML = '<section class="sitetest__more"><h2 class="sitetest__h2">Djupanalys av hela sajten</h2>' +
       '<p class="sitetest__note">Läser alla sidor, alla länkar och bilder, säkerhetsrubriker, mejl och certifikat, och kör Googles test på de viktigaste sidorna. Det kan ta några minuter.</p>' +
       '<p class="sitetest__note" id="deep-status"></p><div id="deep-out"></div></section>';
-    run(base);
+    run(base, function (done) {
+      btn.disabled = false;
+      if (label) label.textContent = idle;
+      near.textContent = done ? '' : near.textContent;
+    });
   });
 })();
