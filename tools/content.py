@@ -612,6 +612,7 @@ REVIEWS = [
     {"text": "Väldigt nöjd med hemsidan som Elevate Studio byggt åt oss! Snygg design, smidig kontakt och bra hjälp hela vägen. Rekommenderas varmt till företag som behöver en ny hemsida.", "source": "Recension på Google"},
     {"text": "Gjorde en väldigt bra och professionell hemsida åt oss. Mycket nöjd med detta. Kan varmt rekommendera!", "source": "Hemmacykel · Recension på Google"},
     {"text": "Väl utfört arbete med vår hemsida, vi märker redan skillnad på inflöde av förfrågningar till våra tjänster.", "source": "Recension på Google"},
+    {"text": "Vi är mycket nöjda med Elevate Studio och deras arbete med att skapa vår hemsida. Från första kontakten till färdig leverans har de visat stor professionalism, engagemang och förståelse för våra önskemål. De har varit lyhörda, kreativa och noggranna genom hela processen. Resultatet blev en modern, stilren och professionell hemsida som verkligen representerar vårt företag och vår verksamhet. Vi uppskattar deras goda kommunikation, snabba återkoppling och känsla för detaljer. Vi kan varmt rekommendera Elevate Studio till andra företag som vill ha en snygg och professionell hemsida! Stort tack för ett riktigt bra samarbete!", "source": "Haninge Byggteam AB"},
 ]
 
 # Oscar: byt till oskar@elevatestudio.nu (även i supabase/functions/mail/templates.ts) när adressen är öppnad hos Loopia
