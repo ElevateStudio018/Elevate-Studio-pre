@@ -828,3 +828,11 @@ body.has-preview { overflow: hidden; }
 .deep__ringstatus { font-weight: 600; }
 .deep__ringbox .score--good .score__fg { stroke: #2f7d4f; }
 .deep__ringbox .score--bad .score__fg { stroke: #b42318; }
+/* Design 5 as approved: thick ring, large number centred, light labels */
+.deep__rings .score svg { width: 124px; height: 124px; }
+.deep__rings .score circle { stroke-width: 15; }
+.deep__ringbox .score__value { top: 50%; transform: translateY(-50%); font-size: 36px; font-weight: 500; line-height: 1; }
+.deep__ringbox .score__value, .deep__ringbox .score--good .score__value, .deep__ringbox .score--bad .score__value { color: #1d2a22 !important; }
+.deep__ringname { font-weight: 500; font-size: 15px; margin-top: 12px; }
+.deep__ringstatus { font-weight: 400; font-size: 14px; margin-top: 4px; }
+.deep__ringstatus--bad { font-weight: 400; }
