@@ -319,7 +319,7 @@ ARTICLES = [
             ("h2", "Förtroende"),
             ("ul", ["Samma städare varje gång, om ni erbjuder det.", "Försäkring och nöjd kund-garanti, i klartext.", "Recensioner från Google, och riktiga bilder på teamet."]),
             ("h2", "Ett riktigt exempel"),
-            ("p", "Så byggde vi hemsidan för <a href=\"projekt/alvhem-stad.html\">Alvhem Städ</a> i Älvängen: film i toppen, en sida per städtjänst med pris, en kalkyl som räknar av RUT direkt och bokning av uppstartsmöte från varje sida."),
+            ("p", "Så bygger vi en hemsida för en städfirma: film i toppen, en sida per städtjänst med pris, en kalkyl som räknar av RUT direkt och bokning av uppstartsmöte från varje sida."),
         ],
     },
     {

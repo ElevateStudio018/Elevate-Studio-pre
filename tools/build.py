@@ -731,6 +731,16 @@ def build_cases():
             <span class="btn btn--primary pcard__btn"><span>Läs mer</span></span>
           </div>
         </article>''' for c in CASES)
+    compare_section = f'''<section class="section container">
+      <div class="pj-compare">
+        <div>
+          <span class="ex-tag">Kund</span>
+          <h2 class="block__header">Alvhem Städ: från <span>före</span> till <span>efter</span></h2>
+          <p>Dra i reglaget och jämför Alvhem Städs gamla hemsida med den nya vi byggt. <a href="{p}projekt/alvhem-stad.html">Läs om projektet</a>.</p>
+        </div>
+        {compare(p, p + "assets/img/" + alv["image"], "Alvhem Städs nya hemsida", before=p + "assets/img/" + alv["old_image"], before_alt="Alvhem Städs gamla hemsida", video=p + "assets/" + alv["video"], overlay=p + "assets/img/" + alv["overlay"]) if alv else compare(p, p + "assets/img/home/device-desktop.jpg", "Lindvik Bygg")}
+      </div>
+    </section>''' if alv else ""
     main = f'''<main>
     <section class="pj-hero">
       <div class="pj-hero__mark">{MARK_SVG}</div>
@@ -748,16 +758,7 @@ def build_cases():
           <p class="devs-cap"><b>Dator och mobil</b> – samma sajt, anpassad för varje skärm</p>
       </div>
     </section>
-    <section class="section container">
-      <div class="pj-compare">
-        <div>
-          <span class="ex-tag">Kund</span>
-          <h2 class="block__header">Alvhem Städ: från <span>före</span> till <span>efter</span></h2>
-          <p>Dra i reglaget och jämför Alvhem Städs gamla hemsida med den nya vi byggt. <a href="{p}projekt/alvhem-stad.html">Läs om projektet</a>.</p>
-        </div>
-        {compare(p, p + "assets/img/" + alv["image"], "Alvhem Städs nya hemsida", before=p + "assets/img/" + alv["old_image"], before_alt="Alvhem Städs gamla hemsida", video=p + "assets/" + alv["video"], overlay=p + "assets/img/" + alv["overlay"]) if alv else compare(p, p + "assets/img/home/device-desktop.jpg", "Lindvik Bygg")}
-      </div>
-    </section>
+    {compare_section}
     <section class="section">
       <div class="container">
         <h2 class="block__header">Hemsidor vi <span>byggt</span></h2>

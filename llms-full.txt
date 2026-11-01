@@ -445,7 +445,7 @@ I Starter ingår upp till 10 timmars support och redigering per månad under det
 Vi bygger snabba, mobilanpassade hemsidor för städfirmor som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
 
 ### Så söker kunderna efter städfirmor
-Städning är en tjänst kunden beställer återkommande, och förtroendet byggs på tydlighet: vad ingår, vad kostar det och vem kommer hem till mig. Vi har byggt hemsidan åt Alvhem Städ, och lärdomarna därifrån gäller de flesta städfirmor.
+Städning är en tjänst kunden beställer återkommande, och förtroendet byggs på tydlighet: vad ingår, vad kostar det och vem kommer hem till mig.
 Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
 - städfirma Uppsala
 - flyttstädning pris
@@ -561,7 +561,7 @@ I Starter ingår upp till 10 timmars support och redigering per månad under det
 Vi bygger snabba, mobilanpassade hemsidor för markentreprenörer och grundläggare som får kunder att höra av sig, till fast pris och med samma kontaktperson hela vägen.
 
 ### Så söker kunderna efter markentreprenörer och grundläggare
-Mark- och grundarbeten säljs ofta till andra företag och byggare, men också till privatpersoner som ska bygga eller anlägga. Hemsidan ska visa vad ni kan, vilka maskiner ni har och hur ni samarbetar. Vi har byggt sidan åt Markmontage BEAB AB, och tänket är detsamma för de flesta markfirmor.
+Mark- och grundarbeten säljs ofta till andra företag och byggare, men också till privatpersoner som ska bygga eller anlägga. Hemsidan ska visa vad ni kan, vilka maskiner ni har och hur ni samarbetar.
 Det som kunderna skriver i Google är ofta enkla, konkreta sökningar. Några exempel för er bransch:
 - markentreprenad Uppsala
 - grundläggning villa
@@ -10360,7 +10360,7 @@ Skriv timpriset efter RUT-avdrag, och vad det blir för en vanlig lägenhet. En 
 - Försäkring och nöjd kund-garanti, i klartext.
 - Recensioner från Google, och riktiga bilder på teamet.
 ### Ett riktigt exempel
-Så byggde vi hemsidan för <a href="projekt/alvhem-stad">Alvhem Städ</a> i Älvängen: film i toppen, en sida per städtjänst med pris, en kalkyl som räknar av RUT direkt och bokning av uppstartsmöte från varje sida.
+Så bygger vi en hemsida för en städfirma: film i toppen, en sida per städtjänst med pris, en kalkyl som räknar av RUT direkt och bokning av uppstartsmöte från varje sida.
 
 ## Texter som kunder faktiskt läser (14 juli 2026)
 Den vanligaste texten på svenska företags hemsidor börjar med ”Vi är ett företag med lång erfarenhet och hög kvalitet”. Ingen kund har någonsin valt en firma på grund av den meningen. Så här skriver ni i stället.
