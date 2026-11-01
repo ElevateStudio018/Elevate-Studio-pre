@@ -413,9 +413,9 @@
 
   // ---------- the button: starts the deep test and takes the place of the quick result ----------
   near = document.createElement('p');
-  near.className = 'sitetest__note deep__near';
+  near.className = 'deep__status';
   near.setAttribute('role', 'status');
-  btn.parentNode.insertBefore(near, btn.nextSibling);
+  form.parentNode.insertBefore(near, form.nextSibling);
   var label = btn.querySelector('span');
   var idle = label ? label.textContent : '';
 
