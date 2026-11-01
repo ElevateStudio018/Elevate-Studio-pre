@@ -167,6 +167,7 @@
   function startProgress() {
     var start = Date.now();
     progress.hidden = false;
+    document.documentElement.classList.add('sitetest-running');
     results.hidden = true;
     errorBox.hidden = true;
     timer = setInterval(function () {
@@ -181,7 +182,7 @@
   function stopProgress() {
     clearInterval(timer);
     bar.style.width = '100%';
-    setTimeout(function () { progress.hidden = true; bar.style.width = '0'; }, 400);
+    setTimeout(function () { progress.hidden = true; bar.style.width = '0'; document.documentElement.classList.remove('sitetest-running'); }, 400);
   }
 
   function showError(message) {

@@ -672,10 +672,12 @@ body.has-preview { overflow: hidden; }
 .sitetest__form .btn { flex: none; height: 56px; padding: 0 28px; background: #fdfbf5; color: #12271b; }
 .sitetest__form .btn:hover { background: #ffffff; }
 .sitetest { position: relative; margin-top: -120px; }
-.sitetest__progress, .sitetest__error, .sitetest__results { max-width: 1100px; margin-left: auto; margin-right: auto; }
-.sitetest__progress { background: #fff; color: var(--ink, #16241b); box-shadow: 0 40px 80px -50px rgba(0, 0, 0, .45); }
-.sitetest__progress .sitetest__bar { background: #e6ebe5; }
-.sitetest__progress .sitetest__bar i { background: var(--accent, #1d3b2a); }
+.sitetest__error, .sitetest__results { max-width: 1100px; margin-left: auto; margin-right: auto; }
+/* While the test runs: the dark green box with a thin white line, as in the first version (quick and deep test) */
+.sitetest__progress { max-width: 820px; margin-left: auto; margin-right: auto; background: var(--accent, #1d3b2a); color: var(--cream, #fdfbf5); box-shadow: none; }
+.sitetest__progress .sitetest__bar { background: rgba(255, 255, 255, .15); }
+.sitetest__progress .sitetest__bar i { background: var(--cream, #fdfbf5); }
+.sitetest__progress .sitetest__note { color: inherit; opacity: .75; }
 .sitetest__results { padding: 44px 48px; border-radius: 28px; background: #fff; box-shadow: 0 40px 80px -50px rgba(0, 0, 0, .45); }
 .sitetest__summary { grid-template-columns: 260px 1fr; gap: 40px; padding: 0; border: 0; background: none; }
 .sitetest__verdict { display: flex; align-items: center; gap: 18px; margin: 0 0 26px; padding: 16px 20px; border-radius: 18px; background: #f3f6f2; }
@@ -848,3 +850,6 @@ body.has-preview { overflow: hidden; }
 /* Deep test status line: below the form, never inside the pill */
 .deep__status { max-width: 760px; margin: 14px auto 0; text-align: center; font-size: 15px; line-height: 1.5; color: rgba(253, 251, 245, .9); min-height: 0; }
 .deep__status:empty { display: none; }
+/* While a test runs, the dark top area ends under the form and the progress box sits 100px below it (first version) */
+.sitetest-running .sitetest-hero { padding-bottom: 80px; }
+.sitetest-running section.section.container.sitetest { margin-top: 0; padding-top: 100px; }

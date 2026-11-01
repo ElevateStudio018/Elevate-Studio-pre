@@ -146,7 +146,7 @@
   }
   function setStep(i, detail) {
     if (!panel) return;
-    var pct = Math.round(i / STEPS.length * 100);
+    var pct = Math.max(8, Math.round(i / STEPS.length * 100)); // never an empty line, like the quick test
     panel.querySelector('#deep-line').style.width = pct + '%';
     panel.querySelector('#deep-title').textContent = (i < STEPS.length ? STEPS[i] : 'Klart') + ' (' + Math.min(i + 1, STEPS.length) + ' av ' + STEPS.length + ')';
     panel.querySelector('#deep-now').textContent = 'Djupanalys av hela sajten.' + (detail ? ' ' + detail + '.' : '');
@@ -439,9 +439,11 @@
     if (quickExtra) quickExtra.hidden = true;
     var qp = document.getElementById('sitetest-progress'); if (qp) qp.hidden = true;
     box.hidden = false;
+    document.documentElement.classList.add('sitetest-running');
     progressPanel();
     window.scrollTo({ top: box.getBoundingClientRect().top + window.scrollY - 150, behavior: 'smooth' });
     run(base, Date.now(), function (done) {
+      document.documentElement.classList.remove('sitetest-running');
       btn.disabled = false;
       if (label) label.textContent = idle;
       near.textContent = done ? 'Klart. Resultatet visas nedanför.' : '';
