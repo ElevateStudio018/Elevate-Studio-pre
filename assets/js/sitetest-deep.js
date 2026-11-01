@@ -355,7 +355,10 @@
     // one blended score: our check of every page and Google's test of the main pages count equally
     var blend = function (cat) {
       var ours = pctPages(cat), g = gAvg[G2[cat]];
-      return g == null ? ours : Math.round((ours + g) / 2);
+      var v = g == null ? ours : Math.round((ours + g) / 2);
+      // 100 only when nothing at all was found in the category
+      var open = Object.keys(F).some(function (k) { return F[k].cat === cat; }) || Object.keys(C.hits).some(function (k) { return C.gcat(C.hits[k].cat) === cat; });
+      return open ? Math.min(v, 99) : v;
     };
     var linksPct = linksTotal ? Math.round((linksTotal - linksBad) / linksTotal * 100) : 100;
     var rings = [ring(blend('seo'), 'SEO'), ring(blend('access'), 'Tillgänglighet'), ring(blend('practice'), 'Bästa praxis'),
