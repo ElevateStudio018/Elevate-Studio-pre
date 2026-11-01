@@ -826,3 +826,5 @@ body.has-preview { overflow: hidden; }
 .deep__ringbox .score--ok .score__fg { stroke: #c98a16; }
 .deep__ringname { color: #17251c; font-size: 15px; }
 .deep__ringstatus { font-weight: 600; }
+.deep__ringbox .score--good .score__fg { stroke: #2f7d4f; }
+.deep__ringbox .score--bad .score__fg { stroke: #b42318; }
