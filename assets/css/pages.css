@@ -821,3 +821,8 @@ body.has-preview { overflow: hidden; }
 .deep__ringstatus--good { color: #2f7d4f; }
 .deep__ringstatus--ok { color: #a26c07; }
 .deep__ringstatus--bad { color: #b42318; font-weight: 600; }
+/* Design 5: the number is dark, only the ring and the status carry the colour */
+.deep__ringbox .score__value { color: #17251c !important; font-weight: 600; }
+.deep__ringbox .score--ok .score__fg { stroke: #c98a16; }
+.deep__ringname { color: #17251c; font-size: 15px; }
+.deep__ringstatus { font-weight: 600; }

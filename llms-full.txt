@@ -41,7 +41,6 @@
 - [Vad kostar en hemsida – och vad betalar du egentligen för?](https://elevatestudio.nu/insikter/vad-kostar-en-hemsida)
 - [Fem saker som får besökare att höra av sig](https://elevatestudio.nu/insikter/fa-besokare-att-hora-av-sig)
 - [Så syns ditt företag när kunder frågar AI](https://elevatestudio.nu/insikter/synas-nar-kunder-fragar-ai)
-- [Före och efter: Alvhem Städs nya hemsida](https://elevatestudio.nu/insikter/fore-och-efter-alvhem-stad)
 - [Vad händer med hemsidan efter lansering?](https://elevatestudio.nu/insikter/vad-hander-efter-lansering)
 - [Snabb hemsida slår snygg hemsida](https://elevatestudio.nu/insikter/darfor-ar-en-snabb-hemsida-viktigare-an-en-snygg)
 - [Hemsida för byggfirma: rätt sorts jobb](https://elevatestudio.nu/insikter/hemsida-for-byggfirma)
@@ -10293,19 +10292,6 @@ I vanlig sökning handlar det om att hamna högt i en lista. I ett AI-svar finns
 - Svara på de frågor kunderna faktiskt ställer, till exempel i en sektion med vanliga frågor.
 - Håll kontaktuppgifter, öppettider och tjänster uppdaterade, både på sajten och i Googles företagsprofil.
 Det mesta som gör dig synlig för AI gör dig också bättre på Google. Därför ingår både sökmotoroptimering (SEO) och AI-optimering i alla hemsidor vi bygger.
-
-## Före och efter: Alvhem Städs nya hemsida (6 oktober 2026)
-Alvhem Städ i Älvängen hade en hemsida som fanns, men som inte gjorde något. Vi byggde en ny från grunden. Här är vad som ändrades och varför.
-### Det som var problemet
-Tjänsterna låg samlade på en sida, priserna saknades och enda sättet att komma i kontakt var ett formulär längst ner. Den som sökte på ”flyttstädning Älvängen” hittade ingen sida om just det.
-### Det vi gjorde
-- Film i toppen som visar jobbet.
-- En egen sida för varje städtjänst, med pris.
-- En priskalkyl som räknar av RUT-avdraget direkt.
-- Bokning av uppstartsmöte från varje sida.
-- Allt anpassat för mobilen först.
-### Se det själv
-På <a href="projekt/alvhem-stad">projektsidan</a> kan ni dra i ett reglage och jämföra den gamla sidan med den nya. Fler sajter vi byggt finns under <a href="byggda-hemsidor">Hemsidor vi byggt</a>.
 
 ## Vad händer med hemsidan efter lansering? (29 september 2026)
 Många hemsidor är som bäst dagen de lanseras och sedan händer ingenting på tre år. Priserna är gamla, personalen har bytts ut och den senaste nyheten är från lanseringen. Så här håller ni sidan levande utan att det tar tid.

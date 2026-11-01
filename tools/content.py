@@ -632,6 +632,13 @@ SITES = [
      "text": "Markmontage har gjort schakt, dränering, grundläggning och VA-arbeten sedan 2002 med 18 anställda. Hemsidan presenterar sju tjänster på egna sidor, visar utförda uppdrag med egna bilder från arbetsplatserna och förklarar steg för steg hur ett markprojekt går till, från kostnadsfritt hembesök till fast offert."},
 ]
 
+# Kunder som tillfälligt är dolda på hemsidan (projekt, hemsidor vi byggt, startsidan).
+# Ta bort namnet ur listan för att visa dem igen. Datan ligger kvar här ovanför.
+HIDDEN_CUSTOMERS = {"Alvhem Städ", "Markmontage BEAB AB"}
+CASES = [c for c in CASES if c.get("name") not in HIDDEN_CUSTOMERS]
+SITES = [s for s in SITES if s.get("name") not in HIDDEN_CUSTOMERS]
+ARTICLES = [a for a in ARTICLES if a.get("slug") != "fore-och-efter-alvhem-stad"]  # artikel om en dold kund
+
 import json as _json, pathlib as _pl
 
 SIMPLE_PAGES = {
