@@ -236,7 +236,8 @@
     var ok = R.ok, pageBad = { seo: {}, access: {}, practice: {}, perf: {} }, extBroken = {}, extSeen = {};
     ok.forEach(function (p) {
       var a = p.a, d = p.d, u = p.url, lab = path(u);
-      var t = function (cat, id, label) { pageBad[cat][u] = 1; add(cat, id, label, lab); };
+      // a serious fault costs the page 30 points, a small one 8; the score is the average over all pages
+      var t = function (cat, id, label) { pageBad[cat][u] = (pageBad[cat][u] || 0) + (SEVERE[cat + '|' + id] ? 30 : 8); add(cat, id, label, lab); };
       if (!a.titleLen) t('seo', 'title-missing', 'Sidan saknar titel');
       if (a.titleLen > 60) t('seo', 'title-long', 'Titeln är för lång (över 60 tecken)');
       if (a.titleLen && a.titleLen < 25) t('seo', 'title-short', 'Titeln är för kort (under 25 tecken)');
@@ -342,7 +343,7 @@
 
   function show(R, t0) {
     var C = collect(R), F = C.F, ok = R.ok, total = ok.length || 1;
-    var pctPages = function (cat) { return Math.round((ok.length - Object.keys(C.pageBad[cat]).length) / total * 100); };
+    var pctPages = function (cat) { var lost = 0; Object.keys(C.pageBad[cat]).forEach(function (u) { lost += Math.min(100, C.pageBad[cat][u]); }); return Math.max(0, Math.round(100 - lost / total)); };
     var linksTotal = R.internal.length + R.external.length;
     var linksBad = Object.keys(F).filter(function (k) { return k.indexOf('links|broken') === 0; }).reduce(function (n, k) { return n + F[k].where.length; }, 0);
     var sec = 0; ['spf', 'dkim', 'dmarc', 'dmarc-none', 'mx', 'cert'].forEach(function (id) { if (F['security|' + id]) sec++; });
