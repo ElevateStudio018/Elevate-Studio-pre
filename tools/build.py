@@ -723,13 +723,7 @@ def build_cases():
     cards = "".join(f'''
         <article class="pcard">
           {laptop(p + "assets/img/" + c["image"], c["name"] + (" på en dator" if c.get("site") else " – exempel på hemsida på en dator"))}
-          <div class="pcard__body">
-            <span class="ex-tag">{"Kund" if c.get("site") else "Exempel"}</span>
-            <h3><a class="cover-link" href="{c["slug"]}.html">{esc(c["name"])}</a></h3>
-            <p>{esc(c["lead"])}</p>
-            <ul class="pcard__tags">{"".join(f"<li>{esc(t)}</li>" for t in c["tags"])}</ul>
-            <span class="btn btn--primary pcard__btn"><span>Läs mer</span></span>
-          </div>
+          <a class="cover-link" href="{c["slug"]}.html" aria-label="{esc(c["name"])}"></a>
         </article>''' for c in CASES)
     compare_section = f'''<section class="section container">
       <div class="pj-compare">
@@ -1421,8 +1415,6 @@ def projects_section():
     cards = "".join(f'''
           <a class="hp-proj__card" href="projekt/{c["slug"]}.html">
             {laptop("assets/img/" + c["image"], c["name"] + (" på en dator" if c.get("site") else " – exempel på hemsida på en dator"))}
-            <div class="hp-proj__meta"><h3>{esc(c["name"])}</h3><span class="ex-tag">{"Kund" if c.get("site") else "Exempel"}</span></div>
-            <span class="btn btn--light hp-proj__btn"><span>Läs mer</span></span>
           </a>''' for c in CASES[:3])
     return f'''<section class="block hp-proj" id="projekt">
       <div class="container">
