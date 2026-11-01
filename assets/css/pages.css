@@ -853,3 +853,4 @@ body.has-preview { overflow: hidden; }
 /* While a test runs, the dark top area ends under the form and the progress box sits 100px below it (first version) */
 .sitetest-running .sitetest-hero { padding-bottom: 80px; }
 .sitetest-running section.section.container.sitetest { margin-top: 0; padding-top: 100px; }
+.info-card--empty { min-height: 200px; }

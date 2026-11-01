@@ -394,7 +394,7 @@ def page_hero(title, lead, eyebrow=""):
     return f'''<section class="page-hero">
       <div class="container">
         {eb}<h1 class="page-hero__title">{title}</h1>
-        <p class="page-hero__lead">{esc(lead)}</p>
+        {f'<p class="page-hero__lead">{esc(lead)}</p>' if lead else ""}
       </div>
     </section>'''
 
@@ -807,19 +807,18 @@ def build_cases():
     </section>'''
         else:
             body = f'''<section class="section container">
-      <ul class="tag-row">{tags}</ul>
       {compare(p, "../assets/img/" + c["image"], c["name"])}
       <p class="fiction-note">Påhittat exempelprojekt som visar hur vi arbetar.</p>
     </section>
     <section class="section container">
       <div class="card-grid">
-        <div class="info-card"><h2 class="info-card__title">Utmaningen</h2><p>{esc(c["challenge"])}</p></div>
-        <div class="info-card"><h2 class="info-card__title">Lösningen</h2><p>{esc(c["solution"])}</p></div>
-        <div class="info-card info-card--accent"><h2 class="info-card__title">Resultatet</h2><p>{esc(c["result"])}</p></div>
+        <div class="info-card info-card--empty" aria-hidden="true"></div>
+        <div class="info-card info-card--empty" aria-hidden="true"></div>
+        <div class="info-card info-card--accent info-card--empty" aria-hidden="true"></div>
       </div>
     </section>'''
         main = f'''<main{" class=\"look-ref\"" if c.get("site") else ""}>
-    {page_hero(esc(c["name"]), c["lead"], "Kund" if c.get("site") else "Projekt")}
+    {page_hero(esc(c["name"]), c["lead"] if c.get("site") else "", "Kund" if c.get("site") else "")}
     {body}
     <section class="section container">
       <a class="next-card" href="{nxt["slug"]}.html">
