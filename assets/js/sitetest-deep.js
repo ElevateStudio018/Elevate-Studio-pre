@@ -122,7 +122,7 @@
   // Design 5: a thick ring with the number, and a plain status under the name
   var ring = function (pct, label, tone) {
     var c = 2 * Math.PI * 52, s = Math.max(0, Math.min(100, pct)) / 100;
-    var cls = tone || (pct >= 90 ? 'good' : pct >= 50 ? 'ok' : 'bad');
+    var cls = tone || (pct >= 90 ? 'good' : pct >= 70 ? 'ok' : 'bad');
     var status = cls === 'good' ? 'Klart' : cls === 'ok' ? 'Att åtgärda' : 'Åtgärda först';
     return '<div class="deep__ringbox"><div class="score score--' + cls + '"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="score__bg"/>' +
       '<circle cx="60" cy="60" r="52" class="score__fg" stroke-dasharray="' + (c * s).toFixed(1) + ' ' + c.toFixed(1) + '"/></svg>' +

@@ -836,3 +836,12 @@ body.has-preview { overflow: hidden; }
 .deep__ringname { font-weight: 500; font-size: 15px; margin-top: 12px; }
 .deep__ringstatus { font-weight: 400; font-size: 14px; margin-top: 4px; }
 .deep__ringstatus--bad { font-weight: 400; }
+/* Design 5, colours exactly as in the approved picture (higher specificity so nothing else overrides them) */
+.sitetest .deep__ringbox .score__bg { stroke: #e6e2d6; }
+.sitetest .deep__ringbox .score--good .score__fg { stroke: #457d56; }
+.sitetest .deep__ringbox .score--ok .score__fg { stroke: #c98a16; }
+.sitetest .deep__ringbox .score--bad .score__fg { stroke: #a8331f; }
+.sitetest .deep__ringbox .deep__ringstatus--good { color: #457d56; }
+.sitetest .deep__ringbox .deep__ringstatus--ok { color: #a26c07; }
+.sitetest .deep__ringbox .deep__ringstatus--bad { color: #a8331f; }
+.sitetest .deep__ringbox .deep__ringname { color: #1d2a22; }
