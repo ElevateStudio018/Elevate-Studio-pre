@@ -348,18 +348,23 @@
     var linksBad = Object.keys(F).filter(function (k) { return k.indexOf('links|broken') === 0; }).reduce(function (n, k) { return n + F[k].where.length; }, 0);
     var sec = 0; ['spf', 'dkim', 'dmarc', 'dmarc-none', 'mx', 'cert'].forEach(function (id) { if (F['security|' + id]) sec++; });
     var secPct = Math.max(0, Math.round((6 - sec) / 6 * 100));
-    var rings = [
-      ring(pctPages('seo'), 'SEO'), ring(pctPages('access'), 'Tillgänglighet'), ring(pctPages('practice'), 'Bästa praxis'),
-      ring(pctPages('perf'), 'Prestanda'), ring(secPct, 'Säkerhet och mejl'), ring(linksTotal ? Math.round((linksTotal - linksBad) / linksTotal * 100) : 100, 'Länkar')
-    ].join('');
+    // Google's average per category (the 12 most important pages, mobile)
     var gAvg = {};
-    if (C.psiOk.length) PSI_CATS.forEach(function (c) { var s = C.psiOk.map(function (u) { return R.psi[u].categories[c].score; }); gAvg[c] = Math.round(s.reduce(function (a, b) { return a + b; }, 0) / s.length * 100); });
-    var googleRings = C.psiOk.length ? PSI_CATS.map(function (c) { return ring(gAvg[c], CAT_NAMES[c]); }).join('') : '';
+    if (C.psiOk.length) PSI_CATS.forEach(function (c) { var sc = C.psiOk.map(function (u) { return R.psi[u].categories[c].score; }); gAvg[c] = Math.round(sc.reduce(function (a, b) { return a + b; }, 0) / sc.length * 100); });
+    var G2 = { seo: 'seo', access: 'accessibility', practice: 'best-practices', perf: 'performance' };
+    // one blended score: our check of every page and Google's test of the main pages count equally
+    var blend = function (cat) {
+      var ours = pctPages(cat), g = gAvg[G2[cat]];
+      return g == null ? ours : Math.round((ours + g) / 2);
+    };
+    var linksPct = linksTotal ? Math.round((linksTotal - linksBad) / linksTotal * 100) : 100;
+    var rings = [ring(blend('seo'), 'SEO'), ring(blend('access'), 'Tillgänglighet'), ring(blend('practice'), 'Bästa praxis'),
+      ring(blend('perf'), 'Prestanda'), ring(secPct, 'Säkerhet och mejl'), ring(linksPct, 'Länkar')].join('');
 
     var html = '<p class="deep__summary"><b>Klart på ' + Math.round((Date.now() - t0) / 1000) + ' sekunder.</b> Vi läste ' + ok.length + ' av ' + R.urls.length + ' sidor, ' + R.internal.length + ' interna och ' + R.external.length + ' externa länkar, ' + C.imgTotal + ' bilder och ' + C.psiOk.length + ' sidor i Googles test.' +
       (ok.length < R.urls.length ? ' ' + (R.urls.length - ok.length) + ' sidor gick inte att läsa.' : '') + '</p>';
     html += '<h3 class="sitetest__h3">Sajten i siffror</h3><div class="deep__rings">' + rings + '</div>';
-    if (googleRings) html += '<h3 class="sitetest__h3">Googles test, snitt för ' + C.psiOk.length + ' viktiga sidor (mobil)</h3><div class="deep__rings">' + googleRings + '</div>';
+    html += '<p class="sitetest__note">Betygen är en blandning av två kontroller: vår genomgång av alla ' + ok.length + ' sidor och Googles test av ' + C.psiOk.length + ' viktiga sidor (mobil). De väger lika tungt, så ett resultat som bara en av dem hittar slår ändå igenom.</p>';
 
     // keywords
     if (R.keywords && R.keywords.length) {
@@ -369,7 +374,7 @@
     }
 
     // categories
-    var CATS = [['seo', 'SEO', pctPages('seo')], ['access', 'Tillgänglighet', pctPages('access')], ['practice', 'Bästa praxis', pctPages('practice')], ['perf', 'Prestanda', pctPages('perf')], ['security', 'Säkerhet och mejl', secPct], ['links', 'Länkar och bilder', linksTotal ? Math.round((linksTotal - linksBad) / linksTotal * 100) : 100]];
+    var CATS = [['seo', 'SEO', blend('seo')], ['access', 'Tillgänglighet', blend('access')], ['practice', 'Bästa praxis', blend('practice')], ['perf', 'Prestanda', blend('perf')], ['security', 'Säkerhet och mejl', secPct], ['links', 'Länkar och bilder', linksTotal ? Math.round((linksTotal - linksBad) / linksTotal * 100) : 100]];
     CATS.forEach(function (c) {
       var items = Object.keys(F).filter(function (k) { return F[k].cat === c[0]; }).map(function (k) { return F[k]; })
         .sort(function (a, b) { return (SEVERE[b.cat + '|' + b.id] || 0) - (SEVERE[a.cat + '|' + a.id] || 0) || b.where.length - a.where.length; });
