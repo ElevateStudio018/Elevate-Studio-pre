@@ -8,7 +8,7 @@ const [page, out, scale = '3', fps = '30'] = process.argv.slice(2);
   const p = await b.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: +scale });
   await p.goto('http://localhost:8767/' + page + '?capture'); await p.evaluate(() => document.fonts.ready);
   const dur = await p.evaluate(() => window.DUR), n = Math.round(dur * +fps);
-  const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', fps, '-i', '-', '-c:v', 'libx264', '-preset', 'slow', '-crf', '16', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out], { stdio: ['pipe', 'inherit', 'inherit'] });
+  const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', fps, '-i', '-', '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out], { stdio: ['pipe', 'inherit', 'inherit'] });
   for (let i = 0; i < n; i++) {
     await p.evaluate((t) => window.render(t), i / +fps);
     const buf = await p.screenshot({ type: 'jpeg', quality: 95 });
