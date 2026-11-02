@@ -80,7 +80,14 @@ export async function webmail(req, env, connector, mailer) {
     const s = { e: email, p: pass, i: sv.imap, o: sv.smtp, exp: Date.now() + 8 * 3600e3 };
     try { const folders = await withImap(s, (m) => m.folders(), connector); tries.delete(email);
       return json({ ok: true, email, folders: folders.map((f) => f.name), servers: sv }, 200, { 'set-cookie': cookie(await seal(env, s), 8 * 3600) });
-    } catch (e) { return json({ error: /closed|connect|greeting|timed/i.test(e.message) ? 'Kunde inte nå mejlservern ' + sv.imap + '.' : 'Fel e-post eller lösenord.' }, 401); }
+    } catch (e) {
+      const msg = String((e && e.message) || e).slice(0, 200);
+      console.error('mail login', email, sv.imap, msg);
+      // only a real "no" from the mail server means a wrong password; everything else is shown as it is
+      if (/AUTHENTICATIONFAILED|authentication failed|invalid credentials|login failed|LOGIN.*(fail|incorrect)|^NO\b/i.test(msg)) return json({ error: 'Fel e-post eller lösenord. Använd lösenordet till själva mejlkontot (inte till Loopias kundzon).' }, 401);
+      if (/closed|connect|greeting|timed|network|refused|reset|tls|handshake|stream/i.test(msg)) return json({ error: 'Kunde inte nå mejlservern ' + sv.imap + ' (' + msg + ').' }, 502);
+      return json({ error: 'Inloggningen misslyckades: ' + msg }, 500);
+    }
   }
   if (op === 'logout') return json({ ok: true }, 200, { 'set-cookie': cookie('', 0) });
   const s = await open(env, session(req));

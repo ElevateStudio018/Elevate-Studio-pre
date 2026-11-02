@@ -1118,3 +1118,9 @@ body.has-preview { overflow: hidden; }
 }
 .wmx-box { z-index: 100000 !important; }
 body:has(#webmail .wmx) .chat { display: none; }
+/* Dark green card with a soft green glow (login box on /mail) */
+.glow-dark { position: relative; overflow: hidden; background-color: #16301f; color: #fdfbf5;
+  background-image: radial-gradient(ellipse 45% 55% at 100% 105%, rgba(143, 211, 166, .55), rgba(143, 211, 166, 0) 70%),
+    radial-gradient(ellipse 60% 45% at 45% 115%, rgba(40, 150, 125, .55), rgba(40, 150, 125, 0) 70%); }
+.glow-dark::before { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(255, 255, 255, .09) 1px, transparent 1.4px); background-size: 6px 6px; }
+.glow-dark > * { position: relative; }
