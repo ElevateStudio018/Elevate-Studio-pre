@@ -1,0 +1,37 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:H;src:url(../../assets/fonts/HankenGrotesk-latin.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:F;src:url(../../assets/fonts/Fraunces-latin.woff2) format('woff2');font-style:italic;font-weight:100 900}
+*{margin:0;box-sizing:border-box}html,body{width:720px;height:720px;overflow:hidden;font-family:H,sans-serif;-webkit-font-smoothing:antialiased}
+#s{position:absolute;inset:0;display:grid;place-items:center}
+svg{overflow:visible}.t{position:absolute;left:0;right:0;top:470px;text-align:center;font-weight:700;font-size:58px;letter-spacing:-.025em}
+.u{position:absolute;left:0;right:0;top:548px;text-align:center;font-size:20px;letter-spacing:.3em;text-transform:uppercase;font-weight:700}
+</style></head><body><div id="s"></div><script>
+const P="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z";
+const id=+(location.search.match(/id=(\d)/)||[0,1])[1];
+const th={1:['#fff','#12271b','#1d3b2a'],2:['#12271b','#fdfbf5','#c9d8cd'],3:['#fdfbf5','#12271b','#2f7d4f'],4:['dots','#fdfbf5','#c9d8cd'],5:['#1d3b2a','#fdfbf5','#c6f36b']}[id];
+const s=document.getElementById('s');
+if(th[0]==='dots'){s.style.cssText+=';background-color:#12271b;background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.4px);background-size:6px 6px'}else s.style.background=th[0];
+s.innerHTML=`<svg id="g" width="330" height="237" viewBox="0 0 1884.3 1353.9" style="position:absolute;left:195px;top:190px"><defs><clipPath id="cp"><rect id="cr" x="0" y="0" width="1884" height="1354"/></clipPath><clipPath id="cl"><path d="${P}"/></clipPath></defs>
+<path id="o" d="${P}" fill="none" stroke="${th[1]}" stroke-width="22" stroke-linejoin="round"/><g clip-path="url(#cp)"><path id="f" d="${P}" fill="${th[1]}"/></g>
+<g clip-path="url(#cl)"><rect id="sh" x="-600" y="0" width="300" height="1400" fill="rgba(255,255,255,.35)" transform="skewX(-20)"/></g>
+<circle id="dot" r="38" fill="${th[2]}" cx="0" cy="1354" opacity="0"/></svg>
+<div class="t" id="t" style="color:${th[1]}">Elevate Studio</div><div class="u" id="u" style="color:${th[2]}">elevatestudio.nu</div>`;
+const o=document.getElementById('o'),L=o.getTotalLength();o.style.strokeDasharray=L;
+const $=i=>document.getElementById(i),cl=x=>Math.max(0,Math.min(1,x)),out=x=>1-Math.pow(1-cl(x),3),io=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const back=x=>{x=cl(x);const c=1.70158;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const DUR=3.6;
+function txt(t,a,mode){const T=$('t'),U=$('u');
+ if(mode==='type'){const s='Elevate Studio',n=Math.round(cl((t-a)/.7)*s.length);T.textContent=s.slice(0,n);T.style.opacity=1}
+ else{T.style.opacity=cl((t-a)/.4);T.style.transform=`translateY(${(1-out((t-a)/.5))*24}px)`;T.style.letterSpacing=mode==='track'?`${-.025+.2*(1-out((t-a)/.8))}em`:''}
+ U.style.opacity=cl((t-a-.4)/.4)}
+function render(t){const g=$('g'),f=$('f'),cr=$('cr'),dot=$('dot');o.style.opacity=0;f.style.opacity=1;cr.setAttribute('width',1884);cr.setAttribute('y',0);cr.setAttribute('height',1354);g.style.transform='';dot.setAttribute('opacity',0);$('sh').setAttribute('x',-600);
+ if(id===1){o.style.opacity=1;o.style.strokeDashoffset=L*(1-io(t/1.3));f.style.opacity=cl((t-1.2)/.4);o.style.opacity=1-cl((t-1.5)/.3);txt(t,1.5,'up')}
+ if(id===2){const k=out((t-.1)/.9);cr.setAttribute('y',1354*(1-k));g.style.transform=`translateY(${(1-k)*60}px)`;$('sh').setAttribute('x',-600+cl((t-1.2)/.8)*2900);txt(t,1.1,'track')}
+ if(id===3){cr.setAttribute('width',1884*io(t/1.1));g.style.transform=`translateX(${(1-out(t/1.1))*-30}px)`;txt(t,1.0,'type')}
+ if(id===4){const k=back((t-.1)/.7);g.style.transform=`scale(${Math.max(0,k)}) rotate(${(1-cl((t-.1)/.7))*-12}deg)`;g.style.transformOrigin='50% 60%';txt(t,.9,'up')}
+ if(id===5){const pts=[[0,1354],[1218.7,0],[1884,1350]];const k=io(t/1.4);let x,y;if(k<.6){const q=k/.6;x=pts[0][0]+(pts[1][0]-pts[0][0])*q;y=pts[0][1]+(pts[1][1]-pts[0][1])*q}else{const q=(k-.6)/.4;x=pts[1][0]+(pts[2][0]-pts[1][0])*q;y=pts[1][1]+(pts[2][1]-pts[1][1])*q}
+  dot.setAttribute('cx',x);dot.setAttribute('cy',y);dot.setAttribute('opacity',t<1.6?1:0);o.style.opacity=1;o.style.strokeDashoffset=L*(1-k);f.style.opacity=cl((t-1.4)/.35);o.style.opacity=1-cl((t-1.6)/.3);txt(t,1.6,'up')}
+ const e=cl((t-3.2)/.4);s.style.opacity=1-e*0;}
+window.READY=document.fonts.ready;window.render=render;window.DUR=DUR;
+if(!/capture/.test(location.search)){let t0=performance.now();(function lp(){render(((performance.now()-t0)/1000)%(DUR+.6));requestAnimationFrame(lp)})()}
+</script></body></html>
