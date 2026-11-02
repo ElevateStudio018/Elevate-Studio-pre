@@ -196,7 +196,7 @@ def footer(p):
           <div class="site-footer__big site-footer__cols">
             <div>
               <p class="site-footer__subheader">Tjänster</p>
-              <ul class="site-footer__links">{services}<li><a href="{p}domaner.html">Domäner</a></li><li><a href="{p}foretagsmejl.html">Företagsmejl</a></li><li><a href="{p}portal.html">Kundportal</a></li></ul>
+              <ul class="site-footer__links">{services}<li><a href="{p}domaner.html">Domäner</a></li><li><a href="{p}foretagsmejl.html">Företagsmejl</a></li><li><a href="{p}portal.html">Kundportal</a></li><li><a href="{p}guider.html">Guider</a></li></ul>
             </div>
             <div>
               <p class="site-footer__subheader">Elevate Studio</p>
@@ -1791,6 +1791,27 @@ def build_platform():
   </main>"""
     yield write("mail.html", document(p, "Elevate Mejl", mailpage, "subpage shop-page", [("Mejl", "")], None, extra_js=("webmail.js",), robots="noindex, nofollow",
                 description="Logga in och läs och skicka mejl med ert företags domän."))
+
+    guider = f'''<main>
+    {page_hero("Så använder du <em>adminpanelen</em> och mejlen", "Två korta filmer som visar allt du kan göra själv: ändra din hemsida och sköta din företagsmejl.", "Guider")}
+    <section class="section container guides">
+      <article class="guide" id="adminpanelen">
+        <div class="guide__text"><p class="guide__eb">Adminpanelen</p><h2>Ändra din hemsida själv</h2>
+          <p>Logga in på <b>dittforetag.se/admin</b> med samma konto som i kundportalen.</p>
+          <ol><li>Klicka på en text eller bild direkt på hemsidan och ändra.</li><li>Skriv vad du vill i AI-rutan – assistenten föreslår ändringen.</li><li>Läs och svara på förfrågningar från hemsidan.</li><li>Lägg till projekt, tjänster, nyheter och recensioner.</li><li>Tryck <b>Publicera</b> – då syns det för alla.</li></ol></div>
+        <video controls playsinline preload="none" poster="{p}assets/video/guide-admin.webp" width="1280" height="720" aria-label="Film: så använder du adminpanelen"><source src="{p}assets/video/guide-admin.mp4" type="video/mp4"></video>
+      </article>
+      <article class="guide" id="mejlen">
+        <div class="guide__text"><p class="guide__eb">Elevate Mejl</p><h2>Er företagsmejl i webbläsaren</h2>
+          <p>Logga in på <a href="{p}mail.html">elevatestudio.nu/mail</a> med din e-post och ditt lösenord.</p>
+          <ol><li>Läs, svara och vidarebefordra – med bilagor.</li><li>Skriv med fet och kursiv stil, typsnitt och färg.</li><li>Lägg till signaturer, gärna med logga.</li><li>Skapa egna mappar och sök i alla mejl.</li><li>Mejlen säkerhetskopieras automatiskt.</li></ol></div>
+        <video controls playsinline preload="none" poster="{p}assets/video/guide-mejl.webp" width="1280" height="720" aria-label="Film: så använder du Elevate Mejl"><source src="{p}assets/video/guide-mejl.mp4" type="video/mp4"></video>
+      </article>
+      <p class="guides__help">Fastnar du? Skapa ett ärende i <a href="{p}portal.html">kundportalen</a> eller mejla <a href="mailto:info@elevatestudio.nu">info@elevatestudio.nu</a>.</p>
+    </section>
+  </main>'''
+    yield write("guider.html", document(p, "Så använder du adminpanelen och mejlen", guider, "subpage", [("Guider", "")], None,
+                description="Filmer och steg för steg: så ändrar du din hemsida i adminpanelen och så använder du Elevate Mejl."))
 
     links = [("Startsidan", "index.html", "Nya temat, domän- och mejlkorten, riktiga kunder"), ("Testa din sajt", "testa.html", "Snabbtest, djupanalys, PDF och offert"),
              ("Domäner", "domaner.html", "Sök, filtrera, sortera och lägg i varukorgen"), ("Företagsmejl", "foretagsmejl.html", "Paket, mejlkontroll och guider"),

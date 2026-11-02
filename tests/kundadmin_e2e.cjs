@@ -6,6 +6,9 @@ let pass = 0, fail = 0; const ok = (c, n) => { c ? pass++ : fail++; console.log(
   const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1360, height: 900 } }); const errs = [];
   p.on('pageerror', (e) => errs.push(e.message)); p.on('dialog', (d) => d.accept());
   await p.goto('http://localhost:8767/kundadmin/?demo'); await p.waitForSelector('.side');
+  await p.waitForSelector('.modal video'); ok(await p.isDisabled('#kiskip'), 'introduktion med video, hoppa över är låst först');
+  await p.waitForFunction(() => !document.querySelector('#kiskip').disabled, null, { timeout: 23000 }); ok(true, 'efter 20 sekunder går det att hoppa över');
+  await p.click('#kiskip'); ok(!(await p.isVisible('.modal')), 'introduktionen stängs');
   ok((await p.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--p').trim())) === '#1f4d36', 'färgerna kommer från kundens hemsida');
   ok((await p.textContent('.nav[data-v=forfragningar] em')) === '2', 'nya förfrågningar syns i menyn');
   // design 5: assistant

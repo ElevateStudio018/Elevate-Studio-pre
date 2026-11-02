@@ -33,7 +33,7 @@ async function tour(name, fn, opts = {}) {
   const b = await chromium.launch();
   const ctx = await b.newContext({ viewport: { width: 1280, height: 720 }, recordVideo: { dir, size: { width: 1280, height: 720 } } });
   await ctx.addInitScript('document.addEventListener("DOMContentLoaded",()=>{' + OVERLAY + '})');
-  await ctx.addInitScript(() => { try { localStorage.setItem('es.consent', 'no'); } catch (e) {} });
+  await ctx.addInitScript(() => { try { localStorage.setItem('es.consent', 'no'); localStorage.setItem('es.mail.intro', 'true'); localStorage.setItem('es.kundadmin.intro', '1'); } catch (e) {} });
   if (opts.setup) await opts.setup(ctx);
   const p = await ctx.newPage();
   const errs = []; p.on('pageerror', (e) => errs.push(e.message));

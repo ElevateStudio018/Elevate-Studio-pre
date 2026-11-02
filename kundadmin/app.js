@@ -87,7 +87,7 @@
     ]).then(function (r) {
       st.role = ((r[0].data || [])[0] || {}).role || (((r[5] && r[5].data) || []).length ? 'staff' : 'user');
       st.data = { content: r[1].data || [], items: r[2].data || [], leads: r[3].data || [], bookings: r[4].data || [] };
-      shell();
+      shell(); if (!localStorage.getItem('es.kundadmin.intro')) intro();
     });
   }
   var enabled = function () { var m = st.site.modules || []; return MODULES.filter(function (x) { return x[0] === 'oversikt' || m.indexOf(x[0]) >= 0; }); };
@@ -113,6 +113,20 @@
   }
   function go(v) { st.view = v; shell(); window.scrollTo(0, 0); }
   var view = function () { return $('#v'); };
+
+  // ---------- welcome video the first time (skip after 20 s); again from Inställningar ----------
+  function intro() {
+    var m = document.createElement('div'), left = 20; m.className = 'modal';
+    m.innerHTML = '<div style="width:min(820px,100%)"><p class="mut" style="margin:0;font-size:12px;font-weight:800;letter-spacing:.2em;color:var(--p)">VÄLKOMMEN</p><h1 style="margin:6px 0 8px;font-size:28px">Så använder du adminpanelen</h1>' +
+      '<p class="mut">Ändra texter och bilder direkt på hemsidan, låt AI-assistenten hjälpa dig, läs förfrågningar och lägg till projekt. Titta på den korta guiden.</p>' +
+      '<video src="../assets/video/guide-admin.mp4" poster="../assets/video/guide-admin.webp" controls autoplay muted playsinline preload="metadata" style="display:block;width:100%;aspect-ratio:16/9;margin:14px 0;border-radius:14px;background:#0f2418"></video>' +
+      '<p style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:0"><button class="btn" id="kiskip" disabled>Hoppa över om 20 s</button><span class="mut" style="font-size:13px">Du hittar guiden igen under Inställningar.</span></p></div>';
+    document.body.appendChild(m);
+    var b = m.querySelector('#kiskip'), done = function () { try { localStorage.setItem('es.kundadmin.intro', '1'); } catch (e) { /* fine */ } clearInterval(timer); m.remove(); };
+    var timer = setInterval(function () { left--; if (left > 0) b.textContent = 'Hoppa över om ' + left + ' s'; else { clearInterval(timer); b.disabled = false; b.textContent = 'Hoppa över'; } }, 1000);
+    m.querySelector('video').addEventListener('ended', function () { clearInterval(timer); b.disabled = false; b.textContent = 'Kom igång'; });
+    b.addEventListener('click', done);
+  }
 
   // ---------- design 5: the assistant ----------
   function ask(q) {
@@ -346,8 +360,9 @@
       (editor() ? '<button type="button" class="btn btn--ghost btn--small" id="tget" style="margin-top:12px">Hämta färger från ' + esc(st.site.domain || 'hemsidan') + '</button>' : '') +
       '<h2 style="margin-top:22px">Förhandsvisning</h2><label>Adress till sidan som visas under Sidor och texter</label><input name="preview_url" placeholder="https://' + esc(st.site.domain || 'dittforetag.se') + '/" value="' + esc(s.preview_url || '') + '"' + ro + '></div></div>' +
       (editor() ? '<p style="margin:16px 0 0"><button class="btn">Spara</button></p>' : '') + '</form>' +
+      '<div class="card" style="margin-top:14px"><h2>Introduktion</h2><p class="mut" style="margin-top:0">En kort film om allt du kan göra i adminpanelen.</p><button type="button" class="btn btn--ghost btn--small" id="kintro">Visa guiden igen</button></div>' +
       '<div class="card" style="margin-top:14px"><h2>Koppla till kundportalen och /admin</h2><p class="mut" style="margin-top:0">Er hemsida visar adminpanelen på <b>' + esc(st.site.domain || 'dittforetag.se') + '/admin</b>. I Elevate Studios kundportal når ni samma panel under Hemsidans admin – samma inloggning.</p></div>';
-    var f = $('#sf');
+    var f = $('#sf'); on('#kintro', 'click', intro);
     f.querySelectorAll('input[type=color]').forEach(function (c) { c.addEventListener('input', function () { theme({ primary: f.primary.value, accent: f.accent.value }); }); });
     on('#tget', 'click', function () {
       if (!st.site.domain) return toast('Lägg in hemsidans adress först.');
