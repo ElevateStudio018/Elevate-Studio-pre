@@ -1,5 +1,4 @@
 // Shared bits for the 9:16 reels: base CSS, the end card (offer + logo) and timing helpers.
-document.write('<script src="endcard.js"><\/script>');
 (function(){
 const css=`@font-face{font-family:H;src:url(../../assets/fonts/HankenGrotesk-latin.woff2) format('woff2');font-weight:100 900}
 @font-face{font-family:F;src:url(../../assets/fonts/Fraunces-latin.woff2) format('woff2');font-style:italic;font-weight:100 900}
@@ -28,8 +27,15 @@ K.ease=x=>{x=K.cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
 K.out=x=>{x=K.cl(x);return 1-Math.pow(1-x,3)};
 K.io=(t,a,b,f=.35)=>K.cl(Math.min((t-a)/f,(b-t)/f));
 K.typ=(el,s,t,a,sp=.05)=>{el.textContent=s.slice(0,K.cl(Math.floor((t-a)/sp),0,s.length))};
-Object.defineProperty(K,'endHTML',{get:()=>window.ENDCARD});
-K.end=(t,a)=>window.endAnim(t,a);
+K.endHTML=`<div class="L" id="end"><div class="kk">Fast pris · klar snabbt</div>
+<div class="ctr w pr">Hemsida från<b><span class="hl">2 999 kr</span></b></div>
+<div class="tags"><span>SEO</span><span>Design</span><span>Recensioner</span><span>Admin</span></div>
+<div class="cta">Boka gratismöte →</div>
+<div class="lg"><img src="../../assets/img/brand/logo-mark-cream.svg" alt="">Elevate Studio</div><div class="url">elevatestudio.nu</div></div>`;
+K.end=(t,a)=>{const e=document.getElementById('end');e.style.opacity=K.cl((t-a)/.4);
+ e.querySelector('.pr').style.transform=`scale(${1.1-.1*K.out((t-a)/.6)})`;
+ e.querySelectorAll('.tags span').forEach((s,i)=>{const k=K.cl((t-a-.6-i*.18)/.25);s.style.opacity=k;s.style.transform=`translateY(${(1-k)*16}px)`});
+ const k=t-a-1.8;e.querySelector('.cta').style.transform=`translateX(-50%) scale(${1+(k>0?.05*Math.max(0,Math.sin(k*Math.PI/.7)):0)})`};
 K.boot=(render,DUR,imgs=[])=>{
  window.READY=Promise.all(['../../assets/img/brand/logo-mark-cream.svg',...imgs].map(u=>new Promise(ok=>{const im=new Image();im.onload=im.onerror=()=>im.decode?im.decode().then(ok,ok):ok();im.src=u;(window.__p=window.__p||[]).push(im)})).concat([document.fonts.ready]));
  window.render=render;window.DUR=DUR;
