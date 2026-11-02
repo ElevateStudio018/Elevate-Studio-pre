@@ -301,7 +301,7 @@ def organisation_ld():
         "sameAs": [MAPS_URL] + list(SOCIAL.values()),
         "knowsAbout": ["Webbdesign", "Hemsidor för företag", "Sökmotoroptimering (SEO)", "AI-optimering", "Bokningssystem", "Offertsystem", "AI-chatt", "Webbutveckling"],
         "slogan": "Hemsidor som ger förfrågningar",
-        "priceRange": "5 000–9 000 kr",
+        "priceRange": "3 000–9 000 kr",
         "knowsLanguage": ["sv", "en"],
         "employee": [{"@type": "Person", "name": n, "jobTitle": r, "telephone": t, "email": e} for n, r, t, e in TEAM],
         "parentOrganization": {"@type": "Organization", "name": PARENT_COMPANY, "taxID": ORG_NR, "identifier": ORG_NR},
@@ -1061,7 +1061,7 @@ def build_simple():
       <ol>{steps}</ol>
     </section>''')
             elif kind == "minifaq":
-                qa = [("Vad kostar en hemsida?", 'Starter kostar 5 000 kr och Pro 9 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. <a href="priser.html">Se priser</a>.'),
+                qa = [("Vad kostar en hemsida?", 'Enkel kostar 3 000 kr (max 3 sidor och offertformulär), Starter 5 000 kr och Pro 9 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. <a href="priser.html">Se priser</a>.'),
                       ("Hur lång tid tar det?", "Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst."),
                       ("Måste vi finnas i Uppsala?", "Nej. Vi finns i Uppsala men jobbar med företag i hela Sverige – möten går lika bra på distans.")]
                 items = "".join(f'<details class="faq__item" name="kfaq"><summary>{esc(q)}</summary><p>{a}</p></details>' for q, a in qa)
@@ -1082,7 +1082,7 @@ def build_simple():
                 parts.append(f'<section class="section container">{reviews_section()}</section>')
             elif kind == "aboutlinks":
                 parts.append('''<section class="section container about-links">
-      <article class="about-links__item"><h3><a class="cover-link" href="priser.html">Priser</a></h3><p>Starter, Pro och Elite – vad som ingår och vad det kostar.</p><span class="arrow-link">Se priser</span></article>
+      <article class="about-links__item"><h3><a class="cover-link" href="priser.html">Priser</a></h3><p>Enkel, Starter, Pro och Elite – vad som ingår och vad det kostar.</p><span class="arrow-link">Se priser</span></article>
       <article class="about-links__item"><h3><a class="cover-link" href="avtal.html">Så ser avtalet ut</a></h3><p>Ett exempel på vår offert, att läsa eller ladda ner.</p><span class="arrow-link">Se avtalet</span></article>
       <article class="about-links__item"><h3><a class="cover-link" href="plattformar/index.html">Tekniken vi använder</a></h3><p>HTML, CSS, JavaScript, React, Node.js, Python och Playwright.</p><span class="arrow-link">Se tekniken</span></article>
     </section>''')
@@ -1255,7 +1255,7 @@ def build_landings():
     </section>
     <section class="section container">
       <div class="plans-note">
-        <div><h2 class="plans-note__title">Fast pris från 5 000 kr</h2><p>Se vad som ingår i Starter, Pro och Elite – och hur avtalet ser ut.</p></div>
+        <div><h2 class="plans-note__title">Fast pris från 3 000 kr</h2><p>Se vad som ingår i Enkel, Starter, Pro och Elite – och hur avtalet ser ut.</p></div>
         <div class="plans-note__links"><a class="arrow-link" href="{p}priser.html">Se priser</a><a class="arrow-link" href="{p}avtal.html">Exempel på avtal</a></div>
       </div>
     </section>
@@ -1276,10 +1276,10 @@ def build_landings():
 def build_hubs():
     p = ""
     groups = {
-        "branscher": ("Hemsidor för <em>alla branscher</em>", "Hemsidor för olika branscher: elektriker, rörmokare, målare, frisörer, restauranger, advokater med flera. Fast pris från 5 000 kr.",
+        "branscher": ("Hemsidor för <em>alla branscher</em>", "Hemsidor för olika branscher: elektriker, rörmokare, målare, frisörer, restauranger, advokater med flera. Fast pris från 3 000 kr.",
                       "Varje bransch har sina egna frågor, kunder och sökord. Här är sidorna där vi går igenom vad en bra hemsida ska innehålla för just er verksamhet.",
                       [("bransch", "Hemsidor för branscher"), ("amne", "Tjänster och funktioner")], "Hemsidor för alla branscher"),
-        "orter": ("Webbyrå för företag <em>i hela Sverige</em>", "Webbyrå i Uppsala som bygger hemsidor för företag i Uppsala, Stockholm, Västerås, Örebro, Gävle, Göteborg med flera orter. Fast pris från 5 000 kr.",
+        "orter": ("Webbyrå för företag <em>i hela Sverige</em>", "Webbyrå i Uppsala som bygger hemsidor för företag i Uppsala, Stockholm, Västerås, Örebro, Gävle, Göteborg med flera orter. Fast pris från 3 000 kr.",
                   "Vi sitter i Uppsala och bygger hemsidor åt företag i hela landet. Möten på plats eller på distans, och samma kontaktperson hela vägen.",
                   [("ort", "Orter")], "Webbyrå – orter"),
     }
@@ -1302,7 +1302,7 @@ def build_hubs():
     <section class="section container land">{body}</section>
     <section class="section container">
       <div class="plans-note">
-        <div><h2 class="plans-note__title">Fast pris från 5 000 kr</h2><p>Se vad som ingår i Starter, Pro och Elite, och hur avtalet ser ut.</p></div>
+        <div><h2 class="plans-note__title">Fast pris från 3 000 kr</h2><p>Se vad som ingår i Enkel, Starter, Pro och Elite, och hur avtalet ser ut.</p></div>
         <div class="plans-note__links"><a class="arrow-link" href="{p}priser.html">Se priser</a><a class="arrow-link" href="{p}avtal.html">Exempel på avtal</a></div>
       </div>
     </section>
@@ -1314,6 +1314,13 @@ def build_hubs():
 def build_prices():
     p = ""
     plans = [
+        ("Enkel", "3 000 kr", "engångspris + 99 kr/år", "En enkel hemsida för er som bara vill finnas på nätet och kunna få förfrågningar.", [
+            "Upp till 3 sidor",
+            "Mobilanpassad design",
+            "Offertformulär som skickas till er mejl",
+            "Grundläggande SEO",
+            "Ingen admin eller extra funktioner",
+        ], "Välj Enkel", False),
         ("Starter", "5 000 kr", "startavgift + 99–199 kr/år", "En snygg, snabb hemsida som visar vad ni gör och gör det enkelt att kontakta er.", [
             "Webbdesign och mobilanpassning",
             "Kontaktfunktion och presentation av verksamhet och projekt",
@@ -1364,6 +1371,7 @@ def build_prices():
       <div class="calc__grid">
         <form class="calc__form" id="calc" novalidate>
           <fieldset><legend>Hemsida</legend>
+            <label class="calc__opt"><input type="radio" name="plan" value="enkel"><span><b>Enkel</b> 3 000 kr<small>+ 99 kr/år · max 3 sidor och offertformulär</small></span></label>
             <label class="calc__opt"><input type="radio" name="plan" value="starter" checked><span><b>Starter</b> 5 000 kr<small>+ 99–199 kr/år</small></span></label>
             <label class="calc__opt"><input type="radio" name="plan" value="pro"><span><b>Pro</b> 9 000 kr<small>+ 299–399 kr/år · bokning eller offertflöde, AI-chatt</small></span></label>
             <label class="calc__opt"><input type="radio" name="plan" value="none"><span><b>Ingen ny hemsida</b><small>bara domän och mejl</small></span></label>
@@ -1404,8 +1412,8 @@ def build_prices():
         {"@type": "Offer", "name": name, "description": text, "seller": {"@id": ORG_ID},
          **({"price": price.replace(" ", "").replace("kr", ""), "priceCurrency": "SEK"} if "kr" in price else {})}
         for name, price, unit, text, items, cta_label, feat in plans]}
-    yield write("priser.html", document(p, "Vad kostar en hemsida? Priser från 5 000 kr", main, "subpage", [("Priser", "")], "priser",
-                description="Vad kostar en hemsida? Fasta priser: Starter 5 000 kr, Pro 9 000 kr och Elite efter offert. Support ingår första året. Alla priser exkl. moms.", jsonld=[catalog], extra_js=("calc.js",)))
+    yield write("priser.html", document(p, "Vad kostar en hemsida? Priser från 3 000 kr", main, "subpage", [("Priser", "")], "priser",
+                description="Vad kostar en hemsida? Fasta priser: Enkel 3 000 kr, Starter 5 000 kr, Pro 9 000 kr och Elite efter offert. Support ingår första året. Alla priser exkl. moms.", jsonld=[catalog], extra_js=("calc.js",)))
 
 
 def rewrap(path, body_class, crumbs=None, extra_js=(), robots="index, follow"):
@@ -1602,6 +1610,7 @@ def site_files(built):
 {services}
 
 ## Priser (exkl. moms)
+- Enkel: 3 000 kr engångspris + 99 kr/år. Upp till 3 sidor, mobilanpassad, offertformulär till mejl och grundläggande SEO. Ingen admin eller extra funktioner.
 - Starter: 5 000 kr i startavgift + 99–199 kr/år. Webbdesign och mobilanpassning, kontaktfunktion, grundläggande SEO och AI-optimering, två korrekturvändor, upp till 10 timmars support per månad första året.
 - Pro: 9 000 kr i startavgift + 299–399 kr/år. Allt i Starter plus offertflöde eller bokning, AI-chatt, notiser via e-post och SMS samt förfrågningar med status och historik.
 - Elite: pris efter offert för större sajter, integrationer och egna funktioner.

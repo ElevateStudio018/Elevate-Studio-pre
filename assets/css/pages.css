@@ -373,7 +373,7 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .pricing__title { margin: 0 0 18px; font-size: 72px; font-weight: 400; line-height: 1.05; color: #fff; }
 .pricing__title em { font-family: var(--serif); letter-spacing: 0; }
 .pricing__lead { margin: 0; font-size: 20px; opacity: .85; }
-.plans { display: grid; grid-template-columns: 1fr 1.1fr 1fr; gap: 20px; align-items: center; }
+.plans { display: grid; grid-template-columns: 1fr 1fr 1.1fr 1fr; gap: 20px; align-items: center; }
 .plan { display: flex; flex-direction: column; padding: 40px 36px; border: 1px solid rgba(253, 251, 245, .16); border-radius: 24px; background: rgba(18, 39, 27, .55); backdrop-filter: blur(2px); }
 .plan--featured { padding: 52px 44px; border: 0; background: #fff; color: #111; box-shadow: 0 40px 80px -40px rgba(0, 0, 0, .6); }
 .plan__name { margin: 0 0 22px; font-size: 16px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--cream, #fdfbf5); }
@@ -395,6 +395,7 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
 .plans-note__title { margin: 0 0 8px; font-size: 26px; font-weight: 500; }
 .plans-note p { margin: 0; }
 .plans-note__links { display: grid; gap: 12px; }
+@media (max-width: 1240px) and (min-width: 993px) { .plans { grid-template-columns: 1fr 1fr; align-items: stretch; } }
 @media (max-width: 992px) {
   .plans { grid-template-columns: 1fr; max-width: 560px; }
   .pricing__mark { right: -160px; bottom: -110px; width: 560px; }

@@ -2,7 +2,7 @@
    assets/data/catalog.json. The choice can be sent as a quote request with everything filled in. */
 (function () {
   var form = document.getElementById('calc'); if (!form) return;
-  var PLANS = { starter: { name: 'Hemsida Starter', once: 5000, year: '99–199' }, pro: { name: 'Hemsida Pro', once: 9000, year: '299–399' } };
+  var PLANS = { enkel: { name: 'Hemsida Enkel', once: 3000, year: '99' }, starter: { name: 'Hemsida Starter', once: 5000, year: '99–199' }, pro: { name: 'Hemsida Pro', once: 9000, year: '299–399' } };
   var kr = function (n) { return Math.round(n).toLocaleString('sv-SE') + ' kr'; };
   fetch('assets/data/catalog.json').then(function (r) { return r.json(); }).then(function (cat) {
     var se = cat.tlds.filter(function (t) { return t.tld === 'se'; })[0], mail = function (id) { return cat.mail.filter(function (m) { return m.id === id; })[0]; };
