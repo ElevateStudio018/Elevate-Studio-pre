@@ -18,7 +18,7 @@ def env(n, a=0.002, d=0.08):
 def click():          # a short, soft mouse click: two tiny filtered noise bursts
     n = int(0.05 * SR); x = rng.normal(0, 1, n) * env(n, 0.0005, 0.006)
     x = np.convolve(x, np.ones(6) / 6, 'same')
-    y = np.zeros(int(0.07 * SR)); y[:n] += x; y[int(0.028 * SR):int(0.028 * SR) + n] += 0.5 * x
+    y = np.zeros(int(0.09 * SR)); y[:n] += x; y[int(0.028 * SR):int(0.028 * SR) + n] += 0.5 * x
     return 0.5 * y
 
 
