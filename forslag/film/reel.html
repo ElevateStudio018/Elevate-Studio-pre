@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Elevate – reel (Meta 9:16)</title>
+<style>
+@font-face{font-family:H;src:url(../../assets/fonts/HankenGrotesk-latin.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:F;src:url(../../assets/fonts/Fraunces-latin.woff2) format('woff2');font-style:italic;font-weight:100 900}
+*{box-sizing:border-box;margin:0}
+html,body{width:720px;height:1280px;overflow:hidden;background:#0d1d14;font-family:H,system-ui,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+#s{position:relative;width:720px;height:1280px;overflow:hidden;background:radial-gradient(70% 50% at 70% 25%,#1f4a33,transparent 70%),radial-gradient(60% 40% at 20% 85%,#173b28,transparent 70%),#0d1d14}
+.L{position:absolute;inset:0;opacity:0}
+.w{font-weight:800;letter-spacing:-.04em;line-height:.98}
+.hl{display:inline-block;padding:0 .14em;border-radius:.14em;background:#8fd3a6;color:#0f2418}
+.serif{font-family:F,serif;font-style:italic;font-weight:400;letter-spacing:0}
+.cap{position:absolute;left:40px;right:40px;top:110px;text-align:center;font-size:58px}
+.sub{position:absolute;left:40px;right:40px;text-align:center;font-size:26px;color:#c9d8cd}
+.phone{position:absolute;left:110px;top:330px;width:500px;height:860px;border-radius:56px;background:#0a0f0c;padding:14px;box-shadow:0 60px 120px -30px rgba(0,0,0,.85),0 0 0 2px rgba(255,255,255,.12)}
+.scr{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:#fff;color:#16241b}
+.notch{position:absolute;left:50%;top:12px;width:120px;height:30px;margin-left:-60px;border-radius:20px;background:#0a0f0c;z-index:9}
+.pane{position:absolute;inset:0;opacity:0}
+.cur{position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.5);border:3px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.4);z-index:20;opacity:0;transform:translate(-50%,-50%)}
+.ring{position:relative;width:96px;height:96px}.ring svg{transform:rotate(-90deg)}.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:28px}
+.rl{text-align:center;font-size:14px;font-weight:700;margin-top:6px;color:#3b4a40}
+.iss{display:flex;gap:10px;align-items:center;padding:12px 14px;margin:8px 18px;border-radius:14px;background:#f4f6f4;font-size:15px;opacity:0}.iss i{width:12px;height:12px;border-radius:50%;flex:none}
+.pill{margin:0 22px;display:flex;align-items:center;height:62px;padding:0 8px 0 20px;border-radius:999px;background:#fff;color:#16241b;font-size:19px;box-shadow:0 0 0 6px rgba(143,211,166,.25)}
+.pill .tx{flex:1;white-space:nowrap;overflow:hidden}.pill .go{padding:0 20px;height:48px;display:grid;place-items:center;border-radius:999px;background:#1d3b2a;color:#fff;font-weight:700;font-size:17px}
+.site{position:absolute;left:0;top:0;width:100%}
+.price{position:absolute;left:60px;right:60px;top:520px;padding:44px 30px;border-radius:36px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);text-align:center;box-shadow:0 40px 90px -30px rgba(0,0,0,.7)}
+.ticks{display:flex;flex-direction:column;gap:14px;margin-top:30px;font-size:26px;text-align:left;padding-left:40px}.ticks span:before{content:'✓';display:inline-grid;place-items:center;width:34px;height:34px;margin-right:14px;border-radius:50%;background:#8fd3a6;color:#0f2418;font-weight:800;font-size:20px}
+.cta{display:inline-block;margin-top:34px;padding:22px 44px;border-radius:999px;background:#8fd3a6;color:#0f2418;font-weight:800;font-size:30px}
+.typing:after{content:'|';color:#2f7d4f;animation:none}
+.badge{position:absolute;left:50%;transform:translateX(-50%);padding:10px 22px;border-radius:999px;background:rgba(143,211,166,.16);border:1px solid rgba(143,211,166,.5);color:#bfe8cc;font-weight:700;font-size:22px;white-space:nowrap}
+.adm{position:absolute;inset:0;background:#f7f8f7}
+.adm .top{height:110px;background:#1f4d36;color:#fff;padding:58px 22px 0;font-weight:800;font-size:20px;display:flex;justify-content:space-between}
+.adm .top small{font-weight:600;font-size:14px;padding:4px 12px;border-radius:999px;background:#8fd3a6;color:#0f2418;height:fit-content}
+.ed{margin:16px;border-radius:18px;overflow:hidden;position:relative;height:330px;background:#000 url(img/lindvik-page.jpg) top/100% auto no-repeat}
+.ed .cv{position:absolute;left:0;top:95px;width:100%;height:150px;background:linear-gradient(180deg,rgba(20,30,24,0),rgba(20,30,24,.97) 25%,rgba(20,30,24,.97) 85%,rgba(20,30,24,0))}
+.ed h3{position:absolute;left:18px;top:150px;width:420px;font-size:30px;line-height:1.05;font-weight:800;color:#fff;letter-spacing:-.02em;padding:4px 6px;border-radius:8px}
+.lead{margin:10px 16px;padding:14px 16px;border-radius:14px;background:#fff;box-shadow:0 1px 0 #e6ebe6;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.lead em{font-style:normal;font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px}
+.toast{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);padding:14px 24px;border-radius:999px;background:#16241b;color:#fff;font-weight:700;font-size:16px;white-space:nowrap;opacity:0}
+.logo{display:flex;align-items:center;gap:14px;justify-content:center;font-weight:800;font-size:40px;letter-spacing:-.02em}
+</style></head><body><div id="s">
+
+<!-- 1 hook -->
+<div class="L" id="a"><div class="cap w" style="top:400px;font-size:96px">Hemsida<br>inom <span class="hl">24 h.</span></div>
+<div class="sub" style="top:700px;font-size:34px">Snabb, snygg och <span class="serif" style="color:#8fd3a6">din egen.</span></div>
+<div class="badge" style="top:820px">Från 2 999 kr</div></div>
+
+<!-- 2 testa -->
+<div class="L" id="b"><div class="cap w">Hur bra är din<br><span class="hl">sajt idag?</span></div>
+<div class="sub" style="top:260px">Testa gratis på 30 sekunder</div></div>
+
+<!-- 3 AI builder -->
+<div class="L" id="c"><div class="cap w">Beskriv. <span class="serif" style="color:#8fd3a6">Vi bygger.</span></div>
+<div class="sub" style="top:260px">AI-byggaren tar fram ett första utkast direkt</div></div>
+
+<!-- 4 admin -->
+<div class="L" id="d"><div class="cap w">Ändra själv –<br><span class="hl">när du vill.</span></div>
+<div class="sub" style="top:260px">Enkel adminpanel ingår</div></div>
+
+<div class="phone" id="ph"><div class="scr"><div class="notch"></div>
+  <!-- test pane -->
+  <div class="pane" id="pt" style="background:linear-gradient(180deg,#123222,#0d1d14 60%,#f7f8f7 60%)">
+    <div style="padding:80px 0 0;text-align:center;color:#fff" class="w"><div style="font-size:30px">Testa din sajt</div></div>
+    <div class="pill" style="margin-top:26px"><span class="tx" id="tu"></span><span class="go" id="tg">Testa</span></div>
+    <div id="tr" style="position:absolute;left:0;right:0;top:330px;display:flex;justify-content:space-around;padding:0 10px"></div>
+    <div id="ti" style="position:absolute;left:0;right:0;top:500px"></div>
+  </div>
+  <!-- AI pane -->
+  <div class="pane" id="pa" style="background:#0d1d14">
+    <div style="padding:90px 24px 0;color:#c9d8cd;font-size:16px">Vad gör ditt företag?</div>
+    <div class="pill" style="margin-top:14px"><span class="tx" id="au"></span><span class="go">Bygg</span></div>
+    <div id="ab" style="position:absolute;left:22px;right:22px;top:230px;height:6px;border-radius:9px;background:rgba(255,255,255,.12);overflow:hidden"><i id="abi" style="display:block;height:100%;width:0;background:#8fd3a6"></i></div>
+    <div id="aw" style="position:absolute;left:0;right:0;top:260px;bottom:0;overflow:hidden;opacity:0;border-radius:24px 24px 0 0"><img class="site" id="asi" src="img/lindvik-page.jpg"></div>
+  </div>
+  <!-- admin pane -->
+  <div class="pane" id="pd"><div class="adm"><div class="top">Lindvik Bygg <small>Admin</small></div>
+    <div class="ed"><div class="cv"></div><h3 id="dh">Vi bygger med omsorg</h3></div>
+    <div style="padding:6px 18px 0;font-weight:800;font-size:16px">Nya förfrågningar</div>
+    <div class="lead"><span><b>Karin S.</b> · Badrum</span><em id="e1" style="background:#fdf1d6;color:#8a5a00">Ny</em></div>
+    <div class="lead"><span><b>Johan L.</b> · Altan</span><em style="background:#e3efe6;color:#2f7d4f">Besvarad</em></div>
+    <div class="toast" id="dt">✓ Publicerat på hemsidan</div>
+  </div></div>
+  <div class="cur" id="cu"></div>
+</div></div>
+
+<!-- 5 price + cta -->
+<div class="L" id="e">
+  <div class="cap w" style="top:200px;font-size:84px">Från <span class="hl">2 999 kr</span></div>
+  <div class="sub" style="top:330px;font-size:30px">Klar hemsida inom 24 timmar</div>
+  <div class="price"><div class="ticks"><span>Design efter ditt företag</span><span>Mobilanpassad &amp; snabb</span><span>Synlig på Google</span><span>Adminpanel &amp; företagsmejl</span></div>
+  <div class="cta" id="ct">Boka gratismöte</div></div>
+  <div class="logo" style="position:absolute;left:0;right:0;bottom:120px"><svg width="46" height="40" viewBox="0 0 46 40"><path d="M2 38 23 2l21 36h-9L23 17 11 38z" fill="#fff"/></svg>Elevate Studio</div>
+  <div class="sub" style="bottom:76px;top:auto;font-size:24px">elevatestudio.nu</div>
+</div>
+</div>
+<script>
+const DUR=26;
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)), ease=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const io=(t,a,b,f=.4)=>cl(Math.min((t-a)/f,(b-t)/f));
+const rings=[['Prestanda',58,96],['SEO',71,98],['Mobil',79,100]];
+$('tr').innerHTML=rings.map((r,i)=>`<div><div class="ring"><svg width="96" height="96"><circle cx="48" cy="48" r="40" fill="none" stroke="#e8ece8" stroke-width="9"/><circle id="rc${i}" cx="48" cy="48" r="40" fill="none" stroke-width="9" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="251.3"/></svg><b id="rn${i}">–</b></div><div class="rl">${r[0]}</div></div>`).join('');
+const issues=[['#e4572e','Långsam laddning','#2f7d4f','Komprimerade bilder'],['#e4572e','Saknar metabeskrivning','#2f7d4f','SEO-texter skrivna'],['#e8a33d','Svår att läsa i mobil','#2f7d4f','Mobilanpassad']];
+$('ti').innerHTML=issues.map((x,i)=>`<div class="iss" id="is${i}"><i id="ii${i}"></i><span id="it${i}"></span></div>`).join('');
+function typ(el,s,t,a,sp=.06){const n=cl(Math.floor((t-a)/sp),0,s.length);el.textContent=s.slice(0,n)}
+function col(v){return v>=90?'#2f9d5a':v>=70?'#e8a33d':'#e4572e'}
+function cur(t,pts){const c=$('cu');let on=0,x=0,y=0,cl0=0;for(let i=0;i<pts.length;i++){const p=pts[i];if(t>=p[0]){on=1;x=p[1];y=p[2];cl0=p[3]?Math.max(0,1-(t-p[0])/.25):0;const q=pts[i+1];if(q&&t<q[0]){const k=ease((t-p[0])/Math.min(.6,q[0]-p[0]));x=p[1]+(q[1]-p[1])*k;y=p[2]+(q[2]-p[2])*k;}}}
+ c.style.opacity=on?io(t,pts[0][0],pts[pts.length-1][0]+.4,.2):0;c.style.left=x+'px';c.style.top=y+'px';c.style.transform=`translate(-50%,-50%) scale(${1-.25*cl0})`}
+function render(t){
+ // 1 hook 0-3.4
+ $('a').style.opacity=io(t,0,3.4,.35);$('a').firstElementChild.style.transform=`scale(${1.08-.08*ease(t/1.2)})`;
+ // phone visible 3.4-18.6
+ const ph=$('ph');const pv=io(t,3.6,18.6,.5);ph.style.opacity=pv;ph.style.transform=`translateY(${(1-ease((t-3.6)/.7))*120}px)`;
+ // 2 test 3.6-8.8
+ $('b').style.opacity=io(t,3.6,8.8,.4);$('pt').style.opacity=t<8.9?1:0;
+ typ($('tu'),'dinsajt.se',t,4.3,.08);
+ $('tg').style.background=t>5.3&&t<5.6?'#8fd3a6':'#1d3b2a';
+ rings.forEach((r,i)=>{const fixed=t>7.2;const v=Math.round((fixed?r[1]+(r[2]-r[1])*ease((t-7.2)/.8):r[1]*ease((t-5.7-i*.12)/1)));const vv=t<5.7?0:v;$('rc'+i).style.stroke=col(vv);$('rc'+i).style.strokeDashoffset=251.3*(1-vv/100);$('rn'+i).textContent=t<5.7?'–':vv;});
+ issues.forEach((x,i)=>{const e=$('is'+i);e.style.opacity=cl((t-6.4-i*.18)/.3);e.style.transform=`translateY(${(1-cl((t-6.4-i*.18)/.3))*14}px)`;const f=t>7.2+i*.15;$('ii'+i).style.background=f?x[2]:x[0];$('it'+i).innerHTML=f?'<b style="color:#2f7d4f">✓ '+x[3]+'</b>':x[1];});
+ // 3 AI 8.8-13.8
+ $('c').style.opacity=io(t,8.9,13.8,.4);$('pa').style.opacity=t>=8.9&&t<13.9?1:0;
+ typ($('au'),'Byggfirma i Kungsbacka',t,9.3,.05);
+ $('abi').style.width=cl((t-10.7)/1)*100+'%';$('ab').style.opacity=t<11.9?1:0;
+ $('aw').style.opacity=cl((t-11.7)/.4);$('aw').style.transform=`translateY(${(1-ease((t-11.7)/.6))*60}px)`;
+ $('asi').style.transform=`translateY(${-ease((t-12.3)/1.5)*700}px)`;
+ // 4 admin 13.8-18.6
+ $('d').style.opacity=io(t,13.9,18.6,.4);$('pd').style.opacity=t>=13.9?1:0;
+ const nh='Hemma hos dig – i tid';if(t<15.4)$('dh').textContent='Vi bygger med omsorg';else typ($('dh'),nh,t,15.4,.05);
+ $('dh').style.outline=t>14.9&&t<16.8?'3px solid #8fd3a6':'none';
+ $('dt').style.opacity=io(t,17,18.4,.2);
+ const lead=t>16.4;$('e1').textContent=lead?'Besvarad':'Ny';$('e1').style.background=lead?'#e3efe6':'#fdf1d6';$('e1').style.color=lead?'#2f7d4f':'#8a5a00';
+ cur(t,[[4.4,250,190],[5.2,420,182,1],[5.9,420,200],[9.4,250,175],[10.4,428,170,1],[11,428,190],[14.4,330,500],[14.9,240,320,1],[15.9,420,520,1],[16.6,420,560],[16.9,420,560,1],[18.2,420,560]]);
+ // 5 price 18.6-26
+ $('e').style.opacity=io(t,18.8,40,.5);$('e').querySelector('.cap').style.transform=`scale(${1.1-.1*ease((t-18.8)/.8)})`;
+ $('e').querySelectorAll('.ticks span').forEach((s,i)=>{const k=cl((t-19.8-i*.3)/.3);s.style.opacity=k;s.style.transform=`translateX(${(1-k)*30}px)`});
+ const k=t-22.4;$('ct').style.transform=`scale(${1+(k>0&&k<1.2?.06*Math.sin(k*Math.PI/.6):0)})`;
+}
+window.READY=new Promise(ok=>{const im=new Image();im.onload=im.onerror=()=>im.decode().then(ok,ok);im.src='img/lindvik-page.jpg'});
+window.render=render;window.DUR=DUR;
+if(!/capture/.test(location.search)){let t0=performance.now();(function loop(){render(((performance.now()-t0)/1000)%DUR);requestAnimationFrame(loop)})()}
+</script></body></html>
