@@ -301,7 +301,7 @@ def organisation_ld():
         "sameAs": [MAPS_URL] + list(SOCIAL.values()),
         "knowsAbout": ["Webbdesign", "Hemsidor för företag", "Sökmotoroptimering (SEO)", "AI-optimering", "Bokningssystem", "Offertsystem", "AI-chatt", "Webbutveckling"],
         "slogan": "Hemsidor som ger förfrågningar",
-        "priceRange": "3 000–9 000 kr",
+        "priceRange": "2 999–9 000 kr",
         "knowsLanguage": ["sv", "en"],
         "employee": [{"@type": "Person", "name": n, "jobTitle": r, "telephone": t, "email": e} for n, r, t, e in TEAM],
         "parentOrganization": {"@type": "Organization", "name": PARENT_COMPANY, "taxID": ORG_NR, "identifier": ORG_NR},
@@ -1061,7 +1061,7 @@ def build_simple():
       <ol>{steps}</ol>
     </section>''')
             elif kind == "minifaq":
-                qa = [("Vad kostar en hemsida?", 'Enkel kostar 3 000 kr (max 3 sidor och offertformulär), Starter 5 000 kr och Pro 9 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. <a href="priser.html">Se priser</a>.'),
+                qa = [("Vad kostar en hemsida?", 'Enkel kostar 2 999 kr (max 3 sidor och offertformulär), Starter 5 000 kr och Pro 9 000 kr i startavgift, plus en låg årsavgift. Större projekt får ett fast pris i en offert. <a href="priser.html">Se priser</a>.'),
                       ("Hur lång tid tar det?", "Ni ser ett första utkast av hemsidan redan efter ungefär en dag. Sedan finjusterar vi tillsammans tills ni är nöjda. Hur snabbt den går live beror mest på när vi har fått texter, bilder och åtkomst."),
                       ("Måste vi finnas i Uppsala?", "Nej. Vi finns i Uppsala men jobbar med företag i hela Sverige – möten går lika bra på distans.")]
                 items = "".join(f'<details class="faq__item" name="kfaq"><summary>{esc(q)}</summary><p>{a}</p></details>' for q, a in qa)
@@ -1255,7 +1255,7 @@ def build_landings():
     </section>
     <section class="section container">
       <div class="plans-note">
-        <div><h2 class="plans-note__title">Fast pris från 3 000 kr</h2><p>Se vad som ingår i Enkel, Starter, Pro och Elite – och hur avtalet ser ut.</p></div>
+        <div><h2 class="plans-note__title">Fast pris från 2 999 kr</h2><p>Se vad som ingår i Enkel, Starter, Pro och Elite – och hur avtalet ser ut.</p></div>
         <div class="plans-note__links"><a class="arrow-link" href="{p}priser.html">Se priser</a><a class="arrow-link" href="{p}avtal.html">Exempel på avtal</a></div>
       </div>
     </section>
@@ -1276,10 +1276,10 @@ def build_landings():
 def build_hubs():
     p = ""
     groups = {
-        "branscher": ("Hemsidor för <em>alla branscher</em>", "Hemsidor för olika branscher: elektriker, rörmokare, målare, frisörer, restauranger, advokater med flera. Fast pris från 3 000 kr.",
+        "branscher": ("Hemsidor för <em>alla branscher</em>", "Hemsidor för olika branscher: elektriker, rörmokare, målare, frisörer, restauranger, advokater med flera. Fast pris från 2 999 kr.",
                       "Varje bransch har sina egna frågor, kunder och sökord. Här är sidorna där vi går igenom vad en bra hemsida ska innehålla för just er verksamhet.",
                       [("bransch", "Hemsidor för branscher"), ("amne", "Tjänster och funktioner")], "Hemsidor för alla branscher"),
-        "orter": ("Webbyrå för företag <em>i hela Sverige</em>", "Webbyrå i Uppsala som bygger hemsidor för företag i Uppsala, Stockholm, Västerås, Örebro, Gävle, Göteborg med flera orter. Fast pris från 3 000 kr.",
+        "orter": ("Webbyrå för företag <em>i hela Sverige</em>", "Webbyrå i Uppsala som bygger hemsidor för företag i Uppsala, Stockholm, Västerås, Örebro, Gävle, Göteborg med flera orter. Fast pris från 2 999 kr.",
                   "Vi sitter i Uppsala och bygger hemsidor åt företag i hela landet. Möten på plats eller på distans, och samma kontaktperson hela vägen.",
                   [("ort", "Orter")], "Webbyrå – orter"),
     }
@@ -1302,7 +1302,7 @@ def build_hubs():
     <section class="section container land">{body}</section>
     <section class="section container">
       <div class="plans-note">
-        <div><h2 class="plans-note__title">Fast pris från 3 000 kr</h2><p>Se vad som ingår i Enkel, Starter, Pro och Elite, och hur avtalet ser ut.</p></div>
+        <div><h2 class="plans-note__title">Fast pris från 2 999 kr</h2><p>Se vad som ingår i Enkel, Starter, Pro och Elite, och hur avtalet ser ut.</p></div>
         <div class="plans-note__links"><a class="arrow-link" href="{p}priser.html">Se priser</a><a class="arrow-link" href="{p}avtal.html">Exempel på avtal</a></div>
       </div>
     </section>
@@ -1314,7 +1314,7 @@ def build_hubs():
 def build_prices():
     p = ""
     plans = [
-        ("Enkel", "3 000 kr", "engångspris + 99 kr/år", "En enkel hemsida för er som bara vill finnas på nätet och kunna få förfrågningar.", [
+        ("Enkel", "2 999 kr", "engångspris + 99 kr/år", "En enkel hemsida för er som bara vill finnas på nätet och kunna få förfrågningar.", [
             "Upp till 3 sidor",
             "Mobilanpassad design",
             "Offertformulär som skickas till er mejl",
@@ -1371,7 +1371,7 @@ def build_prices():
       <div class="calc__grid">
         <form class="calc__form" id="calc" novalidate>
           <fieldset><legend>Hemsida</legend>
-            <label class="calc__opt"><input type="radio" name="plan" value="enkel"><span><b>Enkel</b> 3 000 kr<small>+ 99 kr/år · max 3 sidor och offertformulär</small></span></label>
+            <label class="calc__opt"><input type="radio" name="plan" value="enkel"><span><b>Enkel</b> 2 999 kr<small>+ 99 kr/år · max 3 sidor och offertformulär</small></span></label>
             <label class="calc__opt"><input type="radio" name="plan" value="starter" checked><span><b>Starter</b> 5 000 kr<small>+ 99–199 kr/år</small></span></label>
             <label class="calc__opt"><input type="radio" name="plan" value="pro"><span><b>Pro</b> 9 000 kr<small>+ 299–399 kr/år · bokning eller offertflöde, AI-chatt</small></span></label>
             <label class="calc__opt"><input type="radio" name="plan" value="none"><span><b>Ingen ny hemsida</b><small>bara domän och mejl</small></span></label>
@@ -1412,8 +1412,8 @@ def build_prices():
         {"@type": "Offer", "name": name, "description": text, "seller": {"@id": ORG_ID},
          **({"price": price.replace(" ", "").replace("kr", ""), "priceCurrency": "SEK"} if "kr" in price else {})}
         for name, price, unit, text, items, cta_label, feat in plans]}
-    yield write("priser.html", document(p, "Vad kostar en hemsida? Priser från 3 000 kr", main, "subpage", [("Priser", "")], "priser",
-                description="Vad kostar en hemsida? Fasta priser: Enkel 3 000 kr, Starter 5 000 kr, Pro 9 000 kr och Elite efter offert. Support ingår första året. Alla priser exkl. moms.", jsonld=[catalog], extra_js=("calc.js",)))
+    yield write("priser.html", document(p, "Vad kostar en hemsida? Priser från 2 999 kr", main, "subpage", [("Priser", "")], "priser",
+                description="Vad kostar en hemsida? Fasta priser: Enkel 2 999 kr, Starter 5 000 kr, Pro 9 000 kr och Elite efter offert. Support ingår första året. Alla priser exkl. moms.", jsonld=[catalog], extra_js=("calc.js",)))
 
 
 def rewrap(path, body_class, crumbs=None, extra_js=(), robots="index, follow"):
@@ -1610,7 +1610,7 @@ def site_files(built):
 {services}
 
 ## Priser (exkl. moms)
-- Enkel: 3 000 kr engångspris + 99 kr/år. Upp till 3 sidor, mobilanpassad, offertformulär till mejl och grundläggande SEO. Ingen admin eller extra funktioner.
+- Enkel: 2 999 kr engångspris + 99 kr/år. Upp till 3 sidor, mobilanpassad, offertformulär till mejl och grundläggande SEO. Ingen admin eller extra funktioner.
 - Starter: 5 000 kr i startavgift + 99–199 kr/år. Webbdesign och mobilanpassning, kontaktfunktion, grundläggande SEO och AI-optimering, två korrekturvändor, upp till 10 timmars support per månad första året.
 - Pro: 9 000 kr i startavgift + 299–399 kr/år. Allt i Starter plus offertflöde eller bokning, AI-chatt, notiser via e-post och SMS samt förfrågningar med status och historik.
 - Elite: pris efter offert för större sajter, integrationer och egna funktioner.
@@ -1815,57 +1815,80 @@ def build_platform():
 
     # ---- Ad landing page (Meta Ads) ----
     lp_img = lambda n: f'{p}assets/img/sites/site-{n}-phone.webp'
-    lp_form = f"""<form class="standout__form js-form lp-form" id="lp-form" action="{FORM_ENDPOINT}" method="post" data-subject="Lead från annons – kampanjsidan"{mail_attrs()}>
+    lp_form = f"""<form class="js-form lp-form" id="lp-form" action="{FORM_ENDPOINT}" method="post" data-subject="Offertförfrågan från annons – kampanjsidan"{mail_attrs()}>
           <input type="hidden" name="kalla" value="Meta-annons">
-          <div class="standout__fields">
-            <label><span class="sr-only">Namn</span><input type="text" name="namn" placeholder="Namn" autocomplete="name" required></label>
-            <label><span class="sr-only">Telefon</span><input type="tel" name="telefon" placeholder="Telefon" autocomplete="tel" required></label>
-            <label><span class="sr-only">E-post</span><input type="email" name="email" placeholder="E-post" autocomplete="email" required></label>
-            <label><span class="sr-only">Företag</span><input type="text" name="foretag" placeholder="Företag" autocomplete="organization"></label>
-            <label class="standout__wide standout__select"><span class="sr-only">Har ni en hemsida idag?</span><select name="har_hemsida"><option value="">Har ni en hemsida idag?</option><option>Nej</option><option>Ja, men den behöver göras om</option><option>Ja, vill ha mer funktioner</option></select></label>
+          <p class="lp-form__t">Få en gratis offert</p>
+          <p class="lp-form__s">Svara på några frågor – vi återkommer med pris och förslag, oftast samma dag.</p>
+          <fieldset class="lp-opts"><legend>Vad behöver ni?</legend>
+            <label><input type="radio" name="behov" value="Ny hemsida" required><span>Ny hemsida</span></label>
+            <label><input type="radio" name="behov" value="Göra om befintlig hemsida"><span>Göra om befintlig</span></label>
+            <label><input type="radio" name="behov" value="Hemsida + domän och mejl"><span>Hemsida + domän &amp; mejl</span></label>
+            <label><input type="radio" name="behov" value="Vet inte – vill ha råd"><span>Vet inte – vill ha råd</span></label>
+          </fieldset>
+          <div class="lp-fields">
+            <label class="lp-wide"><span>Vad gör ert företag?</span><input type="text" name="bransch" placeholder="t.ex. snickare i Uppsala" required></label>
+            <label class="lp-wide"><span>Nuvarande hemsida <small>(om ni har)</small></span><input type="text" name="nuvarande_hemsida" placeholder="dittforetag.se" inputmode="url"></label>
+            <label><span>Namn</span><input type="text" name="namn" autocomplete="name" required></label>
+            <label><span>Telefon</span><input type="tel" name="telefon" autocomplete="tel" required></label>
+            <label class="lp-wide"><span>E-post</span><input type="email" name="email" autocomplete="email" required></label>
+            <label class="lp-wide"><span>Något mer vi bör veta? <small>(valfritt)</small></span><textarea name="meddelande" rows="2"></textarea></label>
           </div>
           <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="new-password" aria-hidden="true" data-lpignore="true" data-1p-ignore>
-          <p class="standout__consent">När du skickar formuläret godkänner du vår <a href="{p}integritet.html">integritetspolicy</a></p>
-          <button type="submit" class="btn btn--primary"><span>Boka gratismöte</span></button>
-          <p class="form-status standout__status" role="status" hidden></p>
+          <button type="submit" class="btn btn--primary lp-submit"><span>Skicka – det är gratis</span></button>
+          <p class="lp-form__fine">Ingen bindning. Ni får ett fast pris innan något startar. <a href="{p}integritet.html">Integritetspolicy</a></p>
+          <p class="form-status" role="status" hidden></p>
         </form>"""
+    rv = "".join(f'<figure class="lp-rev"><div class="lp-stars" aria-label="5 av 5 stjärnor">★★★★★</div><blockquote>{esc(r["text"])}</blockquote><figcaption>{esc(r["source"])}</figcaption></figure>' for r in REVIEWS[:3])
+    team = "".join(f'<li><span class="lp-av">{esc(n[0])}</span><b>{esc(n.split()[0])}</b><small>{esc(role)}</small><a href="tel:{esc(ph.replace(" ", ""))}">{esc(ph)}</a></li>' for n, role, ph, _ in TEAM[:2])
     kampanj = f"""<main class="lp">
     <section class="lp-hero">
       <div class="lp-hero__bg" style="background-image:url({p}assets/img/home/hero.webp)"></div>
-      <div class="container lp-hero__in">
-        <p class="lp-kick">Klar idag · Fast pris</p>
-        <h1>Få din hemsida idag från <em>2&nbsp;999&nbsp;kr</em></h1>
-        <p class="lp-lead">SEO · Design · Recensioner · Admin – en snygg, snabb hemsida som ger förfrågningar. Ni pratar alltid med samma person.</p>
-        <a class="btn btn--light" href="#boka"><span>Boka gratismöte</span></a>
+      <div class="container lp-hero__grid">
+        <div class="lp-hero__txt">
+          <p class="lp-kick">Webbyrå i Uppsala · Fast pris</p>
+          <h1>Få din hemsida idag från <em>2&nbsp;999&nbsp;kr</em></h1>
+          <p class="lp-lead">En snygg, snabb hemsida som ger förfrågningar – med SEO, recensioner och adminpanel. Ni vet priset innan vi börjar.</p>
+          <ul class="lp-trust"><li>★★★★★ Recensioner på Google</li><li>Fast pris – inga dolda avgifter</li><li>Ni ser förslaget innan det går live</li><li>Samma kontaktperson hela vägen</li></ul>
+        </div>
+        <div class="lp-hero__form" id="offert">{lp_form}</div>
       </div>
+    </section>
+    <section class="section container lp-revs">
+      <h2>Det här säger våra kunder</h2>
+      <div class="lp-revs__row">{rv}</div>
+      <p class="lp-revs__more"><a href="https://www.google.com/maps/place/?q=place_id:ChIJcRLSybPJX0YRomaZlUJ2bzY" target="_blank" rel="noopener">Läs alla recensioner på Google →</a></p>
     </section>
     <section class="section container lp-grid">
       <div class="lp-card">
-        <p class="lp-card__eb">Det här ingår</p>
-        <ul class="lp-list"><li>Unik design efter ert företag</li><li>Snabb och mobilanpassad</li><li>SEO – synlig på Google och i AI</li><li>Recensioner som bygger förtroende</li><li>Adminpanel – ändra texter och bilder själv</li><li>Offertformulär direkt till er mejl</li></ul>
-        <p class="lp-price">Från <b>2&nbsp;999&nbsp;kr</b> <span>engångspris, exkl. moms</span></p>
+        <p class="lp-card__eb">Det här ingår från 2&nbsp;999&nbsp;kr</p>
+        <ul class="lp-list"><li>Unik design efter ert företag – ingen mall</li><li>Snabb och mobilanpassad</li><li>SEO – så att ni syns på Google</li><li>Offertformulär direkt till er mejl</li><li>Recensioner som bygger förtroende</li></ul>
+        <p class="lp-price">Behöver ni mer? Bokning, AI-chatt och adminpanel finns i <a href="{p}priser.html">Starter och Pro</a>. Alla priser exkl. moms.</p>
       </div>
       <div class="lp-steps">
         <p class="lp-card__eb">Så går det till</p>
-        <ol><li><b>Gratis möte</b><span>15 minuter – ni berättar vad ni behöver.</span></li><li><b>Vi bygger</b><span>Ni ser förslaget och tycker till.</span></li><li><b>Live</b><span>Hemsidan är ute och jobbar åt er.</span></li></ol>
+        <ol><li><b>Ni skickar formuläret</b><span>Tar två minuter.</span></li><li><b>Vi ringer upp</b><span>Vi går igenom vad ni behöver och ger ett fast pris.</span></li><li><b>Ni godkänner förslaget</b><span>Inget går live innan ni är nöjda.</span></li><li><b>Hemsidan är ute</b><span>Och vi finns kvar om ni behöver hjälp.</span></li></ol>
       </div>
     </section>
     <section class="section container lp-work">
       <h2>Hemsidor vi har byggt</h2>
-      <div class="lp-phones"><img src="{lp_img('cork')}" alt="Exempel: CORK i mobilen" loading="lazy" width="390" height="844"><img src="{lp_img('lindvik')}" alt="Exempel: Lindvik Bygg i mobilen" loading="lazy" width="390" height="844"><img src="{lp_img('alvhem')}" alt="Exempel: Älvhem i mobilen" loading="lazy" width="390" height="844"></div>
+      <div class="lp-phones"><img src="{lp_img('cork')}" alt="Hemsida för CORK i mobilen" loading="lazy" width="390" height="844"><img src="{lp_img('alvhem')}" alt="Hemsida för Älvhem i mobilen" loading="lazy" width="390" height="844"><img src="{lp_img('lindvik')}" alt="Exempelsajt Lindvik Bygg i mobilen" loading="lazy" width="390" height="844"></div>
+      <p class="lp-note">Lindvik Bygg är en exempelsajt som visar hur det kan se ut. <a href="{p}byggda-hemsidor.html">Se fler projekt →</a></p>
+    </section>
+    <section class="section container lp-team">
+      <div><h2>Ni pratar med en riktig människa</h2><p>Inga callcenter. Ring eller sms:a oss direkt – vi svarar så fort vi kan.</p></div>
+      <ul class="lp-people">{team}</ul>
     </section>
     <section class="section container lp-faq">
       <h2>Vanliga frågor</h2>
-      <details><summary>Vad kostar det på riktigt?</summary><p>Enkel hemsida från 2&nbsp;999&nbsp;kr i engångspris. Behöver ni bokning, offertflöde eller AI-chatt får ni ett fast pris innan vi börjar – inga överraskningar.</p></details>
+      <details><summary>Vad kostar det på riktigt?</summary><p>Enkel hemsida kostar 2&nbsp;999&nbsp;kr i engångspris plus 99&nbsp;kr/år, exkl. moms. Behöver ni mer får ni ett fast pris innan vi börjar – det blir aldrig dyrare än vi har sagt.</p></details>
+      <details><summary>Är det bindningstid?</summary><p>Nej, att skicka formuläret eller ha ett möte binder er inte till något. Ni bestämmer först när ni har sett priset.</p></details>
       <details><summary>Hur snabbt blir den klar?</summary><p>En enkel hemsida kan vara klar samma dag som vi har fått texter och bilder. Större sidor tar några dagar.</p></details>
-      <details><summary>Kan jag ändra själv efteråt?</summary><p>Ja. Adminpanelen ingår – där byter ni texter, bilder och öppettider och svarar på förfrågningar.</p></details>
-      <details><summary>Passar det min bransch?</summary><p>Vi bygger för hantverkare, restauranger, frisörer, tjänsteföretag och techbolag. Berätta vad ni gör så visar vi hur det kan se ut.</p></details>
+      <details><summary>Vem äger hemsidan och domänen?</summary><p>Domänen registreras på ert företag. Läs mer i vårt <a href="{p}avtal.html">exempel på webbavtal</a>.</p></details>
+      <details><summary>Kan jag ändra själv efteråt?</summary><p>I Starter och Pro ingår en adminpanel där ni byter texter och bilder själva. I Enkel hjälper vi er med ändringar.</p></details>
     </section>
-    <section class="standout lp-book" id="boka">
-      <div class="container">
-        <div class="standout__header"><h2>Boka ett <em>gratismöte</em></h2><p>Lämna ert nummer så ringer vi upp – oftast samma dag.</p></div>
-        {lp_form}
-      </div>
+    <section class="lp-final">
+      <div class="container"><h2>Redo för en hemsida som <em>ger kunder?</em></h2><a class="btn btn--light" href="#offert"><span>Få en gratis offert</span></a>
+      <p class="lp-company">Elevate Studio är ett varumärke inom {esc(PARENT_COMPANY)}, org.nr {esc(ORG_NR)}.</p></div>
     </section>
   </main>"""
     pixel = ""
@@ -1876,7 +1899,7 @@ def build_platform():
                  f"fbq('init','{META_PIXEL_ID}');fbq('track','PageView');"
                  "var o=window.elevateTrack;window.elevateTrack=function(k,v){if(k==='form')fbq('track','Lead');return o&&o.apply(this,arguments)}}"
                  "if(c==='1')load();else if(c===null){box.hidden=false;box.addEventListener('click',function(e){var v=e.target.dataset.c;if(v==null)return;try{localStorage.setItem(K,v)}catch(x){}box.hidden=true;if(v==='1')load()})}})();</script>")
-    yield write("kampanj.html", document(p, "Få din hemsida idag från 2 999 kr", kampanj + pixel, "subpage lp-page", None, None, robots="noindex, follow",
+    yield write("kampanj.html", document(p, "Få din hemsida idag från 2 999 kr", kampanj + pixel, "subpage lp-page", None, None, extra_js=(), robots="noindex, follow",
                 description="Snygg, snabb hemsida med SEO, design, recensioner och adminpanel – från 2 999 kr. Boka ett gratismöte med Elevate Studio."))
 
     links = [("Startsidan", "index.html", "Nya temat, domän- och mejlkorten, riktiga kunder"), ("Testa din sajt", "testa.html", "Snabbtest, djupanalys, PDF och offert"),
