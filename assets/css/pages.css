@@ -1081,3 +1081,67 @@ select.portal-company { font-size: 20px; }
 .hub .hub__card { min-height: 200px; padding-bottom: 32px; }
 .hub .hub__card h2 { font-size: 28px; }
 @media (max-width: 900px) { .hub { grid-template-columns: 1fr; } }
+/* Elevate Mejl, design 1 developed: sand instead of lime, every part a mailbox needs */
+.wmx-logo span { color: #e6d3a8; }
+.wmx-login .btn { background: #efe2c4 !important; }
+.wmx-badge { display: inline-block; margin: 0 0 14px; padding: 4px 12px; border-radius: 999px; background: #efe2c4; color: #16301f; font-size: 13px; font-weight: 700; }
+.wmx-demo { background: #efe2c4; }
+.wmx-bar { position: relative; isolation: isolate; background-image: radial-gradient(ellipse 30% 140% at 100% 100%, rgba(240, 222, 180, .35), transparent 70%); }
+.wmx-search { flex: 1; max-width: 460px; padding: 0; background: none; }
+.wmx-search input { width: 100%; box-sizing: border-box; padding: 10px 14px; border: 0; border-radius: 10px; background: rgba(255, 255, 255, .12); color: #fff; font: inherit; }
+.wmx-search input::placeholder { color: rgba(253, 251, 245, .6); }
+.wmx-me { display: grid; text-align: right; line-height: 1.2; }
+.wmx-me small { font-size: 12px; opacity: .7; }
+.wmx-icon { display: inline-grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 10px; background: none; color: inherit; cursor: pointer; }
+.wmx-icon:hover { background: rgba(0, 0, 0, .06); }
+.wmx-bar .wmx-icon:hover { background: rgba(255, 255, 255, .12); }
+.wmx-icon svg, .wmx-folder svg, .wmx-star svg { width: 19px; height: 19px; }
+.wmx-body { grid-template-columns: 220px 380px 1fr; min-height: 700px; }
+.wmx-compose { background: #efe2c4; }
+.wmx-folder { display: flex; align-items: center; gap: 10px; }
+.wmx-folder span { flex: 1; }
+.wmx-folder em { font-style: normal; font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 999px; background: #1d3b2a; color: #fff; }
+.wmx-sep { margin: 14px 12px 4px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #8a8f88; }
+.wmx-tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-height: 56px; padding: 8px 14px; border-bottom: 1px solid #eef0ec; }
+.wmx-tools .wmx-h { padding: 0; }
+.wmx-tools button, .wmx-tools select, .wmx-more-acts select { padding: 6px 10px; border: 1px solid #e3e6e0; border-radius: 8px; background: #fff; font: inherit; font-size: 13px; cursor: pointer; }
+.wmx-n { font-size: 13px; font-weight: 700; }
+.wmx-check input, .wmx-pick { width: 16px; height: 16px; accent-color: #1d3b2a; }
+.wmx-item { position: relative; grid-template-columns: 22px 24px 1fr auto; align-items: center; }
+.wmx-item .wmx-pick { grid-row: 1 / 3; }
+.wmx-item .wmx-star { grid-row: 1 / 3; }
+.wmx-item span { grid-column: 3 / -1; display: flex; gap: 6px; align-items: center; }
+.wmx-item span svg { flex: none; width: 14px; height: 14px; }
+.wmx-item.is-sel { background: #f3f0e6; }
+.wmx-item .wmx-pick { opacity: .45; } .wmx-item:hover .wmx-pick, .wmx-item.is-sel .wmx-pick { opacity: 1; }
+.wmx-star { display: grid; place-items: center; padding: 0; border: 0; background: none; color: #b9bdb6; cursor: pointer; }
+.wmx-star.is-on { color: #c79a3a; } .wmx-star.is-on svg path { fill: #e6c879; }
+.wmx-more { display: block; width: calc(100% - 28px); margin: 14px; padding: 10px; border: 1px solid #e3e6e0; border-radius: 10px; background: #fff; font: inherit; cursor: pointer; }
+.wmx-grow { flex: 1; }
+.wmx-more-acts { display: flex; gap: 14px; align-items: center; margin: -6px 0 16px; }
+.wmx-files { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+.wmx-files a, .wmx-files span, .wmx-attach span { display: inline-flex; gap: 6px; align-items: center; padding: 8px 12px; border: 1px solid #e3e6e0; border-radius: 12px; background: #fafaf6; color: #16241b; font-size: 13px; text-decoration: none; }
+.wmx-files svg, .wmx-attach svg { width: 15px; height: 15px; }
+.wmx-files small, .wmx-attach small { color: #8a8f88; }
+.wmx-attach { display: flex; flex-wrap: wrap; gap: 8px; }
+.wmx-attach button { border: 0; background: none; font-size: 16px; cursor: pointer; color: #a8331f; }
+.wmx-file { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.wmx-file svg { width: 16px; height: 16px; }
+.wmx-cadd { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; padding: 12px 14px; border-bottom: 1px solid #eef0ec; }
+.wmx-cadd input, .wmx-set input, .wmx-set textarea, .wmx-set select { padding: 9px 12px; border: 1px solid #e3e6e0; border-radius: 10px; font: inherit; }
+.wmx-cadd .btn { height: 40px; padding: 0 14px; }
+.wmx-contact { grid-template-columns: 1fr auto auto; cursor: default; }
+.wmx-contact span { grid-column: 1; }
+.wmx-set { display: grid; gap: 14px; padding: 16px; }
+.wmx-set label { display: grid; gap: 6px; font-size: 14px; color: #4f5a53; }
+.wmx-set .btn { justify-self: start; }
+.wmx-info h3 { margin: 0 0 8px; font-size: 18px; } .wmx-info h3 + p { margin-top: 0; } .wmx-info p { color: #4f5a53; line-height: 1.6; margin: 0 0 22px; }
+.wmx-info dl { display: grid; grid-template-columns: 160px 1fr; gap: 8px; margin: 0 0 24px; padding: 16px; border-radius: 14px; background: #fafaf6; font-size: 14px; } .wmx-info dt { color: #6b736d; } .wmx-info dd { margin: 0; font-weight: 600; }
+.wmx-toast { position: fixed; left: 50%; bottom: 24px; z-index: 60; margin: 0; padding: 12px 20px; border-radius: 999px; background: #16301f; color: #fdfbf5; transform: translateX(-50%); box-shadow: 0 16px 40px -16px rgba(0, 0, 0, .5); }
+.wmx-compose-form label[hidden] { display: none; }
+@media (max-width: 1100px) { .wmx-body { grid-template-columns: 200px 1fr; } .wmx-read { grid-column: 1 / -1; border-top: 1px solid #eef0ec; } }
+@media (max-width: 760px) { .wmx-body { grid-template-columns: 1fr; } .wmx-me { display: none; } .wmx-cadd { grid-template-columns: 1fr; } .wmx-info dl { grid-template-columns: 1fr; } }
+.wmx-read .wmx-acts { flex-wrap: nowrap; gap: 8px; }
+.wmx-read .wmx-acts .btn { height: 40px; padding: 0 16px; font-size: 15px; }
+.wmx-read .wmx-acts .wmx-icon { flex: none; }
+@media (max-width: 760px) { .wmx-read .wmx-acts { flex-wrap: wrap; } }

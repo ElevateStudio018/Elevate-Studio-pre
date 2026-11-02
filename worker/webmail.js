@@ -60,6 +60,9 @@ async function withImap(s, fn, connector) {
 const tries = new Map();
 function limited(key) { const n = Date.now(), t = (tries.get(key) || []).filter((x) => n - x < 10 * 60e3); tries.set(key, t); return t.length >= 8; }
 
+const pick = (fs, flag, names) => (fs.find((f) => new RegExp('\\\\' + flag, 'i').test(f.flags)) || fs.find((f) => names.test(f.name.split(/[./]/).pop())) || {}).name;
+const roles = (fs) => ({ trash: pick(fs, 'Trash', /^(trash|papperskorg|deleted|borttaget)/i), sent: pick(fs, 'Sent', /^(sent|skickat|skickade)/i), drafts: pick(fs, 'Drafts', /^(drafts|utkast)/i),
+  junk: pick(fs, 'Junk', /^(junk|spam|skräppost)/i), archive: pick(fs, 'Archive', /^(archive|arkiv|all mail)/i) });
 const pickTrash = (fs) => (fs.find((f) => /\\Trash/i.test(f.flags)) || fs.find((f) => /^(trash|papperskorg|deleted|inbox\.trash|borttaget)/i.test(f.name.split(/[./]/).pop())) || {}).name;
 const pickSent = (fs) => (fs.find((f) => /\\Sent/i.test(f.flags)) || fs.find((f) => /^(sent|skickat|skickade|inbox\.sent)/i.test(f.name.split(/[./]/).pop())) || {}).name;
 
@@ -85,19 +88,46 @@ export async function webmail(req, env, connector, mailer) {
   const folder = (url.searchParams.get('folder') || 'INBOX').slice(0, 200);
   try {
     if (op === 'session') return json({ email: s.e });
-    if (op === 'folders') return json({ folders: (await withImap(s, (m) => m.folders(), connector)).map((f) => f.name) });
+    if (op === 'folders') return json(await withImap(s, async (m) => { const fs = await m.folders(); const counts = {};
+      for (const f of fs.slice(0, 30)) { try { counts[f.name] = await m.status(f.name); } catch (e) { /* folder without status */ } }
+      return { folders: fs.map((f) => f.name), roles: roles(fs), counts, servers: { imap: s.i, smtp: s.o } }; }, connector));
     if (op === 'list') return json(await withImap(s, (m) => m.list(folder, Math.max(0, Number(url.searchParams.get('page')) || 0)), connector));
     if (op === 'read') return json(await withImap(s, (m) => m.message(folder, url.searchParams.get('uid')), connector));
+    if (op === 'attachment') {
+      const m = await withImap(s, (x) => x.message(folder, url.searchParams.get('uid'), true), connector);
+      const f = m.files[Number(url.searchParams.get('i')) || 0]; if (!f) return json({ error: 'saknas' }, 404);
+      return new Response(f.data, { headers: { 'content-type': 'application/octet-stream', 'content-disposition': `attachment; filename*=UTF-8''${encodeURIComponent(f.name)}`, 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' } });
+    }
     const b = await req.json().catch(() => ({}));
+    const uids = (Array.isArray(b.uids) ? b.uids : [b.uid]).map(Number).filter((n) => n > 0).slice(0, 500);
+    if (op === 'flags') { await withImap(s, (m) => m.flags(String(b.folder || 'INBOX'), uids, b.flag === 'flagged' ? '\\Flagged' : '\\Seen', !!b.on), connector); return json({ ok: true }); }
+    if (op === 'move') {
+      await withImap(s, async (m) => { const fs = await m.folders(), r = roles(fs); const to = r[b.to] || (fs.some((f) => f.name === b.to) ? b.to : null);
+        if (!to) throw new Error('Mappen finns inte på servern'); await m.move(String(b.folder || 'INBOX'), uids, to); }, connector);
+      return json({ ok: true });
+    }
+    if (op === 'draft') {
+      await withImap(s, async (m) => { const d = roles(await m.folders()).drafts; if (!d) throw new Error('Ingen utkastmapp');
+        await m.append(d, `From: ${s.e}\r\nTo: ${String(b.to || '')}\r\nSubject: ${String(b.subject || '')}\r\nDate: ${new Date().toUTCString()}\r\nContent-Type: text/plain; charset=utf-8\r\n\r\n${String(b.text || '')}`, '\\Draft \\Seen');
+        if (b.replaces) { try { await m.move(d, [b.replaces], roles(await m.folders()).trash || d); } catch (e) { /* old draft stays */ } } }, connector);
+      return json({ ok: true });
+    }
     if (op === 'flag') { await withImap(s, (m) => m.flag(String(b.folder || 'INBOX'), b.uid, '\\Seen', !!b.seen), connector); return json({ ok: true }); }
-    if (op === 'delete') { await withImap(s, async (m) => m.remove(String(b.folder || 'INBOX'), b.uid, pickTrash(await m.folders())), connector); return json({ ok: true }); }
+    if (op === 'delete') {
+      await withImap(s, async (m) => { const trash = pickTrash(await m.folders()), f = String(b.folder || 'INBOX');
+        for (const u of uids) await m.remove(f, u, f === trash ? null : trash); }, connector);
+      return json({ ok: true });
+    }
     if (op === 'send') {
-      const to = String(b.to || '').split(/[,;\s]+/).filter(Boolean).slice(0, 50), cc = String(b.cc || '').split(/[,;\s]+/).filter(Boolean).slice(0, 50);
-      if (!to.length || to.concat(cc).some((a) => !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(a))) return json({ error: 'Kontrollera mottagarna.' }, 400);
+      const list = (v) => String(v || '').split(/[,;]+/).map((x) => (x.match(/<([^>]+)>/) || [, x])[1].trim()).filter(Boolean).slice(0, 50);
+      const to = list(b.to), cc = list(b.cc), bcc = list(b.bcc);
+      if (!to.length || to.concat(cc, bcc).some((a) => !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(a))) return json({ error: 'Kontrollera mottagarna.' }, 400);
+      const files = (Array.isArray(b.files) ? b.files : []).slice(0, 10).map((f) => ({ filename: String(f.name || 'bilaga').slice(0, 120), content: String(f.data || ''), mimeType: String(f.type || 'application/octet-stream').slice(0, 100) }));
+      if (files.reduce((n, f) => n + f.content.length * 0.75, 0) > 15 * 1024 * 1024) return json({ error: 'Bilagorna får vara högst 15 MB tillsammans.' }, 400);
       const subject = String(b.subject || '').slice(0, 300), text = String(b.text || '').slice(0, 200000);
       const send = mailer || (async (msg) => { const { WorkerMailer } = await import('worker-mailer');
         await WorkerMailer.send({ host: s.o, port: 465, secure: true, credentials: { username: s.e, password: s.p }, authType: ['plain', 'login'] }, msg); });
-      await send({ from: s.e, to, cc: cc.length ? cc : undefined, subject, text, headers: b.inReplyTo ? { 'In-Reply-To': String(b.inReplyTo).slice(0, 300), References: String(b.inReplyTo).slice(0, 300) } : undefined });
+      await send({ from: b.name ? { name: String(b.name).slice(0, 80), email: s.e } : s.e, to, cc: cc.length ? cc : undefined, bcc: bcc.length ? bcc : undefined, attachments: files.length ? files : undefined, subject, text, headers: b.inReplyTo ? { 'In-Reply-To': String(b.inReplyTo).slice(0, 300), References: String(b.inReplyTo).slice(0, 300) } : undefined });
       // a copy in Sent, when the server has such a folder (best effort)
       try { await withImap(s, async (m) => { const sent = pickSent(await m.folders()); if (sent) await m.append(sent, `From: ${s.e}\r\nTo: ${to.join(', ')}\r\nSubject: ${subject}\r\nDate: ${new Date().toUTCString()}\r\nContent-Type: text/plain; charset=utf-8\r\n\r\n${text}`); }, connector); } catch (e) { /* the mail is sent */ }
       return json({ ok: true });

@@ -37,6 +37,7 @@ export class Imap {
       const name = x.lits.length ? dec.decode(x.lits[0]) : m[2].replace(/^"|"$/g, '').replace(/\\(.)/g, '$1');
       return { name, flags: m[1] }; }).filter(Boolean).filter((f) => !/\\Noselect/i.test(f.flags));
   }
+  async status(box) { const r = await this.cmd('STATUS ' + Imap.q(box) + ' (MESSAGES UNSEEN)'); const t = (r[0] || {}).text || ''; return { total: Number((t.match(/MESSAGES (\d+)/i) || [])[1] || 0), unseen: Number((t.match(/UNSEEN (\d+)/i) || [])[1] || 0) }; }
   async select(box) { const r = await this.cmd('SELECT ' + Imap.q(box)); const e = r.map((x) => x.text.match(/^\* (\d+) EXISTS/i)).find(Boolean); return e ? Number(e[1]) : 0; }
   // Newest first: headers for a page of messages
   async list(box, page = 0, size = 30) {
@@ -44,26 +45,31 @@ export class Imap {
     if (!total) return { total, items: [] };
     const hi = total - page * size, lo = Math.max(1, hi - size + 1);
     if (hi < 1) return { total, items: [] };
-    const r = await this.cmd(`FETCH ${lo}:${hi} (UID FLAGS RFC822.SIZE BODY.PEEK[HEADER.FIELDS (FROM TO SUBJECT DATE)])`);
+    const r = await this.cmd(`FETCH ${lo}:${hi} (UID FLAGS RFC822.SIZE BODY.PEEK[HEADER.FIELDS (FROM TO SUBJECT DATE CONTENT-TYPE)])`);
     const items = r.filter((x) => /FETCH/i.test(x.text)).map((x) => {
       const h = parseHeaders(x.lits[0] ? dec.decode(x.lits[0]) : '');
-      return { uid: Number((x.text.match(/UID (\d+)/i) || [])[1]), seen: /\\Seen/i.test(x.text), from: h.from || '', to: h.to || '', subject: h.subject || '(inget ämne)', date: h.date || '', size: Number((x.text.match(/RFC822\.SIZE (\d+)/i) || [])[1] || 0) };
+      return { uid: Number((x.text.match(/UID (\d+)/i) || [])[1]), seen: /\\Seen/i.test(x.text), flagged: /\\Flagged/i.test(x.text), files: /multipart\/mixed/i.test(h['content-type'] || ''), from: h.from || '', to: h.to || '', subject: h.subject || '(inget ämne)', date: h.date || '', size: Number((x.text.match(/RFC822\.SIZE (\d+)/i) || [])[1] || 0) };
     }).reverse();
     return { total, items };
   }
-  async message(box, uid) {
+  async message(box, uid, keepFiles) {
     await this.select(box);
     const r = await this.cmd(`UID FETCH ${Number(uid)} (UID FLAGS BODY[])`);
     const x = r.find((y) => /FETCH/i.test(y.text) && y.lits.length); if (!x) throw new Error('saknas');
-    return parseMessage(x.lits[0]);
+    const m = parseMessage(x.lits[0], keepFiles); m.flagged = /\\Flagged/i.test(x.text); return m;
   }
+  async move(box, uids, to) {
+    await this.select(box); const set = uids.map(Number).filter((n) => n > 0).join(','); if (!set) return;
+    try { await this.cmd(`UID MOVE ${set} ${Imap.q(to)}`); } catch (e) { await this.cmd(`UID COPY ${set} ${Imap.q(to)}`); await this.cmd(`UID STORE ${set} +FLAGS (\\Deleted)`); await this.cmd('EXPUNGE'); }
+  }
+  async flags(box, uids, flag, on) { await this.select(box); const set = uids.map(Number).filter((n) => n > 0).join(','); if (set) await this.cmd(`UID STORE ${set} ${on ? '+' : '-'}FLAGS (${flag})`); }
   async flag(box, uid, flag, on) { await this.select(box); await this.cmd(`UID STORE ${Number(uid)} ${on ? '+' : '-'}FLAGS (${flag})`); }
   async remove(box, uid, trash) {
     await this.select(box);
     if (trash && trash !== box) { try { await this.cmd(`UID COPY ${Number(uid)} ${Imap.q(trash)}`); } catch (e) { /* no trash folder: delete directly */ } }
     await this.cmd(`UID STORE ${Number(uid)} +FLAGS (\\Deleted)`); await this.cmd('EXPUNGE');
   }
-  async append(box, raw) { const b = enc.encode(raw); await this.t.write(enc.encode('A' + (++this.n) + 'x APPEND ' + Imap.q(box) + ' (\\Seen) {' + b.length + '}\r\n')); await this.line(); await this.t.write(b); await this.t.write(enc.encode('\r\n')); await this.line(); }
+  async append(box, raw, flags = '\\Seen') { const b = enc.encode(raw); await this.t.write(enc.encode('A' + (++this.n) + 'x APPEND ' + Imap.q(box) + ' (' + flags + ') {' + b.length + '}\r\n')); await this.line(); await this.t.write(b); await this.t.write(enc.encode('\r\n')); await this.line(); }
   async logout() { try { await this.cmd('LOGOUT'); } catch (e) { /* closing anyway */ } }
 }
 
@@ -97,15 +103,15 @@ function walk(bytes, out) {
   }
   const raw = te === 'base64' ? b64(body) : te === 'quoted-printable' ? qp(body) : latin(body);
   const disp = h['content-disposition'] || '', fname = param(disp, 'filename') || param(ct, 'name');
-  if (fname || /attachment/i.test(disp)) { out.files.push({ name: words(fname) || 'bilaga', type: ct.split(';')[0], size: raw.length }); return; }
+  if (fname || /attachment/i.test(disp)) { out.files.push({ name: words(fname) || 'bilaga', type: ct.split(';')[0], size: raw.length, data: out.keep ? raw : undefined }); return; }
   if (/^text\/plain/i.test(ct) && out.text == null) out.text = charsetDecode(raw, param(ct, 'charset'));
   else if (/^text\/html/i.test(ct) && out.html == null) out.html = charsetDecode(raw, param(ct, 'charset'));
 }
-export function parseMessage(bytes) {
-  const { h } = splitPart(bytes), out = { text: null, html: null, files: [] };
+export function parseMessage(bytes, keepFiles) {
+  const { h } = splitPart(bytes), out = { text: null, html: null, files: [], keep: !!keepFiles };
   walk(bytes, out);
   const text = out.text != null ? out.text : htmlToText(out.html || '');
-  return { from: h.from || '', to: h.to || '', cc: h.cc || '', subject: h.subject || '(inget ämne)', date: h.date || '', messageId: h['message-id'] || '', text: text.trim(), files: out.files };
+  return { from: h.from || '', to: h.to || '', cc: h.cc || '', replyTo: h['reply-to'] || '', subject: h.subject || '(inget ämne)', date: h.date || '', messageId: h['message-id'] || '', text: text.trim(), files: out.files };
 }
 // HTML mail is shown as plain text: safe, nothing from the sender runs in our page
 export function htmlToText(html) {
