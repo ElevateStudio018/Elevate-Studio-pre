@@ -161,7 +161,7 @@
     ['Försäljning', [['todo', 'Att göra', 'inbox'], ['leads', 'Alla leads', 'layers'], ['vunna', 'Vunna', 'star'], ['kalender', 'Kalender', 'cal'], ['kontakter', 'Kontakter', 'users'], ['fakturor', 'Fakturor', 'file']]],
     ['Marknadsföring', [['utskick', 'Utskick', 'send'], ['segment', 'Segment', 'layers'], ['besokare', 'Besökare', 'eye'], ['sokord', 'Sökord på Google', 'chart'], ['recensioner', 'Recensioner', 'star'], ['chatten', 'Chatten', 'msg'], ['sajttester', 'Sajttester', 'chart'], ['nyhetsbrev', 'Nyhetsbrev', 'send']]],
     ['Mer', [['statistik', 'Statistik', 'chart'], ['arkiv', 'Arkiv', 'door'], ['konton', 'Konton', 'users'], ['import', 'Importera leads', 'inbox'], ['kundportal', 'Kundportal', 'door'], ['ai', 'AI-assistent', 'spark'], ['insikter', 'Insikter', 'chart'],
-      ['ekonomi', 'Ekonomi', 'wallet'], ['minne', 'AI-minne', 'brain'], ['integrationer', 'Integrationer', 'plug'], ['konto', 'Mitt konto', 'user']], true]
+      ['bestallningar', 'Beställningar', 'file'], ['ekonomi', 'Ekonomi', 'wallet'], ['minne', 'AI-minne', 'brain'], ['integrationer', 'Integrationer', 'plug'], ['konto', 'Mitt konto', 'user']], true]
   ];
   var BADGE = { todo: 1, leads: 1, vunna: 1, arkiv: 1 };
   var VIEWS = {};
@@ -1446,6 +1446,34 @@
     });
   }
 
+  /* ---------- Beställningar: orders from /kassa (domains and mail). Payment and delivery are shown apart. ---------- */
+  var OST = { awaiting_quote: 'Väntar på offert', confirmed: 'Bekräftad', done: 'Klar', cancelled: 'Avbruten' };
+  var PST = { not_required_yet: 'Ingen betalning än', pending: 'Väntar', paid: 'Betald', failed: 'Misslyckad', refunded: 'Återbetald' };
+  var DST = { manual: 'Manuell', queued: 'I kö', registered: 'Registrerad', failed: 'Misslyckad' };
+  function renderOrders() {
+    main().innerHTML = head('Beställningar', 'Domäner och företagsmejl från kassan. Inget registreras eller debiteras automatiskt.');
+    var q = sb.from('orders').select('*').order('created_at', { ascending: false }).limit(1000);
+    fetchRows(q, function (o) {
+      var sum = function (x) { return (x.totals && (x.totals.once || 0)) || 0; };
+      main().insertAdjacentHTML('beforeend', kpis([['Beställningar', o.length], ['Väntar på offert', o.filter(function (x) { return x.status === 'awaiting_quote'; }).length],
+        ['Återkommande/mån', o.filter(function (x) { return x.status !== 'cancelled'; }).reduce(function (s, x) { return s + ((x.totals && x.totals.month) || 0); }, 0) + ' kr']]) +
+        '<section class="panel">' + table([
+          ['Order', function (x) { return '<b>' + esc(x.ref) + '</b><br><small>' + dt(x.created_at) + '</small>'; }],
+          ['Kund', function (x) { return esc(x.name) + (x.company ? '<br><small>' + esc(x.company) + '</small>' : '') + '<br><a href="mailto:' + esc(x.email) + '">' + esc(x.email) + '</a>'; }],
+          ['Produkter', function (x) { return (x.lines || []).map(function (l) { return esc(l.type === 'domain' ? l.name + ' (' + l.years + ' år)' : l.name + ' – ' + l.domain); }).join('<br>'); }],
+          ['Nu', function (x) { return sum(x) + ' kr'; }],
+          ['Status', function (x) { return '<select data-o="' + x.id + '" data-f="status">' + Object.keys(OST).map(function (k) { return '<option value="' + k + '"' + (x.status === k ? ' selected' : '') + '>' + OST[k] + '</option>'; }).join('') + '</select>'; }],
+          ['Betalning', function (x) { return '<select data-o="' + x.id + '" data-f="payment_status">' + Object.keys(PST).map(function (k) { return '<option value="' + k + '"' + (x.payment_status === k ? ' selected' : '') + '>' + PST[k] + '</option>'; }).join('') + '</select>'; }],
+          ['Leverans', function (x) { return '<select data-o="' + x.id + '" data-f="delivery_status">' + Object.keys(DST).map(function (k) { return '<option value="' + k + '"' + (x.delivery_status === k ? ' selected' : '') + '>' + DST[k] + '</option>'; }).join('') + '</select>'; }]
+        ], o) + '</section>');
+      main().addEventListener('change', function (e) {
+        var s = e.target.closest('select[data-o]'); if (!s) return;
+        var up = {}; up[s.dataset.f] = s.value;
+        sb.from('orders').update(up).eq('id', s.dataset.o).then(function (r) { if (r.error) alert('Kunde inte spara: ' + r.error.message); });
+      });
+    });
+  }
+
   /* ---------- Nyhetsbrev: sign-ups from the footer form ---------- */
   function renderNewsletter() {
     main().innerHTML = head('Nyhetsbrev', 'Alla som har gått med i mejllistan i sidfoten.');
@@ -1664,7 +1692,7 @@
   var PAGES = {
     todo: renderTodo, leads: renderLeads, vunna: renderWon, arkiv: renderArchive, statistik: renderStats, konton: renderAccounts, import: renderImport,
     kalender: renderCalendar, kontakter: renderContacts, fakturor: renderInvoices, utskick: renderCampaigns, segment: renderSegments,
-    besokare: renderVisitors, sokord: renderSearch, recensioner: renderReviews, chatten: renderChat, sajttester: renderSiteTests, nyhetsbrev: renderNewsletter, kundportal: renderPortal, ai: renderAI, insikter: renderInsights, ekonomi: renderEconomy,
+    besokare: renderVisitors, sokord: renderSearch, recensioner: renderReviews, chatten: renderChat, sajttester: renderSiteTests, bestallningar: renderOrders, nyhetsbrev: renderNewsletter, kundportal: renderPortal, ai: renderAI, insikter: renderInsights, ekonomi: renderEconomy,
     minne: renderMemory, integrationer: renderIntegrations, konto: renderAccount
   };
 

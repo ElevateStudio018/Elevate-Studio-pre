@@ -59,14 +59,14 @@ export function analysePage(html) {
     lang, viewport, canonical, ogImage, noindex, ld: ldBlocks.length, ldBad, mixed };
 }
 
-async function dns(name, type) {
+export async function dns(name, type) {
   const r = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(name)}&type=${type}`, { headers: { accept: 'application/dns-json' }, signal: AbortSignal.timeout(5000) }).catch(() => null);
   if (!r || !r.ok) return null;
   const d = await r.json().catch(() => ({}));
   return (d.Answer || []).map((a) => String(a.data).replace(/^"(.*)"$/, '$1').replace(/" "/g, ''));
 }
 
-async function mailCheck(domain) {
+export async function mailCheck(domain) {
   const selectors = ['google', 'default', 'selector1', 'selector2', 'k1', 'mail', 'dkim', 's1', 's2', 'mandrill'];
   const [txt, dmarc, mx, ...dk] = await Promise.all([dns(domain, 'TXT'), dns('_dmarc.' + domain, 'TXT'), dns(domain, 'MX'),
     ...selectors.map((s) => dns(`${s}._domainkey.${domain}`, 'TXT'))]);

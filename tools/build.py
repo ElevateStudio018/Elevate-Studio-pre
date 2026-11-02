@@ -194,7 +194,7 @@ def footer(p):
           <div class="site-footer__big site-footer__cols">
             <div>
               <p class="site-footer__subheader">Tjänster</p>
-              <ul class="site-footer__links">{services}</ul>
+              <ul class="site-footer__links">{services}<li><a href="{p}domaner.html">Domäner</a></li><li><a href="{p}foretagsmejl.html">Företagsmejl</a></li></ul>
             </div>
             <div>
               <p class="site-footer__subheader">Elevate Studio</p>
@@ -1617,9 +1617,123 @@ def platforms_section():
     </section>'''
 
 
+def build_platform():
+    """Domäner, Företagsmejl and Kassa: one look with Testa din sajt (dark top with the search pill, plain lists,
+    a summary bar at the bottom). Prices come from assets/data/catalog.json, the cart lives in the browser."""
+    p = ""
+    js = ("shop.js",)
+    domain = f'''<main>
+    <section class="page-hero sitetest-hero">
+      <div class="container">
+        <p class="page-hero__eyebrow">Domäner</p>
+        <h1 class="page-hero__title">Hitta ert <em>domännamn</em></h1>
+        <p class="page-hero__lead">Sök på ert företagsnamn. Vi kontrollerar direkt om domänen är ledig och visar pris per år.</p>
+        <form class="sitetest__form shop-search" id="dom-form" novalidate>
+          <label class="sitetest__field"><span class="sr-only">Domännamn</span>
+            <input type="text" name="q" autocomplete="off" placeholder="dittforetag" required></label>
+          <button type="submit" class="btn btn--primary"><span>Sök</span></button>
+        </form>
+        <p class="shop-hint" id="dom-hint"></p>
+      </div>
+    </section>
+    <section class="section container shop">
+      <div id="dom-results" aria-live="polite"></div>
+      <div class="shop-info">
+        <div><h2 class="shop-h">Ni äger domänen</h2><p>Domänen registreras med ert företag som innehavare. Vi sköter tekniken och påminner i god tid innan den ska förnyas.</p></div>
+        <div><h2 class="shop-h">Hur vi vet att den är ledig</h2><p>För .com, .net, .org, .info, .dev och .app frågar vi registret direkt. För .se, .nu, .eu och .io finns ingen öppen fråga, så vi kontrollerar via DNS och bekräftar innan registreringen.</p></div>
+        <div><h2 class="shop-h">Flytta en domän hit</h2><p>Har ni redan en domän? Lägg den i varukorgen som flytt, så hjälper vi er med överföringskoden.</p></div>
+      </div>
+    </section>
+  </main>'''
+    yield write("domaner.html", document(p, "Domäner – sök och registrera ert domännamn", domain, "subpage shop-page", [("Domäner", "")], None, extra_js=js,
+                description="Sök lediga domännamn för ert företag (.se, .nu, .com och fler). Vi kontrollerar tillgängligheten direkt och visar pris per år."))
+
+    mail = f'''<main>
+    <section class="page-hero sitetest-hero">
+      <div class="container">
+        <p class="page-hero__eyebrow">Företagsmejl</p>
+        <h1 class="page-hero__title">Mejl med <em>er egen domän</em></h1>
+        <p class="page-hero__lead">info@ert-foretag.se i stället för en Gmail-adress. Fungerar i mobilen, på datorn och i webbläsaren.</p>
+      </div>
+    </section>
+    <section class="section container shop">
+      <div class="shop-info">
+        <div><h2 class="shop-h">Adress eller konto?</h2><p>Ett konto är en egen inkorg med lösenord. En adress (alias) som info@ kan skickas vidare till ett eller flera konton och kostar inget extra.</p></div>
+        <div><h2 class="shop-h">Varför egen domän</h2><p>Kunder litar mer på mejl från företagets eget namn, och adressen följer med även om ni byter leverantör.</p></div>
+        <div><h2 class="shop-h">Säkert från start</h2><p>Vi sätter upp SPF, DKIM och DMARC så att mejlen inte hamnar i skräpposten och ingen annan kan skicka i ert namn.</p></div>
+      </div>
+      <h2 class="sitetest__h2">Välj paket</h2>
+      <div class="shop-period" role="radiogroup" aria-label="Betalning">
+        <label><input type="radio" name="period" value="month" checked><span>Per månad</span></label>
+        <label><input type="radio" name="period" value="year"><span>Per år (2 månader gratis)</span></label>
+      </div>
+      <div id="mail-plans" class="shop-plans"></div>
+      <h2 class="sitetest__h2">Kontrollera mejlinställningarna</h2>
+      <p class="shop-lead">Skriv in en domän så läser vi de publika inställningarna (MX, SPF, DKIM, DMARC) och förklarar vad som saknas.</p>
+      <form class="shop-diag" id="diag-form" novalidate><input type="text" name="domain" placeholder="dittforetag.se" aria-label="Domän"><button type="submit" class="btn btn--primary"><span>Kontrollera</span></button></form>
+      <div id="diag-out" aria-live="polite"></div>
+      <h2 class="sitetest__h2">Kom igång i mobilen och datorn</h2>
+      <div class="faq__list page-faq">
+        <details class="faq__item"><summary>iPhone och iPad</summary><p>Inställningar → Mail → Konton → Lägg till konto → Annat → Lägg till e-postkonto. Välj IMAP och fyll i serveruppgifterna ni får av oss när kontot är aktiverat.</p></details>
+        <details class="faq__item"><summary>Android</summary><p>Öppna Gmail-appen → Lägg till konto → Övrigt. Skriv in adressen och välj IMAP. Serveruppgifterna får ni av oss.</p></details>
+        <details class="faq__item"><summary>Outlook</summary><p>Arkiv → Lägg till konto → skriv adressen → Avancerade alternativ → Konfigurera manuellt → IMAP.</p></details>
+        <details class="faq__item"><summary>Apple Mail på Mac</summary><p>Mail → Lägg till konto → Annat e-postkonto. Fyll i namn, adress och lösenord. Om Mail inte hittar servern, fyll i IMAP- och SMTP-uppgifterna.</p></details>
+        <details class="faq__item"><summary>IMAP och SMTP, vad är det?</summary><p>IMAP hämtar mejlen och håller dem lika i alla enheter. SMTP skickar mejlen. Båda behövs och använder samma lösenord.</p></details>
+        <details class="faq__item"><summary>Varför hamnar mina mejl i skräpposten?</summary><p>Oftast saknas SPF, DKIM eller DMARC. Kör kontrollen ovan; den visar vad som saknas och hur det åtgärdas.</p></details>
+      </div>
+    </section>
+  </main>'''
+    yield write("foretagsmejl.html", document(p, "Företagsmejl med egen domän", mail, "subpage shop-page", [("Företagsmejl", "")], None, extra_js=js,
+                description="Professionell e-post med er egen domän: info@ert-foretag.se. Paket per månad eller år, säker uppsättning med SPF, DKIM och DMARC."))
+
+    kassa = f'''<main>
+    <section class="page-hero sitetest-hero">
+      <div class="container">
+        <p class="page-hero__eyebrow">Kassa</p>
+        <h1 class="page-hero__title">Er <em>beställning</em></h1>
+        <p class="page-hero__lead">Kontrollera varukorgen och fyll i uppgifterna. Ni betalar ingenting nu – vi bekräftar beställningen med en offert först.</p>
+      </div>
+    </section>
+    <section class="section container shop">
+      <div id="cart-view"></div>
+      <form class="standout__form shop-checkout" id="checkout" novalidate hidden>
+        <h2 class="sitetest__h2">Innehavare och faktura</h2>
+        <p class="shop-lead">Domänen registreras med dessa uppgifter som innehavare.</p>
+        <div class="shop-fields">
+          <input name="name" placeholder="Namn" required autocomplete="name" aria-label="Namn">
+          <input name="email" type="email" placeholder="E-post" required autocomplete="email" aria-label="E-post">
+          <input name="company" placeholder="Företag" autocomplete="organization" aria-label="Företag">
+          <input name="orgnr" placeholder="Organisationsnummer" aria-label="Organisationsnummer">
+          <input name="phone" placeholder="Telefon" autocomplete="tel" aria-label="Telefon">
+          <input name="address" placeholder="Adress" autocomplete="street-address" aria-label="Adress">
+        </div>
+        <label class="shop-terms"><input type="checkbox" name="terms" required> Jag godkänner <a href="{p}villkor-tjanster.html" target="_blank">villkoren för domäner och mejl</a>, inklusive automatisk förnyelse som kan stängas av.</label>
+        <button type="submit" class="btn btn--primary"><span>Skicka beställning</span></button>
+        <p class="form-status" id="checkout-status" hidden></p>
+      </form>
+    </section>
+  </main>'''
+    yield write("kassa.html", document(p, "Kassa", kassa, "subpage shop-page", [("Kassa", "")], None, extra_js=js, robots="noindex, follow",
+                description="Varukorg och beställning av domäner och företagsmejl."))
+
+    terms = f'''<main>
+    {page_hero("Villkor för domäner och mejl", "Utkast. Ska granskas juridiskt innan försäljningen startar.", "Villkor")}
+    <section class="section container prose">
+      <p><b>Status: utkast som kräver juridisk granskning före lansering.</b></p>
+      <h2>Innehav</h2><p>Domänen registreras med kunden som innehavare. Elevate Studio administrerar domänen på kundens uppdrag.</p>
+      <h2>Förnyelse</h2><p>Domäner och mejl förnyas automatiskt för samma period om inte kunden stänger av förnyelsen. Vi påminner 60, 30, 14 och 7 dagar innan.</p>
+      <h2>Uppsägning</h2><p>Abonnemang kan sägas upp till periodens slut. Redan registrerade domäner återbetalas inte, eftersom registreringsavgiften betalas till registret.</p>
+      <h2>Tredjepartsleverantörer</h2><p>Registrering sker via ackrediterad registrar och mejl via vald mejlleverantör. Deras villkor gäller också.</p>
+      <h2>Personuppgifter</h2><p>Innehavaruppgifter lämnas till registret enligt dess regler. Se även vår <a href="integritet.html">integritetspolicy</a>.</p>
+      <p class="fiction-note">Version 2026-11 (utkast)</p>
+    </section>
+  </main>'''
+    yield write("villkor-tjanster.html", document(p, "Villkor för domäner och mejl", terms, "subpage", [("Villkor för domäner och mejl", "")], None, robots="noindex, follow"))
+
+
 def main():
     built = []
-    for gen in (build_services, build_cases, build_articles, build_platforms, build_simple, build_test_page, build_agreement, build_prices, build_landings, build_hubs):
+    for gen in (build_services, build_cases, build_articles, build_platforms, build_simple, build_test_page, build_agreement, build_prices, build_platform, build_landings, build_hubs):
         built.extend(gen())
     # Keep the homepage lists in sync with the data (regions between build markers).
     index = ROOT / "index.html"

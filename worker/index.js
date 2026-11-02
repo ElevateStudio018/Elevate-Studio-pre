@@ -10,6 +10,8 @@ import { accountsReady, accountsCreate } from './accounts.js';
 import { adminUser } from './invite.js';
 import { track } from './track.js';
 import { log } from './log.js';
+import { domainCheck, mailDiag } from './domains.js';
+import { createOrder } from './orders.js';
 import leadImport from './import.json';
 import { withHeaders } from './headers.js';
 
@@ -38,6 +40,9 @@ export default {
     if (pathname === '/api/booking/sync') return bookingSync(req, env);
     if (pathname === '/api/track') return track(req, env);
     if (pathname === '/api/log') return log(req, env);
+    if (pathname === '/api/domain/check') return domainCheck(req, env);
+    if (pathname === '/api/mail/diag') return mailDiag(req, env);
+    if (pathname === '/api/order') return createOrder(req, env);
     if (pathname === '/api/accounts/create') return accountsCreate(req, env);
     // PageSpeed for Testa din sajt: the server adds the Google API key (PSI_API_KEY secret) so the test is not rate-limited
     if (pathname === '/api/psi') {

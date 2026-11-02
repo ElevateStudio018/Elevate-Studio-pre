@@ -1,0 +1,34 @@
+{
+  "_info": "Produktkatalog för domäner, företagsmejl och paket. Ändra priser och utbud här (eller i admin när databasen är kopplad). demo=true betyder att priset är ett exempel och visas som Demopris på sajten. Moms 25 % läggs på i kassan.",
+  "demo": true,
+  "vat": 0.25,
+  "tlds": [
+    { "tld": "se", "register": 149, "renew": 149, "transfer": 0, "popular": 10 },
+    { "tld": "nu", "register": 149, "renew": 149, "transfer": 0, "popular": 8 },
+    { "tld": "com", "register": 169, "renew": 169, "transfer": 0, "popular": 9 },
+    { "tld": "net", "register": 189, "renew": 189, "transfer": 0, "popular": 5 },
+    { "tld": "org", "register": 179, "renew": 179, "transfer": 0, "popular": 5 },
+    { "tld": "eu", "register": 129, "renew": 129, "transfer": 0, "popular": 4 },
+    { "tld": "info", "register": 149, "renew": 299, "transfer": 0, "popular": 2 },
+    { "tld": "io", "register": 549, "renew": 549, "transfer": 0, "popular": 3 },
+    { "tld": "dev", "register": 199, "renew": 199, "transfer": 0, "popular": 2 },
+    { "tld": "app", "register": 219, "renew": 219, "transfer": 0, "popular": 2 },
+    { "tld": "online", "register": 79, "renew": 449, "transfer": 0, "popular": 1 },
+    { "tld": "store", "register": 99, "renew": 699, "transfer": 0, "popular": 1 }
+  ],
+  "mail": [
+    { "id": "mejl-bas", "name": "Mejl Bas", "accounts": 1, "storage_gb": 10, "monthly": 49, "yearly": 490, "extra_account": 39, "features": ["Webbmejl, mobil och dator", "Spamfilter och virusskydd", "Alias och vidarebefordran"] },
+    { "id": "mejl-foretag", "name": "Mejl Företag", "accounts": 5, "storage_gb": 25, "monthly": 199, "yearly": 1990, "extra_account": 35, "features": ["Allt i Bas", "Gruppadresser, till exempel info@", "Hjälp att flytta gammal mejl"] },
+    { "id": "mejl-pro", "name": "Mejl Pro", "accounts": 15, "storage_gb": 50, "monthly": 449, "yearly": 4490, "extra_account": 29, "features": ["Allt i Företag", "Större lagring per konto", "Prioriterad hjälp"] }
+  ],
+  "addons": [
+    { "id": "dns", "name": "DNS-hantering och uppsättning", "once": 0, "yearly": 0, "note": "Ingår när domänen ligger hos oss" },
+    { "id": "skydd", "name": "Skyddsregistrering av liknande domäner", "once": 0, "yearly": 0, "note": "Pris per domän enligt listan" },
+    { "id": "flytt", "name": "Flytt av befintlig mejl", "once": 995, "yearly": 0 }
+  ],
+  "bundles": [
+    { "id": "domanpaket", "name": "Domänpaket", "includes": ["Domän", "DNS-hantering"], "note": "Pris enligt vald toppdomän" },
+    { "id": "mejlpaket", "name": "Mejlpaket", "includes": ["Domän", "Mejl Bas"], "note": "Domän + 49 kr/mån" },
+    { "id": "foretagspaket", "name": "Företagspaket", "includes": ["Domän", "Mejl Företag", "Hemsida Starter"], "note": "Hemsida enligt Priser" }
+  ]
+}
