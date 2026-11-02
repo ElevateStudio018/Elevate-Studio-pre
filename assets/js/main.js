@@ -292,3 +292,15 @@
   };
   if (document.readyState === 'complete') go(); else addEventListener('load', go);
 })();
+
+/* Preview on githack: the live server serves clean addresses (domaner), a static preview needs domaner.html */
+(function () {
+  if (!/githack\.com$/.test(location.hostname)) return;
+  document.querySelectorAll('a[href]').forEach(function (a) {
+    var h = a.getAttribute('href');
+    if (/^(https?:|mailto:|tel:|#|\?|data:)/.test(h)) return;
+    var m = h.match(/^([^?#]*)(.*)$/), p = m[1], rest = m[2];
+    if (!p || /\.[a-z0-9]+$/i.test(p)) return;
+    a.setAttribute('href', (p === './' ? 'index.html' : /\/$/.test(p) ? p + 'index.html' : p + '.html') + rest);
+  });
+})();
