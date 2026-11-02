@@ -1468,3 +1468,25 @@ body.portal-app .pa-main { padding: 28px 32px 48px !important; }
   .plan:hover::after { opacity: 1; } .plan:hover .btn { background: #8fd3a6; color: #10241a; border-color: #8fd3a6; } }
 .plan:focus-within { border-color: rgba(143,211,166,.65); }
 @media (prefers-reduced-motion: reduce) { .plan { transition: none; } .plan:hover { transform: none; } }
+/* Prices: focus on one card (proposal 5, first round). White cards; the hovered card slowly turns green,
+   lifts, grows and glows while the others fade back. */
+.plan::after { display: none; }
+.plan, .plan--featured { background: #fff; color: #16241b; border: 1px solid rgba(255,255,255,.6);
+  transition: transform .7s cubic-bezier(.2,.8,.2,1), background-color 1s ease, color 1s ease, border-color 1s ease, box-shadow 1s ease, opacity .7s ease, filter .7s ease; }
+.plan .plan__name, .plan--featured .plan__name { color: var(--accent, #1d3b2a); transition: color 1s ease; }
+.plan .plan__price, .plan--featured .plan__price { color: #111; transition: color 1s ease; }
+.plan .plan__text, .plan--featured .plan__text { color: #4f5a53; border-color: #e6eae5; opacity: 1; transition: color 1s ease, border-color 1s ease; }
+.plan .plan__unit { opacity: .7; }
+.plan .plan__list li::before, .plan--featured .plan__list li::before { background: #2f7d4f; transition: background 1s ease; }
+.plan .btn, .plan--featured .btn { color: #1d3b2a; border-color: #1d3b2a; transition: background-color 1s ease, color 1s ease, border-color 1s ease; }
+.plan--featured .plan__tag { background: #1d3b2a; color: #fff; transition: background 1s ease, color 1s ease; }
+@media (hover: hover) {
+  .plans:hover .plan { filter: brightness(.8) saturate(.7); transform: scale(.97); }
+  .plans .plan:hover { opacity: 1; filter: none; z-index: 2; transform: translateY(-16px) scale(1.06); background: #1d3b2a; color: #fff; border-color: #1d3b2a;
+    box-shadow: 0 0 0 8px rgba(143,211,166,.18), 0 0 70px rgba(143,211,166,.4), 0 34px 60px -20px rgba(0,0,0,.6); }
+  .plans .plan:hover .plan__name { color: #8fd3a6; } .plans .plan:hover .plan__price { color: #fff; }
+  .plans .plan:hover .plan__text { color: #c9d8cd; border-color: rgba(255,255,255,.15); }
+  .plans .plan:hover .plan__list li::before { background: #8fd3a6; }
+  .plans .plan:hover .btn { background: #fff; color: #1d3b2a; border-color: #fff; }
+  .plans .plan:hover .plan__tag { background: #8fd3a6; color: #10241a; }
+}
