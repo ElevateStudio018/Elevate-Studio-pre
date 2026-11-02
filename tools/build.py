@@ -194,7 +194,7 @@ def footer(p):
           <div class="site-footer__big site-footer__cols">
             <div>
               <p class="site-footer__subheader">Tjänster</p>
-              <ul class="site-footer__links">{services}<li><a href="{p}domaner.html">Domäner</a></li><li><a href="{p}foretagsmejl.html">Företagsmejl</a></li></ul>
+              <ul class="site-footer__links">{services}<li><a href="{p}domaner.html">Domäner</a></li><li><a href="{p}foretagsmejl.html">Företagsmejl</a></li><li><a href="{p}portal.html">Kundportal</a></li></ul>
             </div>
             <div>
               <p class="site-footer__subheader">Elevate Studio</p>
@@ -1728,6 +1728,22 @@ def build_platform():
       <p class="fiction-note">Version 2026-11 (utkast)</p>
     </section>
   </main>'''
+    portal = f'''<main>
+    <section class="page-hero sitetest-hero portal-hero">
+      <div class="container">
+        <p class="page-hero__eyebrow">Kundportal</p>
+        <h1 class="page-hero__title">Era <em>tjänster</em></h1>
+        <p class="page-hero__lead">Domäner, mejl, hemsida, fakturor och support på ett ställe.</p>
+      </div>
+    </section>
+    <section class="section container shop">
+      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+      <div id="portal" data-url="{SUPABASE_URL}" data-key="{SUPABASE_PUBLISHABLE_KEY}"><p class="shop-lead">Laddar …</p></div>
+    </section>
+  </main>'''
+    yield write("portal.html", document(p, "Kundportal", portal, "subpage shop-page", [("Kundportal", "")], None, extra_js=("portal.js",), robots="noindex, nofollow",
+                description="Logga in och hantera era domäner, mejl, fakturor och supportärenden hos Elevate Studio."))
+
     yield write("villkor-tjanster.html", document(p, "Villkor för domäner och mejl", terms, "subpage", [("Villkor för domäner och mejl", "")], None, robots="noindex, follow"))
 
 
