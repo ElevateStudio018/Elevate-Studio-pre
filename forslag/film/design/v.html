@@ -1,0 +1,43 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:H;src:url(../../../assets/fonts/HankenGrotesk-latin.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:F;src:url(../../../assets/fonts/Fraunces-latin.woff2) format('woff2');font-style:italic;font-weight:100 900}
+*{box-sizing:border-box;margin:0}body{width:720px;height:1280px;overflow:hidden;font-family:H,sans-serif;-webkit-font-smoothing:antialiased}
+#s{position:absolute;inset:0;text-align:center}
+.it{font-family:F,serif;font-style:italic;font-weight:400}
+.dots{background-color:#12271b;background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.4px);background-size:6px 6px}
+.bd{display:inline-block;font-size:17px;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
+.h{font-size:74px;font-weight:700;letter-spacing:-.035em;line-height:1.02}
+.sub{font-size:25px}
+.card{margin:0 56px;text-align:left;border-radius:32px;padding:40px 44px}
+.ul{list-style:none;padding:0;font-size:26px}.ul li{display:flex;align-items:baseline;gap:16px;padding:12px 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:80px;padding:0 44px;border-radius:999px;font-weight:700;font-size:28px}
+.lg{display:flex;align-items:center;justify-content:center;gap:12px;font-weight:700;font-size:32px;letter-spacing:-.02em}.lg img{height:28px}
+</style></head><body><div id="s"></div><script>
+const L='../../../assets/img/brand/',I='Unik design efter ditt företag|Snabb och mobilanpassad|SEO – synlig på Google|Recensioner och adminpanel'.split('|');
+const T=o=>`
+<div style="position:absolute;left:0;right:0;top:150px"><span class="bd" style="${o.bd}">${o.bdt||'— Klar idag —'}</span></div>
+<div class="h" style="position:absolute;left:40px;right:40px;top:215px;${o.hc||''}">Få din hemsida<br>idag från ${o.price}</div>
+<div class="sub" style="position:absolute;left:40px;right:40px;top:430px;${o.sc||''}">SEO · Design · Recensioner · Admin</div>
+<div class="card" style="position:absolute;left:0;right:0;top:540px;${o.card}"><ul class="ul">${I.map((x,i)=>`<li style="${o.li?o.li(i):''}">${o.mark(i)}<span>${x}</span></li>`).join('')}</ul>
+<div style="text-align:center;margin-top:30px"><span class="btn" style="${o.btn}">Boka gratismöte →</span></div></div>
+<div class="lg" style="position:absolute;left:0;right:0;bottom:120px;${o.lc||''}"><img src="${L}${o.logo||'logo-mark-cream.svg'}">Elevate Studio</div>
+<div style="position:absolute;left:0;right:0;bottom:78px;font-size:23px;${o.uc||'opacity:.75'}">elevatestudio.nu</div>`;
+const dot=c=>i=>`<i style="flex:none;width:10px;height:10px;border-radius:50%;background:${c};transform:translateY(-3px)"></i>`;
+const num=c=>i=>`<b style="flex:none;font-size:20px;color:${c};width:36px">0${i+1}</b>`;
+const dash=c=>i=>`<span style="flex:none;color:${c}">—</span>`;
+const line='border-bottom:1px solid #e3e7e3';
+const V={
+1:{bg:'class=dots',col:'#fff',o:{bd:'color:#c9d8cd',price:'<span class="it" style="color:#cfe9d6">2 999 kr</span>',sc:'color:#c9d8cd',card:'background:#fff;color:#12261a',mark:dot('#2f7d4f'),li:i=>i<3?line:'',btn:'background:#1d3b2a;color:#fff'}},
+2:{bg:'style="background:#1d3b2a"',col:'#fff',o:{bd:'color:#c9d8cd',price:'<span style="text-decoration:underline;text-decoration-thickness:5px;text-underline-offset:10px;text-decoration-color:#c6f36b">2 999 kr</span>',sc:'color:#c9d8cd',card:'background:transparent;border:1px solid rgba(255,255,255,.25)',mark:num('#c6f36b'),li:i=>i<3?'border-bottom:1px solid rgba(255,255,255,.15)':'',btn:'background:#fdfbf5;color:#12261a'}},
+3:{bg:'style="background:#fdfbf5"',col:'#12261a',o:{bd:'color:#2f7d4f',price:'<span class="it" style="color:#1d3b2a">2 999 kr</span>',sc:'color:#5d6a62',card:'background:#1d3b2a;color:#fff',mark:dot('#c6f36b'),li:i=>i<3?'border-bottom:1px solid rgba(255,255,255,.15)':'',btn:'background:#fdfbf5;color:#12261a',logo:'logo-mark.svg'}},
+4:{bg:'style="background:url(../../../assets/img/home/hero.jpg) 40% center/cover"',ov:1,col:'#fff',o:{bd:'color:#fff',price:'2 999 kr',sc:'color:#e8efe9',card:'background:#fff;color:#12261a',mark:dot('#2f7d4f'),li:i=>i<3?line:'',btn:'background:#1d3b2a;color:#fff'}},
+5:{bg:'class=dots',col:'#fff',o:{bd:'padding:8px 18px;border:1px solid rgba(255,255,255,.35);border-radius:999px;color:#fff;letter-spacing:.14em',bdt:'Klar idag',price:'<span class="it">2 999 kr</span>',sc:'color:#c9d8cd',card:'background:#fdfbf5;color:#12261a',mark:num('#2f7d4f'),li:i=>i<3?line:'',btn:'background:#12271b;color:#fff'}},
+6:{bg:'style="background:#fff"',col:'#12261a',o:{bd:'color:#2f7d4f',price:'<span style="color:#2f7d4f">2 999 kr</span>',sc:'color:#5d6a62',card:'background:#f1f4f1;color:#12261a',mark:dot('#2f7d4f'),li:i=>i<3?'border-bottom:1px solid #dde3dd':'',btn:'background:#1d3b2a;color:#fff',logo:'logo-mark.svg'}},
+7:{bg:'style="background:#12271b"',col:'#fdfbf5',o:{bd:'color:#c9d8cd',bdt:'— Webbyrå i Uppsala —',price:'<span class="it">2 999 kr</span>',hc:'font-weight:500',sc:'color:#c9d8cd',card:'background:#fdfbf5;color:#12261a;border-radius:24px',mark:dash('#2f7d4f'),li:i=>i<3?line:'',btn:'background:#1d3b2a;color:#fff'}},
+8:{bg:'class=dots',col:'#fff',o:{bd:'color:#c9d8cd',price:'2 999 kr',sc:'color:#c9d8cd',card:'background:#fff;color:#12261a;padding:0;overflow:hidden',mark:dot('#2f7d4f'),li:i=>'padding:22px 44px;'+(i<3?line:''),btn:'background:#1d3b2a;color:#fff;margin-bottom:34px'}},
+9:{bg:'style="background:#1d3b2a"',col:'#fff',strip:1,o:{bd:'color:#c9d8cd',price:'<span class="it">2 999 kr</span>',sc:'color:#c9d8cd',card:'background:#fff;color:#12261a',mark:dot('#2f7d4f'),li:i=>i<3?line:'',btn:'background:#1d3b2a;color:#fff'}},
+10:{bg:'style="background:#0f1f16"',col:'#fff',o:{bd:'color:#9fb3a6',price:'2 999 kr',hc:'font-weight:800;text-transform:none',sc:'color:#9fb3a6',card:'background:#18301f;color:#fff;border-radius:20px',mark:dot('#c6f36b'),li:i=>i<3?'border-bottom:1px solid rgba(255,255,255,.1)':'',btn:'background:#fdfbf5;color:#12261a;border-radius:16px'}}};
+const v=V[+(location.hash.slice(1)||1)],s=document.getElementById('s');
+s.outerHTML=`<div id="s" ${v.bg} >${v.ov?'<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,39,27,.72),rgba(18,39,27,.9))"></div>':''}${v.strip?'<div style="position:absolute;left:0;right:0;top:0;height:120px;background:url(../../../assets/img/home/hero.jpg) center 30%/cover"></div>':''}<div style="position:absolute;inset:0;color:${v.col}">${T(v.o)}</div></div>`;
+document.getElementById('s').style.cssText+=';position:absolute;inset:0;text-align:center';
+</script></body></html>
