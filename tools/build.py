@@ -767,7 +767,7 @@ def build_cases():
         <h2 class="block__header">Exempel på <span>projekt</span></h2>
         <div class="pgrid">{cards}
         </div>
-        <p class="fiction-note">CORK är kund hos oss. Övriga exempel är påhittade och visar hur vi arbetar.</p>
+        <p class="fiction-note">CORK och Haninge Byggteam AB är kunder hos oss. Övriga exempel är påhittade och visar hur vi arbetar.</p>
       </div>
     </section>
     {cta(p)}
@@ -1444,7 +1444,7 @@ def projects_section():
         </div>
         <div class="hp-proj__grid">{cards}
         </div>
-        <p class="hp-proj__note">CORK är kund hos oss. Övriga exempel är påhittade och visar hur vi arbetar.</p>
+        <p class="hp-proj__note">CORK och Haninge Byggteam AB är kunder hos oss. Övriga exempel är påhittade och visar hur vi arbetar.</p>
       </div>
     </section>'''
 
@@ -1748,6 +1748,28 @@ def build_platform():
   </main>'''
     yield write("portal.html", document(p, "Kundportal", portal, "subpage shop-page", [("Kundportal", "")], None, extra_js=("portal.js",), robots="noindex, nofollow",
                 description="Logga in och hantera era domäner, mejl, fakturor och supportärenden hos Elevate Studio."))
+
+    mailpage = """<main>
+    <section class="section container wmx-page">
+      <div id="webmail"><p class="shop-lead">Laddar …</p></div>
+    </section>
+  </main>"""
+    yield write("mail.html", document(p, "Elevate Mejl", mailpage, "subpage shop-page", [("Mejl", "")], None, extra_js=("webmail.js",), robots="noindex, nofollow",
+                description="Logga in och läs och skicka mejl med ert företags domän."))
+
+    links = [("Startsidan", "index.html", "Nya temat, domän- och mejlkorten, riktiga kunder"), ("Testa din sajt", "testa.html", "Snabbtest, djupanalys, PDF och offert"),
+             ("Domäner", "domaner.html", "Sök, filtrera, sortera och lägg i varukorgen"), ("Företagsmejl", "foretagsmejl.html", "Paket, mejlkontroll och guider"),
+             ("Kassa", "kassa.html", "Varukorg, moms och beställning"), ("Kundportal", "portal.html?demo", "Tjänster, fakturor, support och konto (testdata)"),
+             ("Elevate Mejl", "mail.html?demo", "Webbmejl: läs, svara, skicka och ta bort (testbrevlåda)"), ("CORK", "projekt/cork.html", "Kundprojekt"),
+             ("Haninge Byggteam", "projekt/haninge-byggteam.html", "Kundprojekt"), ("Priser", "priser.html", "Prissidan i nya temat"), ("Om oss", "om.html", "En vanlig undersida i nya temat")]
+    hub = f"""<main>
+    {page_hero("Förhandsvisning", "Alla nya delar på ett ställe. Inget här är publicerat än.", "Elevate Studio")}
+    <section class="section container">
+      <div class="promo2 hub">{"".join(f'<a class="promo2__card glow-dark hub__card" href="{u}"><div class="promo2__head"><h2>{esc(t)}</h2><span class="promo2__arrow" aria-hidden="true">&rarr;</span></div><p>{esc(d)}</p></a>' for t, u, d in links)}</div>
+      <p class="fiction-note">Sökningar och mejlkontroller fungerar på riktigt även här. Kundportalen och mejlen visar testdata tills de är publicerade.</p>
+    </section>
+  </main>"""
+    yield write("forhandsvisning.html", document(p, "Förhandsvisning", hub, "subpage", [("Förhandsvisning", "")], None, robots="noindex, nofollow"))
 
     yield write("villkor-tjanster.html", document(p, "Villkor för domäner och mejl", terms, "subpage", [("Villkor för domäner och mejl", "")], None, robots="noindex, follow"))
 

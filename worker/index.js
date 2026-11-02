@@ -12,6 +12,7 @@ import { track } from './track.js';
 import { log } from './log.js';
 import { domainCheck, mailDiag } from './domains.js';
 import { createOrder } from './orders.js';
+import { webmail } from './webmail.js';
 import leadImport from './import.json';
 import { withHeaders } from './headers.js';
 
@@ -43,6 +44,7 @@ export default {
     if (pathname === '/api/domain/check') return domainCheck(req, env);
     if (pathname === '/api/mail/diag') return mailDiag(req, env);
     if (pathname === '/api/order') return createOrder(req, env);
+    if (pathname.startsWith('/api/mail/') && pathname !== '/api/mail/diag') return webmail(req, env);
     if (pathname === '/api/accounts/create') return accountsCreate(req, env);
     // PageSpeed for Testa din sajt: the server adds the Google API key (PSI_API_KEY secret) so the test is not rate-limited
     if (pathname === '/api/psi') {

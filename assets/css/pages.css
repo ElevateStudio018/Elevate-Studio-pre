@@ -1017,3 +1017,67 @@ select.portal-company { font-size: 20px; }
 @media (max-width: 768px) { .page-hero:not(.sitetest-hero) > .container { padding: 44px 24px; border-radius: 24px; } .cta-band { margin: 0 8px; border-radius: 24px; } }
 .pricing { position: relative; isolation: isolate; background-color: #16301f !important; background-image: var(--glow-bg) !important; }
 .pricing::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-image: var(--glow-dots); background-size: 6px 6px; }
+/* ---------- Elevate Mejl (/mail) ---------- */
+.wmx-page { padding-top: 24px !important; max-width: 1240px; }
+.wmx-login { max-width: 520px; margin: 0 auto; padding: 48px 40px; border-radius: 32px; color: #fdfbf5; }
+.wmx-login h1 { margin: 6px 0 22px; font-size: 32px; font-weight: 600; letter-spacing: -.02em; }
+.wmx-logo { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -.02em; }
+.wmx-logo span { color: #d4e85a; }
+.wmx-form { display: grid; gap: 12px; }
+.wmx-form input { padding: 14px 18px; border: 0; border-radius: 14px; background: #fff; font: inherit; color: #16241b; }
+.wmx-adv summary { cursor: pointer; font-size: 14px; color: rgba(253, 251, 245, .85); }
+.wmx-adv input { width: 100%; margin-top: 8px; box-sizing: border-box; }
+.wmx-login .btn { background: #d4e85a !important; color: #16301f !important; justify-self: start; }
+.wmx-err { margin: 0; color: #ffb4a8; font-weight: 600; }
+.wmx-note { margin: 0 0 12px; color: #d4e85a; }
+.wmx-small { margin: 18px 0 0; font-size: 13px; color: rgba(253, 251, 245, .75); }
+.wmx-small a { color: #fdfbf5; }
+.wmx { overflow: hidden; border-radius: 24px; background: #fff; box-shadow: 0 30px 80px -40px rgba(0, 0, 0, .4); }
+.wmx-bar { display: flex; gap: 18px; align-items: center; padding: 14px 20px; background: #16301f; color: #fdfbf5; }
+.wmx-search { flex: 1; max-width: 420px; padding: 10px 14px; border: 0; border-radius: 10px; background: rgba(255, 255, 255, .12); color: #fff; font: inherit; }
+.wmx-search::placeholder { color: rgba(253, 251, 245, .6); }
+.wmx-me { margin-left: auto; font-size: 14px; opacity: .85; }
+.wmx-link { padding: 0; border: 0; background: none; color: inherit; font: inherit; font-size: 14px; text-decoration: underline; cursor: pointer; }
+.wmx-demo { margin: 0; padding: 6px 20px; background: #d4e85a; color: #16301f; font-size: 13px; font-weight: 700; }
+.wmx-body { display: grid; grid-template-columns: 190px 340px 1fr; min-height: 640px; }
+.wmx-side { display: grid; align-content: start; gap: 4px; padding: 14px; border-right: 1px solid #eef0ec; background: #fafaf6; }
+.wmx-compose { margin-bottom: 10px; padding: 12px; border: 0; border-radius: 12px; background: #d4e85a; color: #16301f; font: inherit; font-weight: 700; cursor: pointer; }
+.wmx-folder { padding: 9px 12px; border: 0; border-radius: 10px; background: none; color: #16241b; font: inherit; text-align: left; cursor: pointer; }
+.wmx-folder.is-on { background: #e3ece4; font-weight: 600; }
+.wmx-list { overflow: auto; max-height: 720px; border-right: 1px solid #eef0ec; }
+.wmx-h { margin: 0; padding: 16px 18px 10px; font-size: 18px; font-weight: 700; }
+.wmx-h small { color: #8a8f88; font-weight: 400; font-size: 13px; }
+.wmx-item { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; width: 100%; padding: 12px 18px; border: 0; border-top: 1px solid #f0f1ee; background: none; font: inherit; text-align: left; cursor: pointer; color: #16241b; }
+.wmx-item b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wmx-item time { font-size: 12px; color: #8a8f88; }
+.wmx-item span { grid-column: 1 / -1; font-size: 14px; color: #4f5a53; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wmx-item.is-new b { font-weight: 700; } .wmx-item.is-new b::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: #2f7d4f; }
+.wmx-item.is-on { background: #eef6dc; }
+.wmx-item:hover { background: #f6f8f3; }
+.wmx-read { padding: 22px 28px; min-width: 0; }
+.wmx-empty { margin: 40px 0; text-align: center; color: #8a8f88; }
+.wmx-acts { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 0 0 18px; }
+.wmx-acts .btn { height: 42px; padding: 0 18px; }
+.wmx-del { color: #a8331f; }
+.wmx-subject { margin: 0 0 14px; font-size: 24px; font-weight: 600; }
+.wmx-from { display: flex; gap: 12px; align-items: center; margin: 0 0 18px; }
+.wmx-from i { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: #1d3b2a; color: #fff; font-style: normal; font-weight: 700; }
+.wmx-from small { display: block; color: #8a8f88; font-size: 13px; }
+.wmx-text { white-space: pre-wrap; word-break: break-word; line-height: 1.65; color: #2a3a30; }
+.wmx-files { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 18px; }
+.wmx-files span { padding: 6px 12px; border-radius: 999px; background: #eef0ec; font-size: 13px; }
+.wmx-files small { color: #8a8f88; }
+.wmx-compose-form { display: grid; gap: 10px; }
+.wmx-compose-form label { display: grid; grid-template-columns: 70px 1fr; align-items: center; gap: 10px; font-size: 14px; color: #6b736d; }
+.wmx-compose-form input, .wmx-compose-form textarea { padding: 10px 12px; border: 1px solid #e3e6e0; border-radius: 10px; font: inherit; color: #16241b; background: #fff; }
+.wmx-compose-form .wmx-err { color: #a8331f; }
+.wmx-sent { margin: 40px 0; text-align: center; color: #2f7d4f; font-weight: 600; }
+@media (max-width: 980px) {
+  .wmx-body { grid-template-columns: 1fr; } .wmx-side { display: flex; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid #eef0ec; } .wmx-compose { margin: 0 8px 0 0; }
+  .wmx-list { max-height: 360px; border-right: 0; border-bottom: 1px solid #eef0ec; } .wmx-bar { flex-wrap: wrap; } .wmx-search { order: 3; max-width: none; flex-basis: 100%; }
+  .wmx-login { padding: 36px 22px; }
+}
+.hub { grid-template-columns: repeat(3, 1fr); }
+.hub .hub__card { min-height: 200px; padding-bottom: 32px; }
+.hub .hub__card h2 { font-size: 28px; }
+@media (max-width: 900px) { .hub { grid-template-columns: 1fr; } }

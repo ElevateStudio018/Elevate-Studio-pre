@@ -128,6 +128,15 @@ CASES = [
         "features": ["Webbutik med förbeställning och varukorg", "Stora svartvita bilder och filmer från åkningen", "Kollektionssida med pris och antal exemplar", "Mejllista för nästa släpp", "Svar på vanliga frågor om leverans, retur och storlekar", "Anpassad för mobilen"],
     },
     {
+        # A real customer: Haninge Byggteam, renovation in Stockholm
+        "slug": "haninge-byggteam", "name": "Haninge Byggteam AB", "tags": ["Byggfirma", "Kund", "Webb"],
+        "image": "sites/site-haninge.jpg", "w": 1440, "h": 900, "phone_image": "sites/site-haninge-phone.jpg",
+        "site": "https://haningebyggteam.se/", "site_label": "haningebyggteam.se",
+        "lead": "Hemsida för en byggfirma i Stockholm som renoverar kök, badrum och hela villor.",
+        "about": "Haninge Byggteam AB renoverar kök, badrum och hela villor i Stockholm och på Södertörn. Hemsidan är byggd runt en sak: att den som tittar ska be om en offert.",
+        "features": ["Knappen Få gratis offert i varje del av sidan", "Projektgalleri som går att filtrera på kök, badrum och totalrenovering", "Egen sida för varje tjänst", "Offertformulär som frågar efter rätt uppgifter", "Anpassad för mobilen"],
+    },
+    {
         # A real customer: the site is shown as it is, with no made-up story
         "slug": "alvhem-stad", "name": "Alvhem Städ", "tags": ["Städfirma", "Kund", "Webb"],
         "image": "home/alvhemstad-desktop.jpg", "w": 746, "h": 466, "phone_image": "home/alvhemstad-phone.jpg", "old_image": "home/alvhem-old.jpg", "video": "video/alvhem-hero.mp4", "overlay": "home/alvhem-overlay.webp",
@@ -635,7 +644,7 @@ TEAM = [
 SITES = [
     {"name": "CORK", "url": "https://wearcork.shop/", "label": "wearcork.shop", "what": "Skidkläder och streetwear från Uppsala", "image": "sites/site-cork.jpg", "phone": "sites/site-cork-phone.jpg", "logo": "home/client-cork.svg", "case": "projekt/cork.html",
      "text": "CORK gör tekniska baggy skidbyxor och dunjackor i små upplagor om 25 exemplar. Webbutiken bär märkets uttryck med stora svartvita bilder från åkningen, visar kollektionen med pris och antal, tar förbeställningar och samlar mejladresser inför nästa släpp."},
-    {"name": "Haninge Byggteam AB", "url": "https://haningebyggteam.se/", "label": "haningebyggteam.se", "what": "Byggfirma i Stockholm", "image": "sites/site-haninge.jpg", "phone": "sites/site-haninge-phone.jpg", "logo": "home/client-haninge.png",
+    {"name": "Haninge Byggteam AB", "url": "https://haningebyggteam.se/", "label": "haningebyggteam.se", "what": "Byggfirma i Stockholm", "image": "sites/site-haninge.jpg", "phone": "sites/site-haninge-phone.jpg", "logo": "home/client-haninge.png", "case": "projekt/haninge-byggteam.html",
      "text": "Haninge Byggteam renoverar kök, badrum och hela villor i Stockholm och på Södertörn. Hemsidan är byggd runt en enda sak: att den som tittar ska be om en offert. Därför ligger knappen Få gratis offert i varje del av sidan, projektgalleriet går att filtrera på kök, badrum, totalrenovering och utomhus, och deras 5,0 i Google-betyg syns redan i toppen."},
     {"name": "Alvhem Städ", "url": "https://elevatestudio018.github.io/alvhemstad/", "label": "Alvhem Städ", "what": "Städfirma i Älvängen", "image": "sites/site-alvhem.jpg", "phone": "sites/site-alvhem-phone.jpg", "logo": "home/client-alvhemstad.png", "case": "projekt/alvhem-stad.html",
      "text": "Alvhem Städ erbjuder hemstädning, storstädning, flyttstädning och kontorsstädning till fasta priser. Sajten öppnar med en film som visar jobbet, varje städtjänst har en egen sida med pris, och en kalkyl räknar av RUT-avdraget direkt så kunden ser vad det kostar. Uppstartsmötet bokas från vilken sida som helst."},
