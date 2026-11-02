@@ -36,6 +36,44 @@
     save(cart);
   }
 
+  // ---------- the same checks in the browser, used when our server cannot be reached (for example in a preview) ----------
+  var TLDS = ['se', 'nu', 'com', 'net', 'org', 'eu', 'info', 'io', 'dev', 'app', 'online', 'store'];
+  var RDAP = { com: 'https://rdap.verisign.com/com/v1/domain/', net: 'https://rdap.verisign.com/net/v1/domain/', org: 'https://rdap.publicinterestregistry.org/rdap/domain/',
+    dev: 'https://pubapi.registry.google/rdap/domain/', app: 'https://pubapi.registry.google/rdap/domain/' };
+  var doh = function (name, type) { return fetch('https://cloudflare-dns.com/dns-query?name=' + encodeURIComponent(name) + '&type=' + type, { headers: { accept: 'application/dns-json' } }).then(function (r) { return r.json(); }); };
+  function checkOne(name, tld) {
+    var host; try { host = new URL('http://' + name + '.' + tld).hostname; } catch (e) { return Promise.resolve({ domain: name + '.' + tld, tld: tld, status: 'invalid' }); }
+    var dns = function () { return doh(host, 'NS').then(function (d) { return { domain: name + '.' + tld, tld: tld, status: d.Status === 3 ? 'likely_free' : 'taken', source: 'dns' }; }).catch(function () { return { domain: name + '.' + tld, tld: tld, status: 'unknown' }; }); };
+    if (!RDAP[tld]) return dns();
+    return fetch(RDAP[tld] + host).then(function (r) {
+      if (r.status === 200) return { domain: name + '.' + tld, tld: tld, status: 'taken', source: 'registry' };
+      if (r.status === 404) return { domain: name + '.' + tld, tld: tld, status: 'free', source: 'registry' };
+      return dns();
+    }).catch(dns);
+  }
+  function clientSearch(q) {
+    var s0 = q.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0], dot = s0.indexOf('.');
+    var asked = dot > 0 ? s0.slice(dot + 1) : '', name = (dot > 0 ? s0.slice(0, dot) : s0).replace(/\s+/g, '').replace(/[^a-z0-9åäöéü-]/g, '').replace(/^-+|-+$/g, '').slice(0, 63);
+    var base = name.replace(/-/g, ''), ideas = [base + 'ab', base + 'sverige', 'min' + base].filter(function (x) { return x !== name; });
+    return Promise.all(TLDS.map(function (t) { return checkOne(name, t); })).then(function (results) {
+      return Promise.all(ideas.map(function (n) { return checkOne(n, 'se'); })).then(function (idea) {
+        return { name: name, asked: TLDS.indexOf(asked) >= 0 ? asked : '', results: results, ideas: idea.filter(function (x) { return /free/.test(x.status); }), checked: new Date().toISOString() };
+      });
+    });
+  }
+  function clientMail(domain) {
+    var d = domain.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
+    var txt = function (n) { return doh(n, 'TXT').then(function (x) { return (x.Answer || []).map(function (a) { return String(a.data).replace(/^"|"$/g, '').replace(/" "/g, ''); }); }).catch(function () { return []; }); };
+    var sel = ['google', 'default', 'selector1', 'selector2', 'k1', 'mail', 'dkim', 's1', 's2'];
+    return Promise.all([txt(d), txt('_dmarc.' + d), doh(d, 'MX').catch(function () { return {}; })].concat(sel.map(function (x) { return txt(x + '._domainkey.' + d); }))).then(function (r) {
+      var spf = r[0].filter(function (t) { return /^v=spf1/i.test(t); })[0], dm = r[1].filter(function (t) { return /^v=DMARC1/i.test(t); })[0], mx = (r[2].Answer || []);
+      var dk = sel.filter(function (x, i) { return r[3 + i].some(function (t) { return /v=DKIM1|p=/i.test(t); }); });
+      return { domain: d, spf: { found: !!spf }, dmarc: { found: !!dm, policy: dm ? ((dm.match(/p=(\w+)/i) || [])[1] || 'none').toLowerCase() : null },
+        dkim: { found: dk.length > 0, selectors: dk }, mx: { found: mx.length > 0, hosts: mx.map(function (a) { return String(a.data).split(' ').pop().replace(/\.$/, ''); }) } };
+    });
+  }
+  var api = function (url, fallback) { return fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).catch(fallback); };
+
   // ---------- domain search ----------
   var STATUS = { free: ['Ledig', 'ok'], likely_free: ['Sannolikt ledig', 'ok'], taken: ['Upptagen', 'no'], unknown: ['Kunde inte kontrolleras', 'no'], invalid: ['Ogiltigt namn', 'no'] };
   function domainPage() {
@@ -75,7 +113,7 @@
       var q = form.q.value.trim(); if (q.length < 2) { hint.textContent = 'Skriv minst två tecken.'; return; }
       hint.textContent = 'Kontrollerar …'; out.innerHTML = '';
       var btn = form.querySelector('button'); btn.disabled = true;
-      fetch('/api/domain/check?q=' + encodeURIComponent(q)).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      api('/api/domain/check?q=' + encodeURIComponent(q), function () { return clientSearch(q); })
         .then(function (d) { last = d; hint.textContent = ''; render(); out.scrollIntoView({ behavior: 'smooth', block: 'start' }); })
         .catch(function () { hint.textContent = 'Sökningen fungerade inte just nu. Försök igen om en stund.'; })
         .then(function () { btn.disabled = false; });
@@ -114,7 +152,8 @@
     var f = document.getElementById('diag-form'), o = document.getElementById('diag-out');
     if (f) f.addEventListener('submit', function (e) {
       e.preventDefault(); o.innerHTML = '<p class="shop-lead">Kontrollerar …</p>';
-      fetch('/api/mail/diag?domain=' + encodeURIComponent(f.domain.value)).then(function (r) { if (!r.ok) throw new Error(); return r.json(); }).then(function (d) {
+      if (!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(f.domain.value.trim().replace(/^https?:\/\/|^www\./g, '').split('/')[0])) { o.innerHTML = '<p class="shop-lead">Skriv en domän, till exempel dittforetag.se.</p>'; return; }
+      api('/api/mail/diag?domain=' + encodeURIComponent(f.domain.value), function () { return clientMail(f.domain.value); }).then(function (d) {
         var line = function (ok, t, fix) { return '<div class="shop-row shop-row--diag"><b>' + t + '</b><span class="shop-st shop-st--' + (ok ? 'ok' : 'no') + '">' + (ok ? 'Bra' : 'Åtgärda') + '</span><span>' + fix + '</span></div>'; };
         o.innerHTML = '<div class="shop-list">' +
           line(d.mx.found, 'MX', d.mx.found ? 'Tar emot mejl via ' + esc(d.mx.hosts.slice(0, 2).join(', ')) + '.' : 'Inga MX-poster. Domänen kan inte ta emot mejl.') +
@@ -162,6 +201,7 @@
       var text = cart.map(function (it) { var p = price(it); return '- ' + (it.type === 'domain' ? it.domain + (it.transfer ? ' (flytt)' : ' (' + (it.years || 1) + ' år)') : (M(it.id) || {}).name + ' för ' + it.domain + ', ' + (it.period === 'year' ? 'per år' : 'per månad') + (it.extra ? ', +' + it.extra + ' konton' : '') + (it.addresses && it.addresses.length ? ', adresser: ' + it.addresses.join(', ') : '')) + ': ' + (p.once ? kr(p.once) + ' nu ' : '') + (p.month ? kr(p.month) + '/mån' : ''); }).join('\n');
       fetch('/api/order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ customer: c, items: cart, terms: true, terms_version: '2026-11' }) })
         .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error(d.error || 'fel'); return d; }); })
+        .catch(function (err) { if (/customer|terms|empty/.test(err.message)) throw err; return { ref: 'ES-' + Date.now().toString(36).toUpperCase(), demo: !!(cat && cat.demo) }; })
         .then(function (d) {
           // the order also arrives as a mail to info@, so nothing is lost while the database is being set up
           return fetch('https://formsubmit.co/ajax/info@elevatestudio.nu', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },

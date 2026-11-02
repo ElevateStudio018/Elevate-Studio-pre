@@ -1092,3 +1092,38 @@ h2, h3 { margin: 0; font-weight: 400; }
 .promo2__msg { display: grid; gap: 2px; padding: 12px 14px; margin-top: 6px; border-radius: 14px; background: #fff; font-size: 14px; }
 .promo2__msg span { color: #6b736d; font-size: 13px; }
 @media (max-width: 900px) { .promo2 { grid-template-columns: 1fr; } .promo2__card { min-height: 0; padding: 28px 24px 0; } .promo2__card h2 { font-size: 30px; } .promo2__ui--mail { margin-left: 0; } }
+/* Mail card: a webmail window with a glass calendar over the corner */
+.promo2__card--wide { min-height: 520px; overflow: hidden; }
+.wm { position: relative; margin-top: auto; height: 330px; }
+.wm__win { position: absolute; right: -40px; bottom: 0; left: 14%; height: 310px; overflow: hidden; border-radius: 18px 18px 0 0; background: #fff; color: #16241b; font-size: 11px; box-shadow: 0 -20px 60px -20px rgba(0, 0, 0, .5); }
+.wm__bar { display: flex; gap: 16px; align-items: center; padding: 10px 14px; border-bottom: 1px solid #eef0ec; }
+.wm__logo { font-size: 15px; letter-spacing: -.02em; }
+.wm__logo span { color: #2f7d4f; }
+.wm__search { flex: 1; max-width: 300px; padding: 6px 10px; border-radius: 8px; background: #f2f4f1; color: #8a8f88; }
+.wm__acc { margin-left: auto; color: #4f5a53; }
+.wm__tools { display: flex; gap: 16px; padding: 7px 14px; border-bottom: 1px solid #eef0ec; color: #4f5a53; }
+.wm__body { display: grid; grid-template-columns: 120px 1fr 1.1fr; height: 100%; }
+.wm__side { display: grid; align-content: start; gap: 4px; padding: 10px; border-right: 1px solid #eef0ec; }
+.wm__side span { padding: 6px 8px; border-radius: 8px; }
+.wm__side .on { background: #e3ece4; font-weight: 600; }
+.wm__side i { float: right; font-style: normal; color: #2f7d4f; }
+.wm__compose { margin-bottom: 6px; background: #d4e85a; color: #16301f; font-weight: 700; text-align: center; }
+.wm__list { padding: 10px; border-right: 1px solid #eef0ec; }
+.wm__h { margin: 0 0 8px; font-size: 14px; font-weight: 700; }
+.wm__m { display: grid; gap: 1px; padding: 8px; border-bottom: 1px solid #f0f1ee; }
+.wm__m b { font-weight: 600; } .wm__m small { color: #8a8f88; } .wm__m em { justify-self: start; margin-top: 3px; padding: 1px 8px; border: 1px solid #d9ddd6; border-radius: 999px; font-style: normal; }
+.wm__m--new b::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 5px; border-radius: 50%; background: #2f7d4f; }
+.wm__m--sel { height: 34px; border-radius: 6px; background: #e3f0d0; }
+.wm__read { padding: 12px 14px; }
+.wm__read p { margin: 0 0 8px; color: #4f5a53; }
+.wm__from { display: flex; gap: 8px; align-items: center; margin: 0 0 10px; }
+.wm__from i { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #1d3b2a; color: #fff; font-style: normal; font-weight: 700; }
+.wm__from small { display: block; color: #8a8f88; }
+.wm__acts { display: flex; gap: 14px; margin-top: 12px; color: #4f5a53; }
+.wm__cal { position: absolute; left: 0; bottom: 0; width: 240px; padding: 16px 16px 10px; border: 1px solid rgba(255, 255, 255, .35); border-radius: 22px 22px 0 0; background: rgba(220, 230, 222, .55); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #fff; text-align: center; }
+.wm__cal p { margin: 0 0 8px; font-size: 20px; font-weight: 600; }
+.wm__days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; font-size: 13px; }
+.wm__days b { font-weight: 500; opacity: .8; }
+.wm__days i { padding: 4px 0; border-radius: 8px; background: rgba(255, 255, 255, .18); font-style: normal; }
+.wm__days i.on { background: #3cc2b0; font-weight: 700; }
+@media (max-width: 900px) { .wm { height: 280px; } .wm__win { left: 22%; right: -120px; } .wm__body { grid-template-columns: 90px 1fr 1fr; } .wm__cal { width: 170px; } .wm__days { font-size: 10px; } }
