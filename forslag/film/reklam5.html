@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Elevate – reklamfilm 5</title>
+<style>
+@font-face{font-family:H;src:url(../../assets/fonts/HankenGrotesk-latin.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:F;src:url(../../assets/fonts/Fraunces-latin.woff2) format('woff2');font-style:italic;font-weight:100 900}
+*{box-sizing:border-box;margin:0}
+html,body{width:1280px;height:720px;overflow:hidden;background:#0d1d14;font-family:H,system-ui,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:1280px;height:720px;overflow:hidden;background:radial-gradient(60% 80% at 70% 30%,#1f4a33,transparent 70%),#0d1d14}
+.glow{position:absolute;border-radius:50%;pointer-events:none;filter:blur(60px);mix-blend-mode:screen}
+.vig{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 50%,transparent 55%,rgba(0,0,0,.45))}
+.grain{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:3px 3px}
+.light{position:absolute;inset:0;background:linear-gradient(160deg,#f6fbf4,#dcefdf);opacity:0}
+.layer{position:absolute;inset:0;opacity:0}.c{display:grid;place-items:center}
+.word{font-weight:700;letter-spacing:-.035em;line-height:1}
+.hl{display:inline-block;padding:0 .16em;border-radius:.14em;background:#8fd3a6;color:#0f2418}
+.serif{font-family:F,serif;font-style:italic;font-weight:400;letter-spacing:0}
+.cap{position:absolute;left:0;right:0;top:34px;text-align:center;font-size:38px}
+.win{position:absolute;border-radius:14px;overflow:hidden;box-shadow:0 50px 100px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08);background:#fff}
+.bar{height:34px;display:flex;align-items:center;gap:8px;padding:0 14px;background:#232725;font-size:13px;color:#a7aea9}.bar i{width:12px;height:12px;border-radius:50%}.bar .t{flex:1;text-align:center;margin-right:60px}
+.url{flex:1;margin:0 40px 0 16px;padding:5px 14px;border-radius:8px;background:#151816;color:#cfd6d1;text-align:center;font-size:13px}
+.term{background:#0b0f0d;font:13.5px/1.5 ui-monospace,Menlo,Consolas,monospace;color:#b9c7be;padding:14px 18px;height:calc(100% - 34px);overflow:hidden;white-space:pre-wrap;word-break:break-all}
+.term .r{color:#ff7b7b}.term .y{color:#e8c97a}.term .b{color:#8fb8f0}.term .g{color:#8fd3a6}.term .m{color:#d49cf0}
+.err{position:absolute;padding:12px 16px;border-radius:12px;background:#2a0f0f;border:1px solid #ff6b6b;color:#ffb3b3;font:600 14px/1.3 ui-monospace,Menlo,monospace;box-shadow:0 20px 40px -10px rgba(255,0,0,.4);opacity:0}
+.view{position:relative;height:calc(100% - 34px);overflow:hidden;background:#fff}
+.page{position:absolute;left:0;top:0;width:100%;}
+.page img{display:block;width:100%}
+.pill{display:flex;align-items:center;width:700px;height:74px;padding:0 10px 0 30px;border-radius:999px;background:#fff;color:#16241b;font-size:24px;box-shadow:0 0 0 8px rgba(143,211,166,.16),0 30px 60px -20px rgba(0,0,0,.6)}
+.pill .tx{flex:1}.pill .go{padding:0 32px;height:56px;display:grid;place-items:center;border-radius:999px;background:#1d3b2a;color:#fff;font-weight:700;font-size:20px}
+.card{position:absolute;background:#fff;color:#16241b;border-radius:20px;box-shadow:0 40px 80px -30px rgba(0,0,0,.6)}
+.row{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid #eef0ed;font-size:18px}.row:last-child{border:0}.row b{flex:1}
+.free{color:#2f7d4f;font-weight:700;font-size:12px;padding:3px 9px;border-radius:999px;background:#e3efe6}
+.add{padding:7px 14px;border-radius:999px;border:2px solid #1d3b2a;font-weight:700;font-size:13px}
+.cart{position:absolute;right:44px;top:30px;display:flex;align-items:center;gap:10px;padding:11px 18px;border-radius:999px;background:#fff;color:#1d3b2a;font-weight:700;font-size:17px;box-shadow:0 20px 40px -16px rgba(0,0,0,.5)}
+.cart i{display:grid;place-items:center;min-width:26px;height:26px;border-radius:999px;background:#1d3b2a;color:#fff;font-style:normal;font-size:14px}
+.pack{position:absolute;left:250px;top:470px;width:780px;padding:20px 24px;border-radius:20px;background:#1d3b2a;color:#fff;display:flex;align-items:center;gap:20px;box-shadow:0 0 0 1px rgba(143,211,166,.4),0 30px 60px -20px rgba(0,0,0,.6),0 0 60px rgba(143,211,166,.25)}
+.pack b{font-size:20px}.pack p{font-size:14px;color:#c9d8cd;margin-top:4px}.pack .pr{margin-left:auto;text-align:right;white-space:nowrap}.pack .pr b{font-size:26px;display:block}.pack .pr small{color:#a9c4b1}
+.pack .bt{padding:11px 18px;border-radius:999px;background:#8fd3a6;color:#0f2418;font-weight:700;white-space:nowrap}
+.check{display:grid;place-items:center;width:110px;height:110px;border-radius:50%;background:#8fd3a6;color:#0f2418;font-size:64px;font-weight:700;box-shadow:0 0 60px rgba(143,211,166,.6)}
+/* striped grey over everything except the form section */
+.stripes{position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(40,44,42,.62) 0 14px,rgba(70,76,72,.62) 14px 28px);pointer-events:none;opacity:0}
+.lform{position:absolute;left:50%;width:520px;transform:translateX(-50%);padding:22px 24px;border-radius:18px;background:#fff;color:#16241b;box-shadow:0 0 0 4px #8fd3a6,0 30px 60px -20px rgba(0,0,0,.5)}
+.lform .hd{display:flex;align-items:center;gap:10px}.lform .hd i{width:24px;height:24px;border-radius:7px;background:#1f4d36}.lform .hd b{font-size:19px;color:#1f4d36}
+.lbl{font-size:12px;color:#6b736d;margin:10px 0 5px;font-weight:700}
+.svc{display:flex;flex-wrap:wrap;gap:7px}.svc span{padding:7px 13px;border-radius:999px;border:1.5px solid #d9dde1;font-size:14px;font-weight:600}.svc span.on{background:#1f4d36;border-color:#1f4d36;color:#fff}
+.fld{padding:9px 12px;border-radius:10px;border:1.5px solid #d9dde1;font-size:15px;min-height:40px}
+.send{margin-top:12px;padding:11px;border-radius:999px;background:#1f4d36;color:#fff;text-align:center;font-weight:700}
+.pkt{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:12px;background:#8fd3a6;color:#0f2418;display:grid;place-items:center;font-weight:800;box-shadow:0 0 30px rgba(143,211,166,.9);opacity:0;z-index:20}
+/* mail window */
+.mail{display:grid;grid-template-columns:150px 1fr;height:calc(100% - 34px);color:#16241b;font-size:14px}
+.mail nav{background:#f7f9f6;padding:12px 8px}.mail nav span{display:block;padding:7px 10px;border-radius:0 999px 999px 0}.mail nav span.on{background:#e3ece4;font-weight:700}
+.mrow{display:flex;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid #eef0ec}.mrow .av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#2f6b4a;color:#fff;font-size:12px;font-weight:800}.mrow b{display:block}.mrow span{color:#6b736d;font-size:13px}
+.mnew{background:#eef6f0}
+.reply{margin:12px 14px;padding:12px;border:1.5px solid #1d3b2a;border-radius:12px;min-height:70px}
+.sendbtn{display:inline-block;margin:0 14px;padding:9px 18px;border-radius:999px;background:#1d3b2a;color:#fff;font-weight:700}
+/* test + AI */
+.res{position:absolute;left:60px;top:120px;width:500px;padding:22px 24px}
+.res li{list-style:none;display:flex;gap:10px;padding:9px 0;border-bottom:1px solid #eef0ec;font-size:15px}.res li i{font-style:normal;color:#c2412d;font-weight:800}
+.copy{display:inline-block;margin-top:14px;padding:10px 18px;border-radius:999px;background:#1d3b2a;color:#fff;font-weight:700}
+.chip{position:absolute;padding:9px 16px;border-radius:999px;background:#8fd3a6;color:#0f2418;font-weight:800;font-size:15px;box-shadow:0 14px 30px -10px rgba(0,0,0,.5);opacity:0;z-index:30;white-space:nowrap}
+.adm{display:grid;grid-template-columns:140px 1fr;height:calc(100% - 34px);color:#16241b}
+.adm nav{background:#1f4d36;color:#c9d8cd;padding:12px 8px;font-size:13px}.adm nav span{display:block;padding:7px 10px;border-radius:8px}.adm nav span.on{background:#fff;color:#1f4d36;font-weight:700}
+.adm main{padding:12px;background:#f7f8f7;position:relative}
+.ask{display:flex;gap:8px;padding:10px 12px;border-radius:999px;border:2px solid #dfe5de;background:#fff;font-size:14px;color:#6b736d}.ask.on{border-color:#1f4d36;box-shadow:0 0 0 4px rgba(143,211,166,.4)}
+.act{display:flex;gap:10px;align-items:center;padding:8px 10px;margin-top:6px;border-radius:10px;background:#f1f6f2;font-size:13px;opacity:0}.act b{flex:1}.act em{font-style:normal;color:#2f7d4f;font-weight:800}
+.mini{margin-top:10px;border-radius:12px;overflow:hidden;position:relative;height:200px;background:#000 url(img/lindvik-page.jpg) top/100% auto no-repeat}
+.mini h3{position:absolute;left:16px;top:126px;width:300px;font-size:22px;line-height:1.05;color:#fff;font-weight:800;letter-spacing:-.02em;border-radius:6px}
+.mini .cover{position:absolute;left:0;top:118px;width:360px;height:76px;background:linear-gradient(90deg,rgba(24,34,28,.97) 70%,rgba(24,34,28,0))}
+.tip{position:absolute;width:330px;padding:12px 14px;border-radius:12px;background:#fff;color:#16241b;font-size:13px;box-shadow:0 20px 40px -12px rgba(0,0,0,.55);opacity:0;z-index:25}
+.tip .new{color:#1f7a45;font-weight:800}.tip .old{color:#c2412d;text-decoration:line-through}.tip p{margin-top:6px}.tip small{display:block;margin-top:8px;color:#4f5a53}
+.money{position:absolute;left:80px;top:130px;width:1120px;height:500px;padding:30px 34px;border-radius:26px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(14px);box-shadow:0 40px 90px -30px rgba(0,0,0,.7)}
+.money small{color:#a9c4b1;font-size:15px;letter-spacing:.12em}.money .big{font-size:88px;font-weight:700;letter-spacing:-.035em;line-height:1;margin-top:8px}.money .big i{font-style:normal;color:#8fd3a6}
+.money .d{display:inline-block;margin:12px 0 0;padding:6px 14px;border-radius:999px;background:rgba(143,211,166,.18);color:#8fd3a6;font-weight:700;font-size:17px}
+.money svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:270px}
+.deal{position:absolute;right:34px;padding:10px 16px;border-radius:14px;background:#fff;color:#16241b;font-size:15px;font-weight:700;box-shadow:0 20px 40px -18px rgba(0,0,0,.5);opacity:0;white-space:nowrap}.deal i{font-style:normal;color:#2f7d4f}
+.tg{display:inline-block;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(143,211,166,.5);font-size:20px;font-weight:600;margin:0 5px}
+.cursor{position:absolute;left:0;top:0;width:66px;height:66px;z-index:60;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5))}
+.ripple{position:absolute;z-index:59;width:80px;height:80px;margin:-40px 0 0 -40px;border-radius:50%;border:3px solid #8fd3a6;opacity:0}
+.flash{position:absolute;inset:0;background:#8fd3a6;opacity:0;mix-blend-mode:screen;pointer-events:none;z-index:70}
+</style></head><body>
+<div id="stage">
+  <div id="glows"></div><div class="vig"></div><div class="grain"></div><div class="light" id="light"></div>
+
+  <div class="layer c" id="s0"><p class="word" id="w0" style="font-size:140px"></p></div>
+
+  <div class="layer" id="s1">
+    <p class="word cap" id="q1" style="top:44px;font-size:50px">Göra allt <span class="serif">själv?</span></p>
+    <div class="win" id="tw" style="left:120px;top:130px;width:1040px;height:520px;background:#0b0f0d"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="t">zsh — dns · ssl · smtp · nginx · docker</span></div><div class="term" id="term"></div></div>
+    <div class="err" id="e1" style="left:170px;top:420px">✖ ERR_SSL_PROTOCOL_ERROR</div>
+    <div class="err" id="e2" style="left:740px;top:190px">✖ 550 5.7.1 SPF fail – mejlet studsade</div>
+    <div class="err" id="e3" style="left:460px;top:560px">✖ DNS_PROBE_FINISHED_NXDOMAIN</div>
+    <div class="err" id="e4" style="left:830px;top:470px">✖ 502 Bad Gateway</div>
+    <p class="word" id="q2" style="position:absolute;inset:0;display:grid;place-items:center;font-size:140px;color:#ffb3b3;opacity:0">Krångligt.</p>
+  </div>
+
+  <div class="layer c" id="s2"><div style="text-align:center"><p class="word" id="w2" style="font-size:112px">Lämna det till <span class="hl" id="w2h">oss.</span></p><p id="w3" style="font-size:28px;margin-top:22px;opacity:.85">Vi kodar. Ni får kunderna.</p></div></div>
+
+  <!-- build Lindvik: hero, then the services below it -->
+  <div class="layer" id="s3"><p class="word cap" id="s3t">Vi bygger er <span class="hl">hemsida.</span></p>
+    <div class="win" id="cw" style="left:40px;top:110px;width:440px;height:540px;background:#0b0f0d"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="t">elevate — lindvik-bygg</span></div><div class="term" id="code" style="font-size:12.5px"></div></div>
+    <div class="win" id="bw" style="left:500px;top:100px;width:740px;height:570px"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="url">lindvikbygg.se</span></div>
+      <div class="view"><div class="page" id="lpage"><img src="img/lindvik-page.jpg" alt=""></div><div id="lcov" style="position:absolute;inset:0;background:#f4f6f3"></div></div></div>
+  </div>
+
+  <!-- domain + mail -->
+  <div class="layer" id="s4">
+    <div class="cart" id="cart">Varukorg <i id="cartn">0</i></div>
+    <div id="dom" style="position:absolute;left:0;right:0;top:80px;display:flex;flex-direction:column;align-items:center">
+      <p class="word" style="font-size:50px;font-weight:500;margin-bottom:20px">Domän och mejl <span class="serif">på köpet</span></p>
+      <div class="pill" id="dpill"><span class="tx"><span id="dt"></span><span id="dph" style="color:#8a918c">dittforetag</span></span><span class="go" id="dgo">Sök</span></div>
+      <div class="card" id="dres" style="position:relative;width:700px;margin-top:12px;padding:2px 22px;opacity:0">
+        <div class="row" data-r><b>dittforetag<span style="color:#2f7d4f">.se</span></b><span class="free">Ledig</span><span>149 kr</span><span class="add" id="dadd">Lägg till</span></div>
+        <div class="row" data-r><b>dittforetag.nu</b><span class="free">Ledig</span><span>149 kr</span><span class="add">Lägg till</span></div>
+        <div class="row" data-r><b>dittforetag.com</b><span class="free">Ledig</span><span>169 kr</span><span class="add">Lägg till</span></div>
+        <div class="row" data-r><b>dittforetag.eu</b><span class="free">Ledig</span><span>129 kr</span><span class="add">Lägg till</span></div>
+        <div class="row" data-r><b>dittforetag.net</b><span class="free">Ledig</span><span>189 kr</span><span class="add">Lägg till</span></div>
+      </div>
+    </div>
+    <div class="pack" id="pack" style="opacity:0"><div><b>dittforetag.se + info@dittforetag.se</b><p>Domän och företagsmejl med 5 konton – klart samma dag.</p></div><div class="pr"><b>149 kr</b><small>+ 199 kr/mån</small></div><span class="bt" id="pbt">Lägg till paketet</span></div>
+    <div class="c" id="okw" style="position:absolute;inset:0;opacity:0"><div style="text-align:center"><div class="check" id="check" style="margin:0 auto">✓</div><p class="word" style="font-size:42px;margin-top:22px">Beställt. <span class="hl">Vi fixar resten.</span></p></div></div>
+  </div>
+
+  <!-- the customer's website: scroll to the form, the rest greyed out -->
+  <div class="layer" id="s5"><p class="word cap" id="s5t">Kunderna hittar er <span class="hl">hemsida…</span></p>
+    <div class="win" id="sw" style="left:150px;top:96px;width:980px;height:594px"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="url">lindvikbygg.se</span></div>
+      <div class="view" id="sview"><div class="page" id="spage"><img src="img/lindvik-page.jpg" alt=""></div><div class="stripes" id="str"></div>
+        <div class="lform" id="lf" style="top:120px;opacity:0"><div class="hd"><i></i><b>Begär offert</b></div>
+          <p class="lbl">Vad gäller det?</p><div class="svc"><span>Nybygge</span><span id="v1">Renovering</span><span>Tillbyggnad</span><span>Tak</span></div>
+          <p class="lbl">Beskriv kort</p><div class="fld" id="fm"></div><p class="lbl">Namn och e-post</p><div class="fld" id="fn"></div><div class="send" id="send">Skicka förfrågan</div></div>
+      </div></div>
+    <div class="pkt" id="pkt">✉</div>
+  </div>
+
+  <!-- Elevate Mejl: the request arrives, a short reply -->
+  <div class="layer" id="s6"><p class="word cap" id="s6t">…och förfrågan landar i <span class="hl">Elevate Mejl.</span></p>
+    <div class="win" id="mw" style="left:190px;top:110px;width:900px;height:560px"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="url">elevatestudio.nu/mail · info@lindvikbygg.se</span></div>
+      <div class="mail"><nav><span class="on">Inkorg <b id="mcount">1</b></span><span>Skickat</span><span>Offerter</span><span>Kontakter</span></nav>
+        <div><div class="mrow mnew" id="mnew"><span class="av">KL</span><div style="flex:1"><b>Karin Lund · Renovering</b><span>Renovera badrum och tvättstuga, ca 8 kvm. Kan ni komma och titta?</span></div><span>nu</span></div>
+          <div class="mrow"><span class="av" style="background:#6b8f7a">JB</span><div style="flex:1"><b>Johan Berg</b><span>Tack för offerten!</span></div><span>igår</span></div>
+          <div id="rbox" style="opacity:0"><div class="reply" id="rtext"></div><span class="sendbtn" id="rsend">Skicka</span></div></div></div></div>
+  </div>
+
+  <!-- test the site, copy the points, the AI fixes them on the page -->
+  <div class="layer" id="s7"><p class="word cap" id="s7t">Testa sajten. <span class="hl">AI:n fixar resten.</span></p>
+    <div class="card res" id="res"><b style="font-size:20px">Testa din sajt · lindvikbygg.se</b><p style="color:#6b736d;font-size:14px;margin:4px 0 8px">3 saker kan bli bättre</p>
+      <ul style="padding:0"><li><i>!</i>Rubriken saknar sökordet "byggföretag Borås"</li><li><i>!</i>Metabeskrivning saknas på startsidan</li><li><i>!</i>2 bilder saknar alt-text</li></ul>
+      <span class="copy" id="copy">Kopiera punkterna</span></div>
+    <div class="win" id="aw" style="left:600px;top:100px;width:630px;height:560px;opacity:0"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="url">lindvikbygg.se/admin</span></div>
+      <div class="adm"><nav><span>Översikt</span><span class="on">Sidor</span><span>Förfrågningar</span><span>Projekt</span><span>Bilder</span></nav>
+        <main><div class="ask" id="ask"><span>✦</span><span id="asktx">Skriv vad du vill göra …</span></div>
+          <div class="act" id="a1"><b>Rubrik: "Byggföretag i Borås – vi bygger det Västsverige växer i"</b><em>✓</em></div>
+          <div class="act" id="a2"><b>Metabeskrivning: "Byggföretag i Borås sedan 1987 …"</b><em>✓</em></div>
+          <div class="act" id="a3"><b>Alt-text på 2 bilder</b><em>✓</em></div>
+          <div class="mini"><div class="cover"></div><h3 id="mh">Vi bygger det Västsverige växer i</h3></div></main></div></div>
+    <div class="chip" id="chip">📋 3 förbättringar</div>
+    <div class="tip" id="tip"><b>Ändrat av AI-assistenten</b><p class="new">+ Byggföretag i Borås – vi bygger det Västsverige växer i</p><p class="old">− Vi bygger det Västsverige växer i</p><small>Varför: rubriken innehåller nu sökordet "byggföretag Borås", som fler söker på.</small></div>
+  </div>
+
+  <!-- quick: everything in the admin -->
+  <div class="layer" id="s8"><p class="word cap" id="s8t">Och ni ändrar <span class="hl">allt själva.</span></p>
+    <div class="win" id="xw" style="left:190px;top:110px;width:900px;height:560px"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="url">lindvikbygg.se/admin</span></div>
+      <div class="adm" style="grid-template-columns:180px 1fr"><nav id="xnav"><span>Översikt</span><span>Sidor och texter</span><span>Förfrågningar</span><span>Projekt</span><span>Bilder</span><span>Tjänster</span><span>Inställningar</span></nav><main id="xmain" style="font-size:15px"></main></div></div></div>
+
+  <!-- revenue: counts quickly to 112 954 kr and stops -->
+  <div class="layer" id="s9"><p class="word cap" id="s9t">…och förfrågningarna blir <span class="hl">affärer.</span></p><div class="money" id="mon"><small>OMSÄTTNING FRÅN HEMSIDAN</small><p class="big" id="rev">0 <i>kr</i></p><span class="d" id="dl">▲ +0 %</span>
+      <svg viewBox="0 0 1120 270" preserveAspectRatio="none"><defs><linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3a6" stop-opacity=".5"/><stop offset="1" stop-color="#8fd3a6" stop-opacity="0"/></linearGradient></defs><path id="fill" fill="url(#gf)"/><path id="line" fill="none" stroke="#8fd3a6" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><circle id="dot" r="8" fill="#d9f2a6"/></svg>
+      <div class="deal" id="d0" style="top:30px">Offert accepterad · Badrum <i>+38 500 kr</i></div><div class="deal" id="d1" style="top:80px">Offert accepterad · Tillbyggnad <i>+52 000 kr</i></div><div class="deal" id="d2" style="top:130px">Offert accepterad · Tak <i>+22 454 kr</i></div></div></div>
+
+  <div class="layer c" id="s10"><div style="text-align:center"><p class="word" id="a1x" style="font-size:100px">Allt på <span class="hl" id="ahl">ett</span> ställe.</p><div id="a3x" style="margin-top:26px"><span class="tg">Hemsida</span><span class="tg">Domän</span><span class="tg">Mejl</span><span class="tg">Adminpanel</span></div></div></div>
+
+  <div class="layer c" id="s11"><div style="text-align:center;color:#0f2418"><svg viewBox="0 0 1884.3 1353.9" style="width:130px"><path id="lp" d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="#1d3b2a" fill-opacity="0" stroke="#1d3b2a" stroke-width="30" stroke-dasharray="9000" stroke-dashoffset="9000"/></svg>
+    <p class="word" style="font-size:64px;margin-top:16px">Elevate Studio</p><p id="j1" style="font-size:26px;margin-top:12px">Hemsidor som ger kunder.</p>
+    <p id="j2" style="display:inline-block;margin-top:22px;padding:14px 28px;border-radius:999px;background:#1d3b2a;color:#fff;font-size:22px;font-weight:700">Boka gratis möte · elevatestudio.nu</p></div></div>
+
+  <div class="flash" id="flash"></div><div class="ripple" id="rip"></div>
+  <svg class="cursor" id="cur" viewBox="0 0 40 40"><path d="M6 3 L6 33 L14 25 L20 38 L26 35 L20 23 L31 23 Z" fill="#fff" stroke="#0f2418" stroke-width="2.4" stroke-linejoin="round"/></svg>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const cl=x=>Math.max(0,Math.min(1,x)),seg=(t,a,b)=>cl((t-a)/(b-a)),lerp=(a,b,x)=>a+(b-a)*x;
+const eo=x=>1-Math.pow(1-x,3),eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,back=x=>{const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const S={s0:[0,2.4],s1:[2.4,7.2],s2:[7.2,9.8],s3:[9.8,17.4],s4:[17.4,25.4],s5:[25.4,32.6],s6:[32.6,37.6],s7:[37.6,48.4],s8:[48.4,52.6],s9:[52.6,57.4],s10:[57.4,60],s11:[60,64]};
+const DUR=64;
+function vis(id,t,f=.25){const[a,b]=S[id];const v=Math.min(seg(t,a,a+f),1-seg(t,b-f,b));$(id).style.opacity=v;return v}
+const up=(el,x,d=30)=>{el.style.opacity=x;el.style.transform=`translateY(${(1-x)*d}px)`};
+const typed=(s,t,a,b)=>s.slice(0,Math.round(s.length*seg(t,a,b)));
+const wipe=(el,x)=>el.style.clipPath=`inset(0 ${100-100*eo(x)}% 0 0 round 10px)`;
+const G=[[900,700,'rgba(143,211,166,.38)',0],[700,600,'rgba(47,125,79,.7)',1.3],[420,420,'rgba(217,242,166,.2)',2.1],[520,520,'rgba(143,211,166,.3)',3.4],[360,360,'rgba(111,200,150,.35)',4.6]];
+G.forEach((g,i)=>{const d=document.createElement('div');d.className='glow';d.id='g'+i;d.style.width=g[0]+'px';d.style.height=g[1]+'px';d.style.background=`radial-gradient(circle,${g[2]},transparent 68%)`;$('glows').appendChild(d)});
+const CHAOS=`$ sudo apt install nginx certbot postfix dovecot-imapd opendkim
+$ dig +short MX dittforetag.se   <span class="r">;; connection timed out</span>
+server { listen 443 ssl http2; server_name dittforetag.se;
+  ssl_certificate /etc/letsencrypt/live/dittforetag.se/fullchain.pem;
+  location / { proxy_pass http://127.0.0.1:3000; } }
+$ certbot --nginx -d dittforetag.se   <span class="r">Challenge failed (DNS-01)</span>
+<span class="b">v=spf1 include:_spf.google.com ip4:203.0.113.9 ~all</span>   <span class="r">← syntax error</span>
+default._domainkey IN TXT "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQ…"
+$ docker compose up -d   <span class="r">ERROR: port is already allocated</span>
+<span class="m">[webpack] Module not found: Can't resolve './components/Hero'</span>
+$ npm run build   <span class="r">✖ 37 errors, 112 warnings</span>
+$ openssl s_client -connect mail.dittforetag.se:993   <span class="r">verify error:num=21</span>`;
+const BUILD=['<span class="g">$</span> elevate bygg lindvik-bygg','<span class="g">✓</span> Design och texter','<span class="g">✓</span> Mobil först','<span class="g">✓</span> SEO och AI-optimering','<span class="g">✓</span> Offertformulär → info@','<span class="g">✓</span> Adminpanel','','<span class="y">&lt;header&gt;</span> Lindvik Bygg','<span class="y">&lt;h1&gt;</span>Vi bygger det Västsverige växer i','<span class="y">&lt;section</span> <span class="b">id</span>="tjanster"<span class="y">&gt;</span>','  Bostäder · Skolor · Mark','  Träbyggnation · Byggservice','<span class="y">&lt;form</span> <span class="b">id</span>="offert"<span class="y">&gt;</span>','','<span class="g">✓ Klar</span>'];
+// cursor path: [time, element id or [x,y]]
+const CP=[[17.7,[1360,780]],[18.2,'dpill'],[18.9,'dpill'],[19.05,'dgo'],[19.3,'dgo'],[19.9,'dadd'],[20.3,'dadd'],[21.2,'pbt'],[21.7,'pbt'],[22.3,[1360,780]],
+  [26.2,[700,800]],[26.6,[640,560]],[28.4,[640,560]],[28.7,'v1'],[29.0,'v1'],[29.25,'fm'],[30.6,'fn'],[31.0,'send'],[31.4,'send'],[31.9,[700,800]],
+  [33.4,[1360,780]],[34.0,'mnew'],[34.4,'mnew'],[36.1,'rsend'],[36.5,'rsend'],[37.0,[1360,780]],
+  [38.4,[700,800]],[39.0,'copy'],[39.5,'copy'],[41.2,'ask'],[41.5,'ask'],[44.6,'mh'],[47.6,'mh'],[48.2,[1360,780]]];
+const CLICKS=[18.25,19.15,20.0,21.3,28.8,29.3,31.15,34.1,36.2,39.15,41.35];
+function pt(p){if(Array.isArray(p))return p;const r=$(p).getBoundingClientRect();return[r.left+r.width/2,r.top+r.height/2]}
+function cursorAt(t){if(t<CP[0][0]||t>CP[CP.length-1][0])return null;for(let i=0;i<CP.length-1;i++){const a=CP[i],b=CP[i+1];if(t>=a[0]&&t<=b[0]){if(b[0]-a[0]>2.5)return null;const x=eio(seg(t,a[0],b[0])),A=pt(a[1]),B=pt(b[1]);return[lerp(A[0],B[0],x),lerp(A[1],B[1],x)]}}}
+const REV=x=>{let v=0;for(let i=0;i<=x*100;i++)v+=4+Math.abs(Math.sin(i*.7))*9+Math.max(0,Math.sin(i*.23))*7;return v};
+const TOP=112954;
+function render(t){
+  G.forEach((g,i)=>{const e=$('g'+i),p=g[3];e.style.left=(640+430*Math.sin(t*.3+p*1.7)-g[0]/2)+'px';e.style.top=(360+250*Math.cos(t*.25+p*2.3)-g[1]/2)+'px';e.style.transform=`scale(${1+.18*Math.sin(t*.55+p)})`});
+  $('light').style.opacity=seg(t,59.8,60.2);
+  const fl=Object.values(S).map(s=>Math.max(0,1-Math.abs(t-s[0])/.12)).reduce((a,b)=>Math.max(a,b),0);$('flash').style.opacity=fl*.15;
+  // s0
+  vis('s0',t,.05);const W=[['Hemsida.',0],['Domän.',.55],['Mejl.',1.1],['Kunder.',1.65]];let cw=W[0];W.forEach(w=>{if(t>=w[1])cw=w});const lt=t-cw[1],w0=$('w0');w0.textContent=cw[0];
+  w0.style.opacity=seg(lt,0,.08);w0.style.transform=`scale(${.75+.25*back(seg(lt,0,.25))})`;w0.style.color=cw[0]==='Kunder.'?'#8fd3a6':'#fff';
+  // s1
+  vis('s1',t,.12);$('q1').style.opacity=Math.min(eo(seg(t,2.45,2.8)),1-seg(t,6.2,6.4));
+  const tw=$('tw'),o=back(seg(t,2.5,2.9));tw.style.opacity=Math.min(seg(t,2.5,2.6),1-seg(t,6.2,6.5));tw.style.transform=`scale(${.7+.3*o})`;
+  const L=CHAOS.split('\n');$('term').innerHTML=L.slice(0,Math.round(L.length*seg(t,2.7,5.2))).join('\n')+'<span class="g">▌</span>';
+  [[4.0,'e1'],[4.35,'e2'],[4.7,'e3'],[5.0,'e4']].forEach(([s,id])=>{const x=back(seg(t,s,s+.3)),e=$(id);e.style.opacity=Math.min(seg(t,s,s+.08),1-seg(t,6.2,6.5));e.style.transform=`scale(${.6+.4*x}) rotate(${(1-x)*8}deg)`});
+  const sh=t>5.4&&t<6.2?Math.sin(t*70)*5*(1-seg(t,5.4,6.2)):0;$('s1').style.transform=`translate(${sh}px,${sh*.6}px)`;
+  const q2=back(seg(t,6.3,6.7));$('q2').style.opacity=seg(t,6.3,6.4);$('q2').style.transform=`scale(${.6+.4*q2})`;
+  // s2
+  vis('s2',t,.2);const w2=back(seg(t,7.3,7.7));$('w2').style.opacity=seg(t,7.3,7.45);$('w2').style.transform=`scale(${.8+.2*w2})`;wipe($('w2h'),seg(t,7.7,8.1));up($('w3'),eo(seg(t,8.2,8.6)),20);$('s2').style.transform=`scale(${1+.45*seg(t,9.55,9.8)})`;
+  // s3: build the site, then scroll down to its services
+  vis('s3',t);up($('s3t'),eo(seg(t,9.9,10.3)));const cwo=back(seg(t,9.9,10.4));$('cw').style.opacity=seg(t,9.9,10);$('cw').style.transform=`perspective(1400px) rotateY(${8+(1-cwo)*20}deg) translateX(${(1-cwo)*-80}px)`;
+  const bo=back(seg(t,10.1,10.6));$('bw').style.opacity=seg(t,10.1,10.2);$('bw').style.transform=`perspective(1400px) rotateY(${-5+(1-bo)*-20}deg) translateX(${(1-bo)*80}px)`;
+  $('code').innerHTML=BUILD.slice(0,Math.round(BUILD.length*seg(t,10.3,14))).join('\n')+'<span class="g">▌</span>';
+  $('lcov').style.clipPath=`inset(${100*eio(seg(t,10.8,12.6))}% 0 0 0)`;
+  const sc=eio(seg(t,13.4,15.6));$('lpage').style.transform=`translateY(${-sc*560}px)`;
+  // s4: domain, all endings, package, order
+  vis('s4',t);$('cart').style.opacity=seg(t,17.5,17.7);
+  const dd=eo(seg(t,17.5,17.9));$('dom').style.opacity=Math.min(dd,1-seg(t,22.2,22.5));$('dom').style.transform=`translateY(${(1-dd)*30-40*eio(seg(t,20.6,21))}px) scale(${1-.08*eio(seg(t,20.6,21))})`;
+  const dn=typed('dittforetag',t,18.3,18.85);$('dt').textContent=dn;$('dph').style.display=dn?'none':'';$('dgo').style.transform=`scale(${t>19.15&&t<19.35?.92:1})`;
+  $('dres').style.opacity=seg(t,19.3,19.4);document.querySelectorAll('[data-r]').forEach((r,i)=>{const x=back(seg(t,19.35+i*.1,19.65+i*.1));r.style.opacity=seg(t,19.35+i*.1,19.5+i*.1);r.style.transform=`translateY(${(1-x)*14}px)`});
+  const da=t>20.0;$('dadd').textContent=da?'Tillagd ✓':'Lägg till';$('dadd').style.background=da?'#1d3b2a':'';$('dadd').style.color=da?'#fff':'';
+  const pk=back(seg(t,20.6,21));$('pack').style.opacity=Math.min(seg(t,20.6,20.7),1-seg(t,22.2,22.5));$('pack').style.transform=`translateY(${(1-pk)*60}px)`;
+  const pa=t>21.3;$('pbt').textContent=pa?'Tillagt ✓':'Lägg till paketet';$('pbt').style.background=pa?'#fff':'#8fd3a6';
+  $('cartn').textContent=pa?'2':da?'1':'0';const bump=[20.0,21.3].find(k=>t>k&&t<k+.35);$('cart').style.transform=`scale(${bump?1+.3*Math.sin(seg(t,bump,bump+.35)*Math.PI):1})`;
+  const ok=back(seg(t,22.5,22.9));$('okw').style.opacity=Math.min(seg(t,22.5,22.6),1-seg(t,25,25.3));$('check').style.transform=`scale(${ok})`;
+  // s5: scroll to the form on the site, everything else striped grey
+  vis('s5',t);up($('s5t'),eo(seg(t,25.5,25.9)));const sw=back(seg(t,25.5,26));$('sw').style.opacity=seg(t,25.5,25.6);$('sw').style.transform=`translateY(${(1-sw)*50}px)`;
+  const scr=eio(seg(t,26.6,28.2));$('spage').style.transform=`translateY(${-scr*1500}px)`;
+  const fz=eo(seg(t,28.1,28.6));$('str').style.opacity=fz;$('lf').style.opacity=fz;$('lf').style.transform=`translateX(-50%) scale(${.92+.08*back(fz)})`;
+  $('v1').className=t>28.8?'on':'';$('fm').textContent=typed('Renovera badrum och tvättstuga, ca 8 kvm.',t,29.3,30.5);$('fn').textContent=typed('Karin Lund · karin@exempel.se',t,30.6,31);
+  const sent=t>31.15;$('send').textContent=sent?'Skickat ✓':'Skicka förfrågan';$('send').style.background=sent?'#2f7d4f':'#1f4d36';
+  const pq=seg(t,31.3,32.4),pkt=$('pkt');if(pq>0&&pq<1){pkt.style.opacity=1-seg(t,32.2,32.4);pkt.style.left=lerp(640,1240,eio(pq))+'px';pkt.style.top=(lerp(560,80,eio(pq))-80*Math.sin(pq*Math.PI))+'px';pkt.style.transform=`rotate(${pq*360}deg)`}else pkt.style.opacity=0;
+  // s6: Elevate Mejl
+  vis('s6',t);up($('s6t'),eo(seg(t,32.7,33.1)));const mw=back(seg(t,32.7,33.2));$('mw').style.opacity=seg(t,32.7,32.8);$('mw').style.transform=`perspective(1400px) rotateX(${(1-mw)*10}deg) translateY(${(1-mw)*50}px)`;
+  const mn=back(seg(t,33.1,33.5));$('mnew').style.transform=`translateX(${(1-mn)*-60}px)`;$('mnew').style.opacity=seg(t,33.1,33.2);
+  $('rbox').style.opacity=seg(t,34.3,34.5);$('rtext').textContent=typed('Hej Karin! Tack för förfrågan. Vi kan komma och titta på torsdag kl 10. /Lindvik Bygg',t,34.5,35.9);
+  $('rsend').textContent=t>36.2?'Skickat ✓':'Skicka';$('rsend').style.background=t>36.2?'#2f7d4f':'#1d3b2a';$('mcount').textContent=t>36.2?'0':'1';
+  // s7: test → copy → AI in the admin changes the headline, hover shows old/new and why
+  vis('s7',t);up($('s7t'),eo(seg(t,37.7,38.1)));const rs=back(seg(t,37.8,38.3));$('res').style.opacity=seg(t,37.8,37.9);$('res').style.transform=`translateY(${(1-rs)*40}px)`;
+  $('copy').textContent=t>39.15?'Kopierat ✓':'Kopiera punkterna';$('copy').style.background=t>39.15?'#2f7d4f':'#1d3b2a';
+  const aw=back(seg(t,39.4,39.9));$('aw').style.opacity=seg(t,39.4,39.5);$('aw').style.transform=`translateX(${(1-aw)*80}px)`;
+  const cp=cursorAt(t),chip=$('chip');if(t>39.5&&t<41.4&&cp){chip.style.opacity=1;chip.style.left=(cp[0]+18)+'px';chip.style.top=(cp[1]+18)+'px'}else chip.style.opacity=0;
+  $('ask').className='ask'+(t>41.0&&t<44?' on':'');$('asktx').textContent=t>41.35?'Fixa de 3 punkterna från testet':'Skriv vad du vill göra …';$('asktx').style.color=t>41.35?'#16241b':'#6b736d';
+  ['a1','a2','a3'].forEach((id,i)=>{const s=42.1+i*.55,x=back(seg(t,s,s+.35)),e=$(id);e.style.opacity=seg(t,s,s+.15);e.style.transform=`translateX(${(1-x)*30}px)`});
+  const h=$('mh'),old='Vi bygger det Västsverige växer i',nw='Byggföretag i Borås – vi bygger det Västsverige växer i';
+  if(t<42.3)h.textContent=old;else if(t<42.8)h.textContent=old.slice(0,Math.round(old.length*(1-seg(t,42.3,42.8))))||'';else h.textContent=typed(nw,t,42.8,43.8);
+  h.style.background=t>42.3&&t<44.2?'rgba(143,211,166,.35)':'none';
+  const tp=eo(seg(t,44.7,45.1)),tip=$('tip'),hr=$('mh').getBoundingClientRect();tip.style.opacity=Math.min(tp,1-seg(t,47.8,48.1));tip.style.left=(hr.left+20)+'px';tip.style.top=(hr.top-150)+'px';tip.style.transform=`translateY(${(1-tp)*10}px)`;
+  // s8: everything in the admin, quickly
+  vis('s8',t);up($('s8t'),eo(seg(t,48.5,48.9)));const xw=back(seg(t,48.5,49));$('xw').style.opacity=seg(t,48.5,48.6);$('xw').style.transform=`translateY(${(1-xw)*50}px)`;
+  const VIEWS=[['Sidor och texter','<b style="font-size:20px">Sidor och texter</b><p style="margin-top:10px">Klicka på en text på hemsidan och skriv. Publicera när du är klar.</p><div class="mini" style="height:300px"><div class="cover" style="top:180px;width:520px;height:110px"></div><h3 style="top:196px;width:440px;font-size:26px">Byggföretag i Borås – vi bygger det Västsverige växer i</h3></div>'],
+    ['Projekt','<b style="font-size:20px">Projekt</b>'+['Villa Särö · Kungsbacka','Skola Onsala','Altan Tyresö'].map(x=>'<div class="mrow" style="background:#fff;margin-top:8px;border-radius:10px"><span class="av">▦</span><b>'+x+'</b></div>').join('')],
+    ['Bilder','<b style="font-size:20px">Bilder</b><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">'+['hero.jpg','p5505119.jpg','p8961064.jpg','p773843.jpg','hero.jpg','p5505119.jpg'].map(x=>'<div style="height:110px;border-radius:10px;background:url(img/'+x+') center/cover"></div>').join('')+'</div>'],
+    ['Inställningar','<b style="font-size:20px">Inställningar</b><p style="margin-top:10px">Telefon: 033-12 34 56</p><p>Öppettider: Mån–fre 7–17</p><p>Förfrågningar mejlas till: info@lindvikbygg.se</p>']];
+  const vi=Math.min(3,Math.floor(seg(t,49,52.4)*4));const vname=VIEWS[vi][0];
+  [...$('xnav').children].forEach(s=>s.className=s.textContent===vname?'on':'');if($('xmain').dataset.v!==vname){$('xmain').dataset.v=vname;$('xmain').innerHTML=VIEWS[vi][1]}
+  // s9: revenue to 112 954 kr, then it stops
+  vis('s9',t);up($('s9t'),eo(seg(t,52.7,53)));const mo=back(seg(t,52.7,53.2));$('mon').style.transform=`perspective(1400px) rotateX(${(1-mo)*10}deg) translateY(${(1-mo)*60}px)`;
+  const x=seg(t,53.1,55.6),val=x>=1?TOP:Math.round(REV(x)/REV(1)*TOP);$('rev').innerHTML=val.toLocaleString('sv-SE')+' <i>kr</i>';$('dl').textContent='▲ +'+Math.round(x*64)+' % sedan nya hemsidan';
+  $('rev').style.transform=`scale(${x>0&&x<1?1+.02*Math.sin(t*16):1})`;
+  const Wd=1120,Hh=270,N=100,P=[],mx=REV(1)*1.05;for(let i=0;i<=N*x;i++)P.push([i/N*Wd,Hh-18-REV(i/N)/mx*(Hh-40)]);
+  if(P.length>1){const d='M'+P.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');$('line').setAttribute('d',d);$('fill').setAttribute('d',d+` L${P[P.length-1][0].toFixed(1)},${Hh} L0,${Hh}Z`);const q=P[P.length-1];$('dot').setAttribute('cx',q[0]);$('dot').setAttribute('cy',q[1])}
+  [53.6,54.4,55.2].forEach((s,i)=>{const e=$('d'+i),y=back(seg(t,s,s+.3));e.style.opacity=seg(t,s,s+.1);e.style.transform=`translateX(${(1-y)*120}px)`});
+  // s10 + s11
+  vis('s10',t,.15);const a=back(seg(t,57.5,57.9));$('a1x').style.opacity=seg(t,57.5,57.6);$('a1x').style.transform=`scale(${.8+.2*a})`;wipe($('ahl'),seg(t,57.85,58.2));
+  [...$('a3x').children].forEach((c,i)=>{const y=back(seg(t,58.2+i*.1,58.5+i*.1));c.style.opacity=seg(t,58.2+i*.1,58.3+i*.1);c.style.transform=`translateY(${(1-y)*24}px)`});$('s10').style.transform=`scale(${1+.4*seg(t,59.7,60)})`;
+  vis('s11',t,.3);$('lp').style.strokeDashoffset=9000*(1-eio(seg(t,60.1,61)));$('lp').style.fillOpacity=seg(t,60.7,61.1);up($('j1'),eo(seg(t,61,61.4)),20);const j2=back(seg(t,61.5,61.9));$('j2').style.opacity=seg(t,61.5,61.6);$('j2').style.transform=`scale(${j2})`;
+  // cursor
+  const cu=$('cur');if(cp){cu.style.opacity=1;cu.style.transform=`translate(${cp[0]-8}px,${cp[1]-6}px) scale(${CLICKS.some(k=>t>=k-.05&&t<k+.09)?.8:1})`}else cu.style.opacity=0;
+  const rp=CLICKS.find(k=>t>=k&&t<k+.4),rip=$('rip');if(rp!==undefined&&cp){const q=seg(t,rp,rp+.4);rip.style.opacity=1-q;rip.style.left=cp[0]+'px';rip.style.top=cp[1]+'px';rip.style.transform=`scale(${.3+q})`}else rip.style.opacity=0;
+}
+window.render=render;window.DUR=DUR;
+if(!/capture/.test(location.search)){let t0=performance.now();(function loop(){render(((performance.now()-t0)/1000)%DUR);requestAnimationFrame(loop)})()}
+</script>
+</body></html>
