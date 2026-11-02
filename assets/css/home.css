@@ -1071,3 +1071,6 @@ h2, h3 { margin: 0; font-weight: 400; }
 .clients-fake .clients-fake__tag { background: #b42318; color: #fff; font-size: 13px; padding: 6px 14px; }
 .clients-fake__text { margin: 0; max-width: 560px; font-size: 16px; font-weight: 600; color: #b42318; }
 .clients-fake__foot { margin: 40px auto 0; font-weight: 600; color: #b42318; }
+.clients-real { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 72px; margin: 0 auto 56px; }
+.clients-real img { display: block; width: auto; height: 64px; max-width: 260px; }
+@media (max-width: 768px) { .clients-real { gap: 36px; } .clients-real img { height: 44px; } }
