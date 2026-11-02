@@ -995,3 +995,4 @@ select.portal-company { font-size: 20px; }
 .portal-dom .btn { background: #1d3b2a !important; color: #fff !important; }
 .portal-top { margin-top: 8px; }
 .portal-promo { grid-template-columns: 1fr 1fr; } .portal-promo--one { grid-template-columns: 1fr; } @media (max-width: 900px) { .portal-promo { grid-template-columns: 1fr; } }
+.shop-diag input { min-width: 0; } .shop-diag .btn { flex: none; }

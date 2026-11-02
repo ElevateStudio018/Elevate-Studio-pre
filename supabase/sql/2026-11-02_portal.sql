@@ -109,3 +109,20 @@ create policy "own notifications read" on public.notifications for update to aut
 
 drop policy if exists "own requests" on public.data_requests;
 create policy "own requests" on public.data_requests for all to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+-- Customers may only change what the portal offers: auto-renew on a service, and open/resolved on a ticket.
+-- Everything else (price, status, company, priority) is for admins only, whatever the request contains.
+create or replace function public.guard_customer_update() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if public.is_admin() then return new; end if;
+  if tg_table_name = 'services' then
+    if (to_jsonb(new) - 'auto_renew') is distinct from (to_jsonb(old) - 'auto_renew') then raise exception 'Bara automatisk förnyelse kan ändras'; end if;
+  elsif tg_table_name = 'tickets' then
+    if (to_jsonb(new) - 'status') is distinct from (to_jsonb(old) - 'status') or new.status not in ('open','resolved') then raise exception 'Bara status kan ändras'; end if;
+  end if;
+  return new;
+end $$;
+drop trigger if exists guard_services on public.services;
+create trigger guard_services before update on public.services for each row execute function public.guard_customer_update();
+drop trigger if exists guard_tickets on public.tickets;
+create trigger guard_tickets before update on public.tickets for each row execute function public.guard_customer_update();

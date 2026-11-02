@@ -165,6 +165,8 @@
     });
   }
 
+  // one key per checkout, kept until the order has gone through (a retry or double click gives the same order)
+  function orderKey() { var k = null; try { k = sessionStorage.getItem('es.orderkey'); if (!k) { k = Date.now().toString(36) + Math.random().toString(36).slice(2, 8); sessionStorage.setItem('es.orderkey', k); } } catch (e) { k = Date.now().toString(36) + Math.random().toString(36).slice(2, 8); } return k; }
   // ---------- checkout ----------
   function checkout() {
     var view = document.getElementById('cart-view'); if (!view) return;
@@ -199,7 +201,7 @@
       if (!form.terms.checked) { st.hidden = false; st.textContent = 'Godkänn villkoren för att skicka beställningen.'; return; }
       btn.disabled = true; st.hidden = false; st.textContent = 'Skickar …';
       var text = cart.map(function (it) { var p = price(it); return '- ' + (it.type === 'domain' ? it.domain + (it.transfer ? ' (flytt)' : ' (' + (it.years || 1) + ' år)') : (M(it.id) || {}).name + ' för ' + it.domain + ', ' + (it.period === 'year' ? 'per år' : 'per månad') + (it.extra ? ', +' + it.extra + ' konton' : '') + (it.addresses && it.addresses.length ? ', adresser: ' + it.addresses.join(', ') : '')) + ': ' + (p.once ? kr(p.once) + ' nu ' : '') + (p.month ? kr(p.month) + '/mån' : ''); }).join('\n');
-      fetch('/api/order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ customer: c, items: cart, terms: true, terms_version: '2026-11' }) })
+      fetch('/api/order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ customer: c, items: cart, terms: true, terms_version: '2026-11', key: orderKey() }) })
         .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error(d.error || 'fel'); return d; }); })
         .catch(function (err) { if (/customer|terms|empty/.test(err.message)) throw err; return { ref: 'ES-' + Date.now().toString(36).toUpperCase(), demo: !!(cat && cat.demo) }; })
         .then(function (d) {
@@ -209,7 +211,7 @@
             .catch(function () { /* the order is stored on the server */ }).then(function () { return d; });
         })
         .then(function (d) {
-          cart = []; save(cart);
+          cart = []; save(cart); try { sessionStorage.removeItem('es.orderkey'); } catch (e) { /* fine */ }
           view.innerHTML = '<div class="form-prefill"><p class="form-prefill__k">Beställning ' + esc(d.ref) + '</p><p class="form-prefill__t">Tack! Vi har tagit emot beställningen.</p>' +
             '<p class="form-prefill__n"><b>Betalning:</b> ingen betalning är gjord. <b>Registrering:</b> inte gjord än. Vi mejlar en bekräftelse med pris till ' + esc(c.email) + ', och registrerar först när ni har godkänt den.</p></div>';
           form.hidden = true;

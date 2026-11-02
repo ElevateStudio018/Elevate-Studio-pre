@@ -21,8 +21,10 @@ export async function createOrder(req, env) {
     if (it.type === 'domain') {
       const dom = clip(it.domain, 80).toLowerCase(), tld = dom.split('.').slice(1).join('.');
       const t = cat.tlds.find((x) => x.tld === tld); if (!t) continue;
+      if (!/^[a-z0-9åäöéü-]{2,63}$/.test(dom.split('.')[0])) continue;
       const years = Math.max(1, Math.min(10, Number(it.years) || 1));
-      lines.push({ type: 'domain', name: dom, years, once: t.register + t.renew * (years - 1), yearly: t.renew });
+      lines.push(it.transfer ? { type: 'domain', name: dom, transfer: true, years: 1, once: t.transfer + t.renew, yearly: t.renew }
+        : { type: 'domain', name: dom, years, once: t.register + t.renew * (years - 1), yearly: t.renew });
     } else if (it.type === 'mail') {
       const m = cat.mail.find((x) => x.id === it.id); if (!m) continue;
       const extra = Math.max(0, Math.min(500, Number(it.extra) || 0)), yearlyPlan = it.period === 'year';
@@ -32,7 +34,10 @@ export async function createOrder(req, env) {
   }
   if (!lines.length) return json({ error: 'empty' }, 400);
   const net = { once: lines.reduce((s, l) => s + (l.once || 0), 0), month: lines.filter((l) => l.period === 'month').reduce((s, l) => s + l.recurring, 0), year: lines.reduce((s, l) => s + (l.yearly || 0) + (l.period === 'year' ? l.recurring : 0), 0) };
-  const ref = 'ES-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2, 5).toUpperCase();
+  // The browser sends one key per checkout; the same key gives the same order number, and the database's unique
+  // ref stops a second row. So a double click or a retry never creates two orders.
+  const key = /^[a-z0-9]{8,32}$/i.test(String(b.key || '')) ? String(b.key).toUpperCase() : Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 6).toUpperCase();
+  const ref = 'ES-' + key;
   const reg = registrar(env);
   const order = {
     ref, email, name: clip(c.name, 120), company: clip(c.company, 150), org_nr: clip(c.orgnr, 20), phone: clip(c.phone, 40),

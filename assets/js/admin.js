@@ -1466,7 +1466,8 @@
           ['Betalning', function (x) { return '<select data-o="' + x.id + '" data-f="payment_status">' + Object.keys(PST).map(function (k) { return '<option value="' + k + '"' + (x.payment_status === k ? ' selected' : '') + '>' + PST[k] + '</option>'; }).join('') + '</select>'; }],
           ['Leverans', function (x) { return '<select data-o="' + x.id + '" data-f="delivery_status">' + Object.keys(DST).map(function (k) { return '<option value="' + k + '"' + (x.delivery_status === k ? ' selected' : '') + '>' + DST[k] + '</option>'; }).join('') + '</select>'; }]
         ], o) + '</section>');
-      main().addEventListener('change', function (e) {
+      // the listener sits on this view's own table, so opening the view again never sends a change twice
+      main().querySelector('.panel:last-of-type').addEventListener('change', function (e) {
         var s = e.target.closest('select[data-o]'); if (!s) return;
         var up = {}; up[s.dataset.f] = s.value;
         sb.from('orders').update(up).eq('id', s.dataset.o).then(function (r) { if (r.error) alert('Kunde inte spara: ' + r.error.message); });
