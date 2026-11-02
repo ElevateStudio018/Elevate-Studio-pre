@@ -1,0 +1,41 @@
+{
+ "testa": {
+  "start": 0,
+  "typed": 7,
+  "loading": 8,
+  "rings": 16,
+  "ringsdone": 32,
+  "issues": 33
+ },
+ "testa:pos": {
+  "input": [
+   571,
+   264
+  ],
+  "button": [
+   927,
+   264
+  ]
+ },
+ "mejl": {
+  "inbox": 0,
+  "read": 1,
+  "compose": 2,
+  "typed": 20,
+  "sent": 21
+ },
+ "mejl:pos": {
+  "first": [
+   750,
+   142
+  ],
+  "reply": [
+   376,
+   109
+  ],
+  "send": [
+   777,
+   726
+  ]
+ }
+}
