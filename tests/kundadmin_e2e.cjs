@@ -40,7 +40,7 @@ let pass = 0, fail = 0; const ok = (c, n) => { c ? pass++ : fail++; console.log(
   await p.click('[data-pub] >> nth=0'); await p.waitForTimeout(200); ok(await p.locator('.item--hidden').count() >= 1, 'dölj projekt');
   // settings
   await p.click('[data-v=installningar]'); await p.click('#tget'); await p.waitForTimeout(200);
-  ok((await p.inputValue('input[name=accent]')) === '#e9b949', 'hämta färger från hemsidan');
+  ok((await p.inputValue('input[name=accent]')) === '#8fd3a6', 'hämta färger från hemsidan');
   await p.click('#sf .btn:not(.btn--ghost)'); await p.waitForTimeout(200);
   // mobile
   await p.setViewportSize({ width: 390, height: 800 }); await p.click('[data-v=oversikt]'); await p.waitForTimeout(200);

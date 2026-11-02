@@ -37,3 +37,19 @@ Panelen ligger på **elevatestudio.nu/kundadmin** och ser likadan ut för alla, 
 - Cloudflare-secrets: `SUPABASE_SERVICE_KEY` (krävs), `ANTHROPIC_API_KEY` (för AI-assistenten; utan den används en enkel tolkare)
   och Gmail-uppgifterna om kunden ska få mejl vid nya förfrågningar.
 - Skapa kundens användare i kundportalen och koppla dem till företaget (`company_members`).
+
+## Koppla AI-assistenten (Anthropic) – steg för steg
+Utan nyckel fungerar assistenten ändå, men bara för enkla önskemål (öppettider, telefon, rubrik, nytt projekt).
+Med nyckeln förstår den fritt formulerade önskemål och skriver texter åt kunden.
+
+1. Gå till **console.anthropic.com** och logga in (skapa konto med info@elevatestudio.nu om det behövs).
+2. **Settings → Billing**: lägg in ett betalkort och fyll på t.ex. 10 USD. En ändring kostar några öre.
+3. **Settings → API keys → Create key**. Döp den till `elevate-kundadmin` och kopiera nyckeln (börjar med `sk-ant-`).
+   Den visas bara en gång.
+4. Gå till **dash.cloudflare.com → Workers & Pages → elevate-studio-pre → Settings → Variables and Secrets**.
+5. Klicka **Add**, välj **Secret**, skriv namnet `ANTHROPIC_API_KEY`, klistra in nyckeln och spara.
+6. Klart. Nästa gång en kund skriver i assistentrutan används Claude (modellen claude-opus-5-5).
+   Kontroll: skriv något fritt i rutan, t.ex. "skriv en kortare text om oss". Utan nyckel svarar den
+   "Jag förstod inte riktigt", med nyckeln får du ett textförslag.
+
+Tips: sätt en månadsgräns under **Settings → Limits** så att kostnaden aldrig drar iväg.

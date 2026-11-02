@@ -351,7 +351,7 @@
     f.querySelectorAll('input[type=color]').forEach(function (c) { c.addEventListener('input', function () { theme({ primary: f.primary.value, accent: f.accent.value }); }); });
     on('#tget', 'click', function () {
       if (!st.site.domain) return toast('Lägg in hemsidans adress först.');
-      if (DEMO) { f.primary.value = '#1f4d36'; f.accent.value = '#e9b949'; theme({ primary: '#1f4d36', accent: '#e9b949' }); return toast('Färger hämtade (demo)'); }
+      if (DEMO) { f.primary.value = '#1f4d36'; f.accent.value = '#8fd3a6'; theme({ primary: '#1f4d36', accent: '#8fd3a6' }); return toast('Färger hämtade (demo)'); }
       sb.auth.getSession().then(function (r) { return fetch(API + '/api/site/theme?url=' + encodeURIComponent('https://' + st.site.domain + '/'), { headers: { Authorization: 'Bearer ' + (r.data.session || {}).access_token } }); })
         .then(function (r) { return r.json(); }).then(function (t2) { if (t2.error) return toast(t2.error); f.primary.value = t2.primary; f.accent.value = t2.accent; theme(t2); toast('Färger hämtade – klicka Spara'); });
     });
@@ -364,7 +364,7 @@
   function demoClient() {
     var ago = function (h) { return new Date(Date.now() - h * 36e5).toISOString(); }, img = function (n) { return 'img/' + n; };
     var db = {
-      sites: [{ id: 's1', slug: 'demo', name: 'Lindvik Bygg', domain: 'lindvikbygg.se', company_id: 'c1', theme: { primary: '#1f4d36', accent: '#e9b949' }, modules: ['sidor', 'forfragningar', 'projekt', 'bilder', 'tjanster', 'nyheter', 'bokningar', 'recensioner', 'installningar'],
+      sites: [{ id: 's1', slug: 'demo', name: 'Lindvik Bygg', domain: 'lindvikbygg.se', company_id: 'c1', theme: { primary: '#1f4d36', accent: '#8fd3a6' }, modules: ['sidor', 'forfragningar', 'projekt', 'bilder', 'tjanster', 'nyheter', 'bokningar', 'recensioner', 'installningar'],
         settings: { phone: '0300-12 34 56', email: 'info@lindvikbygg.se', address: 'Storgatan 1, Kungsbacka', hours: 'Mån–fre 7–16', lead_email: 'info@lindvikbygg.se' } }],
       company_members: [{ company_id: 'c1', user_id: 'u1', role: 'owner' }], user_roles: [],
       site_content: [{ site_id: 's1', key: 'hero.title', draft: 'Vi bygger det Västsverige växer i', published: 'Vi bygger det Västsverige växer i' }],

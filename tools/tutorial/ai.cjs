@@ -1,0 +1,30 @@
+// How-to film: the AI assistant in the admin panel, step by step on the demo site.
+const { tour } = require('./tour.cjs');
+tour('guide-ai-assistenten', async (t) => {
+  await t.goto('http://localhost:8767/kundadmin/?demo');
+  await t.p.waitForSelector('.side');
+  await t.card(t.LOGO + '<h1>Säg vad du vill ändra. <span class="hl">Assistenten gör det.</span></h1><p>AI-assistenten i adminpanelen – så fungerar den.</p><ol><li>1 Skriv</li><li>2 Se förslaget</li><li>3 Godkänn</li><li>4 Publicera</li></ol>', 3600);
+  await t.uncard();
+  await t.say('1', 'Skriv vad du vill ändra i rutan högst upp – med vanliga ord.');
+  await t.ring('.ask form', 8); await t.sleep(900);
+  await t.type('#aq', 'Ändra rubriken på startsidan till "Vi bygger ditt drömhem – i tid"', 38);
+  await t.unring(); await t.click('#af button'); await t.p.waitForSelector('.act'); await t.sleep(500);
+  await t.say('2', 'Assistenten föreslår exakt vad som ska ändras. Inget sparas förrän du säger ja.');
+  await t.ring('.ask__out', 8); await t.sleep(2600);
+  await t.say('3', 'Klicka Gör det för att godkänna förslaget.');
+  await t.click('.act .btn'); await t.sleep(900); await t.unring();
+  await t.say('4', 'Ändringen ligger som utkast. Gå till Sidor och texter för att se den på hemsidan.');
+  await t.click('[data-v=sidor]'); await t.p.waitForSelector('.field'); await t.sleep(900);
+  await t.ring('#pf', 4); await t.sleep(2400); await t.unring();
+  await t.say('4', 'Ser det bra ut? Klicka Publicera – då syns det för alla besökare.');
+  await t.click('#pub'); await t.sleep(1800);
+  await t.say('+', 'Det funkar för mycket mer: öppettider, telefon, nya projekt …');
+  await t.click('#aq'); await t.p.fill('#aq', ''); await t.type('#aq', 'Ändra öppettider till mån–fre 7–17', 40); await t.click('#af button'); await t.p.waitForSelector('.act'); await t.sleep(700);
+  await t.click('.act .btn'); await t.sleep(900);
+  await t.type('#aq', 'Lägg till projekt Villa i Tyresö', 40); await t.click('#af button'); await t.p.waitForSelector('.act'); await t.sleep(700);
+  await t.click('.act .btn'); await t.sleep(1800);
+  await t.say('✓', 'Nya projekt läggs till som dolda – lägg till en bild och klicka visa.');
+  await t.ring('.items', 6); await t.sleep(2600); await t.unring();
+  await t.hush(); await t.out();
+  await t.card(t.LOGO + '<h1>Du bestämmer. <span class="hl">Assistenten hjälper.</span></h1><p>Allt i adminpanelen på dittforetag.se/admin</p>', 3000);
+});
