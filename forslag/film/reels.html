@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Elevate – säljreels</title><script src="reel-kit.js"></script>
+<style>
+#s.dark{background:radial-gradient(70% 50% at 70% 20%,#1f4a33,transparent 70%),#0d1d14;color:#fff}
+#s.light{background:radial-gradient(60% 40% at 80% 10%,#d8efe0,transparent 70%),#f6f8f6;color:#0f2418}
+#s.green{background:radial-gradient(70% 50% at 30% 20%,#2c6b49,transparent 70%),#1f4d36;color:#fff}
+.sc{position:absolute;inset:0;opacity:0}
+.in{opacity:0}
+.k{position:absolute;left:50%;transform:translateX(-50%);padding:8px 18px;border-radius:999px;font-weight:800;font-size:18px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;background:#8fd3a6;color:#0f2418}
+.t1{font-size:88px}.t2{font-size:66px}.t3{font-size:48px}
+.p{font-size:28px;line-height:1.35;opacity:.85;font-weight:500}
+.br{position:absolute;left:50px;right:50px;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 50px 100px -40px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.08)}
+.br .bb{height:44px;background:#eef1ee;display:flex;align-items:center;gap:8px;padding:0 16px}.br .bb i{width:11px;height:11px;border-radius:50%;background:#cfd6d1}
+.br .bb span{flex:1;margin-left:12px;height:28px;border-radius:8px;background:#fff;color:#16241b;font-size:16px;font-weight:700;display:flex;align-items:center;padding:0 12px}
+.br .vw{position:relative;overflow:hidden;background:#fff}.br .vw img{display:block;width:100%}
+.ph{position:absolute;width:300px;height:620px;border-radius:44px;background:#0a0f0c;padding:10px;box-shadow:0 50px 100px -40px rgba(0,0,0,.8)}
+.ph div{width:100%;height:100%;border-radius:36px;overflow:hidden;background:#fff}.ph img{display:block;width:100%}
+.tick{display:flex;align-items:center;gap:18px;font-size:34px;font-weight:700;margin:0 0 22px}.tick:before{content:'✓';flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:#8fd3a6;color:#0f2418;font-weight:900;font-size:26px}
+.x{display:flex;align-items:center;gap:18px;font-size:32px;font-weight:700;margin:0 0 20px;opacity:.9}.x:before{content:'✕';flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:#e4572e;color:#fff;font-weight:900;font-size:24px}
+.card{position:absolute;left:50px;right:50px;padding:30px 32px;border-radius:30px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18)}
+.light .card{background:#fff;border-color:#e3e9e4;box-shadow:0 30px 60px -30px rgba(15,36,24,.3)}
+.pk{display:flex;justify-content:space-between;align-items:center;padding:24px 28px;margin-bottom:16px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);font-size:30px;font-weight:800}
+.pk small{display:block;font-size:19px;font-weight:500;opacity:.75;margin-top:4px}.pk b{font-size:40px;white-space:nowrap}
+.pk.hot{background:#8fd3a6;color:#0f2418;border-color:#8fd3a6}
+.step{display:flex;gap:22px;align-items:center;margin-bottom:34px}.step i{flex:none;width:84px;height:84px;border-radius:24px;background:#8fd3a6;color:#0f2418;display:grid;place-items:center;font-style:normal;font-weight:900;font-size:40px}
+.step b{display:block;font-size:38px;letter-spacing:-.02em}.step small{font-size:24px;opacity:.75}
+.foot{position:absolute;left:50%;bottom:54px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:14px 26px;border-radius:999px;background:rgba(10,15,12,.75);color:#fff;font-weight:800;font-size:24px;backdrop-filter:blur(8px);white-space:nowrap;z-index:30}
+.foot img{height:20px}
+.light .foot{background:#0f2418}
+.big{font-size:170px;font-weight:900;letter-spacing:-.06em;line-height:.9}
+.stars{color:#e8a33d;font-size:84px;letter-spacing:6px}
+.urlbar{position:absolute;left:50px;right:50px;height:96px;border-radius:999px;background:#fff;color:#0f2418;display:flex;align-items:center;padding:0 14px 0 34px;font-size:40px;font-weight:800;box-shadow:0 0 0 8px rgba(143,211,166,.35),0 40px 80px -30px rgba(0,0,0,.6)}
+.urlbar span{flex:1}.urlbar em{font-style:normal;width:72px;height:72px;border-radius:50%;background:#1f4d36;color:#fff;display:grid;place-items:center;font-size:34px}
+#end2{color:#fff;background:radial-gradient(70% 50% at 70% 22%,#1f4a33,transparent 70%),radial-gradient(60% 40% at 20% 88%,#173b28,transparent 70%),#0d1d14}
+#end2 .pr{top:180px;font-size:56px}#end2 .pr b{display:block;font-size:140px;letter-spacing:-.06em;margin-top:6px}
+#end2 .tags{position:absolute;left:30px;right:30px;top:470px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+#end2 .tags span{padding:12px 22px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);font-weight:800;font-size:26px}
+#end2 .cta{position:absolute;left:50%;top:650px;transform:translateX(-50%);padding:26px 54px;border-radius:999px;background:#8fd3a6;color:#0f2418;font-weight:900;font-size:38px;white-space:nowrap;box-shadow:0 0 60px rgba(143,211,166,.45)}
+#end2 .u{top:800px;font-size:60px}
+#end2 .lg{position:absolute;left:0;right:0;bottom:110px;display:flex;align-items:center;gap:14px;justify-content:center;font-weight:800;font-size:34px}#end2 .lg img{height:30px}
+</style></head><body><div id="s"></div>
+<script>
+const {cl,ease,out,io,typ}=K,$=id=>document.getElementById(id);
+const S='../../assets/img/sites/', LG='../../assets/img/brand/logo-mark-cream.svg';
+const br=(top,h,img,url,scroll=0)=>`<div class="br in" style="top:${top}px"><div class="bb"><i></i><i></i><i></i><span>${url}</span></div><div class="vw" style="height:${h}px"><img src="${img}" data-scroll="${scroll}"></div></div>`;
+const ph=(x,y,img,scroll=0,rot=0)=>`<div class="ph in" style="left:${x}px;top:${y}px;transform:rotate(${rot}deg)"><div><img src="${img}" data-scroll="${scroll}"></div></div>`;
+const C=(top,html,cls='w t2')=>`<div class="ctr ${cls} in" style="top:${top}px">${html}</div>`;
+const KK=(top,txt,st='')=>`<div class="k in" style="top:${top}px;${st}">${txt}</div>`;
+const list=(top,items,cls='tick')=>`<div style="position:absolute;left:70px;right:50px;top:${top}px">${items.map(i=>`<div class="${cls} in">${i}</div>`).join('')}</div>`;
+const steps=(top,items)=>`<div style="position:absolute;left:60px;right:50px;top:${top}px">${items.map((s,i)=>`<div class="step in"><i>${i+1}</i><div><b>${s[0]}</b><small>${s[1]}</small></div></div>`).join('')}</div>`;
+const pk=(top,items)=>`<div style="position:absolute;left:50px;right:50px;top:${top}px">${items.map(p=>`<div class="pk in ${p[3]||''}"><div>${p[0]}<small>${p[1]}</small></div><b>${p[2]}</b></div>`).join('')}</div>`;
+const url=(top,txt='elevatestudio.nu')=>`<div class="urlbar in" style="top:${top}px"><span data-type="${txt}"></span><em>→</em></div>`;
+const LV='img/lindvik-page.jpg';
+// ---- the ten reels ----
+const R={
+1:{theme:'dark',music:['a',120],sc:[
+ [2.4,C(420,'Har du ingen<br><span class="hl">hemsida?</span>','w t1')+C(660,'Då finns du inte för de flesta kunder.','p')],
+ [3.2,C(110,'Kunden googlar.<br>Hittar <span class="serif" style="color:#8fd3a6">någon annan.</span>','w t3')+br(330,640,LV,'konkurrenten.se',-500)],
+ [3.4,C(120,'Vi bygger din hemsida','w t3')+list(300,['Snygg design efter ditt företag','Mobilanpassad','Syns på Google','Kontaktformulär till din mejl'])+C(820,'Klar snabbt – fast pris.','w t3')],
+ [2.6,C(300,'Skriv in','w t3')+url(460)+C(640,'och kontakta oss idag.','p')]]},
+2:{theme:'light',music:['b',124],sc:[
+ [2.4,KK(330,'Ärligt talat')+C(400,'Din konkurrent<br>har en <span class="hl">bättre</span><br>hemsida.','w t1')],
+ [3.4,C(110,'Gammal sajt','w t3')+list(260,['Laddar långsamt','Ser trasig ut i mobilen','Ingen info om priser','Svårt att kontakta'],'x')+C(860,'= kunden går vidare','w t3')],
+ [3.4,C(110,'Ny sajt från Elevate','w t3')+ph(70,280,S+'site-haninge-phone.jpg',-600,-4)+ph(350,320,LV.replace('page','phone'),-500,4)],
+ [2.4,C(380,'Ta tillbaka<br><span class="hl">kunderna.</span>','w t1')+C(640,'Kontakta oss på elevatestudio.nu','p')]]},
+3:{theme:'green',music:['c',116],sc:[
+ [2.4,C(420,'Vad kostar<br>en <span class="hl">hemsida?</span>','w t1')],
+ [4.6,C(110,'Fasta priser. Inga överraskningar.','w t3')+pk(300,[['Enkel','Upp till 3 sidor · offertformulär','2 999 kr','hot'],['Starter','Design, SEO & support','5 000 kr'],['Pro','Bokning, offertflöde & AI-chatt','9 000 kr']])+C(900,'Exkl. moms · priset klart innan vi börjar','p')],
+ [2.6,C(320,'Räkna ut ditt pris på','w t3')+url(470)]]},
+4:{theme:'dark',music:['d',122],sc:[
+ [2.2,C(420,'Från idé till<br><span class="hl">hemsida.</span>','w t1')],
+ [4.4,C(110,'Så enkelt är det','w t3')+steps(290,[['Gratis möte','Vi lyssnar på vad du behöver'],['Vi designar','Du ser förslaget och tycker till'],['Live!','Din hemsida är ute och jobbar'],['Du ändrar själv','Adminpanel ingår']])],
+ [2.8,C(280,'Steg 1 tar<br><span class="hl">2 minuter:</span>','w t2')+url(560)+C(720,'Boka gratismöte idag.','p')]]},
+5:{theme:'dark',music:['a',126],sc:[
+ [2.4,KK(320,'Hantverkare?')+C(390,'Få fler jobb<br>via <span class="hl">hemsidan.</span>','w t1')],
+ [3.6,br(180,700,LV,'lindvikbygg.se',-1400)+C(1000,'Visa dina projekt. Få offertförfrågningar.','w t3')],
+ [3.2,C(110,'Byggt för bygg & hantverk','w t3')+list(290,['Projektbilder som säljer','Offertförfrågan med bilder','Recensioner från kunder','Syns när någon söker i ditt område'])],
+ [2.4,C(340,'Vi har byggt för<br>byggfirmor förut.','w t2')+C(600,'Kontakta oss på elevatestudio.nu','p')]]},
+6:{theme:'light',music:['b',118],sc:[
+ [2.2,C(400,'<span style="text-decoration:line-through;text-decoration-color:#e4572e;text-decoration-thickness:8px">2015</span><br><span class="hl">2026</span>','w big')],
+ [3.4,C(100,'Före','w t3')+`<div class="in" style="position:absolute;left:70px;right:70px;top:220px;height:640px;border-radius:20px;background:#e9e9e9;filter:grayscale(1) blur(.5px);padding:30px;color:#555;font:22px Times,serif;line-height:1.4"><div style="background:#8a8a8a;height:120px;margin-bottom:20px"></div><b style="font-size:34px">Välkommen till vår hemsida!!</b><p>Vi är ett företag som gör saker. Klicka <u style="color:blue">här</u> för mer info. Senast uppdaterad 2015.</p><div style="background:#bbb;height:200px;margin-top:20px"></div></div>`+C(900,'Långsam. Osynlig. Daterad.','w t3')],
+ [3.4,C(100,'Efter','w t3')+br(220,640,LV,'dittforetag.se',-900)+C(930,'Snabb. Synlig. Säljande.','w t3')],
+ [2.4,C(360,'Dags att<br><span class="hl">uppgradera?</span>','w t1')+C(620,'elevatestudio.nu','w t3')]]},
+7:{theme:'green',music:['c',124],sc:[
+ [2.4,C(380,'Allt för ditt<br>företag på<br><span class="hl">ett ställe.</span>','w t1')],
+ [4.4,C(110,'Elevate fixar:','w t3')+list(260,['Hemsida','Egen domän – dittforetag.se','Företagsmejl – namn@dittforetag.se','SEO & Google','Adminpanel','Support när du behöver'])],
+ [2.6,C(300,'En kontakt.<br><span class="hl">Allt klart.</span>','w t2')+url(600)]]},
+8:{theme:'dark',music:['d',128],sc:[
+ [2.2,C(400,'Dina kunder<br>är i <span class="hl">mobilen.</span>','w t1')],
+ [3.4,ph(30,250,S+'site-cork-phone.jpg',-60,-6)+ph(210,200,S+'site-alvhem-phone.jpg',-30,0)+ph(390,250,S+'site-haninge-phone.jpg',-60,6)+C(110,'Vi bygger mobilen först.','w t3')],
+ [3.0,C(130,'Snabb på alla skärmar','w t3')+`<div class="ctr in" style="top:320px"><div class="big" data-count="100" style="color:#8fd3a6">0</div><div class="p" style="margin-top:20px">poäng i mobiltestet är vårt mål</div></div>`],
+ [2.4,C(340,'Testa din sajt gratis','w t2')+url(560)]]},
+9:{theme:'light',music:['a',122],sc:[
+ [2.4,C(380,'Få fler<br><span class="hl">förfrågningar.</span>','w t1')+C(640,'Inte bara besökare.','p')],
+ [3.8,C(110,'Offertflöde på hemsidan','w t3')+`<div class="card in" style="top:270px"><div style="font-size:22px;font-weight:800;color:#2f7d4f;letter-spacing:.08em">STEG 2 AV 3</div><div style="font-size:38px;font-weight:800;margin:10px 0 20px">Vad ska göras?</div>${['Badrum','Kök','Altan','Tak'].map((x,i)=>`<div class="in" style="display:inline-block;margin:0 10px 12px 0;padding:16px 24px;border-radius:16px;font-size:26px;font-weight:800;${i==0?'background:#1f4d36;color:#fff':'background:#eef2ee'}">${x}</div>`).join('')}<div style="margin-top:14px;font-size:22px;color:#5a675f">+ ladda upp bilder · önskat startdatum</div></div>`+C(820,'Du får allt du behöver för att svara direkt.','p')],
+ [3.0,C(130,'Svar dygnet runt','w t3')+`<div class="card in" style="top:300px;font-size:28px;line-height:1.4"><b>Kund 22:47:</b> Gör ni altaner?<br><br><span style="color:#2f7d4f"><b>AI-chatten:</b> Ja! Vill du ha en offert? Fyll i här så hör vi av oss imorgon.</span></div>`],
+ [2.4,C(340,'Fler kunder –<br><span class="hl">mindre jobb.</span>','w t2')+C(600,'Kontakta oss: elevatestudio.nu','p')]]},
+10:{theme:'green',music:['b',120],sc:[
+ [2.4,C(400,'Spara den här.<br><span class="hl">Du behöver den.</span>','w t2')],
+ [3.4,C(260,'När du vill ha en hemsida som','w t3')+list(450,['ger kunder','syns på Google','är klar snabbt'])],
+ [3.4,C(280,'Skriv bara','w t2')+url(450)+C(650,'Boka ett gratismöte – vi hör av oss.','p')]]}
+};
+const id=+(location.search.match(/id=(\d+)/)||[0,1])[1],cfg=R[id];
+document.getElementById('s').className=cfg.theme;
+let h='',T=0;const ST=[];cfg.sc.forEach((sc,i)=>{ST.push([T,T+sc[0]]);T+=sc[0];h+=`<div class="sc" id="sc${i}">${sc[1]}</div>`});
+const END=T,DUR=+(END+3.6).toFixed(1);
+h+=`<div class="foot" id="ft"><img src="${LG}">elevatestudio.nu</div>`;
+h+=`<div class="sc" id="end2"><div class="ctr w pr">Hemsida från<b><span class="hl">2 999 kr</span></b></div>
+<div class="tags"><span>SEO</span><span>Design</span><span>Recensioner</span><span>Admin</span></div>
+<div class="cta">Kontakta oss →</div><div class="ctr w u">elevatestudio.nu</div>
+<div class="lg"><img src="${LG}">Elevate Studio</div></div>`;
+document.getElementById('s').innerHTML=h;
+window.MUSIC=cfg.music;
+function anim(root,lt,len){
+ root.querySelectorAll('.in').forEach((e,i)=>{const a=.1+i*.16,k=out((lt-a)/.45);e.style.opacity=cl((lt-a)/.25);
+  const base=e.style.transform.replace(/translate\w*\([^)]*\)|scale\([^)]*\)/g,'').trim();
+  e.style.transform=(e.classList.contains('k')?'translateX(-50%) ':'')+`translateY(${(1-k)*34}px) ${base}`});
+ root.querySelectorAll('[data-scroll]').forEach(im=>{const s=+im.dataset.scroll;im.style.transform=`translateY(${s*ease((lt-.6)/(len-.9))}px)`});
+ root.querySelectorAll('[data-count]').forEach(e=>{e.textContent=Math.round(+e.dataset.count*out((lt-.4)/1.2))});
+ root.querySelectorAll('[data-type]').forEach(e=>typ(e,e.dataset.type,lt,.5,.06));
+}
+function render(t){
+ ST.forEach(([a,b],i)=>{const e=$('sc'+i),on=t>=a-.001&&t<b;e.style.opacity=on?io(t,a,b+.3,.25):0;if(on)anim(e,t-a,b-a)});
+ $('ft').style.opacity=t<END-.1&&t>.6?1:0;
+ const e=$('end2'),a=END;e.style.opacity=cl((t-a)/.35);
+ e.querySelector('.pr').style.transform=`scale(${1.1-.1*out((t-a)/.6)})`;
+ e.querySelectorAll('.tags span').forEach((s,i)=>{const k=cl((t-a-.5-i*.15)/.25);s.style.opacity=k});
+ const k=t-a-1.4;e.querySelector('.cta').style.transform=`translateX(-50%) scale(${1+(k>0?.05*Math.max(0,Math.sin(k*Math.PI/.7)):0)})`;
+ e.querySelector('.u').style.opacity=cl((t-a-1)/.3);
+}
+K.boot(render,DUR,[LV,LV.replace('page','phone'),...['haninge','cork','alvhem'].map(n=>S+'site-'+n+'-phone.jpg'),S+'site-markmontage.jpg']);
+</script></body></html>
