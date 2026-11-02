@@ -1,0 +1,105 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:H;src:url(../../../assets/fonts/HankenGrotesk-latin.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:F;src:url(../../../assets/fonts/Fraunces-latin.woff2) format('woff2');font-style:italic;font-weight:100 900}
+:root{--g:#1d3b2a;--gd:#12271b;--cr:#fdfbf5;--ink:#12261a}
+*{box-sizing:border-box;margin:0}body{width:720px;height:1280px;overflow:hidden;font-family:H,sans-serif;-webkit-font-smoothing:antialiased;color:var(--ink)}
+.f{position:absolute;inset:0}.f:not(.on){display:none!important}
+.dots{background:var(--gd);background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.4px);background-size:6px 6px}
+.hd{position:absolute;left:0;right:0;top:0;height:120px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 44px;z-index:5}
+.hd .lg{display:flex;align-items:center;gap:14px;font-weight:700;font-size:34px;letter-spacing:-.02em;color:#111}.hd .lg img{height:38px}
+.hd .bm{width:40px;height:24px;border-top:4px solid #111;border-bottom:4px solid #111;position:relative}.hd .bm:after{content:'';position:absolute;left:0;right:0;top:6px;border-top:4px solid #111}
+.kick{display:flex;align-items:center;justify-content:center;gap:18px;font-size:19px;font-weight:700;letter-spacing:.3em;text-transform:uppercase}.kick:before,.kick:after{content:'';width:42px;height:2px;background:currentColor;opacity:.8}
+.caps{text-transform:uppercase;text-align:center;line-height:1.05;letter-spacing:.01em}.caps .l{font-weight:300}.caps .b{font-weight:800}
+.it{font-family:F,serif;font-style:italic;font-weight:400}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:84px;padding:0 40px;border-radius:999px;font-weight:700;font-size:28px}
+.btn.cr{background:var(--cr);color:var(--ink)}.btn.ol{border:3px solid currentColor}.btn.gr{background:var(--g);color:#fff}
+.card{background:#fff;color:var(--ink);border-radius:40px;padding:44px 44px}
+.lab{font-size:21px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.price{font-size:96px;font-weight:600;letter-spacing:-.03em}
+.mut{color:#5d6a62;font-size:24px}
+.ul{list-style:none;padding:0;font-size:26px;line-height:1.5}.ul li{display:flex;gap:16px;align-items:baseline;margin:10px 0}.ul li:before{content:'';flex:none;width:10px;height:10px;border-radius:50%;background:#2f7d4f;transform:translateY(-4px)}
+.pill{position:absolute;padding:12px 24px;border-radius:999px;background:#fff;font-size:24px;font-weight:600;color:var(--ink)}
+.ph{border-radius:36px;background-size:cover;background-position:center;position:relative}
+.ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(29,59,42,.55),rgba(18,39,27,.8))}
+</style></head><body>
+<!-- 1 hero -->
+<div class="f" id="d1" style="background:url(../../../assets/img/home/hero.jpg) 40% center/cover;color:#fff"><div class="ov"></div>
+ <div class="hd"><div class="lg"><img src="../../../assets/img/brand/logo-mark.svg">Elevate Studio</div><div class="bm"></div></div>
+ <div style="position:absolute;left:40px;right:40px;top:420px;text-align:center"><div class="kick">Webbyrå i Uppsala</div>
+ <div class="caps" style="font-size:72px;margin-top:30px"><span class="l">Hemsidor från</span><br><span class="b">2 999 kr</span></div>
+ <p style="font-size:28px;line-height:1.45;margin-top:30px;opacity:.95">SEO, design, recensioner och adminpanel –<br>till fast pris. Klar idag.</p>
+ <div style="display:flex;gap:16px;justify-content:center;margin-top:46px"><span class="btn cr">Kontakta oss</span><span class="btn ol">elevatestudio.nu</span></div></div></div>
+<!-- 2 price card -->
+<div class="f dots" id="d2" style="color:#fff">
+ <div class="hd"><div class="lg"><img src="../../../assets/img/brand/logo-mark.svg">Elevate Studio</div><div class="bm"></div></div>
+ <div style="position:absolute;left:40px;right:40px;top:180px"><div style="font-size:74px;font-weight:500;letter-spacing:-.02em">Enkla, <span class="it">fasta priser</span></div><p style="font-size:28px;opacity:.85;margin-top:14px">Ni vet kostnaden innan vi börjar.</p></div>
+ <div class="card" style="position:absolute;left:40px;right:40px;top:440px"><div class="lab">Enkel</div><div class="price" style="margin-top:14px">2 999 kr</div><div class="mut">engångspris</div>
+ <div style="height:1px;background:#e3e6e3;margin:30px 0"></div><ul class="ul"><li>Design efter ert företag</li><li>SEO – syns på Google</li><li>Recensioner</li><li>Adminpanel</li></ul>
+ <div class="btn ol" style="width:100%;margin-top:30px;color:var(--ink)">Kontakta oss</div><div style="text-align:center;margin-top:20px;font-size:24px;font-weight:600">elevatestudio.nu</div></div></div>
+<!-- 3 service cards -->
+<div class="f" id="d3" style="background:#fff">
+ <div class="hd"><div class="lg"><img src="../../../assets/img/brand/logo-mark.svg">Elevate Studio</div><div class="bm"></div></div>
+ <div style="position:absolute;left:30px;right:30px;top:140px;background:#3a5a49;border-radius:40px;padding:56px 50px;color:#fff"><div style="font-size:66px;font-weight:500;line-height:1.1;letter-spacing:-.02em">En hemsida<br>som <span class="it">jobbar åt er</span></div><p style="font-size:27px;line-height:1.5;margin-top:26px;opacity:.9">Från 2 999 kr – med SEO, design, recensioner och adminpanel.</p><span class="btn cr" style="margin-top:34px">Kontakta oss</span></div>
+ <div class="ph" style="position:absolute;left:30px;right:30px;top:720px;height:450px;background-image:url(../../../assets/img/home/svc-hemsidor.jpg)"><span class="pill" style="left:28px;bottom:28px">elevatestudio.nu</span></div></div>
+<!-- 4 white price page -->
+<div class="f" id="d4" style="background:#f3f5f3">
+ <div class="hd"><div class="lg"><img src="../../../assets/img/brand/logo-mark.svg">Elevate Studio</div><div class="bm"></div></div>
+ <div style="position:absolute;left:44px;top:150px;font-size:24px;color:#333"><u>Start</u> → Priser</div>
+ <div class="card" style="position:absolute;left:30px;right:30px;top:230px;box-shadow:0 2px 0 #e6e9e6"><span style="position:absolute;right:30px;top:30px;background:var(--g);color:#fff;font-size:20px;font-weight:700;padding:8px 18px;border-radius:999px">Klar idag</span>
+ <div class="lab">Hemsida</div><div class="price" style="font-size:120px;margin-top:20px">2 999 kr</div><div class="mut">engångspris · fast pris</div><p style="font-size:27px;color:#3c4740;line-height:1.5;margin-top:24px">En snygg, snabb hemsida som gör det enkelt för kunderna att kontakta er.</p>
+ <div style="height:1px;background:#e3e6e3;margin:30px 0"></div><ul class="ul"><li>SEO och AI-optimering</li><li>Design efter ert företag</li><li>Recensioner</li><li>Adminpanel – ändra själv</li></ul>
+ <div class="btn gr" style="width:100%;margin-top:34px">Kontakta oss</div></div>
+ <div style="position:absolute;left:0;right:0;bottom:60px;text-align:center;font-size:30px;font-weight:700">elevatestudio.nu</div></div>
+<!-- 5 service photo grid -->
+<div class="f" id="d5" style="background:#fff">
+ <div class="hd"><div class="lg"><img src="../../../assets/img/brand/logo-mark.svg">Elevate Studio</div><div class="bm"></div></div>
+ <div style="position:absolute;left:30px;right:30px;top:140px;display:grid;grid-template-columns:1fr 1fr;gap:18px">
+  <div class="ph" style="height:330px;background-image:url(../../../assets/img/home/svc-seo.jpg)"><span class="pill" style="left:20px;bottom:20px">SEO</span></div>
+  <div class="ph" style="height:330px;background-image:url(../../../assets/img/home/svc-hemsidor.jpg)"><span class="pill" style="left:20px;bottom:20px">Design</span></div>
+  <div class="ph" style="height:330px;background-image:url(../../../assets/img/home/svc-ai-chatt.jpg)"><span class="pill" style="left:20px;bottom:20px">Recensioner</span></div>
+  <div class="ph" style="height:330px;background-image:url(../../../assets/img/home/svc-support.jpg)"><span class="pill" style="left:20px;bottom:20px">Admin</span></div></div>
+ <div style="position:absolute;left:44px;right:44px;top:870px"><div style="font-size:64px;font-weight:500;letter-spacing:-.02em;line-height:1.05">Allt ingår. <span class="it">Från 2 999 kr.</span></div>
+ <div style="display:flex;gap:14px;margin-top:34px"><span class="btn gr">Kontakta oss</span><span class="btn ol" style="color:var(--ink)">elevatestudio.nu</span></div></div></div>
+<!-- 6 italic statement on green -->
+<div class="f dots" id="d6" style="color:#fff;text-align:center">
+ <div style="position:absolute;left:40px;right:40px;top:300px"><div class="kick">Elevate Studio</div>
+ <div style="font-size:96px;font-weight:500;letter-spacing:-.03em;line-height:1.02;margin-top:44px">Er hemsida,<br><span class="it">klar idag.</span></div>
+ <p style="font-size:30px;opacity:.85;margin-top:36px">Fast pris från 2 999 kr</p>
+ <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:40px">${''}<span class="pill" style="position:static;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3)">SEO</span><span class="pill" style="position:static;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3)">Design</span><span class="pill" style="position:static;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3)">Recensioner</span><span class="pill" style="position:static;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3)">Admin</span></div>
+ <span class="btn cr" style="margin-top:60px">Kontakta oss</span><div style="margin-top:26px;font-size:28px;font-weight:600">elevatestudio.nu</div></div></div>
+<!-- 7 caps on green -->
+<div class="f dots" id="d7" style="color:#fff">
+ <div class="hd"><div class="lg"><img src="../../../assets/img/brand/logo-mark.svg">Elevate Studio</div><div class="bm"></div></div>
+ <div style="position:absolute;left:40px;right:40px;top:380px;text-align:center"><div class="kick">Fast pris</div>
+ <div class="caps" style="font-size:84px;margin-top:34px"><span class="l">Hemsidor som</span><br><span class="b">ger kunder</span></div>
+ <div style="font-size:150px;font-weight:600;letter-spacing:-.04em;margin-top:40px">2 999 <span style="font-size:60px">kr</span></div>
+ <div style="display:flex;gap:16px;justify-content:center;margin-top:40px"><span class="btn cr">Kontakta oss</span><span class="btn ol">Se priser</span></div>
+ <div style="margin-top:40px;font-size:28px;font-weight:600;opacity:.9">elevatestudio.nu</div></div></div>
+<!-- 8 split -->
+<div class="f" id="d8" style="background:#fff">
+ <div class="hd"><div class="lg"><img src="../../../assets/img/brand/logo-mark.svg">Elevate Studio</div><div class="bm"></div></div>
+ <div class="ph" style="position:absolute;left:30px;right:30px;top:130px;height:560px;background-image:url(../../../assets/img/home/hero.jpg);overflow:hidden"><div class="ov" style="border-radius:36px"></div><div style="position:absolute;left:0;right:0;top:200px;color:#fff;text-align:center"><div class="kick">Webbyrå i Uppsala</div><div class="caps" style="font-size:58px;margin-top:22px"><span class="l">Hemsidor som</span><br><span class="b">ger förfrågningar</span></div></div></div>
+ <div style="position:absolute;left:44px;right:44px;top:740px"><div class="lab" style="color:#2f7d4f">Från 2 999 kr</div><ul class="ul" style="margin-top:16px"><li>SEO – syns på Google</li><li>Design efter ert företag</li><li>Recensioner & adminpanel</li></ul>
+ <div style="display:flex;gap:14px;margin-top:30px"><span class="btn gr">Kontakta oss</span><span class="btn ol" style="color:var(--ink)">elevatestudio.nu</span></div></div></div>
+<!-- 9 chat widget -->
+<div class="f" id="d9" style="background:#f3f5f3">
+ <div class="hd"><div class="lg"><img src="../../../assets/img/brand/logo-mark.svg">Elevate Studio</div><div class="bm"></div></div>
+ <div class="card" style="position:absolute;left:30px;right:30px;top:170px;padding:0;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.3)"><div style="background:var(--g);color:#fff;padding:28px 34px;font-size:28px;font-weight:700">Frågor? Vi svarar direkt</div>
+ <div style="padding:34px;font-size:28px;line-height:1.4"><div style="background:#eef1ee;padding:20px 26px;border-radius:24px 24px 24px 6px;width:fit-content">Vad kostar en hemsida?</div>
+ <div style="background:var(--g);color:#fff;padding:20px 26px;border-radius:24px 24px 6px 24px;width:fit-content;margin:18px 0 0 auto;max-width:480px">Från <b>2 999 kr</b> – fast pris. SEO, design, recensioner och adminpanel ingår.</div>
+ <div style="background:#eef1ee;padding:20px 26px;border-radius:24px 24px 24px 6px;width:fit-content;margin-top:18px">Hur kommer jag igång?</div>
+ <div style="background:var(--g);color:#fff;padding:20px 26px;border-radius:24px 24px 6px 24px;width:fit-content;margin:18px 0 0 auto">Boka ett gratismöte på elevatestudio.nu</div></div></div>
+ <div style="position:absolute;right:30px;bottom:60px;display:flex;align-items:center;gap:14px;background:var(--g);color:#fff;padding:22px 30px;border-radius:999px;font-weight:700;font-size:28px">💬 Kontakta oss</div></div>
+<!-- 10 testa din sajt -->
+<div class="f dots" id="d10" style="color:#fff">
+ <div class="hd"><div class="lg"><img src="../../../assets/img/brand/logo-mark.svg">Elevate Studio</div><div class="bm"></div></div>
+ <div style="position:absolute;left:40px;right:40px;top:200px;text-align:center"><div style="font-size:78px;font-weight:600;letter-spacing:-.02em">Hur presterar<br><span class="it">din sajt?</span></div>
+ <div style="margin-top:40px;background:#fff;border-radius:999px;height:96px;display:flex;align-items:center;padding:0 10px 0 34px;color:#888;font-size:28px">dittforetag.se<span style="margin-left:auto;background:var(--g);color:#fff;border-radius:999px;padding:20px 34px;font-weight:700">Testa</span></div>
+ <div style="display:flex;justify-content:center;gap:22px;margin-top:50px">${''}</div></div>
+ <div id="rg" style="position:absolute;left:40px;right:40px;top:640px;display:flex;justify-content:center;gap:20px"></div>
+ <div style="position:absolute;left:40px;right:40px;top:900px;text-align:center"><div style="font-size:40px;font-weight:600">Inte grönt? Vi fixar det.</div><p style="font-size:26px;opacity:.85;margin-top:10px">Ny hemsida från 2 999 kr</p><span class="btn cr" style="margin-top:34px">Kontakta oss · elevatestudio.nu</span></div></div>
+<script>
+document.querySelectorAll('[id^=d]').forEach(e=>e.innerHTML=e.innerHTML.replace(/\$\{''\}/g,''));
+document.getElementById('rg').innerHTML=[[97,'Prestanda'],[100,'Tillgänglighet'],[100,'SEO']].map(([v,l])=>`<div style="width:190px;height:220px;border-radius:28px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:grid;place-items:center;padding:20px"><svg width="110" height="110" style="transform:rotate(-90deg)"><circle cx="55" cy="55" r="46" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="9"/><circle cx="55" cy="55" r="46" fill="none" stroke="#c6f36b" stroke-width="9" stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="${289*(1-v/100)}"/></svg><div style="margin-top:-80px;font-size:34px;font-weight:700">${v}</div><div style="font-size:19px;margin-top:40px">${l}</div></div>`).join('');
+document.getElementById('d'+(+(location.hash.slice(1)||1))).classList.add('on');
+</script></body></html>
