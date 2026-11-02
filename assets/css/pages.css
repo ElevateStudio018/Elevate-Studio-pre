@@ -941,3 +941,41 @@ select.portal-company { font-size: 20px; }
 .portal-msg small { color: #6b736d; }
 .portal-msg p { margin: 4px 0 0; white-space: pre-wrap; }
 @media (max-width: 700px) { .portal-form--grid { grid-template-columns: 1fr; } .portal-warn { flex-direction: column; align-items: flex-start; } }
+/* ---------- Theme: dark green with a fine dot pattern and a soft lime/teal glow (Testa din sajt, Domäner, Mejl, Kassa, Portal) ---------- */
+.sitetest-hero, .glow-dark { position: relative; overflow: hidden; background-color: #16301f;
+  background-image: radial-gradient(ellipse 45% 55% at 100% 105%, rgba(212, 232, 90, .85), rgba(212, 232, 90, 0) 70%),
+    radial-gradient(ellipse 60% 45% at 45% 115%, rgba(40, 150, 125, .55), rgba(40, 150, 125, 0) 70%); }
+.sitetest-hero::before, .glow-dark::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, .09) 1px, transparent 1.4px); background-size: 6px 6px; }
+.sitetest-hero > *, .glow-dark > * { position: relative; }
+.st-title { font-weight: 600; letter-spacing: -.02em; }
+.sitetest-hero .sitetest__form { max-width: 720px; }
+.st-deep { margin: 16px 0 0; }
+.st-deep__btn { padding: 0; border: 0; background: none; color: rgba(253, 251, 245, .85); font: inherit; font-size: 15px; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.st-deep__btn:disabled { opacity: .7; cursor: progress; }
+.st-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 840px; margin: 56px auto 0; }
+.st-card { position: relative; display: grid; justify-items: center; gap: 14px; padding: 30px 20px; border: 1px solid rgba(255, 255, 255, .14); border-radius: 26px; background: rgba(255, 255, 255, .07); backdrop-filter: blur(6px); }
+.st-card svg { width: 112px; height: 112px; transform: rotate(-90deg); }
+.st-card circle { fill: none; stroke-width: 12; stroke-linecap: round; }
+.st-card .st-bg { stroke: rgba(255, 255, 255, .14); }
+.st-card b { position: absolute; top: 72px; font-size: 26px; font-weight: 600; }
+.st-card p { margin: 0; font-size: 17px; font-weight: 500; }
+.sitetest-running .st-preview { display: none; }
+@media (max-width: 700px) { .st-preview { grid-template-columns: 1fr 1fr 1fr; gap: 8px; } .st-card { padding: 16px 6px; } .st-card svg { width: 64px; height: 64px; } .st-card b { top: 34px; font-size: 16px; } .st-card p { font-size: 12px; } }
+
+/* Domain results as rounded rows without lines (like a price list) */
+.shop-list { border-top: 0; display: grid; gap: 10px; }
+.shop-list .shop-row { padding: 18px 22px; border: 0; border-radius: 20px; background: #fff; }
+.shop-list .shop-row b .tld { font-weight: 700; }
+.shop-row .btn { border-radius: 999px; }
+.new-tag { display: inline-block; margin-left: 4px; padding: 2px 7px; border-radius: 999px; background: #d4e85a; color: #16301f; font-size: 11px; font-weight: 700; letter-spacing: .04em; vertical-align: 2px; }
+.sitetest__device[hidden] { display: none !important; }
+.sitetest-hero .sitetest__form .btn[type="submit"] { background: #1d3b2a; color: #fff; padding: 0 34px; }
+.sitetest-hero .sitetest__form .btn[type="submit"]:hover { background: #24482f; }
+.shop-list .shop-row { background: #f4f1e8; }
+.shop-list .shop-row > b { font-size: 19px; font-weight: 400; }
+.shop-list .shop-row > b .tld { font-weight: 700; }
+.shop-list .shop-st--ok { color: #2f7d4f; font-weight: 600; }
+.shop-list .shop-st--no { color: #8a8f88; }
+.shop .shop-row .shop-st--ok { color: #2f7d4f !important; font-weight: 600; }
+.shop .shop-row .shop-st--no { color: #8a8f88 !important; }

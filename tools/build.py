@@ -69,6 +69,7 @@ def header(p, crumbs, current):
           </li>
           {nav_item("priser", "priser.html", "Priser")}
           {nav_item("kontakt", "kontakt.html", "Kontakt")}
+          <li class="nav-new"><a href="{p}domaner.html">Domäner &amp; mejl <span class="new-tag">Nytt</span></a></li>
           {nav_item("insikter", "insikter/index.html", "Senaste nytt")}
         </ul>
       </nav>
@@ -112,6 +113,7 @@ def header(p, crumbs, current):
         </li>
         <li class="drawer__desk-only"><a href="{p}tjanster/index.html">Vad vi gör</a></li>
         <li><a href="{p}priser.html">Priser</a></li>
+        <li><a href="{p}domaner.html">Domäner &amp; mejl <span class="new-tag">Nytt</span></a></li>
         <li><a href="{p}insikter/index.html">Senaste nytt</a></li>
         <li><a href="{p}plattformar/index.html">Plattformar</a></li>
         <li><a href="{p}testa.html">Testa din sajt</a></li>
@@ -1110,21 +1112,24 @@ def build_test_page():
     main = f'''<main>
     <section class="page-hero sitetest-hero">
       <div class="container">
-        <p class="page-hero__eyebrow">Gratis djuptest</p>
-        <h1 class="page-hero__title">Hur presterar <em>din sajt?</em></h1>
-        <p class="page-hero__lead">Skriv in din adress så testar vi sidan i en riktig webbläsare på cirka 30 sekunder. Du får betyg för prestanda, tillgänglighet, bästa praxis och SEO – och konkreta förslag på hur allt kan åtgärdas.</p>
+        <h1 class="page-hero__title st-title">Hur presterar din sajt?</h1>
         <form class="sitetest__form" id="sitetest-form" data-api-key="{esc(PSI_API_KEY)}" data-form-endpoint="{FORM_ENDPOINT}" data-prefix="{p}" novalidate>
           <label class="sitetest__field"><span class="sr-only">Webbadress</span>
-            <input type="text" name="url" inputmode="url" autocomplete="url" placeholder="https://dittforetag.se" required>
+            <input type="text" name="url" inputmode="url" autocomplete="url" placeholder="dittforetag.se" required>
           </label>
-          <fieldset class="sitetest__device">
+          <fieldset class="sitetest__device" hidden>
             <legend class="sr-only">Enhet</legend>
             <label><input type="radio" name="strategy" value="mobile" checked><span>Mobil</span></label>
             <label><input type="radio" name="strategy" value="desktop"><span>Dator</span></label>
           </fieldset>
-          <button type="submit" class="btn btn--primary"><span>Snabbtest</span></button>
-          <button type="button" class="btn btn--light sitetest__deep-btn" id="sitetest-deep-btn"><span>Djupanalys (några minuter)</span></button>
+          <button type="submit" class="btn btn--primary"><span>Testa</span></button>
         </form>
+        <p class="st-deep"><button type="button" class="st-deep__btn" id="sitetest-deep-btn"><span>Eller testa hela sajten (djupanalys, några minuter)</span></button></p>
+        <div class="st-preview" aria-hidden="true">
+          <div class="st-card"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="st-bg"/><circle cx="60" cy="60" r="50" class="st-fg" stroke="#d4e85a" stroke-dasharray="250 314"/></svg><b>–</b><p>Prestanda</p></div>
+          <div class="st-card"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="st-bg"/><circle cx="60" cy="60" r="50" class="st-fg" stroke="#3cc2b0" stroke-dasharray="285 314"/></svg><b>–</b><p>Tillgänglighet</p></div>
+          <div class="st-card"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="st-bg"/><circle cx="60" cy="60" r="50" class="st-fg" stroke="#f2b45f" stroke-dasharray="200 314"/></svg><b>–</b><p>SEO och AI-optimering</p></div>
+        </div>
       </div>
     </section>
     <section class="section container sitetest">

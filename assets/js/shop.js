@@ -46,7 +46,8 @@
       var btn = st[1] === 'ok' && t ? '<button type="button" class="btn ' + (inCart ? 'btn--light' : 'btn--primary') + ' shop-add" data-d="' + esc(r.domain) + '"' + (inCart ? ' disabled' : '') + '><span>' + (inCart ? 'Tillagd' : 'Lägg till') + '</span></button>'
         : r.status === 'taken' && t ? '<button type="button" class="btn btn--light shop-add" data-d="' + esc(r.domain) + '" data-transfer="1"><span>Är den er? Flytta hit</span></button>' : '';
       var warn = t && t.renew > t.register * 2 ? '<small class="shop-warn">Förnyas för ' + kr(t.renew) + '/år</small>' : t ? '<small>Förnyas ' + kr(t.renew) + '/år</small>' : '';
-      return '<div class="shop-row"><b>' + esc(r.domain) + '</b><span class="shop-st shop-st--' + st[1] + '"' + (r.status === 'likely_free' ? ' title="Kontrollerad via DNS. Bekräftas innan registrering."' : '') + '>' + st[0] + '</span>' +
+      var dot = r.domain.indexOf('.');
+      return '<div class="shop-row"><b>' + esc(r.domain.slice(0, dot)) + ' <span class="tld">' + esc(r.domain.slice(dot)) + '</span></b><span class="shop-st shop-st--' + st[1] + '"' + (r.status === 'likely_free' ? ' title="Kontrollerad via DNS. Bekräftas innan registrering."' : '') + '>' + st[0] + '</span>' +
         '<span>' + (t && st[1] === 'ok' ? kr(t.register) + ' första året' : '') + warn + '</span>' + btn + '</div>';
     }
     function render() {

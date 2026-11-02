@@ -1071,3 +1071,24 @@ h2, h3 { margin: 0; font-weight: 400; }
 .clients-fake .clients-fake__tag { background: #b42318; color: #fff; font-size: 13px; padding: 6px 14px; }
 .clients-fake__text { margin: 0; max-width: 560px; font-size: 16px; font-weight: 600; color: #b42318; }
 .clients-fake__foot { margin: 40px auto 0; font-weight: 600; color: #b42318; }
+/* New: domains and business mail, two dark glowing cards */
+.promo2 { display: grid; grid-template-columns: 1fr 1.7fr; gap: 24px; }
+.promo2__card { display: flex; flex-direction: column; min-height: 460px; padding: 40px 40px 0; border-radius: 32px; color: #fdfbf5; text-decoration: none; }
+.promo2__head { display: flex; justify-content: space-between; gap: 16px; }
+.promo2__card h2 { margin: 0; font-size: 40px; font-weight: 600; line-height: 1.05; letter-spacing: -.02em; }
+.promo2__card h2 em { font-family: Fraunces, serif; font-weight: 400; }
+.promo2__arrow { font-size: 30px; transition: transform .2s; }
+.promo2__card:hover .promo2__arrow { transform: translateX(6px); }
+.promo2__card > p { margin: 16px 0 28px; max-width: 460px; font-size: 18px; color: rgba(253, 251, 245, .85); }
+.promo2__ui { margin-top: auto; padding: 18px; border-radius: 22px 22px 0 0; background: rgba(253, 251, 245, .96); color: #16241b; box-shadow: 0 -20px 60px -20px rgba(0, 0, 0, .5); }
+.promo2__ui--dom { display: grid; gap: 8px; }
+.promo2__ui--dom div { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 14px; background: #fff; font-size: 15px; }
+.promo2__ui--dom i { font-style: normal; font-weight: 700; }
+.promo2__ui--dom span { color: #2f7d4f; font-size: 13px; font-weight: 600; }
+.promo2__ui--dom em { padding: 6px 12px; border-radius: 999px; background: #1d3b2a; color: #fff; font-size: 12px; font-style: normal; font-weight: 600; }
+.promo2__ui--mail { margin-left: 18%; }
+.promo2__bar { display: flex; justify-content: space-between; padding: 4px 6px 12px; font-size: 14px; }
+.promo2__bar span { color: #6b736d; }
+.promo2__msg { display: grid; gap: 2px; padding: 12px 14px; margin-top: 6px; border-radius: 14px; background: #fff; font-size: 14px; }
+.promo2__msg span { color: #6b736d; font-size: 13px; }
+@media (max-width: 900px) { .promo2 { grid-template-columns: 1fr; } .promo2__card { min-height: 0; padding: 28px 24px 0; } .promo2__card h2 { font-size: 30px; } .promo2__ui--mail { margin-left: 0; } }
