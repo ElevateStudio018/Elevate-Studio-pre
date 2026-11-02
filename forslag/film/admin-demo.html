@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Adminpanel – dittforetag.se (prototyp)</title>
+<style>
+@font-face{font-family:H;src:url(../../assets/fonts/HankenGrotesk-latin.woff2) format('woff2');font-weight:100 900}
+*{box-sizing:border-box;margin:0}body{font-family:H,system-ui,sans-serif;background:#f4f6f3;color:#16241b;height:100vh;overflow:hidden}
+button,input,textarea,select{font:inherit}
+#login{position:fixed;inset:0;display:grid;grid-template-columns:1fr 1fr;z-index:5;background:#f6f8f5}
+#login .l{background:#1d3b2a;color:#fff;padding:48px;display:flex;flex-direction:column;justify-content:center}#login .l h1{font-size:52px;letter-spacing:-.03em}#login .l p{opacity:.8;margin-top:10px;font-size:18px}
+#login form{align-self:center;justify-self:center;width:380px}#login h2{font-size:30px;margin-bottom:18px}
+label{display:block;font-size:13px;font-weight:700;color:#4f5a53;margin:12px 0 6px}input,textarea,select{width:100%;padding:12px 14px;border:1.5px solid #dfe5de;border-radius:12px;background:#fff;font-size:16px}textarea{min-height:90px;resize:none}
+.btn{display:inline-block;padding:12px 20px;border:0;border-radius:999px;background:#1d3b2a;color:#fff;font-weight:700;cursor:pointer}.btn.w{width:100%;margin-top:18px}.btn.o{background:#fff;color:#1d3b2a;border:1.5px solid #1d3b2a}
+.app{display:flex;height:100vh}.side{width:230px;background:#1d3b2a;color:#c9d8cd;padding:22px 14px;display:flex;flex-direction:column;gap:3px}
+.side b{color:#fff;font-size:19px;margin:0 10px 4px}.side small{margin:0 10px 18px;color:#9fbca8}
+.side button{display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border:0;border-radius:10px;background:none;color:#c9d8cd;font-size:15px;text-align:left;cursor:pointer}
+.side button.on{background:#fff;color:#1d3b2a;font-weight:700}.side em{font-style:normal;background:#8fd3a6;color:#0f2418;border-radius:9px;padding:0 8px;font-size:12px;font-weight:700}
+.side .view{margin-top:auto;padding:12px;border-radius:12px;background:rgba(255,255,255,.07);font-size:13px}.side .view a{color:#8fd3a6}
+main{flex:1;padding:26px 32px;overflow:auto;position:relative}
+.head{display:flex;align-items:center;gap:12px;margin-bottom:18px}.head h2{flex:1;font-size:28px}
+.v{display:none}.v.on{display:block}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.kpis div,.cardx{background:#fff;border:1px solid #e6eae5;border-radius:16px;padding:18px}.kpis small{color:#6b736d}.kpis b{display:block;font-size:28px;margin-top:4px}
+.prev{position:relative;height:330px;border-radius:16px;overflow:hidden;background:linear-gradient(90deg,rgba(15,20,26,.85),rgba(15,20,26,.25)),var(--img,url(img/hero.jpg)) center/cover;padding:40px 34px;color:#fff}
+.prev small{font-size:11px;letter-spacing:.25em;font-weight:700}.prev h3{font-size:38px;line-height:1.05;margin-top:12px;max-width:440px;border-radius:6px;outline:2px dashed transparent;outline-offset:6px}
+.prev h3:hover,.prev h3:focus{outline-color:#8fd3a6}.prev p{margin-top:12px;max-width:360px;font-size:15px;opacity:.9;outline:2px dashed transparent;outline-offset:6px;border-radius:6px}.prev p:focus{outline-color:#8fd3a6}
+.prev .swap{position:absolute;right:18px;bottom:18px;padding:9px 16px;border-radius:999px;background:#fff;color:#1d3b2a;font-weight:700;border:0;cursor:pointer}
+.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs span{padding:8px 14px;border-radius:999px;background:#fff;border:1px solid #e6eae5;font-size:14px}.tabs span.on{background:#1d3b2a;color:#fff}
+.pick{display:none;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.pick.on{display:grid}.pick img{width:100%;height:90px;object-fit:cover;border-radius:10px;cursor:pointer;border:3px solid transparent}
+.list{background:#fff;border:1px solid #e6eae5;border-radius:16px;overflow:hidden}.li{display:flex;gap:14px;align-items:center;padding:16px 18px;border-bottom:1px solid #f0f2ef;cursor:pointer}.li:last-child{border:0}
+.li b{display:block}.li span{color:#5f6862;font-size:14px}.li .st{margin-left:auto;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;background:#eef1ed}.li .st.n{background:#1d3b2a;color:#fff}
+.detail{display:none;margin-top:14px}.detail.on{display:block}
+.toast{position:fixed;right:28px;top:22px;padding:14px 20px;border-radius:14px;background:#1d3b2a;color:#fff;font-weight:700;opacity:0;transform:translateY(20px);transition:all .35s}.toast.on{opacity:1;transform:none}
+.projs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.projs div{background:#fff;border:1px solid #e6eae5;border-radius:14px;overflow:hidden}.projs img{width:100%;height:120px;object-fit:cover;display:block}.projs b{display:block;padding:10px 12px}
+.code{display:flex;gap:10px;align-items:center}.code code{flex:1;padding:12px 14px;border-radius:12px;background:#f1f4f0;font-family:ui-monospace,Menlo,monospace;color:#3d4741;overflow:hidden;white-space:nowrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+</style></head><body>
+<div id="login"><div class="l"><p style="opacity:1;font-weight:700;letter-spacing:.2em;font-size:13px">DITTFORETAG.SE</p><h1>Er adminpanel</h1><p>Ändra texter, bilder och projekt. Se alla förfrågningar.</p></div>
+  <form id="lf"><h2>Logga in</h2><label>E-post</label><input id="le" placeholder="namn@dittforetag.se"><label>Lösenord</label><input id="lp" type="password"><button class="btn w" id="lb">Logga in</button></form></div>
+<div class="app">
+  <nav class="side"><b>Dittföretag</b><small>dittforetag.se/admin</small>
+    <button data-v="oversikt" class="on">Översikt</button><button data-v="sidor">Sidor och texter</button><button data-v="forfragningar">Förfrågningar <em id="nnew">3</em></button>
+    <button data-v="projekt">Projekt</button><button data-v="installningar">Inställningar</button>
+    <div class="view">Ändringar syns direkt på<br><a>dittforetag.se</a></div></nav>
+  <main>
+    <section class="v on" id="v-oversikt"><div class="head"><h2>Hej Anna!</h2><a class="btn o">Visa hemsidan</a></div>
+      <div class="kpis"><div><small>Nya förfrågningar</small><b>3</b></div><div><small>Besökare i månaden</small><b>1 284</b></div><div><small>Sidor</small><b>6</b></div><div><small>Senast publicerat</small><b style="font-size:20px">idag</b></div></div>
+      <div class="cardx" style="margin-top:14px"><b>Snabbval</b><p style="color:#5f6862;margin-top:6px">Ändra startsidan · Lägg till ett projekt · Svara på förfrågningar</p></div></section>
+    <section class="v" id="v-sidor"><div class="head"><h2>Sidor och texter</h2><button class="btn" id="pub">Publicera</button></div>
+      <div class="tabs"><span class="on">Startsidan</span><span>Tjänster</span><span>Om oss</span><span>Kontakt</span></div>
+      <div class="prev" id="prev"><small>VI BYGGER FÖR FRAMTIDEN</small><h3 id="eh" contenteditable="true" spellcheck="false">Stora projekt för en ljusare morgondag</h3><p id="ep" contenteditable="true" spellcheck="false">Vi bygger hållbart med fast pris och tydlig tidsplan.</p><button class="swap" id="swap">Byt bild</button></div>
+      <div class="pick" id="pick"><img src="img/hero.jpg" data-i="img/hero.jpg"><img src="img/p5505119.jpg" data-i="img/p5505119.jpg" id="pi2"><img src="img/p8961064.jpg" data-i="img/p8961064.jpg"><img src="img/p773843.jpg" data-i="img/p773843.jpg"></div>
+      <p style="color:#6b736d;margin-top:10px;font-size:14px">Klicka på en text för att ändra den. Inget syns för besökarna förrän ni klickar Publicera.</p></section>
+    <section class="v" id="v-forfragningar"><div class="head"><h2>Förfrågningar</h2></div>
+      <div class="list" id="leads"><div class="li" id="l1"><div><b>Karin Lund – Badrum</b><span>Vi vill renovera vårt badrum, ca 6 kvm.</span></div><span class="st n" id="l1s">Ny</span></div>
+        <div class="li"><div><b>Sara Ek – Kök</b><span>Nytt kök före jul?</span></div><span class="st n">Ny</span></div>
+        <div class="li"><div><b>Ali K. – Tak</b><span>Byta tak på villa</span></div><span class="st n">Ny</span></div>
+        <div class="li"><div><b>Johan B. – Altan</b><span>Offert på altan, 30 kvm</span></div><span class="st">Besvarad</span></div></div>
+      <div class="detail cardx" id="ld"><b style="font-size:20px">Karin Lund</b><p style="color:#5f6862;margin:4px 0 10px">karin@example.se · 070-111 22 33 · via offertformuläret</p><p>Vi vill renovera vårt badrum, ca 6 kvm. Kan ni komma och titta?</p>
+        <label>Svar till Karin</label><textarea id="reply"></textarea><div style="display:flex;gap:10px;margin-top:12px"><button class="btn" id="send">Skicka svar</button><select id="lst" style="width:200px"><option>Ny</option><option>Besvarad</option><option>Offert skickad</option><option>Klar</option></select></div></div></section>
+    <section class="v" id="v-projekt"><div class="head"><h2>Projekt</h2><button class="btn" id="padd">Lägg till projekt</button></div>
+      <div class="cardx detail" id="pform"><div class="grid2"><div><label>Namn på projektet</label><input id="pname"></div><div><label>Ort</label><input id="port"></div></div><label>Välj bild</label>
+        <div class="pick on" id="ppick"><img src="img/p5505119.jpg" data-i="img/p5505119.jpg"><img src="img/p8961064.jpg" data-i="img/p8961064.jpg"><img src="img/p773843.jpg" data-i="img/p773843.jpg" id="pp3"><img src="img/hero.jpg" data-i="img/hero.jpg"></div>
+        <button class="btn" id="psave" style="margin-top:14px">Spara och publicera</button></div>
+      <div class="projs" id="projs" style="margin-top:14px"><div><img src="img/p5505119.jpg"><b>Kontorshus, Nacka</b></div><div><img src="img/p8961064.jpg"><b>Skola, Huddinge</b></div></div></section>
+    <section class="v" id="v-installningar"><div class="head"><h2>Inställningar</h2><button class="btn" id="ssave">Spara</button></div>
+      <div class="grid2"><div class="cardx"><b>Kontaktuppgifter</b><label>Telefon</label><input id="tel" value="08-123 45 67"><label>Öppettider</label><input id="open" value="Mån–fre 7–16"><label>Förfrågningar skickas till</label><input value="info@dittforetag.se"></div>
+        <div class="cardx"><b>Kundportalen</b><p style="color:#5f6862;margin:6px 0 12px">Koppla adminpanelen till Elevates kundportal.</p><div class="code"><code>es1.eyJ1IjoiaHR0cHM6Ly9kaXR0Zm9yZXRhZy5zZSIs…</code><button class="btn" id="copy">Kopiera kod</button></div></div></div></section>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const $=id=>document.getElementById(id),toast=t=>{const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2200)};
+$('lf').addEventListener('submit',e=>{e.preventDefault();$('login').style.display='none'});
+document.querySelectorAll('.side button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.side button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.v').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v))}));
+$('swap').addEventListener('click',()=>$('pick').classList.toggle('on'));
+$('pick').addEventListener('click',e=>{const i=e.target.dataset.i;if(i){$('prev').style.setProperty('--img',`url(${i})`);$('pick').classList.remove('on')}});
+$('pub').addEventListener('click',()=>{$('pub').textContent='Publicerat ✓';toast('✓ Publicerat på dittforetag.se');setTimeout(()=>$('pub').textContent='Publicera',2500)});
+$('l1').addEventListener('click',()=>$('ld').classList.add('on'));
+$('send').addEventListener('click',()=>{$('lst').value='Besvarad';$('l1s').textContent='Besvarad';$('l1s').classList.remove('n');$('nnew').textContent='2';toast('✓ Svar skickat till Karin')});
+$('padd').addEventListener('click',()=>$('pform').classList.add('on'));let pimg='img/p773843.jpg';
+$('ppick').addEventListener('click',e=>{const i=e.target.dataset.i;if(i){pimg=i;[...$('ppick').children].forEach(x=>x.style.borderColor=x===e.target?'#2f7d4f':'transparent')}});
+$('psave').addEventListener('click',()=>{const d=document.createElement('div');d.innerHTML=`<img src="${pimg}"><b>${$('pname').value} , ${$('port').value}</b>`.replace(' ,',',');$('projs').prepend(d);$('pform').classList.remove('on');toast('✓ Projektet ligger nu på hemsidan')});
+$('ssave').addEventListener('click',()=>toast('✓ Sparat'));$('copy').addEventListener('click',()=>{$('copy').textContent='Kopierad ✓';toast('Klistra in koden i kundportalen under Hemsidans admin')});
+</script>
+</body></html>

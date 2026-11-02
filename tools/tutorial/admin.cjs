@@ -1,0 +1,34 @@
+// How-to film: the customer's website admin panel (clickable prototype in forslag/film/admin-demo.html).
+const { tour } = require('./tour.cjs');
+tour('guide-adminpanelen', async (t) => {
+  await t.goto('http://localhost:8767/forslag/film/admin-demo.html');
+  await t.card(t.LOGO + '<h1>Så ändrar ni er <span class="hl">hemsida</span></h1><p>Adminpanelen på dittforetag.se/admin – inga tekniska kunskaper behövs.</p><ol><li>Logga in</li><li>Ändra texter</li><li>Byt bild</li><li>Förfrågningar</li><li>Projekt</li><li>Inställningar</li></ol>', 3600);
+  await t.uncard();
+  await t.say('1', 'Gå till dittforetag.se/admin och logga in med er e-post och ert lösenord.');
+  await t.type('#le', 'anna@dittforetag.se'); await t.type('#lp', 'hemligtlosen', 30); await t.click('#lb'); await t.sleep(800);
+  await t.say('1', 'Översikten visar nya förfrågningar och besökare.'); await t.ring('.kpis', 8); await t.sleep(1800); await t.unring();
+  await t.say('2', 'Under Sidor och texter klickar ni på en text och skriver om den.');
+  await t.click('[data-v="sidor"]'); await t.sleep(500);
+  await t.click('#eh'); await t.p.keyboard.press('Control+A'); await t.p.keyboard.press('Backspace'); await t.p.keyboard.type('Vi bygger ditt drömhem – i tid.', { delay: 55 }); await t.sleep(500);
+  await t.click('#ep'); await t.p.keyboard.press('Control+A'); await t.p.keyboard.press('Backspace'); await t.p.keyboard.type('Badrum, kök och tillbyggnader i hela Stockholm.', { delay: 40 }); await t.sleep(400);
+  await t.say('3', 'Byt bild: klicka Byt bild och välj en ny.');
+  await t.click('#swap'); await t.sleep(700); await t.click('#pi2'); await t.sleep(900);
+  await t.say('3', 'Klicka Publicera – då syns ändringen direkt på hemsidan.');
+  await t.click('#pub'); await t.sleep(1800);
+  await t.say('4', 'Alla förfrågningar från hemsidan samlas här. Klicka på en för att läsa.');
+  await t.click('[data-v="forfragningar"]'); await t.sleep(600); await t.click('#l1'); await t.sleep(700);
+  await t.type('#reply', 'Hej Karin! Vi kan komma och titta på torsdag kl 10. Passar det?', 28);
+  await t.say('4', 'Svara direkt – förfrågan markeras som besvarad.');
+  await t.click('#send'); await t.sleep(1800);
+  await t.say('5', 'Lägg till ett nytt projekt med namn, ort och bild.');
+  await t.click('[data-v="projekt"]'); await t.sleep(400); await t.click('#padd'); await t.sleep(500);
+  await t.type('#pname', 'Villa', 60); await t.type('#port', 'Tyresö', 60); await t.click('#pp3'); await t.sleep(300);
+  await t.click('#psave'); await t.sleep(1600);
+  await t.say('6', 'Under Inställningar ändrar ni telefon och öppettider.');
+  await t.click('[data-v="installningar"]'); await t.sleep(500);
+  await t.type('#open', 'Mån–fre 7–17, lör 9–13', 40); await t.click('#ssave'); await t.sleep(1000);
+  await t.say('6', 'Här finns också koden som kopplar adminpanelen till Elevates kundportal.');
+  await t.click('#copy'); await t.sleep(2200);
+  await t.hush(); await t.out();
+  await t.card(t.LOGO + '<h1>Ni styr. <span class="hl">Vi hjälper.</span></h1><p>Fastnar ni? Skapa ett ärende i kundportalen så fixar vi det.</p>', 3000);
+});
