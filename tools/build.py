@@ -1627,8 +1627,9 @@ def build_platform():
     a summary bar at the bottom). Prices come from assets/data/catalog.json, the cart lives in the browser."""
     p = ""
     js = ("shop.js",)
+    PRICE_OF = {t["tld"]: t["register"] for t in json.loads((ROOT / "assets/data/catalog.json").read_text(encoding="utf-8"))["tlds"]}
     domain = f'''<main>
-    <section class="page-hero sitetest-hero">
+    <section class="page-hero sitetest-hero dom-hero">
       <div class="container">
         <p class="page-hero__eyebrow">Domäner</p>
         <h1 class="page-hero__title">Hitta ert <em>domännamn</em></h1>
@@ -1638,8 +1639,13 @@ def build_platform():
             <input type="text" name="q" autocomplete="off" placeholder="dittforetag" required></label>
           <button type="submit" class="btn btn--primary"><span>Sök</span></button>
         </form>
-        <div class="dom-chips" id="dom-chips">{"".join(f'<button type="button" data-tld="{t}">.{t}</button>' for t in ("se", "nu", "com", "net", "org", "eu", "io"))}</div>
+        <div class="dom-chips" id="dom-chips">{"".join(f'<button type="button" data-tld="{t}">.{t} <b>{PRICE_OF.get(t, "")} kr</b></button>' for t in ("se", "nu", "com", "net", "org", "eu", "io"))}</div>
         <p class="shop-hint" id="dom-hint"></p>
+        <div class="dom-points">
+          <div><b>Ni äger domänen</b><span>Registreras på ert företag</span></div>
+          <div><b>Svar direkt</b><span>Kontroll mot registret</span></div>
+          <div><b>Mejl på köpet</b><span>Lägg till info@ när ni vill</span></div>
+        </div>
       </div>
     </section>
     <section class="section container shop">

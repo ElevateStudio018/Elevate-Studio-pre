@@ -86,7 +86,7 @@
       var warn = t && t.renew > t.register * 2 ? '<small class="shop-warn">Förnyas för ' + kr(t.renew) + '/år</small>' : t ? '<small>Förnyas ' + kr(t.renew) + '/år</small>' : '';
       var dot = r.domain.indexOf('.');
       return '<div class="shop-row"><b>' + esc(r.domain.slice(0, dot)) + ' <span class="tld">' + esc(r.domain.slice(dot)) + '</span></b><span class="shop-st shop-st--' + st[1] + '"' + (r.status === 'likely_free' ? ' title="Kontrollerad via DNS. Bekräftas innan registrering."' : '') + '>' + st[0] + '</span>' +
-        '<span>' + (t && st[1] === 'ok' ? kr(t.register) + ' första året' : '') + warn + '</span>' + btn + '</div>';
+        '<span class="shop-price1">' + (t && st[1] === 'ok' ? kr(t.register) + ' första året' : '') + '</span>' + btn + '</div>';
     }
     function render() {
       if (!last) return;

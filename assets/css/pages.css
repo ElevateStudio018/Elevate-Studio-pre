@@ -1162,3 +1162,27 @@ select.portal-company { font-size: 20px; }
 .dom-chips button.is-on, .dom-chips button:hover { background: #fdfbf5; color: #16301f; }
 .wmx .btn--light, .wmx-file { background: #eef4ef !important; color: #1d3b2a !important; }
 .wmx .btn--light:hover { background: #e3ece4 !important; }
+/* Mail: our logo, with "Mejl" under it in black; a light top bar so the logo reads as on the rest of the site */
+.wmx-brand { display: grid; gap: 2px; line-height: 1; }
+.wmx-brand__logo { display: inline-flex; gap: 8px; align-items: center; font-size: 19px; font-weight: 700; letter-spacing: -.02em; }
+.wmx-brand__logo svg { width: 30px; height: auto; }
+.wmx-brand__sub { padding-left: 38px; font-size: 14px; font-weight: 600; color: #000; }
+.wmx-bar { background: #fff !important; background-image: none !important; color: #16241b !important; border-bottom: 1px solid #eef0ec; }
+.wmx-bar .wmx-search input { background: #f2f4f1 !important; color: #16241b !important; }
+.wmx-bar .wmx-search input::placeholder { color: #8a8f88 !important; }
+.wmx-bar .wmx-icon:hover { background: #f2f4f1 !important; }
+.wmx-login .wmx-brand { margin: 0 0 6px; }
+.wmx-login .wmx-brand__sub { color: #fdfbf5; }
+/* Domains: a bigger search section before searching */
+.dom-hero { padding: 110px 0 120px !important; }
+.dom-hero .page-hero__title { font-size: clamp(44px, 7vw, 88px); }
+.dom-hero .page-hero__lead { font-size: 20px; max-width: 620px; }
+.dom-hero .sitetest__form { max-width: 760px; padding: 10px; }
+.dom-hero .sitetest__field input { font-size: 20px; height: 62px; }
+.dom-hero .sitetest__form .btn { height: 62px; padding: 0 40px; font-size: 17px; }
+.dom-chips button b { font-weight: 600; margin-left: 4px; }
+.dom-points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 840px; margin: 56px auto 0; }
+.dom-points div { display: grid; gap: 4px; padding: 20px; border: 1px solid rgba(255, 255, 255, .14); border-radius: 20px; background: rgba(255, 255, 255, .07); text-align: center; }
+.dom-points b { font-size: 17px; } .dom-points span { color: rgba(253, 251, 245, .75); font-size: 14px; }
+.shop-price1 { font-size: 17px; }
+@media (max-width: 700px) { .dom-hero { padding: 60px 0 70px !important; } .dom-points { grid-template-columns: 1fr; margin-top: 32px; } .dom-hero .sitetest__form .btn { padding: 0 22px; } }

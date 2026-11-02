@@ -19,6 +19,7 @@
     refresh: 'M20 11a8 8 0 10-2 6M20 4v7h-7', clip: 'M16 7l-7 7a2 2 0 003 3l8-8a4 4 0 00-6-6l-8 8a6 6 0 008 8l6-6', print: 'M6 9V3h12v6M6 17H4v-6h16v6h-2M7 14h10v7H7z'
   };
   var ico = function (n) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + ICON[n] + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'; };
+  var LOGO = '<div class="wmx-brand"><span class="wmx-brand__logo"><svg viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>Elevate Studio</span><span class="wmx-brand__sub">Mejl</span></div>';
   var ROLE_LABEL = { inbox: 'Inkorg', starred: 'Stjärnmärkt', drafts: 'Utkast', sent: 'Skickat', archive: 'Arkiv', junk: 'Skräppost', trash: 'Papperskorg' };
   var st = { email: '', folders: [], roles: {}, counts: {}, servers: {}, view: 'mail', folder: 'INBOX', starred: false, items: [], total: 0, page: 0, open: null, sel: {}, filter: '', settings: store.get('settings', { name: '', signature: '', perPage: 30 }), contacts: store.get('contacts', []) };
 
@@ -67,7 +68,7 @@
   // ---------- login ----------
   function login(note) {
     root.innerHTML = '<div class="wmx-login glow-dark">' + (DEMO ? '<p class="wmx-badge">Demoläge · testbrevlåda · inga riktiga mejl</p>' : '') +
-      '<p class="wmx-logo">elevate<span>mejl</span></p><h1>Logga in på din e-post</h1>' + (note ? '<p class="wmx-note">' + esc(note) + '</p>' : '') +
+      LOGO + '<h1>Logga in på din e-post</h1>' + (note ? '<p class="wmx-note">' + esc(note) + '</p>' : '') +
       '<form id="wl" class="wmx-form" novalidate><input name="email" type="email" autocomplete="username" placeholder="din@foretag.se" aria-label="E-post" required>' +
       '<input name="password" type="password" autocomplete="current-password" placeholder="Lösenord" aria-label="Lösenord" required>' +
       '<details class="wmx-adv"><summary>Egen mejlserver</summary><input name="imap" placeholder="IMAP-server, t.ex. imap.foretag.se" aria-label="IMAP-server"><input name="smtp" placeholder="SMTP-server, t.ex. smtp.foretag.se" aria-label="SMTP-server"></details>' +
@@ -98,7 +99,7 @@
       return '<button type="button" class="wmx-folder' + (on ? ' is-on' : '') + '" data-f="' + esc(f) + '">' + ico({ inbox: 'inbox', starred: 'star', drafts: 'draft', sent: 'sent', archive: 'archive', junk: 'junk', trash: 'trash' }[r] || 'folder') + '<span>' + esc(f === 'starred' ? 'Stjärnmärkt' : label(f)) + '</span>' + (n && r !== 'sent' && r !== 'trash' ? '<em>' + n + '</em>' : '') + '</button>';
     };
     root.innerHTML = '<div class="wmx">' +
-      '<div class="wmx-bar"><p class="wmx-logo">elevate<span>mejl</span></p><label class="wmx-search">' + '<span class="sr-only">Sök i mejl</span><input id="wq" placeholder="Sök i mejl  ( / )" value="' + esc(st.filter) + '"></label>' +
+      '<div class="wmx-bar">' + LOGO + '<label class="wmx-search">' + '<span class="sr-only">Sök i mejl</span><input id="wq" placeholder="Sök i mejl  ( / )" value="' + esc(st.filter) + '"></label>' +
       '<button type="button" class="wmx-icon" id="wrefresh" title="Uppdatera" aria-label="Uppdatera">' + ico('refresh') + '</button><span class="wmx-me">' + (st.settings.name ? esc(st.settings.name) + '<small>' + esc(st.email) + '</small>' : esc(st.email)) + '</span><button type="button" class="wmx-link" id="wout">Logga ut</button></div>' +
       (DEMO ? '<p class="wmx-demo">Demoläge · testbrevlåda · inga riktiga mejl skickas</p>' : '') +
       '<div class="wmx-body"><nav class="wmx-side" aria-label="Mappar"><button type="button" class="wmx-compose" id="wnew">Skriv nytt</button>' + main.map(item).join('') +
