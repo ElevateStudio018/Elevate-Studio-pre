@@ -16,15 +16,21 @@ Build a single-page, full-screen **animated product ad (25 seconds, 16:9, 1920×
 - **Small details everywhere:** a counter on the cart icon that bumps (scale 1.25), numbers that count up, line charts that draw themselves (stroke-dashoffset), result rows that pop in with a slight overshoot (back-ease, 0.15s stagger). The selected card **slowly turns green over 1 second** while it lifts 16px, scales to 1.06 and gets a mint glow; the other cards dim to 80% brightness.
 - **Transitions:** cross-fade combined with a slight zoom (scale 1→1.6 on the outgoing text). Never a hard cut, never a slow intro.
 
-## Storyboard (start strong — no slow intro)
-1. **0–3s.** "Ert företag." slides up. Then "*Ert* **namn.**", where "namn." gets the highlight wipe. Zoom out to the next scene.
-2. **3–10.5s: Domain search.** A 3D card with a search field slides in. The cursor flies in and clicks the field. "haningebyggteam" types letter by letter with a blinking caret. The cursor clicks **Sök** (the button presses in). Three rows pop in: `haningebyggteam.se – Ledig – 149 kr första året`, then `.nu` and `.com`. The cursor clicks **Lägg till** on .se, which turns dark green with "Tillagd ✓" and a sparkle. The cart pill in the top right bumps from 0 to 1.
-3. **10.5–13s.** Kinetic text: "info" + highlight wipe "@haningebyggteam.se".
-4. **13–18s: Business mail.** Headline "Mejl som ser **proffsigt** ut." Three plan cards (Bas 49 kr, Företag 199 kr, Pro 449 kr per month) pop up with a stagger. The cursor hovers Företag, which slowly turns green, lifts and glows. The cursor clicks **Välj**, which turns into "Vald ✓".
-5. **18–22.5s: Checkout.** A 3D card shows the lines "haningebyggteam.se 149 kr" and "Mejl Företag · 5 konton 199 kr/mån", and "Totalt idag 149 kr". The cursor clicks **Skicka beställning**. A big mint circle with ✓ scales in with overshoot.
-6. **22.5–28.5s: Customer portal.** Headline "Och allt syns i **kundportalen.**" A dashboard swings in from the side in 3D. It has a dark green sidebar (Översikt, Hemsidans admin, Besökare, Ändringar, Mejl & domän, Fakturor) and a green hero box where "1 284 besökare" counts up and a line chart draws itself. KPI tiles show Förfrågningar 23 (counts up), Drifttid 99,98 % and Google-betyg 100.
-7. **28.5–31.5s.** Small text "Domän · Mejl · Hemsida · Portal", then a big "Allt på **ett** ställe." that scales up from 0.85.
-8. **31.5–35s: End card.** The background fades to light mint. The Elevate Studio logo mark (an angular "A/mountain" shape in `#1d3b2a`) pops in with a slight rotation, then "Elevate Studio" and "elevatestudio.nu" fade in.
+## Storyboard (fast cuts, ~0.4s per word at the start, total 25s)
+**Message:** we make things easy for businesses, and everything is in one place.
+
+1. **0–2.3s: the problem.** Fast word swaps in the centre, each one pops in with a back-ease scale 0.7→1: "Hemsida." → "Domän." → "Mejl." → "Fakturor." → "**Krångligt?**" The last word is bigger, mint coloured, and gives a small shake.
+2. **2.3–3.7s: the promise.** "Vi gör det **enkelt.**", where the highlight wipes in. Zoom out into the next scene.
+3. **3.7–8.3s: domain search, exactly like elevatestudio.nu/domaner.**
+   - Layout: the eyebrow "DOMÄNER", the headline "Hitta ert *domännamn*" (Fraunces italic on "domännamn"), a large white pill-shaped search field with a dark green "Sök" button inside it, and price chips below it (.se 149 kr, .nu 149 kr, .com 169 kr, .net 189 kr, .eu 129 kr).
+   - The cursor clicks the field and "haningebyggteam" types quickly. The cursor clicks Sök.
+   - The chips fold away and a white results card pops in: .se Ledig 149 kr första året, .nu Ledig, .com Upptagen.
+   - The cursor clicks "Lägg till" on .se, which turns into "Tillagd ✓" with a sparkle. The cart pill bumps from 0 to 1.
+4. **8.3–11.9s: mail.** "info**@haningebyggteam.se**" with a highlight wipe at the top. Three plan cards pop up with a stagger. Företag slowly turns green (0.8s), lifts and glows, and the cursor clicks "Välj", which turns into "Vald ✓".
+5. **11.9–15.1s: test your site, exactly like elevatestudio.nu/testa.** "Hur presterar din sajt?", then a white pill with "haningebyggteam.se" and a "Testa" button. The cursor clicks Testa. Three glass tiles with rings fill up and count to 98 / 100 / 100 (Prestanda, Tillgänglighet, SEO och AI).
+6. **15.1–18.9s: customer portal.** "Och allt syns i **kundportalen.**" The dashboard swings in in 3D. "1 284 besökare" counts up, the line chart draws itself, and the KPIs count up. Then a new lead notification slides in: "Ny – Karin Lund vill ha offert på badrum".
+7. **18.9–22.2s: the message.** "Allt på **ett** ställe." scales in. Floating chips fly in around it and bob gently: Domän, Företagsmejl, Hemsida, Kundportal, Testa din sajt. Below it: "Mindre krångel. Mer tid för kunderna."
+8. **22.2–25s: end card on light mint.** The logo pops in, then "Elevate Studio", "Vi gör det enkelt för företag." and "elevatestudio.nu".
 
 ## Technical
 - One `<Timeline>` component driven by a single time value, so everything stays in sync and can be scrubbed.
