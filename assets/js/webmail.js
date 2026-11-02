@@ -94,7 +94,20 @@
         .catch(function (x) { err.hidden = false; err.textContent = x.message === 'Failed to fetch' ? 'Kunde inte nå servern.' : x.message; btn.disabled = false; btn.querySelector('span').textContent = 'Logga in'; });
     });
   }
-  function start() { api('folders').then(function (d) { st.folders = d.folders; st.roles = d.roles || {}; st.counts = d.counts || {}; st.servers = d.servers || {}; shell(); if (!st.backupRun) { st.backupRun = 1; backup(); } }).catch(fail); }
+  function start() { api('folders').then(function (d) { st.folders = d.folders; st.roles = d.roles || {}; st.counts = d.counts || {}; st.servers = d.servers || {}; shell(); if (!st.backupRun) { st.backupRun = 1; backup(); } if (!store.get('intro', false)) intro(); }).catch(fail); }
+  // welcome with a short video the first time; it can be skipped after 20 seconds and watched again from Settings
+  function intro() {
+    var m = document.createElement('div'), left = 20; m.className = 'wmx-modal wmx-intro';
+    m.innerHTML = '<div class="wmx-modal__box wmx-intro__box" role="dialog" aria-label="Välkommen till Elevate Mejl"><p class="wmx-intro__eb">VÄLKOMMEN</p><h2>Så använder du Elevate Mejl</h2>' +
+      '<p>Läs och svara på mejl, skriv med formatering, lägg till signaturer med logga och skapa egna mappar. Titta på den korta guiden – den tar två minuter.</p>' +
+      '<video src="assets/video/guide-mejl.mp4" poster="assets/video/guide-mejl.webp" controls autoplay muted playsinline preload="metadata"></video>' +
+      '<p class="wmx-intro__acts"><button type="button" class="btn btn--primary" id="wiskip" disabled><span>Hoppa över om 20 s</span></button><span class="wmx-small2">Du hittar guiden igen under Inställningar.</span></p></div>';
+    document.body.appendChild(m);
+    var b = m.querySelector('#wiskip'), done = function () { store.set('intro', true); m.remove(); clearInterval(timer); };
+    var timer = setInterval(function () { left--; if (left > 0) b.querySelector('span').textContent = 'Hoppa över om ' + left + ' s'; else { clearInterval(timer); b.disabled = false; b.querySelector('span').textContent = 'Hoppa över'; } }, 1000);
+    m.querySelector('video').addEventListener('ended', function () { clearInterval(timer); b.disabled = false; b.querySelector('span').textContent = 'Kom igång'; });
+    b.addEventListener('click', done);
+  }
   // a copy of every mail is kept by Elevate Studio; it is brought up to date a little at a time while the mailbox is open
   function backup(rounds) { rounds = rounds || 0; api('backup', {}).then(function (d) { st.backup = d; if (d.remaining > 0 && rounds < 200) setTimeout(function () { backup(rounds + 1); }, 400); if (st.view === 'settings') settings(); }).catch(function () { st.backup = { error: true }; }); }
 
@@ -375,6 +388,7 @@
     root.querySelector('#wlist').innerHTML = '<form id="wset" class="wmx-set"><label>Ditt namn som avsändare<input name="name" value="' + esc(st.settings.name) + '" placeholder="Anna Exempel"></label>' +
       '<button class="btn btn--primary"><span>Spara</span></button></form>' +
       '<div class="wmx-set"><b>Signaturer</b><p class="wmx-small2">' + (st.settings.signatures.length ? st.settings.signatures.map(function (g) { return esc(g.name) + (g.id === st.settings.defSig ? ' (standard)' : ''); }).join(' · ') : 'Inga signaturer än.') + '</p><button type="button" class="btn btn--light" id="wsigs"><span>Hantera signaturer</span></button></div>' +
+      '<div class="wmx-set"><b>Introduktion</b><p class="wmx-small2">En kort film om allt du kan göra i Elevate Mejl.</p><button type="button" class="btn btn--light" id="wintro"><span>Visa guiden igen</span></button></div>' +
       '<div class="wmx-set"><b>Säkerhetskopia</b><p class="wmx-small2">' + esc(bkText) + '</p><p class="wmx-small2">En kopia av alla mejl sparas hos Elevate Studio och uppdateras när du är inloggad, så att inget försvinner om något händer hos mejlleverantören.</p></div>';
     root.querySelector('#wread').innerHTML = '<div class="wmx-info"><h3>Mejlen i mobilen och datorn</h3><p>Lägg till kontot i iPhone, Android, Outlook eller Apple Mail med de här uppgifterna:</p>' +
       '<dl><dt>E-post</dt><dd>' + esc(st.email) + '</dd><dt>Inkommande (IMAP)</dt><dd>' + esc(st.servers.imap || '–') + ', port 993, SSL</dd><dt>Utgående (SMTP)</dt><dd>' + esc(st.servers.smtp || '–') + ', port 465, SSL</dd><dt>Lösenord</dt><dd>Samma som här</dd></dl>' +
@@ -382,6 +396,7 @@
       '<h3>Kortkommandon</h3><p><b>c</b> skriv nytt · <b>r</b> svara · <b>/</b> sök · <b>Delete</b> ta bort öppet mejl · <b>Ctrl+B / I / U</b> fet, kursiv, understruken</p></div>';
     root.querySelector('#wset').addEventListener('submit', function (e) { e.preventDefault(); st.settings.name = e.target.name.value.trim(); store.set('settings', st.settings); toast('Inställningarna är sparade'); shell(); });
     root.querySelector('#wsigs').addEventListener('click', function () { signatures(function () {}); });
+    root.querySelector('#wintro').addEventListener('click', intro);
   }
 
   // keyboard shortcuts
