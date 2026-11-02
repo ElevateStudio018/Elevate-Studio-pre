@@ -90,6 +90,10 @@ export async function webmail(req, env, connector, mailer) {
     }
   }
   if (op === 'logout') return json({ ok: true }, 200, { 'set-cookie': cookie('', 0) });
+  if (/^logo\/[0-9a-f]{24}\.(png|jpg)$/.test(op) && req.method === 'GET') {
+    const o = env.MAIL_BACKUP && await env.MAIL_BACKUP.get('logos/' + op.slice(5)); if (!o) return new Response('', { status: 404 });
+    return new Response(o.body, { headers: { 'content-type': op.endsWith('png') ? 'image/png' : 'image/jpeg', 'cache-control': 'public, max-age=31536000, immutable' } });
+  }
   const s = await open(env, session(req));
   if (!s) return json({ error: 'login' }, 401);
   const folder = (url.searchParams.get('folder') || 'INBOX').slice(0, 200);
@@ -131,15 +135,66 @@ export async function webmail(req, env, connector, mailer) {
       if (!to.length || to.concat(cc, bcc).some((a) => !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(a))) return json({ error: 'Kontrollera mottagarna.' }, 400);
       const files = (Array.isArray(b.files) ? b.files : []).slice(0, 10).map((f) => ({ filename: String(f.name || 'bilaga').slice(0, 120), content: String(f.data || ''), mimeType: String(f.type || 'application/octet-stream').slice(0, 100) }));
       if (files.reduce((n, f) => n + f.content.length * 0.75, 0) > 15 * 1024 * 1024) return json({ error: 'Bilagorna får vara högst 15 MB tillsammans.' }, 400);
-      const subject = String(b.subject || '').slice(0, 300), text = String(b.text || '').slice(0, 200000);
+      const subject = String(b.subject || '').slice(0, 300), text = String(b.text || '').slice(0, 200000), html = cleanHtml(b.html);
       const send = mailer || (async (msg) => { const { WorkerMailer } = await import('worker-mailer');
         await WorkerMailer.send({ host: s.o, port: 465, secure: true, credentials: { username: s.e, password: s.p }, authType: ['plain', 'login'] }, msg); });
-      await send({ from: b.name ? { name: String(b.name).slice(0, 80), email: s.e } : s.e, to, cc: cc.length ? cc : undefined, bcc: bcc.length ? bcc : undefined, attachments: files.length ? files : undefined, subject, text, headers: b.inReplyTo ? { 'In-Reply-To': String(b.inReplyTo).slice(0, 300), References: String(b.inReplyTo).slice(0, 300) } : undefined });
+      await send({ from: b.name ? { name: String(b.name).slice(0, 80), email: s.e } : s.e, to, cc: cc.length ? cc : undefined, bcc: bcc.length ? bcc : undefined, attachments: files.length ? files : undefined, subject, text, html: html || undefined, headers: b.inReplyTo ? { 'In-Reply-To': String(b.inReplyTo).slice(0, 300), References: String(b.inReplyTo).slice(0, 300) } : undefined });
       // a copy in Sent, when the server has such a folder (best effort)
-      try { await withImap(s, async (m) => { const sent = pickSent(await m.folders()); if (sent) await m.append(sent, `From: ${s.e}\r\nTo: ${to.join(', ')}\r\nSubject: ${subject}\r\nDate: ${new Date().toUTCString()}\r\nContent-Type: text/plain; charset=utf-8\r\n\r\n${text}`); }, connector); } catch (e) { /* the mail is sent */ }
+      try { await withImap(s, async (m) => { const sent = pickSent(await m.folders()); if (sent) await m.append(sent, sentCopy(s.e, to, cc, subject, text, html)); }, connector); } catch (e) { /* the mail is sent */ }
       return json({ ok: true });
+    }
+    if (op === 'folder') {
+      const name = String(b.name || '').replace(/[\r\n"\\*%]/g, '').trim().slice(0, 60); if (!name) return json({ error: 'Skriv ett namn på mappen.' }, 400);
+      const made = await withImap(s, async (m) => { const fs = await m.folders(); const sep = fs.some((f) => f.name.startsWith('INBOX.')) ? 'INBOX.' : ''; const full = b.action === 'delete' ? name : sep + name;
+        if (b.action === 'delete') { if (/^INBOX$/i.test(full) || Object.values(roles(fs)).includes(full)) throw new Error('Den mappen kan inte tas bort'); await m.drop(full); } else await m.create(full); return full; }, connector);
+      return json({ ok: true, name: made });
+    }
+    if (op === 'backup') return json(await backup(env, s, connector));
+    if (op === 'logo') {
+      if (!env.MAIL_BACKUP) return json({ setup: false });
+      const type = b.type === 'image/png' ? 'image/png' : 'image/jpeg', data = String(b.data || '');
+      if (!/^[A-Za-z0-9+/=]+$/.test(data) || data.length > 400000) return json({ error: 'Loggan är för stor.' }, 400);
+      const bytes = Uint8Array.from(atob(data), (c) => c.charCodeAt(0)), hash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].slice(0, 12).map((x) => x.toString(16).padStart(2, '0')).join('');
+      await env.MAIL_BACKUP.put(`logos/${hash}.${type === 'image/png' ? 'png' : 'jpg'}`, bytes, { httpMetadata: { contentType: type, cacheControl: 'public, max-age=31536000, immutable' } });
+      return json({ url: `${new URL(req.url).origin}/api/mail/logo/${hash}.${type === 'image/png' ? 'png' : 'jpg'}` });
     }
     return json({ error: 'op' }, 404);
   } catch (e) { return json({ error: 'Mejlservern svarade: ' + String(e.message || e).slice(0, 160) }, 502); }
 }
 export { words };
+
+// Only simple formatting is kept from the editor (no scripts, events or remote styles)
+export function cleanHtml(h) {
+  h = String(h || '').slice(0, 300000); if (!h.trim()) return '';
+  return h.replace(/<(script|style|iframe|object|embed|form|link|meta)[\s\S]*?(<\/\1>|$)/gi, '').replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '').replace(/(href|src)\s*=\s*(["'])\s*javascript:[^"']*\2/gi, '$1="#"');
+}
+function sentCopy(from, to, cc, subject, text, html) {
+  const head = `From: ${from}\r\nTo: ${to.join(', ')}\r\n${cc.length ? 'Cc: ' + cc.join(', ') + '\r\n' : ''}Subject: ${subject}\r\nDate: ${new Date().toUTCString()}\r\nMIME-Version: 1.0\r\n`;
+  if (!html) return head + `Content-Type: text/plain; charset=utf-8\r\n\r\n${text}`;
+  const bnd = 'es' + Math.random().toString(36).slice(2);
+  return head + `Content-Type: multipart/alternative; boundary="${bnd}"\r\n\r\n--${bnd}\r\nContent-Type: text/plain; charset=utf-8\r\n\r\n${text}\r\n--${bnd}\r\nContent-Type: text/html; charset=utf-8\r\n\r\n${html}\r\n--${bnd}--\r\n`;
+}
+
+// Backup: every mail is copied to Elevate Studio's storage (Cloudflare R2, binding MAIL_BACKUP) while the
+// owner is signed in, a batch at a time. Nothing is stored without a session, and passwords are never stored.
+// Layout: <address>/<folder>/<uidvalidity>/<uid>.eml and <address>/manifest.json
+export async function backup(env, s, connector, batch = 40) {
+  if (!env.MAIL_BACKUP) return { setup: false };
+  const key = s.e.replace(/[^a-z0-9@._-]/gi, '_'), mf = await env.MAIL_BACKUP.get(key + '/manifest.json').then((o) => (o ? o.json() : null)).catch(() => null) || { folders: {} };
+  let saved = 0, total = 0, remaining = 0;
+  await withImap(s, async (m) => {
+    const fs = (await m.folders()).filter((f) => !/\\(Junk|Trash)/i.test(f.flags) && !/(^|[./])(junk|spam|skräppost|trash|papperskorg|deleted)$/i.test(f.name));
+    for (const f of fs) {
+      const { validity, uids } = await m.uids(f.name), st = mf.folders[f.name] && mf.folders[f.name].v === validity ? mf.folders[f.name] : { v: validity, last: 0 };
+      total += uids.length; const todo = uids.filter((u) => u > st.last);
+      for (const u of todo) {
+        if (saved >= batch) { remaining += todo.length - todo.indexOf(u); break; }
+        const raw = await m.raw(u); if (raw) await env.MAIL_BACKUP.put(`${key}/${f.name}/${validity}/${u}.eml`, raw, { httpMetadata: { contentType: 'message/rfc822' } });
+        st.last = u; saved++;
+      }
+      mf.folders[f.name] = st;
+    }
+  }, connector);
+  mf.at = new Date().toISOString(); await env.MAIL_BACKUP.put(key + '/manifest.json', JSON.stringify(mf), { httpMetadata: { contentType: 'application/json' } });
+  return { total, saved, remaining, at: remaining ? null : mf.at };
+}

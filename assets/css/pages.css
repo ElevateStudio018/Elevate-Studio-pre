@@ -1126,3 +1126,55 @@ body:has(#webmail .wmx) .chat { display: none; }
 .glow-dark > * { position: relative; }
 /* the mail login card keeps its dark green even if the glow theme is not loaded */
 .wmx-login { background-color: #16301f; color: #fdfbf5; }
+
+/* Elevate Mejl as a locked app: no site header/footer, a way back to the website */
+body.mail-app .site-header, body.mail-app footer, body.mail-app .site-footer, body.mail-app .breadcrumbs, body.mail-app .breadcrumb, body.mail-app .chat, body.mail-app .hamburgermenu, body.mail-app .drawer-backdrop { display: none !important; }
+body.mail-app main { padding: 0 !important; margin: 0 !important; } body.mail-app .wmx-page { max-width: none !important; padding: 0 !important; margin: 0 !important; }
+body.mail-app .wmx { min-height: 100vh; border-radius: 0 !important; }
+.wmx-home { display: inline-flex; align-items: center; gap: 6px; margin-right: 10px; padding: 7px 12px; border-radius: 999px; color: #1d3b2a; font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.wmx-home:hover { background: #e9eee8; } .wmx-home svg { width: 16px; height: 16px; }
+/* folder list: every row the same width, the hover reaches almost to the edge */
+.wmx-side { padding-right: 4px !important; } .wmx-folder { width: 100%; box-sizing: border-box; }
+.wmx-newf { color: #4f5a53; } .wmx-newf span { font-weight: 500; }
+/* writing: one row of actions, formatting toolbar, editor */
+.wmx-acts--compose { flex-wrap: nowrap !important; gap: 8px !important; align-items: center; }
+.wmx-acts--compose .btn { height: 40px; padding: 0 16px; white-space: nowrap; flex: none; }
+.wmx-acts--compose .wmx-link { white-space: nowrap; }
+.wmx-fmt { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin: 8px 0 0; padding: 6px; border: 1px solid #e3e6e0; border-bottom: 0; border-radius: 12px 12px 0 0; background: #f7f9f6; }
+.wmx-fmt button, .wmx-fmt select, .wmx-color { height: 32px; min-width: 32px; padding: 0 8px; border: 1px solid transparent; border-radius: 8px; background: none; color: #16241b; font: inherit; font-size: 14px; cursor: pointer; }
+.wmx-fmt button:hover, .wmx-fmt select:hover, .wmx-color:hover { background: #fff; border-color: #e3e6e0; }
+.wmx-fmt select { width: auto; } .wmx-color { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; } .wmx-color input { width: 22px; height: 22px; padding: 0; border: 0; background: none; }
+.wmx-editor { min-height: 200px; max-height: 46vh; overflow: auto; padding: 12px 14px; border: 1px solid #e3e6e0; border-radius: 0 0 12px 12px; background: #fff; font-size: 15px; line-height: 1.55; outline: 0; }
+.wmx-editor:focus { border-color: #1d3b2a; } .wmx-sig { color: #4f5a53; }
+.wmx-menu { position: relative; display: inline-flex; } .wmx-menu .btn svg { width: 16px; height: 16px; }
+.wmx-menu__list { position: absolute; bottom: calc(100% + 6px); left: 0; z-index: 5; display: grid; min-width: 200px; padding: 6px; border-radius: 14px; background: #fff; box-shadow: 0 20px 40px -12px rgba(0,0,0,.35); }
+.wmx-menu__list[hidden] { display: none; }
+.wmx-menu__list button { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 0; border-radius: 10px; background: none; font: inherit; text-align: left; cursor: pointer; } .wmx-menu__list button:hover { background: #eef4ef; } .wmx-menu__list svg { width: 16px; height: 16px; }
+/* recipients with initials */
+.wmx-rc { position: relative; display: block; flex: 1; }
+.wmx-sug { position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 6; display: grid; padding: 6px; border-radius: 14px; background: #fff; box-shadow: 0 20px 40px -12px rgba(0,0,0,.35); }
+.wmx-sug[hidden] { display: none; }
+.wmx-sug button { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 0; border-radius: 10px; background: none; font: inherit; text-align: left; cursor: pointer; } .wmx-sug button:hover, .wmx-sug button:first-child { background: #eef4ef; }
+.wmx-sug b { display: block; font-size: 14px; } .wmx-sug small { color: #6b736d; font-size: 12px; }
+.wmx-av { display: inline-grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: 50%; color: #fff; font-size: 12px; font-weight: 800; letter-spacing: .02em; }
+.wmx-contact { display: grid !important; grid-template-columns: 32px 1fr auto auto auto; align-items: center; gap: 12px !important; }
+/* signatures window */
+.wmx-modal { position: fixed; inset: 0; z-index: 100001; display: grid; place-items: center; padding: 16px; background: rgba(10, 20, 14, .45); }
+.wmx-modal__box { width: min(560px, 100%); max-height: 86vh; overflow: auto; padding: 18px 20px; border-radius: 20px; background: #fff; }
+.wmx-sigrow { display: flex; gap: 14px; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eef0ec; } .wmx-sigrow p { margin: 4px 0 0; color: #4f5a53; font-size: 14px; }
+.wmx-sigrow > span { display: grid; gap: 6px; justify-items: end; align-content: start; } .wmx-sigrow small { color: #2f7d4f; font-weight: 700; }
+.wmx-sigform { display: grid; gap: 8px; margin-top: 14px; } .wmx-sigform input, .wmx-sigform textarea { padding: 10px 12px; border: 1px solid #e3e6e0; border-radius: 10px; font: inherit; }
+.wmx-small2 { color: #6b736d; font-size: 14px; margin: 4px 0 10px; }
+@media (max-width: 760px) { .wmx-acts--compose { flex-wrap: wrap !important; } .wmx-home span { display: none; } }
+.wmx-contact { display: grid !important; grid-template-columns: 36px minmax(0, 1fr) minmax(0, 1.3fr) auto auto !important; gap: 12px !important; align-items: center; height: auto !important; padding: 10px 16px !important; }
+.wmx-contact > * { margin: 0 !important; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wmx-contact .wmx-av, .wmx-sug .wmx-av { color: #fff !important; font-size: 12px !important; line-height: 1; text-indent: 0; }
+.wmx-contact .wmx-link { overflow: visible; }
+.wmx-fmt input[type=color] { width: 20px !important; height: 20px !important; min-height: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
+.wmx-fmt select { padding: 0 6px !important; height: 32px !important; border: 0 !important; background: none !important; font-size: 13px !important; }
+.wmx-fmt { flex-wrap: nowrap; overflow-x: auto; }
+.wmx-acts--compose .btn { font-size: 15px !important; gap: 6px; }
+.wmx-av { display: grid !important; place-items: center !important; width: 32px !important; height: 32px !important; padding: 0 !important; position: static !important; overflow: hidden; font-style: normal; text-align: center; }
+.wmx-sig { user-select: text; cursor: default; }
+.wmx-siglogo { display: block; max-width: 180px; max-height: 70px; margin-top: 6px; }
+.wmx-logo-in { display: grid; gap: 6px; font-size: 13px; color: #4f5a53; } .wmx-logo-in input { font-size: 13px; }
