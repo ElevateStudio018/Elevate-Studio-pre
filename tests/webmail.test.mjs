@@ -23,10 +23,14 @@ const server = net.createServer((c) => {
       else if (!authed) c.write(tag + ' NO login first\r\n');
       else if (C === 'LIST') { c.write('* LIST (\\HasNoChildren) "." "INBOX"\r\n* LIST (\\Trash) "." "INBOX.Trash"\r\n* LIST (\\Sent) "." "INBOX.Sent"\r\n* LIST (\\Archive) "." "INBOX.Archive"\r\n* LIST (\\Drafts) "." "INBOX.Drafts"\r\n' + tag + ' OK\r\n'); }
       else if (C === 'STATUS') { const b = arg.split(' ')[0].replace(/"/g, ''); c.write(`* STATUS "${b}" (MESSAGES ${boxes[b].length} UNSEEN ${boxes[b].filter((m) => !/Seen/.test(m.flags)).length})\r\n${tag} OK\r\n`); }
-      else if (C === 'SELECT') { cur = arg.replace(/"/g, ''); c.write(`* ${boxes[cur].length} EXISTS\r\n${tag} OK\r\n`); }
+      else if (C === 'SELECT') { cur = arg.replace(/"/g, ''); c.write(`* ${boxes[cur].length} EXISTS\r\n* OK [UIDVALIDITY 7] ok\r\n${tag} OK\r\n`); }
+      else if (C === 'CREATE') { boxes[arg.replace(/"/g, '')] = []; c.write(tag + ' OK\r\n'); }
+      else if (C === 'DELETE') { delete boxes[arg.replace(/"/g, '')]; c.write(tag + ' OK\r\n'); }
+      else if (C === 'SUBSCRIBE') c.write(tag + ' OK\r\n');
       else if (C === 'FETCH') { boxes[cur].forEach((m, k) => { const h = m.raw.split('\r\n\r\n')[0] + '\r\n\r\n'; c.write(`* ${k + 1} FETCH (UID ${m.uid} FLAGS (${m.flags}) RFC822.SIZE ${m.raw.length} BODY[HEADER.FIELDS (FROM TO SUBJECT DATE)] {${Buffer.byteLength(h, 'latin1')}}\r\n`); c.write(Buffer.from(h, 'latin1')); c.write(')\r\n'); }); c.write(tag + ' OK\r\n'); }
       else if (C === 'UID') {
         const [sub, uid, ...r] = arg.split(' '); const m = boxes[cur].find((x) => x.uid === Number(uid));
+        if (sub === 'SEARCH') { c.write('* SEARCH ' + boxes[cur].map((x) => x.uid).join(' ') + '\r\n' + tag + ' OK\r\n'); continue; }
         if (sub === 'FETCH' && m) { if (m.flagged) m.flags = '\\Seen \\Flagged'; else m.flags = '\\Seen'; const raw = Buffer.from(m.raw, 'latin1'); c.write(`* 1 FETCH (UID ${m.uid} FLAGS (\\Seen) BODY[] {${raw.length}}\r\n`); c.write(raw); c.write(')\r\n'); }
         const set = uid.split(',').map(Number), ms = boxes[cur].filter((x) => set.includes(x.uid));
         if (sub === 'STORE') ms.forEach((x) => { const fl = r.join(' '); if (/Deleted/.test(fl)) x.deleted = true; else if (/Flagged/.test(fl)) x.flagged = /^\+/.test(r[0]); else x.flags = /^\+/.test(r[0]) ? '\\Seen' : ''; });
@@ -101,3 +105,23 @@ test('skicka med namn, dold kopia och bilaga', async () => {
 test('utloggning tömmer cookien', async () => { const r = await call('logout', { body: {} }, ck); assert.match(r.headers.get('set-cookie'), /Max-Age=0/); });
 test('html till text', () => { assert.equal(htmlToText('<p>a</p><style>x</style><br>b'), 'a\n\nb'); });
 test.after(() => server.close());
+
+test('skicka med formatering: html går med, farlig kod tas bort', async () => {
+  sent.length = 0;
+  const r = await call('send', { body: { to: 'kund@foretag.se', subject: 'Fet', text: 'Hej', html: '<b>Hej</b><script>alert(1)</script><a href="javascript:x" onclick="y">l</a>' } }, ck);
+  assert.equal(r.status, 200); assert.match(sent[0].html, /<b>Hej<\/b>/); assert.ok(!/script|onclick|javascript/.test(sent[0].html));
+});
+test('egna mappar: skapa och ta bort, systemmappar skyddas', async () => {
+  const d = await (await call('folder', { body: { action: 'create', name: 'Offerter' } }, ck)).json(); assert.equal(d.name, 'INBOX.Offerter'); assert.ok(boxes['INBOX.Offerter']);
+  assert.equal((await call('folder', { body: { action: 'delete', name: 'INBOX.Trash' } }, ck)).status, 502);
+  assert.equal((await call('folder', { body: { action: 'delete', name: 'INBOX.Offerter' } }, ck)).status, 200); assert.ok(!boxes['INBOX.Offerter']);
+});
+test('säkerhetskopia: alla mejl sparas, i omgångar, utan papperskorgen', async () => {
+  const r2 = new Map(); const bucket = { get: async (k) => (r2.has(k) ? { json: async () => JSON.parse(r2.get(k)) } : null), put: async (k, v) => { r2.set(k, typeof v === 'string' ? v : Buffer.from(v).toString('latin1')); } };
+  const e2 = { ...env, MAIL_BACKUP: bucket };
+  const req = (b) => webmail(new Request('https://elevatestudio.nu/api/mail/backup', { method: 'POST', headers: { 'content-type': 'application/json', 'x-requested-with': 'elevate', cookie: 'es_mail=' + ck }, body: '{}' }), e2, connector);
+  const a = await (await req()).json(); assert.ok(a.saved > 0); assert.equal(a.remaining, 0);
+  assert.ok([...r2.keys()].some((k) => /^info@exempel\.se\/INBOX\/7\/\d+\.eml$/.test(k))); assert.ok(![...r2.keys()].some((k) => /Trash/.test(k)));
+  const b = await (await req()).json(); assert.equal(b.saved, 0, 'inget sparas två gånger');
+  assert.equal((await (await webmail(new Request('https://elevatestudio.nu/api/mail/backup', { method: 'POST', headers: { 'x-requested-with': 'elevate', cookie: 'es_mail=' + ck } }), env, connector)).json()).setup, false);
+});

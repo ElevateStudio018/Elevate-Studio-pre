@@ -70,6 +70,15 @@ export class Imap {
     await this.cmd(`UID STORE ${Number(uid)} +FLAGS (\\Deleted)`); await this.cmd('EXPUNGE');
   }
   async append(box, raw, flags = '\\Seen') { const b = enc.encode(raw); await this.t.write(enc.encode('A' + (++this.n) + 'x APPEND ' + Imap.q(box) + ' (' + flags + ') {' + b.length + '}\r\n')); await this.line(); await this.t.write(b); await this.t.write(enc.encode('\r\n')); await this.line(); }
+  async create(box) { await this.cmd('CREATE ' + Imap.q(box)); try { await this.cmd('SUBSCRIBE ' + Imap.q(box)); } catch (e) { /* optional */ } }
+  async drop(box) { await this.cmd('DELETE ' + Imap.q(box)); }
+  // for the backup: the folder's UIDVALIDITY, all UIDs, and one message exactly as stored
+  async uids(box) {
+    const r = await this.cmd('SELECT ' + Imap.q(box)); const v = r.map((x) => x.text.match(/UIDVALIDITY (\d+)/i)).find(Boolean);
+    const s = await this.cmd('UID SEARCH ALL'); const line = s.map((x) => x.text).find((t) => /^\* SEARCH/i.test(t)) || '';
+    return { validity: v ? v[1] : '0', uids: line.replace(/^\* SEARCH/i, '').trim().split(/\s+/).filter(Boolean).map(Number).sort((a, b) => a - b) };
+  }
+  async raw(uid) { const r = await this.cmd(`UID FETCH ${Number(uid)} (BODY.PEEK[])`); const x = r.find((y) => /FETCH/i.test(y.text) && y.lits.length); return x ? x.lits[0] : null; }
   async logout() { try { await this.cmd('LOGOUT'); } catch (e) { /* closing anyway */ } }
 }
 

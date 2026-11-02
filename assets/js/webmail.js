@@ -21,8 +21,13 @@
   };
   var ico = function (n) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + ICON[n] + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'; };
   var LOGO = '<div class="wmx-brand"><span class="wmx-brand__logo"><svg viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>Elevate Studio</span><span class="wmx-brand__sub">Mejl</span></div>';
+  var initials = function (a) { var n = name(a).trim(), e = addr(a); var w = (n && n.indexOf('@') < 0 ? n : e.split('@')[0]).split(/[\s._-]+/).filter(Boolean); return ((w[0] || '?').charAt(0) + (w[1] || '').charAt(0)).toUpperCase(); };
+  var hue = function (e) { var h = 0; String(e).split('').forEach(function (c) { h = (h * 31 + c.charCodeAt(0)) % 360; }); return h; };
+  var avatar = function (a) { return '<span class="wmx-av" style="background:hsl(' + (120 + hue(addr(a)) % 60) + ',32%,' + (28 + hue(addr(a)) % 18) + '%)" aria-hidden="true">' + esc(initials(a)) + '</span>'; };
   var ROLE_LABEL = { inbox: 'Inkorg', starred: 'Stjärnmärkt', drafts: 'Utkast', sent: 'Skickat', archive: 'Arkiv', junk: 'Skräppost', trash: 'Papperskorg' };
-  var st = { email: '', folders: [], roles: {}, counts: {}, servers: {}, view: 'mail', folder: 'INBOX', starred: false, items: [], total: 0, page: 0, open: null, sel: {}, filter: '', settings: store.get('settings', { name: '', signature: '', perPage: 30 }), contacts: store.get('contacts', []) };
+  var st = { email: '', folders: [], roles: {}, counts: {}, servers: {}, view: 'mail', folder: 'INBOX', starred: false, items: [], total: 0, page: 0, open: null, sel: {}, filter: '', settings: store.get('settings', { name: '', signature: '', perPage: 30 }), contacts: store.get('contacts', []), backup: null };
+  if (!st.settings.signatures) st.settings.signatures = st.settings.signature ? [{ id: 's1', name: 'Standard', text: st.settings.signature }] : [];
+  if (st.settings.defSig == null && st.settings.signatures[0]) st.settings.defSig = st.settings.signatures[0].id;
 
   // ---------- demo mailbox (only in previews) ----------
   var demo = (function () {
@@ -51,6 +56,8 @@
         : o === 'list' ? { total: box[f].length, items: box[f].map(function (m) { return { uid: m.uid, seen: m.seen, flagged: !!m.flagged, files: !!(m.files && m.files.length), from: m.from, to: m.to, subject: m.subject, date: m.date }; }) }
         : o === 'read' ? (function () { var m = find(f, q.get('uid')); m.seen = true; return Object.assign({ files: [], cc: '' }, m); })()
         : o === 'flags' ? (us.forEach(function (u) { var m = find(f, u); if (m) m[b.flag === 'flagged' ? 'flagged' : 'seen'] = !!b.on; }), { ok: true })
+        : o === 'folder' ? (b.action === 'create' ? (box['INBOX.' + b.name] = [], { ok: true, name: 'INBOX.' + b.name }) : (delete box[b.name], { ok: true }))
+        : o === 'backup' ? { total: 9, saved: 9, remaining: 0, at: new Date().toISOString() }
         : o === 'move' ? (function () { var to = roles[b.to] || b.to; box[to] = take(f, us).concat(box[to] || []); return { ok: true }; })()
         : o === 'draft' ? (function () { if (b.replaces) take('INBOX.Drafts', [Number(b.replaces)]); box['INBOX.Drafts'].unshift({ uid: ++uid, seen: true, from: 'anna@exempelbygg.se', to: b.to, subject: b.subject || '(inget ämne)', date: new Date().toUTCString(), text: b.text }); return { ok: true }; })()
         : o === 'send' ? (box['INBOX.Sent'].unshift({ uid: ++uid, seen: true, from: (b.name ? b.name + ' <anna@exempelbygg.se>' : 'anna@exempelbygg.se'), to: b.to, cc: b.cc, subject: b.subject || '(inget ämne)', date: new Date().toUTCString(), text: b.text, files: (b.files || []).map(function (x) { return { name: x.name, size: x.data.length * 0.75 }; }) }), { ok: true })
@@ -86,7 +93,9 @@
         .catch(function (x) { err.hidden = false; err.textContent = x.message === 'Failed to fetch' ? 'Kunde inte nå servern.' : x.message; btn.disabled = false; btn.querySelector('span').textContent = 'Logga in'; });
     });
   }
-  function start() { api('folders').then(function (d) { st.folders = d.folders; st.roles = d.roles || {}; st.counts = d.counts || {}; st.servers = d.servers || {}; shell(); }).catch(fail); }
+  function start() { api('folders').then(function (d) { st.folders = d.folders; st.roles = d.roles || {}; st.counts = d.counts || {}; st.servers = d.servers || {}; shell(); if (!st.backupRun) { st.backupRun = 1; backup(); } }).catch(fail); }
+  // a copy of every mail is kept by Elevate Studio; it is brought up to date a little at a time while the mailbox is open
+  function backup(rounds) { rounds = rounds || 0; api('backup', {}).then(function (d) { st.backup = d; if (d.remaining > 0 && rounds < 200) setTimeout(function () { backup(rounds + 1); }, 400); if (st.view === 'settings') settings(); }).catch(function () { st.backup = { error: true }; }); }
 
   // ---------- layout ----------
   var roleOf = function (f) { if (f === 'INBOX') return 'inbox'; for (var k in st.roles) if (st.roles[k] === f) return k; return null; };
@@ -99,20 +108,23 @@
       var on = st.view === 'mail' && (f === 'starred' ? st.starred : !st.starred && f === st.folder);
       return '<button type="button" class="wmx-folder' + (on ? ' is-on' : '') + '" data-f="' + esc(f) + '">' + ico({ inbox: 'inbox', starred: 'star', drafts: 'draft', sent: 'sent', archive: 'archive', junk: 'junk', trash: 'trash' }[r] || 'folder') + '<span>' + esc(f === 'starred' ? 'Stjärnmärkt' : label(f)) + '</span>' + (n && r !== 'sent' && r !== 'trash' ? '<em>' + n + '</em>' : '') + '</button>';
     };
+    document.body.classList.add('mail-app');
     root.innerHTML = '<div class="wmx">' +
-      '<div class="wmx-bar">' + LOGO + '<label class="wmx-search">' + '<span class="sr-only">Sök i mejl</span><input id="wq" placeholder="Sök i mejl  ( / )" value="' + esc(st.filter) + '"></label>' +
+      '<div class="wmx-bar"><a class="wmx-home" href="/" title="Till elevatestudio.nu">' + ico('back') + '<span>Till hemsidan</span></a>' + LOGO + '<label class="wmx-search">' + '<span class="sr-only">Sök i mejl</span><input id="wq" placeholder="Sök i mejl  ( / )" value="' + esc(st.filter) + '"></label>' +
       '<button type="button" class="wmx-icon" id="wrefresh" title="Uppdatera" aria-label="Uppdatera">' + ico('refresh') + '</button><span class="wmx-avatar" title="' + esc(st.email) + '">' + esc((st.settings.name || st.email).charAt(0).toUpperCase()) + '</span><button type="button" class="wmx-link" id="wout">Logga ut</button></div>' +
       (DEMO ? '<p class="wmx-demo">Demoläge · testbrevlåda · inga riktiga mejl skickas</p>' : '') +
       '<div class="wmx-body"><nav class="wmx-side" aria-label="Mappar"><button type="button" class="wmx-compose" id="wnew">' + ico('pen') + 'Skriv</button>' + main.map(item).join('') +
-      (other.length ? '<p class="wmx-sep">Mappar</p>' + other.map(item).join('') : '') +
+      '<p class="wmx-sep">Mappar</p>' + other.map(item).join('') + '<button type="button" class="wmx-folder wmx-newf" id="wnewf">' + ico('folder') + '<span>Ny mapp</span></button>' +
       '<p class="wmx-sep"></p><button type="button" class="wmx-folder' + (st.view === 'contacts' ? ' is-on' : '') + '" data-v="contacts">' + ico('people') + '<span>Kontakter</span></button>' +
       '<button type="button" class="wmx-folder' + (st.view === 'settings' ? ' is-on' : '') + '" data-v="settings">' + ico('gear') + '<span>Inställningar</span></button></nav>' +
       '<section class="wmx-main"><div class="wmx-list" aria-label="Mejl"><div id="wtools"></div><div id="wlist"></div></div><section class="wmx-read" id="wread" aria-live="polite"></section></section></div></div>';
-    root.querySelector('#wout').addEventListener('click', function () { api('logout', {}).catch(function () {}).then(function () { login('Du är utloggad.'); }); });
+    root.querySelector('#wout').addEventListener('click', function () { api('logout', {}).catch(function () {}).then(function () { document.body.classList.remove('mail-app'); login('Du är utloggad.'); }); });
     root.querySelector('#wnew').addEventListener('click', function () { compose(); });
+    root.querySelector('#wnewf').addEventListener('click', function (e) { e.stopPropagation(); var n = prompt('Namn på den nya mappen:'); if (!n || !n.trim()) return;
+      api('folder', { action: 'create', name: n.trim().slice(0, 60) }).then(function () { toast('Mappen ' + n.trim() + ' är skapad'); start(); }).catch(fail); });
     root.querySelector('#wrefresh').addEventListener('click', function () { refresh(true); });
     root.querySelector('.wmx-side').addEventListener('click', function (e) {
-      var b = e.target.closest('button'); if (!b || b.id === 'wnew') return;
+      var b = e.target.closest('button'); if (!b || b.id === 'wnew' || b.id === 'wnewf') return;
       if (b.dataset.v) { st.view = b.dataset.v; shell(); return; }
       st.view = 'mail'; st.starred = b.dataset.f === 'starred'; st.folder = st.starred ? 'INBOX' : b.dataset.f; st.page = 0; st.sel = {}; st.open = null; shell();
     });
@@ -187,7 +199,7 @@
     st.open = uid; list(); root.querySelector('.wmx').classList.add('is-reading');
     var pane = root.querySelector('#wread'); pane.innerHTML = '<p class="wmx-empty">Öppnar …</p>';
     api('read?folder=' + encodeURIComponent(st.folder) + '&uid=' + uid).then(function (m) {
-      var was = st.items.filter(function (x) { return x.uid === uid; })[0]; if (was && !was.seen) { was.seen = true; refresh(); } list();
+      var was = st.items.filter(function (x) { return x.uid === uid; })[0]; if (was && !was.seen) { was.seen = true; refresh(); } list(); learn(m.from);
       learn([m.from, m.to, m.cc].join(','));
       var role = roleOf(st.folder), many = [m.to, m.cc].join(',').split(',').filter(function (a) { return a.trim() && addr(a) !== st.email && addr(a) !== addr(m.from); }).length > 0;
       pane.innerHTML = '<div class="wmx-acts"><button type="button" class="wmx-icon" id="rback" title="Tillbaka" aria-label="Tillbaka till listan">' + ico('back') + '</button><button type="button" class="btn btn--primary" id="rrep"><span>Svara</span></button>' + (many ? '<button type="button" class="btn btn--light" id="rall"><span>Svara alla</span></button>' : '') +
@@ -218,29 +230,66 @@
   }
   var re = function (s) { return /^re:/i.test(s) ? s : 'Re: ' + s; };
   function quote(m) { return '\n\n' + sig() + '\n\n— ' + name(m.from) + ' skrev ' + new Date(m.date).toLocaleString('sv-SE') + ':\n' + String(m.text || '').split('\n').map(function (l) { return '> ' + l; }).join('\n'); }
-  var sig = function () { return st.settings.signature ? '-- \n' + st.settings.signature : ''; };
+  var sig = function () { var x = st.settings.signatures.filter(function (g) { return g.id === st.settings.defSig; })[0]; return x ? '-- \n' + x.text : ''; };
+  var toHtml = function (t) { return esc(t).replace(/\n/g, '<br>'); };
+  var sigHtml = function (g) { return '<div class="wmx-sig" contenteditable="false">-- <br>' + toHtml(g.text) + '</div>'; };
 
-  // ---------- writing (in the reading pane, not a popup) ----------
+  // ---------- writing: rich text, attachments, signatures, recipients with initials ----------
+  var FONTS = [['', 'Standard'], ['Arial, sans-serif', 'Arial'], ['Georgia, serif', 'Georgia'], ['"Times New Roman", serif', 'Times'], ['"Courier New", monospace', 'Courier'], ['Verdana, sans-serif', 'Verdana']];
   function compose(pre) {
     pre = pre || {};
     var old = root.querySelector('.wmx-box'); if (old) old.remove();
     var pane = document.createElement('div'), files = []; pane.className = 'wmx-box'; root.querySelector('.wmx').appendChild(pane);
+    var defSig = st.settings.signatures.filter(function (g) { return g.id === st.settings.defSig; })[0];
+    var body = pre.html != null ? pre.html : pre.text != null ? toHtml(pre.text) : '<div><br></div>' + (defSig ? '<br>' + sigHtml(defSig) : '');
+    var rcpt = function (n, label, val, hidden) { return '<label' + (hidden ? ' hidden id="wbccrow"' : '') + '>' + label + '<span class="wmx-rc"><input name="' + n + '" value="' + esc(val || '') + '" autocomplete="off" placeholder="' + (n === 'to' ? 'namn@foretag.se' : '') + '"><span class="wmx-sug" hidden></span></span></label>'; };
     pane.innerHTML = '<form id="wc" class="wmx-compose-form" novalidate><div class="wmx-box__head"><b>' + (pre.inReplyTo ? 'Svar' : pre.draftUid ? 'Utkast' : 'Nytt meddelande') + '</b><button type="button" class="wmx-icon" id="wmin" aria-label="Minimera">' + ico('min') + '</button><button type="button" class="wmx-icon" id="wx" aria-label="Stäng">' + ico('close') + '</button></div>' +
       '<label>Från<input value="' + esc((st.settings.name ? st.settings.name + ' <' + st.email + '>' : st.email)) + '" disabled></label>' +
-      '<label>Till<input name="to" list="wcontacts" value="' + esc(pre.to || '') + '" placeholder="namn@foretag.se" autocomplete="off"></label>' +
-      '<label>Kopia<input name="cc" list="wcontacts" value="' + esc(pre.cc || '') + '" autocomplete="off"></label>' +
-      '<label' + (pre.bcc ? '' : ' hidden') + ' id="wbccrow">Dold kopia<input name="bcc" list="wcontacts" autocomplete="off"></label>' +
+      rcpt('to', 'Till', pre.to) + rcpt('cc', 'Kopia', pre.cc) + rcpt('bcc', 'Dold kopia', pre.bcc, !pre.bcc) +
       '<label>Ämne<input name="subject" value="' + esc(pre.subject || '') + '"></label>' +
-      '<datalist id="wcontacts">' + st.contacts.map(function (c) { return '<option value="' + esc(c.name ? c.name + ' <' + c.email + '>' : c.email) + '">'; }).join('') + '</datalist>' +
-      '<textarea name="text" rows="14" aria-label="Meddelande">' + esc(pre.text != null ? pre.text : (sig() ? '\n\n' + sig() : '')) + '</textarea>' +
+      '<div class="wmx-fmt" role="toolbar" aria-label="Formatering">' +
+        '<button type="button" data-cmd="bold" title="Fet (Ctrl+B)"><b>F</b></button><button type="button" data-cmd="italic" title="Kursiv (Ctrl+I)"><i>K</i></button><button type="button" data-cmd="underline" title="Understruken (Ctrl+U)"><u>U</u></button>' +
+        '<select data-font aria-label="Typsnitt">' + FONTS.map(function (x) { return '<option value="' + esc(x[0]) + '">' + x[1] + '</option>'; }).join('') + '</select>' +
+        '<select data-size aria-label="Storlek"><option value="3">Normal</option><option value="2">Liten</option><option value="4">Stor</option><option value="5">Större</option></select>' +
+        '<label class="wmx-color" title="Textfärg">A<input type="color" data-color value="#16241b"></label>' +
+        '<button type="button" data-cmd="insertUnorderedList" title="Punktlista">•</button><button type="button" data-cmd="insertOrderedList" title="Numrerad lista">1.</button>' +
+        '<button type="button" data-link title="Länk">🔗</button><button type="button" data-cmd="removeFormat" title="Ta bort formatering">⨯</button></div>' +
+      '<div class="wmx-editor" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Meddelande">' + body + '</div>' +
       '<div class="wmx-attach" id="wfiles"></div>' +
-      '<div class="wmx-acts"><button class="btn btn--primary" type="submit"><span>Skicka</span></button>' +
-      '<label class="btn btn--light wmx-file">' + ico('clip') + '<span>Bifoga</span><input type="file" multiple hidden></label>' +
-      '<button type="button" class="wmx-link" id="wbcc">Dold kopia</button><button type="button" class="wmx-link" id="wdraft">Spara utkast</button><button type="button" class="wmx-link" id="wcancel">Avbryt</button></div><p class="wmx-err" role="alert" hidden></p></form>';
-    var f = pane.querySelector('#wc'), err = f.querySelector('.wmx-err'), start0 = f.text.value;
-    (pre.to ? f.text : f.to).focus(); if (pre.to) f.text.setSelectionRange(0, 0);
+      '<div class="wmx-acts wmx-acts--compose"><button class="btn btn--primary" type="submit"><span>Skicka</span></button>' +
+      '<button type="button" class="btn btn--light" id="wsave">Spara utkast</button>' +
+      '<span class="wmx-menu"><button type="button" class="btn btn--light" id="wadd" aria-haspopup="true" aria-expanded="false">' + ico('clip') + '<span>Bifoga</span> ▾</button>' +
+        '<span class="wmx-menu__list" hidden><button type="button" data-add="file">' + ico('clip') + 'Fil från datorn</button><button type="button" data-add="sig">' + ico('pen') + 'Signatur</button></span><input type="file" multiple hidden></span>' +
+      '<button type="button" class="wmx-link" id="wbcc">Dold kopia</button><button type="button" class="wmx-link" id="wcancel">Avbryt</button></div><p class="wmx-err" role="alert" hidden></p></form>';
+    var f = pane.querySelector('#wc'), err = f.querySelector('.wmx-err'), ed = pane.querySelector('.wmx-editor'), start0 = ed.innerHTML;
+    var caretStart = function () { var r = document.createRange(); r.setStart(ed, 0); r.collapse(true); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); };
+    if (pre.to) { ed.focus(); caretStart(); } else f.to.focus();
+    ed.addEventListener('focus', function () { if (!ed.dataset.touched) { ed.dataset.touched = 1; caretStart(); } });
+    // formatting
+    var exec = function (c, v) { ed.focus(); document.execCommand(c, false, v); };
+    pane.querySelectorAll('[data-cmd]').forEach(function (b) { b.addEventListener('mousedown', function (e) { e.preventDefault(); exec(b.dataset.cmd); }); });
+    pane.querySelector('[data-font]').addEventListener('change', function (e) { exec('fontName', e.target.value || 'Hanken Grotesk, sans-serif'); });
+    pane.querySelector('[data-size]').addEventListener('change', function (e) { exec('fontSize', e.target.value); });
+    pane.querySelector('[data-color]').addEventListener('input', function (e) { exec('foreColor', e.target.value); });
+    pane.querySelector('[data-link]').addEventListener('mousedown', function (e) { e.preventDefault(); var u = prompt('Länkadress:', 'https://'); if (u && /^(https?:|mailto:)/i.test(u)) exec('createLink', u); });
+    // recipients: suggestions with initials from people you have mailed
+    pane.querySelectorAll('.wmx-rc input').forEach(function (inp) {
+      var box = inp.nextElementSibling, pick = function (c) { var parts = inp.value.split(','); parts[parts.length - 1] = ' ' + (c.name ? c.name + ' <' + c.email + '>' : c.email); inp.value = parts.join(',').replace(/^\s+/, '') + ', '; box.hidden = true; inp.focus(); };
+      inp.addEventListener('input', function () { var q = inp.value.split(',').pop().trim().toLowerCase(); if (!q) { box.hidden = true; return; }
+        var hits = st.contacts.filter(function (c) { return (c.name + ' ' + c.email).toLowerCase().indexOf(q) >= 0; }).slice(0, 6);
+        box.innerHTML = hits.map(function (c, i) { return '<button type="button" data-i="' + i + '">' + avatar(c.name ? c.name + ' <' + c.email + '>' : c.email) + '<span><b>' + esc(c.name || c.email.split('@')[0]) + '</b><small>' + esc(c.email) + '</small></span></button>'; }).join('');
+        box.hidden = !hits.length; box.onmousedown = function (e) { var b = e.target.closest('[data-i]'); if (b) { e.preventDefault(); pick(hits[+b.dataset.i]); } }; });
+      inp.addEventListener('blur', function () { setTimeout(function () { box.hidden = true; }, 150); });
+      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !box.hidden) { e.preventDefault(); var b = box.querySelector('[data-i]'); if (b) b.dispatchEvent(new MouseEvent('mousedown', { bubbles: true })); } });
+    });
+    // attachments and signatures behind one button
+    var menu = pane.querySelector('.wmx-menu__list'), addBtn = pane.querySelector('#wadd'), fileIn = pane.querySelector('.wmx-menu input[type=file]');
+    var toggle = function (o) { menu.hidden = !o; addBtn.setAttribute('aria-expanded', String(o)); };
+    addBtn.addEventListener('click', function (e) { e.stopPropagation(); toggle(menu.hidden); });
+    document.addEventListener('click', function () { toggle(false); });
+    menu.addEventListener('click', function (e) { var b = e.target.closest('[data-add]'); if (!b) return; toggle(false); if (b.dataset.add === 'file') fileIn.click(); else signatures(function (g) { var old = ed.querySelector('.wmx-sig'); if (old) old.outerHTML = sigHtml(g); else ed.insertAdjacentHTML('beforeend', '<br>' + sigHtml(g)); }); });
     var showFiles = function () { pane.querySelector('#wfiles').innerHTML = files.map(function (x, i) { return '<span>' + ico('clip') + esc(x.name) + ' <small>' + kb(x.size) + '</small><button type="button" data-rm="' + i + '" aria-label="Ta bort bilaga">×</button></span>'; }).join(''); };
-    f.querySelector('input[type=file]').addEventListener('change', function (e) {
+    fileIn.addEventListener('change', function (e) {
       Array.prototype.forEach.call(e.target.files, function (file) {
         if (files.reduce(function (n, x) { return n + x.size; }, 0) + file.size > 15 * 1048576) { toast('Bilagorna får vara högst 15 MB tillsammans.'); return; }
         var r = new FileReader(); r.onload = function () { files.push({ name: file.name, type: file.type || 'application/octet-stream', size: file.size, data: String(r.result).split(',')[1] }); showFiles(); }; r.readAsDataURL(file);
@@ -248,10 +297,11 @@
     });
     pane.querySelector('#wfiles').addEventListener('click', function (e) { var b = e.target.closest('[data-rm]'); if (b) { files.splice(Number(b.dataset.rm), 1); showFiles(); } });
     pane.querySelector('#wbcc').addEventListener('click', function () { pane.querySelector('#wbccrow').hidden = false; f.bcc.focus(); });
-    pane.querySelector('#wdraft').addEventListener('click', function () {
-      api('draft', { to: f.to.value, subject: f.subject.value, text: f.text.value, replaces: pre.draftUid || 0 }).then(function () { toast('Utkastet är sparat'); refresh(); if (roleOf(st.folder) === 'drafts') load(); }).catch(fail);
+    var plain = function () { return ed.innerText.replace(/\n{3,}/g, '\n\n').trim(); };
+    pane.querySelector('#wsave').addEventListener('click', function () {
+      api('draft', { to: f.to.value, subject: f.subject.value, text: plain(), html: ed.innerHTML, replaces: pre.draftUid || 0 }).then(function () { toast('Utkastet är sparat'); refresh(); if (roleOf(st.folder) === 'drafts') load(); }).catch(fail);
     });
-    var close = function () { if ((f.text.value !== start0 || files.length) && !confirm('Slänga det du har skrivit?')) return; pane.remove(); };
+    var close = function () { if ((ed.innerHTML !== start0 || files.length) && !confirm('Slänga det du har skrivit?')) return; pane.remove(); };
     pane.querySelector('#wcancel').addEventListener('click', close); pane.querySelector('#wx').addEventListener('click', close);
     pane.querySelector('#wmin').addEventListener('click', function () { pane.classList.toggle('is-min'); });
     pane.querySelector('.wmx-box__head b').addEventListener('click', function () { pane.classList.remove('is-min'); });
@@ -260,7 +310,8 @@
       if (!/\S+@\S+\.\S+/.test(f.to.value)) { err.hidden = false; err.textContent = 'Skriv minst en mottagare.'; f.to.focus(); return; }
       if (!f.subject.value.trim() && !confirm('Skicka utan ämne?')) return;
       var btn = f.querySelector('button[type=submit]'); btn.disabled = true; btn.querySelector('span').textContent = 'Skickar …';
-      api('send', { to: f.to.value, cc: f.cc.value, bcc: f.bcc.value, subject: f.subject.value, text: f.text.value, inReplyTo: pre.inReplyTo || '', name: st.settings.name || '', files: files.map(function (x) { return { name: x.name, type: x.type, data: x.data }; }) })
+      var clean = function (v) { return v.replace(/,\s*$/, ''); };
+      api('send', { to: clean(f.to.value), cc: clean(f.cc.value), bcc: clean(f.bcc.value), subject: f.subject.value, text: plain(), html: '<div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.5">' + ed.innerHTML + '</div>', inReplyTo: pre.inReplyTo || '', name: st.settings.name || '', files: files.map(function (x) { return { name: x.name, type: x.type, data: x.data }; }) })
         .then(function () {
           learn([f.to.value, f.cc.value, f.bcc.value].join(','));
           if (pre.draftUid && st.roles.drafts) api('move', { folder: st.roles.drafts, uids: [pre.draftUid], to: 'trash' }).catch(function () {});
@@ -268,6 +319,22 @@
         })
         .catch(function (x) { err.hidden = false; err.textContent = x.message; btn.disabled = false; btn.querySelector('span').textContent = 'Skicka'; });
     });
+  }
+  // a window with all signatures: insert one, or add a new one
+  function signatures(use) {
+    var m = document.createElement('div'); m.className = 'wmx-modal'; document.body.appendChild(m);
+    var draw = function () {
+      m.innerHTML = '<div class="wmx-modal__box" role="dialog" aria-label="Signaturer"><div class="wmx-box__head"><b>Signaturer</b><button type="button" class="wmx-icon" data-x aria-label="Stäng">' + ico('close') + '</button></div>' +
+        (st.settings.signatures.length ? st.settings.signatures.map(function (g) { return '<div class="wmx-sigrow"><div><b>' + esc(g.name) + (g.id === st.settings.defSig ? ' <small>standard</small>' : '') + '</b><p>' + toHtml(g.text) + '</p></div><span><button type="button" class="btn btn--primary" data-use="' + g.id + '"><span>Infoga</span></button><button type="button" class="wmx-link" data-def="' + g.id + '">Gör till standard</button><button type="button" class="wmx-link wmx-del" data-del="' + g.id + '">Ta bort</button></span></div>'; }).join('') : '<p class="wmx-empty">Inga signaturer än.</p>') +
+        '<form class="wmx-sigform"><b>Lägg till ny signatur</b><input name="name" placeholder="Namn, t.ex. Formell" required><textarea name="text" rows="4" placeholder="Anna Exempel&#10;Exempelbygg AB · 070-000 00 00" required></textarea><button class="btn btn--primary"><span>Spara signatur</span></button></form></div>';
+      m.querySelector('[data-x]').onclick = function () { m.remove(); };
+      m.querySelectorAll('[data-use]').forEach(function (b) { b.onclick = function () { use(st.settings.signatures.filter(function (g) { return g.id === b.dataset.use; })[0]); m.remove(); }; });
+      m.querySelectorAll('[data-def]').forEach(function (b) { b.onclick = function () { st.settings.defSig = b.dataset.def; store.set('settings', st.settings); draw(); }; });
+      m.querySelectorAll('[data-del]').forEach(function (b) { b.onclick = function () { if (!confirm('Ta bort signaturen?')) return; st.settings.signatures = st.settings.signatures.filter(function (g) { return g.id !== b.dataset.del; }); store.set('settings', st.settings); draw(); }; });
+      m.querySelector('.wmx-sigform').onsubmit = function (e) { e.preventDefault(); var g = { id: 's' + Date.now(), name: e.target.name.value.trim(), text: e.target.text.value.trim() }; if (!g.name || !g.text) return;
+        st.settings.signatures.push(g); if (!st.settings.defSig) st.settings.defSig = g.id; store.set('settings', st.settings); draw(); };
+    };
+    m.addEventListener('click', function (e) { if (e.target === m) m.remove(); }); draw();
   }
 
   // ---------- contacts (kept in this browser, learned from mail) ----------
@@ -279,7 +346,7 @@
   function contacts() {
     root.querySelector('#wtools').innerHTML = '<p class="wmx-h">Kontakter <small>' + st.contacts.length + '</small></p>';
     root.querySelector('#wlist').innerHTML = '<form id="wcadd" class="wmx-cadd"><input name="name" placeholder="Namn" aria-label="Namn"><input name="email" type="email" placeholder="E-post" aria-label="E-post"><button class="btn btn--primary"><span>Lägg till</span></button></form>' +
-      (st.contacts.length ? st.contacts.filter(function (c) { return !st.filter || (c.name + c.email).toLowerCase().indexOf(st.filter) >= 0; }).map(function (c) { return '<div class="wmx-item wmx-contact"><b>' + esc(c.name || c.email) + '</b><span>' + esc(c.email) + '</span><button type="button" class="wmx-link" data-mail="' + esc(c.email) + '">Skriv</button><button type="button" class="wmx-link wmx-del" data-rmc="' + esc(c.email) + '">Ta bort</button></div>'; }).join('')
+      (st.contacts.length ? st.contacts.filter(function (c) { return !st.filter || (c.name + c.email).toLowerCase().indexOf(st.filter) >= 0; }).map(function (c) { return '<div class="wmx-item wmx-contact">' + avatar(c.name ? c.name + ' <' + c.email + '>' : c.email) + '<b>' + esc(c.name || c.email) + '</b><span>' + esc(c.email) + '</span><button type="button" class="wmx-link" data-mail="' + esc(c.email) + '">Skriv</button><button type="button" class="wmx-link wmx-del" data-rmc="' + esc(c.email) + '">Ta bort</button></div>'; }).join('')
         : '<p class="wmx-empty">Kontakter sparas automatiskt när du läser och skickar mejl.</p>');
     root.querySelector('#wread').innerHTML = '<p class="wmx-empty">Kontakterna sparas i den här webbläsaren och används för att fylla i adresser när du skriver.</p>';
     root.querySelector('#wcadd').addEventListener('submit', function (e) { e.preventDefault(); if (!/\S+@\S+\.\S+/.test(e.target.email.value)) return toast('Skriv en e-postadress'); learn((e.target.name.value ? e.target.name.value + ' <' : '<') + e.target.email.value + '>'); contacts(); });
@@ -290,20 +357,22 @@
   // ---------- settings ----------
   function settings() {
     root.querySelector('#wtools').innerHTML = '<p class="wmx-h">Inställningar</p>';
+    var bk = st.backup, bkText = !bk ? 'Kontrollerar …' : bk.error ? 'Kunde inte nå säkerhetskopian just nu.' : bk.setup === false ? 'Säkerhetskopiering är inte påslagen hos Elevate Studio än.' : bk.remaining > 0 ? 'Säkerhetskopierar … ' + bk.saved + ' mejl sparade, ' + bk.remaining + ' kvar.' : 'Alla ' + bk.total + ' mejl är säkerhetskopierade' + (bk.at ? ' (' + new Date(bk.at).toLocaleString('sv-SE') + ')' : '') + '.';
     root.querySelector('#wlist').innerHTML = '<form id="wset" class="wmx-set"><label>Ditt namn som avsändare<input name="name" value="' + esc(st.settings.name) + '" placeholder="Anna Exempel"></label>' +
-      '<label>Signatur<textarea name="signature" rows="5" placeholder="Anna Exempel&#10;Exempelbygg AB · 070-000 00 00">' + esc(st.settings.signature) + '</textarea></label>' +
-      '<label>Mejl per sida<select name="perPage">' + [30].map(function (n) { return '<option>' + n + '</option>'; }).join('') + '</select></label>' +
-      '<button class="btn btn--primary"><span>Spara</span></button></form>';
+      '<button class="btn btn--primary"><span>Spara</span></button></form>' +
+      '<div class="wmx-set"><b>Signaturer</b><p class="wmx-small2">' + (st.settings.signatures.length ? st.settings.signatures.map(function (g) { return esc(g.name) + (g.id === st.settings.defSig ? ' (standard)' : ''); }).join(' · ') : 'Inga signaturer än.') + '</p><button type="button" class="btn btn--light" id="wsigs"><span>Hantera signaturer</span></button></div>' +
+      '<div class="wmx-set"><b>Säkerhetskopia</b><p class="wmx-small2">' + esc(bkText) + '</p><p class="wmx-small2">En kopia av alla mejl sparas hos Elevate Studio och uppdateras när du är inloggad, så att inget försvinner om något händer hos mejlleverantören.</p></div>';
     root.querySelector('#wread').innerHTML = '<div class="wmx-info"><h3>Mejlen i mobilen och datorn</h3><p>Lägg till kontot i iPhone, Android, Outlook eller Apple Mail med de här uppgifterna:</p>' +
       '<dl><dt>E-post</dt><dd>' + esc(st.email) + '</dd><dt>Inkommande (IMAP)</dt><dd>' + esc(st.servers.imap || '–') + ', port 993, SSL</dd><dt>Utgående (SMTP)</dt><dd>' + esc(st.servers.smtp || '–') + ', port 465, SSL</dd><dt>Lösenord</dt><dd>Samma som här</dd></dl>' +
       '<h3>Frånvaromeddelande och vidarebefordran</h3><p>Ställs in hos mejlleverantören. Skapa ett ärende i <a href="portal.html">kundportalen</a> så ordnar vi det.</p>' +
-      '<h3>Kortkommandon</h3><p><b>c</b> skriv nytt · <b>r</b> svara · <b>/</b> sök · <b>Delete</b> ta bort öppet mejl</p></div>';
-    root.querySelector('#wset').addEventListener('submit', function (e) { e.preventDefault(); st.settings = { name: e.target.name.value.trim(), signature: e.target.signature.value.trim(), perPage: 30 }; store.set('settings', st.settings); toast('Inställningarna är sparade'); shell(); });
+      '<h3>Kortkommandon</h3><p><b>c</b> skriv nytt · <b>r</b> svara · <b>/</b> sök · <b>Delete</b> ta bort öppet mejl · <b>Ctrl+B / I / U</b> fet, kursiv, understruken</p></div>';
+    root.querySelector('#wset').addEventListener('submit', function (e) { e.preventDefault(); st.settings.name = e.target.name.value.trim(); store.set('settings', st.settings); toast('Inställningarna är sparade'); shell(); });
+    root.querySelector('#wsigs').addEventListener('click', function () { signatures(function () {}); });
   }
 
   // keyboard shortcuts
   document.addEventListener('keydown', function (e) {
-    if (!root.querySelector('.wmx') || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+    if (!root.querySelector('.wmx') || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) || document.activeElement.isContentEditable) return;
     if (e.key === 'c') { e.preventDefault(); compose(); } else if (e.key === '/') { e.preventDefault(); root.querySelector('#wq').focus(); }
     else if (e.key === 'r' && st.open) { var b = root.querySelector('#rrep'); if (b) b.click(); } else if (e.key === 'Delete' && st.open) bulk('delete', [st.open]);
     else if (e.key === 'Enter' && document.activeElement.dataset.uid) read(Number(document.activeElement.dataset.uid));
