@@ -371,9 +371,9 @@
 
     // keywords
     if (R.keywords && R.keywords.length) {
-      html += '<h3 class="sitetest__h3">Sökord som sidorna använder</h3>' +
+      html += '<details class="deep__all"><summary>Sökord som sidorna använder</summary>' +
         '<p class="sitetest__note">Orden som förekommer mest i era titlar och beskrivningar. Vi mäter inte hur många som söker på dem, det kräver ett sökverktyg med sökvolymer. Se Sökord på Google i admin för vad som faktiskt ger visningar.</p>' +
-        '<div class="deep__kw">' + R.keywords.map(function (k) { return '<span>' + esc(k.w) + ' <b>' + k.n + '</b></span>'; }).join('') + '</div>';
+        '<div class="deep__kw">' + R.keywords.map(function (k) { return '<span>' + esc(k.w) + ' <b>' + k.n + '</b></span>'; }).join('') + '</div></details>';
     }
 
     // categories
@@ -394,7 +394,30 @@
     });
     if (R.mail) html += '<div class="deep__cat"><h3 class="sitetest__h3">Mejl och certifikat</h3><p class="sitetest__note">SPF ' + (R.mail.spf.found ? 'finns' : 'saknas') + ', DKIM ' + (R.mail.dkim.found ? 'hittat' : 'hittades inte') + ', DMARC ' + (R.mail.dmarc.found ? 'policy ' + esc(R.mail.dmarc.policy) : 'saknas') + '. ' + (R.cert && R.cert.checked ? 'Certifikatet gäller till ' + esc(R.cert.expires) + '.' : '') + '</p></div>';
     html += '<p class="sitetest__note">Varje fel är kontrollerat mot sidans egen HTML, sajtens svar, DNS eller Googles test. Googles test gäller mobil och görs på de viktigaste sidorna.</p>';
+    // The same two buttons as the quick test: we take care of it (quote form with the report), or a PDF
+    var report = { url: R.base, device: 'mobil', date: new Date().toLocaleDateString('sv-SE'), metrics: [], real: [], safe: null, shot: '',
+      summary: CATS.map(function (c) { return c[1] + ' ' + c[2]; }).join(', '), issues: [] };
+    CATS.forEach(function (c) {
+      Object.keys(F).filter(function (k) { return F[k].cat === c[0]; }).forEach(function (k) {
+        report.issues.push({ cat: c[1], title: F[k].label, value: F[k].where.length + (F[k].where.length === 1 ? ' förekomst' : ' förekomster'), fix: FIX[k] || 'Vi åtgärdar det.' });
+      });
+      Object.keys(C.hits).filter(function (k) { return C.gcat(C.hits[k].cat) === c[0]; }).forEach(function (k) {
+        var h = C.hits[k];
+        report.issues.push({ cat: c[1], title: h.title, value: 'Googles test: ' + h.pages.length + ' av ' + C.psiOk.length + ' sidor', fix: String(h.desc || '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/`/g, '').split('. ')[0] + '.' });
+      });
+    });
+    html += '<div class="sitetest__cta"><div><h2>Vill du att vi fixar det här?</h2><p>Vi går igenom resultatet med dig och ger ett förslag med fast pris.</p></div>' +
+      '<div class="sitetest__actions"><a class="btn btn--light" id="deep-send" href="kontakt.html?fran=test#formular"><span>Låt oss ta hand om det</span></a>' +
+      '<button type="button" class="btn btn--outline-light" id="deep-pdf"><span>Ladda ner PDF</span></button></div></div>';
     box.innerHTML = '<section class="sitetest__more deep__result"><h2 class="sitetest__h2">Djupanalys av hela sajten</h2>' + html + '</section>';
+    var lib = window.esSitetest || {};
+    box.querySelector('#deep-pdf').addEventListener('click', function () { if (lib.pdf) lib.pdf(report, this); });
+    box.querySelector('#deep-send').addEventListener('click', function () {
+      try { sessionStorage.setItem('es.sitetest', lib.text ? lib.text(report) : report.summary); sessionStorage.setItem('es.sitetest.url', R.base); } catch (e) { /* the form still opens */ }
+    });
+    // the test goes to Sajttester in the admin
+    try { fetch('/api/log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true, body: JSON.stringify({ kind: 'sitetest', test_type: 'deep', url: R.base, strategy: 'mobile', pages: ok.length, issues: report.issues.length, summary: report.summary,
+      scores: { seo: blend('seo'), accessibility: blend('access'), best_practices: blend('practice'), performance: blend('perf'), security: secPct, links: linksPct } }) }); } catch (e) { /* never block the result */ }
     box.hidden = false;
     box.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }

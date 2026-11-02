@@ -136,10 +136,30 @@
     });
   }
 
+  /* ---------- Tooltip for bars: a slightly tilted speech bubble beside the bar ---------- */
+  (function () {
+    var tip = document.createElement('div'); tip.className = 'bubble'; tip.hidden = true; document.body.appendChild(tip);
+    var cur = null;
+    var hide = function () { if (cur) { cur.setAttribute('title', cur.dataset.tip); cur = null; } tip.hidden = true; };
+    document.addEventListener('mouseover', function (e) {
+      var el = e.target.closest && e.target.closest('.cols > div[title], .cols > div[data-tip], .barrow[title], .barrow[data-tip]');
+      if (el === cur) return;
+      hide(); if (!el) return;
+      cur = el; el.dataset.tip = el.getAttribute('title') || el.dataset.tip; el.removeAttribute('title');
+      tip.textContent = el.dataset.tip; tip.hidden = false;
+      var r = el.getBoundingClientRect(), bar = el.querySelector('i') || el, br = bar.getBoundingClientRect();
+      var right = r.right + tip.offsetWidth + 24 < innerWidth;
+      tip.classList.toggle('bubble--left', !right);
+      tip.style.left = (right ? br.right + 18 : br.left - tip.offsetWidth - 18) + scrollX + 'px';
+      tip.style.top = (br.top + Math.min(br.height, 40) / 2 - tip.offsetHeight / 2 + scrollY) + 'px';
+    });
+    document.addEventListener('scroll', hide, true);
+  })();
+
   /* ---------- Shell ---------- */
   var NAV = [
     ['Försäljning', [['todo', 'Att göra', 'inbox'], ['leads', 'Alla leads', 'layers'], ['vunna', 'Vunna', 'star'], ['kalender', 'Kalender', 'cal'], ['kontakter', 'Kontakter', 'users'], ['fakturor', 'Fakturor', 'file']]],
-    ['Marknadsföring', [['utskick', 'Utskick', 'send'], ['segment', 'Segment', 'layers'], ['besokare', 'Besökare', 'eye'], ['sokord', 'Sökord på Google', 'chart'], ['recensioner', 'Recensioner', 'star'], ['chatten', 'Chatten', 'msg']]],
+    ['Marknadsföring', [['utskick', 'Utskick', 'send'], ['segment', 'Segment', 'layers'], ['besokare', 'Besökare', 'eye'], ['sokord', 'Sökord på Google', 'chart'], ['recensioner', 'Recensioner', 'star'], ['chatten', 'Chatten', 'msg'], ['sajttester', 'Sajttester', 'chart'], ['nyhetsbrev', 'Nyhetsbrev', 'send']]],
     ['Mer', [['statistik', 'Statistik', 'chart'], ['arkiv', 'Arkiv', 'door'], ['konton', 'Konton', 'users'], ['import', 'Importera leads', 'inbox'], ['kundportal', 'Kundportal', 'door'], ['ai', 'AI-assistent', 'spark'], ['insikter', 'Insikter', 'chart'],
       ['ekonomi', 'Ekonomi', 'wallet'], ['minne', 'AI-minne', 'brain'], ['integrationer', 'Integrationer', 'plug'], ['konto', 'Mitt konto', 'user']], true]
   ];
@@ -699,7 +719,7 @@
   function bars(title, pairs, total) {
     var max = Math.max.apply(null, pairs.map(function (p) { return p[1]; }).concat([1]));
     return '<section class="panel"><h3>' + title + '</h3>' + (pairs.length ? pairs.map(function (p) {
-      return '<div class="barrow"><span>' + esc(p[0]) + '</span><i style="--w:' + Math.round(p[1] / max * 100) + '%"></i><b>' + p[1] + (total ? ' <em>' + Math.round(p[1] / total * 100) + ' %</em>' : '') + '</b></div>';
+      return '<div class="barrow" title="' + esc(p[0]) + ': ' + p[1] + (total ? ' (' + Math.round(p[1] / total * 100) + ' %)' : '') + '"><span>' + esc(p[0]) + '</span><i style="--w:' + Math.round(p[1] / max * 100) + '%"></i><b>' + p[1] + (total ? ' <em>' + Math.round(p[1] / total * 100) + ' %</em>' : '') + '</b></div>';
     }).join('') : '<p class="empty">Ingen data.</p>') + '</section>';
   }
   function countBy(rows, fn, limit) {
@@ -1404,6 +1424,42 @@
     });
   }
 
+  /* ---------- Sajttester: everyone who used Testa din sajt ---------- */
+  var MISSING = '<p class="empty">Tabellen finns inte än. Kör supabase/sql/2026-11-02_site_tests_newsletter.sql i Supabase och lägg in SUPABASE_SERVICE_KEY i Cloudflare.</p>';
+  function scoreCell(v) { return v == null ? '–' : '<b style="color:' + (v >= 90 ? '#2f7d4f' : v >= 50 ? '#a26c07' : '#b42318') + '">' + v + '</b>'; }
+  function renderSiteTests() {
+    main().innerHTML = head('Sajttester', 'Alla som har testat sin sajt på Testa din sajt – senaste 90 dagarna.');
+    var q = sb.from('site_tests').select('*').gte('created_at', since(90)).order('created_at', { ascending: false }).limit(2000);
+    q.then(function (r) { if (r.error && /site_tests/.test(r.error.message || '')) { var l = $('#loading'); if (l) l.remove(); main().insertAdjacentHTML('beforeend', MISSING); } });
+    fetchRows(q, function (t) {
+      var host = function (u) { return String(u || '').replace(/^https?:\/\//, '').replace(/\/.*$/, ''); };
+      var deep = t.filter(function (x) { return x.test_type === 'deep'; }).length;
+      main().insertAdjacentHTML('beforeend', kpis([['Tester', t.length], ['Snabbtest', t.length - deep], ['Djupanalys', deep], ['Olika sajter', countBy(t, function (x) { return host(x.url); }, 100000).length]]) +
+        '<div class="split">' + bars('Mest testade sajter', countBy(t, function (x) { return host(x.url); })) + bars('Snabbtest eller djupanalys', countBy(t, function (x) { return x.test_type === 'deep' ? 'Djupanalys' : 'Snabbtest'; }), t.length) + '</div>' +
+        '<section class="panel"><h3>Alla tester</h3>' + table([
+          ['Sajt', function (x) { return '<a href="' + esc(x.url) + '" target="_blank" rel="noopener">' + esc(host(x.url)) + '</a>'; }],
+          ['Test', function (x) { return x.test_type === 'deep' ? 'Djupanalys' + (x.pages ? ' (' + x.pages + ' sidor)' : '') : 'Snabbtest' + (x.strategy ? ' (' + (x.strategy === 'mobile' ? 'mobil' : 'dator') + ')' : ''); }],
+          ['Prestanda', function (x) { return scoreCell(x.performance); }], ['Tillgänglighet', function (x) { return scoreCell(x.accessibility); }],
+          ['Bästa praxis', function (x) { return scoreCell(x.best_practices); }], ['SEO', function (x) { return scoreCell(x.seo); }],
+          ['Fel', function (x) { return x.issues == null ? '–' : x.issues; }], ['När', function (x) { return dt(x.created_at); }]
+        ], t) + '</section>');
+    });
+  }
+
+  /* ---------- Nyhetsbrev: sign-ups from the footer form ---------- */
+  function renderNewsletter() {
+    main().innerHTML = head('Nyhetsbrev', 'Alla som har gått med i mejllistan i sidfoten.');
+    var q = sb.from('newsletter_signups').select('*').order('created_at', { ascending: false }).limit(5000);
+    q.then(function (r) { if (r.error && /newsletter/.test(r.error.message || '')) { var l = $('#loading'); if (l) l.remove(); main().insertAdjacentHTML('beforeend', MISSING); } });
+    fetchRows(q, function (n) {
+      var month = n.filter(function (x) { return x.created_at >= since(30); }).length;
+      main().insertAdjacentHTML('beforeend', kpis([['Prenumeranter', n.length], ['Nya senaste 30 dagarna', month]]) +
+        '<section class="panel"><h3>Alla prenumeranter</h3><p class="panel__sub"><button type="button" class="btn btn--sm" id="nl-copy">Kopiera alla adresser</button></p>' +
+        table([['E-post', function (x) { return '<a href="mailto:' + esc(x.email) + '">' + esc(x.email) + '</a>'; }], ['Sida', function (x) { return esc(x.page || '–'); }], ['När', function (x) { return dt(x.created_at); }]], n) + '</section>');
+      var b = $('#nl-copy'); if (b) b.addEventListener('click', function () { navigator.clipboard.writeText(n.map(function (x) { return x.email; }).join(', ')).then(function () { b.textContent = 'Kopierat'; }); });
+    });
+  }
+
   /* ---------- Kundportal ---------- */
   function renderPortal() {
     main().innerHTML = head('Kundportal', 'Kunder med inloggning till kundportalen.') +
@@ -1608,7 +1664,7 @@
   var PAGES = {
     todo: renderTodo, leads: renderLeads, vunna: renderWon, arkiv: renderArchive, statistik: renderStats, konton: renderAccounts, import: renderImport,
     kalender: renderCalendar, kontakter: renderContacts, fakturor: renderInvoices, utskick: renderCampaigns, segment: renderSegments,
-    besokare: renderVisitors, sokord: renderSearch, recensioner: renderReviews, chatten: renderChat, kundportal: renderPortal, ai: renderAI, insikter: renderInsights, ekonomi: renderEconomy,
+    besokare: renderVisitors, sokord: renderSearch, recensioner: renderReviews, chatten: renderChat, sajttester: renderSiteTests, nyhetsbrev: renderNewsletter, kundportal: renderPortal, ai: renderAI, insikter: renderInsights, ekonomi: renderEconomy,
     minne: renderMemory, integrationer: renderIntegrations, konto: renderAccount
   };
 

@@ -401,3 +401,9 @@ button.f:hover { border-color: var(--g); }
 @media (max-width: 900px) { .visit summary { grid-template-columns: 1fr 1fr; } }
 .fld { display: grid; gap: 6px; margin: 10px 0; font-size: 13px; }
 .fld textarea { width: 100%; padding: 10px 12px; border: 1px solid rgba(29, 59, 42, .2); border-radius: 10px; font: inherit; font-size: 14px; resize: vertical; }
+/* Bar tooltip: a slightly tilted speech bubble with rounded corners and a straight, slanted tail towards the bar */
+.bubble { position: absolute; z-index: 1000; max-width: 260px; padding: 10px 14px; border: 2px solid var(--g1, #1d3b2a); border-radius: 14px; background: #fff; color: var(--g1, #1d3b2a); font-size: 13px; font-weight: 600; line-height: 1.35; transform: rotate(-3deg); pointer-events: none; box-shadow: 3px 3px 0 var(--g1, #1d3b2a); }
+.bubble::before { content: ""; position: absolute; left: -16px; top: 55%; width: 18px; height: 2px; background: var(--g1, #1d3b2a); border-radius: 2px; transform: rotate(-28deg); transform-origin: right center; }
+.bubble--left { transform: rotate(3deg); }
+.bubble--left::before { left: auto; right: -16px; transform: rotate(28deg); transform-origin: left center; }
+.barrow { cursor: default; }

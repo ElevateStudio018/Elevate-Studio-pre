@@ -151,6 +151,9 @@
       return;
     }
     var hit = answer(q);
+    // every question goes to Chatten in the admin, answered or not
+    try { fetch('/api/log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true, body: JSON.stringify({ kind: 'chat', question: q.slice(0, 500), matched: !!hit, topic: hit ? (hit.link ? hit.link[0] : hit.k[0]) : null, page_path: location.pathname }) }); } catch (e) { /* never block the chat */ }
+    if (window.elevateTrack) window.elevateTrack('chat', hit ? 'besvarad' : 'obesvarad');
     if (hit) { say(hit.a, 'bot', hit.link); return; }
     say('Det vet jag inte säkert – men vi svarar gärna själva. Skriv din e-postadress så mejlar vi dig ett svar.', 'bot');
     waitingForEmail = q;

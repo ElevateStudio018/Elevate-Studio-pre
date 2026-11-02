@@ -311,8 +311,8 @@
       '<h2 class="sitetest__h2">Det här kan förbättras <span>(' + issues.length + ')</span></h2>' +
       '<ol class="issues">' + issueHtml + '</ol>' +
       '<div class="sitetest__cta"><div><h2>Vill du att vi fixar det här?</h2><p>Vi går igenom resultatet med dig och ger ett förslag med fast pris.</p></div>' +
-      '<div class="sitetest__actions"><button type="button" class="btn btn--light" id="sitetest-pdf"><span>Ladda ner som PDF</span></button>' +
-      '<a class="btn btn--outline-light" id="sitetest-send" href="' + prefix + 'kontakt.html?fran=test#formular"><span>Skicka via offertförfrågan</span></a></div></div>' +
+      '<div class="sitetest__actions"><a class="btn btn--light" id="sitetest-send" href="' + prefix + 'kontakt.html?fran=test#formular"><span>Låt oss ta hand om det</span></a>' +
+      '<button type="button" class="btn btn--outline-light" id="sitetest-pdf"><span>Ladda ner PDF</span></button></div></div>' +
       '<p class="sitetest__source">Mätningen görs med ' + (lr ? 'Google PageSpeed Insights (Lighthouse) och ' : '') +
       'MDN HTTP Observatory. Resultatet kan variera något mellan körningar.</p>';
     results.hidden = false;
@@ -328,9 +328,13 @@
       metrics: METRICS.filter(function (m) { return audits[m.id]; }).map(function (m) { return [m.label, audits[m.id].displayValue || '–']; }),
       issues: issues, shot: shot || '', real: real.map(function (m) { return [m[0], m[1]]; }), safe: safe ? safe.safe : null };
     if (window.elevateTrack) window.elevateTrack('sitetest', url, (summary || 'Inget resultat') + ' · ' + report.device);
-    document.getElementById('sitetest-pdf').addEventListener('click', function () { downloadPdf(report); });
+    document.getElementById('sitetest-pdf').addEventListener('click', function () { downloadPdf(report, this); });
+    // the test goes to Sajttester in the admin
+    var logScores = {};
+    CATEGORIES.forEach(function (c) { if (cats[c.id] && typeof cats[c.id].score === 'number') logScores[c.id === 'best-practices' ? 'best_practices' : c.id] = Math.round(cats[c.id].score * 100); });
+    try { fetch('/api/log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true, body: JSON.stringify({ kind: 'sitetest', test_type: 'quick', url: url, strategy: strategy, scores: logScores, issues: issues.length, summary: summary }) }); } catch (e) { /* never block the result */ }
     document.getElementById('sitetest-send').addEventListener('click', function () {
-      try { sessionStorage.setItem('es.sitetest', reportText(report)); } catch (e) { /* the form still opens */ }
+      try { sessionStorage.setItem('es.sitetest', reportText(report)); sessionStorage.setItem('es.sitetest.url', url); } catch (e) { /* the form still opens */ }
       if (window.elevateTrack) window.elevateTrack('sitetest_send', url);
     });
     results.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -362,8 +366,8 @@
       var u = new Uint8Array(ab), bin = ''; for (var i = 0; i < u.length; i += 32768) bin += String.fromCharCode.apply(null, u.subarray(i, i + 32768)); return btoa(bin);
     });
   }
-  function downloadPdf(r) {
-    var btn = document.getElementById('sitetest-pdf'); btn.disabled = true;
+  function downloadPdf(r, btn) {
+    btn = btn || document.getElementById('sitetest-pdf'); if (btn) btn.disabled = true;
     loadJsPdf().then(function (lib) {
       var doc = new lib.jsPDF({ unit: 'pt', format: 'a4' });
       return Promise.all([b64(prefix + 'assets/fonts/HankenGrotesk-Regular.ttf'), b64(prefix + 'assets/fonts/HankenGrotesk-Bold.ttf')]).then(function (f) {
@@ -371,8 +375,10 @@
         doc.addFileToVFS('HG-B.ttf', f[1]); doc.addFont('HG-B.ttf', 'Hanken', 'bold'); return 'Hanken';
       }).catch(function () { return 'helvetica'; }).then(function (font) { drawPdf(doc, font, r); });
     }).catch(function () { alert('PDF:en kunde inte skapas just nu. Försök igen om en stund.'); })
-      .then(function () { btn.disabled = false; });
+      .then(function () { if (btn) btn.disabled = false; });
   }
+  // the deep analysis uses the same PDF and the same text for the quote form
+  window.esSitetest = { pdf: downloadPdf, text: reportText };
   function drawPdf(doc, font, r) {
     var W = 595.28, H = 841.89, U = W / 100, X = 9.4 * U, RIGHT = W - X;
     var GREEN = [29, 59, 42], INK = [31, 42, 36], SOFT = [231, 239, 233], MUTED = [111, 125, 116];

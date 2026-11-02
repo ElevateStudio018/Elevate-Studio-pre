@@ -9,6 +9,7 @@ import { bookingReady, bookingLink, bookingInfo, bookingBook, bookingSync } from
 import { accountsReady, accountsCreate } from './accounts.js';
 import { adminUser } from './invite.js';
 import { track } from './track.js';
+import { log } from './log.js';
 import leadImport from './import.json';
 import { withHeaders } from './headers.js';
 
@@ -36,6 +37,7 @@ export default {
     if (pathname === '/api/booking/book') return bookingBook(req, env);
     if (pathname === '/api/booking/sync') return bookingSync(req, env);
     if (pathname === '/api/track') return track(req, env);
+    if (pathname === '/api/log') return log(req, env);
     if (pathname === '/api/accounts/create') return accountsCreate(req, env);
     // PageSpeed for Testa din sajt: the server adds the Google API key (PSI_API_KEY secret) so the test is not rate-limited
     if (pathname === '/api/psi') {
@@ -54,7 +56,7 @@ export default {
     if (pathname === '/api/gsc') return searchConsole(req, env);
     if (pathname === '/api/google/check') return googleCheck(env);
     if (pathname === '/api/reviews') return reviews(req, env);
-    if (pathname === '/api/status') return Response.json({ gmail: !!(env.GMAIL_USER && env.GMAIL_APP_PASSWORD), google: googleReady(env), booking: bookingReady(env), accounts: accountsReady(env), brevo: brevoReady(env), from: env.GMAIL_USER || null });
+    if (pathname === '/api/status') return Response.json({ gmail: !!(env.GMAIL_USER && env.GMAIL_APP_PASSWORD), google: googleReady(env), booking: bookingReady(env), accounts: accountsReady(env), stats: !!env.SUPABASE_SERVICE_KEY, brevo: brevoReady(env), from: env.GMAIL_USER || null });
     // The customer's booking page: one static page, the link's details are in the address
     if (pathname.startsWith('/boka/')) {
       // asked for as /boka (not /boka.html), otherwise the static files answer with a redirect that drops the link

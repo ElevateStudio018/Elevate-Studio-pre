@@ -854,3 +854,8 @@ body.has-preview { overflow: hidden; }
 .sitetest-running .sitetest-hero { padding-bottom: 80px; }
 .sitetest-running section.section.container.sitetest { margin-top: 0; padding-top: 100px; }
 .info-card--empty { min-height: 200px; }
+/* Contact form opened from Testa din sajt: the preset title */
+.form-prefill { grid-column: 1 / -1; margin: 0 0 18px; padding: 18px 20px; border-radius: 16px; background: #fff; color: var(--accent, #1d3b2a); }
+.form-prefill__k { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+.form-prefill__t { margin: 4px 0 6px; font-size: 19px; font-weight: 600; }
+.form-prefill__n { margin: 0; font-size: 14px; color: #4f5a53; }

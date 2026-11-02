@@ -111,7 +111,7 @@
       button.disabled = true;
       show('Skickar …', true);
       var news = form.classList.contains('site-footer__newsletter');
-      var done = news ? 'Tack! Du står nu på listan.' : 'Tack! Vi återkommer så fort vi kan.';
+      var done = news ? 'Tack för att du gick med i vårt nyhetsbrev! Du får tips om hemsidor, synlighet på Google och nyheter från oss ungefär en gång i månaden. Du kan avsluta när du vill via länken i varje mejl.' : 'Tack! Vi återkommer så fort vi kan.';
       if (isBot) { form.reset(); show(done, true); button.disabled = false; return; }
       var isLead = 'lead' in form.dataset && data.email;
       var lead = isLead && { name: cut(data.namn, 100) || cut(data.email, 100), email: cut(data.email, 255), phone: cut(data.telefon, 40), company: cut(data.foretag, 150), service_type: cut(data.tjanst, 100), message: cut(data.meddelande, 2000) };
@@ -126,7 +126,7 @@
         return send(form.action, data);
       };
       // Newsletter: straight into the Brevo list through our own server; if that is not set up yet, the old routes below take over
-      var viaBrevo = news ? send('/api/newsletter', { email: data.email }) : null;
+      var viaBrevo = news ? send('/api/newsletter', { email: data.email, page: location.pathname }) : null;
       var go = news ? viaBrevo.catch(function () { return form.dataset.mail ? send(form.dataset.mail, { action: 'subscribe', email: data.email }, form.dataset.key).catch(viaFormSubmit) : viaFormSubmit(); })
         : form.dataset.mail && (news || lead)
         ? send(form.dataset.mail, news ? { action: 'subscribe', email: data.email } : Object.assign({ action: 'lead' }, lead), form.dataset.key).catch(viaFormSubmit)
@@ -254,7 +254,16 @@
   var msg = form.querySelector('textarea[name="meddelande"]'), sel = form.querySelector('select[name="tjanst"]');
   if (msg) { msg.value = text; msg.rows = 12; }
   if (sel) sel.value = 'Hemsidor';
-  form.dataset.subject = 'Offertförfrågan från Testa din sajt';
+  var url = ''; try { url = sessionStorage.getItem('es.sitetest.url') || ''; } catch (e) { /* no address */ }
+  var title = 'Åtgärda resultatet från Testa din sajt' + (url ? ' – ' + url.replace(/^https?:\/\//, '').replace(/\/$/, '') : '');
+  form.dataset.subject = 'Offertförfrågan: ' + title;
+  // the title travels with the request, and the visitor sees what is sent
+  var hid = document.createElement('input'); hid.type = 'hidden'; hid.name = 'arende'; hid.value = title; form.appendChild(hid);
+  var box = document.createElement('div'); box.className = 'form-prefill';
+  box.innerHTML = '<p class="form-prefill__k">Ärende</p><p class="form-prefill__t"></p><p class="form-prefill__n">Testrapporten är bifogad i meddelandet nedan. Fyll i namn och e-post och skicka, så återkommer vi med ett fast pris.</p>';
+  box.querySelector('.form-prefill__t').textContent = title;
+  form.insertBefore(box, form.firstChild);
+  var first = form.querySelector('input[name="namn"]'); if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 400);
 })();
 
 /* Web fonts load after the page has loaded, so they are never in the critical request chain.
