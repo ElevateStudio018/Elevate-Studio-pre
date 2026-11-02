@@ -4,7 +4,7 @@ Klistra in allt nedan i Lovable.
 
 ---
 
-Build a single-page, full-screen **animated product ad (35 seconds, 16:9, 1920×1080)** for Elevate Studio, a Swedish web agency. It must play automatically in a loop, with a "Replay" button, and be easy to screen-record. Use React + Framer Motion (or GSAP). No stock photos and no people. All text is in Swedish.
+Build a single-page, full-screen **animated product ad (25 seconds, 16:9, 1920×1080)** for Elevate Studio, a Swedish web agency. It must play automatically in a loop, with a "Replay" button, and be easy to screen-record. Use React + Framer Motion (or GSAP). No stock photos and no people. All text is in Swedish.
 
 ## Visual style
 - **Colours:** deep green background `#0f2418`, accent green `#1d3b2a`, mint `#8fd3a6`, white. Never lime, never beige. The end card is light mint `#f1f8ef`.

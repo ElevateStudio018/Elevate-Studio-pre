@@ -1,97 +1,95 @@
 <!doctype html>
-<html lang="sv"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Elevate – reklamfilm (test)</title>
+<html lang="sv"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Elevate – reklamfilm (test 2)</title>
 <style>
 @font-face{font-family:H;src:url(../../assets/fonts/HankenGrotesk-latin.woff2) format('woff2');font-weight:100 900}
 @font-face{font-family:F;src:url(../../assets/fonts/Fraunces-latin.woff2) format('woff2');font-style:italic;font-weight:100 900}
 *{box-sizing:border-box;margin:0}
 html,body{width:1280px;height:720px;overflow:hidden;background:#0c1a12;font-family:H,system-ui,sans-serif;color:#fff}
 #stage{position:relative;width:1280px;height:720px;overflow:hidden}
-.bg{position:absolute;inset:-20%;background:radial-gradient(40% 50% at var(--gx,30%) var(--gy,70%),rgba(143,211,166,.55),transparent 70%),radial-gradient(35% 45% at var(--hx,80%) var(--hy,20%),rgba(47,125,79,.7),transparent 70%),#0f2418;filter:blur(30px)}
-.light{position:absolute;inset:0;background:linear-gradient(160deg,#f6fbf4,#e6f2e3);opacity:0}
+.bg{position:absolute;inset:-20%;background:radial-gradient(40% 50% at var(--gx,30%) var(--gy,70%),rgba(143,211,166,.5),transparent 70%),radial-gradient(35% 45% at var(--hx,80%) var(--hy,20%),rgba(47,125,79,.7),transparent 70%),#10251a;filter:blur(30px)}
+.grain{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:4px 4px;pointer-events:none}
+.light{position:absolute;inset:0;background:linear-gradient(160deg,#f6fbf4,#e3f1e1);opacity:0}
 .layer{position:absolute;inset:0;display:grid;place-items:center;opacity:0}
 .word{font-weight:700;letter-spacing:-.03em;line-height:1}
 .hl{display:inline-block;padding:0 .18em;border-radius:.14em;background:#8fd3a6;color:#0f2418}
-.serif{font-family:F,serif;font-style:italic;font-weight:400}
-.ui{position:absolute;background:#fff;color:#16241b;border-radius:22px;box-shadow:0 40px 90px -30px rgba(0,0,0,.6);overflow:hidden}
-.ui h4{font-size:15px;color:#6b736d;font-weight:600}
-.search{display:flex;gap:10px;padding:10px;border-radius:18px;background:#f2f5f1}
-.search .in{flex:1;padding:16px 18px;border-radius:12px;background:#fff;font-size:24px;border:2px solid #dfe5de}
-.search .btn{padding:16px 28px;border-radius:12px;background:#1d3b2a;color:#fff;font-size:20px;font-weight:700}
-.row{display:flex;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid #eef0ed;font-size:21px}
-.row b{flex:1}.free{color:#2f7d4f;font-weight:700;font-size:16px;padding:4px 10px;border-radius:999px;background:#e3efe6}
-.add{padding:10px 18px;border-radius:999px;border:2px solid #1d3b2a;font-weight:700;font-size:16px}
+.serif{font-family:F,serif;font-style:italic;font-weight:400;letter-spacing:0}
+.eyebrow{font-size:15px;letter-spacing:.28em;font-weight:700;opacity:.8}
+.pill{display:flex;align-items:center;width:760px;height:84px;padding:0 10px 0 34px;border-radius:999px;background:#fff;color:#16241b;font-size:26px;box-shadow:0 0 0 6px rgba(255,255,255,.12)}
+.pill .t{flex:1}.pill .ph{color:#8a918c}.pill .go{padding:0 34px;height:64px;display:grid;place-items:center;border-radius:999px;background:#1d3b2a;color:#fff;font-weight:700;font-size:22px}
+.tlds{display:flex;gap:10px;justify-content:center;margin-top:16px;overflow:hidden}.tlds span{padding:8px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);font-size:15px}.tlds b{margin-left:6px}
+.res{width:760px;margin-top:16px;border-radius:22px;background:#fff;color:#16241b;padding:6px 24px;box-shadow:0 30px 60px -24px rgba(0,0,0,.6)}
+.row{display:flex;align-items:center;gap:14px;padding:15px 0;border-bottom:1px solid #eef0ed;font-size:20px}.row:last-child{border:0}
+.row b{flex:1}.free{color:#2f7d4f;font-weight:700;font-size:14px;padding:4px 10px;border-radius:999px;background:#e3efe6}.taken{color:#9a5b4a;background:#f6e9e5}
+.add{padding:9px 18px;border-radius:999px;border:2px solid #1d3b2a;font-weight:700;font-size:15px}
 .cart{position:absolute;display:flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;background:#fff;color:#1d3b2a;font-weight:700;font-size:18px;box-shadow:0 20px 40px -16px rgba(0,0,0,.5)}
 .cart i{display:grid;place-items:center;min-width:28px;height:28px;border-radius:999px;background:#1d3b2a;color:#fff;font-style:normal;font-size:15px}
-.plan{position:absolute;top:0;width:250px;height:330px;padding:26px 22px;border-radius:22px;background:#fff;color:#16241b;box-shadow:0 30px 60px -24px rgba(0,0,0,.5)}
+.plan{position:absolute;top:0;width:250px;height:320px;padding:26px 22px;border-radius:22px;background:#fff;color:#16241b;box-shadow:0 30px 60px -24px rgba(0,0,0,.5)}
 .plan h3{font-size:24px}.plan .p{font-size:38px;font-weight:700;margin:10px 0 2px;letter-spacing:-.02em}.plan small{opacity:.65;font-size:15px}
-.plan li{list-style:none;font-size:16px;padding:6px 0 6px 22px;position:relative}.plan li:before{content:"✓";position:absolute;left:0;color:#2f7d4f;font-weight:700}
-.plan ul{padding:0;margin:16px 0}.plan .b{position:absolute;left:22px;right:22px;bottom:22px;padding:12px;border-radius:999px;border:2px solid currentColor;text-align:center;font-weight:700}
-.cursor{position:absolute;left:0;top:0;width:76px;height:76px;z-index:50;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45));transform-origin:8px 6px}
+.plan ul{padding:0;margin:16px 0}.plan li{list-style:none;font-size:16px;padding:6px 0 6px 22px;position:relative}.plan li:before{content:"✓";position:absolute;left:0;color:#2f7d4f;font-weight:700}
+.plan .b{position:absolute;left:22px;right:22px;bottom:22px;padding:12px;border-radius:999px;border:2px solid currentColor;text-align:center;font-weight:700}
+.rings{display:flex;gap:22px;margin-top:34px}.ring{width:230px;padding:24px 0 20px;border-radius:22px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);text-align:center}
+.ring svg{width:110px;height:110px}.ring circle{fill:none;stroke-width:9}.ring .bgc{stroke:rgba(255,255,255,.15)}.ring b{display:block;margin-top:-72px;height:72px;font-size:32px}.ring p{margin-top:8px;font-size:17px}
+.cursor{position:absolute;left:0;top:0;width:76px;height:76px;z-index:50;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}
 .ripple{position:absolute;z-index:49;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;border:3px solid #8fd3a6;opacity:0}
 .spark{position:absolute;z-index:48;width:36px;height:36px;margin:-18px 0 0 -18px;opacity:0}
 .kpi{display:inline-block;padding:16px 20px;border-radius:16px;border:1px solid #e6eae5;min-width:160px}.kpi small{color:#6b736d;font-size:13px}.kpi b{display:block;font-size:30px}
-.check{display:grid;place-items:center;width:120px;height:120px;border-radius:50%;background:#8fd3a6;color:#0f2418;font-size:70px;font-weight:700}
-.chip{display:inline-block;padding:10px 18px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);font-size:22px;margin:6px}
+.chip{position:absolute;padding:12px 22px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(143,211,166,.5);font-size:22px;font-weight:600;white-space:nowrap}
+.ui{position:absolute;background:#fff;color:#16241b;border-radius:22px;box-shadow:0 40px 90px -30px rgba(0,0,0,.6);overflow:hidden}
 </style></head><body>
 <div id="stage">
-  <div class="bg" id="bg"></div><div class="light" id="light"></div>
+  <div class="bg" id="bg"></div><div class="grain"></div><div class="light" id="light"></div>
 
-  <!-- 1. kinetic opening -->
-  <div class="layer" id="s1"><div style="text-align:center"><p class="word" id="s1a" style="font-size:96px">Ert företag.</p><p class="word" id="s1b" style="font-size:96px;margin-top:10px"><span class="serif">Ert</span> <span class="hl" id="s1hl">namn.</span></p></div></div>
+  <div class="layer" id="s1"><p class="word" id="w1" style="font-size:120px"></p></div>
+  <div class="layer" id="s2"><p class="word" style="font-size:96px">Vi gör det <span class="hl" id="s2hl">enkelt.</span></p></div>
 
-  <!-- 2. domain search -->
-  <div class="layer" id="s2">
-    <div class="ui" id="dom" style="left:190px;top:120px;width:900px;padding:30px 34px">
-      <h4>Sök domän</h4>
-      <div class="search" style="margin:12px 0 10px"><div class="in"><span id="typed"></span><span id="caret">|</span></div><div class="btn" id="sok">Sök</div></div>
-      <div id="res">
-        <div class="row" data-r="0"><b>haningebyggteam<span style="color:#2f7d4f">.se</span></b><span class="free">Ledig</span><span>149 kr första året</span><span class="add" id="addbtn">Lägg till</span></div>
-        <div class="row" data-r="1"><b>haningebyggteam.nu</b><span class="free">Ledig</span><span>149 kr</span><span class="add">Lägg till</span></div>
-        <div class="row" data-r="2"><b>haningebyggteam.com</b><span class="free">Ledig</span><span>149 kr</span><span class="add">Lägg till</span></div>
-      </div>
-    </div>
-    <div class="cart" id="cart" style="right:60px;top:40px">Varukorg <i id="cartn">0</i></div>
+  <div class="layer" id="s3"><div id="dom" style="display:flex;flex-direction:column;align-items:center;margin-top:-30px">
+    <p class="eyebrow">DOMÄNER</p>
+    <p class="word" style="font-size:76px;font-weight:500;margin:14px 0 26px">Hitta ert <span class="serif">domännamn</span></p>
+    <div class="pill"><span class="t"><span id="typed"></span><span id="ph" class="ph">dittforetag</span><span id="caret">|</span></span><span class="go" id="sok">Sök</span></div>
+    <div class="tlds" id="tlds"><span>.se<b>149 kr</b></span><span>.nu<b>149 kr</b></span><span>.com<b>169 kr</b></span><span>.net<b>189 kr</b></span><span>.eu<b>129 kr</b></span></div>
+    <div class="res" id="res">
+      <div class="row"><b>haningebyggteam<span style="color:#2f7d4f">.se</span></b><span class="free">Ledig</span><span>149 kr första året</span><span class="add" id="addbtn">Lägg till</span></div>
+      <div class="row"><b>haningebyggteam.nu</b><span class="free">Ledig</span><span>149 kr</span><span class="add">Lägg till</span></div>
+      <div class="row"><b>haningebyggteam.com</b><span class="free taken">Upptagen</span><span style="opacity:.5">Bevaka</span></div>
+    </div></div>
+    <div class="cart" id="cart" style="right:44px;top:34px">Varukorg <i id="cartn">0</i></div>
   </div>
 
-  <!-- 3. word: Mejl -->
-  <div class="layer" id="s3"><p class="word" style="font-size:76px"><span id="s3a">info</span><span class="hl" id="s3hl">@haningebyggteam.se</span></p></div>
-
-  <!-- 4. mail plans -->
-  <div class="layer" id="s4"><div id="plans" style="position:absolute;left:0;top:190px;width:1280px;height:360px">
+  <div class="layer" id="s4"><p class="word" id="s4t" style="position:absolute;top:70px;font-size:58px">info<span class="hl" id="s4hl">@haningebyggteam.se</span></p>
+    <div style="position:absolute;left:0;top:200px;width:1280px;height:360px">
     <div class="plan" id="p0" style="left:215px"><h3>Bas</h3><p class="p">49 kr</p><small>1 konto · 10 GB</small><ul><li>Webbmejl och mobil</li><li>Spamfilter</li></ul><div class="b">Välj</div></div>
     <div class="plan" id="p1" style="left:515px"><h3>Företag</h3><p class="p">199 kr</p><small>5 konton · 25 GB</small><ul><li>info@ och gruppadresser</li><li>Vi flyttar er mejl</li></ul><div class="b" id="p1b">Välj</div></div>
     <div class="plan" id="p2" style="left:815px"><h3>Pro</h3><p class="p">449 kr</p><small>15 konton · 50 GB</small><ul><li>Mer lagring</li><li>Prioriterad hjälp</li></ul><div class="b">Välj</div></div>
-  </div><p class="word" id="s4t" style="position:absolute;top:80px;font-size:54px">Mejl som ser <span class="hl">proffsigt</span> ut.</p></div>
+  </div></div>
 
-  <!-- 5. checkout -->
-  <div class="layer" id="s5">
-    <div class="ui" id="kassa" style="left:290px;top:110px;width:700px;padding:30px 34px">
-      <h4>Kassa</h4>
-      <div class="row"><b>haningebyggteam.se</b><span>149 kr</span></div>
-      <div class="row"><b>Mejl Företag · 5 konton</b><span>199 kr/mån</span></div>
-      <div class="row" style="border:0;font-size:26px"><b>Totalt idag</b><b style="flex:none">149 kr</b></div>
-      <div style="margin-top:18px;padding:18px;border-radius:999px;background:#1d3b2a;color:#fff;text-align:center;font-weight:700;font-size:22px" id="order">Skicka beställning</div>
-    </div>
-    <div class="check" id="check" style="position:absolute;left:580px;top:290px;opacity:0">✓</div>
-  </div>
+  <div class="layer" id="s5"><div style="display:flex;flex-direction:column;align-items:center;margin-top:-20px">
+    <p class="word" style="font-size:72px;margin-bottom:30px">Hur presterar din sajt?</p>
+    <div class="pill" style="width:700px"><span class="t">haningebyggteam.se</span><span class="go" id="testa">Testa</span></div>
+    <div class="rings">
+      <div class="ring"><svg viewBox="0 0 120 120"><circle class="bgc" cx="60" cy="60" r="50"/><circle id="r0" cx="60" cy="60" r="50" stroke="#8fd3a6" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" transform="rotate(-90 60 60)"/></svg><b id="n0">0</b><p>Prestanda</p></div>
+      <div class="ring"><svg viewBox="0 0 120 120"><circle class="bgc" cx="60" cy="60" r="50"/><circle id="r1" cx="60" cy="60" r="50" stroke="#8fd3a6" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" transform="rotate(-90 60 60)"/></svg><b id="n1">0</b><p>Tillgänglighet</p></div>
+      <div class="ring"><svg viewBox="0 0 120 120"><circle class="bgc" cx="60" cy="60" r="50"/><circle id="r2" cx="60" cy="60" r="50" stroke="#8fd3a6" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" transform="rotate(-90 60 60)"/></svg><b id="n2">0</b><p>SEO och AI</p></div>
+    </div></div></div>
 
-  <!-- 6. portal -->
-  <div class="layer" id="s6"><p class="word" id="s6t" style="position:absolute;top:56px;font-size:54px">Och allt syns i <span class="hl">kundportalen.</span></p>
-    <div class="ui" id="portal" style="left:150px;top:160px;width:980px;height:470px;display:flex">
+  <div class="layer" id="s6"><p class="word" id="s6t" style="position:absolute;top:50px;font-size:54px">Och allt syns i <span class="hl">kundportalen.</span></p>
+    <div class="ui" id="portal" style="left:150px;top:150px;width:980px;height:480px;display:flex">
       <div style="width:200px;background:#1d3b2a;color:#c9d8cd;padding:22px 16px;font-size:15px;line-height:2.3"><b style="color:#fff;font-size:20px">Elevate</b><br><span style="background:#fff;color:#1d3b2a;border-radius:8px;padding:4px 10px;font-weight:700">Översikt</span><br>Hemsidans admin<br>Besökare<br>Ändringar<br>Mejl &amp; domän<br>Fakturor</div>
       <div style="flex:1;padding:22px">
         <div style="background:#1d3b2a;color:#fff;border-radius:18px;padding:20px 22px;display:flex;align-items:end;gap:20px"><div><small style="color:#a9c4b1">November</small><p style="font-size:38px;font-weight:700" id="cnt">0 besökare</p></div><svg viewBox="0 0 400 80" style="flex:1;height:80px"><path id="line" d="M0,60 L40,52 L80,58 L120,40 L160,46 L200,30 L240,36 L280,20 L320,26 L360,12 L400,8" fill="none" stroke="#8fd3a6" stroke-width="3" stroke-dasharray="600" stroke-dashoffset="600"/></svg></div>
-        <div style="margin-top:14px;display:flex;gap:12px"><div class="kpi"><small>Förfrågningar</small><b id="k1">0</b></div><div class="kpi"><small>Drifttid</small><b>99,98 %</b></div><div class="kpi"><small>Google-betyg</small><b>100</b></div></div>
+        <div style="margin-top:14px;display:flex;gap:12px"><div class="kpi"><small>Förfrågningar</small><b id="k1">0</b></div><div class="kpi"><small>Drifttid</small><b>99,98 %</b></div><div class="kpi"><small>Google-betyg</small><b id="k3">0</b></div></div>
+        <div id="lead" style="margin-top:14px;padding:14px 18px;border-radius:14px;background:#f1f6f2;font-size:16px;display:flex;gap:12px;align-items:center"><b style="padding:3px 10px;border-radius:9px;background:#1d3b2a;color:#fff;font-size:13px">Ny</b>Karin Lund vill ha offert på badrum <span style="margin-left:auto;color:#6b736d">nyss</span></div>
       </div>
     </div>
   </div>
 
-  <!-- 7. all in one -->
-  <div class="layer" id="s7"><div style="text-align:center"><p class="word" style="font-size:44px;opacity:.8" id="s7a">Domän · Mejl · Hemsida · Portal</p><p class="word" id="s7b" style="font-size:100px;margin-top:16px">Allt på <span class="hl">ett</span> ställe.</p></div></div>
+  <div class="layer" id="s7">
+    <span class="chip" id="c0" style="left:150px;top:150px">Domän</span><span class="chip" id="c1" style="left:960px;top:140px">Företagsmejl</span>
+    <span class="chip" id="c2" style="left:110px;top:520px">Hemsida</span><span class="chip" id="c3" style="left:930px;top:530px">Kundportal</span><span class="chip" id="c4" style="left:530px;top:600px">Testa din sajt</span>
+    <div style="text-align:center"><p class="word" id="s7a" style="font-size:108px">Allt på <span class="hl" id="s7hl">ett</span> ställe.</p><p id="s7b" style="font-size:30px;margin-top:20px;opacity:.85">Mindre krångel. Mer tid för kunderna.</p></div>
+  </div>
 
-  <!-- 8. end card -->
-  <div class="layer" id="s8"><div style="text-align:center;color:#0f2418"><svg id="logo" viewBox="0 0 1884.3 1353.9" style="width:170px"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="#1d3b2a"/></svg>
-    <p class="word" style="font-size:72px;margin-top:20px">Elevate Studio</p><p style="font-size:28px;margin-top:10px;color:#2f7d4f" id="s8u">elevatestudio.nu</p></div></div>
+  <div class="layer" id="s8"><div style="text-align:center;color:#0f2418"><svg id="logo" viewBox="0 0 1884.3 1353.9" style="width:150px"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="#1d3b2a"/></svg>
+    <p class="word" style="font-size:68px;margin-top:18px">Elevate Studio</p><p style="font-size:26px;margin-top:12px;color:#1d3b2a" id="s8t">Vi gör det enkelt för företag.</p><p style="font-size:22px;margin-top:8px;color:#2f7d4f;font-weight:700" id="s8u">elevatestudio.nu</p></div></div>
 
   <div class="ripple" id="rip"></div>
   <svg class="spark" id="spk" viewBox="0 0 40 40"><path d="M20 0l4 14 14-4-10 10 10 10-14-4-4 14-4-14-14 4 10-10L2 10l14 4z" fill="#d9f2a6"/></svg>
@@ -99,68 +97,55 @@ html,body{width:1280px;height:720px;overflow:hidden;background:#0c1a12;font-fami
 </div>
 <script>
 const $=id=>document.getElementById(id);
-const cl=(x)=>Math.max(0,Math.min(1,x));
-const seg=(t,a,b)=>cl((t-a)/(b-a));
-const eo=x=>1-Math.pow(1-x,3), eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, back=x=>{const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
-const lerp=(a,b,x)=>a+(b-a)*x;
-// scene windows [in, out]
-const S={s1:[0,3.2],s2:[3.2,10.6],s3:[10.6,13],s4:[13,18.2],s5:[18.2,22.6],s6:[22.6,28.4],s7:[28.4,31.4],s8:[31.4,35]};
-const DUR=35;
-// cursor path keyframes [t,x,y]
-const CP=[[3.2,1180,650],[4.4,300,212],[6.4,300,212],[7.0,1030,212],[7.5,1030,212],[8.2,1045,302],[9.2,1045,302],[10.4,1150,70],[13.6,1100,650],[15.2,640,525],[17.4,640,525],[18.6,640,640],[19.8,640,445],[22.4,640,445],[23.4,1000,650],[27.6,700,620],[28.4,1200,700]];
-const CLICKS=[6.9-0.0,7.6,8.4,15.0,16.4,20.0];
+const cl=x=>Math.max(0,Math.min(1,x)),seg=(t,a,b)=>cl((t-a)/(b-a)),lerp=(a,b,x)=>a+(b-a)*x;
+const eo=x=>1-Math.pow(1-x,3),eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,back=x=>{const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const S={s1:[0,2.3],s2:[2.3,3.7],s3:[3.7,8.3],s4:[8.3,11.9],s5:[11.9,15.1],s6:[15.1,18.9],s7:[18.9,22.2],s8:[22.2,25]};
+const DUR=25;
+const CP=[[3.9,1200,680],[4.35,420,318],[5.3,420,318],[5.55,945,318],[5.75,945,318],[6.25,1035,400],[6.8,1035,400],[7.3,1170,60],[8.6,1100,650],[9.55,640,535],[11.0,640,535],[11.6,1180,700],[12.1,1150,650],[12.55,930,282],[13.1,930,282],[15.0,1180,690],[15.6,1180,690],[18.6,1220,700]];
+const CLICKS=[4.4,5.62,6.32,10.5,12.62];
 function cursorAt(t){if(t<CP[0][0]||t>CP[CP.length-1][0])return null;for(let i=0;i<CP.length-1;i++){const a=CP[i],b=CP[i+1];if(t>=a[0]&&t<=b[0]){const x=eio(seg(t,a[0],b[0]));return[lerp(a[1],b[1],x),lerp(a[2],b[2],x)]}}}
-function vis(id,t,fade=.35){const[a,b]=S[id];const v=Math.min(seg(t,a,a+fade),1-seg(t,b-fade,b));$(id).style.opacity=v;return v}
+function vis(id,t,f=.2){const[a,b]=S[id];const v=Math.min(seg(t,a,a+f),1-seg(t,b-f,b));$(id).style.opacity=v;return v}
+const up=(el,x,d=40)=>{el.style.opacity=x;el.style.transform=`translateY(${(1-x)*d}px)`};
 function render(t){
-  // background drift
-  $('bg').style.setProperty('--gx',(30+20*Math.sin(t*.4))+'%');$('bg').style.setProperty('--gy',(70-15*Math.cos(t*.3))+'%');
-  $('bg').style.setProperty('--hx',(80-20*Math.sin(t*.25))+'%');$('bg').style.setProperty('--hy',(20+20*Math.cos(t*.35))+'%');
-  $('light').style.opacity=Math.max(seg(t,31.2,31.9),0);
-  // 1
-  vis('s1',t);
-  const a1=eo(seg(t,.1,.6)),b1=eo(seg(t,1.1,1.6));
-  $('s1a').style.opacity=a1;$('s1a').style.transform=`translateY(${(1-a1)*40}px)`;
-  $('s1b').style.opacity=b1;$('s1b').style.transform=`translateY(${(1-b1)*40}px)`;
-  $('s1hl').style.backgroundSize='';$('s1hl').style.clipPath=`inset(0 ${100-100*eo(seg(t,1.6,2.1))}% 0 0 round 10px)`;
-  const z1=1+seg(t,2.6,3.2)*.6;$('s1').style.transform=`scale(${z1})`;
-  // 2 domain search
-  const v2=vis('s2',t);const r2=eo(seg(t,3.2,4));
-  $('dom').style.transform=`perspective(1400px) rotateX(${(1-r2)*18}deg) rotateY(${-6+6*seg(t,4,10)}deg) translateY(${(1-r2)*60}px) scale(${.92+.08*r2})`;
-  const word='haningebyggteam',n=Math.round(word.length*seg(t,4.6,6.2));$('typed').textContent=word.slice(0,n);$('caret').style.opacity=(t*2%1<.5)?1:0;
-  $('sok').style.transform=`scale(${1-.08*(1-Math.abs(seg(t,6.85,7.15)*2-1))*(t>6.85&&t<7.15)})`;
-  document.querySelectorAll('#res .row').forEach((r,i)=>{const x=back(seg(t,7.1+i*.15,7.6+i*.15));r.style.opacity=seg(t,7.1+i*.15,7.4+i*.15);r.style.transform=`translateY(${(1-x)*24}px)`});
-  const added=t>8.4;$('addbtn').textContent=added?'Tillagd ✓':'Lägg till';$('addbtn').style.background=added?'#1d3b2a':'';$('addbtn').style.color=added?'#fff':'';
-  $('cartn').textContent=added?'1':'0';const bump=t>8.4&&t<9?Math.sin(seg(t,8.4,9)*Math.PI)*.25:0;$('cart').style.transform=`scale(${1+bump})`;
-  // 3 word Mejl
-  vis('s3',t,.25);const a3=eo(seg(t,10.6,11.1));$('s3a').style.opacity=a3;$('s3hl').style.clipPath=`inset(0 ${100-100*eo(seg(t,11.1,11.8))}% 0 0 round 12px)`;
-  $('s3').style.transform=`scale(${1.15-.15*eo(seg(t,10.6,12.9))})`;
-  // 4 plans: hovered card turns green slowly, lifts, glows
-  vis('s4',t);$('s4t').style.opacity=eo(seg(t,13.1,13.6));$('s4t').style.transform=`translateY(${(1-eo(seg(t,13.1,13.6)))*30}px)`;
-  [0,1,2].forEach(i=>{const x=back(seg(t,13.3+i*.15,13.9+i*.15));const p=$('p'+i);p.style.opacity=seg(t,13.3+i*.15,13.6+i*.15);
-    if(i!==1){const d=seg(t,15,16);p.style.transform=`translateY(${(1-x)*80}px) scale(${1-.03*d})`;p.style.filter=`brightness(${1-.25*d})`}});
-  const g=eio(seg(t,15,16.1)),p1=$('p1');p1.style.transform=`translateY(${(1-back(seg(t,13.45,14.05)))*80-16*g}px) scale(${1+.07*g})`;
+  $('bg').style.setProperty('--gx',(30+20*Math.sin(t*.5))+'%');$('bg').style.setProperty('--gy',(70-15*Math.cos(t*.4))+'%');
+  $('bg').style.setProperty('--hx',(80-20*Math.sin(t*.3))+'%');$('bg').style.setProperty('--hy',(20+20*Math.cos(t*.45))+'%');
+  $('light').style.opacity=seg(t,22.0,22.5);
+  vis('s1',t,.1);const W=[['Hemsida.',0],['Domän.',.42],['Mejl.',.84],['Fakturor.',1.26],['Krångligt?',1.68]];
+  let cur=W[0];W.forEach(w=>{if(t>=w[1])cur=w});const lt=t-cur[1],w1=$('w1'),k=cur[0]==='Krångligt?';w1.textContent=cur[0];
+  const pop=back(seg(lt,0,.22));w1.style.opacity=seg(lt,0,.08);w1.style.color=k?'#8fd3a6':'#fff';w1.style.fontSize=k?'150px':'120px';
+  w1.style.transform=`scale(${.7+.3*pop}) rotate(${k?Math.sin(lt*30)*2*(1-seg(lt,0,.4)):0}deg)`;
+  vis('s2',t,.15);$('s2hl').style.clipPath=`inset(0 ${100-100*eo(seg(t,2.6,2.95))}% 0 0 round 10px)`;$('s2').style.transform=`scale(${1+.5*seg(t,3.45,3.7)})`;
+  vis('s3',t);const r3=eo(seg(t,3.7,4.2));$('dom').style.transform=`perspective(1400px) rotateX(${(1-r3)*14}deg) scale(${.94+.06*r3})`;
+  const word='haningebyggteam',n=Math.round(word.length*seg(t,4.45,5.25));$('typed').textContent=word.slice(0,n);$('ph').style.display=n?'none':'';$('caret').style.opacity=(t*2.5%1<.5)?1:0;
+  $('sok').style.transform=`scale(${t>5.6&&t<5.8?.92:1})`;
+  const showRes=seg(t,5.7,5.9);$('tlds').style.opacity=1-showRes;$('tlds').style.height=(1-showRes)*44+'px';$('tlds').style.marginTop=(1-showRes)*16+'px';
+  $('res').style.opacity=showRes;document.querySelectorAll('#res .row').forEach((r,i)=>{const x=back(seg(t,5.75+i*.1,6.05+i*.1));r.style.opacity=seg(t,5.75+i*.1,5.95+i*.1);r.style.transform=`translateY(${(1-x)*20}px)`});
+  const added=t>6.32;$('addbtn').textContent=added?'Tillagd ✓':'Lägg till';$('addbtn').style.background=added?'#1d3b2a':'';$('addbtn').style.color=added?'#fff':'';
+  $('cartn').textContent=added?'1':'0';$('cart').style.transform=`scale(${1+(t>6.32&&t<6.8?Math.sin(seg(t,6.32,6.8)*Math.PI)*.3:0)})`;
+  vis('s4',t);up($('s4t'),eo(seg(t,8.3,8.6)));$('s4hl').style.clipPath=`inset(0 ${100-100*eo(seg(t,8.5,8.95))}% 0 0 round 10px)`;
+  [0,1,2].forEach(i=>{const x=back(seg(t,8.7+i*.08,9.1+i*.08)),p=$('p'+i);p.style.opacity=seg(t,8.7+i*.08,8.9+i*.08);if(i!==1){const d=seg(t,9.6,10.2);p.style.transform=`translateY(${(1-x)*70}px) scale(${1-.03*d})`;p.style.filter=`brightness(${1-.25*d})`}});
+  const g=eio(seg(t,9.6,10.4)),p1=$('p1');p1.style.transform=`translateY(${(1-back(seg(t,8.78,9.18)))*70-16*g}px) scale(${1+.07*g})`;
   p1.style.background=`rgb(${lerp(255,29,g)},${lerp(255,59,g)},${lerp(255,42,g)})`;p1.style.color=g>.5?'#fff':'#16241b';
   p1.style.boxShadow=`0 0 ${70*g}px rgba(143,211,166,${.5*g}),0 0 0 ${8*g}px rgba(143,211,166,${.2*g}),0 30px 60px -24px rgba(0,0,0,.5)`;
-  $('p1b').style.background=t>16.4?'#8fd3a6':'';$('p1b').style.color=t>16.4?'#0f2418':'';$('p1b').textContent=t>16.4?'Vald ✓':'Välj';
-  // 5 checkout
-  vis('s5',t);const r5=eo(seg(t,18.2,19));$('kassa').style.transform=`perspective(1400px) rotateX(${(1-r5)*-14}deg) translateY(${(1-r5)*50}px)`;
-  const ok=seg(t,20.1,20.6);$('kassa').style.opacity=1-.6*ok;$('check').style.opacity=ok;$('check').style.transform=`scale(${back(ok)})`;$('order').textContent=t>20?'Skickar …':'Skicka beställning';
-  // 6 portal
-  vis('s6',t);const r6=eo(seg(t,22.6,23.6));$('s6t').style.opacity=eo(seg(t,22.8,23.3));
-  $('portal').style.transform=`perspective(1600px) rotateY(${(1-r6)*-22+4*Math.sin(t*.4)}deg) rotateX(${(1-r6)*10}deg) translateX(${(1-r6)*120}px) scale(${.9+.1*r6})`;
-  const c=Math.round(1284*eo(seg(t,23.6,25.4)));$('cnt').textContent=c.toLocaleString('sv-SE')+' besökare';$('k1').textContent=Math.round(23*eo(seg(t,24,25.6)));
-  $('line').style.strokeDashoffset=600*(1-eio(seg(t,23.8,25.6)));
-  // 7
-  vis('s7',t);$('s7a').style.opacity=eo(seg(t,28.5,29));const b7=eo(seg(t,29,29.6));$('s7b').style.opacity=b7;$('s7b').style.transform=`scale(${.85+.15*b7})`;
-  // 8 end card
-  vis('s8',t,.4);const l=back(seg(t,31.5,32.3));$('logo').style.transform=`scale(${l}) rotate(${(1-l)*-8}deg)`;$('s8u').style.opacity=seg(t,32.4,32.9);
-  // cursor, click ripple, sparkle
-  const cp=cursorAt(t),cur=$('cur');
-  if(cp){let press=0;CLICKS.forEach(k=>{if(t>=k-.08&&t<k+.12)press=1});cur.style.opacity=1;cur.style.transform=`translate(${cp[0]-8}px,${cp[1]-6}px) scale(${press?.82:1})`}else cur.style.opacity=0;
-  let rp=null;CLICKS.forEach(k=>{if(t>=k&&t<k+.5)rp=k});const rip=$('rip');
-  if(rp!==null&&cp){const x=seg(t,rp,rp+.5);rip.style.opacity=1-x;rip.style.left=cp[0]+'px';rip.style.top=cp[1]+'px';rip.style.transform=`scale(${.3+x})`}else rip.style.opacity=0;
-  const sp=$('spk');let sk=[8.4,16.4].find(k=>t>=k&&t<k+.7);
-  if(sk!==undefined&&cp){const x=seg(t,sk,sk+.7);sp.style.opacity=1-x;sp.style.left=(cp[0]+30)+'px';sp.style.top=(cp[1]-30-20*x)+'px';sp.style.transform=`scale(${.5+x}) rotate(${x*120}deg)`}else sp.style.opacity=0;
+  const v=t>10.5;$('p1b').style.background=v?'#8fd3a6':'';$('p1b').style.color=v?'#0f2418':'';$('p1b').textContent=v?'Vald ✓':'Välj';
+  vis('s5',t);$('s5').style.transform=`scale(${.95+.05*eo(seg(t,11.9,12.3))})`;$('testa').style.transform=`scale(${t>12.6&&t<12.8?.92:1})`;
+  [[98,0],[100,1],[100,2]].forEach(([val,i])=>{const x=eio(seg(t,12.75+i*.12,13.9+i*.12));$('r'+i).style.strokeDashoffset=314*(1-x*val/100);$('n'+i).textContent=Math.round(val*x)});
+  vis('s6',t);const r6=eo(seg(t,15.1,15.8));up($('s6t'),eo(seg(t,15.2,15.5)));
+  $('portal').style.transform=`perspective(1600px) rotateY(${(1-r6)*-24+3*Math.sin(t*.6)}deg) rotateX(${(1-r6)*10}deg) translateX(${(1-r6)*140}px) scale(${.9+.1*r6})`;
+  $('cnt').textContent=Math.round(1284*eo(seg(t,15.7,17))).toLocaleString('sv-SE')+' besökare';$('k1').textContent=Math.round(23*eo(seg(t,15.9,17.1)));$('k3').textContent=Math.round(100*eo(seg(t,16,17.2)));
+  $('line').style.strokeDashoffset=600*(1-eio(seg(t,15.8,17.1)));const ld=back(seg(t,17.3,17.7));$('lead').style.opacity=seg(t,17.3,17.5);$('lead').style.transform=`translateY(${(1-ld)*20}px)`;
+  vis('s7',t);const a7=back(seg(t,19,19.4));$('s7a').style.opacity=seg(t,19,19.15);$('s7a').style.transform=`scale(${.8+.2*a7})`;
+  $('s7hl').style.clipPath=`inset(0 ${100-100*eo(seg(t,19.35,19.7))}% 0 0 round 10px)`;up($('s7b'),eo(seg(t,19.9,20.3)),20);
+  [0,1,2,3,4].forEach(i=>{const c=$('c'+i),x=back(seg(t,19.2+i*.09,19.6+i*.09)),fl=Math.sin(t*1.6+i)*6;c.style.opacity=seg(t,19.2+i*.09,19.4+i*.09)*(1-seg(t,21.6,21.9));
+    c.style.transform=`translate(${(i%2?1:-1)*(1-x)*-120}px,${fl+(1-x)*40}px) scale(${.6+.4*x})`});
+  $('s7').style.transform=`scale(${1+seg(t,21.7,22.2)*.4})`;
+  vis('s8',t,.3);const l=back(seg(t,22.3,22.9));$('logo').style.transform=`scale(${l}) rotate(${(1-l)*-8}deg)`;up($('s8t'),eo(seg(t,22.8,23.2)),20);$('s8u').style.opacity=seg(t,23.2,23.5);
+  const cp=cursorAt(t),cu=$('cur');
+  if(cp){const press=CLICKS.some(k=>t>=k-.06&&t<k+.1);cu.style.opacity=1;cu.style.transform=`translate(${cp[0]-8}px,${cp[1]-6}px) scale(${press?.8:1})`}else cu.style.opacity=0;
+  const rp=CLICKS.find(k=>t>=k&&t<k+.45),rip=$('rip');
+  if(rp!==undefined&&cp){const x=seg(t,rp,rp+.45);rip.style.opacity=1-x;rip.style.left=cp[0]+'px';rip.style.top=cp[1]+'px';rip.style.transform=`scale(${.3+x})`}else rip.style.opacity=0;
+  const sk=[6.32,10.5].find(k=>t>=k&&t<k+.6),sp=$('spk');
+  if(sk!==undefined&&cp){const x=seg(t,sk,sk+.6);sp.style.opacity=1-x;sp.style.left=(cp[0]+30)+'px';sp.style.top=(cp[1]-30-20*x)+'px';sp.style.transform=`scale(${.5+x}) rotate(${x*120}deg)`}else sp.style.opacity=0;
 }
 window.render=render;window.DUR=DUR;
 if(!/capture/.test(location.search)){let t0=performance.now();(function loop(){render(((performance.now()-t0)/1000)%DUR);requestAnimationFrame(loop)})()}
