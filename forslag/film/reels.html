@@ -14,7 +14,7 @@
 .br .bb span{flex:1;margin-left:12px;height:28px;border-radius:8px;background:#fff;color:#16241b;font-size:16px;font-weight:700;display:flex;align-items:center;padding:0 12px}
 .br .vw{position:relative;overflow:hidden;background:#fff}.br .vw img{display:block;width:100%}
 .ph{position:absolute;width:300px;height:620px;border-radius:44px;background:#0a0f0c;padding:10px;box-shadow:0 50px 100px -40px rgba(0,0,0,.8)}
-.ph div{width:100%;height:100%;border-radius:36px;overflow:hidden;background:#fff}.ph img{display:block;width:100%}
+.ph>div{width:100%;height:100%;border-radius:36px;overflow:hidden;background:#fff}.ph img{display:block;width:100%}
 .tick{display:flex;align-items:center;gap:18px;font-size:34px;font-weight:700;margin:0 0 22px}.tick:before{content:'✓';flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:#8fd3a6;color:#0f2418;font-weight:900;font-size:26px}
 .x{display:flex;align-items:center;gap:18px;font-size:32px;font-weight:700;margin:0 0 20px;opacity:.9}.x:before{content:'✕';flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:#e4572e;color:#fff;font-weight:900;font-size:24px}
 .card{position:absolute;left:50px;right:50px;padding:30px 32px;border-radius:30px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18)}
@@ -59,6 +59,13 @@ const steps=(top,items)=>`<div style="position:absolute;left:60px;right:50px;top
 const pk=(top,items)=>`<div style="position:absolute;left:50px;right:50px;top:${top}px">${items.map(p=>`<div class="pk in ${p[3]||''}"><div>${p[0]}<small>${p[1]}</small></div><b>${p[2]}</b></div>`).join('')}</div>`;
 const url=(top,txt='elevatestudio.nu')=>`<div class="urlbar in" style="top:${top}px"><span data-type="${txt}"></span><em>→</em></div>`;
 const LV='img/lindvik-page.jpg';
+const MS=(x,y,rot,o)=>`<div class="ph in" style="left:${x}px;top:${y}px;transform:rotate(${rot}deg)"><div style="background:${o.bg};color:${o.fg};padding:50px 18px 18px;font-family:H"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:800;opacity:.85;margin-bottom:34px"><span>${o.name}</span><span>☰</span></div><div style="font-size:34px;font-weight:800;line-height:1;letter-spacing:-.03em">${o.h}</div><p style="font-size:13px;margin-top:12px;opacity:.75;line-height:1.4">${o.p}</p><span style="display:inline-block;margin-top:16px;padding:10px 16px;border-radius:999px;font-size:13px;font-weight:800;background:${o.ac};color:${o.acf||'#fff'}">${o.b}</span><div style="margin-top:20px;height:200px;border-radius:16px;background:${o.im?`url(${o.im}) center/cover`:o.ac}"></div><div style="display:flex;gap:8px;margin-top:12px">${'<i style="flex:1;height:60px;border-radius:12px;background:rgba(128,128,128,.18)"></i>'.repeat(3)}</div></div></div>`;
+const REST={bg:'#141010',fg:'#f6eadb',ac:'#c8a24a',acf:'#141010',name:'Trattoria Sole',h:'Pasta som<br>i Neapel.',p:'Boka bord online · lunch från 115 kr',b:'Boka bord',im:'img/p773843.jpg'};
+const BYGG={bg:'#f4f6f4',fg:'#16241b',ac:'#1f4d36',name:'Ek & Sten Bygg',h:'Badrum, kök<br>& altaner.',p:'Fast pris · offert inom 24 h',b:'Begär offert',im:'img/lindvik.jpg'};
+const TECH={bg:'#0b1020',fg:'#e8ecff',ac:'#6d7cff',name:'Nordlytics',h:'Data som<br>driver beslut.',p:'SaaS för växande team · testa gratis',b:'Boka demo'};
+const FRIS={bg:'#fff1ea',fg:'#2b1a12',ac:'#ff7a59',name:'Salong Lux',h:'Klipp &<br>färg i city.',p:'Boka direkt – även kvällar',b:'Boka tid',im:'img/p8961064.jpg'};
+const OFFER='<div class="k in" style="top:SLOTpx;background:#ffd166;color:#2b1a12">Boka i november – domän ingår första året</div>';
+
 const RG=(v,l,d=.5,sz=120)=>`<div style="text-align:center"><div style="position:relative;width:${sz}px;height:${sz}px;margin:0 auto"><svg width="${sz}" height="${sz}" style="transform:rotate(-90deg)"><circle cx="${sz/2}" cy="${sz/2}" r="${sz/2-9}" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="10"/><circle data-ring="${v}" data-d="${d}" data-c="${Math.PI*(sz-18)}" cx="${sz/2}" cy="${sz/2}" r="${sz/2-9}" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="${Math.PI*(sz-18)}" stroke-dashoffset="${Math.PI*(sz-18)}"/></svg><b style="position:absolute;inset:0;display:grid;place-items:center;font-size:${sz*.28}px;font-weight:800">0</b></div>${l?`<div style="font-size:17px;font-weight:700;margin-top:6px;opacity:.85">${l}</div>`:''}</div>`;
 // ---- the ten reels ----
 const R={
@@ -129,7 +136,39 @@ const R={
  [4.0,C(90,'Steg 3: Vi testar igen','w t3')+`<div class="card in" style="top:300px;padding:26px 20px"><div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:999px;background:#fff;color:#16241b;font-size:24px;font-weight:700">🔍 dittforetag.se<span style="margin-left:auto;padding:8px 18px;border-radius:999px;background:#3fb36b;color:#fff;font-size:18px">Ny sajt</span></div><div style="display:flex;justify-content:space-around;margin-top:30px">${RG(97,'Prestanda',.6)}${RG(100,'Tillgänglighet',.75)}${RG(100,'Bästa praxis',.9)}${RG(100,'SEO',1.05)}</div></div>`+`<div class="ctr w t3" data-late="2.4" style="top:760px">Grönt = redo att <span class="hl">synas.</span></div>`+`<div class="ctr p" style="top:860px;font-size:20px;opacity:.6">Exempel – så ser målet ut</div>`],
  [2.0,C(420,'Anlita oss.','w t1')+C(560,'<span class="hl">Kom till toppen.</span>','w t2')],
  [4.4,`<div class="br in" style="top:160px;left:30px;right:30px"><div class="bb"><i></i><i></i><i></i><span>🔍 snickare uppsala</span></div><div class="vw" style="height:840px" data-climb="1">${['Nordic Snickeri AB','Uppsala Bygg & Montage','Hantverkarna i Uppsala','Snickarfirman Öst','Bygg Express','Trä & Fönster AB'].map((n,i)=>`<div class="res" style="top:${i*130}px"><small>google.se</small><b>${n}</b><p>Snickare i Uppsala</p></div>`).join('')}<div class="res me" id="cme" style="top:${6*130}px"><small>dittforetag.se · ★★★★★ 4,9</small><b>Ditt Företag AB</b><p>Snickare i Uppsala · fast pris · offert direkt</p></div></div></div>`+`<div class="ctr w t2 in" data-late="2.6" style="top:1060px">Uppe i <span class="hl">toppen.</span></div>`]]}
-
+,
+14:{theme:'dark',music:['a',122],offer:1,sc:[
+ [2.6,C(250,'Restaurangchef?','w t2')+C(370,'Byggarbetare?','w t2')+C(490,'Techbolag?','w t2')+C(680,'Vi hjälper dig <span class="hl">ändå.</span>','w t1')],
+ [3.2,C(90,'Restaurang','w t3')+MS(210,200,0,REST)+C(880,'Bordsbokning · meny · öppettider','p')],
+ [3.2,C(90,'Bygg & hantverk','w t3')+MS(210,200,0,BYGG)+C(880,'Offertformulär · projektbilder · recensioner','p')],
+ [3.2,C(90,'Tech & tjänster','w t3')+MS(210,200,0,TECH)+C(880,'Demo-bokning · priser · SEO','p')],
+ [3.0,MS(20,250,-8,REST)+MS(210,200,0,BYGG)+MS(400,250,8,TECH)+C(90,'Våra tjänster<br><span class="hl">passar alla.</span>','w t3')],
+ [2.6,C(300,'Vilken bransch du än har:','w t3')+url(460)+C(640,'Kontakta oss – mötet är gratis.','p')]]},
+15:{theme:'dark',music:['c',112],offer:1,sc:[
+ [2.4,KK(330,'Restaurangägare?')+C(400,'Fler bord<br><span class="hl">bokade.</span>','w t1')],
+ [3.4,MS(210,180,0,REST)+C(870,'Gäster bokar själva – dygnet runt.','w t3')],
+ [3.2,C(110,'Allt för restaurangen','w t3')+list(290,['Bordsbokning online','Meny som är lätt att uppdatera','Syns på ”restaurang nära mig”','Recensioner som lockar'])],
+ [2.4,C(340,'Fyll fler bord.','w t1')+C(560,'Kontakta oss på elevatestudio.nu','w t3')]]},
+16:{theme:'light',music:['a',124],offer:1,sc:[
+ [2.4,KK(330,'Byggfirma?')+C(400,'Fler offert-<br><span class="hl">förfrågningar.</span>','w t1')],
+ [3.4,MS(210,180,0,BYGG)+C(870,'Kunden beskriver jobbet – du svarar direkt.','w t3')],
+ [3.2,C(110,'Allt för hantverkare','w t3')+list(290,['Offertformulär med bilder','Projektgalleri','Syns när någon söker i ditt område','Recensioner från nöjda kunder'])],
+ [2.4,C(340,'Mindre telefon.<br><span class="hl">Fler jobb.</span>','w t2')+C(600,'Kontakta oss på elevatestudio.nu','w t3')]]},
+17:{theme:'dark',music:['d',128],offer:1,sc:[
+ [2.4,KK(330,'Startup eller techbolag?')+C(400,'En sajt som<br><span class="hl">konverterar.</span>','w t1')],
+ [3.4,MS(210,180,0,TECH)+C(870,'Tydligt erbjudande. Snabb. Mätbar.','w t3')],
+ [3.2,C(110,'Byggt för tillväxt','w t3')+list(290,['Demo-bokning direkt på sidan','Prissida som säljer','SEO och AI-optimering','Snabb – grönt i testet'])],
+ [2.4,C(340,'Skala snabbare.','w t1')+C(560,'Kontakta oss på elevatestudio.nu','w t3')]]},
+18:{theme:'green',music:['b',122],offer:1,sc:[
+ [2.4,C(380,'Sluta förlora<br>kunder till<br><span class="hl">konkurrenten.</span>','w t1')],
+ [3.0,MS(20,250,-8,FRIS)+MS(210,200,0,BYGG)+MS(400,250,8,REST)+C(90,'Vi bygger hemsidor<br>för <span class="hl">alla branscher.</span>','w t3')],
+ [3.0,C(110,'Det ingår','w t3')+list(290,['Design efter ditt företag','SEO – syns på Google','Recensioner','Adminpanel – ändra själv'])],
+ [2.4,C(300,'Kom igång:','w t2')+url(460)]]},
+19:{theme:'dark',music:['c',118],offer:1,sc:[
+ [2.4,C(360,'Hur många kunder<br>missade du <span class="hl">idag?</span>','w t2')+C(620,'Utan bra hemsida märks det inte ens.','p')],
+ [3.0,MS(20,250,-8,TECH)+MS(210,200,0,REST)+MS(400,250,8,FRIS)+C(90,'Oavsett bransch –<br><span class="hl">vi fixar det.</span>','w t3')],
+ [3.0,C(110,'Det ingår','w t3')+list(290,['Design efter ditt företag','SEO – syns på Google','Recensioner','Adminpanel – ändra själv'])],
+ [2.4,C(300,'Kom igång:','w t2')+url(460)]]}
 };
 const id=+(location.search.match(/id=(\d+)/)||[0,1])[1],cfg=R[id];
 document.getElementById('s').className=cfg.theme;
@@ -138,7 +177,7 @@ const END=T,DUR=+(END+3.6).toFixed(1);
 h+=`<div class="foot" id="ft"><img src="${LG}">elevatestudio.nu</div>`;
 h+=`<div class="sc" id="end2"><div class="ctr w pr">Hemsida från<b><span class="hl">2 999 kr</span></b></div>
 <div class="tags"><span>SEO</span><span>Design</span><span>Recensioner</span><span>Admin</span></div>
-<div class="cta">Kontakta oss →</div><div class="ctr w u">elevatestudio.nu</div>
+${cfg.offer?`<div class="k" style="top:575px;background:#ffd166;color:#2b1a12">Boka i november – domän ingår första året</div>`:""}<div class="cta">Kontakta oss →</div><div class="ctr w u">elevatestudio.nu</div>
 <div class="lg"><img src="${LG}">Elevate Studio</div></div>`;
 document.getElementById('s').innerHTML=h;
 window.MUSIC=cfg.music;
@@ -166,5 +205,5 @@ function render(t){
  const k=t-a-1.4;e.querySelector('.cta').style.transform=`translateX(-50%) scale(${1+(k>0?.05*Math.max(0,Math.sin(k*Math.PI/.7)):0)})`;
  e.querySelector('.u').style.opacity=cl((t-a-1)/.3);
 }
-K.boot(render,DUR,['seq/testa/032.jpg','seq/testa/000.jpg',LV,LV.replace('page','phone'),...['cork','alvhem'].map(n=>S+'site-'+n+'-phone.jpg')]);
+K.boot(render,DUR,['img/lindvik.jpg','img/p773843.jpg','img/p8961064.jpg','seq/testa/032.jpg','seq/testa/000.jpg',LV,LV.replace('page','phone'),...['cork','alvhem'].map(n=>S+'site-'+n+'-phone.jpg')]);
 </script></body></html>
