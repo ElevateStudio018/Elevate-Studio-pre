@@ -23,3 +23,11 @@
     form.addEventListener('change', update); update();
   });
 })();
+
+// Prices: the light inside each plan card follows the mouse
+(function () {
+  if (!window.matchMedia || !matchMedia('(hover: hover)').matches) return;
+  document.querySelectorAll('.plan').forEach(function (c) {
+    c.addEventListener('pointermove', function (e) { var r = c.getBoundingClientRect(); c.style.setProperty('--x', (e.clientX - r.left) + 'px'); c.style.setProperty('--y', (e.clientY - r.top) + 'px'); });
+  });
+})();

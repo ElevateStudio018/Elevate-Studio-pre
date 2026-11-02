@@ -1345,7 +1345,7 @@ def build_prices():
     ]
     mk = '<svg viewBox="0 0 1884.3 1353.9" aria-hidden="true"><path d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="currentColor"/></svg>'
     cards = "".join(f'''
-          <article class="plan{" plan--featured" if feat else ""}">
+          <article class="plan{" plan--featured" if feat else ""}">{'<span class="plan__tag">Mest vald</span>' if feat else ""}
             <h2 class="plan__name">{name}</h2>
             <p class="plan__price">{price}</p>
             <p class="plan__unit">{unit}</p>

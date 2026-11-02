@@ -1452,3 +1452,19 @@ body.portal-app .pa-main { padding: 28px 32px 48px !important; }
 .sx__leads b { display: block; } .sx__leads span { display: block; color: #3d4741; font-size: 14px; } .sx__leads small { color: #6b736d; font-size: 13px; } .sx__leads a { color: inherit; }
 .sx__st { flex: none; align-self: start; padding: 3px 10px; border-radius: 999px; background: #eef1ed; font-style: normal; font-size: 12px; font-weight: 600; } .sx__st--new { background: #1d3b2a; color: #fff; }
 @media (max-width: 900px) { .sx { grid-template-columns: 1fr; } .sx__arrow { height: 40px; } .sx__arrow svg { transform: rotate(90deg); } .sx__row { flex-direction: column; } }
+/* Prices: dark cards, light that follows the mouse; the hovered card lifts, grows and glows (proposal 4) */
+.plans { align-items: stretch; gap: 18px; }
+.plan, .plan--featured { position: relative; overflow: hidden; padding: 40px 32px; border: 1px solid rgba(255,255,255,.12); background: #173023; color: var(--cream, #fdfbf5); box-shadow: none; backdrop-filter: none;
+  transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s, border-color .4s; will-change: transform; }
+.plan::after { content: ""; position: absolute; inset: 0; background: radial-gradient(280px circle at var(--x, 50%) var(--y, 0%), rgba(143,211,166,.32), transparent 60%); opacity: 0; transition: opacity .3s; pointer-events: none; }
+.plan > * { position: relative; z-index: 1; }
+.plan--featured { border-color: rgba(143,211,166,.45); }
+.plan--featured .plan__name { color: var(--cream, #fdfbf5); } .plan--featured .plan__price { color: #fff; }
+.plan--featured .plan__text { border-color: rgba(253,251,245,.16); color: inherit; opacity: .9; } .plan--featured .plan__list li::before { background: #8fd3a6; }
+.plan__list li::before { background: #8fd3a6; }
+.plan__tag { position: absolute !important; top: 18px; right: 18px; padding: 4px 12px; border-radius: 999px; background: #8fd3a6; color: #10241a; font-size: 12px; font-weight: 700; }
+.plan .btn, .plan--featured .btn { align-self: stretch; justify-content: center; background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.55); transition: background .3s, color .3s, border-color .3s; }
+@media (hover: hover) { .plan:hover { z-index: 2; transform: translateY(-14px) scale(1.04); border-color: rgba(143,211,166,.65); box-shadow: 0 0 55px rgba(143,211,166,.3), 0 30px 60px -20px rgba(0,0,0,.6); }
+  .plan:hover::after { opacity: 1; } .plan:hover .btn { background: #8fd3a6; color: #10241a; border-color: #8fd3a6; } }
+.plan:focus-within { border-color: rgba(143,211,166,.65); }
+@media (prefers-reduced-motion: reduce) { .plan { transition: none; } .plan:hover { transform: none; } }
