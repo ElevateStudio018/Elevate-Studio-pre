@@ -1358,6 +1358,34 @@ def build_prices():
         </div>
       </div>
     </section>
+    <section class="section container calc" id="kalkyl" aria-labelledby="calc-h">
+      <h2 class="block__header" id="calc-h">Räkna ut ert <span>pris</span></h2>
+      <p class="preamble">Välj paket och vad ni vill ha till. Ni ser priset direkt och kan skicka det som offertförfrågan.</p>
+      <div class="calc__grid">
+        <form class="calc__form" id="calc" novalidate>
+          <fieldset><legend>Hemsida</legend>
+            <label class="calc__opt"><input type="radio" name="plan" value="starter" checked><span><b>Starter</b> 5 000 kr<small>+ 99–199 kr/år</small></span></label>
+            <label class="calc__opt"><input type="radio" name="plan" value="pro"><span><b>Pro</b> 9 000 kr<small>+ 299–399 kr/år · bokning eller offertflöde, AI-chatt</small></span></label>
+            <label class="calc__opt"><input type="radio" name="plan" value="none"><span><b>Ingen ny hemsida</b><small>bara domän och mejl</small></span></label>
+          </fieldset>
+          <fieldset><legend>Domän</legend>
+            <label class="calc__opt"><input type="checkbox" name="domain" checked><span><b>Eget domännamn</b> <em data-price="domain"></em><small>.se, registreras på ert företag</small></span></label>
+          </fieldset>
+          <fieldset><legend>Företagsmejl</legend>
+            <label class="calc__opt"><input type="radio" name="mail" value="" checked><span><b>Inget mejl</b></span></label>
+            <label class="calc__opt"><input type="radio" name="mail" value="mejl-bas"><span><b>Mejl Bas</b> <em data-price="mejl-bas"></em><small>1 konto</small></span></label>
+            <label class="calc__opt"><input type="radio" name="mail" value="mejl-foretag"><span><b>Mejl Företag</b> <em data-price="mejl-foretag"></em><small>5 konton</small></span></label>
+          </fieldset>
+        </form>
+        <aside class="calc__sum" aria-live="polite">
+          <p class="calc__k">Ert pris</p>
+          <div class="calc__rows" id="calc-rows"></div>
+          <div class="calc__tot"><div><span>Engångskostnad</span><b id="calc-once"></b></div><div><span>Per år</span><b id="calc-year"></b></div><div><span>Per månad</span><b id="calc-month"></b></div></div>
+          <p class="calc__note">Alla priser exkl. moms. Årsavgiften för hemsidan anges som spann och bestäms i offerten. Domän- och mejlpriser är exempelpriser tills de är satta.</p>
+          <a class="btn btn--light" id="calc-send" href="kontakt.html?fran=kalkyl#formular"><span>Skicka som offertförfrågan</span></a>
+        </aside>
+      </div>
+    </section>
     <section class="section container">
       <div class="plans-note">
         <div>
@@ -1377,7 +1405,7 @@ def build_prices():
          **({"price": price.replace(" ", "").replace("kr", ""), "priceCurrency": "SEK"} if "kr" in price else {})}
         for name, price, unit, text, items, cta_label, feat in plans]}
     yield write("priser.html", document(p, "Vad kostar en hemsida? Priser från 5 000 kr", main, "subpage", [("Priser", "")], "priser",
-                description="Vad kostar en hemsida? Fasta priser: Starter 5 000 kr, Pro 9 000 kr och Elite efter offert. Support ingår första året. Alla priser exkl. moms.", jsonld=[catalog]))
+                description="Vad kostar en hemsida? Fasta priser: Starter 5 000 kr, Pro 9 000 kr och Elite efter offert. Support ingår första året. Alla priser exkl. moms.", jsonld=[catalog], extra_js=("calc.js",)))
 
 
 def rewrap(path, body_class, crumbs=None, extra_js=(), robots="index, follow"):

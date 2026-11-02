@@ -161,7 +161,7 @@
     ['Försäljning', [['todo', 'Att göra', 'inbox'], ['leads', 'Alla leads', 'layers'], ['vunna', 'Vunna', 'star'], ['kalender', 'Kalender', 'cal'], ['kontakter', 'Kontakter', 'users'], ['fakturor', 'Fakturor', 'file']]],
     ['Marknadsföring', [['utskick', 'Utskick', 'send'], ['segment', 'Segment', 'layers'], ['besokare', 'Besökare', 'eye'], ['sokord', 'Sökord på Google', 'chart'], ['recensioner', 'Recensioner', 'star'], ['chatten', 'Chatten', 'msg'], ['sajttester', 'Sajttester', 'chart'], ['nyhetsbrev', 'Nyhetsbrev', 'send']]],
     ['Mer', [['statistik', 'Statistik', 'chart'], ['arkiv', 'Arkiv', 'door'], ['konton', 'Konton', 'users'], ['import', 'Importera leads', 'inbox'], ['kundportal', 'Kundportal', 'door'], ['ai', 'AI-assistent', 'spark'], ['insikter', 'Insikter', 'chart'],
-      ['bestallningar', 'Beställningar', 'file'], ['ekonomi', 'Ekonomi', 'wallet'], ['minne', 'AI-minne', 'brain'], ['integrationer', 'Integrationer', 'plug'], ['konto', 'Mitt konto', 'user']], true]
+      ['andringar', 'Ändringar', 'file'], ['bestallningar', 'Beställningar', 'file'], ['ekonomi', 'Ekonomi', 'wallet'], ['minne', 'AI-minne', 'brain'], ['integrationer', 'Integrationer', 'plug'], ['konto', 'Mitt konto', 'user']], true]
   ];
   var BADGE = { todo: 1, leads: 1, vunna: 1, arkiv: 1 };
   var VIEWS = {};
@@ -1475,6 +1475,30 @@
     });
   }
 
+  /* ---------- Ändringar: customers ask for a change, we send a price, they approve in the portal ---------- */
+  var CRS = { new: 'Ny – sätt pris', quoted: 'Pris skickat', approved: 'Godkänd – gör den', declined: 'Avböjd', in_progress: 'Pågår', done: 'Klar' };
+  function renderChanges() {
+    main().innerHTML = head('Ändringar', 'Ändringar kunderna ber om i kundportalen. Sätt ett pris, kunden godkänner, sedan gör vi jobbet.');
+    fetchRows(sb.from('change_requests').select('*, companies(name)').order('created_at', { ascending: false }).limit(500), function (c) {
+      var by = function (st0) { return c.filter(function (x) { return x.status === st0; }).length; };
+      main().insertAdjacentHTML('beforeend', kpis([['Nya', by('new')], ['Väntar på kund', by('quoted')], ['Att göra', by('approved') + by('in_progress')], ['Klara', by('done')]]) +
+        '<div id="chg">' + (c.length ? c.map(function (x) {
+          return '<section class="panel chg"><div class="chg__top"><b>' + esc((x.companies || {}).name || '–') + '</b><span class="chg__st">' + (CRS[x.status] || esc(x.status)) + '</span><small>' + dt(x.created_at) + '</small></div>' +
+            '<p><b>' + esc(x.page || 'Ändring') + ':</b> ' + esc(x.description) + '</p>' + (x.image ? '<img src="' + esc(x.image) + '" alt="Skärmbild" class="chg__img">' : '') +
+            (x.status === 'new' || x.status === 'quoted' ? '<form class="chg__quote" data-id="' + x.id + '"><input name="price" type="number" min="0" step="50" value="' + (x.price == null ? '' : x.price) + '" placeholder="Pris exkl. moms" aria-label="Pris" required><input name="note" value="' + esc(x.quote_note || '') + '" placeholder="Vad som ingår och när det är klart" aria-label="Beskrivning"><button class="btn btn--sm">' + (x.status === 'quoted' ? 'Uppdatera priset' : 'Skicka pris') + '</button></form>'
+              : '<p class="chg__price">' + (x.price != null ? x.price + ' kr exkl. moms' : '') + (x.quote_note ? ' · ' + esc(x.quote_note) : '') + '</p>') +
+            (x.status === 'approved' ? '<button class="btn btn--sm" data-set="in_progress" data-id="' + x.id + '">Påbörja</button>' : '') + (x.status === 'in_progress' || x.status === 'approved' ? ' <button class="btn btn--sm" data-set="done" data-id="' + x.id + '">Markera klar</button>' : '') + '</section>';
+        }).join('') : '<p class="empty">Inga ändringar än.</p>') + '</div>');
+      var box = $('#chg');
+      box.addEventListener('submit', function (e) {
+        e.preventDefault(); var f = e.target, price = Number(f.price.value); if (!(price >= 0)) return;
+        sb.from('change_requests').update({ price: price, quote_note: f.note.value.trim() || null, status: 'quoted' }).eq('id', f.dataset.id).then(function (r) { toast(r.error ? r.error.message : 'Priset är skickat till kunden'); if (!r.error) renderChanges(); });
+      });
+      box.addEventListener('click', function (e) { var b = e.target.closest('[data-set]'); if (!b) return;
+        sb.from('change_requests').update({ status: b.dataset.set }).eq('id', b.dataset.id).then(function (r) { toast(r.error ? r.error.message : 'Sparat'); if (!r.error) renderChanges(); }); });
+    });
+  }
+
   /* ---------- Nyhetsbrev: sign-ups from the footer form ---------- */
   function renderNewsletter() {
     main().innerHTML = head('Nyhetsbrev', 'Alla som har gått med i mejllistan i sidfoten.');
@@ -1693,7 +1717,7 @@
   var PAGES = {
     todo: renderTodo, leads: renderLeads, vunna: renderWon, arkiv: renderArchive, statistik: renderStats, konton: renderAccounts, import: renderImport,
     kalender: renderCalendar, kontakter: renderContacts, fakturor: renderInvoices, utskick: renderCampaigns, segment: renderSegments,
-    besokare: renderVisitors, sokord: renderSearch, recensioner: renderReviews, chatten: renderChat, sajttester: renderSiteTests, bestallningar: renderOrders, nyhetsbrev: renderNewsletter, kundportal: renderPortal, ai: renderAI, insikter: renderInsights, ekonomi: renderEconomy,
+    besokare: renderVisitors, sokord: renderSearch, recensioner: renderReviews, chatten: renderChat, sajttester: renderSiteTests, bestallningar: renderOrders, andringar: renderChanges, nyhetsbrev: renderNewsletter, kundportal: renderPortal, ai: renderAI, insikter: renderInsights, ekonomi: renderEconomy,
     minne: renderMemory, integrationer: renderIntegrations, konto: renderAccount
   };
 

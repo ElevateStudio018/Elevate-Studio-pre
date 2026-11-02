@@ -15,6 +15,7 @@ import { createOrder } from './orders.js';
 import { webmail } from './webmail.js';
 import { watchDomain, checkWatches } from './watch.js';
 import { checkOne } from './domains.js';
+import { checkUptime, monthlyReports } from './monitor.js';
 import leadImport from './import.json';
 import { withHeaders } from './headers.js';
 
@@ -78,11 +79,12 @@ export default {
   },
   // Daily: tell visitors when a watched domain has become free (wrangler.jsonc triggers.crons)
   async scheduled(event, env, ctx) {
-    if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) return;
     const { WorkerMailer } = await import('worker-mailer');
-    const send = (to, subject, text) => WorkerMailer.send({ host: env.SMTP_HOST || 'smtp.gmail.com', port: Number(env.SMTP_PORT || 465), secure: true,
+    const send = !env.GMAIL_USER || !env.GMAIL_APP_PASSWORD ? async () => {} : (to, subject, text) => WorkerMailer.send({ host: env.SMTP_HOST || 'smtp.gmail.com', port: Number(env.SMTP_PORT || 465), secure: true,
       credentials: { username: env.GMAIL_USER, password: env.GMAIL_APP_PASSWORD }, authType: ['plain', 'login'] }, { from: { name: 'Elevate Studio', email: env.GMAIL_USER }, to, subject, text });
+    if (event.cron === '*/15 * * * *') { ctx.waitUntil(checkUptime(env, send)); return; }
     ctx.waitUntil(checkWatches(env, checkOne, send));
+    if (new Date().getUTCDate() === 1) ctx.waitUntil(monthlyReports(env, send));
   },
 };
 

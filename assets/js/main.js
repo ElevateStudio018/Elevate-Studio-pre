@@ -245,6 +245,20 @@
   if (document.readyState === 'complete') setTimeout(run, 300); else addEventListener('load', function () { setTimeout(run, 300); });
 })();
 
+/* Contact form opened from the price calculator: title and the chosen package are filled in */
+(function () {
+  if (!/[?&]fran=kalkyl\b/.test(location.search)) return;
+  var form = document.getElementById('formular'); if (!form) return;
+  var c; try { c = JSON.parse(sessionStorage.getItem('es.calc')); } catch (e) { c = null; }
+  if (!c) return;
+  var msg = form.querySelector('textarea[name="meddelande"]'); if (msg) { msg.value = c.text; msg.rows = 12; }
+  form.dataset.subject = c.title;
+  var hid = document.createElement('input'); hid.type = 'hidden'; hid.name = 'arende'; hid.value = c.title; form.appendChild(hid);
+  var box = document.createElement('div'); box.className = 'form-prefill';
+  box.innerHTML = '<p class="form-prefill__k">Ärende</p><p class="form-prefill__t"></p><p class="form-prefill__n">Ert val från priskalkylatorn finns i meddelandet. Fyll i namn och e-post så återkommer vi med en offert.</p>';
+  box.querySelector('.form-prefill__t').textContent = c.title; form.insertBefore(box, form.firstChild);
+})();
+
 /* Contact form opened from Testa din sajt: the whole test result goes into the message */
 (function () {
   if (!/[?&]fran=test\b/.test(location.search)) return;

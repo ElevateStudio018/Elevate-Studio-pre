@@ -85,15 +85,18 @@
       can.invoices() ? sb.from('invoices').select('*').eq('company_id', c).order('created_at', { ascending: false }) : Promise.resolve({ data: [] }),
       sb.from('tickets').select('*').eq('company_id', c).order('created_at', { ascending: false }),
       sb.from('notifications').select('*').or('user_id.eq.' + st.user.id + ',company_id.eq.' + c).is('read_at', null).order('created_at', { ascending: false }).limit(10),
-      sb.from('company_members').select('role,user_id').eq('company_id', c)
+      sb.from('company_members').select('role,user_id').eq('company_id', c),
+      sb.from('site_reports').select('*').eq('company_id', c).order('created_at', { ascending: false }).limit(1),
+      sb.from('uptime_checks').select('url,ok,ms,checked_at').eq('company_id', c).gte('checked_at', new Date(Date.now() - 30 * 864e5).toISOString()).order('checked_at', { ascending: false }).limit(3000),
+      sb.from('change_requests').select('*').eq('company_id', c).order('created_at', { ascending: false })
     ]).then(function (r) {
-      st.data = { services: r[0].data || [], invoices: r[1].data || [], tickets: r[2].data || [], notes: r[3].data || [], members: r[4].data || [] };
+      st.data = { services: r[0].data || [], invoices: r[1].data || [], tickets: r[2].data || [], notes: r[3].data || [], members: r[4].data || [], report: (r[5] && r[5].data || [])[0] || null, uptime: r[6] && r[6].data || [], changes: r[7] && r[7].data || [] };
       shell();
     });
   }
 
   // ---------- layout: top menu (design 10) ----------
-  var TABS = [['oversikt', 'Översikt'], ['tjanster', 'Tjänster'], ['fakturor', 'Fakturor'], ['support', 'Support'], ['konto', 'Konto']];
+  var TABS = [['oversikt', 'Översikt'], ['tjanster', 'Tjänster'], ['andringar', 'Ändringar'], ['fakturor', 'Fakturor'], ['support', 'Support'], ['konto', 'Konto']];
   function logoutBtn() { return '<p><button type="button" class="portal-link" id="logout">Logga ut</button></p>'; }
   function bindLogout() { var b = root.querySelector('#logout'); if (b) b.addEventListener('click', function () { sb.auth.signOut().then(function () { login('Du är utloggad.'); }); }); }
   function shell() {
@@ -112,7 +115,7 @@
     bindLogout();
     var pc = root.querySelector('#pc'); if (pc) pc.addEventListener('change', function () { choose(st.members.filter(function (m) { return m.company_id === pc.value; })[0]); });
     root.querySelector('.portal-tabs').addEventListener('click', function (e) { var b = e.target.closest('[data-tab]'); if (!b) return; st.tab = b.dataset.tab; shell(); });
-    ({ oversikt: overview, tjanster: services, fakturor: invoices, support: support, konto: account })[st.tab]();
+    ({ oversikt: overview, tjanster: services, andringar: changes, fakturor: invoices, support: support, konto: account })[st.tab]();
   }
   var view = function () { return root.querySelector('#pv'); };
 
@@ -139,6 +142,7 @@
       (todo.length ? todo.map(function (t) { return '<div class="portal-warn"><p>' + t[0] + '</p>' + (t[1] ? '<button type="button" class="btn btn--primary" data-go="' + t[1] + '"><span>' + t[2] + '</span></button>' : '') + '</div>'; }).join('') : '<p class="portal-ok">Allt fungerar. Inget behöver göras just nu.</p>') +
       '<h3 class="portal-h">Era tjänster</h3>' + (d.services.length ? '<div class="shop-list">' + d.services.map(function (s) { return serviceRow(s); }).join('') + '</div>' : '<p class="shop-lead">Inga tjänster ännu.</p>') +
       '<p class="portal-sum">Totalt ' + kr(month) + '/mån' + (year ? ' + ' + kr(year) + '/år' : '') + ' exkl. moms' + (next ? ' · nästa faktura ' + day(next.due_date) : '') + '</p>' +
+      health() +
       '<h3 class="portal-h">Lägg till fler tjänster</h3>' +
       '<div class="promo2 portal-promo"><div class="promo2__card glow-dark"><div class="promo2__head"><h2>Sök och köp ert <em>domännamn</em></h2><span class="promo2__arrow" aria-hidden="true">&rarr;</span></div><p>Skydda namnet på fler toppdomäner.</p>' +
       '<form class="sitetest__form portal-dom" action="domaner.html"><label class="sitetest__field"><span class="sr-only">Domän</span><input name="q" placeholder="dittforetag" aria-label="Domän"></label><button class="btn btn--primary"><span>Sök</span></button></form></div>' +
@@ -148,6 +152,69 @@
       '<div class="st-preview"><div class="st-card"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="st-bg"/><circle cx="60" cy="60" r="50" class="st-fg" stroke="#d4e85a" stroke-dasharray="250 314"/></svg><b>–</b><p>Prestanda</p></div><div class="st-card"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="st-bg"/><circle cx="60" cy="60" r="50" class="st-fg" stroke="#3cc2b0" stroke-dasharray="285 314"/></svg><b>–</b><p>Tillgänglighet</p></div><div class="st-card"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="st-bg"/><circle cx="60" cy="60" r="50" class="st-fg" stroke="#f2b45f" stroke-dasharray="200 314"/></svg><b>–</b><p>SEO och AI-optimering</p></div></div></a></div>' +
       (tips.length ? '<p class="shop-note">Saknas: ' + tips.map(function (t) { return '<a href="' + t[1] + '">' + t[0] + '</a>'; }).join(' · ') + '</p>' : '');
     view().addEventListener('click', function (e) { var b = e.target.closest('[data-go]'); if (b) { st.tab = b.dataset.go; shell(); } });
+  }
+
+  // Uptime (last 30 days) and the latest monthly report
+  function health() {
+    var d = st.data, up = d.uptime || [], rep = d.report, html = '';
+    if (up.length) {
+      var byUrl = {}; up.forEach(function (c) { (byUrl[c.url] = byUrl[c.url] || []).push(c); });
+      html += '<h3 class="portal-h">Driften</h3><div class="portal-health">' + Object.keys(byUrl).map(function (u) {
+        var l = byUrl[u], okN = l.filter(function (c) { return c.ok; }).length, pct = (okN / l.length * 100), last = l[0];
+        var ms = Math.round(l.filter(function (c) { return c.ok; }).reduce(function (a, c) { return a + (c.ms || 0); }, 0) / Math.max(1, okN));
+        var down = l.filter(function (c) { return !c.ok; }).length;
+        return '<div class="portal-up"><p class="portal-up__url">' + esc(u.replace(/^https?:\/\//, '')) + '</p><p class="portal-up__state portal-up__state--' + (last.ok ? 'ok' : 'down') + '">' + (last.ok ? 'Uppe' : 'Svarar inte') + '</p>' +
+          '<div class="portal-up__nums"><div><b>' + (pct === 100 ? '100' : pct.toFixed(2).replace('.', ',')) + ' %</b><span>uppe senaste 30 dagarna</span></div><div><b>' + (ms / 1000).toFixed(2).replace('.', ',') + ' s</b><span>snitt svarstid</span></div><div><b>' + down + '</b><span>' + (down === 1 ? 'kontroll' : 'kontroller') + ' utan svar</span></div></div>' +
+          '<p class="mut">Senast kontrollerad ' + new Date(last.checked_at).toLocaleString('sv-SE', { dateStyle: 'short', timeStyle: 'short' }) + '. Vi kontrollerar var 15:e minut och mejlar er om sidan slutar svara.</p></div>';
+      }).join('') + '</div>';
+    }
+    if (rep) {
+      var sc = [['Prestanda', rep.performance], ['Tillgänglighet', rep.accessibility], ['Bästa praxis', rep.best_practices], ['SEO', rep.seo]];
+      html += '<h3 class="portal-h">Månadsrapport <small>' + new Date(rep.created_at).toLocaleDateString('sv-SE', { month: 'long', year: 'numeric' }) + '</small></h3><div class="portal-report">' +
+        '<div class="portal-report__scores">' + sc.map(function (x) { var v = x[1]; return '<div class="portal-report__s portal-report__s--' + (v == null ? 'na' : v >= 90 ? 'good' : v >= 50 ? 'ok' : 'bad') + '"><b>' + (v == null ? '–' : v) + '</b><span>' + x[0] + '</span></div>'; }).join('') + '</div>' +
+        ((rep.issues || []).length ? '<p class="mut">Det här kan förbättras:</p><ul class="portal-report__list">' + rep.issues.slice(0, 5).map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul>' : '<p class="mut">Inga större problem hittades.</p>') +
+        '<button type="button" class="btn btn--primary" id="rep-fix"><span>Be oss åtgärda det</span></button></div>';
+    }
+    setTimeout(function () { var b = view() && view().querySelector('#rep-fix'); if (b) b.addEventListener('click', function () { st.tab = 'andringar'; st.prefill = 'Åtgärda det som månadsrapporten hittade:\n- ' + (rep.issues || []).slice(0, 5).join('\n- '); shell(); }); }, 0);
+    return html;
+  }
+
+  // Change requests: the customer describes it, we send a price, the customer approves or declines
+  var CST = { new: 'Vi tittar på den', quoted: 'Pris lämnat – väntar på er', approved: 'Godkänd – vi sätter igång', declined: 'Avböjd', in_progress: 'Pågår', done: 'Klar' };
+  function changes() {
+    var d = st.data, pre = st.prefill || ''; st.prefill = null; var mayDecide = /owner|admin|finance/.test(st.role);
+    view().innerHTML = '<h3 class="portal-h">Ny ändring</h3><form id="cr" class="portal-form portal-form--wide" novalidate>' +
+      '<input name="page" placeholder="Vilken sida? T.ex. /kontakt eller Startsidan" aria-label="Sida">' +
+      '<textarea name="desc" rows="5" placeholder="Vad ska ändras? Skriv så konkret ni kan." aria-label="Vad ska ändras" required>' + esc(pre) + '</textarea>' +
+      '<label class="portal-file">Skärmbild (valfritt)<input type="file" name="img" accept="image/*"></label><p class="mut" id="cr-img"></p>' +
+      '<button class="btn btn--primary"><span>Skicka – vi återkommer med ett pris</span></button><p class="form-status" hidden></p></form>' +
+      '<h3 class="portal-h">Era ändringar</h3>' + (d.changes.length ? d.changes.map(function (c) {
+        return '<div class="portal-change portal-change--' + c.status + '"><div class="portal-change__top"><b>' + esc(c.page || 'Ändring') + '</b><span class="portal-change__st">' + (CST[c.status] || esc(c.status)) + '</span></div>' +
+          '<p>' + esc(c.description) + '</p>' + (c.image ? '<img src="' + esc(c.image) + '" alt="Skärmbild" class="portal-change__img">' : '') +
+          (c.price != null ? '<div class="portal-change__price"><b>' + kr(c.price) + ' <small>exkl. moms</small></b>' + (c.quote_note ? '<p>' + esc(c.quote_note) + '</p>' : '') +
+            (c.status === 'quoted' ? (mayDecide ? '<div class="portal-acts"><button type="button" class="btn btn--primary" data-ok="' + c.id + '"><span>Godkänn priset</span></button><button type="button" class="btn btn--light" data-no="' + c.id + '"><span>Avböj</span></button></div>' : '<p class="mut">Ägare, administratör eller ekonomiansvarig godkänner priset.</p>') : '') + '</div>' : '') +
+          '<p class="mut">Skickad ' + day(c.created_at) + '</p></div>';
+      }).join('') : '<p class="shop-lead">Inga ändringar än.</p>');
+    var f = view().querySelector('#cr'), s = f.querySelector('.form-status'), img = null;
+    f.img.addEventListener('change', function () {
+      var file = f.img.files[0]; img = null; if (!file) return;
+      if (file.size > 2 * 1048576) { view().querySelector('#cr-img').textContent = 'Bilden är för stor (max 2 MB).'; f.img.value = ''; return; }
+      var r = new FileReader(); r.onload = function () { img = r.result; view().querySelector('#cr-img').textContent = 'Bifogad: ' + file.name; }; r.readAsDataURL(file);
+    });
+    f.addEventListener('submit', function (e) {
+      e.preventDefault(); if (f.desc.value.trim().length < 5) return msg(s, 'Beskriv vad som ska ändras.', true);
+      msg(s, 'Skickar …');
+      sb.from('change_requests').insert({ company_id: st.company.id, created_by: st.user.id, page: f.page.value.trim().slice(0, 200) || null, description: f.desc.value.trim().slice(0, 5000), image: img }).select().single().then(function (r) {
+        if (r.error) return msg(s, 'Kunde inte skicka. Mejla info@elevatestudio.nu.', true);
+        st.data.changes.unshift(r.data); changes(); msg(view().querySelector('#cr .form-status'), 'Tack! Vi återkommer med ett pris, oftast inom en arbetsdag.');
+      });
+    });
+    view().addEventListener('click', function (e) {
+      var ok = e.target.closest('[data-ok]'), no = e.target.closest('[data-no]'); if (!ok && !no) return;
+      var id = (ok || no).dataset.ok || (ok || no).dataset.no, c = d.changes.filter(function (x) { return x.id === id; })[0];
+      if (ok && !confirm('Godkänna ' + kr(c.price) + ' exkl. moms för ändringen? Vi sätter igång och fakturerar när den är klar.')) return;
+      sb.from('change_requests').update({ status: ok ? 'approved' : 'declined' }).eq('id', id).then(function (r) { if (r.error) return alert('Kunde inte spara.'); c.status = ok ? 'approved' : 'declined'; changes(); });
+    });
   }
 
   function services() {
@@ -266,14 +333,18 @@
       invoices: [{ id: 'i1', company_id: 'c1', number: '2026-041', amount: 199, status: 'open', due_date: d(9), description: 'Företagsmejl november' },
         { id: 'i2', company_id: 'c1', number: '2026-030', amount: 5000, status: 'paid', due_date: d(-30), description: 'Hemsida Starter' }],
       tickets: [{ id: 't1', company_id: 'c1', subject: 'Mejlen kommer inte fram i mobilen', status: 'answered', created_at: d(-2) }],
+      site_reports: [{ company_id: 'c1', created_at: d(-1), url: 'https://exempelbygg.se', performance: 78, accessibility: 92, best_practices: 100, seo: 88, lcp_ms: 3100, issues: ['Bilder kan komprimeras bättre', 'En länk saknar beskrivande text', 'Metabeskrivning saknas på /kontakt'] }],
+      uptime_checks: (function () { var a = []; for (var i = 0; i < 2880; i++) a.push({ company_id: 'c1', url: 'https://exempelbygg.se', ok: i !== 700 && i !== 701, ms: 380 + (i * 37) % 260, checked_at: new Date(Date.now() - i * 9e5).toISOString() }); return a; })(),
+      change_requests: [{ id: 'cr1', company_id: 'c1', created_at: d(-3), page: 'Startsidan', description: 'Byt bilden högst upp till en bild från vårt senaste badrumsprojekt.', status: 'quoted', price: 900, quote_note: 'Vi byter bilden, beskär den för mobil och komprimerar den. Klart inom två arbetsdagar.' },
+        { id: 'cr2', company_id: 'c1', created_at: d(-20), page: '/priser', description: 'Lägg till en rad om ROT-avdrag.', status: 'done', price: 0, quote_note: 'Ingår i ert avtal.' }],
       ticket_messages: [{ ticket_id: 't1', from_staff: false, body: 'Jag får inte in mejlen i iPhone. Vad ska jag fylla i?', created_at: d(-2) }, { ticket_id: 't1', from_staff: true, body: 'Hej! Välj IMAP och fyll i servern mail.exempelbygg.se. Vi har mejlat en guide till dig.', created_at: d(-1) }],
       notifications: [], data_requests: []
     };
     var q = function (table) {
       var rows = (db[table] || []).slice(), single = false, api = {
-        select: function () { return api; }, order: function () { return api; }, limit: function () { return api; }, is: function () { return api; }, or: function () { return api; },
+        select: function () { return api; }, order: function () { return api; }, limit: function () { return api; }, is: function () { return api; }, gte: function () { return api; }, or: function () { return api; },
         eq: function (k, v) { rows = rows.filter(function (r) { return r[k] === undefined || r[k] === v; }); return api; },
-        insert: function (row) { row = Object.assign({ id: 'n' + Date.now(), created_at: new Date().toISOString(), status: 'open' }, row); (db[table] = db[table] || []).unshift(row); rows = [row]; return api; },
+        insert: function (row) { row = Object.assign({ id: 'n' + Date.now(), created_at: new Date().toISOString(), status: table === 'change_requests' ? 'new' : 'open' }, row); (db[table] = db[table] || []).unshift(row); rows = [row]; return api; },
         update: function () { return api; }, single: function () { single = true; return api; },
         then: function (ok) { return Promise.resolve({ data: single ? rows[0] : rows, error: null }).then(ok); }
       };

@@ -407,3 +407,8 @@ button.f:hover { border-color: var(--g); }
 .bubble--left { transform: rotate(3deg); }
 .bubble--left::before { left: auto; right: -16px; transform: rotate(28deg); transform-origin: left center; }
 .barrow { cursor: default; }
+.chg__top { display: flex; gap: 12px; align-items: center; margin: 0 0 8px; } .chg__top small { margin-left: auto; color: var(--muted); }
+.chg__st { padding: 2px 10px; border-radius: 999px; background: #eef4ef; font-size: 12px; font-weight: 700; }
+.chg__img { display: block; max-width: 280px; margin: 8px 0; border-radius: 10px; border: 1px solid #e6e9e4; }
+.chg__quote { display: grid; grid-template-columns: 150px 1fr auto; gap: 8px; margin: 8px 0; } .chg__quote input { padding: 8px 10px; border: 1px solid #dfe3dc; border-radius: 8px; font: inherit; }
+.chg__price { color: var(--muted); }

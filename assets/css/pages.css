@@ -1295,3 +1295,45 @@ body:has(#webmail .wmx) .chat { display: none; }
 .dom-pack .btn { justify-self: start; margin-top: 6px; background: #fff !important; color: #16301f !important; }
 @media (max-width: 800px) { .dom-pack { grid-template-columns: 1fr; } .dom-taken { flex-direction: column; align-items: flex-end; } }
 .dom-pack .btn span { color: #16301f !important; }
+/* Portal: uptime, monthly report, change requests */
+.portal-h small { font-size: 15px; font-weight: 400; color: #6b736d; }
+.portal-health { display: grid; gap: 12px; }
+.portal-up { padding: 22px 24px; border-radius: 20px; background: #fff; border: 1px solid #e6e9e4; }
+.portal-up__url { margin: 0; font-weight: 700; font-size: 18px; }
+.portal-up__state { display: inline-block; margin: 6px 0 14px; padding: 3px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; }
+.portal-up__state--ok { background: #e3ece4; color: #2f7d4f; } .portal-up__state--down { background: #fbe4e1; color: #b42318; }
+.portal-up__nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 12px; }
+.portal-up__nums div { padding: 14px; border-radius: 14px; background: #f4f6f3; } .portal-up__nums b { display: block; font-size: 24px; } .portal-up__nums span { font-size: 13px; color: #5f6862; }
+.portal-report { padding: 24px; border-radius: 20px; background: #fff; border: 1px solid #e6e9e4; }
+.portal-report__scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 0 0 14px; }
+.portal-report__s { padding: 16px; border-radius: 14px; background: #f4f6f3; text-align: center; } .portal-report__s b { display: block; font-size: 30px; } .portal-report__s span { font-size: 13px; color: #5f6862; }
+.portal-report__s--good b { color: #2f7d4f; } .portal-report__s--ok b { color: #a26c07; } .portal-report__s--bad b { color: #b42318; }
+.portal-report__list { margin: 0 0 16px; padding-left: 18px; line-height: 1.7; color: #4f5a53; }
+.portal-file { display: grid; gap: 6px; font-size: 14px; color: #4f5a53; }
+.portal-change { margin: 0 0 12px; padding: 20px 22px; border-radius: 20px; background: #fff; border: 1px solid #e6e9e4; }
+.portal-change--quoted { border: 2px solid #1d3b2a; }
+.portal-change__top { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.portal-change__st { padding: 3px 12px; border-radius: 999px; background: #f4f6f3; font-size: 13px; font-weight: 700; }
+.portal-change--quoted .portal-change__st { background: #1d3b2a; color: #fff; } .portal-change--done .portal-change__st, .portal-change--approved .portal-change__st { background: #e3ece4; color: #2f7d4f; }
+.portal-change__img { display: block; max-width: 260px; margin: 0 0 10px; border-radius: 12px; border: 1px solid #e6e9e4; }
+.portal-change__price { margin: 10px 0; padding: 16px 18px; border-radius: 14px; background: #f4f6f3; }
+.portal-change__price b { font-size: 24px; } .portal-change__price small { font-size: 13px; font-weight: 400; color: #6b736d; } .portal-change__price p { margin: 6px 0 12px; }
+@media (max-width: 700px) { .portal-up__nums, .portal-report__scores { grid-template-columns: 1fr 1fr; } }
+/* Price calculator on Priser */
+.calc__grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; align-items: start; margin-top: 28px; }
+.calc__form fieldset { margin: 0 0 22px; padding: 0; border: 0; }
+.calc__form legend { margin: 0 0 10px; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #6b736d; }
+.calc__opt { display: block; margin: 0 0 8px; cursor: pointer; }
+.calc__opt input { position: absolute; opacity: 0; }
+.calc__opt span { display: block; padding: 16px 20px; border: 1px solid #e3e6e0; border-radius: 16px; background: #fff; transition: border-color .15s, box-shadow .15s; }
+.calc__opt span b { font-size: 17px; margin-right: 6px; } .calc__opt span em { font-style: normal; font-weight: 600; color: #2f7d4f; }
+.calc__opt span small { display: block; margin-top: 2px; color: #6b736d; font-size: 14px; }
+.calc__opt input:checked + span { border-color: #1d3b2a; box-shadow: 0 0 0 2px #1d3b2a inset; }
+.calc__opt input:focus-visible + span { outline: 2px solid #1d3b2a; outline-offset: 2px; }
+.calc__sum { position: sticky; top: 110px; padding: 30px; border-radius: 26px; background-color: #16301f; background-image: radial-gradient(ellipse 45% 60% at 100% 105%, rgba(60, 170, 120, .5), transparent 70%); color: #fdfbf5; }
+.calc__k { margin: 0 0 14px; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; opacity: .8; }
+.calc__rows div, .calc__tot div { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(255, 255, 255, .12); }
+.calc__tot { margin: 14px 0; } .calc__tot b { font-size: 20px; }
+.calc__note { font-size: 13px; opacity: .75; margin: 0 0 16px; }
+@media (max-width: 860px) { .calc__grid { grid-template-columns: 1fr; } .calc__sum { position: static; } }
+#cr .btn--primary, .portal-change .btn--primary { background: #1d3b2a; border-color: #1d3b2a; color: #fff; }

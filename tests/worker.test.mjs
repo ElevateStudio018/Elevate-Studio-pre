@@ -98,3 +98,30 @@ test('daily watch check: mails only when the domain is free, then marks it', asy
   globalThis.fetch = realFetch;
   assert.equal(n, 1); assert.deepEqual(mails, [['a@b.se', 'ledig.se är ledig']]); assert.ok(calls.some((c) => c[0] === 'PATCH' && c[1].includes('id=eq.1')));
 });
+import { checkUptime, monthlyReports } from '../worker/monitor.js';
+const fakeDb = (state) => async (url, opt = {}) => {
+  const u = String(url);
+  if (u.includes('/services?')) return new Response(JSON.stringify([{ company_id: 'c1', name: 'Hemsida', details: { url: 'https://kund.se' }, companies: { name: 'Kund AB', billing_email: 'kund@kund.se' } }]));
+  if (u.includes('/uptime_checks?')) return new Response(JSON.stringify(state.last ? [{ ok: state.last }] : []));
+  if (opt.method === 'POST') { state.saved.push([u.split('/').pop(), JSON.parse(opt.body)]); return new Response(null, { status: 201 }); }
+  return new Response('[]');
+};
+test('uptime: saves every check and mails customer and info@ only when the state changes', async () => {
+  const state = { saved: [], last: true }, mails = [], real = globalThis.fetch; globalThis.fetch = fakeDb(state);
+  await checkUptime({ SUPABASE_URL: 'https://db', SUPABASE_SERVICE_KEY: 'k' }, async (to, s) => mails.push([to, s]), async () => new Response('down', { status: 503 }));
+  state.last = false;
+  await checkUptime({ SUPABASE_URL: 'https://db', SUPABASE_SERVICE_KEY: 'k' }, async (to, s) => mails.push([to, s]), async () => new Response('down', { status: 503 }));
+  globalThis.fetch = real;
+  assert.equal(state.saved.filter((x) => x[0] === 'uptime_checks').length, 2);
+  assert.deepEqual(mails, [['kund@kund.se', 'https://kund.se svarar inte'], ['info@elevatestudio.nu', 'https://kund.se svarar inte']]);
+});
+test('monthly report: saves the scores and mails the customer', async () => {
+  const state = { saved: [] }, mails = [], real = globalThis.fetch; globalThis.fetch = fakeDb(state);
+  const lr = { lighthouseResult: { categories: { performance: { score: 0.8 }, accessibility: { score: 0.9 }, 'best-practices': { score: 1 }, seo: { score: 0.7 } },
+    audits: { 'largest-contentful-paint': { numericValue: 3100, score: 0.5, scoreDisplayMode: 'numeric', title: 'LCP' }, x: { score: 0, scoreDisplayMode: 'binary', title: 'Saknar metabeskrivning' } } } };
+  const n = await monthlyReports({ SUPABASE_URL: 'https://db', SUPABASE_SERVICE_KEY: 'k', PSI_API_KEY: 'g' }, async (to, s, t) => mails.push([to, s, t]), async () => new Response(JSON.stringify(lr)));
+  globalThis.fetch = real;
+  assert.equal(n, 1); const row = state.saved.find((x) => x[0] === 'site_reports')[1];
+  assert.equal(row.performance, 80); assert.equal(row.seo, 70); assert.ok(row.issues.includes('Saknar metabeskrivning'));
+  assert.equal(mails[0][0], 'kund@kund.se'); assert.match(mails[0][2], /SEO: 70/);
+});
