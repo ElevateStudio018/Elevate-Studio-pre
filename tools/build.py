@@ -1641,11 +1641,7 @@ def build_platform():
         </form>
         <div class="dom-chips" id="dom-chips">{"".join(f'<button type="button" data-tld="{t}">.{t} <b>{PRICE_OF.get(t, "")} kr</b></button>' for t in ("se", "nu", "com", "net", "org", "eu", "io"))}</div>
         <p class="shop-hint" id="dom-hint"></p>
-        <div class="dom-points">
-          <div><b>Ni äger domänen</b><span>Registreras på ert företag</span></div>
-          <div><b>Svar direkt</b><span>Kontroll mot registret</span></div>
-          <div><b>Mejl på köpet</b><span>Lägg till info@ när ni vill</span></div>
-        </div>
+
       </div>
     </section>
     <section class="section container shop">
