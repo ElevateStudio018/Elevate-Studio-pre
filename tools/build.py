@@ -767,7 +767,7 @@ def build_cases():
         <h2 class="block__header">Exempel på <span>projekt</span></h2>
         <div class="pgrid">{cards}
         </div>
-        <p class="fiction-note">Exempel på projekt är påhittade och visar hur vi arbetar.</p>
+        <p class="fiction-note">CORK är kund hos oss. Övriga exempel är påhittade och visar hur vi arbetar.</p>
       </div>
     </section>
     {cta(p)}
@@ -1444,7 +1444,7 @@ def projects_section():
         </div>
         <div class="hp-proj__grid">{cards}
         </div>
-        <p class="hp-proj__note">Exempel på projekt är påhittade och visar hur vi arbetar.</p>
+        <p class="hp-proj__note">CORK är kund hos oss. Övriga exempel är påhittade och visar hur vi arbetar.</p>
       </div>
     </section>'''
 

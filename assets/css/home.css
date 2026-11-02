@@ -1127,3 +1127,6 @@ h2, h3 { margin: 0; font-weight: 400; }
 .wm__days i { padding: 4px 0; border-radius: 8px; background: rgba(255, 255, 255, .18); font-style: normal; }
 .wm__days i.on { background: #3cc2b0; font-weight: 700; }
 @media (max-width: 900px) { .wm { height: 280px; } .wm__win { left: 22%; right: -120px; } .wm__body { grid-template-columns: 90px 1fr 1fr; } .wm__cal { width: 170px; } .wm__days { font-size: 10px; } }
+.clients-real { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 72px; margin: 0 auto 56px; }
+.clients-real img { display: block; width: auto; height: 64px; max-width: 260px; }
+@media (max-width: 768px) { .clients-real { gap: 36px; } .clients-real img { height: 44px; } }
