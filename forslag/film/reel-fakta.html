@@ -1,0 +1,38 @@
+<!doctype html><html lang="sv"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Elevate – reel: 5 skäl</title><script src="reel-kit.js"></script>
+<style>
+#s{background:#fff;color:#0f2418}
+.sl{position:absolute;inset:0;opacity:0;background:#fff}
+.num{position:absolute;left:44px;top:120px;font-size:300px;font-weight:900;letter-spacing:-.08em;line-height:.8;color:#8fd3a6}
+.ttl{position:absolute;left:44px;right:44px;top:420px;font-size:74px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.txt{position:absolute;left:44px;right:60px;top:580px;font-size:30px;line-height:1.35;color:#3b4a40}
+.vis{position:absolute;left:44px;right:44px;top:800px;height:330px}
+.bar{position:absolute;left:0;right:0;bottom:0;height:10px;background:#eef2ee}.bar i{display:block;height:100%;background:#1f4d36}
+.hook{background:#0d1d14;color:#fff}
+.rc{display:inline-flex;align-items:center;gap:12px;padding:16px 22px;border-radius:20px;background:#f1f6f2;font-size:26px;font-weight:700;margin:0 10px 12px 0}
+</style></head><body><div id="s">
+<div class="sl hook" id="h"><div class="ctr w" style="top:430px;font-size:96px">5 skäl att<br>byta hemsida<br><span class="hl">i år.</span></div></div>
+<div class="sl" id="s0"><div class="num">1</div><div class="ttl">Fast pris.</div><div class="txt">Du vet kostnaden innan vi börjar. Inga timmar som tickar.</div>
+ <div class="vis"><div class="ctr w" style="left:0;right:0;top:40px;font-size:120px">2 999 kr</div><div class="ctr" style="left:0;right:0;top:190px;font-size:26px;color:#5a675f">engångspris · sedan från 99 kr/år</div></div></div>
+<div class="sl" id="s1"><div class="num">2</div><div class="ttl">Byggd för mobilen.</div><div class="txt">De flesta besökare kommer från mobilen. Vi bygger mobilen först.</div>
+ <div class="vis" style="display:flex;justify-content:center;gap:24px"><img src="../../assets/img/sites/site-haninge-phone.jpg" style="height:330px;border-radius:24px;box-shadow:0 20px 40px -20px rgba(0,0,0,.4)"><img src="../../assets/img/sites/site-alvhem-phone.jpg" style="height:330px;border-radius:24px;box-shadow:0 20px 40px -20px rgba(0,0,0,.4)"><img src="../../assets/img/sites/site-cork-phone.jpg" style="height:330px;border-radius:24px;box-shadow:0 20px 40px -20px rgba(0,0,0,.4)"></div></div>
+<div class="sl" id="s2"><div class="num">3</div><div class="ttl">Syns på Google<br>– och i AI.</div><div class="txt">SEO och AI-optimering ingår, så kunderna hittar dig.</div>
+ <div class="vis"><div class="rc">🔍 hemsida uppsala <b style="color:#2f7d4f">#1</b></div><div class="rc">💬 ”Vem rekommenderar du?” <b style="color:#2f7d4f">✓</b></div></div></div>
+<div class="sl" id="s3"><div class="num">4</div><div class="ttl">Recensioner som<br>säljer åt dig.</div><div class="txt">Visa dina bästa omdömen där kunden bestämmer sig.</div>
+ <div class="vis"><div class="ctr w" style="left:0;right:0;top:30px;font-size:110px;color:#e8a33d" id="stars">★★★★★</div><div class="ctr" style="left:0;right:0;top:170px;font-size:28px;color:#3b4a40;font-style:italic">”Snabbt, snyggt och enkelt. Rekommenderas!”</div></div></div>
+<div class="sl" id="s4"><div class="num">5</div><div class="ttl">Ändra själv<br>– eller fråga oss.</div><div class="txt">Adminpanel ingår. Och du pratar alltid med samma person.</div>
+ <div class="vis"><img src="img/lindvik-page.jpg" style="width:100%;height:330px;object-fit:cover;object-position:top;border-radius:24px;box-shadow:0 0 0 4px #8fd3a6"></div></div>
+<div class="bar" id="pb"><i id="pbi"></i></div>
+<script>document.write(K.endHTML)</script>
+</div><script>
+const {cl,ease,out,io}=K,$=id=>document.getElementById(id),DUR=16;
+const T=[1.9,3.9,5.9,7.9,9.9,11.9];
+function render(t){
+ $('h').style.opacity=t<T[0]?1:0;$('h').firstElementChild.style.transform=`scale(${1.06-.06*out(t/.8)})`;
+ for(let i=0;i<5;i++){const a=T[i],b=T[i+1],e=$('s'+i),on=t>=a&&t<b;e.style.opacity=on?1:0;
+  if(on){const k=out((t-a)/.45);e.querySelector('.num').style.transform=`translateY(${(1-k)*-80}px)`;e.querySelector('.ttl').style.transform=`translateX(${(1-k)*-80}px)`;e.querySelector('.ttl').style.opacity=k;
+   const k2=out((t-a-.25)/.45);e.querySelector('.txt').style.opacity=k2;const v=e.querySelector('.vis');v.style.opacity=cl((t-a-.45)/.3);v.style.transform=`translateY(${(1-out((t-a-.45)/.5))*40}px)`}}
+ $('pb').style.opacity=t>=T[0]&&t<T[5]?1:0;$('pbi').style.width=cl((t-T[0])/(T[5]-T[0]))*100+'%';
+ K.end(t,T[5]);
+}
+K.boot(render,DUR,['img/lindvik-page.jpg','../../assets/img/sites/site-haninge-phone.jpg','../../assets/img/sites/site-alvhem-phone.jpg','../../assets/img/sites/site-cork-phone.jpg']);
+</script></body></html>

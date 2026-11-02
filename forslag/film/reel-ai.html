@@ -1,0 +1,51 @@
+<!doctype html><html lang="sv"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Elevate – reel: kunder frågar AI</title><script src="reel-kit.js"></script>
+<style>
+#s{background:#f6f8f6;color:#0f2418}
+.bg2{position:absolute;inset:0;background:radial-gradient(60% 40% at 80% 10%,#d8efe0,transparent 70%),#f6f8f6}
+.chat{position:absolute;left:36px;right:36px;top:250px;bottom:200px;border-radius:34px;background:#fff;box-shadow:0 40px 80px -40px rgba(15,36,24,.35),0 0 0 1px #e3e9e4;padding:30px 26px;overflow:hidden}
+.chat .hd{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px;color:#3b4a40;padding-bottom:18px;border-bottom:1px solid #eef1ee}
+.chat .hd i{width:34px;height:34px;border-radius:50%;background:conic-gradient(#8fd3a6,#1f4d36,#8fd3a6)}
+.me{margin:24px 0 0 auto;width:fit-content;max-width:80%;padding:16px 20px;border-radius:22px 22px 6px 22px;background:#1f4d36;color:#fff;font-size:24px;opacity:0}
+.ai{margin-top:22px;font-size:22px;line-height:1.45;color:#16241b}
+.res{margin-top:16px;padding:16px 18px;border-radius:18px;border:2px solid #e3e9e4;display:flex;gap:14px;align-items:center;opacity:0}
+.res i{flex:none;width:58px;height:58px;border-radius:14px;background-size:cover;background-position:center}
+.res b{display:block;font-size:21px}.res small{font-size:16px;color:#5a675f}
+.res.win{border-color:#8fd3a6;background:#f1f9f3;box-shadow:0 0 0 5px rgba(143,211,166,.25)}
+.dim{opacity:.35}
+.q{position:absolute;left:36px;right:36px;bottom:70px;height:76px;border-radius:999px;background:#fff;box-shadow:0 0 0 1px #dfe5e0,0 20px 40px -20px rgba(0,0,0,.25);display:flex;align-items:center;padding:0 12px 0 28px;font-size:23px;color:#16241b}
+.q span{flex:1}.q em{width:54px;height:54px;border-radius:50%;background:#1f4d36;color:#fff;display:grid;place-items:center;font-style:normal;font-size:26px}
+.big{top:330px;font-size:84px}
+.g{position:absolute;left:46px;right:46px;top:560px;padding:26px 28px;border-radius:24px;background:#fff;box-shadow:0 30px 60px -30px rgba(15,36,24,.35),0 0 0 1px #e3e9e4;opacity:0}
+.g small{color:#2f7d4f;font-size:17px}.g h4{font-size:27px;color:#1a4fb4;margin:6px 0}.g p{font-size:18px;color:#4f5a53}.g .rk{position:absolute;right:20px;top:20px;padding:6px 14px;border-radius:999px;background:#8fd3a6;font-weight:900;font-size:18px}
+</style></head><body><div id="s"><div class="bg2"></div>
+<div class="L" id="a"><div class="ctr w" style="top:420px;font-size:80px">Dina kunder<br><span style="text-decoration:line-through;text-decoration-thickness:8px;text-decoration-color:#e4572e" id="ag">googlar</span></div>
+ <div class="ctr w" style="top:620px;font-size:80px" id="a2">frågar <span class="hl" style="color:#0f2418">AI.</span></div></div>
+<div class="L" id="b"><div class="ctr w" style="top:110px;font-size:52px" id="bt">Syns <span class="serif" style="color:#2f7d4f">du</span> i svaret?</div>
+ <div class="chat"><div class="hd"><i></i>AI-assistent</div>
+  <div class="me" id="me">Vilken snickare i Uppsala kan bygga om mitt badrum?</div>
+  <div class="ai" id="ai"></div>
+  <div class="res win" id="r0"><i style="background-image:url(img/lindvik.jpg)"></i><div><b>Lindvik Bygg</b><small>★ 4,9 · badrum &amp; altaner · svarar inom 24 h</small></div></div>
+  <div class="res" id="r1"><i style="background:#e6ebe7"></i><div><b>Företag med gammal sajt</b><small>Ingen info om tjänster · inga recensioner</small></div></div>
+ </div>
+ <div class="q"><span id="qt"></span><em>↑</em></div></div>
+<div class="L" id="c"><div class="ctr w" style="top:200px;font-size:64px">Vi bygger så att<br><span class="hl">Google och AI</span><br>beskriver er rätt.</div>
+ <div class="g" id="g"><span class="rk">#1</span><small>lindvikbygg.se › badrum</small><h4>Badrumsrenovering i Uppsala – Lindvik Bygg</h4><p>★★★★★ 4,9 (38) · Fast pris · Begär offert direkt på sidan</p></div>
+ <div class="ctr" style="top:830px;font-size:28px;color:#3b4a40;font-weight:700" id="cs">SEO · AI-optimering · Recensioner</div></div>
+<script>document.write(K.endHTML)</script>
+</div><script>
+const {cl,ease,out,io,typ}=K,$=id=>document.getElementById(id),DUR=17;
+const ans='Här är ett lokalt företag som passar bra:';
+function render(t){
+ $('a').style.opacity=io(t,0,2.8,.3);$('a2').style.opacity=cl((t-1.2)/.3);$('a2').style.transform=`translateY(${(1-out((t-1.2)/.4))*30}px)`;
+ $('ag').style.textDecorationColor=t>.8?'#e4572e':'transparent';
+ $('b').style.opacity=io(t,2.8,9.4,.3);
+ if(t<4.6)typ($('qt'),'Vilken snickare i Uppsala kan bygga om mitt badrum?',t,3.0,.03);else $('qt').textContent='';
+ $('me').style.opacity=cl((t-4.6)/.2);$('me').style.transform=`translateY(${(1-out((t-4.6)/.3))*20}px)`;
+ typ($('ai'),ans,t,5.2,.03);
+ ['r0','r1'].forEach((r,i)=>{const a=6.6+i*.35;$(r).style.opacity=cl((t-a)/.25)*(i&&t>7.6?.4:1);$(r).style.transform=`translateY(${(1-out((t-a)/.35))*20}px)`});
+ $('r0').style.transform+=` scale(${t>7.6?1+.03*out((t-7.6)/.3):1})`;
+ $('c').style.opacity=io(t,9.4,12.6,.3);$('g').style.opacity=cl((t-10)/.3);$('g').style.transform=`translateY(${(1-out((t-10)/.4))*30}px)`;$('cs').style.opacity=cl((t-10.6)/.3);
+ K.end(t,12.6);
+}
+K.boot(render,DUR,['img/lindvik.jpg']);
+</script></body></html>

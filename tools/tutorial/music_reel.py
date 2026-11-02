@@ -1,7 +1,8 @@
 """Original background track for the Meta reel (synthesised, no licence issues) + mouse clicks only.
 Usage: python3 tools/tutorial/music_reel.py out.wav"""
 import sys, wave, numpy as np
-SR=44100; DUR=28.0; BPM=118; B=60/BPM
+A=sys.argv; SR=44100; DUR=float(A[2]) if len(A)>2 else 28.0; BPM=float(A[3]) if len(A)>3 else 118; B=60/BPM
+STY=A[4] if len(A)>4 else "a"; CLICKS=[float(x) for x in A[5].split(",")] if len(A)>5 and A[5] else [4.95,8.9,15.3,17.35,19.15]
 n=int(DUR*SR); L=np.zeros(n); R=np.zeros(n); rng=np.random.default_rng(3)
 def env(m,a,d): t=np.arange(m)/SR; return np.minimum(1,t/a)*np.exp(-t/d)
 def add(x,at,g=1,pan=0):
@@ -25,23 +26,28 @@ def bass(f,len_):
 def click():
     m=int(.05*SR); x=rng.normal(0,1,m)*env(m,.0005,.006); x=np.convolve(x,np.ones(6)/6,'same')
     y=np.zeros(int(.09*SR)); y[:m]+=x; y[int(.028*SR):int(.028*SR)+m]+=.5*x; return y
-prog=[(57,[57,60,64]),(53,[53,57,60]),(48,[48,52,55]),(55,[55,59,62])]  # Am F C G
+PROGS={'a':[(57,[57,60,64]),(53,[53,57,60]),(48,[48,52,55]),(55,[55,59,62])],
+ 'b':[(50,[50,53,57]),(46,[46,50,53]),(53,[53,57,60]),(48,[48,52,55])],
+ 'c':[(52,[52,55,59]),(48,[48,52,55]),(55,[55,59,62]),(50,[50,54,57])],
+ 'd':[(48,[48,52,55,59]),(57,[57,60,64]),(53,[53,57,60,64]),(55,[55,59,62])]}
+prog=PROGS[STY]
+INTRO=float(A[6]) if len(A)>6 else 3.5
 bar=4*B; t=0; k=0
 while t<DUR:
     root,ch=prog[k%4]
     add(pad([hz(m+12) for m in ch],bar+.3),t,.10)
     for s in range(8):                       # 8th-note bass + arp
         tt=t+s*B/2
-        if tt>3.4 or s%2==0: add(bass(hz(root-12),B/2),tt,.20)
-        if tt>3.5: add(pluck(hz(ch[s%3]+24 if s%4<2 else ch[(s+1)%3]+12)),tt,.07,pan=.3*(1 if s%2 else -1))
+        if tt>INTRO or s%2==0: add(bass(hz(root-12),B/2),tt,.20)
+        if tt>INTRO-.1: add(pluck(hz(ch[s%3]+24 if s%4<2 else ch[(s+1)%3]+12)),tt,.07,pan=.3*(1 if s%2 else -1))
     for s in range(4):
         tt=t+s*B
-        if tt>3.5 and tt<26.2: add(kick(),tt,.55)
-        if tt>3.5 and s%2==1 and tt<26.2: add(clap(),tt,.12)
-        add(hat(),tt+B/2,.10 if tt>3.5 else .05)
+        if tt>INTRO and tt<DUR-1.8: add(kick(),tt,.55)
+        if tt>INTRO and s%2==1 and tt<DUR-1.8: add(clap(),tt,.12)
+        add(hat(),tt+B/2,.10 if tt>INTRO else .05)
     t+=bar; k+=1
-add(pad([hz(69),hz(72),hz(76),hz(81)],2.5),25.5,.14)      # ending chord
-for c in [4.95,8.9,15.3,17.35,19.15]: add(click(),c,.9)    # mouse clicks only
+add(pad([hz(m+12) for m in prog[0][1]],2.5),DUR-2.5,.14)      # ending chord
+for c in CLICKS: add(click(),c,.9)    # mouse clicks only
 for x in (L,R):
     fade=np.ones(n); fo=int(1.2*SR); fade[-fo:]=np.linspace(1,0,fo); fade[:int(.05*SR)]=np.linspace(0,1,int(.05*SR)); x*=fade
 pk=max(abs(L).max(),abs(R).max()); st=np.stack([L,R],1)/pk*.85
