@@ -1397,3 +1397,15 @@ body.portal-app .shop.section { max-width: 1440px; padding-top: 24px; }
   .pa-kpis { grid-template-columns: 1fr 1fr; } .pa-g2, .pa-g3 { grid-template-columns: 1fr; }
 }
 .pa > * { min-width: 0; }
+/* Logged-in portal runs as a locked app: no site header, footer or menus */
+body.portal-app .site-header, body.portal-app footer, body.portal-app .site-footer, body.portal-app .hamburgermenu, body.portal-app .drawer-backdrop, body.portal-app .breadcrumb { display: none !important; }
+body.portal-app { background: #f4f6f3; }
+body.portal-app main { padding: 0 !important; margin: 0 !important; }
+body.portal-app .shop.section { max-width: none; margin: 0; padding: 0 !important; }
+body.portal-app .pa { gap: 0; min-height: 100vh; }
+body.portal-app .pa-side { top: 0; height: 100vh; min-height: 100vh; border-radius: 0; overflow-y: auto; }
+body.portal-app .pa-main { padding: 28px 32px 48px !important; }
+@media (max-width: 900px) {
+  body.portal-app .pa-side { position: sticky; top: 0; z-index: 10; height: auto; min-height: 0; border-radius: 0 0 20px 20px; }
+  body.portal-app .pa-main { padding: 18px 14px 40px !important; }
+}
