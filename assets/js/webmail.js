@@ -16,6 +16,7 @@
     inbox: 'M4 13h4l2 3h4l2-3h4M4 13l2-8h12l2 8v6H4z', star: 'M12 3l2.8 5.8 6.2.9-4.5 4.4 1 6.2L12 17.4 6.5 20.3l1-6.2L3 9.7l6.2-.9z', draft: 'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',
     sent: 'M3 11l18-8-8 18-2-8z', archive: 'M3 4h18v4H3zM5 8v12h14V8M10 12h4', junk: 'M12 3l9 16H3zM12 9v5M12 17v.5', trash: 'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13',
     folder: 'M3 6h6l2 2h10v11H3z', people: 'M8 11a3 3 0 100-6 3 3 0 000 6zM2 20c0-3 3-5 6-5s6 2 6 5M17 11a3 3 0 100-6M16 15c3 0 6 2 6 5', gear: 'M12 15a3 3 0 100-6 3 3 0 000 6zM19 12l2-1-1-3-2 .5-1.5-1.5.5-2-3-1-1 2h-2l-1-2-3 1 .5 2L6 7.5 4 7 3 10l2 1v2l-2 1 1 3 2-.5 1.5 1.5-.5 2 3 1 1-2h2l1 2 3-1-.5-2 1.5-1.5 2 .5 1-3-2-1z',
+    back: 'M15 5l-7 7 7 7', pen: 'M4 20h4L19 9l-4-4L4 16z', close: 'M6 6l12 12M18 6L6 18', min: 'M6 18h12',
     refresh: 'M20 11a8 8 0 10-2 6M20 4v7h-7', clip: 'M16 7l-7 7a2 2 0 003 3l8-8a4 4 0 00-6-6l-8 8a6 6 0 008 8l6-6', print: 'M6 9V3h12v6M6 17H4v-6h16v6h-2M7 14h10v7H7z'
   };
   var ico = function (n) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + ICON[n] + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'; };
@@ -100,13 +101,13 @@
     };
     root.innerHTML = '<div class="wmx">' +
       '<div class="wmx-bar">' + LOGO + '<label class="wmx-search">' + '<span class="sr-only">Sök i mejl</span><input id="wq" placeholder="Sök i mejl  ( / )" value="' + esc(st.filter) + '"></label>' +
-      '<button type="button" class="wmx-icon" id="wrefresh" title="Uppdatera" aria-label="Uppdatera">' + ico('refresh') + '</button><span class="wmx-me">' + (st.settings.name ? esc(st.settings.name) + '<small>' + esc(st.email) + '</small>' : esc(st.email)) + '</span><button type="button" class="wmx-link" id="wout">Logga ut</button></div>' +
+      '<button type="button" class="wmx-icon" id="wrefresh" title="Uppdatera" aria-label="Uppdatera">' + ico('refresh') + '</button><span class="wmx-avatar" title="' + esc(st.email) + '">' + esc((st.settings.name || st.email).charAt(0).toUpperCase()) + '</span><button type="button" class="wmx-link" id="wout">Logga ut</button></div>' +
       (DEMO ? '<p class="wmx-demo">Demoläge · testbrevlåda · inga riktiga mejl skickas</p>' : '') +
-      '<div class="wmx-body"><nav class="wmx-side" aria-label="Mappar"><button type="button" class="wmx-compose" id="wnew">Skriv nytt</button>' + main.map(item).join('') +
+      '<div class="wmx-body"><nav class="wmx-side" aria-label="Mappar"><button type="button" class="wmx-compose" id="wnew">' + ico('pen') + 'Skriv</button>' + main.map(item).join('') +
       (other.length ? '<p class="wmx-sep">Mappar</p>' + other.map(item).join('') : '') +
       '<p class="wmx-sep"></p><button type="button" class="wmx-folder' + (st.view === 'contacts' ? ' is-on' : '') + '" data-v="contacts">' + ico('people') + '<span>Kontakter</span></button>' +
       '<button type="button" class="wmx-folder' + (st.view === 'settings' ? ' is-on' : '') + '" data-v="settings">' + ico('gear') + '<span>Inställningar</span></button></nav>' +
-      '<section class="wmx-list" aria-label="Mejl"><div id="wtools"></div><div id="wlist"></div></section><section class="wmx-read" id="wread" aria-live="polite"><p class="wmx-empty">Välj ett mejl</p></section></div></div>';
+      '<section class="wmx-main"><div class="wmx-list" aria-label="Mejl"><div id="wtools"></div><div id="wlist"></div></div><section class="wmx-read" id="wread" aria-live="polite"></section></section></div></div>';
     root.querySelector('#wout').addEventListener('click', function () { api('logout', {}).catch(function () {}).then(function () { login('Du är utloggad.'); }); });
     root.querySelector('#wnew').addEventListener('click', function () { compose(); });
     root.querySelector('#wrefresh').addEventListener('click', function () { refresh(true); });
@@ -117,6 +118,7 @@
     });
     root.querySelector('#wq').addEventListener('input', function (e) { st.filter = e.target.value.toLowerCase(); if (st.view === 'mail') list(); });
     root.querySelector('#wlist').addEventListener('click', onListClick);
+    if (st.view !== 'mail') root.querySelector('.wmx').classList.add('is-page');
     if (st.view === 'contacts') return contacts();
     if (st.view === 'settings') return settings();
     load();
@@ -148,7 +150,7 @@
       var other = roleOf(st.folder) === 'sent' || roleOf(st.folder) === 'drafts' ? 'Till: ' + name(m.to) : name(m.from);
       return '<div class="wmx-item' + (m.seen ? '' : ' is-new') + (st.open === m.uid ? ' is-on' : '') + (st.sel[m.uid] ? ' is-sel' : '') + '" data-uid="' + m.uid + '" tabindex="0">' +
         '<input type="checkbox" class="wmx-pick" data-pick="' + m.uid + '"' + (st.sel[m.uid] ? ' checked' : '') + ' aria-label="Välj"><button type="button" class="wmx-star' + (m.flagged ? ' is-on' : '') + '" data-star="' + m.uid + '" aria-label="Stjärnmärk">' + ico('star') + '</button>' +
-        '<b>' + esc(other) + '</b><time>' + when(m.date) + '</time><span>' + (m.files ? ico('clip') : '') + esc(m.subject) + '</span></div>';
+        '<b>' + esc(other) + '</b><span>' + esc(m.subject) + '</span>' + (m.files ? ico('clip') : '<i></i>') + '<time>' + when(m.date) + '</time></div>';
     }).join('') + (st.items.length < st.total && !st.filter ? '<button type="button" class="wmx-more" id="wmore">Visa äldre</button>' : '')
       : '<p class="wmx-empty">' + (st.filter ? 'Inga träffar för "' + esc(st.filter) + '".' : st.starred ? 'Inga stjärnmärkta mejl.' : 'Inga mejl här.') + '</p>';
     var all = root.querySelector('#wall'); if (all) all.addEventListener('change', function () { st.sel = {}; if (all.checked) items.forEach(function (m) { st.sel[m.uid] = 1; }); list(); });
@@ -174,20 +176,21 @@
     var target = to === 'INBOX' ? 'INBOX' : to;
     (op === 'delete' ? api('delete', { folder: st.folder, uids: uids, uid: uids[0] }) : api('move', { folder: st.folder, uids: uids, to: target })).then(function () {
       st.items = st.items.filter(function (m) { return uids.indexOf(m.uid) < 0; }); st.total -= uids.length; st.sel = {};
-      if (uids.indexOf(st.open) >= 0) { st.open = null; root.querySelector('#wread').innerHTML = '<p class="wmx-empty">Välj ett mejl</p>'; }
+      if (uids.indexOf(st.open) >= 0) back();
       list(); refresh(); toast(op === 'delete' ? 'Raderat' : to === 'trash' ? 'Flyttat till papperskorgen' : to === 'archive' ? 'Arkiverat' : to === 'junk' ? 'Flyttat till skräppost' : 'Flyttat');
     }).catch(fail);
   }
 
   // ---------- reading ----------
+  function back() { st.open = null; var w = root.querySelector('.wmx'); if (w) w.classList.remove('is-reading'); list(); }
   function read(uid) {
-    st.open = uid; list();
+    st.open = uid; list(); root.querySelector('.wmx').classList.add('is-reading');
     var pane = root.querySelector('#wread'); pane.innerHTML = '<p class="wmx-empty">Öppnar …</p>';
     api('read?folder=' + encodeURIComponent(st.folder) + '&uid=' + uid).then(function (m) {
       var was = st.items.filter(function (x) { return x.uid === uid; })[0]; if (was && !was.seen) { was.seen = true; refresh(); } list();
       learn([m.from, m.to, m.cc].join(','));
       var role = roleOf(st.folder), many = [m.to, m.cc].join(',').split(',').filter(function (a) { return a.trim() && addr(a) !== st.email && addr(a) !== addr(m.from); }).length > 0;
-      pane.innerHTML = '<div class="wmx-acts"><button type="button" class="btn btn--primary" id="rrep"><span>Svara</span></button>' + (many ? '<button type="button" class="btn btn--light" id="rall"><span>Svara alla</span></button>' : '') +
+      pane.innerHTML = '<div class="wmx-acts"><button type="button" class="wmx-icon" id="rback" title="Tillbaka" aria-label="Tillbaka till listan">' + ico('back') + '</button><button type="button" class="btn btn--primary" id="rrep"><span>Svara</span></button>' + (many ? '<button type="button" class="btn btn--light" id="rall"><span>Svara alla</span></button>' : '') +
         '<button type="button" class="btn btn--light" id="rfwd"><span>Vidarebefordra</span></button><span class="wmx-grow"></span>' +
         '<button type="button" class="wmx-icon wmx-star' + (m.flagged ? ' is-on' : '') + '" id="rstar" title="Stjärnmärk" aria-label="Stjärnmärk">' + ico('star') + '</button>' +
         (role !== 'archive' && st.roles.archive ? '<button type="button" class="wmx-icon" id="rarch" title="Arkivera" aria-label="Arkivera">' + ico('archive') + '</button>' : '') +
@@ -200,6 +203,7 @@
         (m.files && m.files.length ? '<div class="wmx-files">' + m.files.map(function (f, i) { return DEMO ? '<span>' + ico('clip') + esc(f.name) + ' <small>' + kb(f.size) + '</small></span>' : '<a href="/api/mail/attachment?folder=' + encodeURIComponent(st.folder) + '&uid=' + uid + '&i=' + i + '" download="' + esc(f.name) + '">' + ico('clip') + esc(f.name) + ' <small>' + kb(f.size) + '</small></a>'; }).join('') + '</div>' : '') +
         '<div class="wmx-text">' + esc(m.text).replace(/(https?:\/\/[^\s<)]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer nofollow">$1</a>') + '</div>';
       var q = function (id, fn) { var b = pane.querySelector(id); if (b) b.addEventListener('click', fn); };
+      q('#rback', back);
       q('#rrep', function () { compose({ to: m.replyTo || m.from, subject: re(m.subject), text: quote(m), inReplyTo: m.messageId }); });
       q('#rall', function () { compose({ to: m.replyTo || m.from, cc: [m.to, m.cc].join(',').split(',').filter(function (a) { return a.trim() && addr(a) !== st.email; }).join(', '), subject: re(m.subject), text: quote(m), inReplyTo: m.messageId }); });
       q('#rfwd', function () { compose({ subject: 'Fwd: ' + m.subject.replace(/^fwd:\s*/i, ''), text: '\n\n---------- Vidarebefordrat meddelande ----------\nFrån: ' + m.from + '\nDatum: ' + m.date + '\nÄmne: ' + m.subject + '\nTill: ' + m.to + '\n\n' + m.text }); });
@@ -208,7 +212,7 @@
       q('#rjunk', function () { act('move', [uid], 'junk'); });
       q('#rprint', function () { var w = window.open('', '_blank'); if (!w) return; w.document.write('<pre style="font:14px/1.6 sans-serif;white-space:pre-wrap">' + esc('Från: ' + m.from + '\nTill: ' + m.to + '\nDatum: ' + m.date + '\nÄmne: ' + m.subject + '\n\n' + m.text) + '</pre>'); w.document.close(); w.print(); });
       q('#rdel', function () { bulk('delete', [uid]); });
-      q('#runread', function () { bulk('unread', [uid]); st.open = null; pane.innerHTML = '<p class="wmx-empty">Markerat som oläst</p>'; });
+      q('#runread', function () { bulk('unread', [uid]); back(); });
       var mv = pane.querySelector('#rmove'); mv.addEventListener('change', function () { if (mv.value) act('move', [uid], mv.value); });
     }).catch(fail);
   }
@@ -218,10 +222,10 @@
 
   // ---------- writing (in the reading pane, not a popup) ----------
   function compose(pre) {
-    pre = pre || {}; st.open = null; if (st.view !== 'mail') { st.view = 'mail'; shell(); }
-    list();
-    var pane = root.querySelector('#wread'), files = [];
-    pane.innerHTML = '<form id="wc" class="wmx-compose-form" novalidate><h2 class="wmx-subject">' + (pre.inReplyTo ? 'Svara' : pre.draftUid ? 'Utkast' : 'Nytt mejl') + '</h2>' +
+    pre = pre || {};
+    var old = root.querySelector('.wmx-box'); if (old) old.remove();
+    var pane = document.createElement('div'), files = []; pane.className = 'wmx-box'; root.querySelector('.wmx').appendChild(pane);
+    pane.innerHTML = '<form id="wc" class="wmx-compose-form" novalidate><div class="wmx-box__head"><b>' + (pre.inReplyTo ? 'Svar' : pre.draftUid ? 'Utkast' : 'Nytt meddelande') + '</b><button type="button" class="wmx-icon" id="wmin" aria-label="Minimera">' + ico('min') + '</button><button type="button" class="wmx-icon" id="wx" aria-label="Stäng">' + ico('close') + '</button></div>' +
       '<label>Från<input value="' + esc((st.settings.name ? st.settings.name + ' <' + st.email + '>' : st.email)) + '" disabled></label>' +
       '<label>Till<input name="to" list="wcontacts" value="' + esc(pre.to || '') + '" placeholder="namn@foretag.se" autocomplete="off"></label>' +
       '<label>Kopia<input name="cc" list="wcontacts" value="' + esc(pre.cc || '') + '" autocomplete="off"></label>' +
@@ -247,7 +251,10 @@
     pane.querySelector('#wdraft').addEventListener('click', function () {
       api('draft', { to: f.to.value, subject: f.subject.value, text: f.text.value, replaces: pre.draftUid || 0 }).then(function () { toast('Utkastet är sparat'); refresh(); if (roleOf(st.folder) === 'drafts') load(); }).catch(fail);
     });
-    pane.querySelector('#wcancel').addEventListener('click', function () { if ((f.text.value !== start0 || files.length) && !confirm('Slänga det du har skrivit?')) return; pane.innerHTML = '<p class="wmx-empty">Välj ett mejl</p>'; });
+    var close = function () { if ((f.text.value !== start0 || files.length) && !confirm('Slänga det du har skrivit?')) return; pane.remove(); };
+    pane.querySelector('#wcancel').addEventListener('click', close); pane.querySelector('#wx').addEventListener('click', close);
+    pane.querySelector('#wmin').addEventListener('click', function () { pane.classList.toggle('is-min'); });
+    pane.querySelector('.wmx-box__head b').addEventListener('click', function () { pane.classList.remove('is-min'); });
     f.addEventListener('submit', function (e) {
       e.preventDefault(); err.hidden = true;
       if (!/\S+@\S+\.\S+/.test(f.to.value)) { err.hidden = false; err.textContent = 'Skriv minst en mottagare.'; f.to.focus(); return; }
@@ -257,7 +264,7 @@
         .then(function () {
           learn([f.to.value, f.cc.value, f.bcc.value].join(','));
           if (pre.draftUid && st.roles.drafts) api('move', { folder: st.roles.drafts, uids: [pre.draftUid], to: 'trash' }).catch(function () {});
-          pane.innerHTML = '<p class="wmx-sent">Skickat till ' + esc(f.to.value) + '.</p>'; refresh(); if (roleOf(st.folder) === 'sent') load();
+          pane.remove(); toast('Meddelandet har skickats'); refresh(); if (roleOf(st.folder) === 'sent') load();
         })
         .catch(function (x) { err.hidden = false; err.textContent = x.message; btn.disabled = false; btn.querySelector('span').textContent = 'Skicka'; });
     });

@@ -24,7 +24,7 @@
   // the bar at the bottom: what is in the cart and the way to the checkout
   function bar() {
     var b = document.getElementById('shop-bar');
-    if (!cart.length || /kassa(\.html)?$/.test(location.pathname)) { if (b) b.remove(); return; }
+    if (!cart.length || /(kassa|domaner)(\.html)?$/.test(location.pathname)) { if (b) b.remove(); return; }
     if (!b) { b = document.createElement('div'); b.id = 'shop-bar'; b.className = 'shop-bar'; document.body.appendChild(b); }
     var s = sums();
     b.innerHTML = '<p><b>' + cart.length + (cart.length === 1 ? ' produkt' : ' produkter') + '</b> · ' + (s.once ? kr(s.once) + ' nu' : '') + (s.month ? (s.once ? ', ' : '') + kr(s.month) + '/mån' : '') + ' <span>exkl. moms</span></p><a class="btn btn--primary" href="kassa.html"><span>Till kassan</span></a>';
@@ -85,7 +85,7 @@
         : r.status === 'taken' && t ? '<button type="button" class="btn btn--light shop-add" data-d="' + esc(r.domain) + '" data-transfer="1"><span>Är den er? Flytta hit</span></button>' : '';
       var warn = t && t.renew > t.register * 2 ? '<small class="shop-warn">Förnyas för ' + kr(t.renew) + '/år</small>' : t ? '<small>Förnyas ' + kr(t.renew) + '/år</small>' : '';
       var dot = r.domain.indexOf('.');
-      return '<div class="shop-row"><b>' + esc(r.domain.slice(0, dot)) + ' <span class="tld">' + esc(r.domain.slice(dot)) + '</span></b><span class="shop-st shop-st--' + st[1] + '"' + (r.status === 'likely_free' ? ' title="Kontrollerad via DNS. Bekräftas innan registrering."' : '') + '>' + st[0] + '</span>' +
+      return '<div class="shop-row"><b>' + esc(r.domain.slice(0, dot)) + ' <span class="tld">' + esc(r.domain.slice(dot)) + '</span></b><span class="shop-st shop-st--' + st[1] + '"' + (r.status === 'likely_free' ? ' title="Kontrollerad via DNS. Bekräftas innan registrering."' : '') + '>' + (st[1] === 'ok' ? (r.status === 'likely_free' ? '*' : '') : st[0]) + '</span>' +
         '<span class="shop-price1">' + (t && st[1] === 'ok' ? kr(t.register) + ' första året' : '') + '</span>' + btn + '</div>';
     }
     function render() {
@@ -95,12 +95,14 @@
       if (sort === 'popular') list.sort(function (a, b) { return ((T(b.tld) || {}).popular || 0) - ((T(a.tld) || {}).popular || 0); });
       if (sort === 'relevance') list.sort(function (a, b) { var o = function (r) { return (r.tld === last.asked ? -10 : 0) + (STATUS[r.status][1] === 'ok' ? 0 : 5) - ((T(r.tld) || {}).popular || 0) / 10; }; return o(a) - o(b); });
       var tlds = last.results.map(function (r) { return r.tld; });
-      out.innerHTML = '<div class="shop-tools"><div class="chips">' + ['', ].concat(tlds).map(function (t) { return '<button type="button" class="chip' + (only === t ? ' is-on' : '') + '" data-tld="' + t + '">' + (t ? '.' + t : 'Alla') + '</button>'; }).join('') + '</div>' +
-        '<label class="shop-sort">Sortera <select id="dom-sort"><option value="relevance">Relevans</option><option value="price">Pris</option><option value="popular">Popularitet</option></select></label></div>' +
-        '<div class="shop-list">' + list.map(row).join('') + '</div>' +
-        (last.ideas.length ? '<h2 class="sitetest__h2">Andra lediga namn</h2><p class="shop-lead">Förslag utifrån namnet. Alla är kontrollerade innan de visas.</p><div class="shop-list">' + last.ideas.map(row).join('') + '</div>' : '') +
-        '<p class="shop-note">Priser exkl. moms' + (cat && cat.demo ? '. <b>Priserna är exempel (demopriser)</b> tills Elevate Studio har satt de riktiga.' : '.') + ' Kontrollerat ' + new Date(last.checked).toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' }) + '.</p>';
-      out.querySelector('#dom-sort').value = sort;
+      var sm = sums(), n = cart.length;
+      out.innerHTML = '<div class="dom-layout"><div><div class="shop-list dom-list">' + list.map(row).join('') + '</div>' +
+        (last.ideas.length && !only ? '<h2 class="dom-h">Andra lediga namn</h2><div class="shop-list dom-list">' + last.ideas.map(row).join('') + '</div>' : '') +
+        '<p class="shop-note">Priser exkl. moms' + (cat && cat.demo ? ', demopriser' : '') + '. * Kontrollerad via DNS, bekräftas innan registrering.</p></div>' +
+        '<aside class="dom-side"><h3>Varukorg</h3>' + (n ? '<p class="dom-side__sum"><b>' + n + (n === 1 ? ' produkt' : ' produkter') + '</b><span>' + kr(sm.once) + '</span></p><a class="btn btn--primary" href="kassa.html"><span>Till kassan</span></a>'
+          : '<p class="dom-side__empty">Lägg till en domän så hamnar den här.</p>') +
+        '<h3>Vi sköter allt</h3><ul><li>Domänen registreras på ert företag</li><li>Vi kopplar den till hemsida och mejl</li><li>Påminnelse innan den ska förnyas</li></ul>' +
+        '<a class="dom-side__mail" href="foretagsmejl.html">Lägg till mejl med er domän &rarr;</a></aside></div>';
     }
     out.addEventListener('click', function (e) {
       var c = e.target.closest('.chip'); if (c) { only = c.dataset.tld; render(); return; }

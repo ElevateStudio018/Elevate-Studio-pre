@@ -1646,11 +1646,6 @@ def build_platform():
     </section>
     <section class="section container shop">
       <div id="dom-results" aria-live="polite"></div>
-      <div class="shop-info">
-        <div><h2 class="shop-h">Ni äger domänen</h2><p>Domänen registreras med ert företag som innehavare. Vi sköter tekniken och påminner i god tid innan den ska förnyas.</p></div>
-        <div><h2 class="shop-h">Hur vi vet att den är ledig</h2><p>För .com, .net, .org, .info, .dev och .app frågar vi registret direkt. För .se, .nu, .eu och .io finns ingen öppen fråga, så vi kontrollerar via DNS och bekräftar innan registreringen.</p></div>
-        <div><h2 class="shop-h">Flytta en domän hit</h2><p>Har ni redan en domän? Lägg den i varukorgen som flytt, så hjälper vi er med överföringskoden.</p></div>
-      </div>
     </section>
   </main>'''
     yield write("domaner.html", document(p, "Domäner – sök och registrera ert domännamn", domain, "subpage shop-page", [("Domäner", "")], None, extra_js=js,
