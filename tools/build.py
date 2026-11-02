@@ -1638,6 +1638,7 @@ def build_platform():
             <input type="text" name="q" autocomplete="off" placeholder="dittforetag" required></label>
           <button type="submit" class="btn btn--primary"><span>Sök</span></button>
         </form>
+        <div class="dom-chips" id="dom-chips">{"".join(f'<button type="button" data-tld="{t}">.{t}</button>' for t in ("se", "nu", "com", "net", "org", "eu", "io"))}</div>
         <p class="shop-hint" id="dom-hint"></p>
       </div>
     </section>

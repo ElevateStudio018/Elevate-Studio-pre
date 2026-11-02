@@ -108,6 +108,13 @@
       add({ type: 'domain', domain: b.dataset.d, years: 1, transfer: !!b.dataset.transfer }); render();
     });
     out.addEventListener('change', function (e) { if (e.target.id === 'dom-sort') { sort = e.target.value; render(); } });
+    // the toppdomän buttons under the search: filter the result, or search with that ending if nothing is searched yet
+    var hc = document.getElementById('dom-chips');
+    if (hc) hc.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-tld]'); if (!b) return;
+      var on = !b.classList.contains('is-on'); hc.querySelectorAll('button').forEach(function (x) { x.classList.remove('is-on'); }); if (on) b.classList.add('is-on');
+      only = on ? b.dataset.tld : ''; if (last) render(); else if (form.q.value.trim().length >= 2) form.requestSubmit();
+    });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var q = form.q.value.trim(); if (q.length < 2) { hint.textContent = 'Skriv minst två tecken.'; return; }

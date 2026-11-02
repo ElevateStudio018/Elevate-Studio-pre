@@ -1145,3 +1145,20 @@ select.portal-company { font-size: 20px; }
 .wmx-read .wmx-acts .btn { height: 40px; padding: 0 16px; font-size: 15px; }
 .wmx-read .wmx-acts .wmx-icon { flex: none; }
 @media (max-width: 760px) { .wmx-read .wmx-acts { flex-wrap: wrap; } }
+/* Elevate Mejl without beige: only the site's greens and white */
+.wmx-logo span { color: #8fdcb4; }
+.wmx-compose { background: #1d3b2a !important; color: #fff !important; }
+.wmx-compose:hover { background: #24482f !important; }
+.wmx-demo, .wmx-badge { background: #e3ece4 !important; color: #1d3b2a !important; }
+.wmx-bar { background-image: radial-gradient(ellipse 30% 140% at 100% 100%, rgba(60, 170, 120, .35), transparent 70%) !important; }
+.wmx-login .btn { background: #fff !important; color: #1d3b2a !important; }
+.wmx-item.is-sel, .wmx-item.is-on { background: #eef4ef !important; }
+.wmx-side { background: #f7f9f6 !important; }
+.wmx-files a, .wmx-files span, .wmx-attach span, .wmx-info dl { background: #f7f9f6 !important; }
+.wmx-star.is-on { color: #2f7d4f !important; } .wmx-star.is-on svg path { fill: #8fdcb4 !important; }
+.wmx-login { background-image: radial-gradient(ellipse 45% 60% at 100% 105%, rgba(60, 170, 120, .55), transparent 70%), radial-gradient(ellipse 60% 50% at 40% 120%, rgba(40, 150, 125, .5), transparent 70%) !important; }
+.dom-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 18px 0 0; }
+.dom-chips button { padding: 7px 14px; border: 1px solid rgba(255, 255, 255, .18); border-radius: 999px; background: rgba(255, 255, 255, .1); color: #fdfbf5; font: inherit; font-size: 14px; cursor: pointer; }
+.dom-chips button.is-on, .dom-chips button:hover { background: #fdfbf5; color: #16301f; }
+.wmx .btn--light, .wmx-file { background: #eef4ef !important; color: #1d3b2a !important; }
+.wmx .btn--light:hover { background: #e3ece4 !important; }
