@@ -1,5 +1,6 @@
 // The website is static files (served by Cloudflare). This small script adds the admin's server parts.
 import { siteLink } from './sitelink.js';
+import { siteContent, siteLead, siteTheme, agent } from './kundadmin.js';
 import { handleInvite, handleMail } from './invite.js';
 import { googleReady, googleConnect, googleCallback } from './google.js';
 import { subscribe, brevoReady } from './newsletter.js';
@@ -21,6 +22,13 @@ import leadImport from './import.json';
 import { withHeaders } from './headers.js';
 
 const HOME = 'elevatestudio.nu';
+// Plain-text mail through Gmail (used for alerts); does nothing until Gmail is set up
+async function mailer(env) {
+  if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) return async () => {};
+  const { WorkerMailer } = await import('worker-mailer');
+  return (to, subject, text) => WorkerMailer.send({ host: env.SMTP_HOST || 'smtp.gmail.com', port: Number(env.SMTP_PORT || 465), secure: true,
+    credentials: { username: env.GMAIL_USER, password: env.GMAIL_APP_PASSWORD }, authType: ['plain', 'login'] }, { from: { name: 'Elevate Studio', email: env.GMAIL_USER }, to, subject, text });
+}
 
 export default {
   async fetch(req, env) {
@@ -49,6 +57,10 @@ export default {
     if (pathname === '/api/domain/watch') return watchDomain(req, env);
     if (pathname === '/api/mail/diag') return mailDiag(req, env);
     if (pathname === '/api/order') return createOrder(req, env);
+    if (pathname === '/api/site/content') return siteContent(req, env);
+    if (pathname === '/api/site/lead') return siteLead(req, env, await mailer(env));
+    if (pathname === '/api/site/theme') return siteTheme(req, env);
+    if (pathname === '/api/kundadmin/agent') return agent(req, env);
     if (/^\/api\/site\/(connect|disconnect|data)$/.test(pathname)) return siteLink(req, env);
     if (pathname.startsWith('/api/mail/') && pathname !== '/api/mail/diag') return webmail(req, env);
     if (pathname === '/api/accounts/create') return accountsCreate(req, env);
@@ -81,9 +93,7 @@ export default {
   },
   // Daily: tell visitors when a watched domain has become free (wrangler.jsonc triggers.crons)
   async scheduled(event, env, ctx) {
-    const { WorkerMailer } = await import('worker-mailer');
-    const send = !env.GMAIL_USER || !env.GMAIL_APP_PASSWORD ? async () => {} : (to, subject, text) => WorkerMailer.send({ host: env.SMTP_HOST || 'smtp.gmail.com', port: Number(env.SMTP_PORT || 465), secure: true,
-      credentials: { username: env.GMAIL_USER, password: env.GMAIL_APP_PASSWORD }, authType: ['plain', 'login'] }, { from: { name: 'Elevate Studio', email: env.GMAIL_USER }, to, subject, text });
+    const send = await mailer(env);
     if (event.cron === '*/15 * * * *') { ctx.waitUntil(checkUptime(env, send)); return; }
     ctx.waitUntil(checkWatches(env, checkOne, send));
     if (new Date().getUTCDate() === 1) ctx.waitUntil(monthlyReports(env, send));
