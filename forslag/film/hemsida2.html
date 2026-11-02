@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Elevate – film: så går det till</title>
+<style>
+@font-face{font-family:H;src:url(../../assets/fonts/HankenGrotesk-latin.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:F;src:url(../../assets/fonts/Fraunces-latin.woff2) format('woff2');font-style:italic;font-weight:100 900}
+*{box-sizing:border-box;margin:0}
+html,body{width:1280px;height:720px;overflow:hidden;background:#0a140e;font-family:H,system-ui,sans-serif;color:#fff}
+#stage{position:relative;width:1280px;height:720px;overflow:hidden}
+.bg{position:absolute;inset:-20%;background:radial-gradient(40% 50% at var(--gx,30%) var(--gy,70%),rgba(143,211,166,.45),transparent 70%),radial-gradient(35% 45% at var(--hx,80%) var(--hy,20%),rgba(47,125,79,.65),transparent 70%),#0f2418;filter:blur(30px)}
+.grain{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:4px 4px}
+.light{position:absolute;inset:0;background:linear-gradient(160deg,#f6fbf4,#e3f1e1);opacity:0}
+.layer{position:absolute;inset:0;opacity:0}.c{display:grid;place-items:center}
+.word{font-weight:700;letter-spacing:-.03em;line-height:1.02}
+.hl{display:inline-block;padding:0 .16em;border-radius:.14em;background:#8fd3a6;color:#0f2418}
+.serif{font-family:F,serif;font-style:italic;font-weight:400;letter-spacing:0}
+.cap{position:absolute;left:0;right:0;text-align:center;font-size:44px}
+.chip{display:inline-block;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.09);border:1px solid rgba(143,211,166,.5);font-size:20px;font-weight:600;margin:0 5px}
+/* steps bar */
+#steps{position:absolute;left:50%;top:22px;transform:translateX(-50%);display:flex;gap:8px;z-index:40;opacity:0}
+#steps span{display:flex;align-items:center;gap:8px;padding:7px 14px 7px 8px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);font-size:14px;font-weight:600;color:#cfe0d5;transition:none}
+#steps i{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.15);font-style:normal;font-size:13px}
+#steps span.on{background:#8fd3a6;color:#0f2418;border-color:#8fd3a6}#steps span.on i{background:#0f2418;color:#8fd3a6}
+#steps span.done i{background:#2f7d4f;color:#fff}
+/* windows */
+.win{position:absolute;border-radius:14px;overflow:hidden;box-shadow:0 50px 100px -30px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.08)}
+.bar{height:36px;display:flex;align-items:center;gap:8px;padding:0 14px;background:#2a2d2b;font-size:13px;color:#a7aea9}
+.bar i{width:12px;height:12px;border-radius:50%}.bar .t{flex:1;text-align:center;margin-right:60px}
+.url{flex:1;margin:0 60px 0 20px;padding:5px 14px;border-radius:8px;background:#1d201e;color:#cfd6d1;text-align:center}
+.term{background:#121614;font:17px/1.65 ui-monospace,Menlo,Consolas,monospace;color:#d6e2da;padding:18px 22px;height:calc(100% - 36px);overflow:hidden}
+.term .p{color:#8fd3a6}.term .d{color:#6f7a73}.term .ok{color:#8fd3a6}.term .k{color:#e8c97a}.term .s{color:#9cc9f0}
+.prog{height:10px;border-radius:9px;background:#26302a;margin:8px 0 4px;overflow:hidden}.prog i{display:block;height:100%;background:linear-gradient(90deg,#2f7d4f,#8fd3a6)}
+.brow{background:#fff;height:calc(100% - 36px);position:relative;overflow:hidden;color:#141b22}
+/* the customer's site (reference: Nordbygg layout) */
+.snav{display:flex;align-items:center;gap:20px;padding:14px 26px;font-size:13px;font-weight:600;border-bottom:1px solid #eee;background:#fff;position:relative;z-index:2}
+.snav b{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;letter-spacing:.02em}.snav b i{width:18px;height:18px;background:#141b22;clip-path:polygon(0 0,35% 0,100% 70%,100% 0,100% 100%,65% 100%,0 30%,0 100%)}
+.snav .sp{flex:1}.snav .cta{padding:8px 16px;border-radius:999px;background:#f07c1e;color:#fff}
+.shero{position:absolute;left:0;right:0;top:50px;height:330px;background:linear-gradient(90deg,rgba(15,20,26,.85),rgba(15,20,26,.2)),url(img/hero.jpg) center/cover;padding:46px 34px;color:#fff}
+.shero small{font-size:11px;letter-spacing:.25em;font-weight:700}.shero h2{font-size:42px;line-height:1.02;margin-top:12px;font-weight:800;letter-spacing:-.02em}.shero h2 em{font-style:normal;color:#f07c1e}
+.shero p{margin-top:12px;max-width:330px;font-size:14px;opacity:.9}.shero .bt{display:inline-block;margin-top:16px;padding:10px 18px;border-radius:999px;background:#f07c1e;font-weight:700;font-size:14px}
+.scards{position:absolute;left:24px;right:24px;top:396px;display:flex;gap:12px}.scards div{flex:1;border-radius:12px;overflow:hidden;background:#f5f6f7;font-size:13px;font-weight:700}
+.scards img{display:block;width:100%;height:70px;object-fit:cover}.scards div span{display:block;padding:8px 10px}
+/* panels */
+.card{position:absolute;background:#fff;color:#16241b;border-radius:20px;box-shadow:0 40px 80px -30px rgba(0,0,0,.6)}
+.pill{display:flex;align-items:center;width:700px;height:78px;padding:0 10px 0 30px;border-radius:999px;background:#fff;color:#16241b;font-size:25px;box-shadow:0 0 0 6px rgba(255,255,255,.12)}
+.pill .tx{flex:1}.pill .go{padding:0 32px;height:60px;display:grid;place-items:center;border-radius:999px;background:#1d3b2a;color:#fff;font-weight:700;font-size:21px}
+.row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #eef0ed;font-size:19px}.row:last-child{border:0}.row b{flex:1}
+.free{color:#2f7d4f;font-weight:700;font-size:13px;padding:4px 10px;border-radius:999px;background:#e3efe6}
+.add{padding:8px 16px;border-radius:999px;border:2px solid #1d3b2a;font-weight:700;font-size:14px}
+.slot{padding:12px 0;border-radius:12px;border:1.5px solid #dfe5de;text-align:center;font-weight:700;font-size:16px}
+.svc{display:flex;flex-wrap:wrap;gap:8px}.svc span{padding:10px 16px;border-radius:999px;border:1.5px solid #d9dde1;font-size:15px;font-weight:600}
+.svc span.on{background:#f07c1e;border-color:#f07c1e;color:#fff}
+.fld{padding:11px 14px;border-radius:10px;border:1.5px solid #d9dde1;font-size:16px;min-height:44px}
+.lbl{font-size:13px;color:#6b736d;margin:12px 0 6px;font-weight:600}
+.note{position:absolute;right:50px;width:420px;padding:13px 16px;border-radius:16px;background:rgba(255,255,255,.97);color:#16241b;display:flex;gap:12px;align-items:center;box-shadow:0 20px 40px -18px rgba(0,0,0,.55)}
+.note .ic{flex:none;width:40px;height:40px;border-radius:12px;background:#1d3b2a;display:grid;place-items:center;color:#8fd3a6;font-weight:800}
+.note b{display:block;font-size:16px}.note small{font-size:12px;color:#2f7d4f;font-weight:700}.note span{font-size:13px;color:#6b736d}
+/* admin */
+.adm{display:flex;height:100%}.adm .side{width:190px;background:#1d3b2a;color:#c9d8cd;padding:18px 12px;font-size:14px}.adm .side b{display:block;color:#fff;font-size:17px;margin:0 8px 16px}
+.adm .side span{display:block;padding:9px 10px;border-radius:9px}.adm .side span.on{background:#fff;color:#1d3b2a;font-weight:700}
+.adm .main{flex:1;padding:18px 22px;background:#f6f8f5;position:relative}
+.adm .top{display:flex;align-items:center;gap:10px;margin-bottom:14px}.adm .top b{flex:1;font-size:18px;color:#16241b}.adm .pub{padding:9px 18px;border-radius:999px;background:#1d3b2a;color:#fff;font-weight:700;font-size:14px}
+.edit{outline:2px dashed transparent;outline-offset:4px;border-radius:4px}
+.toast{position:absolute;right:22px;bottom:20px;padding:12px 18px;border-radius:12px;background:#1d3b2a;color:#fff;font-weight:700;opacity:0}
+.kpi{display:inline-block;padding:14px 18px;border-radius:14px;border:1px solid #e6eae5;min-width:150px;background:#fff}.kpi small{color:#6b736d;font-size:13px}.kpi b{display:block;font-size:28px}
+.tag{position:absolute;padding:12px 22px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(143,211,166,.5);font-size:22px;font-weight:600}
+.cursor{position:absolute;left:0;top:0;width:70px;height:70px;z-index:60;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}
+.ripple{position:absolute;z-index:59;width:80px;height:80px;margin:-40px 0 0 -40px;border-radius:50%;border:3px solid #8fd3a6;opacity:0}
+.spark{position:absolute;z-index:58;width:34px;height:34px;margin:-17px 0 0 -17px;opacity:0}
+</style></head><body>
+<div id="stage">
+  <div class="bg" id="bg"></div><div class="grain"></div><div class="light" id="light"></div>
+  <div id="steps"><span id="st1"><i>1</i>Gratis möte</span><span id="st2"><i>2</i>Vi bygger</span><span id="st3"><i>3</i>Förfrågningar</span><span id="st4"><i>4</i>Ni styr själva</span></div>
+
+  <!-- A intro: who we are -->
+  <div class="layer c" id="sA"><div style="text-align:center">
+    <svg viewBox="0 0 1884.3 1353.9" style="width:120px"><path id="lpA" d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="#fff" fill-opacity="0" stroke="#8fd3a6" stroke-width="30" stroke-dasharray="9000" stroke-dashoffset="9000"/></svg>
+    <p class="word" id="a1" style="font-size:84px;margin-top:18px">Elevate Studio</p>
+    <p id="a2" style="font-size:30px;margin-top:14px;opacity:.9">Webbyrån som gör det <span class="hl" id="a2h">enkelt</span> för företag.</p>
+    <div id="a3" style="margin-top:28px"><span class="chip">Hemsida</span><span class="chip">Domän</span><span class="chip">Företagsmejl</span><span class="chip">Kundportal</span></div></div></div>
+
+  <!-- B problem -> help -->
+  <div class="layer c" id="sB"><div style="text-align:center"><p class="word" id="b1" style="font-size:64px;opacity:.75">Ingen tid för hemsidan?</p><p class="word" id="b2" style="font-size:100px;margin-top:18px">Vi gör det <span class="hl" id="b2h">jobbiga.</span></p></div></div>
+
+  <!-- C step 1: free meeting -->
+  <div class="layer" id="sC"><p class="word cap" id="c0" style="top:92px">Det börjar med ett <span class="hl">gratis möte.</span></p>
+    <div class="card" id="cal" style="left:340px;top:200px;width:600px;padding:26px 28px"><b style="font-size:20px">Boka ett möte med Elevate Studio</b><p style="color:#6b736d;margin:4px 0 16px">30 min · video eller på plats</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px"><div class="slot">Mån 13:00</div><div class="slot" id="slot">Tis 10:00</div><div class="slot">Tis 14:30</div><div class="slot">Ons 09:00</div></div>
+      <div id="booked" style="margin-top:16px;padding:14px;border-radius:12px;background:#e3efe6;color:#1d3b2a;font-weight:700;opacity:0">✓ Bokat tisdag 10:00. Vi hörs då!</div></div></div>
+
+  <!-- D step 2: we do the hard work (terminal + site) -->
+  <div class="layer" id="sD"><p class="word cap" id="d0" style="top:76px;font-size:40px">Vi gör det jobbiga. Ni får en <span class="hl">färdig hemsida.</span></p>
+    <div class="win" id="tw" style="left:190px;top:150px;width:900px;height:470px"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="t">elevate — zsh</span></div><div class="term" id="term"></div></div>
+    <div class="win" id="bw" style="left:560px;top:140px;width:680px;height:530px;opacity:0"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="url">dittforetag.se</span></div>
+      <div class="brow">
+        <div class="snav" id="m1"><b><i></i>DITTFÖRETAG</b><span>Tjänster</span><span>Projekt</span><span>Om oss</span><span class="sp"></span><span class="cta">Kontakta oss</span></div>
+        <div class="shero" id="m2"><small id="m2s">VI BYGGER FÖR FRAMTIDEN</small><h2 id="m2h">Stora projekt<br>för en ljusare<br><em>morgondag</em></h2><p id="m2p">Vi bygger hållbart med fast pris och tydlig tidsplan.</p><span class="bt" id="m2b">Begär offert →</span></div>
+        <div class="scards" id="m3"><div><img src="img/p5505119.jpg"><span>Byggentreprenad</span></div><div><img src="img/p8961064.jpg"><span>Projektledning</span></div><div><img src="img/p773843.jpg"><span>Anläggning</span></div></div>
+      </div></div></div>
+
+  <!-- E domain + mail -->
+  <div class="layer" id="sE"><div id="dom" style="position:absolute;left:0;right:0;top:100px;display:flex;flex-direction:column;align-items:center">
+      <p class="word" style="font-size:58px;font-weight:500;margin-bottom:22px">Domän och mejl <span class="serif">ingår i paketet</span></p>
+      <div id="dpart" style="display:flex;flex-direction:column;align-items:center"><div class="pill"><span class="tx"><span id="dt"></span><span id="dph" style="color:#8a918c">dittforetag</span></span><span class="go" id="dgo">Sök</span></div>
+      <div class="card" id="dres" style="position:relative;width:700px;margin-top:14px;padding:4px 24px;opacity:0"><div class="row"><b>dittforetag<span style="color:#2f7d4f">.se</span></b><span class="free">Ledig</span><span>149 kr första året</span><span class="add" id="dadd">Lägg till</span></div><div class="row"><b>dittforetag.nu</b><span class="free">Ledig</span><span>149 kr</span><span class="add">Lägg till</span></div></div></div></div>
+    <div class="card" id="mail" style="left:330px;top:230px;width:620px;padding:0;overflow:hidden;opacity:0">
+      <div style="display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid #eef0ed"><b style="font-size:18px">Inkorg</b><span style="flex:1"></span><span style="padding:6px 14px;border-radius:999px;background:#e3efe6;color:#1d3b2a;font-weight:700">info@dittforetag.se</span></div>
+      <div class="row" style="padding:14px 22px"><b>Välkommen till er nya mejl</b><span style="color:#6b736d">Elevate Studio</span></div>
+      <div class="row" style="padding:14px 22px"><b>Fungerar i mobilen, datorn och webbläsaren</b><span style="color:#6b736d">nu</span></div></div></div>
+
+  <!-- F step 3: leads from the new site -->
+  <div class="layer" id="sF"><p class="word" id="f0" style="position:absolute;left:60px;top:84px;font-size:42px;width:620px">Kunderna hittar er och <span class="hl">hör av sig.</span></p>
+    <div class="card" id="form" style="left:60px;top:200px;width:520px;padding:22px 24px">
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:20px">Begär offert</b><span style="font-size:13px;color:#6b736d;font-weight:600">dittforetag.se</span></div>
+      <p class="lbl">Vad gäller det?</p><div class="svc"><span id="sv0">Badrum</span><span>Kök</span><span>Tak</span><span>Tillbyggnad</span><span>Annat</span></div>
+      <p class="lbl">Beskriv kort</p><div class="fld" id="fm"></div>
+      <p class="lbl">Namn och telefon</p><div class="fld" id="fn"></div>
+      <div id="send" style="margin-top:14px;padding:13px;border-radius:999px;background:#f07c1e;color:#fff;text-align:center;font-weight:700">Skicka förfrågan</div></div>
+    <div id="notes"></div>
+    <p id="f9" style="position:absolute;right:50px;bottom:40px;width:420px;font-size:18px;opacity:0"><span class="chip" style="margin:0">● Allt kommer från er nya hemsida till info@dittforetag.se</span></p></div>
+
+  <!-- G step 4: edit everything in the admin panel -->
+  <div class="layer" id="sG"><p class="word cap" id="g0" style="top:76px;font-size:42px">Ändra allt själv i <span class="hl">adminpanelen.</span></p>
+    <div class="win" id="aw" style="left:140px;top:140px;width:1000px;height:540px"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="url">dittforetag.se/admin</span></div>
+      <div class="brow"><div class="adm"><div class="side"><b>Dittföretag</b><span>Översikt</span><span class="on">Sidor</span><span>Förfrågningar <em id="an" style="font-style:normal;float:right;background:#8fd3a6;color:#0f2418;border-radius:9px;padding:0 7px">5</em></span><span>Bilder</span><span>Projekt</span><span>Inställningar</span></div>
+        <div class="main"><div class="top"><b>Startsidan</b><span style="color:#6b736d;font-size:13px">Klicka på en text för att ändra</span><span class="pub" id="pub">Publicera</span></div>
+          <div style="position:relative;height:360px;border-radius:14px;overflow:hidden;background:linear-gradient(90deg,rgba(15,20,26,.85),rgba(15,20,26,.25)),url(img/hero.jpg) center/cover;padding:40px 34px;color:#fff">
+            <small style="font-size:11px;letter-spacing:.25em;font-weight:700">VI BYGGER FÖR FRAMTIDEN</small>
+            <h2 class="edit" id="eh" style="font-size:40px;line-height:1.05;margin-top:12px;font-weight:800;max-width:360px"></h2>
+            <p style="margin-top:12px;max-width:330px;font-size:14px;opacity:.9">Vi bygger hållbart med fast pris och tydlig tidsplan.</p>
+            <div class="edit" id="eimg" style="position:absolute;right:30px;top:40px;width:230px;height:150px;border-radius:12px;background:url(img/p8961064.jpg) center/cover"></div>
+          </div><div class="toast" id="toast">✓ Publicerat på dittforetag.se</div></div></div></div></div></div>
+
+  <!-- H portal -->
+  <div class="layer" id="sH"><p class="word cap" id="h0" style="top:60px;font-size:44px">Och allt syns i <span class="hl">kundportalen.</span></p>
+    <div class="card" id="portal" style="left:150px;top:150px;width:980px;height:470px;display:flex;overflow:hidden">
+      <div style="width:200px;background:#1d3b2a;color:#c9d8cd;padding:22px 16px;font-size:15px;line-height:2.3"><b style="color:#fff;font-size:20px">Elevate</b><br><span style="background:#fff;color:#1d3b2a;border-radius:8px;padding:4px 10px;font-weight:700">Översikt</span><br>Hemsidans admin<br>Besökare<br>Ändringar<br>Mejl &amp; domän<br>Fakturor</div>
+      <div style="flex:1;padding:22px"><div style="background:#1d3b2a;color:#fff;border-radius:18px;padding:20px 22px;display:flex;align-items:end;gap:20px"><div><small style="color:#a9c4b1">November · dittforetag.se</small><p style="font-size:36px;font-weight:700" id="cnt">0 besökare</p></div><svg viewBox="0 0 400 80" style="flex:1;height:80px"><path id="line" d="M0,60 L40,52 L80,58 L120,40 L160,46 L200,30 L240,36 L280,20 L320,26 L360,12 L400,8" fill="none" stroke="#8fd3a6" stroke-width="3" stroke-dasharray="600" stroke-dashoffset="600"/></svg></div>
+        <div style="margin-top:14px;display:flex;gap:12px"><div class="kpi"><small>Domän</small><b style="font-size:20px">dittforetag.se ✓</b></div><div class="kpi"><small>Mejl</small><b style="font-size:20px">info@ ✓</b></div><div class="kpi"><small>Drifttid</small><b>99,98 %</b></div></div>
+        <div style="margin-top:14px;padding:14px 18px;border-radius:14px;background:#f1f6f2;font-size:16px;display:flex;gap:12px;align-items:center" id="hq"><b style="padding:3px 10px;border-radius:9px;background:#1d3b2a;color:#fff;font-size:13px">Klar</b>Ändring: ny bild på startsidan <span style="margin-left:auto;color:#6b736d">idag</span></div></div></div></div>
+
+  <!-- I all in one -->
+  <div class="layer c" id="sI">
+    <span class="tag" id="t0" style="left:140px;top:150px">Hemsida</span><span class="tag" id="t1" style="left:980px;top:140px">Domän</span><span class="tag" id="t2" style="left:110px;top:520px">Företagsmejl</span><span class="tag" id="t3" style="left:950px;top:530px">Kundportal</span><span class="tag" id="t4" style="left:540px;top:610px">Adminpanel</span>
+    <div style="text-align:center"><p class="word" id="i1" style="font-size:104px">Allt på <span class="hl" id="ihl">ett</span> ställe.</p><p id="i2" style="font-size:30px;margin-top:18px;opacity:.85">Ni driver företaget. Vi gör det jobbiga.</p></div></div>
+
+  <!-- J end -->
+  <div class="layer c" id="sJ"><div style="text-align:center;color:#0f2418"><svg viewBox="0 0 1884.3 1353.9" style="width:140px"><path id="lpJ" d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="#1d3b2a" fill-opacity="0" stroke="#1d3b2a" stroke-width="30" stroke-dasharray="9000" stroke-dashoffset="9000"/></svg>
+    <p class="word" style="font-size:64px;margin-top:16px">Elevate Studio</p><p id="j1" style="font-size:26px;margin-top:12px">Hemsidor som ger förfrågningar.</p>
+    <p id="j2" style="display:inline-block;margin-top:22px;padding:14px 28px;border-radius:999px;background:#1d3b2a;color:#fff;font-size:22px;font-weight:700">Boka ett gratis möte · elevatestudio.nu</p></div></div>
+
+  <div class="ripple" id="rip"></div>
+  <svg class="spark" id="spk" viewBox="0 0 40 40"><path d="M20 0l4 14 14-4-10 10 10 10-14-4-4 14-4-14-14 4 10-10L2 10l14 4z" fill="#d9f2a6"/></svg>
+  <svg class="cursor" id="cur" viewBox="0 0 40 40"><path d="M6 3 L6 33 L14 25 L20 38 L26 35 L20 23 L31 23 Z" fill="#fff" stroke="#0f2418" stroke-width="2.4" stroke-linejoin="round"/></svg>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const cl=x=>Math.max(0,Math.min(1,x)),seg=(t,a,b)=>cl((t-a)/(b-a)),lerp=(a,b,x)=>a+(b-a)*x;
+const eo=x=>1-Math.pow(1-x,3),eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,back=x=>{const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const S={sA:[0,4.4],sB:[4.4,7],sC:[7,10.6],sD:[10.6,21.4],sE:[21.4,26.6],sF:[26.6,34.4],sG:[34.4,41.6],sH:[41.6,45.6],sI:[45.6,49],sJ:[49,53]};
+const DUR=53;
+function vis(id,t,f=.3){const[a,b]=S[id];const v=Math.min(seg(t,a,a+f),1-seg(t,b-f,b));$(id).style.opacity=v;return v}
+const up=(el,x,d=30)=>{el.style.opacity=x;el.style.transform=`translateY(${(1-x)*d}px)`};
+const typed=(s,t,a,b)=>s.slice(0,Math.round(s.length*seg(t,a,b)));
+const wipe=(el,x)=>el.style.clipPath=`inset(0 ${100-100*eo(x)}% 0 0 round 10px)`;
+const blink=t=>(t*2.5%1<.5)?'▌':'';
+// cursor path: [time, element id or [x,y]]
+const CP=[[7.3,[1360,780]],[8.0,'slot'],[8.6,'slot'],[9.4,[1360,780]],[21.9,[1360,780]],[22.3,'dph'],[23.3,'dph'],[23.5,'dgo'],[23.8,'dgo'],[24.15,'dadd'],[24.6,'dadd'],[25.1,[1360,780]],
+  [26.9,[760,800]],[27.4,'sv0'],[27.7,'sv0'],[28.0,'fm'],[29.8,'fn'],[30.1,'send'],[30.5,'send'],[31,[700,800]],
+  [34.8,[1360,780]],[35.5,'eh'],[37.7,'eh'],[38.0,'pub'],[38.5,'pub'],[39,[1360,780]]];
+const CLICKS=[8.25,22.4,23.6,24.35,27.5,28.05,29.85,30.25,35.6,38.15];
+function pt(p){if(Array.isArray(p))return p;const r=$(p).getBoundingClientRect();return[r.left+r.width/2,r.top+r.height/2]}
+function cursorAt(t){if(t<CP[0][0]||t>CP[CP.length-1][0])return null;for(let i=0;i<CP.length-1;i++){const a=CP[i],b=CP[i+1];if(t>=a[0]&&t<=b[0]){if(b[0]-a[0]>6&&t<b[0]-.4)return null;const x=eio(seg(t,a[0],b[0])),A=pt(a[1]),B=pt(b[1]);return[lerp(A[0],B[0],x),lerp(A[1],B[1],x)]}}}
+const CMD='elevate bygg hemsida dittforetag.se';
+const OUT=[[12.6,'<span class="d">→ Utgår från ert möte och er grafiska profil</span>'],[13.0,'<span class="ok">✓</span> Design och texter som säljer'],[13.4,'<span class="ok">✓</span> Mobilanpassning'],[13.8,'<span class="ok">✓</span> SEO och AI-optimering'],[14.2,'<span class="ok">✓</span> Offertformulär → info@dittforetag.se'],[14.6,'<span class="ok">✓</span> Adminpanel där ni ändrar allt själva']];
+const CODE=['<span class="k">&lt;nav&gt;</span> Dittföretag <span class="k">&lt;/nav&gt;</span>','<span class="k">&lt;h1&gt;</span>Stora projekt för en ljusare morgondag<span class="k">&lt;/h1&gt;</span>','<span class="k">&lt;a</span> <span class="s">href</span>="#offert"<span class="k">&gt;</span>Begär offert<span class="k">&lt;/a&gt;</span>','<span class="k">&lt;section</span> <span class="s">class</span>="tjanster"<span class="k">&gt;</span>','<span class="k">&lt;form</span> <span class="s">id</span>="offert"<span class="k">&gt;</span>','<span class="ok">✓ Publicerad på dittforetag.se</span>'];
+const LEADS=[['Renovera mitt badrum','Karin L. · Haninge',30.6],['Nytt kök före jul?','Sara E. · Nacka',31.3],['Byta tak på villa','Ali K. · Tyresö',31.85],['Tillbyggnad 20 kvm','Erik S. · Huddinge',32.3],['Offert på altan','Johan B. · Täby',32.7]];
+LEADS.forEach((l,i)=>{const d=document.createElement('div');d.className='note';d.id='nt'+i;d.innerHTML=`<div class="ic">✉</div><div style="flex:1"><small>Ny förfrågan via dittforetag.se</small><b>${l[0]}</b><span>${l[1]}</span></div><span>nu</span>`;$('notes').appendChild(d)});
+function render(t){
+  $('bg').style.setProperty('--gx',(30+20*Math.sin(t*.4))+'%');$('bg').style.setProperty('--gy',(70-15*Math.cos(t*.35))+'%');$('bg').style.setProperty('--hx',(80-20*Math.sin(t*.25))+'%');$('bg').style.setProperty('--hy',(20+20*Math.cos(t*.3))+'%');
+  $('light').style.opacity=seg(t,48.8,49.3);
+  // steps bar
+  const sv=Math.min(seg(t,7,7.3),1-seg(t,41.3,41.6));$('steps').style.opacity=sv;const cur=t<10.6?1:t<26.6?2:t<34.4?3:4;
+  [1,2,3,4].forEach(i=>{const e=$('st'+i);e.className=i===cur?'on':i<cur?'done':'';e.querySelector('i').textContent=i<cur?'✓':i});
+  const sb=t>7?back(seg(t,[7,10.6,26.6,34.4][cur-1],[7,10.6,26.6,34.4][cur-1]+.35)):1;$('st'+cur).style.transform=`scale(${.9+.1*sb})`;
+  // A
+  vis('sA',t,.05);$('lpA').style.strokeDashoffset=9000*(1-eio(seg(t,.1,1.2)));$('lpA').style.fillOpacity=seg(t,1,1.4);
+  up($('a1'),eo(seg(t,1.0,1.5)));up($('a2'),eo(seg(t,1.6,2.0)),20);wipe($('a2h'),seg(t,2.0,2.4));
+  [...$('a3').children].forEach((c,i)=>{const x=back(seg(t,2.5+i*.12,2.9+i*.12));c.style.display='inline-block';c.style.opacity=seg(t,2.5+i*.12,2.7+i*.12);c.style.transform=`translateY(${(1-x)*20}px) scale(${.8+.2*x})`});
+  $('sA').style.transform=`scale(${1+.4*seg(t,4.1,4.4)})`;
+  // B
+  vis('sB',t,.2);up($('b1'),eo(seg(t,4.5,4.9)));const b2=back(seg(t,5.3,5.7));$('b2').style.opacity=seg(t,5.3,5.45);$('b2').style.transform=`scale(${.8+.2*b2})`;wipe($('b2h'),seg(t,5.7,6.1));
+  // C meeting
+  vis('sC',t);up($('c0'),eo(seg(t,7.1,7.5)));const cc=back(seg(t,7.3,7.8));$('cal').style.opacity=seg(t,7.3,7.45);$('cal').style.transform=`perspective(1200px) rotateX(${(1-cc)*16}deg) translateY(${(1-cc)*40}px)`;
+  const bk=t>8.25;$('slot').style.background=bk?'#1d3b2a':'';$('slot').style.color=bk?'#fff':'';$('slot').style.borderColor=bk?'#1d3b2a':'';
+  const bo=back(seg(t,8.5,8.9));$('booked').style.opacity=seg(t,8.5,8.6);$('booked').style.transform=`scale(${.9+.1*bo})`;
+  // D terminal + site
+  vis('sD',t,.25);up($('d0'),eo(seg(t,10.7,11.1)));$('d0').style.opacity=Math.min(eo(seg(t,10.7,11.1)),1-seg(t,19.4,19.8));
+  const tw=$('tw'),o=back(seg(t,10.9,11.4));tw.style.opacity=seg(t,10.9,11.05);
+  let h='<span class="p">elevate@studio ~ %</span> '+typed(CMD,t,11.5,12.4)+(t<12.5?blink(t):'')+'<br>';
+  OUT.forEach(([s,l])=>{if(t>=s)h+=l+'<br>'});
+  if(t>=14.9){const p=eio(seg(t,14.9,15.9));h+=`Bygger hemsidan <span class="ok">${Math.round(p*100)} %</span><div class="prog"><i style="width:${p*100}%"></i></div>`}
+  if(t>=16.1){h='<span class="p">~/dittforetag %</span> elevate dev<br><span class="d">Ändringar syns direkt i webbläsaren</span><br><br>';CODE.forEach((l,i)=>{if(t>=16.5+i*.5)h+=l+'<br>'});h+=blink(t)}
+  $('term').innerHTML=h;
+  const sp=eio(seg(t,16,16.7));tw.style.left=lerp(190,40,sp)+'px';tw.style.top=lerp(150,170,sp)+'px';tw.style.width=lerp(900,500,sp)+'px';tw.style.height=lerp(470,460,sp)+'px';
+  tw.style.transform=`scale(${.6+.4*o}) perspective(1400px) rotateY(${8*sp}deg)`;
+  const bw=$('bw'),bi=back(seg(t,16.3,17));bw.style.opacity=seg(t,16.3,16.5);
+  const piece=(el,a)=>{const x=back(seg(t,a,a+.45));el.style.opacity=seg(t,a,a+.2);el.style.transform=`translateY(${(1-x)*-24}px)`};
+  piece($('m1'),16.6);const hx=seg(t,17.1,17.6);$('m2').style.opacity=hx;$('m2').style.clipPath=`inset(0 ${100-100*eo(hx)}% 0 0)`;
+  up($('m2s'),eo(seg(t,17.3,17.6)),14);up($('m2h'),eo(seg(t,17.5,17.9)),20);up($('m2p'),eo(seg(t,17.9,18.2)),14);const mb=back(seg(t,18.1,18.5));$('m2b').style.opacity=seg(t,18.1,18.2);$('m2b').style.transform=`scale(${mb})`;
+  [...$('m3').children].forEach((c,i)=>{const x=back(seg(t,18.6+i*.15,19+i*.15));c.style.opacity=seg(t,18.6+i*.15,18.8+i*.15);c.style.transform=`translateY(${(1-x)*40}px)`});
+  const zb=eio(seg(t,19.6,20.8));bw.style.transform=`perspective(1400px) rotateY(${-6*bi*(1-zb)+(1-bi)*-20}deg) translateX(${(1-bi)*80-240*zb}px) scale(${1+.12*zb})`;if(zb>0)tw.style.opacity=1-zb;
+  // E domain + mail
+  vis('sE',t);const dd=eo(seg(t,21.4,21.9));$('dom').style.opacity=dd;$('dpart').style.opacity=1-seg(t,24.9,25.2);$('dom').style.transform=`translateY(${(1-dd)*30}px)`;
+  const dn=typed('dittforetag',t,22.5,23.2);$('dt').textContent=dn;$('dph').style.display=dn?'none':'';$('dgo').style.transform=`scale(${t>23.55&&t<23.75?.92:1})`;
+  const dr=back(seg(t,23.75,24.1));$('dres').style.opacity=seg(t,23.75,23.9);$('dres').style.transform=`translateY(${(1-dr)*20}px)`;
+  const da=t>24.35;$('dadd').textContent=da?'Tillagd ✓':'Lägg till';$('dadd').style.background=da?'#1d3b2a':'';$('dadd').style.color=da?'#fff':'';
+  const ml=back(seg(t,25.2,25.7));$('mail').style.opacity=seg(t,25.2,25.35);$('mail').style.transform=`perspective(1200px) rotateX(${(1-ml)*14}deg) translateY(${(1-ml)*40}px) scale(${.9+.1*ml})`;
+  // F leads
+  vis('sF',t);up($('f0'),eo(seg(t,26.7,27.1)));const fr=back(seg(t,26.8,27.3));$('form').style.opacity=seg(t,26.8,26.95);$('form').style.transform=`perspective(1200px) rotateY(${(1-fr)*14}deg) translateY(${(1-fr)*40}px)`;
+  $('sv0').className=t>27.5?'on':'';$('fm').textContent=typed('Vi vill renovera vårt badrum, ca 6 kvm.',t,28.1,29.5)+(t>28.05&&t<29.7?blink(t):'');$('fn').textContent=typed('Karin Lund · 070-123 45 67',t,29.9,30.15);
+  const sent=t>30.25;$('send').textContent=sent?'Skickat ✓':'Skicka förfrågan';$('send').style.background=sent?'#2f7d4f':'#f07c1e';$('form').style.filter=`brightness(${1-.2*seg(t,30.8,31.3)})`;
+  LEADS.forEach((l,i)=>{const n=$('nt'+i),x=back(seg(t,l[2],l[2]+.4)),later=LEADS.filter(m=>t>=m[2]).length-1-i;n.style.opacity=seg(t,l[2],l[2]+.15)*(1-Math.max(0,later)*.1);n.style.top=(170+Math.max(0,later)*76)+'px';n.style.transform=`translateX(${(1-x)*480}px) scale(${1-Math.max(0,later)*.02})`;n.style.zIndex=20-later});
+  const f9=eo(seg(t,31.2,31.6));$('f9').style.opacity=f9;$('f9').style.transform=`translateY(${(1-f9)*20}px) scale(${t>31.6?1+.03*Math.sin(t*6):1})`;
+  // G admin
+  vis('sG',t);up($('g0'),eo(seg(t,34.5,34.9)));const aw=back(seg(t,34.6,35.2));$('aw').style.opacity=seg(t,34.6,34.75);$('aw').style.transform=`perspective(1400px) rotateX(${(1-aw)*14}deg) translateY(${(1-aw)*50}px) scale(${.92+.08*aw})`;
+  const OLD='Stora projekt för en ljusare morgondag',NEW='Vi bygger ditt drömhem – i tid.';
+  let txt=OLD;if(t>35.9&&t<36.6)txt=OLD.slice(0,Math.round(OLD.length*(1-seg(t,35.9,36.5))));else if(t>=36.6)txt=typed(NEW,t,36.6,37.6);
+  $('eh').textContent=txt+(t>35.6&&t<37.8?blink(t):'');$('eh').style.outlineColor=t>35.6&&t<38.1?'#8fd3a6':'transparent';$('eh').style.background=t>35.6&&t<38.1?'rgba(143,211,166,.12)':'';
+  $('pub').style.transform=`scale(${t>38.1&&t<38.3?.92:1})`;$('pub').textContent=t>38.15?'Publicerat ✓':'Publicera';$('pub').style.background=t>38.15?'#2f7d4f':'#1d3b2a';
+  const ts=back(seg(t,38.3,38.7));$('toast').style.opacity=seg(t,38.3,38.45)*(1-seg(t,40.6,41));$('toast').style.transform=`translateY(${(1-ts)*20}px)`;
+  // H portal
+  vis('sH',t);up($('h0'),eo(seg(t,41.7,42.1)));const r6=eo(seg(t,41.7,42.4));$('portal').style.transform=`perspective(1600px) rotateY(${(1-r6)*-24+3*Math.sin(t*.6)}deg) translateX(${(1-r6)*140}px) scale(${.9+.1*r6})`;
+  $('cnt').textContent=Math.round(1284*eo(seg(t,42.3,43.7))).toLocaleString('sv-SE')+' besökare';$('line').style.strokeDashoffset=600*(1-eio(seg(t,42.4,43.7)));
+  const hq=back(seg(t,43.8,44.2));$('hq').style.opacity=seg(t,43.8,43.95);$('hq').style.transform=`translateY(${(1-hq)*20}px)`;
+  // I
+  vis('sI',t);const a=back(seg(t,45.7,46.1));$('i1').style.opacity=seg(t,45.7,45.85);$('i1').style.transform=`scale(${.8+.2*a})`;wipe($('ihl'),seg(t,46.05,46.4));up($('i2'),eo(seg(t,46.5,46.9)),20);
+  [0,1,2,3,4].forEach(i=>{const c=$('t'+i),x=back(seg(t,45.9+i*.09,46.3+i*.09));c.style.opacity=seg(t,45.9+i*.09,46.1+i*.09);c.style.transform=`translate(${(i%2?1:-1)*(1-x)*-120}px,${Math.sin(t*1.6+i)*6+(1-x)*40}px) scale(${.6+.4*x})`});
+  $('sI').style.transform=`scale(${1+seg(t,48.6,49)*.4})`;
+  // J
+  vis('sJ',t,.4);$('lpJ').style.strokeDashoffset=9000*(1-eio(seg(t,49.1,50.1)));$('lpJ').style.fillOpacity=seg(t,49.8,50.2);up($('j1'),eo(seg(t,50.1,50.5)),20);const j2=back(seg(t,50.6,51));$('j2').style.opacity=seg(t,50.6,50.75);$('j2').style.transform=`scale(${j2})`;
+  // cursor
+  const cp=cursorAt(t),cu=$('cur');if(cp){cu.style.opacity=1;cu.style.transform=`translate(${cp[0]-8}px,${cp[1]-6}px) scale(${CLICKS.some(k=>t>=k-.06&&t<k+.1)?.8:1})`}else cu.style.opacity=0;
+  const rp=CLICKS.find(k=>t>=k&&t<k+.45),rip=$('rip');if(rp!==undefined&&cp){const x=seg(t,rp,rp+.45);rip.style.opacity=1-x;rip.style.left=cp[0]+'px';rip.style.top=cp[1]+'px';rip.style.transform=`scale(${.3+x})`}else rip.style.opacity=0;
+  const sk=[8.25,24.35,30.25,38.15].find(k=>t>=k&&t<k+.6),spk=$('spk');if(sk!==undefined&&cp){const x=seg(t,sk,sk+.6);spk.style.opacity=1-x;spk.style.left=(cp[0]+30)+'px';spk.style.top=(cp[1]-30-20*x)+'px';spk.style.transform=`scale(${.5+x}) rotate(${x*120}deg)`}else spk.style.opacity=0;
+}
+window.render=render;window.DUR=DUR;
+if(!/capture/.test(location.search)){let t0=performance.now();(function loop(){render(((performance.now()-t0)/1000)%DUR);requestAnimationFrame(loop)})()}
+</script>
+</body></html>
