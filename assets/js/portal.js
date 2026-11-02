@@ -97,7 +97,7 @@
   }
 
   // ---------- layout: long side menu + green hero (design 5) ----------
-  var TABS = [['oversikt', 'Översikt', 'M3 13h8V3H3zm0 8h8v-6H3zm10 0h8V11h-8zm0-18v6h8V3z'], ['besokare', 'Besökare', 'M3 17l6-6 4 4 8-8M15 7h6v6'], ['sajten', 'Sajten', 'M12 3a9 9 0 100 18 9 9 0 000-18zm0 0v18M3 12h18'],
+  var TABS = [['oversikt', 'Översikt', 'M3 13h8V3H3zm0 8h8v-6H3zm10 0h8V11h-8zm0-18v6h8V3z'], ['hemsida', 'Hemsidans admin', 'M3 5h18v14H3zM3 9h18M7 7h.01'], ['besokare', 'Besökare', 'M3 17l6-6 4 4 8-8M15 7h6v6'], ['sajten', 'Sajten', 'M12 3a9 9 0 100 18 9 9 0 000-18zm0 0v18M3 12h18'],
     ['andringar', 'Ändringar', 'M4 20h4L19 9l-4-4L4 16zM14 6l4 4'], ['tjanster', 'Tjänster', 'M4 6h16M4 12h16M4 18h10'], ['fakturor', 'Fakturor', 'M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6'],
     ['support', 'Ärenden', 'M4 5h16v11H8l-4 4z'], ['konto', 'Konto & team', 'M12 12a4 4 0 100-8 4 4 0 000 8zm-8 9a8 8 0 0116 0']];
   function logoutBtn() { return '<p><button type="button" class="portal-link" id="logout">Logga ut</button></p>'; }
@@ -126,7 +126,7 @@
     bindLogout();
     var pc = root.querySelector('#pc'); if (pc) pc.addEventListener('change', function () { choose(st.members.filter(function (m) { return m.company_id === pc.value; })[0]); });
     root.querySelector('.pa-side').addEventListener('click', function (e) { var b = e.target.closest('[data-tab]'); if (!b) return; st.tab = b.dataset.tab; shell(); window.scrollTo(0, 0); });
-    ({ oversikt: dashboard, besokare: visitors, sajten: site, tjanster: services, andringar: changes, fakturor: invoices, support: support, konto: account })[st.tab]();
+    ({ oversikt: dashboard, hemsida: siteAdmin, besokare: visitors, sajten: site, tjanster: services, andringar: changes, fakturor: invoices, support: support, konto: account })[st.tab]();
     view().addEventListener('click', function (e) { var b = e.target.closest('[data-go]'); if (b) { st.tab = b.dataset.go; shell(); window.scrollTo(0, 0); } });
   }
   var view = function () { return root.querySelector('#pv'); };
@@ -187,6 +187,66 @@
       '<div class="pa-g3"><div class="pa-c"><h4>Orter</h4>' + table(s.cities) + '</div><div class="pa-c"><h4>Veckodagar</h4><div class="pa-bars">' + (function () { var mx = Math.max.apply(null, s.weekdays) || 1; return s.weekdays.map(function (v, i) { return '<div><i style="height:' + Math.round(v / mx * 100) + '%"></i><small>' + 'MTOTFLS'[i] + '</small></div>'; }).join(''); })() + '</div></div><div class="pa-c"><h4>Sökord på Google</h4>' + table(s.queries) + '</div></div>' +
       '<p class="mut pa-note">Statistiken räknas utan kakor och utan att spara personuppgifter.</p>';
     view().querySelector('.pa-seg').addEventListener('click', function (e) { var b = e.target.closest('[data-r]'); if (b) { st.range = +b.dataset.r; visitors(); } });
+  }
+  // ---------- the customer's own website admin, connected with a code from that admin ----------
+  var DEMO_SITE = { connected: true, base_url: 'https://exempelbygg.se', name: 'Exempelbygg AB', admin_url: 'https://exempelbygg.se/admin', counts: { leads: 48, new: 3 },
+    leads: [{ name: 'Karin Lund', email: 'karin@example.se', phone: '070-111 22 33', message: 'Offert på badrum, ca 6 kvm.', created_at: new Date(Date.now() - 36e5).toISOString(), status: 'Ny' },
+      { name: 'Johan Berg', email: 'johan@example.se', phone: '', message: 'Kan ni bygga en altan i maj?', created_at: new Date(Date.now() - 864e5).toISOString(), status: 'Ny' },
+      { name: 'Sara Ek', email: 'sara@example.se', phone: '073-555 00 11', message: 'Fasadmålning villa, 2 plan.', created_at: new Date(Date.now() - 3 * 864e5).toISOString(), status: 'Besvarad' }] };
+  function siteApi(action, body) {
+    if (DEMO) return new Promise(function (ok) { setTimeout(function () {
+      if (action === 'connect') { if (!/^es1\.[A-Za-z0-9_-]{10,}$/.test(String(body.code || '').trim())) return ok({ error: 'code' }); st.demoSite = true; return ok(DEMO_SITE); }
+      if (action === 'disconnect') { st.demoSite = false; return ok({ ok: true }); }
+      ok(st.demoSite ? DEMO_SITE : { connected: false }); }, 250); });
+    return sb.auth.getSession().then(function (r) {
+      var t = r.data && r.data.session && r.data.session.access_token, h = { Authorization: 'Bearer ' + t, 'Content-Type': 'application/json' };
+      return fetch('/api/site/' + action + (body ? '' : '?company_id=' + encodeURIComponent(st.company.id)), body ? { method: 'POST', headers: h, body: JSON.stringify(Object.assign({ company_id: st.company.id }, body)) } : { headers: h });
+    }).then(function (r) { return r.json(); }).catch(function () { return { error: 'net' }; });
+  }
+  var SERR = { code: 'Koden ser inte rätt ut. Kopiera hela koden igen, den börjar med es1.', key: 'Hemsidan godkände inte koden. Skapa en ny kod i er admin och försök igen.', site: 'Vi fick inget svar från hemsidan. Kontrollera att den är uppe.', format: 'Hemsidan svarade, men inte i rätt format. Kontakta oss så hjälper vi er.', role: 'Bara ägare, administratörer och tekniska administratörer kan koppla hemsidan.', setup: 'Kopplingen är inte aktiverad hos oss än. Kontakta oss.', net: 'Kunde inte nå servern. Försök igen.' };
+  function siteAdmin() {
+    view().innerHTML = '<header class="pa-head"><h2>Hemsidans admin</h2></header><p class="mut">Laddar …</p>';
+    siteApi('data').then(function (d) { if (st.tab !== 'hemsida') return; d && d.connected ? siteConnected(d) : siteConnect(); });
+  }
+  function siteConnect() {
+    var mayEdit = /owner|admin|tech/.test(st.role);
+    view().innerHTML = '<header class="pa-head"><h2>Koppla er hemsidas admin</h2></header>' +
+      '<p class="pa-lead">Se förfrågningar och öppna adminpanelen direkt här i portalen. Det tar under en minut.</p>' +
+      '<ol class="sx">' +
+      '<li class="sx__step"><span class="sx__n">1</span><h4>Logga in i er admin</h4><p>Gå till er hemsida och lägg till <b>/admin</b> efter adressen.</p>' +
+        '<div class="sx__mock"><div class="sx__bar"><i></i><i></i><i></i><span>ert-foretag.se<b>/admin</b></span></div><div class="sx__login"><span></span><span></span><em>Logga in</em></div></div></li>' +
+      '<li class="sx__arrow" aria-hidden="true"><svg viewBox="0 0 40 24"><path d="M2 12h34M26 3l10 9-10 9"/></svg></li>' +
+      '<li class="sx__step"><span class="sx__n">2</span><h4>Inställningar → Kundportal</h4><p>Klicka på <b>Inställningar</b> i menyn och sedan <b>Kundportal</b>.</p>' +
+        '<div class="sx__mock sx__mock--menu"><span>Förfrågningar</span><span>Sidor</span><span class="on">Inställningar</span><span class="sub hl">Kundportal <svg class="sx__point" viewBox="0 0 30 20"><path d="M28 10H4M12 2 4 10l8 8"/></svg></span></div></li>' +
+      '<li class="sx__arrow" aria-hidden="true"><svg viewBox="0 0 40 24"><path d="M2 12h34M26 3l10 9-10 9"/></svg></li>' +
+      '<li class="sx__step"><span class="sx__n">3</span><h4>Kopiera koden</h4><p>Klicka på <b>Kopiera kod</b>. Koden börjar med <code>es1.</code></p>' +
+        '<div class="sx__mock sx__mock--code"><code>es1.eyJ1Ijoi…</code><em class="hl">Kopiera kod</em><svg class="sx__point sx__point--up" viewBox="0 0 20 30"><path d="M10 28V4M2 12l8-8 8 8"/></svg></div></li>' +
+      '</ol>' +
+      '<div class="sx__down" aria-hidden="true"><svg viewBox="0 0 24 40"><path d="M12 2v34M3 26l9 10 9-10"/></svg><span>4. Klistra in här</span></div>' +
+      '<form id="sx-form" class="sx__form" novalidate><label for="sx-code">Kod från er admin</label><div class="sx__row"><input id="sx-code" name="code" autocomplete="off" spellcheck="false" placeholder="es1.…"' + (mayEdit ? '' : ' disabled') + '>' +
+      '<button class="btn btn--primary"' + (mayEdit ? '' : ' disabled') + '><span>Koppla hemsidan</span></button></div>' +
+      (DEMO ? '<button type="button" class="portal-link" id="sx-demo">Fyll i en exempelkod (demo)</button>' : '') +
+      '<p class="form-status" hidden></p>' + (mayEdit ? '' : '<p class="mut">Be företagets ägare eller tekniska administratör att koppla hemsidan.</p>') +
+      '<p class="mut sx__safe">Koden kan bara läsa. Den sparas krypterad och visas aldrig igen. Ni kan koppla från när som helst.</p></form>' +
+      '<p class="mut">Hittar ni inte Kundportal i er admin? <button type="button" class="portal-link" data-go="support">Skapa ett ärende</button> så lägger vi till det.</p>';
+    var f = view().querySelector('#sx-form'), s = f.querySelector('.form-status');
+    var dm = view().querySelector('#sx-demo'); if (dm) dm.addEventListener('click', function () { f.code.value = 'es1.eyJ1IjoiaHR0cHM6Ly9leGVtcGVsYnlnZy5zZSIsImsiOiJkZW1vLWRlbW8tZGVtby1kZW1vIn0'; });
+    f.addEventListener('submit', function (e) { e.preventDefault(); var code = f.code.value.trim(); if (!code) { f.code.focus(); return msg(s, 'Klistra in koden först.', true); }
+      msg(s, 'Kopplar …'); siteApi('connect', { code: code }).then(function (d) { if (d.error) return msg(s, SERR[d.error] || 'Något gick fel. Försök igen.', true); siteConnected(Object.assign({ connected: true }, d)); }); });
+  }
+  function siteConnected(d) {
+    var leads = d.leads || [], c = d.counts || {}, mayEdit = /owner|admin|tech/.test(st.role);
+    view().innerHTML = '<header class="pa-head"><div><h2>' + esc(d.name || 'Er hemsida') + '</h2><p class="mut">' + esc(d.base_url || '') + ' · <span class="pa-ok">● Kopplad</span></p></div>' +
+      '<div class="sx__acts">' + (d.admin_url ? '<a class="btn btn--primary" href="' + esc(d.admin_url) + '" target="_blank" rel="noopener"><span>Öppna admin</span></a><button type="button" class="mp1__pick" id="sx-embed">Visa admin här</button>' : '') + '</div></header>' +
+      (d.error ? '<p class="portal-warn"><span>' + esc(SERR[d.error] || 'Kunde inte hämta data från hemsidan just nu.') + '</span></p>' : '') +
+      '<div id="sx-frame"></div>' +
+      '<div class="pa-kpis"><div><small>Förfrågningar totalt</small><b>' + nf(c.leads) + '</b></div><div><small>Nya</small><b>' + nf(c.new) + '</b>' + (c.new ? '<em>väntar på svar</em>' : '') + '</div><div><small>Senaste</small><b class="sx__small">' + (leads[0] ? day(leads[0].created_at) : '–') + '</b></div><div><small>Källa</small><b class="sx__small">Er admin</b></div></div>' +
+      '<div class="pa-c"><h4>Senaste förfrågningarna</h4>' + (leads.length ? '<ul class="sx__leads">' + leads.slice(0, 10).map(function (l) { return '<li><div><b>' + esc(l.name || 'Okänd') + '</b><span>' + esc(l.message) + '</span><small>' + [l.email ? '<a href="mailto:' + esc(l.email) + '">' + esc(l.email) + '</a>' : '', l.phone ? '<a href="tel:' + esc(l.phone.replace(/\s/g, '')) + '">' + esc(l.phone) + '</a>' : '', day(l.created_at)].filter(Boolean).join(' · ') + '</small></div>' + (l.status ? '<em class="sx__st' + (/ny/i.test(l.status) ? ' sx__st--new' : '') + '">' + esc(l.status) + '</em>' : '') + '</li>'; }).join('') + '</ul>' : '<p class="mut">Inga förfrågningar ännu.</p>') + '</div>' +
+      (mayEdit ? '<p class="pa-note"><button type="button" class="portal-link" id="sx-off">Koppla från hemsidan</button></p>' : '');
+    var em = view().querySelector('#sx-embed'); if (em) em.addEventListener('click', function () { var box = view().querySelector('#sx-frame');
+      if (box.innerHTML) { box.innerHTML = ''; em.textContent = 'Visa admin här'; return; }
+      box.innerHTML = '<div class="sx__frame"><iframe src="' + esc(d.admin_url) + '" title="Hemsidans admin" referrerpolicy="no-referrer"></iframe><p class="mut">Ser ni en tom ruta? Vissa adminpaneler kan bara öppnas i en egen flik – använd <a href="' + esc(d.admin_url) + '" target="_blank" rel="noopener">Öppna admin</a>.</p></div>'; em.textContent = 'Dölj admin'; });
+    var off = view().querySelector('#sx-off'); if (off) off.addEventListener('click', function () { if (!confirm('Koppla från hemsidan? Ni kan koppla igen med en ny kod.')) return; siteApi('disconnect', {}).then(function () { siteConnect(); }); });
   }
   function site() { view().innerHTML = '<header class="pa-head"><h2>Sajten</h2></header>' + (health() || '<p class="mut">Driftövervakning och månadsrapport startar när er hemsida är kopplad.</p>'); }
 

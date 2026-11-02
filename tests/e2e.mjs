@@ -48,7 +48,7 @@ await p.click('#dom-pack'); await p.waitForTimeout(200); ok((await p.textContent
 await p.screenshot({ path: OUT + '/e2e_1_domaner.png' });
 // 4-5: business mail
 await p.goto(BASE + 'foretagsmejl.html'); await p.waitForSelector('.shop-plan');
-await p.click('.shop-plan >> nth=1 >> .m-add'); ok(await p.evaluate(() => !document.querySelector('.shop-plan:nth-child(2) .m-dom').checkValidity()), 'mejl utan domän stoppas med felmeddelande');
+await p.click('.shop-plan >> nth=1 >> .mp1__pick'); await p.click('.shop-plan >> nth=1 >> .m-add'); ok(await p.evaluate(() => !document.querySelector('.shop-plan:nth-child(2) .m-dom').checkValidity()), 'mejl utan domän stoppas med felmeddelande');
 await p.fill('.shop-plan >> nth=1 >> .m-dom', name + '.se'); await p.fill('.shop-plan >> nth=1 >> .m-extra', '2'); await p.fill('.shop-plan >> nth=1 >> .m-addr', 'info, kontakt');
 await p.click('.shop-plan >> nth=1 >> .m-add'); await p.waitForTimeout(200);
 ok(await p.waitForFunction(() => (document.querySelector('#shop-bar') || {}).textContent && /[0-9]+ produkter/.test(document.querySelector('#shop-bar').textContent), null, { timeout: 3000 }).then(() => true).catch(() => false), 'mejlpaket lagt i varukorgen (summaraden på mejlsidan)');

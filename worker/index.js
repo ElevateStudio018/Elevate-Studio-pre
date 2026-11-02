@@ -1,4 +1,5 @@
 // The website is static files (served by Cloudflare). This small script adds the admin's server parts.
+import { siteLink } from './sitelink.js';
 import { handleInvite, handleMail } from './invite.js';
 import { googleReady, googleConnect, googleCallback } from './google.js';
 import { subscribe, brevoReady } from './newsletter.js';
@@ -48,6 +49,7 @@ export default {
     if (pathname === '/api/domain/watch') return watchDomain(req, env);
     if (pathname === '/api/mail/diag') return mailDiag(req, env);
     if (pathname === '/api/order') return createOrder(req, env);
+    if (/^\/api\/site\/(connect|disconnect|data)$/.test(pathname)) return siteLink(req, env);
     if (pathname.startsWith('/api/mail/') && pathname !== '/api/mail/diag') return webmail(req, env);
     if (pathname === '/api/accounts/create') return accountsCreate(req, env);
     // PageSpeed for Testa din sajt: the server adds the Google API key (PSI_API_KEY secret) so the test is not rate-limited

@@ -167,18 +167,22 @@
     var period = function () { return (document.querySelector('input[name="period"]:checked') || {}).value || 'month'; };
     function render() {
       var y = period() === 'year';
-      box.innerHTML = cat.mail.map(function (m) {
-        return '<div class="shop-plan"><h3>' + esc(m.name) + '</h3><p class="shop-price">' + kr(y ? m.yearly : m.monthly) + '<span>/' + (y ? 'år' : 'mån') + '</span>' + demo() + '</p>' +
-          '<p class="shop-sub">' + m.accounts + (m.accounts === 1 ? ' konto' : ' konton') + ' · ' + m.storage_gb + ' GB per konto · extra konto ' + kr(m.extra_account) + '/mån</p>' +
-          '<ul class="check-list">' + m.features.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>' +
-          '<label class="shop-small">Domän <input type="text" class="m-dom" placeholder="ert-foretag.se"></label>' +
-          '<label class="shop-small">Extra konton <input type="number" class="m-extra" min="0" max="500" value="0"></label>' +
-          '<label class="shop-small">Önskade adresser <input type="text" class="m-addr" placeholder="info, kontakt, faktura"></label>' +
-          '<button type="button" class="btn btn--primary m-add" data-id="' + m.id + '"><span>Lägg till</span></button></div>';
+      box.innerHTML = cat.mail.map(function (m, i) {
+        var short = m.name.replace(/^Mejl\s+/, ''), feat = i === 1;
+        return '<div class="shop-plan mp1' + (feat ? ' mp1--feat' : '') + '">' + (feat ? '<span class="mp1__tag">Populärast</span>' : '') + '<h3>' + esc(short) + '</h3>' +
+          '<p class="shop-price">' + kr(y ? m.yearly : m.monthly) + '<span>/' + (y ? 'år' : 'mån') + '</span></p>' +
+          '<p class="shop-sub">' + m.accounts + (m.accounts === 1 ? ' konto' : ' konton') + ' · ' + m.storage_gb + ' GB</p>' +
+          '<ul class="mp1__list">' + m.features.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>' +
+          '<div class="mp1__form" hidden><label class="shop-small">Er domän <input type="text" class="m-dom" placeholder="ert-foretag.se"></label>' +
+          '<label class="shop-small">Adresser (valfritt) <input type="text" class="m-addr" placeholder="info, kontakt"></label>' +
+          '<label class="shop-small">Fler konton än ' + m.accounts + ' <small>' + kr(m.extra_account) + '/mån st</small><input type="number" class="m-extra" min="0" max="500" value="0"></label>' +
+          '<button type="button" class="btn btn--primary m-add" data-id="' + m.id + '"><span>Lägg i varukorgen</span></button></div>' +
+          '<button type="button" class="mp1__pick' + (feat ? ' mp1__pick--dark' : '') + '">Välj ' + esc(short) + '</button></div>';
       }).join('');
     }
     document.querySelectorAll('input[name="period"]').forEach(function (r) { r.addEventListener('change', render); });
     box.addEventListener('click', function (e) {
+      var pk = e.target.closest('.mp1__pick'); if (pk) { var cd = pk.closest('.shop-plan'); cd.querySelector('.mp1__form').hidden = false; pk.hidden = true; cd.querySelector('.m-dom').focus(); return; }
       var b = e.target.closest('.m-add'); if (!b) return;
       var card = b.closest('.shop-plan'), dom = card.querySelector('.m-dom').value.trim().toLowerCase().replace(/^https?:\/\/|^www\./g, '');
       if (!/^[a-z0-9åäö.-]+\.[a-z]{2,}$/.test(dom)) { card.querySelector('.m-dom').focus(); card.querySelector('.m-dom').setCustomValidity('Skriv domänen, till exempel ert-foretag.se'); card.querySelector('.m-dom').reportValidity(); return; }

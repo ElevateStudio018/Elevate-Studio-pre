@@ -125,3 +125,17 @@ test('monthly report: saves the scores and mails the customer', async () => {
   assert.equal(row.performance, 80); assert.equal(row.seo, 70); assert.ok(row.issues.includes('Saknar metabeskrivning'));
   assert.equal(mails[0][0], 'kund@kund.se'); assert.match(mails[0][2], /SEO: 70/);
 });
+
+import { parseCode, remote } from '../worker/sitelink.js';
+const code = (o) => 'es1.' + Buffer.from(JSON.stringify(o)).toString('base64url');
+test('site code: only https public sites with a real key', () => {
+  assert.deepEqual(parseCode(code({ u: 'https://kund.se/', k: 'k'.repeat(32) })), { base: 'https://kund.se', key: 'k'.repeat(32) });
+  for (const u of ['http://kund.se', 'https://localhost', 'https://127.0.0.1', 'https://intern']) assert.equal(parseCode(code({ u, k: 'k'.repeat(32) })), null, u);
+  assert.equal(parseCode(code({ u: 'https://kund.se', k: 'kort' })), null);
+  assert.equal(parseCode('nonsens'), null);
+});
+test('site data: key errors and cleaned fields', async () => {
+  assert.equal((await remote('https://kund.se', 'x', async () => new Response('', { status: 401 }))).error, 'key');
+  const d = await remote('https://kund.se', 'x', async (u, o) => { assert.equal(o.headers.Authorization, 'Bearer x'); assert.equal(u, 'https://kund.se/api/portal'); return Response.json({ name: 'Kund', admin_url: 'javascript:alert(1)', leads: [{ name: 'A', message: 'Hej', extra: 'x' }], counts: { leads: 4, new: 1 } }); });
+  assert.equal(d.admin_url, ''); assert.equal(d.leads[0].name, 'A'); assert.equal(d.leads[0].extra, undefined); assert.equal(d.counts.new, 1);
+});
