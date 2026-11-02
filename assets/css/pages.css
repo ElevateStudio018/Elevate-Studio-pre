@@ -1124,3 +1124,5 @@ body:has(#webmail .wmx) .chat { display: none; }
     radial-gradient(ellipse 60% 45% at 45% 115%, rgba(40, 150, 125, .55), rgba(40, 150, 125, 0) 70%); }
 .glow-dark::before { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(255, 255, 255, .09) 1px, transparent 1.4px); background-size: 6px 6px; }
 .glow-dark > * { position: relative; }
+/* the mail login card keeps its dark green even if the glow theme is not loaded */
+.wmx-login { background-color: #16301f; color: #fdfbf5; }
