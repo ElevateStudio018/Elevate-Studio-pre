@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Elevate – reklamfilm 4K</title>
+<style>
+@font-face{font-family:H;src:url(../../assets/fonts/HankenGrotesk-latin.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:F;src:url(../../assets/fonts/Fraunces-latin.woff2) format('woff2');font-style:italic;font-weight:100 900}
+*{box-sizing:border-box;margin:0}
+html,body{width:1280px;height:720px;overflow:hidden;background:#0d1d14;font-family:H,system-ui,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:1280px;height:720px;overflow:hidden;background:radial-gradient(60% 80% at 70% 30%,#1f4a33,transparent 70%),#0d1d14}
+.glow{position:absolute;border-radius:50%;pointer-events:none;filter:blur(60px);mix-blend-mode:screen}
+.vig{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 50%,transparent 55%,rgba(0,0,0,.45))}
+.grain{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:3px 3px}
+.light{position:absolute;inset:0;background:linear-gradient(160deg,#f6fbf4,#dcefdf);opacity:0}
+.layer{position:absolute;inset:0;opacity:0}.c{display:grid;place-items:center}
+.word{font-weight:700;letter-spacing:-.035em;line-height:1}
+.hl{display:inline-block;padding:0 .16em;border-radius:.14em;background:#8fd3a6;color:#0f2418}
+.serif{font-family:F,serif;font-style:italic;font-weight:400;letter-spacing:0}
+.win{position:absolute;border-radius:14px;overflow:hidden;box-shadow:0 50px 100px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
+.bar{height:34px;display:flex;align-items:center;gap:8px;padding:0 14px;background:#232725;font-size:13px;color:#a7aea9}.bar i{width:12px;height:12px;border-radius:50%}.bar .t{flex:1;text-align:center;margin-right:60px}
+.url{flex:1;margin:0 40px 0 16px;padding:5px 14px;border-radius:8px;background:#151816;color:#cfd6d1;text-align:center;font-size:13px}
+.term{background:#0b0f0d;font:13.5px/1.5 ui-monospace,Menlo,Consolas,monospace;color:#b9c7be;padding:14px 18px;height:calc(100% - 34px);overflow:hidden;white-space:pre-wrap;word-break:break-all}
+.term .r{color:#ff7b7b}.term .y{color:#e8c97a}.term .b{color:#8fb8f0}.term .g{color:#8fd3a6}.term .m{color:#d49cf0}
+.err{position:absolute;padding:12px 16px;border-radius:12px;background:#2a0f0f;border:1px solid #ff6b6b;color:#ffb3b3;font:600 14px/1.3 ui-monospace,Menlo,monospace;box-shadow:0 20px 40px -10px rgba(255,0,0,.4);opacity:0}
+.pill{display:flex;align-items:center;width:700px;height:78px;padding:0 10px 0 30px;border-radius:999px;background:#fff;color:#16241b;font-size:25px;box-shadow:0 0 0 8px rgba(143,211,166,.16),0 30px 60px -20px rgba(0,0,0,.6)}
+.pill .tx{flex:1}.pill .go{padding:0 32px;height:58px;display:grid;place-items:center;border-radius:999px;background:#1d3b2a;color:#fff;font-weight:700;font-size:21px}
+.card{position:absolute;background:#fff;color:#16241b;border-radius:22px;box-shadow:0 40px 80px -30px rgba(0,0,0,.6)}
+.row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #eef0ed;font-size:19px}.row:last-child{border:0}.row b{flex:1}
+.free{color:#2f7d4f;font-weight:700;font-size:13px;padding:4px 10px;border-radius:999px;background:#e3efe6}
+.add{padding:8px 16px;border-radius:999px;border:2px solid #1d3b2a;font-weight:700;font-size:14px}
+.pack{position:absolute;left:250px;top:390px;width:780px;padding:22px 26px;border-radius:22px;background:#1d3b2a;color:#fff;display:flex;align-items:center;gap:20px;box-shadow:0 0 0 1px rgba(143,211,166,.4),0 30px 60px -20px rgba(0,0,0,.6),0 0 60px rgba(143,211,166,.25)}
+.pack b{font-size:21px}.pack p{font-size:14px;color:#c9d8cd;margin-top:4px}.pack .pr{margin-left:auto;text-align:right;white-space:nowrap}.pack .pr b{font-size:28px;display:block}.pack .pr small{color:#a9c4b1}
+.pack .bt{padding:12px 20px;border-radius:999px;background:#8fd3a6;color:#0f2418;font-weight:700;white-space:nowrap}
+.cart{position:absolute;right:44px;top:34px;display:flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;background:#fff;color:#1d3b2a;font-weight:700;font-size:18px;box-shadow:0 20px 40px -16px rgba(0,0,0,.5)}
+.cart i{display:grid;place-items:center;min-width:28px;height:28px;border-radius:999px;background:#1d3b2a;color:#fff;font-style:normal;font-size:15px}
+.check{display:grid;place-items:center;width:120px;height:120px;border-radius:50%;background:#8fd3a6;color:#0f2418;font-size:70px;font-weight:700;box-shadow:0 0 60px rgba(143,211,166,.6)}
+/* lead form (Lindvik) */
+.lf{position:absolute;left:60px;top:150px;width:470px;padding:22px 24px;border-radius:20px;background:#fff;color:#16241b;box-shadow:0 40px 80px -30px rgba(0,0,0,.6)}
+.lf .hd{display:flex;align-items:center;gap:10px;margin-bottom:6px}.lf .hd i{width:26px;height:26px;border-radius:7px;background:#1f4d36}.lf .hd b{font-size:18px;color:#1f4d36}.lf .hd span{margin-left:auto;font-size:12px;color:#6b736d}
+.lbl{font-size:12px;color:#6b736d;margin:12px 0 6px;font-weight:700}
+.svc{display:flex;flex-wrap:wrap;gap:7px}.svc span{padding:8px 14px;border-radius:999px;border:1.5px solid #d9dde1;font-size:14px;font-weight:600}.svc span.on{background:#1f4d36;border-color:#1f4d36;color:#fff}
+.fld{padding:10px 13px;border-radius:10px;border:1.5px solid #d9dde1;font-size:15px;min-height:42px}
+.send{margin-top:12px;padding:12px;border-radius:999px;background:#1f4d36;color:#fff;text-align:center;font-weight:700}
+.flow{position:absolute;left:530px;top:330px;width:200px;height:4px}
+.pkt{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:12px;background:#8fd3a6;color:#0f2418;display:grid;place-items:center;font-weight:800;box-shadow:0 0 30px rgba(143,211,166,.9);opacity:0}
+.inbox{position:absolute;right:60px;top:150px;width:460px}
+.cnt{padding:18px 22px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(10px);display:flex;align-items:center;gap:18px;margin-bottom:12px}
+.cnt small{color:#a9c4b1;font-size:14px}.cnt b{font-size:56px;letter-spacing:-.03em;line-height:1}.cnt em{margin-left:auto;font-style:normal;padding:6px 12px;border-radius:999px;background:#8fd3a6;color:#0f2418;font-weight:800;opacity:0}
+.note{position:absolute;left:0;width:460px;padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.97);color:#16241b;display:flex;gap:12px;align-items:center;box-shadow:0 20px 40px -18px rgba(0,0,0,.55)}
+.note .ic{flex:none;width:38px;height:38px;border-radius:11px;background:#1d3b2a;display:grid;place-items:center;color:#8fd3a6;font-weight:800}
+.note b{display:block;font-size:15px}.note small{font-size:11px;color:#2f7d4f;font-weight:800}.note span{font-size:12px;color:#6b736d}
+.money{position:absolute;left:80px;top:130px;width:1120px;height:500px;padding:30px 34px;border-radius:26px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(14px);box-shadow:0 40px 90px -30px rgba(0,0,0,.7)}
+.money small{color:#a9c4b1;font-size:15px;letter-spacing:.12em}.money .big{font-size:88px;font-weight:700;letter-spacing:-.035em;line-height:1;margin-top:8px}.money .big i{font-style:normal;color:#8fd3a6}
+.money .d{display:inline-block;margin:12px 0 0;padding:6px 14px;border-radius:999px;background:rgba(143,211,166,.18);color:#8fd3a6;font-weight:700;font-size:17px}
+.money svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:270px}
+.deal{position:absolute;right:34px;padding:10px 16px;border-radius:14px;background:#fff;color:#16241b;font-size:15px;font-weight:700;box-shadow:0 20px 40px -18px rgba(0,0,0,.5);opacity:0;white-space:nowrap}.deal i{font-style:normal;color:#2f7d4f}
+.chip{display:inline-block;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(143,211,166,.5);font-size:20px;font-weight:600;margin:0 5px}
+.live{position:absolute;padding:10px 18px;border-radius:999px;background:#8fd3a6;color:#0f2418;font-weight:800;font-size:16px;box-shadow:0 0 40px rgba(143,211,166,.7);opacity:0;white-space:nowrap}
+.cursor{position:absolute;left:0;top:0;width:68px;height:68px;z-index:60;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5))}
+.ripple{position:absolute;z-index:59;width:80px;height:80px;margin:-40px 0 0 -40px;border-radius:50%;border:3px solid #8fd3a6;opacity:0}
+.spark{position:absolute;z-index:58;width:34px;height:34px;margin:-17px 0 0 -17px;opacity:0}
+.flash{position:absolute;inset:0;background:#8fd3a6;opacity:0;mix-blend-mode:screen;pointer-events:none;z-index:70}
+</style></head><body>
+<div id="stage">
+  <div id="glows"></div><div class="vig"></div><div class="grain"></div><div class="light" id="light"></div>
+
+  <div class="layer c" id="s0"><p class="word" id="w0" style="font-size:140px"></p></div>
+
+  <div class="layer" id="s1">
+    <p class="word" id="q1" style="position:absolute;left:0;right:0;top:50px;text-align:center;font-size:50px">Göra allt <span class="serif">själv?</span></p>
+    <div class="win" id="tw" style="left:120px;top:130px;width:1040px;height:520px"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="t">zsh — dns · ssl · smtp · nginx · docker</span></div><div class="term" id="term"></div></div>
+    <div class="err" id="e1" style="left:170px;top:420px">✖ ERR_SSL_PROTOCOL_ERROR</div>
+    <div class="err" id="e2" style="left:740px;top:190px">✖ 550 5.7.1 SPF fail – mejlet studsade</div>
+    <div class="err" id="e3" style="left:460px;top:560px">✖ DNS_PROBE_FINISHED_NXDOMAIN</div>
+    <div class="err" id="e4" style="left:830px;top:470px">✖ 502 Bad Gateway</div>
+    <p class="word" id="q2" style="position:absolute;inset:0;display:grid;place-items:center;font-size:140px;color:#ffb3b3;opacity:0">Krångligt.</p>
+  </div>
+
+  <div class="layer c" id="s2"><div style="text-align:center"><p class="word" id="w2" style="font-size:112px">Lämna det till <span class="hl" id="w2h">oss.</span></p><p id="w3" style="font-size:28px;margin-top:22px;opacity:.85">Vi kodar. Ni får kunderna.</p></div></div>
+
+  <div class="layer" id="s3">
+    <div class="win" id="cw" style="left:50px;top:120px;width:470px;height:500px"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="t">elevate — lindvik-bygg</span></div><div class="term" id="code" style="font-size:12.5px"></div></div>
+    <div class="win" id="bw" style="left:540px;top:110px;width:700px;height:520px"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="url" id="burl">localhost:3000</span></div>
+      <div style="position:relative;height:calc(100% - 34px);background:#fff;overflow:hidden"><div id="site" style="position:absolute;inset:0;background:url(img/lindvik.jpg) 0 -24px/100% auto no-repeat"></div><div id="sitecov" style="position:absolute;inset:0;background:#f4f6f3"></div></div></div>
+    <div class="live" id="live" style="left:740px;top:600px">● Live: elevatestudio018.github.io/lirk</div>
+    <p class="word" id="s3t" style="position:absolute;left:0;right:0;top:44px;text-align:center;font-size:40px">Vi bygger er <span class="hl">hemsida.</span></p>
+  </div>
+
+  <div class="layer" id="s4">
+    <div class="cart" id="cart">Varukorg <i id="cartn">0</i></div>
+    <div id="dom" style="position:absolute;left:0;right:0;top:130px;display:flex;flex-direction:column;align-items:center">
+      <p class="word" style="font-size:54px;font-weight:500;margin-bottom:22px">Domän och mejl <span class="serif">på köpet</span></p>
+      <div class="pill"><span class="tx"><span id="dt"></span><span id="dph" style="color:#8a918c">dittforetag</span></span><span class="go" id="dgo">Sök</span></div>
+      <div class="card" id="dres" style="position:relative;width:700px;margin-top:14px;padding:4px 24px;opacity:0"><div class="row"><b>dittforetag<span style="color:#2f7d4f">.se</span></b><span class="free">Ledig</span><span>149 kr</span><span class="add" id="dadd">Lägg till</span></div></div>
+    </div>
+    <div class="pack" id="pack" style="opacity:0"><div><b>dittforetag.se + info@dittforetag.se</b><p>Domän och företagsmejl med 5 konton – klart samma dag.</p></div><div class="pr"><b>149 kr</b><small>+ 199 kr/mån</small></div><span class="bt" id="pbt">Lägg till paketet</span></div>
+    <div class="c" id="okw" style="position:absolute;inset:0;opacity:0"><div style="text-align:center"><div class="check" id="check" style="margin:0 auto">✓</div><p class="word" style="font-size:44px;margin-top:22px">Beställt. <span class="hl">Vi fixar resten.</span></p></div></div>
+  </div>
+
+  <div class="layer" id="s5">
+    <p class="word" id="s5t" style="position:absolute;left:0;right:0;top:50px;text-align:center;font-size:42px">Kunderna fyller i formuläret <span class="serif">på er sajt…</span></p>
+    <div class="lf" id="lf"><div class="hd"><i></i><b>Lindvik Bygg</b><span>Begär offert</span></div>
+      <p class="lbl">Vad gäller det?</p><div class="svc"><span id="v0">Nybygge</span><span id="v1">Renovering</span><span id="v2">Tillbyggnad</span><span>Tak</span></div>
+      <p class="lbl">Beskriv kort</p><div class="fld" id="fm"></div>
+      <p class="lbl">Namn</p><div class="fld" id="fn"></div>
+      <div class="send" id="send">Skicka förfrågan</div></div>
+    <div class="inbox"><div class="cnt" id="cntb"><div><small>Förfrågningar i månaden</small><br><b id="cn">11</b></div><em id="plus">+1</em></div><div id="notes" style="position:relative"></div></div>
+    <div class="pkt" id="pkt">✉</div>
+  </div>
+
+  <div class="layer" id="s6"><div class="money" id="mon"><small>OMSÄTTNING FRÅN HEMSIDAN</small><p class="big" id="rev">0 <i>kr</i></p><span class="d" id="dl">▲ +0 %</span>
+      <svg viewBox="0 0 1120 270" preserveAspectRatio="none"><defs><linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3a6" stop-opacity=".5"/><stop offset="1" stop-color="#8fd3a6" stop-opacity="0"/></linearGradient></defs><path id="fill" fill="url(#gf)"/><path id="line" fill="none" stroke="#8fd3a6" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><circle id="dot" r="8" fill="#d9f2a6"/></svg>
+      <div class="deal" id="d0" style="top:30px">Offert accepterad · Renovering <i>+48 000 kr</i></div><div class="deal" id="d1" style="top:80px">Offert accepterad · Tillbyggnad <i>+126 000 kr</i></div><div class="deal" id="d2" style="top:130px">Offert accepterad · Nybygge <i>+310 000 kr</i></div></div>
+    <p class="word" id="s6t" style="position:absolute;left:0;right:0;top:46px;text-align:center;font-size:40px">…och förfrågningarna blir <span class="hl">affärer.</span></p></div>
+
+  <div class="layer c" id="s7"><div style="text-align:center"><p class="word" id="a1" style="font-size:100px">Allt på <span class="hl" id="ahl">ett</span> ställe.</p><div id="a3" style="margin-top:26px"><span class="chip">Hemsida</span><span class="chip">Domän</span><span class="chip">Företagsmejl</span><span class="chip">Kundportal</span></div></div></div>
+
+  <div class="layer c" id="s8"><div style="text-align:center;color:#0f2418"><svg viewBox="0 0 1884.3 1353.9" style="width:130px"><path id="lp" d="M0.0 1353.9 L1218.7 0.0 L1218.7 329.1 L479.7 1136.4 L786.7 1132.4 L1215.5 687.4 L1884.3 1349.9 L1590.1 1349.9 L1218.6 994.7 L865.4 1349.9Z" fill="#1d3b2a" fill-opacity="0" stroke="#1d3b2a" stroke-width="30" stroke-dasharray="9000" stroke-dashoffset="9000"/></svg>
+    <p class="word" style="font-size:64px;margin-top:16px">Elevate Studio</p><p id="j1" style="font-size:26px;margin-top:12px">Hemsidor som ger kunder.</p>
+    <p id="j2" style="display:inline-block;margin-top:22px;padding:14px 28px;border-radius:999px;background:#1d3b2a;color:#fff;font-size:22px;font-weight:700">Boka gratis möte · elevatestudio.nu</p></div></div>
+
+  <div class="flash" id="flash"></div>
+  <div class="ripple" id="rip"></div>
+  <svg class="spark" id="spk" viewBox="0 0 40 40"><path d="M20 0l4 14 14-4-10 10 10 10-14-4-4 14-4-14-14 4 10-10L2 10l14 4z" fill="#d9f2a6"/></svg>
+  <svg class="cursor" id="cur" viewBox="0 0 40 40"><path d="M6 3 L6 33 L14 25 L20 38 L26 35 L20 23 L31 23 Z" fill="#fff" stroke="#0f2418" stroke-width="2.4" stroke-linejoin="round"/></svg>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const cl=x=>Math.max(0,Math.min(1,x)),seg=(t,a,b)=>cl((t-a)/(b-a)),lerp=(a,b,x)=>a+(b-a)*x;
+const eo=x=>1-Math.pow(1-x,3),eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,back=x=>{const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const S={s0:[0,1.9],s1:[1.9,5.6],s2:[5.6,7.6],s3:[7.6,12.6],s4:[12.6,18.4],s5:[18.4,24.6],s6:[24.6,28.8],s7:[28.8,31],s8:[31,34]};
+const DUR=34;
+function vis(id,t,f=.2){const[a,b]=S[id];const v=Math.min(seg(t,a,a+f),1-seg(t,b-f,b));$(id).style.opacity=v;return v}
+const up=(el,x,d=30)=>{el.style.opacity=x;el.style.transform=`translateY(${(1-x)*d}px)`};
+const typed=(s,t,a,b)=>s.slice(0,Math.round(s.length*seg(t,a,b)));
+const wipe=(el,x)=>el.style.clipPath=`inset(0 ${100-100*eo(x)}% 0 0 round 10px)`;
+// moving glows on background 1
+const G=[[900,700,'rgba(143,211,166,.38)',.0],[700,600,'rgba(47,125,79,.7)',1.3],[420,420,'rgba(217,242,166,.22)',2.1],[520,520,'rgba(143,211,166,.3)',3.4],[360,360,'rgba(111,200,150,.35)',4.6],[600,500,'rgba(29,90,58,.6)',5.5]];
+G.forEach((g,i)=>{const d=document.createElement('div');d.className='glow';d.id='g'+i;d.style.width=g[0]+'px';d.style.height=g[1]+'px';d.style.background=`radial-gradient(circle,${g[2]},transparent 68%)`;$('glows').appendChild(d)});
+const CHAOS=`$ sudo apt install nginx certbot postfix dovecot-imapd opendkim
+$ dig +short MX dittforetag.se   <span class="r">;; connection timed out</span>
+server { listen 443 ssl http2; server_name dittforetag.se;
+  ssl_certificate /etc/letsencrypt/live/dittforetag.se/fullchain.pem;
+  location / { proxy_pass http://127.0.0.1:3000; } }
+$ certbot --nginx -d dittforetag.se   <span class="r">Challenge failed (DNS-01)</span>
+<span class="b">v=spf1 include:_spf.google.com ip4:203.0.113.9 ~all</span>   <span class="r">← syntax error</span>
+default._domainkey IN TXT "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQ…"
+$ docker compose up -d   <span class="r">ERROR: port is already allocated</span>
+<span class="m">[webpack] Module not found: Can't resolve './components/Hero'</span>
+$ npm run build   <span class="r">✖ 37 errors, 112 warnings</span>
+<span class="y">Lighthouse: Performance 23 · LCP 7.9 s</span>
+$ openssl s_client -connect mail.dittforetag.se:993   <span class="r">verify error:num=21</span>
+_dmarc IN TXT "v=DMARC1; p=reject"   <span class="r">550 5.7.1 Unauthenticated</span>`;
+const BUILD=['<span class="g">$</span> elevate bygg lindvik-bygg','<span class="g">✓</span> Design och texter','<span class="g">✓</span> Mobil först','<span class="g">✓</span> SEO och AI-optimering','<span class="g">✓</span> Offertformulär → info@','<span class="g">✓</span> Laddar på 0,8 s','','<span class="y">&lt;header&gt;</span> Lindvik Bygg <span class="y">&lt;/header&gt;</span>','<span class="y">&lt;h1&gt;</span>Vi bygger det Västsverige växer i<span class="y">&lt;/h1&gt;</span>','<span class="y">&lt;form</span> <span class="b">id</span>="offert"<span class="y">&gt;</span>','','<span class="g">$</span> elevate publicera','<span class="g">✓ Live på lirk ↗</span>'];
+// three form submissions -> three leads, each adds +1
+const SUB=[{s:19.3,svc:'v1',m:'Renovera badrum och tvättstuga',n:'Karin Lund'},{s:21.0,svc:'v2',m:'Tillbyggnad 25 kvm på villa',n:'Erik Sandberg'},{s:22.6,svc:'v0',m:'Nytt fritidshus i Bohuslän',n:'Sara Ek'}];
+SUB.forEach((x,i)=>{const d=document.createElement('div');d.className='note';d.id='nt'+i;d.innerHTML=`<div class="ic">✉</div><div style="flex:1"><small>NY FÖRFRÅGAN VIA FORMULÄRET</small><b>${x.m}</b><span>${x.n} · ${$(x.svc).textContent}</span></div><span>nu</span>`;$('notes').appendChild(d)});
+const CP=[[12.9,[1360,780]],[13.3,'dph'],[13.9,'dph'],[14.05,'dgo'],[14.25,'dgo'],[14.55,'dadd'],[14.9,'dadd'],[15.6,'pbt'],[16.1,'pbt'],[16.6,[1360,780]],
+  [18.7,[700,800]]];
+SUB.forEach(x=>{CP.push([x.s,x.svc],[x.s+.2,x.svc],[x.s+.35,'fm'],[x.s+.95,'fn'],[x.s+1.15,'send'],[x.s+1.35,'send'])});CP.push([24.3,[700,800]]);
+const CLICKS=[13.35,14.1,14.62,15.7,...SUB.flatMap(x=>[x.s+.05,x.s+1.2])];
+function pt(p){if(Array.isArray(p))return p;const r=$(p).getBoundingClientRect();return[r.left+r.width/2,r.top+r.height/2]}
+function cursorAt(t){if(t<CP[0][0]||t>CP[CP.length-1][0])return null;for(let i=0;i<CP.length-1;i++){const a=CP[i],b=CP[i+1];if(t>=a[0]&&t<=b[0]){const x=eio(seg(t,a[0],b[0])),A=pt(a[1]),B=pt(b[1]);return[lerp(A[0],B[0],x),lerp(A[1],B[1],x)]}}}
+const REV=x=>{let v=0;for(let i=0;i<=x*100;i++)v+=4+Math.abs(Math.sin(i*.7))*9+Math.max(0,Math.sin(i*.23))*7;return v};
+function render(t){
+  G.forEach((g,i)=>{const e=$('g'+i),p=g[3];e.style.left=(640+430*Math.sin(t*.32+p*1.7)-g[0]/2)+'px';e.style.top=(360+250*Math.cos(t*.27+p*2.3)-g[1]/2)+'px';e.style.transform=`scale(${1+.18*Math.sin(t*.6+p)})`;e.style.opacity=.75+.25*Math.sin(t*.9+p*3)});
+  $('light').style.opacity=seg(t,30.8,31.2);
+  const fl=[1.9,5.6,7.6,12.6,18.4,24.6,28.8].map(k=>Math.max(0,1-Math.abs(t-k)/.12)).reduce((a,b)=>Math.max(a,b),0);$('flash').style.opacity=fl*.18;
+  // s0 rapid words
+  vis('s0',t,.05);const W=[['Hemsida.',0],['Domän.',.4],['Mejl.',.8],['Kunder.',1.2]];let cw=W[0];W.forEach(w=>{if(t>=w[1])cw=w});const lt=t-cw[1],w0=$('w0');w0.textContent=cw[0];
+  w0.style.opacity=seg(lt,0,.06);w0.style.transform=`scale(${.75+.25*back(seg(lt,0,.2))}) translateY(${(1-eo(seg(lt,0,.2)))*20}px)`;w0.style.color=cw[0]==='Kunder.'?'#8fd3a6':'#fff';
+  // s1 chaos (short)
+  vis('s1',t,.1);up($('q1'),eo(seg(t,1.95,2.2)));$('q1').style.opacity=Math.min(eo(seg(t,1.95,2.2)),1-seg(t,4.6,4.8));
+  const tw=$('tw'),o=back(seg(t,2.0,2.35));tw.style.opacity=Math.min(seg(t,2,2.1),1-seg(t,4.6,4.85));tw.style.transform=`scale(${.7+.3*o}) rotate(${(1-o)*-3}deg)`;
+  const L=CHAOS.split('\n'),n=Math.round(L.length*seg(t,2.2,4.3));$('term').innerHTML=L.slice(0,n).join('\n')+'<span class="g">▌</span>';
+  [[3.2,'e1'],[3.5,'e2'],[3.8,'e3'],[4.05,'e4']].forEach(([s,id])=>{const x=back(seg(t,s,s+.25)),e=$(id);e.style.opacity=Math.min(seg(t,s,s+.08),1-seg(t,4.6,4.85));e.style.transform=`scale(${.6+.4*x}) rotate(${(1-x)*8}deg)`});
+  const sh=t>4.2&&t<4.8?Math.sin(t*70)*5*(1-seg(t,4.2,4.8)):0;$('s1').style.transform=`translate(${sh}px,${sh*.6}px)`;
+  const q2=back(seg(t,4.75,5.05));$('q2').style.opacity=seg(t,4.75,4.85);$('q2').style.transform=`scale(${.6+.4*q2})`;
+  // s2
+  vis('s2',t,.15);const w2=back(seg(t,5.65,6));$('w2').style.opacity=seg(t,5.65,5.8);$('w2').style.transform=`scale(${.8+.2*w2})`;wipe($('w2h'),seg(t,6,6.35));up($('w3'),eo(seg(t,6.4,6.75)),20);$('s2').style.transform=`scale(${1+.45*seg(t,7.35,7.6)})`;
+  // s3 fast coding + Lindvik preview
+  vis('s3',t);up($('s3t'),eo(seg(t,7.7,8)));const cwo=back(seg(t,7.7,8.1));$('cw').style.opacity=seg(t,7.7,7.8);$('cw').style.transform=`perspective(1400px) rotateY(${8+(1-cwo)*20}deg) translateX(${(1-cwo)*-80}px)`;
+  const bo=back(seg(t,7.85,8.3));$('bw').style.opacity=seg(t,7.85,7.95);$('bw').style.transform=`perspective(1400px) rotateY(${-6+(1-bo)*-20}deg) translateX(${(1-bo)*80}px)`;
+  $('code').innerHTML=BUILD.slice(0,Math.round(BUILD.length*seg(t,8.1,10.8))).join('\n')+'<span class="g">▌</span>';
+  const rv=seg(t,8.6,10.6);$('sitecov').style.clipPath=`inset(${100*eio(rv)}% 0 0 0)`;$('site').style.transform=`scale(${1.08-.08*eo(rv)})`;
+  $('burl').textContent=t>10.8?'elevatestudio018.github.io/lirk':'localhost:3000';$('burl').style.color=t>10.8?'#8fd3a6':'';
+  const lv=back(seg(t,10.9,11.3));$('live').style.opacity=seg(t,10.9,11);$('live').style.transform=`scale(${lv})`;
+  const zz=eio(seg(t,11.6,12.6));$('bw').style.transform+=` translateX(${-260*zz}px) scale(${1+.1*zz})`;$('cw').style.opacity=1-zz;
+  // s4 order
+  vis('s4',t);$('cart').style.opacity=seg(t,12.7,12.9);
+  const dd=eo(seg(t,12.7,13.1));$('dom').style.opacity=Math.min(dd,1-seg(t,16.3,16.5));$('dom').style.transform=`translateY(${(1-dd)*30-60*eio(seg(t,15,15.4))}px) scale(${1-.1*eio(seg(t,15,15.4))})`;
+  const dn=typed('dittforetag',t,13.4,13.9);$('dt').textContent=dn;$('dph').style.display=dn?'none':'';$('dgo').style.transform=`scale(${t>14.05&&t<14.25?.92:1})`;
+  const dr=back(seg(t,14.25,14.55));$('dres').style.opacity=seg(t,14.25,14.35);$('dres').style.transform=`translateY(${(1-dr)*20}px)`;
+  const da=t>14.62;$('dadd').textContent=da?'Tillagd ✓':'Lägg till';$('dadd').style.background=da?'#1d3b2a':'';$('dadd').style.color=da?'#fff':'';
+  const pk=back(seg(t,15,15.4));$('pack').style.opacity=Math.min(seg(t,15,15.1),1-seg(t,16.3,16.5));$('pack').style.transform=`translateY(${(1-pk)*60}px) scale(${.9+.1*pk})`;
+  const pa=t>15.7;$('pbt').textContent=pa?'Tillagt ✓':'Lägg till paketet';$('pbt').style.background=pa?'#fff':'#8fd3a6';
+  $('cartn').textContent=pa?'2':da?'1':'0';const bump=[14.62,15.7].find(k=>t>k&&t<k+.35);$('cart').style.transform=`scale(${bump?1+.3*Math.sin(seg(t,bump,bump+.35)*Math.PI):1})`;
+  const ok=back(seg(t,16.5,16.9));$('okw').style.opacity=Math.min(seg(t,16.5,16.6),1-seg(t,18.1,18.3));$('check').style.transform=`scale(${ok}) rotate(${(1-ok)*-30}deg)`;
+  // s5 form -> lead -> +1
+  vis('s5',t);up($('s5t'),eo(seg(t,18.5,18.8)));const lfo=back(seg(t,18.5,18.9));$('lf').style.opacity=seg(t,18.5,18.6);$('lf').style.transform=`perspective(1200px) rotateY(${(1-lfo)*14}deg) translateY(${(1-lfo)*40}px)`;
+  let cur=null;SUB.forEach(x=>{if(t>=x.s-.3)cur=x});const r0=cur?cur.s:99;
+  ['v0','v1','v2'].forEach(v=>$(v).className=(cur&&cur.svc===v&&t>r0+.05)?'on':'');
+  $('fm').textContent=cur?typed(cur.m,t,r0+.35,r0+.9):'';$('fn').textContent=cur?typed(cur.n,t,r0+.95,r0+1.1):'';
+  const sent=cur&&t>r0+1.2&&t<r0+1.55;$('send').textContent=sent?'Skickat ✓':'Skicka förfrågan';$('send').style.background=sent?'#2f7d4f':'#1f4d36';
+  const done=SUB.filter(x=>t>=x.s+1.5).length;$('cn').textContent=11+done;
+  const lastIn=SUB.map(x=>x.s+1.5).filter(k=>t>=k).pop();const pl=lastIn?seg(t,lastIn,lastIn+.6):1;$('plus').style.opacity=lastIn?1-pl:0;$('plus').style.transform=`translateY(${-20*pl}px) scale(${1+.3*(1-pl)})`;
+  $('cntb').style.boxShadow=lastIn&&t<lastIn+.5?`0 0 ${40*(1-pl)}px rgba(143,211,166,.7)`:'none';$('cn').style.transform=`scale(${lastIn&&t<lastIn+.3?1.15:1})`;
+  // packet flies from form to inbox
+  const fly=SUB.find(x=>t>=x.s+1.2&&t<x.s+1.55),pk2=$('pkt');if(fly){const q=eio(seg(t,fly.s+1.2,fly.s+1.5));pk2.style.opacity=1-seg(t,fly.s+1.45,fly.s+1.55);pk2.style.left=lerp(300,940,q)+'px';pk2.style.top=(lerp(560,200,q)-120*Math.sin(q*Math.PI))+'px';pk2.style.transform=`rotate(${q*360}deg) scale(${1+.4*Math.sin(q*Math.PI)})`}else pk2.style.opacity=0;
+  SUB.forEach((x,i)=>{const n=$('nt'+i),s=x.s+1.5,y=back(seg(t,s,s+.35)),later=SUB.filter(m=>t>=m.s+1.5).length-1-i;n.style.opacity=seg(t,s,s+.1)*(1-Math.max(0,later)*.15);n.style.top=(Math.max(0,later)*76)+'px';n.style.transform=`translateX(${(1-y)*480}px)`;n.style.zIndex=20-later});
+  // s6 revenue: fast count, only rising, deals give context
+  vis('s6',t);up($('s6t'),eo(seg(t,24.7,25)));const mo=back(seg(t,24.7,25.2));$('mon').style.transform=`perspective(1400px) rotateX(${(1-mo)*10}deg) translateY(${(1-mo)*60}px) scale(${.92+.08*mo})`;
+  const x=eio(seg(t,25.1,27.9));$('rev').innerHTML=Math.round(REV(x)*480).toLocaleString('sv-SE')+' <i>kr</i>';$('dl').textContent='▲ +'+Math.round(x*186)+' % sedan nya hemsidan';
+  $('rev').style.transform=`scale(${1+.025*Math.sin(t*14)*(t>25.1&&t<27.9?1:0)})`;
+  const Wd=1120,Hh=270,N=100,P=[],mx=REV(1)*1.05;for(let i=0;i<=N*x;i++)P.push([i/N*Wd,Hh-18-REV(i/N)/mx*(Hh-40)]);
+  if(P.length>1){const d='M'+P.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');$('line').setAttribute('d',d);$('fill').setAttribute('d',d+` L${P[P.length-1][0].toFixed(1)},${Hh} L0,${Hh}Z`);const q=P[P.length-1];$('dot').setAttribute('cx',q[0]);$('dot').setAttribute('cy',q[1]);$('dot').setAttribute('r',8+3*Math.sin(t*10))}
+  [25.4,26.3,27.2].forEach((s,i)=>{const e=$('d'+i),y=back(seg(t,s,s+.3));e.style.opacity=seg(t,s,s+.1);e.style.transform=`translateX(${(1-y)*120}px) scale(${.8+.2*y})`});
+  // s7
+  vis('s7',t,.15);const a=back(seg(t,28.85,29.2));$('a1').style.opacity=seg(t,28.85,28.95);$('a1').style.transform=`scale(${.8+.2*a})`;wipe($('ahl'),seg(t,29.15,29.45));
+  [...$('a3').children].forEach((c,i)=>{const y=back(seg(t,29.4+i*.08,29.7+i*.08));c.style.display='inline-block';c.style.opacity=seg(t,29.4+i*.08,29.5+i*.08);c.style.transform=`translateY(${(1-y)*24}px) scale(${.8+.2*y})`});
+  $('s7').style.transform=`scale(${1+.4*seg(t,30.7,31)})`;
+  // s8
+  vis('s8',t,.3);$('lp').style.strokeDashoffset=9000*(1-eio(seg(t,31.05,31.9)));$('lp').style.fillOpacity=seg(t,31.6,32);up($('j1'),eo(seg(t,31.9,32.2)),20);const j2=back(seg(t,32.3,32.6));$('j2').style.opacity=seg(t,32.3,32.4);$('j2').style.transform=`scale(${j2})`;
+  // cursor
+  const inS=(t>12.9&&t<16.6)||(t>18.7&&t<24.3),cp=inS?cursorAt(t):null,cu=$('cur');
+  if(cp){cu.style.opacity=1;cu.style.transform=`translate(${cp[0]-8}px,${cp[1]-6}px) scale(${CLICKS.some(k=>t>=k-.05&&t<k+.09)?.8:1})`}else cu.style.opacity=0;
+  const rp=CLICKS.find(k=>t>=k&&t<k+.4),rip=$('rip');if(rp!==undefined&&cp){const q=seg(t,rp,rp+.4);rip.style.opacity=1-q;rip.style.left=cp[0]+'px';rip.style.top=cp[1]+'px';rip.style.transform=`scale(${.3+q})`}else rip.style.opacity=0;
+  const sk=[14.62,15.7,...SUB.map(x=>x.s+1.2)].find(k=>t>=k&&t<k+.5),spk=$('spk');if(sk!==undefined&&cp){const q=seg(t,sk,sk+.5);spk.style.opacity=1-q;spk.style.left=(cp[0]+30)+'px';spk.style.top=(cp[1]-30-20*q)+'px';spk.style.transform=`scale(${.5+q}) rotate(${q*120}deg)`}else spk.style.opacity=0;
+}
+window.render=render;window.DUR=DUR;
+if(!/capture/.test(location.search)){let t0=performance.now();(function loop(){render(((performance.now()-t0)/1000)%DUR);requestAnimationFrame(loop)})()}
+</script>
+</body></html>
