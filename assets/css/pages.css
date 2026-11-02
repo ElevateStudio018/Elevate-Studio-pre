@@ -996,3 +996,24 @@ select.portal-company { font-size: 20px; }
 .portal-top { margin-top: 8px; }
 .portal-promo { grid-template-columns: 1fr 1fr; } .portal-promo--one { grid-template-columns: 1fr; } @media (max-width: 900px) { .portal-promo { grid-template-columns: 1fr; } }
 .shop-diag input { min-width: 0; } .shop-diag .btn { flex: none; }
+
+/* ---------- The new look across the whole site: dark green, fine dots, lime and teal glow ---------- */
+:root {
+  --glow-bg: radial-gradient(ellipse 45% 60% at 100% 105%, rgba(212, 232, 90, .8), rgba(212, 232, 90, 0) 70%),
+             radial-gradient(ellipse 60% 50% at 40% 120%, rgba(40, 150, 125, .5), rgba(40, 150, 125, 0) 70%);
+  --glow-dots: radial-gradient(rgba(255, 255, 255, .09) 1px, transparent 1.4px);
+}
+.page-hero:not(.sitetest-hero) { padding: 16px 0 40px; background: transparent; }
+.page-hero:not(.sitetest-hero) > .container { position: relative; overflow: hidden; isolation: isolate; padding: 72px 56px; border-radius: 32px; background-color: #16301f; background-image: var(--glow-bg); color: #fdfbf5; }
+.page-hero:not(.sitetest-hero) > .container::before, .cta-band::before, .site-footer::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-image: var(--glow-dots); background-size: 6px 6px; }
+.page-hero:not(.sitetest-hero) > .container::after { display: none; }
+.page-hero:not(.sitetest-hero) .page-hero__title, .page-hero:not(.sitetest-hero) .page-hero__title em { color: #fdfbf5; }
+.page-hero:not(.sitetest-hero) .page-hero__lead { color: rgba(253, 251, 245, .85); }
+.page-hero:not(.sitetest-hero) .page-hero__eyebrow { color: #fdfbf5; }
+.page-hero:not(.sitetest-hero) a:not(.btn) { color: #fdfbf5; }
+.cta-band { position: relative; overflow: hidden; isolation: isolate; margin: 0 16px; border-radius: 32px; background-color: #16301f; background-image: var(--glow-bg); }
+.site-footer { isolation: isolate; background-color: #12271b; background-image: radial-gradient(ellipse 40% 50% at 0% 0%, rgba(40, 150, 125, .28), rgba(40, 150, 125, 0) 70%), radial-gradient(ellipse 35% 45% at 100% 100%, rgba(212, 232, 90, .22), rgba(212, 232, 90, 0) 70%); }
+.info-card--accent { position: relative; overflow: hidden; isolation: isolate; background-color: #16301f !important; background-image: var(--glow-bg) !important; color: #fdfbf5; }
+@media (max-width: 768px) { .page-hero:not(.sitetest-hero) > .container { padding: 44px 24px; border-radius: 24px; } .cta-band { margin: 0 8px; border-radius: 24px; } }
+.pricing { position: relative; isolation: isolate; background-color: #16301f !important; background-image: var(--glow-bg) !important; }
+.pricing::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-image: var(--glow-dots); background-size: 6px 6px; }
