@@ -90,6 +90,10 @@ export async function webmail(req, env, connector, mailer) {
     }
   }
   if (op === 'logout') return json({ ok: true }, 200, { 'set-cookie': cookie('', 0) });
+  if (/^logo\/[0-9a-f]{24}\.(png|jpg)$/.test(op) && req.method === 'GET') {
+    const o = env.MAIL_BACKUP && await env.MAIL_BACKUP.get('logos/' + op.slice(5)); if (!o) return new Response('', { status: 404 });
+    return new Response(o.body, { headers: { 'content-type': op.endsWith('png') ? 'image/png' : 'image/jpeg', 'cache-control': 'public, max-age=31536000, immutable' } });
+  }
   const s = await open(env, session(req));
   if (!s) return json({ error: 'login' }, 401);
   const folder = (url.searchParams.get('folder') || 'INBOX').slice(0, 200);
@@ -146,6 +150,14 @@ export async function webmail(req, env, connector, mailer) {
       return json({ ok: true, name: made });
     }
     if (op === 'backup') return json(await backup(env, s, connector));
+    if (op === 'logo') {
+      if (!env.MAIL_BACKUP) return json({ setup: false });
+      const type = b.type === 'image/png' ? 'image/png' : 'image/jpeg', data = String(b.data || '');
+      if (!/^[A-Za-z0-9+/=]+$/.test(data) || data.length > 400000) return json({ error: 'Loggan är för stor.' }, 400);
+      const bytes = Uint8Array.from(atob(data), (c) => c.charCodeAt(0)), hash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].slice(0, 12).map((x) => x.toString(16).padStart(2, '0')).join('');
+      await env.MAIL_BACKUP.put(`logos/${hash}.${type === 'image/png' ? 'png' : 'jpg'}`, bytes, { httpMetadata: { contentType: type, cacheControl: 'public, max-age=31536000, immutable' } });
+      return json({ url: `${new URL(req.url).origin}/api/mail/logo/${hash}.${type === 'image/png' ? 'png' : 'jpg'}` });
+    }
     return json({ error: 'op' }, 404);
   } catch (e) { return json({ error: 'Mejlservern svarade: ' + String(e.message || e).slice(0, 160) }, 502); }
 }

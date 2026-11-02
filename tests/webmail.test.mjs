@@ -125,3 +125,12 @@ test('säkerhetskopia: alla mejl sparas, i omgångar, utan papperskorgen', async
   const b = await (await req()).json(); assert.equal(b.saved, 0, 'inget sparas två gånger');
   assert.equal((await (await webmail(new Request('https://elevatestudio.nu/api/mail/backup', { method: 'POST', headers: { 'x-requested-with': 'elevate', cookie: 'es_mail=' + ck } }), env, connector)).json()).setup, false);
 });
+
+test('logga i signaturen: lagras och kan hämtas av alla mejlprogram', async () => {
+  const store = new Map(); const bucket = { get: async (k) => (store.has(k) ? { body: store.get(k) } : null), put: async (k, v) => { store.set(k, v); } };
+  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64').toString('base64');
+  const r = await webmail(new Request('https://elevatestudio.nu/api/mail/logo', { method: 'POST', headers: { 'content-type': 'application/json', 'x-requested-with': 'elevate', cookie: 'es_mail=' + ck }, body: JSON.stringify({ type: 'image/png', data: png }) }), { ...env, MAIL_BACKUP: bucket }, connector);
+  const d = await r.json(); assert.match(d.url, /^https:\/\/elevatestudio\.nu\/api\/mail\/logo\/[0-9a-f]{24}\.png$/);
+  const g = await webmail(new Request(d.url), { ...env, MAIL_BACKUP: bucket }, connector); assert.equal(g.status, 200); assert.equal(g.headers.get('content-type'), 'image/png');
+  assert.equal((await webmail(new Request('https://elevatestudio.nu/api/mail/logo/zz.png'), env, connector)).status, 401);
+});

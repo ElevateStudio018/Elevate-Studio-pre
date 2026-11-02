@@ -1539,3 +1539,5 @@ body.mail-app .wmx { min-height: 100vh; border-radius: 0 !important; }
 .wmx-acts--compose .btn { font-size: 15px !important; gap: 6px; }
 .wmx-av { display: grid !important; place-items: center !important; width: 32px !important; height: 32px !important; padding: 0 !important; position: static !important; overflow: hidden; font-style: normal; text-align: center; }
 .wmx-sig { user-select: text; cursor: default; }
+.wmx-siglogo { display: block; max-width: 180px; max-height: 70px; margin-top: 6px; }
+.wmx-logo-in { display: grid; gap: 6px; font-size: 13px; color: #4f5a53; } .wmx-logo-in input { font-size: 13px; }

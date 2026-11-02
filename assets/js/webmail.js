@@ -58,6 +58,7 @@
         : o === 'flags' ? (us.forEach(function (u) { var m = find(f, u); if (m) m[b.flag === 'flagged' ? 'flagged' : 'seen'] = !!b.on; }), { ok: true })
         : o === 'folder' ? (b.action === 'create' ? (box['INBOX.' + b.name] = [], { ok: true, name: 'INBOX.' + b.name }) : (delete box[b.name], { ok: true }))
         : o === 'backup' ? { total: 9, saved: 9, remaining: 0, at: new Date().toISOString() }
+        : o === 'logo' ? { url: 'data:' + b.type + ';base64,' + b.data }
         : o === 'move' ? (function () { var to = roles[b.to] || b.to; box[to] = take(f, us).concat(box[to] || []); return { ok: true }; })()
         : o === 'draft' ? (function () { if (b.replaces) take('INBOX.Drafts', [Number(b.replaces)]); box['INBOX.Drafts'].unshift({ uid: ++uid, seen: true, from: 'anna@exempelbygg.se', to: b.to, subject: b.subject || '(inget ämne)', date: new Date().toUTCString(), text: b.text }); return { ok: true }; })()
         : o === 'send' ? (box['INBOX.Sent'].unshift({ uid: ++uid, seen: true, from: (b.name ? b.name + ' <anna@exempelbygg.se>' : 'anna@exempelbygg.se'), to: b.to, cc: b.cc, subject: b.subject || '(inget ämne)', date: new Date().toUTCString(), text: b.text, files: (b.files || []).map(function (x) { return { name: x.name, size: x.data.length * 0.75 }; }) }), { ok: true })
@@ -232,7 +233,17 @@
   function quote(m) { return '\n\n' + sig() + '\n\n— ' + name(m.from) + ' skrev ' + new Date(m.date).toLocaleString('sv-SE') + ':\n' + String(m.text || '').split('\n').map(function (l) { return '> ' + l; }).join('\n'); }
   var sig = function () { var x = st.settings.signatures.filter(function (g) { return g.id === st.settings.defSig; })[0]; return x ? '-- \n' + x.text : ''; };
   var toHtml = function (t) { return esc(t).replace(/\n/g, '<br>'); };
-  var sigHtml = function (g) { return '<div class="wmx-sig" contenteditable="false">-- <br>' + toHtml(g.text) + '</div>'; };
+  var sigHtml = function (g) { return '<div class="wmx-sig" contenteditable="false">-- <br>' + toHtml(g.text) + (g.logo ? '<br><img src="' + esc(g.logo) + '" alt="' + esc(g.name) + '" style="max-width:180px;max-height:70px;margin-top:8px">' : '') + '</div>'; };
+  // a logo for the signature: scaled down in the browser, then stored by Elevate so it shows in every mail program
+  function logoFile(file) {
+    return new Promise(function (ok, no) {
+      if (!file || !/^image\/(png|jpeg)$/.test(file.type)) return no(new Error('Välj en PNG- eller JPG-bild.'));
+      var img = new Image(); img.onload = function () { var k = Math.min(1, 360 / img.width, 140 / img.height), c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); var type = file.type === 'image/png' ? 'image/png' : 'image/jpeg', data = c.toDataURL(type, 0.9);
+        api('logo', { type: type, data: data.split(',')[1] }).then(function (d) { ok(d.url || data); }).catch(function () { ok(data); }); };
+      img.onerror = function () { no(new Error('Bilden kunde inte läsas.')); }; img.src = URL.createObjectURL(file);
+    });
+  }
 
   // ---------- writing: rich text, attachments, signatures, recipients with initials ----------
   var FONTS = [['', 'Standard'], ['Arial, sans-serif', 'Arial'], ['Georgia, serif', 'Georgia'], ['"Times New Roman", serif', 'Times'], ['"Courier New", monospace', 'Courier'], ['Verdana, sans-serif', 'Verdana']];
@@ -325,13 +336,16 @@
     var m = document.createElement('div'); m.className = 'wmx-modal'; document.body.appendChild(m);
     var draw = function () {
       m.innerHTML = '<div class="wmx-modal__box" role="dialog" aria-label="Signaturer"><div class="wmx-box__head"><b>Signaturer</b><button type="button" class="wmx-icon" data-x aria-label="Stäng">' + ico('close') + '</button></div>' +
-        (st.settings.signatures.length ? st.settings.signatures.map(function (g) { return '<div class="wmx-sigrow"><div><b>' + esc(g.name) + (g.id === st.settings.defSig ? ' <small>standard</small>' : '') + '</b><p>' + toHtml(g.text) + '</p></div><span><button type="button" class="btn btn--primary" data-use="' + g.id + '"><span>Infoga</span></button><button type="button" class="wmx-link" data-def="' + g.id + '">Gör till standard</button><button type="button" class="wmx-link wmx-del" data-del="' + g.id + '">Ta bort</button></span></div>'; }).join('') : '<p class="wmx-empty">Inga signaturer än.</p>') +
-        '<form class="wmx-sigform"><b>Lägg till ny signatur</b><input name="name" placeholder="Namn, t.ex. Formell" required><textarea name="text" rows="4" placeholder="Anna Exempel&#10;Exempelbygg AB · 070-000 00 00" required></textarea><button class="btn btn--primary"><span>Spara signatur</span></button></form></div>';
+        (st.settings.signatures.length ? st.settings.signatures.map(function (g) { return '<div class="wmx-sigrow"><div><b>' + esc(g.name) + (g.id === st.settings.defSig ? ' <small>standard</small>' : '') + '</b><p>' + toHtml(g.text) + '</p>' + (g.logo ? '<img src="' + esc(g.logo) + '" alt="" class="wmx-siglogo">' : '') + '</div><span><button type="button" class="btn btn--primary" data-use="' + g.id + '"><span>Infoga</span></button><button type="button" class="wmx-link" data-def="' + g.id + '">Gör till standard</button><button type="button" class="wmx-link wmx-del" data-del="' + g.id + '">Ta bort</button></span></div>'; }).join('') : '<p class="wmx-empty">Inga signaturer än.</p>') +
+        '<form class="wmx-sigform"><b>Lägg till ny signatur</b><input name="name" placeholder="Namn, t.ex. Formell" required><textarea name="text" rows="4" placeholder="Anna Exempel&#10;Exempelbygg AB · 070-000 00 00" required></textarea>' +
+        '<label class="wmx-logo-in">Logga (valfritt, PNG eller JPG)<input type="file" name="logo" accept="image/png,image/jpeg"></label><img class="wmx-siglogo" alt="" hidden><p class="wmx-err" hidden></p><button class="btn btn--primary"><span>Spara signatur</span></button></form></div>';
       m.querySelector('[data-x]').onclick = function () { m.remove(); };
       m.querySelectorAll('[data-use]').forEach(function (b) { b.onclick = function () { use(st.settings.signatures.filter(function (g) { return g.id === b.dataset.use; })[0]); m.remove(); }; });
       m.querySelectorAll('[data-def]').forEach(function (b) { b.onclick = function () { st.settings.defSig = b.dataset.def; store.set('settings', st.settings); draw(); }; });
       m.querySelectorAll('[data-del]').forEach(function (b) { b.onclick = function () { if (!confirm('Ta bort signaturen?')) return; st.settings.signatures = st.settings.signatures.filter(function (g) { return g.id !== b.dataset.del; }); store.set('settings', st.settings); draw(); }; });
-      m.querySelector('.wmx-sigform').onsubmit = function (e) { e.preventDefault(); var g = { id: 's' + Date.now(), name: e.target.name.value.trim(), text: e.target.text.value.trim() }; if (!g.name || !g.text) return;
+      var sf = m.querySelector('.wmx-sigform'), logo = '', prev = sf.querySelector('img.wmx-siglogo'), lerr = sf.querySelector('.wmx-err');
+      sf.logo.onchange = function () { lerr.hidden = true; logoFile(sf.logo.files[0]).then(function (u) { logo = u; prev.src = u; prev.hidden = false; }).catch(function (x) { lerr.hidden = false; lerr.textContent = x.message; sf.logo.value = ''; }); };
+      sf.onsubmit = function (e) { e.preventDefault(); var g = { id: 's' + Date.now(), name: e.target.name.value.trim(), text: e.target.text.value.trim(), logo: logo }; if (!g.name || !g.text) return;
         st.settings.signatures.push(g); if (!st.settings.defSig) st.settings.defSig = g.id; store.set('settings', st.settings); draw(); };
     };
     m.addEventListener('click', function (e) { if (e.target === m) m.remove(); }); draw();
