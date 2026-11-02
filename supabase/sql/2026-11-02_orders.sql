@@ -20,3 +20,15 @@ create policy "admin read orders" on public.orders for select to authenticated
 drop policy if exists "admin update orders" on public.orders;
 create policy "admin update orders" on public.orders for update to authenticated
   using (exists (select 1 from public.user_roles r where r.user_id = auth.uid()));
+
+-- Domain watch (Bevaka): a mail when a taken domain becomes free. Only the server writes; admins read.
+create table if not exists public.domain_watches (
+  id bigint generated always as identity primary key,
+  created_at timestamptz not null default now(),
+  email text not null, domain text not null, notified_at timestamptz,
+  unique (email, domain)
+);
+alter table public.domain_watches enable row level security;
+drop policy if exists "admin read watches" on public.domain_watches;
+create policy "admin read watches" on public.domain_watches for select to authenticated
+  using (exists (select 1 from public.user_roles r where r.user_id = auth.uid()));

@@ -15,6 +15,8 @@ const ok = (c, n) => { c ? pass++ : fail++; console.log(c ? 'PASS' : 'FAIL', n);
   const gotResult = done && await p.isVisible('#sitetest-results:not([hidden])');
   ok(gotResult, 'snabbtestet ger resultat' + (gotResult ? '' : ': ' + ((await p.textContent('#sitetest-error').catch(() => '')) || 'inget svar').slice(0, 120)));
   if (gotResult) {
+    ok(await p.isVisible('.impact'), 'resultatet visar Så påverkar det er nu och Med 100 i alla');
+    ok((await p.textContent('.impact__col--best')).includes('100'), 'kolumnen Med 100 finns');
     const [dl] = await Promise.all([p.waitForEvent('download', { timeout: 30000 }).catch(() => null), p.click('#sitetest-pdf')]);
     ok(!!dl && /\.pdf$/.test(dl.suggestedFilename()), 'PDF laddas ner' + (dl ? ' (' + dl.suggestedFilename() + ')' : ''));
     await p.click('#sitetest-send'); await p.waitForURL(/kontakt/, { timeout: 10000 });

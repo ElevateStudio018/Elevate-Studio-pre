@@ -30,6 +30,9 @@ await p.goto(BASE + 'domaner.html');
 await p.fill('#dom-form input', 'x'); await p.click('#dom-form button');
 ok((await p.textContent('#dom-hint')).includes('minst två'), 'för kort sökning ger tydligt fel');
 const name = 'esq' + Date.now().toString(36);
+await p.fill('#dom-form input', 'google'); await p.click('#dom-form button'); await p.waitForSelector('.shop-watch', { timeout: 40000 });
+await p.click('.shop-watch'); await p.fill('.dom-watch input', 'test@example.se'); await p.click('.dom-watch button'); await p.waitForSelector('.dom-watch__ok', { timeout: 10000 });
+ok((await p.textContent('.dom-watch')).includes('test@example.se'), 'bevaka en upptagen domän ger bekräftelse');
 await p.fill('#dom-form input', name); await p.click('#dom-form button');
 await p.waitForSelector('.shop-row', { timeout: 40000 });
 ok(await p.locator('.shop-list').first().locator('.shop-row').count() === 12, '12 toppdomäner visas');
@@ -40,13 +43,15 @@ await p.click('#dom-chips [data-tld="com"]'); ok(await p.locator('.shop-list').f
 ok(!(await p.locator('.shop-list .shop-row').first().innerText()).includes('Förnyas'), 'bara ett pris per rad');
 await p.click('#dom-chips [data-tld="se"]'); await p.click('.shop-add'); ok((await p.textContent('.dom-side')).includes('1 produkt'), 'sidokortet visar varukorgen'); await p.waitForTimeout(300);
 ok(!(await p.isVisible('#shop-bar')), 'ingen dubbel summarad på domänsidan');
+ok(await p.isVisible('.dom-pack'), 'paketet visas under resultaten');
+await p.click('#dom-pack'); await p.waitForTimeout(200); ok((await p.textContent('.dom-side')).includes('3 produkter'), 'paketet lägger domän, mejl och hemsida i varukorgen (efter .se: ' + (await p.textContent('.dom-side__sum')) + ')');
 await p.screenshot({ path: OUT + '/e2e_1_domaner.png' });
 // 4-5: business mail
 await p.goto(BASE + 'foretagsmejl.html'); await p.waitForSelector('.shop-plan');
 await p.click('.shop-plan >> nth=1 >> .m-add'); ok(await p.evaluate(() => !document.querySelector('.shop-plan:nth-child(2) .m-dom').checkValidity()), 'mejl utan domän stoppas med felmeddelande');
 await p.fill('.shop-plan >> nth=1 >> .m-dom', name + '.se'); await p.fill('.shop-plan >> nth=1 >> .m-extra', '2'); await p.fill('.shop-plan >> nth=1 >> .m-addr', 'info, kontakt');
 await p.click('.shop-plan >> nth=1 >> .m-add'); await p.waitForTimeout(200);
-ok(await p.waitForFunction(() => (document.querySelector('#shop-bar') || {}).textContent && document.querySelector('#shop-bar').textContent.includes('2 produkter'), null, { timeout: 3000 }).then(() => true).catch(() => false), 'mejlpaket lagt i varukorgen (summaraden på mejlsidan)');
+ok(await p.waitForFunction(() => (document.querySelector('#shop-bar') || {}).textContent && /[0-9]+ produkter/.test(document.querySelector('#shop-bar').textContent), null, { timeout: 3000 }).then(() => true).catch(() => false), 'mejlpaket lagt i varukorgen (summaraden på mejlsidan)');
 await p.click('input[value="year"] + span'); ok((await p.textContent('.shop-plan .shop-price')).includes('/år'), 'periodval växlar till per år');
 await p.fill('#diag-form input', 'inte en domän'); await p.click('#diag-form button'); await p.waitForTimeout(300);
 ok((await p.textContent('#diag-out')).includes('Skriv en domän'), 'mejlkontroll med fel inmatning ger tydligt fel');

@@ -23,7 +23,7 @@ function label(raw) {
 }
 const ascii = (name, tld) => { try { return new URL('http://' + name + '.' + tld).hostname; } catch { return null; } };
 
-async function checkOne(name, tld) {
+export async function checkOne(name, tld) {
   const host = ascii(name, tld);
   if (!host || name.length < 2) return { domain: name + '.' + tld, tld, status: 'invalid' };
   if (RDAP[tld]) {

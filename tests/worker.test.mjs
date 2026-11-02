@@ -81,3 +81,20 @@ test('order: the same checkout key gives the same order number (no double orders
   const b = await (await createOrder(post('/api/order', body), env())).json();
   assert.equal(a.ref, b.ref); assert.equal(a.ref, 'ES-ABC123DEF456');
 });
+import { watchDomain, checkWatches } from '../worker/watch.js';
+test('order: the Starter website in the package is priced from the catalog', async () => {
+  const d = await (await createOrder(post('/api/order', { customer, terms: true, items: [{ type: 'domain', domain: 'ab.se' }, { type: 'website', id: 'starter', once: 1 }] }), env())).json();
+  assert.equal(d.totals.once, 149 + 5000);
+});
+test('watch: bad input 400, no database 503 (the page then mails info@)', async () => {
+  assert.equal((await watchDomain(post('/api/domain/watch', { email: 'x', domain: 'ab.se' }), env())).status, 400);
+  assert.equal((await watchDomain(post('/api/domain/watch', { email: 'a@b.se', domain: 'trattan.com' }), env())).status, 503);
+});
+test('daily watch check: mails only when the domain is free, then marks it', async () => {
+  const calls = []; const realFetch = globalThis.fetch;
+  globalThis.fetch = async (url, opt = {}) => { calls.push([opt.method || 'GET', String(url)]); return new Response(JSON.stringify([{ id: 1, email: 'a@b.se', domain: 'ledig.se' }, { id: 2, email: 'c@d.se', domain: 'tagen.se' }])); };
+  const mails = [];
+  const n = await checkWatches({ SUPABASE_URL: 'https://db', SUPABASE_SERVICE_KEY: 'k' }, async (name) => ({ status: name === 'ledig' ? 'likely_free' : 'taken' }), async (to, subj) => mails.push([to, subj]));
+  globalThis.fetch = realFetch;
+  assert.equal(n, 1); assert.deepEqual(mails, [['a@b.se', 'ledig.se är ledig']]); assert.ok(calls.some((c) => c[0] === 'PATCH' && c[1].includes('id=eq.1')));
+});

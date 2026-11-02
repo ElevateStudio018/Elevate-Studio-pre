@@ -25,6 +25,9 @@ export async function createOrder(req, env) {
       const years = Math.max(1, Math.min(10, Number(it.years) || 1));
       lines.push(it.transfer ? { type: 'domain', name: dom, transfer: true, years: 1, once: t.transfer + t.renew, yearly: t.renew }
         : { type: 'domain', name: dom, years, once: t.register + t.renew * (years - 1), yearly: t.renew });
+    } else if (it.type === 'website') {
+      const w = (cat.websites || []).find((x) => x.id === it.id); if (!w) continue;
+      lines.push({ type: 'website', name: w.name, once: w.once });
     } else if (it.type === 'mail') {
       const m = cat.mail.find((x) => x.id === it.id); if (!m) continue;
       const extra = Math.max(0, Math.min(500, Number(it.extra) || 0)), yearlyPlan = it.period === 'year';

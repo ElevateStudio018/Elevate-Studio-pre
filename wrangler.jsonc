@@ -3,6 +3,7 @@
 {
   "name": "elevate-studio-pre",
   "compatibility_date": "2026-10-01",
+  "triggers": { "crons": ["17 6 * * *"] },
   "compatibility_flags": ["nodejs_compat"],
   // Server part for the admin (worker/): meeting invites sent through Gmail. Everything else is static files.
   "main": "worker/index.js",

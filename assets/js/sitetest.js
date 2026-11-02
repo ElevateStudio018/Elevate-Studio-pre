@@ -306,7 +306,7 @@
         (shot ? '<img class="sitetest__shot" src="' + shot + '" alt="Skärmbild av den testade sidan">' : '') +
         '<div><p class="sitetest__tested">Testad sida' + (lr ? ' (' + (strategy === 'mobile' ? 'mobil' : 'dator') + ')' : '') + '</p>' +
         '<p class="sitetest__url">' + esc(url) + '</p>' + verdict(cats, secScan) + '<div class="scores">' + rings.join('') + '</div></div>' +
-      '</div>' +
+      '</div>' + impact(cats, audits, issues) +
       (metrics ? '<h2 class="sitetest__h2">Laddtider</h2><div class="metrics">' + metrics + '</div>' : '') + realHtml + safeHtml +
       '<h2 class="sitetest__h2">Det här kan förbättras <span>(' + issues.length + ')</span></h2>' +
       '<ol class="issues">' + issueHtml + '</ol>' +
@@ -338,6 +338,43 @@
       if (window.elevateTrack) window.elevateTrack('sitetest_send', url);
     });
     results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // What the result means in plain words: what it costs now, and what 100 gives. The load-time figures come from
+  // Google's published research (Think with Google, 2017): compared with 1 second, the chance that a mobile
+  // visitor leaves rises 32 % at 3 s, 90 % at 5 s, 106 % at 6 s and 123 % at 10 s. Nothing else is estimated.
+  function bounceRise(sec) {
+    var pts = [[1, 0], [3, 32], [5, 90], [6, 106], [10, 123]];
+    if (sec <= 1) return 0; if (sec >= 10) return 123;
+    for (var i = 1; i < pts.length; i++) if (sec <= pts[i][0]) { var a = pts[i - 1], b = pts[i]; return Math.round(a[1] + (b[1] - a[1]) * (sec - a[0]) / (b[0] - a[0])); }
+    return 123;
+  }
+  function impact(cats, audits, issues) {
+    var sc = function (id) { return cats[id] && typeof cats[id].score === 'number' ? Math.round(cats[id].score * 100) : null; };
+    var lcpA = audits['largest-contentful-paint'], lcp = lcpA && lcpA.numericValue ? lcpA.numericValue / 1000 : null;
+    var count = function (cat) { return issues.filter(function (i) { return i.cat === cat; }).length; };
+    var lvl = function (v) { return v >= 90 ? 'good' : v >= 50 ? 'ok' : 'bad'; };
+    var now = [];
+    if (lcp != null) {
+      var rise = bounceRise(lcp), s1 = lcp.toFixed(1).replace('.', ',');
+      now.push(['Laddtid ' + s1 + ' s', lcp <= 2.5 ? 'Sidan visas snabbt. De flesta besökare stannar.' : 'Risken att en mobilbesökare lämnar innan sidan visats är ungefär <b>' + rise + ' % högre</b> än om den visades på 1 sekund.', lcp <= 2.5 ? 'good' : rise >= 90 ? 'bad' : 'ok']);
+    }
+    [['performance', 'Prestanda', 'Prestanda', 'saker gör sidan långsammare än den behöver vara, oftast för stora bilder och skript.', 'Sidan är snabb och lätt.'],
+     ['accessibility', 'Tillgänglighet', 'Tillgänglighet', 'saker gör sidan svår att använda för den som ser dåligt, använder skärmläsare eller bara tangentbord.', 'Sidan går att använda för alla.'],
+     ['seo', 'SEO', 'SEO', 'saker gör att Google förstår sidan sämre, vilket kan ge lägre placering och sämre utseende i sökresultaten.', 'Google förstår sidan bra.'],
+     ['best-practices', 'Bästa praxis', 'Bästa praxis', 'saker som fel i webbläsaren eller gammal teknik. Kan ge varningar och göra sidan mindre pålitlig.', 'Inga fel i webbläsaren och modern teknik.']].forEach(function (c) {
+      var v = sc(c[0]); if (v == null) return; var n = count(c[2]);
+      now.push([c[1] + ' ' + v, v >= 90 && !n ? c[4] : (n === 1 ? '1 sak' : (n || 'Några') + ' saker') + ' ' + c[3].replace(/^saker /, ''), lvl(v)]);
+    });
+    if (!now.length) now.push(['Inga betyg från Google just nu', 'Googles test kunde inte köras den här gången, så vi kan inte säga hur sidan presterar. Försök igen om en stund, eller kör djupanalysen.', 'ok']);
+    var best = [
+      ['Fler stannar kvar', 'Sidan visas på under 2,5 sekunder. Besökaren hinner läsa, ringa eller skicka en förfrågan i stället för att gå tillbaka till Google.'],
+      ['Syns bättre på Google', 'Google och AI-tjänster förstår vad ni gör och var ni finns. Grunden för att komma högre när kunder söker.'],
+      ['Alla kan använda den', 'Fungerar med skärmläsare och för den som ser dåligt. Ett krav för många företag sedan tillgänglighetslagen började gälla 28 juni 2025.'],
+      ['Mer förtroende', 'En snabb sida utan fel känns professionell. Besökaren litar på företaget innan ni ens pratat.']];
+    return '<div class="impact"><div class="impact__col"><h2 class="sitetest__h2">Så påverkar det er nu</h2>' + now.map(function (x) { return '<div class="impact__item impact__item--' + x[2] + '"><strong>' + x[0] + '</strong><p>' + x[1] + '</p></div>'; }).join('') + '</div>' +
+      '<div class="impact__col impact__col--best"><h2 class="sitetest__h2">Med 100 i alla</h2>' + best.map(function (x) { return '<div class="impact__item"><strong>' + x[0] + '</strong><p>' + x[1] + '</p></div>'; }).join('') + '</div></div>' +
+      '<p class="impact__src">Siffran om laddtid bygger på Googles undersökning av mobilbesök (Think with Google, 2017). Resten är vad testet faktiskt hittade på sidan.</p>';
   }
 
   // The whole result as plain text, for the quote request form

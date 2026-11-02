@@ -1266,3 +1266,32 @@ body:has(#webmail .wmx) .chat { display: none; }
 .dom-side ul { margin: 0 0 20px; padding-left: 18px; color: #4f5a53; line-height: 1.8; }
 .dom-side__mail { font-weight: 600; color: #1d3b2a; }
 @media (max-width: 900px) { .dom-layout { grid-template-columns: 1fr; } .dom-side { position: static; } .dom-list .shop-row { grid-template-columns: 1fr auto !important; padding: 18px 20px !important; } .dom-list .shop-row > .shop-st { display: none; } }
+/* Testa din sajt: what the result means now, and what 100 gives */
+.impact { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 32px 0 6px; }
+.impact__col { padding: 28px; border-radius: 24px; background: #fff; border: 1px solid #e6e9e4; }
+.impact__col--best { position: relative; overflow: hidden; isolation: isolate; border: 0; background-color: #16301f; background-image: radial-gradient(ellipse 45% 60% at 100% 105%, rgba(60, 170, 120, .5), transparent 70%); color: #fdfbf5; }
+.impact__col .sitetest__h2 { margin: 0 0 16px; font-size: 24px; }
+.impact__col--best .sitetest__h2 { color: #fdfbf5; }
+.impact__item { padding: 14px 0 14px 16px; border-left: 4px solid #2f7d4f; margin: 0 0 10px; }
+.impact__item--bad { border-left-color: #b42318; } .impact__item--ok { border-left-color: #c98a16; }
+.impact__col--best .impact__item { border-left-color: #8fdcb4; }
+.impact__item strong { display: block; margin: 0 0 4px; font-size: 17px; font-weight: 600; }
+.impact__item p { margin: 0; line-height: 1.55; color: #4f5a53; }
+.impact__col--best .impact__item p { color: rgba(253, 251, 245, .85); }
+.impact__src { margin: 8px 0 24px; font-size: 13px; color: #6b736d; }
+@media (max-width: 800px) { .impact { grid-template-columns: 1fr; } }
+/* Domains: watch a taken domain, and the package */
+.dom-taken { display: inline-flex; gap: 14px; align-items: center; }
+.dom-link { padding: 0; border: 0; background: none; color: #4f5a53; font: inherit; font-size: 14px; text-decoration: underline; cursor: pointer; }
+.dom-watch { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 16px 22px; border-radius: 18px; background: #eef4ef; }
+.dom-watch p { flex-basis: 100%; margin: 0; } .dom-watch input { flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid #d9e1d8; border-radius: 12px; font: inherit; }
+.dom-watch__ok { color: #2f7d4f; font-weight: 600; }
+.dom-pack { display: grid; grid-template-columns: 1fr 1.1fr; gap: 28px; margin: 22px 0 0; padding: 32px; border-radius: 24px; background-color: #16301f !important; background-image: radial-gradient(ellipse 45% 60% at 100% 105%, rgba(60, 170, 120, .5), transparent 70%) !important; color: #fdfbf5; }
+.dom-pack h3 { margin: 0 0 8px; font-size: 28px; font-weight: 600; } .dom-pack p { margin: 0; color: rgba(253, 251, 245, .85); }
+.dom-pack__k { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; margin: 0 0 8px !important; }
+.dom-pack__list { display: grid; gap: 8px; }
+.dom-pack__list div { display: grid; grid-template-columns: 70px 1fr auto; gap: 10px; padding: 12px 16px; border-radius: 14px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .14); }
+.dom-pack__list span { color: rgba(253, 251, 245, .7); } .dom-pack__list em { font-style: normal; font-weight: 600; }
+.dom-pack .btn { justify-self: start; margin-top: 6px; background: #fff !important; color: #16301f !important; }
+@media (max-width: 800px) { .dom-pack { grid-template-columns: 1fr; } .dom-taken { flex-direction: column; align-items: flex-end; } }
+.dom-pack .btn span { color: #16301f !important; }

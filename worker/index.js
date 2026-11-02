@@ -13,6 +13,8 @@ import { log } from './log.js';
 import { domainCheck, mailDiag } from './domains.js';
 import { createOrder } from './orders.js';
 import { webmail } from './webmail.js';
+import { watchDomain, checkWatches } from './watch.js';
+import { checkOne } from './domains.js';
 import leadImport from './import.json';
 import { withHeaders } from './headers.js';
 
@@ -42,6 +44,7 @@ export default {
     if (pathname === '/api/track') return track(req, env);
     if (pathname === '/api/log') return log(req, env);
     if (pathname === '/api/domain/check') return domainCheck(req, env);
+    if (pathname === '/api/domain/watch') return watchDomain(req, env);
     if (pathname === '/api/mail/diag') return mailDiag(req, env);
     if (pathname === '/api/order') return createOrder(req, env);
     if (pathname.startsWith('/api/mail/') && pathname !== '/api/mail/diag') return webmail(req, env);
@@ -72,6 +75,14 @@ export default {
       return out;
     }
     return withHeaders(await env.ASSETS.fetch(req), url, req);
+  },
+  // Daily: tell visitors when a watched domain has become free (wrangler.jsonc triggers.crons)
+  async scheduled(event, env, ctx) {
+    if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) return;
+    const { WorkerMailer } = await import('worker-mailer');
+    const send = (to, subject, text) => WorkerMailer.send({ host: env.SMTP_HOST || 'smtp.gmail.com', port: Number(env.SMTP_PORT || 465), secure: true,
+      credentials: { username: env.GMAIL_USER, password: env.GMAIL_APP_PASSWORD }, authType: ['plain', 'login'] }, { from: { name: 'Elevate Studio', email: env.GMAIL_USER }, to, subject, text });
+    ctx.waitUntil(checkWatches(env, checkOne, send));
   },
 };
 

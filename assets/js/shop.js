@@ -11,11 +11,13 @@
   var tldOf = function (d) { return d.split('.').slice(1).join('.'); };
   var T = function (tld) { return cat && cat.tlds.filter(function (t) { return t.tld === tld; })[0]; };
   var M = function (id) { return cat && cat.mail.filter(function (m) { return m.id === id; })[0]; };
+  var W = function (id) { return cat && (cat.websites || []).filter(function (w) { return w.id === id; })[0]; };
   var demo = function () { return cat && cat.demo ? ' <span class="shop-demo" title="Exempelpris tills priserna är satta">Demopris</span>' : ''; };
 
   // what one cart line costs now (net) and per period
   function price(it) {
     if (it.type === 'domain') { var t = T(tldOf(it.domain)); if (!t) return { once: 0, year: 0 }; var y = it.years || 1; return it.transfer ? { once: t.transfer + t.renew, year: t.renew } : { once: t.register + t.renew * (y - 1), year: t.renew }; }
+    if (it.type === 'website') { var w = W(it.id); return { once: w ? w.once : 0 }; }
     var m = M(it.id); if (!m) return { once: 0, month: 0, year: 0 };
     return it.period === 'year' ? { once: 0, year: m.yearly + (it.extra || 0) * m.extra_account * 12 } : { once: 0, month: m.monthly + (it.extra || 0) * m.extra_account };
   }
@@ -31,7 +33,7 @@
   }
 
   function add(it) {
-    var same = cart.filter(function (x) { return x.type === it.type && (x.domain || x.id) === (it.domain || it.id) && (x.domain === it.domain); })[0];
+    var same = cart.filter(function (x) { return x.type === it.type && (x.domain || x.id) === (it.domain || it.id) && (x.domain === it.domain) && (x.id === it.id); })[0];
     if (!same) cart.push(it);
     save(cart);
   }
@@ -82,7 +84,7 @@
     function row(r) {
       var t = T(r.tld), st = STATUS[r.status] || STATUS.unknown, inCart = cart.some(function (x) { return x.domain === r.domain; });
       var btn = st[1] === 'ok' && t ? '<button type="button" class="btn ' + (inCart ? 'btn--light' : 'btn--primary') + ' shop-add" data-d="' + esc(r.domain) + '"' + (inCart ? ' disabled' : '') + '><span>' + (inCart ? 'Tillagd' : 'Lägg till') + '</span></button>'
-        : r.status === 'taken' && t ? '<button type="button" class="btn btn--light shop-add" data-d="' + esc(r.domain) + '" data-transfer="1"><span>Är den er? Flytta hit</span></button>' : '';
+        : r.status === 'taken' && t ? '<span class="dom-taken"><button type="button" class="btn btn--primary shop-watch" data-d="' + esc(r.domain) + '"><span>Bevaka</span></button><button type="button" class="dom-link shop-add" data-d="' + esc(r.domain) + '" data-transfer="1">Är den er? Flytta hit</button></span>' : '';
       var warn = t && t.renew > t.register * 2 ? '<small class="shop-warn">Förnyas för ' + kr(t.renew) + '/år</small>' : t ? '<small>Förnyas ' + kr(t.renew) + '/år</small>' : '';
       var dot = r.domain.indexOf('.');
       return '<div class="shop-row"><b>' + esc(r.domain.slice(0, dot)) + ' <span class="tld">' + esc(r.domain.slice(dot)) + '</span></b><span class="shop-st shop-st--' + st[1] + '"' + (r.status === 'likely_free' ? ' title="Kontrollerad via DNS. Bekräftas innan registrering."' : '') + '>' + (st[1] === 'ok' ? (r.status === 'likely_free' ? '*' : '') : st[0]) + '</span>' +
@@ -97,6 +99,7 @@
       var tlds = last.results.map(function (r) { return r.tld; });
       var sm = sums(), n = cart.length;
       out.innerHTML = '<div class="dom-layout"><div><div class="shop-list dom-list">' + list.map(row).join('') + '</div>' +
+        pack() +
         (last.ideas.length && !only ? '<h2 class="dom-h">Andra lediga namn</h2><div class="shop-list dom-list">' + last.ideas.map(row).join('') + '</div>' : '') +
         '<p class="shop-note">Priser exkl. moms' + (cat && cat.demo ? ', demopriser' : '') + '. * Kontrollerad via DNS, bekräftas innan registrering.</p></div>' +
         '<aside class="dom-side"><h3>Varukorg</h3>' + (n ? '<p class="dom-side__sum"><b>' + n + (n === 1 ? ' produkt' : ' produkter') + '</b><span>' + kr(sm.once) + '</span></p><a class="btn btn--primary" href="kassa.html"><span>Till kassan</span></a>'
@@ -104,7 +107,35 @@
         '<h3>Vi sköter allt</h3><ul><li>Domänen registreras på ert företag</li><li>Vi kopplar den till hemsida och mejl</li><li>Påminnelse innan den ska förnyas</li></ul>' +
         '<a class="dom-side__mail" href="foretagsmejl.html">Lägg till mejl med er domän &rarr;</a></aside></div>';
     }
+    // Package: the best free domain + business mail + a Starter website, in one step
+    function pack() {
+      var free = last.results.filter(function (r) { return /free/.test(r.status) && T(r.tld); });
+      var d = free.filter(function (r) { return r.tld === (last.asked || 'se'); })[0] || free.filter(function (r) { return r.tld === 'se'; })[0] || free[0];
+      var m = M('mejl-bas'), w = W('starter'); if (!d || !m || !w) return '';
+      var t = T(d.tld), local = d.domain.split('.')[0];
+      return '<div class="dom-pack glow-dark"><div><p class="dom-pack__k">Paket</p><h3>Starta online i ett steg</h3><p>Domän, mejl och hemsida. Vi sätter upp allt och kopplar ihop det.</p></div>' +
+        '<div class="dom-pack__list"><div><span>Domän</span><b>' + esc(d.domain) + '</b><em>' + kr(t.register) + '</em></div><div><span>Mejl</span><b>info@' + esc(d.domain) + '</b><em>' + kr(m.monthly) + '/mån</em></div>' +
+        '<div><span>Hemsida</span><b>' + esc(w.name) + '</b><em>' + kr(w.once) + '</em></div>' +
+        '<button type="button" class="btn btn--light" id="dom-pack" data-d="' + esc(d.domain) + '"><span>Lägg paketet i varukorgen</span></button></div></div>';
+    }
+    // Watch a taken domain: a small form opens in the row
+    function watchForm(row, domain) {
+      if (row.nextElementSibling && row.nextElementSibling.classList.contains('dom-watch')) { row.nextElementSibling.querySelector('input').focus(); return; }
+      var f = document.createElement('form'); f.className = 'dom-watch'; f.noValidate = true;
+      f.innerHTML = '<p>Vi mejlar dig om <b>' + esc(domain) + '</b> blir ledig.</p><input type="email" name="email" placeholder="din@epost.se" aria-label="E-post" required><button class="btn btn--primary"><span>Bevaka</span></button>';
+      row.after(f); f.email.focus();
+      f.addEventListener('submit', function (ev) {
+        ev.preventDefault(); if (!/\S+@\S+\.\S+/.test(f.email.value)) { f.email.focus(); return; }
+        var body = { domain: domain, email: f.email.value.trim() };
+        fetch('/api/domain/watch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).then(function (r) { if (!r.ok) throw new Error(); })
+          .catch(function () { return fetch('https://formsubmit.co/ajax/info@elevatestudio.nu', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ _subject: 'Bevaka domän: ' + domain, domän: domain, email: body.email }) }); })
+          .then(function () { f.innerHTML = '<p class="dom-watch__ok">Klart. Vi mejlar ' + esc(body.email) + ' när ' + esc(domain) + ' blir ledig.</p>'; })
+          .catch(function () { f.innerHTML = '<p>Det gick inte just nu. Mejla info@elevatestudio.nu så bevakar vi den åt dig.</p>'; });
+      });
+    }
     out.addEventListener('click', function (e) {
+      var wb = e.target.closest('.shop-watch'); if (wb) { watchForm(wb.closest('.shop-row'), wb.dataset.d); return; }
+      var pk = e.target.closest('#dom-pack'); if (pk) { var dd = pk.dataset.d; add({ type: 'domain', domain: dd, years: 1 }); add({ type: 'mail', id: 'mejl-bas', period: 'month', extra: 0, domain: dd, addresses: ['info@' + dd] }); add({ type: 'website', id: 'starter' }); render(); return; }
       var c = e.target.closest('.chip'); if (c) { only = c.dataset.tld; render(); return; }
       var b = e.target.closest('.shop-add'); if (!b) return;
       add({ type: 'domain', domain: b.dataset.d, years: 1, transfer: !!b.dataset.transfer }); render();
@@ -185,7 +216,7 @@
       form.hidden = false;
       var s = sums(), vat = cat.vat || 0.25;
       view.innerHTML = '<div class="shop-list">' + cart.map(function (it, i) {
-        var p = price(it), name = it.type === 'domain' ? esc(it.domain) + (it.transfer ? ' (flytt)' : '') : esc((M(it.id) || {}).name) + ' för ' + esc(it.domain);
+        var p = price(it), name = it.type === 'domain' ? esc(it.domain) + (it.transfer ? ' (flytt)' : '') : it.type === 'website' ? esc((W(it.id) || {}).name) : esc((M(it.id) || {}).name) + ' för ' + esc(it.domain);
         var opts = it.type === 'domain' && !it.transfer ? '<select data-i="' + i + '" class="c-years" aria-label="År">' + [1, 2, 3, 5, 10].map(function (y) { return '<option value="' + y + '"' + (y === (it.years || 1) ? ' selected' : '') + '>' + y + ' år</option>'; }).join('') + '</select>'
           : it.type === 'mail' ? '<select data-i="' + i + '" class="c-period" aria-label="Period"><option value="month"' + (it.period !== 'year' ? ' selected' : '') + '>Per månad</option><option value="year"' + (it.period === 'year' ? ' selected' : '') + '>Per år</option></select>' : '';
         var cost = (p.once ? kr(p.once) + ' nu' : '') + (p.month ? kr(p.month) + '/mån' : '') + (p.year && it.type === 'domain' ? '<small>sedan ' + kr(p.year) + '/år</small>' : p.year ? kr(p.year) + '/år' : '');
@@ -209,7 +240,7 @@
       if (!c.name.trim() || !/^\S+@\S+\.\S+$/.test(c.email)) { st.hidden = false; st.textContent = 'Fyll i namn och en giltig e-postadress.'; return; }
       if (!form.terms.checked) { st.hidden = false; st.textContent = 'Godkänn villkoren för att skicka beställningen.'; return; }
       btn.disabled = true; st.hidden = false; st.textContent = 'Skickar …';
-      var text = cart.map(function (it) { var p = price(it); return '- ' + (it.type === 'domain' ? it.domain + (it.transfer ? ' (flytt)' : ' (' + (it.years || 1) + ' år)') : (M(it.id) || {}).name + ' för ' + it.domain + ', ' + (it.period === 'year' ? 'per år' : 'per månad') + (it.extra ? ', +' + it.extra + ' konton' : '') + (it.addresses && it.addresses.length ? ', adresser: ' + it.addresses.join(', ') : '')) + ': ' + (p.once ? kr(p.once) + ' nu ' : '') + (p.month ? kr(p.month) + '/mån' : ''); }).join('\n');
+      var text = cart.map(function (it) { var p = price(it); return '- ' + (it.type === 'website' ? (W(it.id) || {}).name : it.type === 'domain' ? it.domain + (it.transfer ? ' (flytt)' : ' (' + (it.years || 1) + ' år)') : (M(it.id) || {}).name + ' för ' + it.domain + ', ' + (it.period === 'year' ? 'per år' : 'per månad') + (it.extra ? ', +' + it.extra + ' konton' : '') + (it.addresses && it.addresses.length ? ', adresser: ' + it.addresses.join(', ') : '')) + ': ' + (p.once ? kr(p.once) + ' nu ' : '') + (p.month ? kr(p.month) + '/mån' : ''); }).join('\n');
       fetch('/api/order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ customer: c, items: cart, terms: true, terms_version: '2026-11', key: orderKey() }) })
         .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error(d.error || 'fel'); return d; }); })
         .catch(function (err) { if (/customer|terms|empty/.test(err.message)) throw err; return { ref: 'ES-' + Date.now().toString(36).toUpperCase(), demo: !!(cat && cat.demo) }; })
