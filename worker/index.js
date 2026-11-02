@@ -1,4 +1,5 @@
 // The website is static files (served by Cloudflare). This small script adds the admin's server parts.
+import { webmail } from './webmail.js';
 import { handleInvite, handleMail } from './invite.js';
 import { googleReady, googleConnect, googleCallback } from './google.js';
 import { subscribe, brevoReady } from './newsletter.js';
@@ -41,6 +42,7 @@ export default {
     if (pathname === '/api/track') return track(req, env);
     if (pathname === '/api/log') return log(req, env);
     if (pathname === '/api/domain/check') return domainCheck(req, env);
+    if (pathname.startsWith('/api/mail/') && pathname !== '/api/mail/diag') return webmail(req, env);
     if (pathname === '/api/mail/diag') return mailDiag(req, env);
     if (pathname === '/api/order') return createOrder(req, env);
     if (pathname === '/api/accounts/create') return accountsCreate(req, env);

@@ -1373,6 +1373,13 @@ def build_prices():
         for name, price, unit, text, items, cta_label, feat in plans]}
     yield write("priser.html", document(p, "Vad kostar en hemsida? Priser från 5 000 kr", main, "subpage", [("Priser", "")], "priser",
                 description="Vad kostar en hemsida? Fasta priser: Starter 5 000 kr, Pro 9 000 kr och Elite efter offert. Support ingår första året. Alla priser exkl. moms.", jsonld=[catalog]))
+    mailpage = """<main>
+    <section class="section container wmx-page">
+      <div id="webmail"><p class="shop-lead">Laddar …</p></div>
+    </section>
+  </main>"""
+    yield write("mail.html", document(p, "Elevate Mejl", mailpage, "subpage shop-page", [("Mejl", "")], None, extra_js=("webmail.js",), robots="noindex, nofollow",
+                description="Logga in och läs och skicka mejl med ert företags domän."))
 
 
 def rewrap(path, body_class, crumbs=None, extra_js=(), robots="index, follow"):

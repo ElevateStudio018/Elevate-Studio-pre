@@ -15,7 +15,7 @@ process.stdin.on('data', (c) => (input += c)).on('end', async () => {
     const [res] = await new PurgeCSS().purge({
       content: [{ raw: html.replace(/<style>[\s\S]*?<\/style>/g, ''), extension: 'html' }, { raw: scripts, extension: 'js' }],
       css: [{ raw: css }],
-      safelist: { standard: [/^is-/, /^has-/], greedy: [/^score/, /^issue/, /^metric/, /^sitetest/, /^site-header--/, /^hamburgermenu/, /^drawer/, /^chat/, /^reviews/, /^pscroll/, /^book-bars/, /^i18n/, /^lang/, /^form-status/] },
+      safelist: { standard: [/^is-/, /^has-/], greedy: [/^score/, /^issue/, /^metric/, /^sitetest/, /^site-header--/, /^hamburgermenu/, /^drawer/, /^chat/, /^reviews/, /^pscroll/, /^book-bars/, /^i18n/, /^lang/, /^form-status/, /^wmx/] },
       fontFace: false, keyframes: false, variables: false,
     });
     out[page] = res.css;
