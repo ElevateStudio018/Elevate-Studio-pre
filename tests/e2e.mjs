@@ -74,11 +74,11 @@ await p.screenshot({ path: OUT + '/e2e_2_bekraftelse.png' });
 ok(await p.evaluate(() => (JSON.parse(localStorage.getItem('es.cart') || '[]')).length === 0), 'varukorgen töms efter beställning');
 // 10-16: portal (demo data)
 p = await page();
-await p.goto(BASE + 'portal.html?demo'); await p.waitForSelector('.portal-tabs', { timeout: 15000 });
+await p.goto(BASE + 'portal.html?demo'); await p.waitForSelector('.pa-nav', { timeout: 15000 });
 ok((await p.textContent('.portal-demo')).includes('testdata'), 'portalen visar tydligt demoläge');
-ok(await p.isVisible('.portal-warn'), 'varning för domän som går ut');
-for (const t of ['tjanster', 'fakturor', 'support', 'konto', 'oversikt']) { await p.click('[data-tab=' + t + ']'); await p.waitForTimeout(150); ok(await p.locator('#pv').innerText() !== '', 'fliken ' + t + ' visar innehåll'); }
-await p.click('[data-tab=tjanster]'); await p.click('[data-renew="s1"]'); ok(await p.isChecked('[data-renew="s1"]'), 'automatisk förnyelse kan slås på');
+ok((await p.textContent('.pa-todo')).includes('exempelbygg.se om'), 'varning för domän som går ut');
+for (const t of ['besokare', 'sajten', 'tjanster', 'fakturor', 'support', 'konto', 'oversikt']) { await p.click('.pa-nav [data-tab=' + t + ']'); await p.waitForTimeout(150); ok(await p.locator('#pv').innerText() !== '', 'fliken ' + t + ' visar innehåll'); }
+await p.click('.pa-nav [data-tab=tjanster]'); await p.click('[data-renew="s1"]'); ok(await p.isChecked('[data-renew="s1"]'), 'automatisk förnyelse kan slås på');
 await p.click('[data-help="s2"]'); ok(await p.inputValue('select[name=service]') === 's2', 'Hjälp med den här förväljer tjänsten i supporten');
 await p.fill('#tn input[name=subject]', 'Testärende'); await p.fill('#tn textarea', 'Beskrivning'); await p.click('#tn button');
 await p.waitForTimeout(300); ok((await p.textContent('#pv')).includes('Testärende'), 'nytt supportärende syns i listan');

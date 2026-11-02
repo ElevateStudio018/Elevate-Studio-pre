@@ -7,7 +7,10 @@ const ok = (c, n) => { c ? pass++ : fail++; console.log(c ? 'PASS' : 'FAIL', n);
   const b = await chromium.launch(); const p = await (await b.newContext({ viewport: { width: 1280, height: 900 } })).newPage();
   p.on('pageerror', (e) => errs.push(e.message)); p.on('dialog', (d) => d.accept());
   await p.goto('http://localhost:8767/portal.html?demo'); try { await p.click('text=Avböj', { timeout: 1200 }); } catch (e) { /* none */ }
-  await p.waitForSelector('.portal-tabs');
+  await p.waitForSelector('.pa-nav');
+  ok((await p.textContent('.pa-hero')).includes('besökare'), 'översikten visar besökare i den gröna rutan'); ok(await p.isVisible('.pa-kpis'), 'nyckeltal visas');
+  await p.click('.pa-nav [data-tab=besokare]'); ok((await p.locator('.pa-tbl').count()) >= 3, 'besöksstatistik med sidor, orter och sökord'); await p.click('[data-r="7"]'); ok(await p.getAttribute('[data-r="7"]', 'aria-pressed') === 'true', 'period kan väljas');
+  await p.click('.pa-nav [data-tab=sajten]');
   ok(await p.isVisible('.portal-up'), 'driften visas på översikten'); ok((await p.textContent('.portal-up')).includes('uppe senaste 30 dagarna'), 'drifttid i procent');
   ok(await p.isVisible('.portal-report'), 'månadsrapporten visas'); await p.screenshot({ path: OUT + '/feat_oversikt.png', fullPage: true });
   await p.click('#rep-fix'); await p.waitForSelector('#cr'); ok((await p.inputValue('#cr textarea')).includes('månadsrapporten'), 'Be oss åtgärda öppnar en ändring med texten ifylld');

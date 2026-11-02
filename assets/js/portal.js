@@ -88,70 +88,112 @@
       sb.from('company_members').select('role,user_id').eq('company_id', c),
       sb.from('site_reports').select('*').eq('company_id', c).order('created_at', { ascending: false }).limit(1),
       sb.from('uptime_checks').select('url,ok,ms,checked_at').eq('company_id', c).gte('checked_at', new Date(Date.now() - 30 * 864e5).toISOString()).order('checked_at', { ascending: false }).limit(3000),
-      sb.from('change_requests').select('*').eq('company_id', c).order('created_at', { ascending: false })
+      sb.from('change_requests').select('*').eq('company_id', c).order('created_at', { ascending: false }),
+      sb.from('site_stats').select('*').eq('company_id', c).gte('day', new Date(Date.now() - 730 * 864e5).toISOString().slice(0, 10)).order('day')
     ]).then(function (r) {
-      st.data = { services: r[0].data || [], invoices: r[1].data || [], tickets: r[2].data || [], notes: r[3].data || [], members: r[4].data || [], report: (r[5] && r[5].data || [])[0] || null, uptime: r[6] && r[6].data || [], changes: r[7] && r[7].data || [] };
+      st.data = { services: r[0].data || [], invoices: r[1].data || [], tickets: r[2].data || [], notes: r[3].data || [], members: r[4].data || [], report: (r[5] && r[5].data || [])[0] || null, uptime: r[6] && r[6].data || [], changes: r[7] && r[7].data || [], stats: r[8] && r[8].data || [] };
       shell();
     });
   }
 
-  // ---------- layout: top menu (design 10) ----------
-  var TABS = [['oversikt', 'Översikt'], ['tjanster', 'Tjänster'], ['andringar', 'Ändringar'], ['fakturor', 'Fakturor'], ['support', 'Support'], ['konto', 'Konto']];
+  // ---------- layout: long side menu + green hero (design 5) ----------
+  var TABS = [['oversikt', 'Översikt', 'M3 13h8V3H3zm0 8h8v-6H3zm10 0h8V11h-8zm0-18v6h8V3z'], ['besokare', 'Besökare', 'M3 17l6-6 4 4 8-8M15 7h6v6'], ['sajten', 'Sajten', 'M12 3a9 9 0 100 18 9 9 0 000-18zm0 0v18M3 12h18'],
+    ['andringar', 'Ändringar', 'M4 20h4L19 9l-4-4L4 16zM14 6l4 4'], ['tjanster', 'Tjänster', 'M4 6h16M4 12h16M4 18h10'], ['fakturor', 'Fakturor', 'M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6'],
+    ['support', 'Ärenden', 'M4 5h16v11H8l-4 4z'], ['konto', 'Konto & team', 'M12 12a4 4 0 100-8 4 4 0 000 8zm-8 9a8 8 0 0116 0']];
   function logoutBtn() { return '<p><button type="button" class="portal-link" id="logout">Logga ut</button></p>'; }
-  function bindLogout() { var b = root.querySelector('#logout'); if (b) b.addEventListener('click', function () { sb.auth.signOut().then(function () { login('Du är utloggad.'); }); }); }
+  function bindLogout() { var b = root.querySelector('#logout'); if (b) b.addEventListener('click', function () { sb.auth.signOut().then(function () { document.body.classList.remove('portal-app'); login('Du är utloggad.'); }); }); }
+  function todos() {
+    var d = st.data, todo = [];
+    (d.changes || []).forEach(function (c) { if (c.status === 'quoted') todo.push(['Pris klart', esc(c.page || 'Ändring') + ' · ' + kr(c.price), 'andringar', 'Svara']); });
+    d.invoices.forEach(function (i) { if (i.status === 'overdue') todo.push(['Förfallen', 'Faktura ' + esc(i.number) + ' · ' + kr(i.amount), 'fakturor', 'Visa']); else if (i.status === 'open') todo.push(['Faktura', esc(i.number) + ' · ' + kr(i.amount) + ' · förfaller ' + day(i.due_date), 'fakturor', '']); });
+    d.services.forEach(function (s) { var n = days(s.renews_at); if (s.renews_at && n <= 60 && n >= 0 && !s.auto_renew) todo.push(['Går ut', esc(s.name) + ' om ' + n + ' dagar', 'tjanster', 'Visa']); if (s.status === 'suspended') todo.push(['Pausad', esc(s.name), 'support', 'Kontakta oss']); });
+    (d.changes || []).forEach(function (c) { if (c.status === 'in_progress') todo.push(['Pågår', esc(c.description).slice(0, 60), 'andringar', '']); });
+    d.notes.forEach(function (n) { todo.push(['Info', esc(n.title), null, '']); });
+    return todo;
+  }
   function shell() {
+    document.body.classList.add('portal-app');
     var tabs = TABS.filter(function (t) { return t[0] !== 'fakturor' || can.invoices(); });
-    var dd = st.data, mo = dd.services.filter(function (s) { return s.period === 'month'; }).reduce(function (a, s) { return a + (+s.price || 0); }, 0);
-    var todoN = dd.services.filter(function (s) { var n = days(s.renews_at); return s.renews_at && n <= 60 && n >= 0 && !s.auto_renew; }).length + dd.invoices.filter(function (i) { return i.status === 'overdue'; }).length;
-    var hero = '<div class="portal-glow glow-dark">' + (DEMO ? '<p class="portal-demo">Demoläge · testdata · inget sparas</p>' : '') + '<h2>Hej ' + esc(((st.user.user_metadata || {}).full_name || '').split(' ')[0] || '') + '</h2>' +
-      '<div class="st-preview portal-tiles">' +
-      '<div class="st-card"><b class="portal-num">' + dd.services.length + '</b><p>Aktiva tjänster</p></div>' +
-      '<div class="st-card"><b class="portal-num">' + Math.round(mo) + ' kr</b><p>Per månad</p></div>' +
-      '<div class="st-card"><b class="portal-num">' + todoN + '</b><p>Att göra</p></div></div></div>';
-    root.innerHTML = hero + '<div class="portal-top"><div><p class="form-prefill__k">' + esc(ROLE[st.role] || '') + '</p>' +
-      (st.members.length > 1 ? '<select id="pc" class="portal-company" aria-label="Företag">' + st.members.map(function (m) { return '<option value="' + m.company_id + '"' + (m.company_id === st.company.id ? ' selected' : '') + '>' + esc(m.companies.name) + '</option>'; }).join('') + '</select>' : '<h2 class="portal-company">' + esc(st.company.name) + '</h2>') +
-      '</div><button type="button" class="portal-link" id="logout">Logga ut</button></div>' +
-      '<nav class="portal-tabs" role="tablist">' + tabs.map(function (t) { return '<button type="button" role="tab" data-tab="' + t[0] + '" aria-selected="' + (st.tab === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</nav><div id="pv"></div>';
+    var badge = { andringar: (st.data.changes || []).filter(function (c) { return c.status === 'quoted'; }).length, fakturor: st.data.invoices.filter(function (i) { return i.status !== 'paid' && i.status !== 'credited'; }).length };
+    var name = ((st.user.user_metadata || {}).full_name || st.user.email || '');
+    root.innerHTML = '<div class="pa">' +
+      '<aside class="pa-side"><a class="pa-brand" href="./">Elevate<small>Kundportal</small></a>' +
+      (st.members.length > 1 ? '<select id="pc" class="pa-co" aria-label="Företag">' + st.members.map(function (m) { return '<option value="' + m.company_id + '"' + (m.company_id === st.company.id ? ' selected' : '') + '>' + esc(m.companies.name) + '</option>'; }).join('') + '</select>' : '<p class="pa-co">' + esc(st.company.name) + '</p>') +
+      '<nav class="pa-nav" role="tablist">' + tabs.map(function (t) { return '<button type="button" role="tab" data-tab="' + t[0] + '" aria-selected="' + (st.tab === t[0]) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + t[2] + '"/></svg>' + t[1] + (badge[t[0]] ? '<i>' + badge[t[0]] + '</i>' : '') + '</button>'; }).join('') + '</nav>' +
+      '<div class="pa-help"><b>Behöver ni hjälp?</b><p>Vi svarar vardagar inom en arbetsdag.</p><button type="button" data-tab="support">Skapa ärende</button></div>' +
+      '<div class="pa-me"><i>' + esc((name[0] || '?').toUpperCase()) + '</i><span>' + esc(name) + '<small>' + esc(ROLE[st.role] || '') + '</small></span><button type="button" class="portal-link" id="logout">Logga ut</button></div></aside>' +
+      '<main class="pa-main">' + (DEMO ? '<p class="portal-demo">Demoläge · testdata · inget sparas</p>' : '') + '<div id="pv"></div></main></div>';
     bindLogout();
     var pc = root.querySelector('#pc'); if (pc) pc.addEventListener('change', function () { choose(st.members.filter(function (m) { return m.company_id === pc.value; })[0]); });
-    root.querySelector('.portal-tabs').addEventListener('click', function (e) { var b = e.target.closest('[data-tab]'); if (!b) return; st.tab = b.dataset.tab; shell(); });
-    ({ oversikt: overview, tjanster: services, andringar: changes, fakturor: invoices, support: support, konto: account })[st.tab]();
+    root.querySelector('.pa-side').addEventListener('click', function (e) { var b = e.target.closest('[data-tab]'); if (!b) return; st.tab = b.dataset.tab; shell(); window.scrollTo(0, 0); });
+    ({ oversikt: dashboard, besokare: visitors, sajten: site, tjanster: services, andringar: changes, fakturor: invoices, support: support, konto: account })[st.tab]();
+    view().addEventListener('click', function (e) { var b = e.target.closest('[data-go]'); if (b) { st.tab = b.dataset.go; shell(); window.scrollTo(0, 0); } });
   }
   var view = function () { return root.querySelector('#pv'); };
+
+  // ---------- visitor statistics (daily rows in site_stats) ----------
+  var nf = function (n) { return Math.round(n || 0).toLocaleString('sv-SE'); };
+  function statRange(n) {
+    var rows = (st.data.stats || []).slice().sort(function (a, b) { return String(a.day).localeCompare(String(b.day)); });
+    var cut = new Date(Date.now() - n * 864e5).toISOString().slice(0, 10), prev = new Date(Date.now() - 2 * n * 864e5).toISOString().slice(0, 10);
+    var cur = rows.filter(function (r) { return r.day > cut; }), old = rows.filter(function (r) { return r.day > prev && r.day <= cut; });
+    var sum = function (l, k) { return l.reduce(function (a, r) { return a + (+r[k] || 0); }, 0); };
+    var merge = function (k) { var m = {}; cur.forEach(function (r) { var o = r[k] || {}; Object.keys(o).forEach(function (x) { m[x] = (m[x] || 0) + o[x]; }); }); return Object.keys(m).map(function (x) { return [x, m[x]]; }).sort(function (a, b) { return b[1] - a[1]; }); };
+    var pct = function (a, b) { return b ? Math.round((a - b) / b * 100) : null; };
+    var v = sum(cur, 'visitors'), pv = sum(cur, 'pageviews'), l = sum(cur, 'leads');
+    return { rows: cur, visitors: v, pageviews: pv, leads: l, dv: pct(v, sum(old, 'visitors')), dp: pct(pv, sum(old, 'pageviews')), dl: l - sum(old, 'leads'),
+      sources: merge('sources'), pages: merge('pages'), devices: merge('devices'), cities: merge('cities'), queries: merge('queries'), weekdays: [1, 2, 3, 4, 5, 6, 0].map(function (w) { return sum(cur.filter(function (r) { return new Date(r.day).getDay() === w; }), 'visitors'); }) };
+  }
+  function line(vals, light) {
+    if (vals.length < 2) return '';
+    var mx = Math.max.apply(null, vals) || 1, w = 600, h = 140, pts = vals.map(function (v, i) { return [i * w / (vals.length - 1), h - 6 - v / mx * (h - 18)]; });
+    var d = 'M' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L');
+    return '<svg class="pa-line' + (light ? ' pa-line--light' : '') + '" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none" aria-hidden="true"><path class="pa-line__f" d="' + d + ' L' + w + ',' + h + ' L0,' + h + 'Z"/><path class="pa-line__s" d="' + d + '"/></svg>';
+  }
+  function share(list, n) {
+    var tot = list.reduce(function (a, x) { return a + x[1]; }, 0) || 1;
+    return list.length ? '<div class="pa-share">' + list.slice(0, n || 5).map(function (x) { var p = Math.round(x[1] / tot * 100); return '<div><span>' + esc(x[0]) + '</span><b>' + p + ' %</b><i><em style="width:' + p + '%"></em></i></div>'; }).join('') + '</div>' : '<p class="mut">Ingen data ännu.</p>';
+  }
+  function table(list, n) { return list.length ? '<table class="pa-tbl">' + list.slice(0, n || 5).map(function (x) { return '<tr><td>' + esc(x[0]) + '</td><td>' + nf(x[1]) + '</td></tr>'; }).join('') + '</table>' : '<p class="mut">Ingen data ännu.</p>'; }
+  function delta(n, unit) { return n == null ? '' : '<em class="' + (n < 0 ? 'down' : '') + '">' + (n > 0 ? '+' : '') + n + (unit || '') + '</em>'; }
+  function uptimeSum() { var up = st.data.uptime || []; if (!up.length) return null; var ok = up.filter(function (c) { return c.ok; }).length; return { pct: ok / up.length * 100, down: up.length - ok }; }
+  function rings() {
+    var r = st.data.report; if (!r) return '<p class="mut">Första rapporten kommer den 1:a nästa månad.</p>';
+    return '<div class="pa-rings">' + [['Prestanda', r.performance], ['Tillgänglighet', r.accessibility], ['SEO', r.seo], ['Praxis', r.best_practices]].map(function (x) { var v = x[1] == null ? 0 : x[1], c = v >= 90 ? 'good' : v >= 50 ? 'ok' : 'bad';
+      return '<div class="pa-ring pa-ring--' + c + '"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.9"/><circle cx="18" cy="18" r="15.9" stroke-dasharray="' + v + ' 100"/></svg><b>' + (x[1] == null ? '–' : v) + '</b><small>' + x[0] + '</small></div>'; }).join('') + '</div>';
+  }
+  function kpis(s) {
+    var u = uptimeSum();
+    return '<div class="pa-kpis"><div><small>Besökare</small><b>' + nf(s.visitors) + '</b>' + delta(s.dv, ' %') + '</div><div><small>Sidvisningar</small><b>' + nf(s.pageviews) + '</b>' + delta(s.dp, ' %') + '</div>' +
+      '<div><small>Förfrågningar</small><b>' + nf(s.leads) + '</b>' + delta(s.dl) + '</div><div><small>Drifttid</small><b>' + (u ? u.pct.toFixed(2).replace('.', ',') + ' %' : '–') + '</b><em>' + (u ? (u.down ? u.down + ' fel' : '0 avbrott') + ' · 30 dagar' : 'ingen mätning') + '</em></div></div>';
+  }
+  function dashboard() {
+    var s = statRange(30), first = ((st.user.user_metadata || {}).full_name || '').split(' ')[0], top = s.sources[0], tot = s.sources.reduce(function (a, x) { return a + x[1]; }, 0);
+    var mon = new Date().toLocaleDateString('sv-SE', { month: 'long' }); mon = mon[0].toUpperCase() + mon.slice(1);
+    var td = todos();
+    view().innerHTML = '<section class="pa-hero"><div><small>' + mon + ' · ' + esc(st.company.name) + '</small><h2>' + (s.rows.length ? nf(s.visitors) + ' besökare' : 'Hej ' + esc(first)) + '</h2><p>' +
+      (s.rows.length ? (s.dv != null ? Math.abs(s.dv) + ' % ' + (s.dv >= 0 ? 'fler' : 'färre') + ' än förra månaden. ' : '') + (top ? esc(top[0]) + ' står för ' + Math.round(top[1] / tot * 100) + ' % av besöken.' : '') : 'Besöksstatistiken visas här så fort den är inkopplad på er sajt.') + '</p></div>' +
+      line(s.rows.map(function (r) { return +r.visitors || 0; }), true) + '</section>' +
+      kpis(s) +
+      '<div class="pa-g2"><div class="pa-c"><h4>Källor</h4>' + share(s.sources) + '</div><div class="pa-c"><h4>Toppsidor</h4>' + table(s.pages) + '</div></div>' +
+      '<div class="pa-g2"><div class="pa-c"><h4>Betyg från Google</h4>' + rings() + '</div><div class="pa-c"><h4>Att göra</h4>' +
+      (td.length ? '<ul class="pa-todo">' + td.slice(0, 6).map(function (t) { return '<li><b>' + t[0] + '</b><span>' + t[1] + '</span>' + (t[2] && t[3] ? '<button type="button" data-go="' + t[2] + '">' + t[3] + '</button>' : '') + '</li>'; }).join('') + '</ul>' : '<p class="portal-ok">Allt fungerar. Inget behöver göras just nu.</p>') + '</div></div>';
+  }
+  function visitors() {
+    var n = st.range || 30, s = statRange(n);
+    view().innerHTML = '<header class="pa-head"><h2>Besökare</h2><div class="pa-seg">' + [[7, '7 dagar'], [30, '30 dagar'], [90, '90 dagar'], [365, '12 mån']].map(function (x) { return '<button type="button" data-r="' + x[0] + '" aria-pressed="' + (n === x[0]) + '">' + x[1] + '</button>'; }).join('') + '</div></header>' +
+      kpis(s) + '<div class="pa-c"><h4>Besökare per dag</h4>' + (line(s.rows.map(function (r) { return +r.visitors || 0; })) || '<p class="mut">Ingen data ännu.</p>') + '</div>' +
+      '<div class="pa-g3"><div class="pa-c"><h4>Källor</h4>' + share(s.sources) + '</div><div class="pa-c"><h4>Sidor</h4>' + table(s.pages, 8) + '</div><div class="pa-c"><h4>Enheter</h4>' + share(s.devices) + '</div></div>' +
+      '<div class="pa-g3"><div class="pa-c"><h4>Orter</h4>' + table(s.cities) + '</div><div class="pa-c"><h4>Veckodagar</h4><div class="pa-bars">' + (function () { var mx = Math.max.apply(null, s.weekdays) || 1; return s.weekdays.map(function (v, i) { return '<div><i style="height:' + Math.round(v / mx * 100) + '%"></i><small>' + 'MTOTFLS'[i] + '</small></div>'; }).join(''); })() + '</div></div><div class="pa-c"><h4>Sökord på Google</h4>' + table(s.queries) + '</div></div>' +
+      '<p class="mut pa-note">Statistiken räknas utan kakor och utan att spara personuppgifter.</p>';
+    view().querySelector('.pa-seg').addEventListener('click', function (e) { var b = e.target.closest('[data-r]'); if (b) { st.range = +b.dataset.r; visitors(); } });
+  }
+  function site() { view().innerHTML = '<header class="pa-head"><h2>Sajten</h2></header>' + (health() || '<p class="mut">Driftövervakning och månadsrapport startar när er hemsida är kopplad.</p>'); }
 
   function serviceRow(s, actions) {
     var d = days(s.renews_at);
     return '<div class="shop-row"><b>' + esc(s.name) + '<small>' + (TYPE[s.type] || '') + '</small></b><span class="shop-st shop-st--' + (/active/.test(s.status) ? 'ok' : 'no') + '">' + (SST[s.status] || esc(s.status)) + '</span>' +
       '<span>' + (s.price != null ? kr(s.price) + (s.period === 'month' ? '/mån' : s.period === 'year' ? '/år' : '') : '') + (s.renews_at ? '<small>' + (s.auto_renew ? 'Förnyas ' : 'Går ut ') + day(s.renews_at) + (d != null && d <= 60 && d >= 0 ? ' (om ' + d + ' dagar)' : '') + '</small>' : '') + '</span>' + (actions || '') + '</div>';
-  }
-
-  function overview() {
-    var d = st.data, todo = [];
-    d.services.forEach(function (s) { var n = days(s.renews_at); if (s.renews_at && n <= 60 && n >= 0 && !s.auto_renew) todo.push(['<b>' + esc(s.name) + '</b> går ut om ' + n + ' dagar och förnyas inte automatiskt.', 'tjanster', 'Visa']); if (s.status === 'suspended') todo.push(['<b>' + esc(s.name) + '</b> är pausad.', 'support', 'Kontakta oss']); });
-    d.invoices.forEach(function (i) { if (i.status === 'overdue') todo.push(['Faktura <b>' + esc(i.number) + '</b> på ' + kr(i.amount) + ' är förfallen.', 'fakturor', 'Visa']); });
-    d.notes.forEach(function (n) { todo.push(['<b>' + esc(n.title) + '</b>' + (n.body ? ' ' + esc(n.body) : ''), null, '']); });
-    var month = d.services.filter(function (s) { return s.period === 'month' && s.status !== 'cancelled'; }).reduce(function (a, s) { return a + (+s.price || 0); }, 0);
-    var year = d.services.filter(function (s) { return s.period === 'year' && s.status !== 'cancelled'; }).reduce(function (a, s) { return a + (+s.price || 0); }, 0);
-    var next = d.invoices.filter(function (i) { return i.status === 'open'; }).sort(function (a, b) { return String(a.due_date).localeCompare(String(b.due_date)); })[0];
-    var has = function (t) { return d.services.some(function (s) { return s.type === t; }); };
-    var tips = [];
-    if (has('domain') && !has('mail')) tips.push(['Mejl med er egen domän', 'foretagsmejl.html']);
-    if (!has('website')) tips.push(['En hemsida som ger förfrågningar', 'priser.html']);
-    if (!has('domain')) tips.push(['Ett eget domännamn', 'domaner.html']);
-    view().innerHTML =
-      (todo.length ? todo.map(function (t) { return '<div class="portal-warn"><p>' + t[0] + '</p>' + (t[1] ? '<button type="button" class="btn btn--primary" data-go="' + t[1] + '"><span>' + t[2] + '</span></button>' : '') + '</div>'; }).join('') : '<p class="portal-ok">Allt fungerar. Inget behöver göras just nu.</p>') +
-      '<h3 class="portal-h">Era tjänster</h3>' + (d.services.length ? '<div class="shop-list">' + d.services.map(function (s) { return serviceRow(s); }).join('') + '</div>' : '<p class="shop-lead">Inga tjänster ännu.</p>') +
-      '<p class="portal-sum">Totalt ' + kr(month) + '/mån' + (year ? ' + ' + kr(year) + '/år' : '') + ' exkl. moms' + (next ? ' · nästa faktura ' + day(next.due_date) : '') + '</p>' +
-      health() +
-      '<h3 class="portal-h">Lägg till fler tjänster</h3>' +
-      '<div class="promo2 portal-promo"><div class="promo2__card glow-dark"><div class="promo2__head"><h2>Sök och köp ert <em>domännamn</em></h2><span class="promo2__arrow" aria-hidden="true">&rarr;</span></div><p>Skydda namnet på fler toppdomäner.</p>' +
-      '<form class="sitetest__form portal-dom" action="domaner.html"><label class="sitetest__field"><span class="sr-only">Domän</span><input name="q" placeholder="dittforetag" aria-label="Domän"></label><button class="btn btn--primary"><span>Sök</span></button></form></div>' +
-      '<a class="promo2__card promo2__card--wide glow-dark" href="foretagsmejl.html"><div class="promo2__head"><h2>Imponera med professionell e-post</h2><span class="promo2__arrow" aria-hidden="true">&rarr;</span></div><p>Fler konton, alias som info@ och flytt av gammal mejl.</p>' +
-      '<div class="wm" aria-hidden="true"><div class="wm__win"><div class="wm__bar"><b class="wm__logo">elevate<span>mejl</span></b><span class="wm__search">Sök i mejl</span><span class="wm__acc">anna@exempelbygg.se</span></div><div class="wm__tools"><span>Uppdatera</span><span>Ta bort</span><span>Flytta</span><span>Markera som oläst</span><span>Blockera</span></div><div class="wm__body"><div class="wm__side"><span class="wm__compose">Skriv nytt</span><span class="on">Inkorg <i>2</i></span><span>Utkast</span><span>Skickat</span><span>Skräppost</span></div><div class="wm__list"><p class="wm__h">Inkorg</p><div class="wm__m wm__m--new"><b>Karin Lund</b><span>Offert på badrum</span><small>Hej! Vi vill gärna ha en offert på …</small><em>offert.pdf</em></div><div class="wm__m wm__m--new"><b>Bokning</b><span>Ny bokning tisdag 14:00</span><small>Johan har bokat ett möte …</small></div><div class="wm__m wm__m--sel"></div><div class="wm__m"><b>Faktura</b><span>Betalning mottagen</span><small>Tack, faktura 2026-041 är betald.</small></div></div><div class="wm__read"><p class="wm__h">Offert på badrum</p><div class="wm__from"><i>K</i><div><b>Karin Lund</b><small>Till: info@exempelbygg.se</small></div></div><p>Hej! Vi har sett er hemsida och vill gärna ha en offert på ett nytt badrum, ungefär 6 kvadratmeter.</p><p>Vänliga hälsningar<br>Karin</p><div class="wm__acts"><span>Svara</span><span>Svara alla</span><span>Vidarebefordra</span></div></div></div></div></div>' + '</a></div>' +
-      '<div class="promo2 portal-promo portal-promo--one"><a class="promo2__card glow-dark" href="testa.html"><div class="promo2__head"><h2>Hur presterar er sajt?</h2><span class="promo2__arrow" aria-hidden="true">&rarr;</span></div><p>Testa hastighet, tillgänglighet och SEO på en minut.</p>' +
-      '<div class="st-preview"><div class="st-card"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="st-bg"/><circle cx="60" cy="60" r="50" class="st-fg" stroke="#d4e85a" stroke-dasharray="250 314"/></svg><b>–</b><p>Prestanda</p></div><div class="st-card"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="st-bg"/><circle cx="60" cy="60" r="50" class="st-fg" stroke="#3cc2b0" stroke-dasharray="285 314"/></svg><b>–</b><p>Tillgänglighet</p></div><div class="st-card"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="st-bg"/><circle cx="60" cy="60" r="50" class="st-fg" stroke="#f2b45f" stroke-dasharray="200 314"/></svg><b>–</b><p>SEO och AI-optimering</p></div></div></a></div>' +
-      (tips.length ? '<p class="shop-note">Saknas: ' + tips.map(function (t) { return '<a href="' + t[1] + '">' + t[0] + '</a>'; }).join(' · ') + '</p>' : '');
-    view().addEventListener('click', function (e) { var b = e.target.closest('[data-go]'); if (b) { st.tab = b.dataset.go; shell(); } });
   }
 
   // Uptime (last 30 days) and the latest monthly report
@@ -335,6 +377,10 @@
       tickets: [{ id: 't1', company_id: 'c1', subject: 'Mejlen kommer inte fram i mobilen', status: 'answered', created_at: d(-2) }],
       site_reports: [{ company_id: 'c1', created_at: d(-1), url: 'https://exempelbygg.se', performance: 78, accessibility: 92, best_practices: 100, seo: 88, lcp_ms: 3100, issues: ['Bilder kan komprimeras bättre', 'En länk saknar beskrivande text', 'Metabeskrivning saknas på /kontakt'] }],
       uptime_checks: (function () { var a = []; for (var i = 0; i < 2880; i++) a.push({ company_id: 'c1', url: 'https://exempelbygg.se', ok: i !== 700 && i !== 701, ms: 380 + (i * 37) % 260, checked_at: new Date(Date.now() - i * 9e5).toISOString() }); return a; })(),
+      site_stats: (function () { var a = [], src = ['Google', 'Direkt', 'Instagram', 'Facebook', 'Bing'], pg = ['Startsidan', '/tjanster', '/kontakt', '/om-oss', '/projekt', '/priser'], ct = ['Haninge', 'Stockholm', 'Nynäshamn', 'Tyresö', 'Huddinge'], qs = ['bygg haninge', 'badrumsrenovering haninge', 'snickare södertörn', 'altan pris', 'exempelbygg'];
+        for (var i = 400; i >= 0; i--) { var dt = new Date(Date.now() - i * 864e5), w = dt.getDay(), v = Math.round((30 + (400 - i) * 0.04 + 9 * Math.sin(i / 3.1)) * (w === 0 || w === 6 ? 0.6 : 1)), o = function (names, ws) { var r = {}; names.forEach(function (n, k) { r[n] = Math.max(0, Math.round(v * ws[k])); }); return r; };
+          a.push({ company_id: 'c1', day: dt.toISOString().slice(0, 10), visitors: v, pageviews: Math.round(v * 3.04), leads: (i % 4 === 0) ? 1 : (i % 9 === 0 ? 2 : 0), sources: o(src, [0.58, 0.21, 0.12, 0.06, 0.03]), pages: o(pg, [0.48, 0.22, 0.14, 0.08, 0.06, 0.05]), devices: o(['Mobil', 'Dator', 'Surfplatta'], [0.71, 0.25, 0.04]), cities: o(ct, [0.34, 0.31, 0.12, 0.09, 0.07]), queries: o(qs, [0.11, 0.08, 0.05, 0.03, 0.02]) }); }
+        return a; })(),
       change_requests: [{ id: 'cr1', company_id: 'c1', created_at: d(-3), page: 'Startsidan', description: 'Byt bilden högst upp till en bild från vårt senaste badrumsprojekt.', status: 'quoted', price: 900, quote_note: 'Vi byter bilden, beskär den för mobil och komprimerar den. Klart inom två arbetsdagar.' },
         { id: 'cr2', company_id: 'c1', created_at: d(-20), page: '/priser', description: 'Lägg till en rad om ROT-avdrag.', status: 'done', price: 0, quote_note: 'Ingår i ert avtal.' }],
       ticket_messages: [{ ticket_id: 't1', from_staff: false, body: 'Jag får inte in mejlen i iPhone. Vad ska jag fylla i?', created_at: d(-2) }, { ticket_id: 't1', from_staff: true, body: 'Hej! Välj IMAP och fyll i servern mail.exempelbygg.se. Vi har mejlat en guide till dig.', created_at: d(-1) }],
