@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, SITES, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, CASES, FORM_ENDPOINT, MAIL_FUNCTION, MAIL_LIVE, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
+from content import META_PIXEL_ID, ARTICLES, SITES, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, CASES, FORM_ENDPOINT, MAIL_FUNCTION, MAIL_LIVE, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -1812,6 +1812,72 @@ def build_platform():
   </main>'''
     yield write("guider.html", document(p, "Så använder du adminpanelen och mejlen", guider, "subpage", [("Guider", "")], None,
                 description="Filmer och steg för steg: så ändrar du din hemsida i adminpanelen och så använder du Elevate Mejl."))
+
+    # ---- Ad landing page (Meta Ads) ----
+    lp_img = lambda n: f'{p}assets/img/sites/site-{n}-phone.webp'
+    lp_form = f"""<form class="standout__form js-form lp-form" id="lp-form" action="{FORM_ENDPOINT}" method="post" data-subject="Lead från annons – kampanjsidan"{mail_attrs()}>
+          <input type="hidden" name="kalla" value="Meta-annons">
+          <div class="standout__fields">
+            <label><span class="sr-only">Namn</span><input type="text" name="namn" placeholder="Namn" autocomplete="name" required></label>
+            <label><span class="sr-only">Telefon</span><input type="tel" name="telefon" placeholder="Telefon" autocomplete="tel" required></label>
+            <label><span class="sr-only">E-post</span><input type="email" name="email" placeholder="E-post" autocomplete="email" required></label>
+            <label><span class="sr-only">Företag</span><input type="text" name="foretag" placeholder="Företag" autocomplete="organization"></label>
+            <label class="standout__wide standout__select"><span class="sr-only">Har ni en hemsida idag?</span><select name="har_hemsida"><option value="">Har ni en hemsida idag?</option><option>Nej</option><option>Ja, men den behöver göras om</option><option>Ja, vill ha mer funktioner</option></select></label>
+          </div>
+          <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="new-password" aria-hidden="true" data-lpignore="true" data-1p-ignore>
+          <p class="standout__consent">När du skickar formuläret godkänner du vår <a href="{p}integritet.html">integritetspolicy</a></p>
+          <button type="submit" class="btn btn--primary"><span>Boka gratismöte</span></button>
+          <p class="form-status standout__status" role="status" hidden></p>
+        </form>"""
+    kampanj = f"""<main class="lp">
+    <section class="lp-hero">
+      <div class="lp-hero__bg" style="background-image:url({p}assets/img/home/hero.webp)"></div>
+      <div class="container lp-hero__in">
+        <p class="lp-kick">Klar idag · Fast pris</p>
+        <h1>Få din hemsida idag från <em>2&nbsp;999&nbsp;kr</em></h1>
+        <p class="lp-lead">SEO · Design · Recensioner · Admin – en snygg, snabb hemsida som ger förfrågningar. Ni pratar alltid med samma person.</p>
+        <a class="btn btn--light" href="#boka"><span>Boka gratismöte</span></a>
+      </div>
+    </section>
+    <section class="section container lp-grid">
+      <div class="lp-card">
+        <p class="lp-card__eb">Det här ingår</p>
+        <ul class="lp-list"><li>Unik design efter ert företag</li><li>Snabb och mobilanpassad</li><li>SEO – synlig på Google och i AI</li><li>Recensioner som bygger förtroende</li><li>Adminpanel – ändra texter och bilder själv</li><li>Offertformulär direkt till er mejl</li></ul>
+        <p class="lp-price">Från <b>2&nbsp;999&nbsp;kr</b> <span>engångspris, exkl. moms</span></p>
+      </div>
+      <div class="lp-steps">
+        <p class="lp-card__eb">Så går det till</p>
+        <ol><li><b>Gratis möte</b><span>15 minuter – ni berättar vad ni behöver.</span></li><li><b>Vi bygger</b><span>Ni ser förslaget och tycker till.</span></li><li><b>Live</b><span>Hemsidan är ute och jobbar åt er.</span></li></ol>
+      </div>
+    </section>
+    <section class="section container lp-work">
+      <h2>Hemsidor vi har byggt</h2>
+      <div class="lp-phones"><img src="{lp_img('cork')}" alt="Exempel: CORK i mobilen" loading="lazy" width="390" height="844"><img src="{lp_img('lindvik')}" alt="Exempel: Lindvik Bygg i mobilen" loading="lazy" width="390" height="844"><img src="{lp_img('alvhem')}" alt="Exempel: Älvhem i mobilen" loading="lazy" width="390" height="844"></div>
+    </section>
+    <section class="section container lp-faq">
+      <h2>Vanliga frågor</h2>
+      <details><summary>Vad kostar det på riktigt?</summary><p>Enkel hemsida från 2&nbsp;999&nbsp;kr i engångspris. Behöver ni bokning, offertflöde eller AI-chatt får ni ett fast pris innan vi börjar – inga överraskningar.</p></details>
+      <details><summary>Hur snabbt blir den klar?</summary><p>En enkel hemsida kan vara klar samma dag som vi har fått texter och bilder. Större sidor tar några dagar.</p></details>
+      <details><summary>Kan jag ändra själv efteråt?</summary><p>Ja. Adminpanelen ingår – där byter ni texter, bilder och öppettider och svarar på förfrågningar.</p></details>
+      <details><summary>Passar det min bransch?</summary><p>Vi bygger för hantverkare, restauranger, frisörer, tjänsteföretag och techbolag. Berätta vad ni gör så visar vi hur det kan se ut.</p></details>
+    </section>
+    <section class="standout lp-book" id="boka">
+      <div class="container">
+        <div class="standout__header"><h2>Boka ett <em>gratismöte</em></h2><p>Lämna ert nummer så ringer vi upp – oftast samma dag.</p></div>
+        {lp_form}
+      </div>
+    </section>
+  </main>"""
+    pixel = ""
+    if META_PIXEL_ID:
+        pixel = ("<div class=\"lp-consent\" id=\"lp-consent\" hidden><p>Vi använder Meta Pixel för att mäta våra annonser. OK?</p><button type=\"button\" data-c=\"1\">Ja</button><button type=\"button\" data-c=\"0\">Nej</button></div>"
+                 "<script>(function(){var K='es.adconsent',c=null;try{c=localStorage.getItem(K)}catch(e){}var box=document.getElementById('lp-consent');"
+                 "function load(){!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');"
+                 f"fbq('init','{META_PIXEL_ID}');fbq('track','PageView');"
+                 "var o=window.elevateTrack;window.elevateTrack=function(k,v){if(k==='form')fbq('track','Lead');return o&&o.apply(this,arguments)}}"
+                 "if(c==='1')load();else if(c===null){box.hidden=false;box.addEventListener('click',function(e){var v=e.target.dataset.c;if(v==null)return;try{localStorage.setItem(K,v)}catch(x){}box.hidden=true;if(v==='1')load()})}})();</script>")
+    yield write("kampanj.html", document(p, "Få din hemsida idag från 2 999 kr", kampanj + pixel, "subpage lp-page", None, None, robots="noindex, follow",
+                description="Snygg, snabb hemsida med SEO, design, recensioner och adminpanel – från 2 999 kr. Boka ett gratismöte med Elevate Studio."))
 
     links = [("Startsidan", "index.html", "Nya temat, domän- och mejlkorten, riktiga kunder"), ("Testa din sajt", "testa.html", "Snabbtest, djupanalys, PDF och offert"),
              ("Domäner", "domaner.html", "Sök, filtrera, sortera och lägg i varukorgen"), ("Företagsmejl", "foretagsmejl.html", "Paket, mejlkontroll och guider"),

@@ -10,6 +10,8 @@ SITE_URL = "https://elevatestudio.nu"
 
 # Every form posts here. FormSubmit forwards the message to info@elevatestudio.nu.
 # The first message triggers a one-time activation mail to info@elevatestudio.nu that must be confirmed.
+# Meta Pixel for the ad landing page (kampanj.html). Empty = no pixel is loaded.
+META_PIXEL_ID = ""
 FORM_ENDPOINT = "https://formsubmit.co/ajax/info@elevatestudio.nu"
 
 # Admin at /admin runs in the browser and talks straight to the database (Supabase). The key below is
