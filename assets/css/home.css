@@ -1130,3 +1130,7 @@ h2, h3 { margin: 0; font-weight: 400; }
 .clients-real { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 72px; margin: 0 auto 56px; }
 .clients-real img { display: block; width: auto; height: 64px; max-width: 260px; }
 @media (max-width: 768px) { .clients-real { gap: 36px; } .clients-real img { height: 44px; } }
+/* "Så går det till" film in the process section */
+.process__film { margin: 0 0 48px; }
+.process__film video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 24px; background: #0f2418; box-shadow: 0 40px 80px -40px rgba(0,0,0,.45); }
+.process__film figcaption { margin-top: 12px; font-size: 15px; opacity: .75; }
