@@ -3,7 +3,8 @@
    public anon key are in the page. */
 (function () {
   var root = document.getElementById('portal'); if (!root || !window.supabase) return;
-  var sb = window.supabase.createClient(root.dataset.url, root.dataset.key);
+  var DEMO = /[?&]demo\b/.test(location.search) || /githack|localhost/.test(location.hostname);
+  var sb = DEMO ? demoClient() : window.supabase.createClient(root.dataset.url, root.dataset.key);
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var kr = function (n) { return n == null ? '–' : Math.round(n).toLocaleString('sv-SE') + ' kr'; };
   var day = function (d) { return d ? new Date(d).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short', year: 'numeric' }) : '–'; };
@@ -97,7 +98,14 @@
   function bindLogout() { var b = root.querySelector('#logout'); if (b) b.addEventListener('click', function () { sb.auth.signOut().then(function () { login('Du är utloggad.'); }); }); }
   function shell() {
     var tabs = TABS.filter(function (t) { return t[0] !== 'fakturor' || can.invoices(); });
-    root.innerHTML = '<div class="portal-top"><div><p class="form-prefill__k">' + esc(ROLE[st.role] || '') + '</p>' +
+    var dd = st.data, mo = dd.services.filter(function (s) { return s.period === 'month'; }).reduce(function (a, s) { return a + (+s.price || 0); }, 0);
+    var todoN = dd.services.filter(function (s) { var n = days(s.renews_at); return s.renews_at && n <= 60 && n >= 0 && !s.auto_renew; }).length + dd.invoices.filter(function (i) { return i.status === 'overdue'; }).length;
+    var hero = '<div class="portal-glow glow-dark">' + (DEMO ? '<p class="portal-demo">Demoläge · testdata · inget sparas</p>' : '') + '<h2>Hej ' + esc(((st.user.user_metadata || {}).full_name || '').split(' ')[0] || '') + '</h2>' +
+      '<div class="st-preview portal-tiles">' +
+      '<div class="st-card"><b class="portal-num">' + dd.services.length + '</b><p>Aktiva tjänster</p></div>' +
+      '<div class="st-card"><b class="portal-num">' + Math.round(mo) + ' kr</b><p>Per månad</p></div>' +
+      '<div class="st-card"><b class="portal-num">' + todoN + '</b><p>Att göra</p></div></div></div>';
+    root.innerHTML = hero + '<div class="portal-top"><div><p class="form-prefill__k">' + esc(ROLE[st.role] || '') + '</p>' +
       (st.members.length > 1 ? '<select id="pc" class="portal-company" aria-label="Företag">' + st.members.map(function (m) { return '<option value="' + m.company_id + '"' + (m.company_id === st.company.id ? ' selected' : '') + '>' + esc(m.companies.name) + '</option>'; }).join('') + '</select>' : '<h2 class="portal-company">' + esc(st.company.name) + '</h2>') +
       '</div><button type="button" class="portal-link" id="logout">Logga ut</button></div>' +
       '<nav class="portal-tabs" role="tablist">' + tabs.map(function (t) { return '<button type="button" role="tab" data-tab="' + t[0] + '" aria-selected="' + (st.tab === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</nav><div id="pv"></div>';
@@ -131,7 +139,14 @@
       (todo.length ? todo.map(function (t) { return '<div class="portal-warn"><p>' + t[0] + '</p>' + (t[1] ? '<button type="button" class="btn btn--primary" data-go="' + t[1] + '"><span>' + t[2] + '</span></button>' : '') + '</div>'; }).join('') : '<p class="portal-ok">Allt fungerar. Inget behöver göras just nu.</p>') +
       '<h3 class="portal-h">Era tjänster</h3>' + (d.services.length ? '<div class="shop-list">' + d.services.map(function (s) { return serviceRow(s); }).join('') + '</div>' : '<p class="shop-lead">Inga tjänster ännu.</p>') +
       '<p class="portal-sum">Totalt ' + kr(month) + '/mån' + (year ? ' + ' + kr(year) + '/år' : '') + ' exkl. moms' + (next ? ' · nästa faktura ' + day(next.due_date) : '') + '</p>' +
-      (tips.length ? '<h3 class="portal-h">Kanske intressant</h3><p class="shop-lead">' + tips.map(function (t) { return '<a href="' + t[1] + '">' + t[0] + '</a>'; }).join(' · ') + '</p>' : '');
+      '<h3 class="portal-h">Lägg till fler tjänster</h3>' +
+      '<div class="promo2 portal-promo"><div class="promo2__card glow-dark"><div class="promo2__head"><h2>Sök och köp ert <em>domännamn</em></h2><span class="promo2__arrow" aria-hidden="true">&rarr;</span></div><p>Skydda namnet på fler toppdomäner.</p>' +
+      '<form class="sitetest__form portal-dom" action="domaner.html"><label class="sitetest__field"><span class="sr-only">Domän</span><input name="q" placeholder="dittforetag" aria-label="Domän"></label><button class="btn btn--primary"><span>Sök</span></button></form></div>' +
+      '<a class="promo2__card promo2__card--wide glow-dark" href="foretagsmejl.html"><div class="promo2__head"><h2>Imponera med professionell e-post</h2><span class="promo2__arrow" aria-hidden="true">&rarr;</span></div><p>Fler konton, alias som info@ och flytt av gammal mejl.</p>' +
+      '<div class="promo2__ui promo2__ui--mail" aria-hidden="true"><div class="promo2__bar"><b>Inkorg</b><span>info@' + esc((d.services.filter(function (s) { return s.type === 'domain'; })[0] || { name: 'ert-foretag.se' }).name) + '</span></div><div class="promo2__msg"><b>Ny förfrågan från hemsidan</b><span>Hej! Vi vill gärna ha en offert …</span></div><div class="promo2__msg"><b>Bokning bekräftad</b><span>Tisdag 14:00 är bokad.</span></div></div></a></div>' +
+      '<div class="promo2 portal-promo portal-promo--one"><a class="promo2__card glow-dark" href="testa.html"><div class="promo2__head"><h2>Hur presterar er sajt?</h2><span class="promo2__arrow" aria-hidden="true">&rarr;</span></div><p>Testa hastighet, tillgänglighet och SEO på en minut.</p>' +
+      '<div class="st-preview"><div class="st-card"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="st-bg"/><circle cx="60" cy="60" r="50" class="st-fg" stroke="#d4e85a" stroke-dasharray="250 314"/></svg><b>–</b><p>Prestanda</p></div><div class="st-card"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="st-bg"/><circle cx="60" cy="60" r="50" class="st-fg" stroke="#3cc2b0" stroke-dasharray="285 314"/></svg><b>–</b><p>Tillgänglighet</p></div><div class="st-card"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="st-bg"/><circle cx="60" cy="60" r="50" class="st-fg" stroke="#f2b45f" stroke-dasharray="200 314"/></svg><b>–</b><p>SEO och AI-optimering</p></div></div></a></div>' +
+      (tips.length ? '<p class="shop-note">Saknas: ' + tips.map(function (t) { return '<a href="' + t[1] + '">' + t[0] + '</a>'; }).join(' · ') + '</p>' : '');
     view().addEventListener('click', function (e) { var b = e.target.closest('[data-go]'); if (b) { st.tab = b.dataset.go; shell(); } });
   }
 
@@ -237,6 +252,41 @@
         });
       });
     });
+  }
+
+  // ---------- demo: test data, clearly marked, nothing is saved ----------
+  function demoClient() {
+    var d = function (n) { return new Date(Date.now() + n * 864e5).toISOString().slice(0, 10); };
+    var db = {
+      company_members: [{ role: 'owner', company_id: 'c1', user_id: 'u1', companies: { id: 'c1', name: 'Exempelbygg AB', org_nr: '556000-0000', billing_email: 'faktura@exempelbygg.se', phone: '070-000 00 00', billing_address: 'Storgatan 1, Uppsala' } }, { role: 'user', company_id: 'u1', user_id: 'c2', company_id: 'c2', companies: { id: 'c2', name: 'Exempel Städ AB', org_nr: '556000-0001' } }],
+      services: [{ id: 's1', company_id: 'c1', type: 'domain', name: 'exempelbygg.se', status: 'active', price: 149, period: 'year', renews_at: d(21), auto_renew: false },
+        { id: 's2', company_id: 'c1', type: 'mail', name: 'Mejl Företag · 5 konton', status: 'active', price: 199, period: 'month' },
+        { id: 's3', company_id: 'c1', type: 'website', name: 'Hemsida Starter', status: 'active', price: 99, period: 'year', renews_at: d(200), auto_renew: true },
+        { id: 's4', company_id: 'c1', type: 'ssl', name: 'SSL-certifikat exempelbygg.se', status: 'active', renews_at: d(64), auto_renew: true }],
+      invoices: [{ id: 'i1', company_id: 'c1', number: '2026-041', amount: 199, status: 'open', due_date: d(9), description: 'Företagsmejl november' },
+        { id: 'i2', company_id: 'c1', number: '2026-030', amount: 5000, status: 'paid', due_date: d(-30), description: 'Hemsida Starter' }],
+      tickets: [{ id: 't1', company_id: 'c1', subject: 'Mejlen kommer inte fram i mobilen', status: 'answered', created_at: d(-2) }],
+      ticket_messages: [{ ticket_id: 't1', from_staff: false, body: 'Jag får inte in mejlen i iPhone. Vad ska jag fylla i?', created_at: d(-2) }, { ticket_id: 't1', from_staff: true, body: 'Hej! Välj IMAP och fyll i servern mail.exempelbygg.se. Vi har mejlat en guide till dig.', created_at: d(-1) }],
+      notifications: [], data_requests: []
+    };
+    db.company_members[0].company_id = 'c1';
+    var q = function (table) {
+      var rows = (db[table] || []).slice(), single = false, api = {
+        select: function () { return api; }, order: function () { return api; }, limit: function () { return api; }, is: function () { return api; }, or: function () { return api; },
+        eq: function (k, v) { rows = rows.filter(function (r) { return r[k] === undefined || r[k] === v; }); return api; },
+        insert: function (row) { row = Object.assign({ id: 'n' + Date.now(), created_at: new Date().toISOString(), status: 'open' }, row); (db[table] = db[table] || []).unshift(row); rows = [row]; return api; },
+        update: function () { return api; }, single: function () { single = true; return api; },
+        then: function (ok) { return Promise.resolve({ data: single ? rows[0] : rows, error: null }).then(ok); }
+      };
+      return api;
+    };
+    var user = { id: 'u1', email: 'anna@exempelbygg.se', user_metadata: { full_name: 'Anna Exempel' } };
+    return { from: q, auth: {
+      getSession: function () { return Promise.resolve({ data: { session: {} } }); }, getUser: function () { return Promise.resolve({ data: { user: user } }); },
+      signInWithPassword: function () { return Promise.resolve({}); }, signOut: function () { return Promise.resolve({}); }, updateUser: function () { return Promise.resolve({}); },
+      resetPasswordForEmail: function () { return Promise.resolve({}); }, onAuthStateChange: function () {},
+      mfa: { getAuthenticatorAssuranceLevel: function () { return Promise.resolve({ data: {} }); }, listFactors: function () { return Promise.resolve({ data: { totp: [] } }); },
+        enroll: function () { return Promise.resolve({ error: { message: 'demo' } }); } } } };
   }
 
   sb.auth.onAuthStateChange(function (ev) { if (ev === 'PASSWORD_RECOVERY') newPassword(); });
