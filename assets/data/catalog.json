@@ -1,89 +1,89 @@
 {
-  "_info": "Produktkatalog för domäner, företagsmejl och paket. Ändra priser och utbud här (eller i admin när databasen är kopplad). demo=true betyder att priset är ett exempel och visas som Demopris på sajten. Moms 25 % läggs på i kassan.",
-  "demo": true,
+  "_info": "Produktkatalog för domäner, företagsmejl och paket. Ändra priser och utbud här (eller i admin när databasen är kopplad). Moms 25 % läggs på i kassan.",
+  "demo": false,
   "vat": 0.25,
   "tlds": [
     {
       "tld": "se",
-      "register": 149,
-      "renew": 149,
+      "register": 249,
+      "renew": 249,
       "transfer": 0,
       "popular": 10
     },
     {
       "tld": "nu",
-      "register": 149,
-      "renew": 149,
+      "register": 249,
+      "renew": 249,
       "transfer": 0,
       "popular": 8
     },
     {
       "tld": "com",
-      "register": 169,
-      "renew": 169,
+      "register": 279,
+      "renew": 279,
       "transfer": 0,
       "popular": 9
     },
     {
       "tld": "net",
-      "register": 189,
-      "renew": 189,
+      "register": 299,
+      "renew": 299,
       "transfer": 0,
       "popular": 5
     },
     {
       "tld": "org",
-      "register": 179,
-      "renew": 179,
+      "register": 299,
+      "renew": 299,
       "transfer": 0,
       "popular": 5
     },
     {
       "tld": "eu",
-      "register": 129,
-      "renew": 129,
+      "register": 229,
+      "renew": 229,
       "transfer": 0,
       "popular": 4
     },
     {
       "tld": "info",
-      "register": 149,
-      "renew": 299,
+      "register": 299,
+      "renew": 399,
       "transfer": 0,
       "popular": 2
     },
     {
       "tld": "io",
-      "register": 549,
-      "renew": 549,
+      "register": 799,
+      "renew": 799,
       "transfer": 0,
       "popular": 3
     },
     {
       "tld": "dev",
-      "register": 199,
-      "renew": 199,
+      "register": 349,
+      "renew": 349,
       "transfer": 0,
       "popular": 2
     },
     {
       "tld": "app",
-      "register": 219,
-      "renew": 219,
+      "register": 349,
+      "renew": 349,
       "transfer": 0,
       "popular": 2
     },
     {
       "tld": "online",
-      "register": 79,
-      "renew": 449,
+      "register": 199,
+      "renew": 549,
       "transfer": 0,
       "popular": 1
     },
     {
       "tld": "store",
-      "register": 99,
-      "renew": 699,
+      "register": 199,
+      "renew": 799,
       "transfer": 0,
       "popular": 1
     }
@@ -94,9 +94,9 @@
       "name": "Mejl Bas",
       "accounts": 1,
       "storage_gb": 10,
-      "monthly": 49,
-      "yearly": 490,
-      "extra_account": 39,
+      "monthly": 79,
+      "yearly": 790,
+      "extra_account": 59,
       "features": [
         "Webbmejl, mobil och dator",
         "Spamfilter och virusskydd",
@@ -108,9 +108,9 @@
       "name": "Mejl Företag",
       "accounts": 5,
       "storage_gb": 25,
-      "monthly": 199,
-      "yearly": 1990,
-      "extra_account": 35,
+      "monthly": 299,
+      "yearly": 2990,
+      "extra_account": 49,
       "features": [
         "Allt i Bas",
         "Gruppadresser, till exempel info@",
@@ -122,9 +122,9 @@
       "name": "Mejl Pro",
       "accounts": 15,
       "storage_gb": 50,
-      "monthly": 449,
-      "yearly": 4490,
-      "extra_account": 29,
+      "monthly": 599,
+      "yearly": 5990,
+      "extra_account": 39,
       "features": [
         "Allt i Företag",
         "Större lagring per konto",
@@ -150,7 +150,7 @@
     {
       "id": "flytt",
       "name": "Flytt av befintlig mejl",
-      "once": 995,
+      "once": 1495,
       "yearly": 0
     }
   ],
@@ -171,7 +171,7 @@
         "Domän",
         "Mejl Bas"
       ],
-      "note": "Domän + 49 kr/mån"
+      "note": "Domän + 79 kr/mån"
     },
     {
       "id": "foretagspaket",

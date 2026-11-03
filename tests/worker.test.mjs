@@ -9,6 +9,7 @@ import { subscribe } from '../worker/newsletter.js';
 import { registrar } from '../worker/registrar.js';
 
 const catalog = fs.readFileSync(new URL('../assets/data/catalog.json', import.meta.url), 'utf8');
+const CAT = JSON.parse(catalog), tld = (t) => CAT.tlds.find((x) => x.tld === t), mailp = (id) => CAT.mail.find((x) => x.id === id);
 const ASSETS = { fetch: async () => new Response(catalog, { headers: { 'content-type': 'application/json' } }) };
 const stored = [];
 const env = (extra = {}) => ({ ASSETS, SUPABASE_URL: 'https://db.test', ...extra });
@@ -18,15 +19,15 @@ const customer = { name: 'Test Testsson', email: 'test@example.se' };
 test('order: prices come from the catalog, never from the browser', async () => {
   const r = await createOrder(post('/api/order', { customer, terms: true, items: [{ type: 'domain', domain: 'test.se', years: 1, price: 1 }] }), env());
   const d = await r.json();
-  assert.equal(r.status, 200); assert.equal(d.totals.once, 149); assert.match(d.ref, /^ES-/); assert.equal(d.stored, false);
+  assert.equal(r.status, 200); assert.equal(d.totals.once, tld('se').register); assert.match(d.ref, /^ES-/); assert.equal(d.stored, false);
 });
 test('order: several years = first year + renewals, capped at 10 years', async () => {
   const d = await (await createOrder(post('/api/order', { customer, terms: true, items: [{ type: 'domain', domain: 'test.com', years: 99 }] }), env())).json();
-  assert.equal(d.totals.once, 169 * 10);
+  assert.equal(d.totals.once, tld('com').register + tld('com').renew * 9);
 });
 test('order: mail per month and extra accounts', async () => {
   const d = await (await createOrder(post('/api/order', { customer, terms: true, items: [{ type: 'mail', id: 'mejl-foretag', period: 'month', extra: 2, domain: 'test.se' }] }), env())).json();
-  assert.equal(d.totals.month, 199 + 2 * 35);
+  assert.equal(d.totals.month, mailp('mejl-foretag').monthly + 2 * mailp('mejl-foretag').extra_account);
 });
 test('order: unknown products and TLDs are dropped, empty cart is refused', async () => {
   const r = await createOrder(post('/api/order', { customer, terms: true, items: [{ type: 'domain', domain: 'x.xyz' }, { type: 'mail', id: 'fake' }] }), env());
@@ -40,7 +41,7 @@ test('order: needs name, valid e-mail and accepted terms', async () => {
 });
 test('order: negative extra accounts cannot lower the price', async () => {
   const d = await (await createOrder(post('/api/order', { customer, terms: true, items: [{ type: 'mail', id: 'mejl-bas', extra: -50, domain: 'a.se' }] }), env())).json();
-  assert.equal(d.totals.month, 49);
+  assert.equal(d.totals.month, mailp('mejl-bas').monthly);
 });
 test('registrar: demo by default, never live without explicit setting and keys', () => {
   assert.equal(registrar({}).name, 'Demo'); assert.equal(registrar({}).live, false);
@@ -73,7 +74,7 @@ test('newsletter: bad e-mail 400, no storage and no Brevo gives 503 (the form th
 });
 test('order: a transfer is priced as transfer + one year, not as a new registration', async () => {
   const d = await (await createOrder(post('/api/order', { customer, terms: true, items: [{ type: 'domain', domain: 'test.info', transfer: true, years: 5 }] }), env())).json();
-  assert.equal(d.totals.once, 0 + 299);
+  assert.equal(d.totals.once, tld('info').transfer + tld('info').renew);
 });
 test('order: the same checkout key gives the same order number (no double orders)', async () => {
   const body = { customer, terms: true, key: 'abc123def456', items: [{ type: 'domain', domain: 'ab.se' }] };
@@ -84,7 +85,7 @@ test('order: the same checkout key gives the same order number (no double orders
 import { watchDomain, checkWatches } from '../worker/watch.js';
 test('order: the Starter website in the package is priced from the catalog', async () => {
   const d = await (await createOrder(post('/api/order', { customer, terms: true, items: [{ type: 'domain', domain: 'ab.se' }, { type: 'website', id: 'starter', once: 1 }] }), env())).json();
-  assert.equal(d.totals.once, 149 + 5000);
+  assert.equal(d.totals.once, tld('se').register + 5000);
 });
 test('watch: bad input 400, no database 503 (the page then mails info@)', async () => {
   assert.equal((await watchDomain(post('/api/domain/watch', { email: 'x', domain: 'ab.se' }), env())).status, 400);

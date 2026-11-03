@@ -625,6 +625,8 @@ FAQ = [
 
 # Opens the Google review box for Elevate Studio directly. This is where g.page/r/CaJmmZVCdm82EBM/review
 # leads; linking straight here avoids the redirect warning Gmail shows for short links.
+# Where visitors read all our Google reviews
+REVIEWS_URL = "https://www.google.com/maps/place/?q=place_id:ChIJcRLSybPJX0YRomaZlUJ2bzY"
 REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJcRLSybPJX0YRomaZlUJ2bzY"
 
 # Real customer reviews from Google. Add new ones at the top; arrows appear automatically when there is more than one.
@@ -639,7 +641,7 @@ REVIEWS = [
 TEAM = [
                 ("Carl From", "Försäljning & kundkontakt", "+46 76 022 83 61", "carl@elevatestudio.nu"),
                 ("Isak Mattsson", "Försäljning & AI-utveckling", "+46 70 289 58 75", "isak@elevatestudio.nu"),
-                ("Oscar Svanerud", "Försäljning & affärsutveckling", "+46 76 849 86 68", "svanerudo@gmail.com"),
+                ("Oscar Svanerud", "Försäljning & affärsutveckling", "+46 76 849 86 68", "info@elevatestudio.nu"),
             ]
 
 # Websites we have built and that are live. Add a line here and a screenshot in assets/img/sites/ to show one more.

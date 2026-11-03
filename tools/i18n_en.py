@@ -6,6 +6,11 @@ so add new strings when the Swedish copy changes (tools/i18n_check.js lists what
 """
 
 EN = {
+    "CORK och Haninge Byggteam AB är kunder hos oss. Övriga är designkoncept som visar hur vi arbetar.": "CORK and Haninge Byggteam AB are clients of ours. The others are design concepts that show how we work.",
+    "Designkoncept som visar hur vi arbetar – inte en riktig kund.": "A design concept that shows how we work – not a real client.",
+    "Läs mer": "Read more",
+    "Visa mindre": "Show less",
+
     "Starta test": "Start test",
     "Vi fixar det →": "We fix it →",
     "Riktigt bra. Bara finputs kvar.": "Really good. Only polishing left.",

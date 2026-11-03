@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import META_PIXEL_ID, ARTICLES, SITES, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, CASES, FORM_ENDPOINT, MAIL_FUNCTION, MAIL_LIVE, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
+from content import META_PIXEL_ID, ARTICLES, SITES, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, CASES, FORM_ENDPOINT, MAIL_FUNCTION, MAIL_LIVE, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL, REVIEWS_URL  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -767,7 +767,7 @@ def build_cases():
         <h2 class="block__header">Exempel på <span>projekt</span></h2>
         <div class="pgrid">{cards}
         </div>
-        <p class="fiction-note">CORK och Haninge Byggteam AB är kunder hos oss. Övriga exempel är påhittade och visar hur vi arbetar.</p>
+        <p class="fiction-note">CORK och Haninge Byggteam AB är kunder hos oss. Övriga är designkoncept som visar hur vi arbetar.</p>
       </div>
     </section>
     {cta(p)}
@@ -810,7 +810,7 @@ def build_cases():
         else:
             body = f'''<section class="section container">
       {compare(p, "../assets/img/" + c["image"], c["name"])}
-      <p class="fiction-note">Påhittat exempelprojekt som visar hur vi arbetar.</p>
+      <p class="fiction-note">Designkoncept som visar hur vi arbetar – inte en riktig kund.</p>
     </section>
     <section class="section container">
       <div class="card-grid">
@@ -831,8 +831,10 @@ def build_cases():
     </section>
     {cta(p)}
   </main>'''
-        yield write(f'projekt/{c["slug"]}.html', document(p, f'{c["name"]} – {"kund hos Elevate Studio" if c.get("site") else "exempel på hemsida"}', main, "subpage",
-                    [("Projekt", "projekt/index.html"), (c["name"], "")], "projekt"))
+        yield write(f'projekt/{c["slug"]}.html', document(p, f'{c["name"]} – {"kund hos Elevate Studio" if c.get("site") else "designkoncept"}', main, "subpage",
+                    [("Projekt", "projekt/index.html"), (c["name"], "")], "projekt",
+                    description=(f'{c["name"]}: hemsida som Elevate Studio har byggt. Se design, funktioner och hur sidan ger förfrågningar.' if c.get("site") else
+                                 f'{c["name"]}: designkoncept från Elevate Studio som visar hur en hemsida för en sådan verksamhet kan se ut och fungera.')))
 
 
 def rich(value):
@@ -1389,7 +1391,7 @@ def build_prices():
           <p class="calc__k">Ert pris</p>
           <div class="calc__rows" id="calc-rows"></div>
           <div class="calc__tot"><div><span>Engångskostnad</span><b id="calc-once"></b></div><div><span>Per år</span><b id="calc-year"></b></div><div><span>Per månad</span><b id="calc-month"></b></div></div>
-          <p class="calc__note">Alla priser exkl. moms. Årsavgiften för hemsidan anges som spann och bestäms i offerten. Domän- och mejlpriser är exempelpriser tills de är satta.</p>
+          <p class="calc__note">Alla priser exkl. moms. Årsavgiften för hemsidan anges som spann och bestäms i offerten.</p>
           <a class="btn btn--light" id="calc-send" href="kontakt.html?fran=kalkyl#formular"><span>Skicka som offertförfrågan</span></a>
         </aside>
       </div>
@@ -1432,8 +1434,9 @@ def reviews_section(p=""):
     quote = '<svg class="review__mark" viewBox="0 0 30 22" aria-hidden="true"><path d="M0 22V13C0 5 4 1 12 0l1 3C8 4 6 7 6 11h6v11zm17 0V13c0-8 4-12 12-13l1 3c-5 1-7 4-7 8h6v11z" fill="#1d3b2a"/></svg>'
     slides = "".join(f'''<figure class="review__card">
           {quote}
-          <blockquote class="review__text"><p>{esc(r["text"])}</p></blockquote>
-          <figcaption class="review__source">{esc(r["source"])}</figcaption>
+          <a class="review__go" href="{REVIEWS_URL}" target="_blank" rel="noopener" aria-label="Läs recensionen på Google"><blockquote class="review__text"><p>{esc(r["text"])}</p></blockquote></a>
+          <button type="button" class="review__more" hidden aria-expanded="false">Läs mer</button>
+          <figcaption class="review__source"><a href="{REVIEWS_URL}" target="_blank" rel="noopener">{esc(r["source"])}</a></figcaption>
         </figure>''' for r in REVIEWS)
     slides += f'''<div class="review__card review__card--ask">
           <p class="review__ask-k">Har ni jobbat med oss?</p>
@@ -1480,7 +1483,7 @@ def projects_section():
         </div>
         <div class="hp-proj__grid">{cards}
         </div>
-        <p class="hp-proj__note">CORK och Haninge Byggteam AB är kunder hos oss. Övriga exempel är påhittade och visar hur vi arbetar.</p>
+        <p class="hp-proj__note">CORK och Haninge Byggteam AB är kunder hos oss. Övriga är designkoncept som visar hur vi arbetar.</p>
       </div>
     </section>'''
 
@@ -1856,7 +1859,7 @@ def build_platform():
     <section class="section container lp-revs">
       <h2>Det här säger våra kunder</h2>
       <div class="lp-revs__row">{rv}</div>
-      <p class="lp-revs__more"><a href="https://www.google.com/maps/place/?q=place_id:ChIJcRLSybPJX0YRomaZlUJ2bzY" target="_blank" rel="noopener">Läs alla recensioner på Google →</a></p>
+      <p class="lp-revs__more"><a href="{REVIEWS_URL}" target="_blank" rel="noopener">Läs alla recensioner på Google →</a></p>
     </section>
     <section class="section container lp-grid">
       <div class="lp-card">
