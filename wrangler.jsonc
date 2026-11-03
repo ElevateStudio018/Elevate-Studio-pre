@@ -5,6 +5,8 @@
   "compatibility_date": "2026-10-01",
   "triggers": { "crons": ["17 6 * * *", "*/15 * * * *"] },
   "compatibility_flags": ["nodejs_compat"],
+  // Live browser for "Testa din sajt" (Cloudflare Browser Rendering). Without it the test runs as before.
+  "browser": { "binding": "BROWSER" },
   // Server part for the admin (worker/): meeting invites sent through Gmail. Everything else is static files.
   "main": "worker/index.js",
   "vars": {

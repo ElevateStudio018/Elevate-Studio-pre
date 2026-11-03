@@ -1,4 +1,5 @@
 // The website is static files (served by Cloudflare). This small script adds the admin's server parts.
+import { live } from './live.js';
 import { siteLink } from './sitelink.js';
 import { siteContent, siteLead, siteTheme, agent } from './kundadmin.js';
 import { handleInvite, handleMail } from './invite.js';
@@ -75,6 +76,7 @@ export default {
     if (pathname === '/api/leads/import') return sheetLeads(req, env, leadImport);
     if (pathname === '/api/newsletter') return subscribe(req, env);
     if (pathname === '/api/sitecheck') return siteCheck(req, env);
+    if (pathname === '/api/live') return live(req, env);
     if (pathname === '/api/crawl') return crawl(req, env);
     if (pathname === '/api/crux') return crux(req, env);
     if (pathname === '/api/safe') return safeBrowsing(req, env);

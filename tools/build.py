@@ -372,7 +372,7 @@ def document(p, title, main, body_class, crumbs=None, current=None, extra_css=()
   <link rel="icon" href="{p}assets/img/brand/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="icon" href="{p}assets/img/brand/favicon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="{p}assets/img/brand/apple-touch-icon.png">
-{HERO_PRELOAD if body_class == "home" else ""}{"" if body_class == "home" else '  <link rel="preload" href="{p}assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>\n'}{"" if body_class == "home" else '  <link rel="preload" href="{p}assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>\n'}  {links}
+{HERO_PRELOAD if body_class == "home" else ""}{"" if body_class == "home" else f'  <link rel="preload" href="{p}assets/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>\n'}{"" if body_class == "home" else f'  <link rel="preload" href="{p}assets/fonts/Fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>\n'}  {links}
   <script type="application/ld+json">{ld}</script>
 </head>
 <body class="{body_class}">
@@ -1150,7 +1150,7 @@ def build_test_page():
     </section>
     {cta(p, "Vill du hellre att vi tittar åt dig?", "Vi gör gärna en personlig genomgång av din sajt och berättar vad som ger mest effekt.")}
   </main>'''
-    yield write("testa.html", document(p, "Testa din sajt", main, "subpage", [("Testa din sajt", "")], None, extra_js=("sitetest.js", "sitetest-extra.js", "sitetest-deep.js")))
+    yield write("testa.html", document(p, "Testa din sajt", main, "subpage", [("Testa din sajt", "")], None, extra_js=("sitetest-live.js", "sitetest.js", "sitetest-extra.js", "sitetest-deep.js")))
 
 
 AGREEMENT_PDF = "assets/docs/webbavtal-exempel-elevate-studio.pdf"

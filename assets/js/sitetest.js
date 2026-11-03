@@ -17,15 +17,6 @@
   var results = document.getElementById('sitetest-results');
   var errorBox = document.getElementById('sitetest-error');
 
-  var STEPS = [
-    'Öppnar sidan i en riktig webbläsare …',
-    'Mäter hur snabbt innehållet visas …',
-    'Kontrollerar bilder, skript och typsnitt …',
-    'Granskar tillgänglighet och kontraster …',
-    'Går igenom SEO och metadata …',
-    'Letar efter säkerhetsbrister och fel …',
-    'Sammanställer resultatet …'
-  ];
 
   var CATEGORIES = [
     { id: 'performance', label: 'Prestanda' },
@@ -175,7 +166,7 @@
       // Ease towards 95 % over roughly 30 seconds; the real result finishes the bar.
       var pct = Math.min(95, 100 * (1 - Math.exp(-s / 12)));
       bar.style.width = pct.toFixed(1) + '%';
-      stepText.textContent = STEPS[Math.min(STEPS.length - 1, Math.floor(s / 4.5))];
+      stepText.textContent = 'Google testar sidan i en riktig webbläsare …';
       timeText.textContent = Math.floor(s) + ' s';
     }, 200);
   }
@@ -549,6 +540,8 @@
 
     button.disabled = true;
     startProgress();
+    // The live browser (if the server has one) shows the visit while Google's test runs
+    var liveRun = window.SitetestLive ? window.SitetestLive.start(url, strategy) : null;
     var runPsi = function (retry) {
       // Our server first (it adds the Google API key when one is set); if Google says no, the visitor's own browser asks Google directly
       return fetch(API + '?' + params.toString()).then(function (res) { return res.status === 429 ? fetch(GOOGLE + '?' + params.toString()) : res; })
@@ -573,6 +566,9 @@
     var extras = Promise.all([getJson('/api/crux'), getJson('/api/safe')]);
 
     Promise.all([psi, security, extras]).then(function (out) {
+      return (liveRun ? liveRun.finish(out[0]) : Promise.resolve(true)).then(function (show) { return show ? out : null; });
+    }).then(function (out) {
+      if (!out) { stopProgress(); button.disabled = false; return; }
       stopProgress();
       var p = out[0], sec = out[1], extra = { crux: out[2][0], safe: out[2][1] };
       if (!p.data && !sec.data) {
@@ -582,6 +578,8 @@
       } else {
         render(p.data || null, sec.data || null, url, strategy, p.data ? '' : p.problem, extra);
       }
+      var liveHtml = liveRun && liveRun.section();
+      if (liveHtml) { (results.hidden ? errorBox : results).insertAdjacentHTML('afterbegin', liveHtml); var top = document.querySelector('.stl-r'); if (top) top.classList.add('is-in'); }
       button.disabled = false;
     });
   });
