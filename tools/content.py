@@ -614,6 +614,8 @@ FAQ = [
 
 # Opens the Google review box for Elevate Studio directly. This is where g.page/r/CaJmmZVCdm82EBM/review
 # leads; linking straight here avoids the redirect warning Gmail shows for short links.
+# Where visitors read all our Google reviews
+REVIEWS_URL = "https://www.google.com/maps/place/?q=place_id:ChIJcRLSybPJX0YRomaZlUJ2bzY"
 REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJcRLSybPJX0YRomaZlUJ2bzY"
 
 # Real customer reviews from Google. Add new ones at the top; arrows appear automatically when there is more than one.

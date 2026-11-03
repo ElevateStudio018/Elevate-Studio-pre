@@ -6,6 +6,8 @@ so add new strings when the Swedish copy changes (tools/i18n_check.js lists what
 """
 
 EN = {
+    "Visa mindre": "Show less",
+
     "Starta test": "Start test",
     "Vi fixar det →": "We fix it →",
     "Riktigt bra. Bara finputs kvar.": "Really good. Only polishing left.",

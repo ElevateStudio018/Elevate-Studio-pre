@@ -180,6 +180,21 @@
     prev.disabled = true; if (counter) counter.textContent = 1; // start state without reading the layout
   });
 
+  // Long reviews: show "Läs mer" only when the text is cut, and fold it out on click
+  document.querySelectorAll('.review__card').forEach(function (card) {
+    var p = card.querySelector('.review__text p'), more = card.querySelector('.review__more');
+    if (!p || !more) return;
+    var check = function () { if (!card.classList.contains('is-open')) more.hidden = p.scrollHeight <= p.clientHeight + 2; };
+    check(); window.addEventListener('resize', check, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(check);
+    more.addEventListener('click', function () {
+      var open = card.classList.toggle('is-open'), track = card.parentNode;
+      requestAnimationFrame(function () { track.scrollLeft = card.offsetLeft - track.offsetLeft; });
+      more.textContent = open ? 'Visa mindre' : 'Läs mer';
+      more.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
   // Reviews animate: the card rises in on scroll, and each review slides in when you step to it
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
     document.querySelectorAll('[data-reviews]').forEach(function (box) {

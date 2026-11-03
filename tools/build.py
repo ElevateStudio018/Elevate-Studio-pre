@@ -15,7 +15,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from content import ARTICLES, SITES, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, CASES, FORM_ENDPOINT, MAIL_FUNCTION, MAIL_LIVE, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL  # noqa: E402
+from content import ARTICLES, SITES, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, CASES, FORM_ENDPOINT, MAIL_FUNCTION, MAIL_LIVE, PLATFORMS, PSI_API_KEY, SERVICES, SIMPLE_PAGES, SITE_URL, TEAM, PARENT_COMPANY, ORG_NR, REVIEWS, FAQ, LANDINGS, REVIEW_URL, REVIEWS_URL  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SERVICE = {s["slug"]: s for s in SERVICES}
@@ -1398,8 +1398,9 @@ def reviews_section(p=""):
     quote = '<svg class="review__mark" viewBox="0 0 30 22" aria-hidden="true"><path d="M0 22V13C0 5 4 1 12 0l1 3C8 4 6 7 6 11h6v11zm17 0V13c0-8 4-12 12-13l1 3c-5 1-7 4-7 8h6v11z" fill="#1d3b2a"/></svg>'
     slides = "".join(f'''<figure class="review__card">
           {quote}
-          <blockquote class="review__text"><p>{esc(r["text"])}</p></blockquote>
-          <figcaption class="review__source">{esc(r["source"])}</figcaption>
+          <a class="review__go" href="{REVIEWS_URL}" target="_blank" rel="noopener" aria-label="Läs recensionen på Google"><blockquote class="review__text"><p>{esc(r["text"])}</p></blockquote></a>
+          <button type="button" class="review__more" hidden aria-expanded="false">Läs mer</button>
+          <figcaption class="review__source"><a href="{REVIEWS_URL}" target="_blank" rel="noopener">{esc(r["source"])}</a></figcaption>
         </figure>''' for r in REVIEWS)
     slides += f'''<div class="review__card review__card--ask">
           <p class="review__ask-k">Har ni jobbat med oss?</p>
