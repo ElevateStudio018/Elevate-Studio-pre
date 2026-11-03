@@ -91,6 +91,14 @@ function readPage() {
   };
 }
 
+function findLink(href) {
+  const a = Array.from(document.querySelectorAll('a[href]')).find((e) => e.href === href && e.getBoundingClientRect().width > 0);
+  if (!a) return null;
+  a.scrollIntoView({ block: 'center' });
+  const r = a.getBoundingClientRect();
+  return { x: r.left, y: r.top, w: r.width, h: r.height };
+}
+
 // ---------- the engine ----------
 const CATS = ['performance', 'accessibility', 'seo', 'best-practices', 'mobile', 'technical'];
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -105,6 +113,14 @@ export async function run(adapter, url, device, send, signal) {
   const finding = (f) => { found[f.cat]++; send('finding', f); };
   const good = (c, text) => send('good', { cat: c, text });
   const metric = (id, label, value) => send('metric', { id, label, value });
+  // The real mouse in the session moves to what is being checked; the view draws it with a short note
+  const point = async (el, text, click = false, scrollY = 0) => {
+    const x = Math.round(el.x + Math.min(el.w, 400) / 2), yy = Math.round(el.y - scrollY + Math.min(el.h, 300) / 2);
+    if (yy < 0 || yy > dev.height || x < 0 || x > dev.width) return false;
+    await page.mouse(x, yy).catch(() => {});
+    send('cursor', { x, y: yy, text, click });
+    return true;
+  };
   const console_ = [], failed = [], bad = [];
   let page;
   CATS.forEach((c) => cat(c, 'wait'));
@@ -196,9 +212,18 @@ export async function run(adapter, url, device, send, signal) {
   const stepPx = Math.round(dev.height * 0.42);
   while (!stopped() && Date.now() - t0 < LIVE_LIMIT_MS - 25000) {
     const inView = [];
-    for (let i = queue.length - 1; i >= 0; i--) if (queue[i].y < y + dev.height * 0.85) { const f = queue.splice(i, 1)[0].f; finding(f); if (f.box) inView.push({ ...f.box, sev: f.sev, label: f.what }); }
+    for (let i = queue.length - 1; i >= 0; i--) if (queue[i].y < y + dev.height * 0.85) { const f = queue.splice(i, 1)[0].f; finding(f); if (f.box) inView.push({ ...f.box, y: f.box.y - y, sev: f.sev, label: f.what }); }
     const scanning = [...d.heads, ...d.imgs].filter((e) => e.y >= y && e.y < y + dev.height).slice(0, 6).map((e) => ({ x: e.x, y: e.y, w: e.w, h: e.h, scan: true }));
-    await frame([...inView, ...scanning].map((m) => ({ ...m, y: m.y - y })));
+    // point at one thing in view: a problem first, otherwise a heading or picture that is being read
+    const shown = d.imgs.find((i) => i.y >= y + 40 && i.y < y + dev.height - 120 && !i.pointed) || d.heads.find((h) => h.y >= y + 40 && h.y < y + dev.height - 80 && !h.pointed);
+    if (inView.length) await point(inView[0], inView[0].label, false, 0);
+    else if (shown) {
+      shown.pointed = true;
+      const txt = shown.tag ? `Läser rubriken ”${shown.text.slice(0, 40)}”` : (shown.alt === null ? `Kollar bilden ${shown.src} – saknar alt-text` : `Kollar bilden ${shown.src}${shown.nw ? ` (${shown.nw}×${shown.nh} px)` : ''}`);
+      await point(shown, txt, false, y);
+    }
+    await frame([...inView, ...scanning.map((m) => ({ ...m, y: m.y - y }))]);
+    if (inView.length || shown) await sleep(450);
     if (y >= maxY) break;
     y = Math.min(maxY, y + stepPx);
     await page.scrollTo(y);
@@ -253,6 +278,9 @@ export async function run(adapter, url, device, send, signal) {
   if (contact && !stopped() && Date.now() - t0 < LIVE_LIMIT_MS - 12000) {
     step('contact', `Besöker ${new URL(contact).pathname} …`);
     try {
+      await page.scrollTo(0); await sleep(300);
+      const link = await page.read(findLink, contact).catch(() => null);
+      if (link) { await frame(); await point({ ...link, y: link.y }, `Klickar på ”Kontakt” för att se hur man hör av sig`, true); await sleep(700); }
       const r2 = await page.goto(contact);
       await sleep(500); await frame();
       const c = await page.read(readPage);
@@ -286,8 +314,9 @@ export function puppeteerAdapter(browser) {
         onResponse: (fn) => p.on('response', (r) => fn(r.status(), r.url())),
         init: (src) => p.evaluateOnNewDocument(src),
         goto: async (u) => { const r = await p.goto(u, { waitUntil: 'load', timeout: 30000 }); return r ? { status: r.status() } : null; },
-        read: (fn) => p.evaluate(fn),
+        read: (fn, arg) => p.evaluate(fn, arg),
         scrollTo: (y) => p.evaluate((v) => window.scrollTo({ top: v, behavior: 'instant' }), y),
+        mouse: (x, y) => p.mouse.move(x, y, { steps: 8 }),
         setViewport: set,
         shot: async () => { const img = await p.screenshot({ type: 'jpeg', quality: 55, encoding: 'base64' }); const pos = await p.evaluate(() => [scrollY, document.documentElement.scrollHeight]); return { img, y: pos[0], h: pos[1] }; },
       };

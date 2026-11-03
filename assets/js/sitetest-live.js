@@ -26,15 +26,15 @@
       root.setAttribute('role', 'dialog'); root.setAttribute('aria-modal', 'true'); root.setAttribute('aria-label', 'Live-analys av ' + url);
       root.innerHTML =
         '<div class="stl__veil"></div><div class="stl__box">' +
-        '<header class="stl__top"><div><p class="stl__eb"><i class="stl__rec"></i>Live-analys</p><h2 class="stl__h">Vi granskar <span>' + esc(url.replace(/^https?:\/\//, '').replace(/\/$/, '')) + '</span></h2></div>' +
+        '<header class="stl__top"><div><p class="stl__eb">Live-analys</p><h2 class="stl__h">Vi granskar <span>' + esc(url.replace(/^https?:\/\//, '').replace(/\/$/, '')) + '</span></h2></div>' +
         '<div class="stl__meta"><span class="stl__chip">' + (strategy === 'desktop' ? 'Dator' : 'Mobil') + '</span><span class="stl__clock" id="stl-clock">0 s</span>' +
         '<button type="button" class="stl__x" id="stl-cancel" aria-label="Avbryt analysen">Avbryt</button></div></header>' +
         '<div class="stl__grid">' +
         '<section class="stl__browser stl__browser--' + (strategy === 'desktop' ? 'desk' : 'mob') + '">' +
         '<div class="stl__bar"><i></i><i></i><i></i><span class="stl__url"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 7V5a4 4 0 0 1 8 0v2h1v8H3V7zm2 0h4V5a2 2 0 0 0-4 0z" fill="currentColor"/></svg><b id="stl-url">' + esc(url) + '</b></span></div>' +
         '<div class="stl__view" id="stl-view"><div class="stl__wait" id="stl-wait"><span class="stl__spin"></span><p>Startar en riktig webbläsare …</p></div>' +
-        '<img id="stl-a" alt=""><img id="stl-b" alt=""><div class="stl__marks" id="stl-marks"></div><div class="stl__sb"><i id="stl-sb"></i></div></div>' +
-        '<p class="stl__cap" id="stl-cap">Det du ser är en riktig webbläsare hos Elevate Studio som besöker sidan just nu.</p></section>' +
+        '<img id="stl-a" alt=""><img id="stl-b" alt=""><div class="stl__marks" id="stl-marks"></div><div class="stl__cur" id="stl-cur" hidden><svg viewBox="0 0 20 24" aria-hidden="true"><path d="M2 1l15 12-7 1 4 8-3 1-4-8-5 5z" fill="#111" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><p id="stl-tip"></p></div><div class="stl__sb"><i id="stl-sb"></i></div></div>' +
+        '<p class="stl__cap" id="stl-cap">En riktig webbläsare besöker sidan just nu.</p></section>' +
         '<aside class="stl__panel">' +
         '<div class="stl__prog"><div class="stl__prog-h"><span id="stl-now">Ansluter …</span><b id="stl-pct">0 %</b></div><div class="stl__track"><i id="stl-bar"></i></div></div>' +
         '<ul class="stl__cats">' + CATS.map(function (c) { return '<li data-c="' + c[0] + '" class="is-wait"><span class="stl__dot"></span><b>' + c[1] + '</b><em>Väntar</em><span class="stl__score"></span></li>'; }).join('') + '</ul>' +
@@ -113,6 +113,13 @@
     on('cat', function (d) { open(); liveCat[d.id] = d.state; setCat(d.id, combine(d.id), psiScore[d.id]); });
     on('frame', function (d) { open(); frame(d); });
     on('finding', function (d) { addFinding(d); });
+    on('cursor', function (d) {
+      var c = $('stl-cur'); if (!c) return;
+      c.hidden = false; c.style.left = (100 * d.x / vw) + '%'; c.style.top = (100 * d.y / vh) + '%';
+      c.classList.toggle('is-right', d.x > vw * 0.55);
+      $('stl-tip').textContent = d.text;
+      c.classList.remove('is-click'); if (d.click) { void c.offsetWidth; c.classList.add('is-click'); }
+    });
     on('good', function (d) { goods.push(d); });
     on('metric', function (d) { metrics[d.id] = d; });
     on('done', function (d) { es.close(); liveDone = true; if ($('stl-cap')) $('stl-cap').textContent = 'Webbläsaren är klar efter ' + d.seconds + ' s. ' + findings.length + ' upptäckter.'; settle(); });
