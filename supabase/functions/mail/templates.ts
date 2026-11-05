@@ -170,7 +170,7 @@ export function timeProposal(o: { name: string; url: string; minutes: number; ty
       `<tr><td style="padding:12px 24px 0;font:12px/1.6 ${SANS};color:#6b766f">${legend("#eef4ef", "Ledig")} &nbsp; ${legend("#e9ebe6", "Upptagen i vår kalender")} &nbsp; Fler dagar finns på sidan. Alla tider är svensk tid.</td></tr>` +
       (o.message ? para(esc(o.message).replace(/\n/g, "<br>")) : "") +
       (o.host ? box(`<div style="font:bold 17px ${SANS};color:#16241b">Så här går mötet till</div><div style="margin-top:6px;font:15px/1.6 ${SANS};color:#3b463f">${who} går igenom ert företag, vad hemsidan ska ge er och hur ett upplägg kan se ut. Det kostar ingenting, och du behöver inte förbereda något.</div>`, "28px 36px 0") + contactCard(o.host, "Du träffar") : ""),
-      "Passar ingen tid? Svara på det här mejlet så hittar vi en. Länken fungerar i tre veckor."),
+      "Passar ingen tid? Svara på det här mejlet så hittar vi en. Länken fungerar i två månader."),
     text: `${first ? "Hej " + first + "!" : "Hej!"}\n\n${o.host ? o.host.first : "Vi"} har föreslagit ett kort möte om er hemsida (${o.minutes} min, ${o.type}). Välj en tid som passar dig här, så bokas mötet direkt:\n${o.url}\n\nLediga tider:\n${o.days.slice(0, 5).map((d) => `${d.wd} ${d.d} ${d.mon}: ${d.slots.filter((s) => s.free).map((s) => s.time).join(", ") || "fullt"}`).join("\n")}${o.message ? "\n\n" + o.message : ""}${o.host ? `\n\nDu träffar ${o.host.name}, ${o.host.role}\n${o.host.phone} · ${o.host.email}` : ""}\n\nElevate Studio\ninfo@elevatestudio.nu\nPassar ingen tid? Svara på det här mejlet så hittar vi en.`,
   };
 }

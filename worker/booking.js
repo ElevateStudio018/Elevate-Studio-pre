@@ -9,9 +9,9 @@ import { timeProposal, meetingInvite, ics, personalMail, TEAM } from '../supabas
 const TZ = 'Europe/Stockholm';
 const OPEN = 9, CLOSE = 17;   // the working day, local time
 const STEP = 30;              // minutes between offered start times
-const DAYS = 10;              // working days offered
+const DAYS = 44;              // working days offered (about two months)
 const NOTICE = 3 * 36e5;      // nothing sooner than three hours from now
-const LINK_DAYS = 21;         // how long a link works
+const LINK_DAYS = 60;         // how long a link works
 const TYPES = { google_meet: 'Google Meet', phone: 'Telefonmöte', teams: 'Microsoft Teams' };
 const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });
 const clip = (v, max) => (typeof v === 'string' && v.trim() ? v.trim().slice(0, max) : undefined);
@@ -66,7 +66,7 @@ function offeredDays(now) {
   const days = [];
   const first = parts(now);
   let noon = fromLocal(first.y, first.m, first.d, 12, 0);
-  for (let i = 0; days.length < DAYS && i < 40; i++, noon += 864e5) {
+  for (let i = 0; days.length < DAYS && i < 70; i++, noon += 864e5) {
     const p = parts(noon);
     if (p.dow < 1 || p.dow > 5) continue;
     const open = fromLocal(p.y, p.m, p.d, OPEN, 0), close = fromLocal(p.y, p.m, p.d, CLOSE, 0);
@@ -80,7 +80,10 @@ function offeredDays(now) {
 // Times we keep for ourselves: school hours on weekdays are mostly taken, the late afternoon is
 // mostly open. Same answer for the same time every time, so the mail and the page agree.
 const SCHOOL_END = 15;        // local hour when the school day is over
+// Off: every time within the working day can be booked unless the calendar is busy (kept for later use)
+const HOLD = false;
 function held(t) {
+  if (!HOLD) return false;
   const { h, mi } = parts(t);
   let x = Math.floor(t / 18e5) >>> 0; x = Math.imul(x ^ (x >>> 16), 2246822507) >>> 0; x = Math.imul(x ^ (x >>> 13), 3266489909) >>> 0; x ^= x >>> 16;
   const roll = (x >>> 0) / 4294967296;
