@@ -558,9 +558,9 @@ a.platform-card { display: block; color: #000; text-decoration: none; }
   --frost-edge: rgba(255, 255, 255, .4);
   --frost-ink: #12261a;
 }
-.look-ref .page-hero > .container, .look-ref .info-card { position: relative; overflow: hidden; isolation: isolate; border-color: transparent; color: var(--cream, #fdfbf5); background: var(--glow-card); }
+.look-ref .page-hero > .container, .look-ref .info-card { position: relative; overflow: hidden; isolation: isolate; border-color: transparent; color: var(--cream, #fdfbf5); background: var(--accent, #1d3b2a); }
 .look-ref .page-hero > .container::after, .look-ref .info-card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--noise) 0 0 / 180px auto; opacity: .22; mix-blend-mode: soft-light; pointer-events: none; }
-.look-ref .info-card--accent { background: var(--glow-card-teal); }
+.look-ref .info-card--accent { background: var(--accent-dark, #12271b); }
 .look-ref .page-hero { padding: 16px 0 40px; background: var(--cream, #fdfbf5); }
 .look-ref .page-hero > .container { width: calc(100% - 30px); max-width: 1304px; padding: 64px 64px 72px; border-radius: 28px; }
 .look-ref .page-hero__eyebrow { display: inline-flex; align-items: center; margin: 0 0 28px; padding: 8px 14px; border: 1px solid var(--frost-edge); border-radius: 999px; background: var(--frost-bg); color: var(--frost-ink); font-size: 13px; letter-spacing: .08em; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
