@@ -64,9 +64,9 @@
   var kr = function (n) { return new Intl.NumberFormat('sv-SE').format(Math.round(n || 0)) + ' kr'; };
   var dt = function (iso, opts) { return iso ? new Date(iso).toLocaleString('sv-SE', opts || { dateStyle: 'medium', timeStyle: 'short' }) : '–'; };
   var $ = function (sel, el) { return (el || document).querySelector(sel); };
-  function toast(text) {
+  function toast(text, ms) {
     var t = document.createElement('div'); t.className = 'toast'; t.textContent = text; document.body.appendChild(t);
-    setTimeout(function () { t.remove(); }, 3200);
+    setTimeout(function () { t.remove(); }, ms || 3200);
   }
   var ICON = {
     inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5h13l3.5 7v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/></svg>',
@@ -468,11 +468,22 @@
           (key(x.company) && (key(l.company) === key(x.company) || key(l.name) === key(x.company)));
       });
     };
-    sb.auth.getSession().then(function (s) { return fetch('/api/leads/import', { headers: { Authorization: 'Bearer ' + (s.data.session ? s.data.session.access_token : '') } }); }).then(function (r) { if (!r.ok) throw new Error(); return r.json(); }).then(function (list) {
+    var problems = '';
+    sb.auth.getSession().then(function (s) { return fetch('/api/leads/import', { headers: { Authorization: 'Bearer ' + (s.data.session ? s.data.session.access_token : '') } }); }).then(function (r) {
+      problems = decodeURIComponent(r.headers.get('x-import-problems') || '');
+      if (r.ok) return r.json();
+      return r.json().catch(function () { return {}; }).then(function (b) {
+        var why = r.status === 401 ? 'Du är inte inloggad som admin. Logga ut och in igen.' : b.error === 'scope' ? 'Google-kontot saknar behörighet till Google Sheets. Koppla Google igen under Inställningar.' :
+          b.error === 'google' ? 'Kopplingen till Google fungerar inte just nu' + (b.message ? ' (' + b.message + ')' : '') + '.' : 'Servern svarade med fel ' + r.status + '.';
+        throw new Error(why);
+      });
+    }).then(function (list) {
+      if (!Array.isArray(list)) list = [];
       var rows = list.map(function (x) { return { x: x, dup: existing(x) }; });
       var fresh = rows.filter(function (r) { return !r.dup; });
       main().innerHTML = head('Importera leads', 'Isaks, Carls och Oscars listor från Google Sheets. Det som redan finns i admin hoppas över.',
         fresh.length ? '<button class="btn" id="imp-go">Lägg in ' + fresh.length + ' nya leads</button>' : '') +
+        (problems ? info('Något kunde inte läsas', esc(problems)) : '') +
         kpis([['I listorna', list.length], ['Nya', fresh.length], ['Finns redan', rows.length - fresh.length]]) +
         '<div class="tablewrap"><table class="tbl"><thead><tr><th></th><th>Företag</th><th>Ansvarig</th><th>Status</th><th>Kontakt</th><th>Ny sajt</th><th>Kommentar</th></tr></thead><tbody>' +
         rows.map(function (r, i) {
@@ -488,19 +499,22 @@
         var picks = Array.prototype.map.call(document.querySelectorAll('.imp:checked'), function (c) { return rows[Number(c.dataset.i)].x; });
         if (!picks.length) return toast('Inget markerat');
         go.disabled = true; go.textContent = 'Lägger in …';
-        var done = 0, failed = 0;
+        var done = 0, failed = 0, firstErr = '';
+        var STATUSES = Object.keys(STAGE);
+        var cut = function (v, n) { v = String(v == null ? '' : v).trim(); return v ? v.slice(0, n) : ''; };
         var next = function (i) {
-          if (i >= picks.length) { toast(done + ' leads inlagda' + (failed ? ', ' + failed + ' misslyckades' : '')); loadLeads().then(function () { renderImport(); }); return; }
+          if (i >= picks.length) { toast(done + ' leads inlagda' + (failed ? ', ' + failed + ' misslyckades' + (firstErr ? ': ' + firstErr : '') : ''), failed ? 9000 : undefined); loadLeads().then(function () { renderImport(); }); return; }
           var x = picks[i];
           var note = [x.note, x.first_contact ? 'Första kontakt: ' + x.first_contact : '', x.maps ? 'Google Maps: ' + x.maps : ''].filter(Boolean).join('\n');
-          sb.from('quote_requests').insert({ name: x.company, company: x.company, email: x.email || '', phone: x.phone || null, service_type: x.service_type || null, status: x.status || 'contacted',
+          sb.from('quote_requests').insert({ name: cut(x.company, 150) || 'Okänt företag', company: cut(x.company, 150) || null, email: cut(x.email, 200).toLowerCase(), phone: cut(x.phone, 40) || null,
+            service_type: cut(x.service_type, 100) || null, status: STATUSES.indexOf(x.status) >= 0 ? x.status : 'contacted',
             meeting_type: 'manual', message: 'Importerad från ' + x.owner + 's lista', admin_notes: withOwner(x.owner, note, { web: x.web, github: x.github }) }).select()
-            .then(function (r) { if (r.error) { failed++; console.warn(x.company, r.error.message); } else done++; next(i + 1); })
+            .then(function (r) { if (r.error) { failed++; if (!firstErr) firstErr = r.error.message; console.warn(x.company, r.error.message); } else done++; next(i + 1); })
             .catch(function () { failed++; next(i + 1); });
         };
         next(0);
       });
-    }).catch(function () { main().innerHTML = head('Importera leads') + info('Kunde inte hämta listan', 'Servern svarade inte, eller så är du inte inloggad.'); });
+    }).catch(function (err) { main().innerHTML = head('Importera leads') + info('Kunde inte hämta listan', esc(err && err.message ? err.message : 'Servern svarade inte.')); });
   }
 
   function renderAccounts() {

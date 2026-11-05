@@ -126,8 +126,13 @@ export async function sheetLeads(req, env, fallback) {
     const tabs = SHEET_TABS.map(([gid, who]) => [(meta.sheets || []).find((s) => String(s.properties.sheetId) === gid), who]).filter((t) => t[0]);
     const old = Object.fromEntries((fallback || []).map((l) => [norm(l.company), l]));
     const seen = {}, out = [];
+    const problems = [];
+    if (!tabs.length) problems.push('Hittade inga av flikarna (Isak, Carl, Oscar) i kalkylarket');
     for (const [tab, who] of tabs) {
-      const rows = (await gget(g.token, `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent("'" + tab.properties.title + "'")}?valueRenderOption=FORMATTED_VALUE`)).values || [];
+      // a tab that cannot be read is skipped and reported, the others are still imported
+      let rows = [];
+      try { rows = (await gget(g.token, `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent("'" + tab.properties.title.replace(/'/g, "''") + "'")}?valueRenderOption=FORMATTED_VALUE`)).values || []; }
+      catch (e) { problems.push(`${who}s flik kunde inte läsas (${e.message})`); continue; }
       for (const raw of rows) {
         const cells = raw.map((c) => String(c).trim());
         const company = cells[0];
@@ -147,7 +152,7 @@ export async function sheetLeads(req, env, fallback) {
         seen[k] = lead; out.push(lead);
       }
     }
-    return json(out);
+    return new Response(JSON.stringify(out), { headers: { 'content-type': 'application/json', 'cache-control': 'no-store', 'x-import-problems': encodeURIComponent(problems.join(' · ')) } });
   } catch (e) { return e.status === 403 ? fail(e) : json(fallback || []); }
 }
 
