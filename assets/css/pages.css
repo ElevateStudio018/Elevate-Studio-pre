@@ -1198,22 +1198,10 @@ body.mail-app .wmx { min-height: 100vh; border-radius: 0 !important; }
 :is(.hero, .cta-band, .bento__tile--big, .plan, .review__card--ask, .site-footer) .btn:focus-visible { outline-color: var(--sand-50); }
 .megamenu__sidebar-button .btn:hover { background: var(--primary-hover); border-color: var(--primary-hover); color: var(--on-primary); }
 
-/* Headings: sans, weight 500; the serif accent lives only in the page's h1 */
+/* Headings: sans, weight 500; the accent words keep Fraunces Italic */
 .block__header, .h2, .h3, .bento__title, .devices__title, .clients-marquee__title, .insights__big-title, .faq__title, .about__title,
 .pair__text h3, .standout__header, .hp-proj__title, .prose h2, .cta-band .cta-band__title, .next-card__title, .sitetest__h2, .sitetest__cta h2,
 .test-teaser h2, .post-card__title { font-weight: 500; letter-spacing: -0.02em; }
-main h2 em, main h2 span, main h3 em, main h3 span, main h4 em, main h4 span, main .block__header em, main .block__header span, main .h2 em, main .h2 span, main .h3 em, main .h3 span, main .bento__title em, main .bento__title span, main .about__title em, main .about__title span, main .faq__title em, main .faq__title span, main .hp-proj__title em, main .hp-proj__title span,
-.test-teaser h2 em, main .devices__title em, .polaroid h3, .review__text p, .quote blockquote p, .site-footer__slogan em, .site-footer__subheader, .review__ask, .step-list__no,
-.next-steps__no, .not-found__speech-bubble span {
-  font-family: var(--sans); font-style: normal; font-variation-settings: normal; letter-spacing: inherit;
-}
-.review__text p { font-size: 28px; font-weight: 400; line-height: 1.4; color: var(--text); }
-.quote blockquote p { font-size: 22px; color: var(--text); }
-.review__ask { font-size: 28px; font-weight: 500; }
-.site-footer__slogan em { font-weight: 600; color: var(--text-inverse); }
-.site-footer__subheader { font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-inverse-muted); }
-.step-list__no, .next-steps__no { font-weight: 500; }
-@media (max-width: 768px) { .review__text p { font-size: 22px; } }
 
 /* Home hero: sentence case, one serif word */
 .hero__header { font-size: 80px; font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; text-transform: none; }
@@ -1236,17 +1224,6 @@ main h2 em, main h2 span, main h3 em, main h3 span, main h4 em, main h4 span, ma
 .site-footer__newsletter input { height: var(--control-h); border-radius: var(--radius-sm); }
 .site-footer__newsletter button { border-radius: var(--radius-sm); }
 
-/* FAQ on the start page: bordered rows on sand instead of white rows on green */
-.faq { background: var(--surface-alt); }
-.faq__title { color: var(--text); }
-.faq__bar { display: none; }
-.faq__list { margin-top: 48px; gap: 8px; }
-.faq__item { border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); }
-.faq__item summary { font-size: 22px; font-weight: 600; color: var(--text); }
-.faq__item p { color: var(--text-muted); }
-.faq__item[open] { box-shadow: none; border-color: var(--primary); }
-.faq__more { color: var(--text-muted); }
-.faq__more a { color: var(--primary); }
 .page-faq .faq__item, .mini-faq .faq__item { border-color: var(--border); border-radius: var(--radius-sm); }
 
 /* Pricing: flat cards, the featured one white */
