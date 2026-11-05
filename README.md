@@ -2,7 +2,7 @@
 
 Webbplatsen för Elevate Studio, en webbyrå i Uppsala som bygger hemsidor som ger förfrågningar.
 
-Färgschemat är mörkgrönt (`#1d3b2a`) med en mjölkvit beige som andrafärg. Båda styrs av CSS-variablerna `--accent` och `--cream` i `assets/css/style.css`.
+Utseendet följer designsystemet Elevate Studio 2.0: en färgskala (`--green-*`, `--sand-*`, `--neutral-*`), roller som `--primary`, `--surface` och `--text`, fyra radier och en typskala. Alla värden finns i `:root` i `assets/css/style.css`; regler som gäller hela sajten (knappar, rubriker, etiketter, formulär) ligger sist i `assets/css/pages.css`. De äldre namnen `--accent` och `--cream` finns kvar som alias.
 
 ## Sidor
 
@@ -10,7 +10,7 @@ Färgschemat är mörkgrönt (`#1d3b2a`) med en mjölkvit beige som andrafärg. 
 |---|---|
 | Startsida, 404 | `index.html`, `404.html` |
 | Tjänster | `tjanster/index.html` och 5 tjänstesidor: hemsidor, AI-chatt, bokning och offert, SEO och AI-optimering, support och underhåll |
-| Priser | `priser.html` – Starter 3 000 kr, Pro 6 000 kr och Elite (offert) |
+| Priser | `priser.html` – Starter 5 000 kr, Pro 9 000 kr och Elite (offert) |
 | Exempelavtal | `avtal.html` – en riktig offert med namn, organisationsnummer, offertnummer och datum borttagna. Nedladdningsbar som `assets/docs/webbavtal-exempel-elevate-studio.pdf`, som skapas från sidan med `node tools/agreement_pdf.js` efter `python3 tools/build.py` |
 | Senaste nytt | `insikter/index.html` och 3 artiklar |
 | Projekt | `projekt/index.html` och 6 projektsidor (påhittade exempel, märkta som det) |

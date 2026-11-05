@@ -206,12 +206,6 @@ def footer(p):
                 <li><a href="{p}avtal.html">Exempel på webbavtal</a></li>
                 <li><a href="{p}insikter/index.html">Senaste nytt</a></li>
                 <li><a href="{p}plattformar/index.html">Tekniken vi använder</a></li>
-                <li><a href="{p}webbyra-uppsala.html">Webbyrå i Uppsala</a></li>
-                <li><a href="{p}webbyra-stockholm.html">Webbyrå i Stockholm</a></li>
-                <li><a href="{p}hemsida-for-hantverkare.html">Hemsida för hantverkare</a></li>
-                <li><a href="{p}billig-hemsida.html">Billig hemsida</a></li>
-                <li><a href="{p}branscher.html">Hemsidor för alla branscher</a></li>
-                <li><a href="{p}orter.html">Webbyrå – orter</a></li>
               </ul>
             </div>
             <div>
@@ -229,6 +223,8 @@ def footer(p):
           <ul class="site-footer__bottom">
             <li><a href="{p}integritet.html">Integritetspolicy</a></li>
             <li><a href="{p}cookies.html">Cookies</a></li>
+            <li><a href="{p}branscher.html">Branscher</a></li>
+            <li><a href="{p}orter.html">Orter</a></li>
             <li><a href="?lang=en" lang="en" data-lang="en" rel="nofollow">In English</a></li>
             <li><a class="site-footer__admin" href="{p}admin/index.html">Admin</a></li>
             <li class="site-footer__legal">Elevate Studio är ett varumärke som tillhör {PARENT_COMPANY}, org.nr {ORG_NR} · Developed by Isak Mattsson</li>
@@ -490,16 +486,16 @@ def contact_form(p):
     return f'''<form class="standout__form js-form" id="formular" action="{FORM_ENDPOINT}" method="post" data-subject="Ny förfrågan från hemsidan" data-lead{mail_attrs()}>
           <p class="standout__header">Hej! Jag vill gärna bli kontaktad.</p>
           <div class="standout__fields">
-            <label><span class="sr-only">Namn</span><input type="text" name="namn" placeholder="Namn" autocomplete="name" required></label>
-            <label><span class="sr-only">E-post</span><input type="email" name="email" placeholder="E-post" autocomplete="email" required></label>
-            <label><span class="sr-only">Telefon</span><input type="tel" name="telefon" placeholder="Telefon" autocomplete="tel"></label>
-            <label><span class="sr-only">Företag</span><input type="text" name="foretag" placeholder="Företag" autocomplete="organization"></label>
-            <label class="standout__wide standout__select"><span class="sr-only">Tjänst</span><select name="tjanst">
+            <label><span class="standout__label">Namn</span><input type="text" name="namn" autocomplete="name" required></label>
+            <label><span class="standout__label">E-post</span><input type="email" name="email" autocomplete="email" required></label>
+            <label><span class="standout__label">Telefon</span><input type="tel" name="telefon" autocomplete="tel"></label>
+            <label><span class="standout__label">Företag</span><input type="text" name="foretag" autocomplete="organization"></label>
+            <label class="standout__wide standout__select"><span class="standout__label">Tjänst</span><select name="tjanst">
               <option value="">Vad är ni intresserade av?</option>
               {"".join(f'<option>{esc(x["name"])}</option>' for x in SERVICES)}
               <option>Vet inte än – vill ha råd</option>
             </select></label>
-            <label class="standout__wide"><span class="sr-only">Meddelande</span><textarea name="meddelande" placeholder="Meddelande" rows="1"></textarea></label>
+            <label class="standout__wide"><span class="standout__label">Meddelande</span><textarea name="meddelande" rows="1"></textarea></label>
           </div>
           <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="new-password" aria-hidden="true" data-lpignore="true" data-1p-ignore>
           <p class="standout__consent">När du skickar formuläret godkänner du vår <a href="{p}integritet.html">integritetspolicy</a></p>
