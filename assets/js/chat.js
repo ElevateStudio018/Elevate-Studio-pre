@@ -41,7 +41,7 @@
   root.innerHTML =
     '<button type="button" class="chat__toggle" aria-expanded="false" aria-controls="chat-panel">' +
       '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" fill="currentColor"/></svg>' +
-      '<span>Fråga oss</span></button>' +
+      '<span>Frågor?</span></button>' +
     '<section class="chat__panel" id="chat-panel" aria-label="Fråga Elevate Studio" hidden>' +
       '<header class="chat__head"><div><p class="chat__title">Fråga oss</p><p class="chat__sub">Snabba svar från vår FAQ – eller ett svar från oss via mejl.</p></div>' +
       '<button type="button" class="chat__close" aria-label="Stäng">×</button></header>' +
@@ -54,6 +54,12 @@
   document.body.appendChild(root);
 
   var toggle = root.querySelector('.chat__toggle'), panel = root.querySelector('.chat__panel');
+  // The button waves once after a few seconds so visitors notice it (skipped if already opened)
+  setTimeout(function () {
+    if (root.classList.contains('chat--open')) return;
+    toggle.classList.add('is-hello');
+    toggle.addEventListener('animationend', function () { toggle.classList.remove('is-hello'); });
+  }, 4500);
   var log = root.querySelector('.chat__log'), chips = root.querySelector('.chat__chips');
   var form = root.querySelector('.chat__form'), input = root.querySelector('#chat-input');
   var waitingForEmail = null, greeted = false;
