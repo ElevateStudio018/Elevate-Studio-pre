@@ -5,32 +5,43 @@
 *{box-sizing:border-box;margin:0}
 html,body{width:720px;height:1280px;overflow:hidden;background:#12271b;font-family:H,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 #s{position:absolute;inset:0;overflow:hidden;background:#12271b}
-#wall{position:absolute;left:-8px;right:-8px;top:-18px}
-.row{display:block;white-space:nowrap;text-align:center;font-weight:900;font-size:122px;line-height:.86;letter-spacing:-.02em;text-transform:uppercase;color:#c6f36b;height:105px;overflow:hidden}
+#wall{position:absolute;left:-8px;right:-8px;top:-30px}
+.row{display:block;white-space:nowrap;text-align:center;font-weight:900;font-size:122px;line-height:1.02;letter-spacing:-.02em;text-transform:uppercase;color:#c6f36b;height:105px;overflow:visible;margin-top:0}
 .row span{display:inline-block}
 .ph{position:absolute;width:250px;height:520px;border-radius:38px;background:#0a0f0c;padding:8px;box-shadow:0 40px 60px -20px rgba(0,0,0,.6)}
 .ph div{width:100%;height:100%;border-radius:31px;overflow:hidden;background:#fff}.ph img{display:block;width:100%}
-.bub{position:absolute;left:318px;top:378px;padding:20px 26px;border-radius:999px;background:#fff;color:#12271b;font-weight:900;font-size:34px;letter-spacing:-.02em;white-space:nowrap;box-shadow:0 14px 30px -10px rgba(0,0,0,.45);transform-origin:20% 100%}
+.bub{position:absolute;left:300px;top:378px;max-width:400px;padding:18px 24px;border-radius:999px;background:#fff;color:#12271b;font-weight:900;font-size:30px;letter-spacing:-.02em;white-space:nowrap;box-shadow:0 14px 30px -10px rgba(0,0,0,.45);transform-origin:20% 100%}
 .bub:after{content:'';position:absolute;left:34px;bottom:-14px;border:14px solid transparent;border-top-color:#fff;border-bottom:0}
 .cloud{position:absolute;right:-60px;bottom:-70px;width:330px;height:230px}
 .cloud i{position:absolute;border-radius:50%;background:#fff}
 .cloud b{position:absolute;left:96px;top:92px;display:flex;align-items:center;gap:8px;font-size:22px;font-weight:800;color:#12271b;letter-spacing:-.01em}
 .cloud b img{height:20px}
+.old{position:absolute;width:234px;height:504px;border-radius:31px;background:#ececec;padding:18px 14px;font:15px Times,serif;color:#444;overflow:hidden;filter:grayscale(1);opacity:0}
+.old b{font-size:20px;color:#222}
+.nt{position:absolute;left:70px;width:380px;padding:16px 18px;border-radius:20px;background:rgba(255,255,255,.96);color:#12271b;font-size:15px;box-shadow:0 12px 24px -10px rgba(0,0,0,.5);display:flex;gap:10px;align-items:center}
+.nt i{flex:none;width:42px;height:42px;border-radius:9px;background:#12271b;display:grid;place-items:center}.nt i img{width:18px}
+.nt b{display:block;font-size:19px}.nt span{font-size:16px;color:#4b5a50}
 .cta{position:absolute;left:0;right:0;top:1000px;text-align:center}
 .cta span{display:inline-block;padding:18px 34px;border-radius:999px;background:#fff;color:#12271b;font-weight:900;font-size:30px;letter-spacing:-.01em}
 </style></head><body><div id="s">
 <div id="wall"></div>
 <div class="ph" id="p1" style="left:150px;top:400px"><div><img id="i1"></div></div>
 <div class="ph" id="p2" style="left:330px;top:430px"><div><img id="i2"></div></div>
+<div class="old" id="old1"><div style="background:#9a9a9a;height:70px;margin-bottom:12px"></div><b>Välkommen till vår hemsida!!</b><p>Vi är ett företag som gör saker. Klicka <u style="color:blue">här</u> för mer info.</p><div style="background:#c9c9c9;height:150px;margin:12px 0"></div><p style="font-size:11px">Senast uppdaterad 2014</p></div>
+<div class="old" id="old2"><div style="background:#b5b5b5;height:110px;margin-bottom:12px"></div><b>OFFERT? RING!!</b><p>Tel 08-xxx xx xx</p><div style="background:#d2d2d2;height:120px;margin:12px 0"></div><p style="font-size:11px">© 2013</p></div>
+<div id="nots"></div>
 <div class="bub" id="bub"></div>
 <div class="cta" id="cta"><span>Boka gratismöte → elevatestudio.nu</span></div>
 <div class="cloud"><i style="left:40px;top:80px;width:150px;height:150px"></i><i style="left:130px;top:30px;width:170px;height:170px"></i><i style="left:0;top:140px;width:330px;height:140px"></i><b><img src="../../assets/img/brand/logo-mark-green.svg" alt="">Elevate</b></div>
 </div>
 <script>
 const V={
- A:{words:['HEMSIDA','SYNS','KUNDER','KLAR IDAG','2 999 KR'],bub:['Fast pris','Fast pris','Fast pris','Fast pris','Från 2 999 kr'],imgs:['img/lindvik-phone.jpg','../../assets/img/sites/site-cork-phone.jpg'],music:['a',124]},
- B:{words:['OSYNLIG','LÅNGSAM','GAMMAL','SNABB','SYNLIG','SÄLJANDE'],bad:3,bub:['Din hemsida?','Din hemsida?','Din hemsida?','Fixat.','Fixat.','Från 2 999 kr'],imgs:['img/lindvik-phone.jpg','../../assets/img/sites/site-alvhem-phone.jpg'],music:['c',120]},
- C:{words:['FAST PRIS','KLAR IDAG','SEO','ADMIN','5★ GOOGLE'],bub:['Inga tillägg','Från 2 999 kr','Syns på Google','Ändra själv','Riktiga recensioner'],imgs:['../../assets/img/sites/site-cork-phone.jpg','img/lindvik-phone.jpg'],music:['d',126]}
+ // 1. What a business owner wants: the phone going "pling" with new jobs
+ A:{words:['PLING','PLING','PLING','PLING'],bub:['Ny förfrågan: badrum','Ny förfrågan: altan','Ny förfrågan: kök','Ny förfrågan: tak'],center:'notif',endWord:'FLER JOBB',endBub:'Hemsida från 2 999 kr',imgs:['img/lindvik-phone.jpg','img/lindvik-phone.jpg'],music:['a',124]},
+ // 2. What a visitor thinks when the site looks old – then the same visitor on a good site
+ B:{words:['SERIÖST?','STÄNGT?','OSÄKERT?','NÄSTA.','PROFFSIGT','RINGER','BOKAR'],bad:4,bub:['Kunden tänker …','Kunden tänker …','Kunden tänker …','… och går vidare','Samma kund','Samma kund','Samma kund'],center:'swap',swapAt:4,endWord:'ELEVATE',endBub:'Hemsida från 2 999 kr',imgs:['img/lindvik-phone.jpg','../../assets/img/sites/site-cork-phone.jpg'],music:['c',120]},
+ // 3. The owner's own objections, answered
+ C:{words:['DYRT?','KRÅNGLIGT?','TAR TID?','2 999 KR','VI FIXAR','KLART IDAG'],bad:3,bub:['Tänker du …','Tänker du …','Tänker du …','Fast pris','Du gör inget','Från första mötet'],center:'phones',endWord:'ELEVATE',endBub:'Boka gratismöte',imgs:['img/lindvik-phone.jpg','../../assets/img/sites/site-cork-phone.jpg'],music:['d',122]}
 };
 const v=V[(location.search.match(/v=([ABC])/)||[0,'A'])[1]];
 const PH=1.55, N=v.words.length, END=N*PH, DUR=+(END+2.4).toFixed(2);
@@ -44,7 +55,7 @@ function render(t){
  for(let i=0;i<ROWS;i++){
   // each row switches to the next word a little after the one above: the wall "fills up" top to bottom
   const lt=t-i*0.045; let k=Math.floor(lt/PH); k=cl(k,0,N-1);
-  const w=end&&lt>=END?'ELEVATE':v.words[k];
+  const w=end&&lt>=END?v.endWord:v.words[k];
   const into=(lt-k*PH);
   const r=$('r'+i),sp=r.firstChild;
   if(sp.textContent!==w)sp.textContent=w;
@@ -52,7 +63,7 @@ function render(t){
   sp.style.opacity=appear;sp.style.transform=`translateY(${(1-out(into/0.22))*-40*(t>0.9?1:0)+(1-appear)*30}px)`;
   const bad=v.bad!=null&&!end&&k<v.bad;
   r.style.color=end&&lt>=END?'#ffffff':bad?'#ff8a73':'#c6f36b';
-  const fs=Math.min(122,1180/Math.max(w.length,1));r.style.fontSize=fs+'px';
+  const fs=Math.min(122,1100/Math.max(w.length,1));r.style.fontSize=fs+'px';
  }
  // phones: gentle float, pop in at start
  const pin=back(t/0.6);
@@ -60,10 +71,20 @@ function render(t){
  $('p2').style.transform=`translateY(${Math.sin(t*1.6+1.2)*6}px) rotate(7deg) scale(${pin})`;
  // bubble pops each time the word changes
  const k=cl(Math.floor((t-0.25)/PH),0,N-1),bt=t-0.25-k*PH;
- const b=$('bub');b.textContent=end?'Kontakta oss':v.bub[k];
+ const b=$('bub');b.textContent=end?v.endBub:v.bub[k];
  const pop=end?back((t-END-0.2)/0.35):back(bt/0.35);
  b.style.transform=`scale(${t<0.25?0:pop}) rotate(-4deg)`;
  $('cta').style.opacity=end?cl((t-END-0.5)/0.3):0;
+ // centre variants
+ const o1=$('old1'),o2=$('old2'),p1=$('p1'),p2=$('p2');
+ if(v.center==='swap'){const sw=v.swapAt*PH,k2=cl((t-sw)/0.35),bad=t<sw;
+   [o1,o2].forEach((o,i)=>{const p=i?p2:p1;o.style.left=(parseFloat(p.style.left)+8)+'px';o.style.top=(parseFloat(p.style.top)+8)+'px';o.style.transform=p.style.transform;o.style.opacity=1-k2;});
+ } else {o1.style.opacity=0;o2.style.opacity=0;}
+ if(v.center==='notif'){p2.style.display='none';p1.style.left='235px';p1.style.transform=`translateY(${Math.sin(t*1.6)*6}px) scale(${pin})`;
+   const items=[['Ny offertförfrågan','Badrum 6 m² · Karin, Kungsängen'],['Ny offertförfrågan','Altan 25 m² · Johan, Sigtuna'],['Ny offertförfrågan','Nytt kök · Sara, Uppsala'],['Ny offertförfrågan','Byta tak · Ali, Knivsta']];
+   $('nots').innerHTML=items.map((it,i)=>{const a=0.25+i*PH,k3=back((t-a)/0.35);if(t<a)return'';return `<div class="nt" style="top:${300+i*92}px;transform:scale(${k3});opacity:${cl((t-a)/0.15)}"><i><img src="../../assets/img/brand/logo-mark-cream.svg"></i><div><b>${it[0]}</b><span>${it[1]}</span></div></div>`}).join('');
+   $('bub').style.display='none';
+ }
 }
 window.READY=Promise.all([...v.imgs,'../../assets/img/brand/logo-mark-green.svg'].map(u=>new Promise(ok=>{const im=new Image();im.onload=im.onerror=()=>im.decode?im.decode().then(ok,ok):ok();im.src=u}))).then(()=>document.fonts.ready);
 window.render=render;window.DUR=DUR;window.MUSIC=v.music;window.SWITCH=Array.from({length:N},(_,i)=>+(i*PH).toFixed(2)).concat([END]);
